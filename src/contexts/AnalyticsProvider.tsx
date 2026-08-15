@@ -44,7 +44,7 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
   const path = usePathname();
 
   useEffect(() => {
-    if (initialized || !isProduction()) return;
+    if (initialized || !isProduction() || !config.analyticsEnabled) return;
     const gaid = config.googleAnalyticsID;
     const hjid = config.hotjarTrackID;
     if (gaid) {
@@ -62,13 +62,13 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
   }, []);
 
   const trackPageView = () => {
-    if (!initialized) return;
+    if (!config.analyticsEnabled || !initialized) return;
     if (!path) return;
     ReactGA.send({ hitType: "pageview", page: path, title: document.title });
   };
 
   const trackEvent = (category: string, action: string, label: string) => {
-    if (isProduction() && ReactGA.isInitialized) {
+    if (config.analyticsEnabled && isProduction() && ReactGA.isInitialized) {
       ReactGA.event({
         category: category,
         action: action,
@@ -84,7 +84,7 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
     userID?: string,
   ) => {
     // Track custom event
-    if (isProduction() && ReactGA.isInitialized) {
+    if (config.analyticsEnabled && isProduction() && ReactGA.isInitialized) {
       ReactGA.event("nb_event", {
         category: category,
         action: name,
@@ -95,6 +95,7 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
   };
 
   const trackGTMCustomEvent = (name: string) => {
+    if (!config.analyticsEnabled) return;
     try {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -120,7 +121,7 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
 }
 
 export const GoogleTagManagerHeadScript = () => {
-  if (!config.googleTagManagerID) return null;
+  if (!config.analyticsEnabled || !config.googleTagManagerID) return null;
   return (
     isProduction() && (
       <Script id="gtm-script" strategy="afterInteractive">
@@ -135,7 +136,7 @@ export const GoogleTagManagerHeadScript = () => {
 };
 
 const GoogleTageManagerBodyScript = () => {
-  if (!config.googleTagManagerID) return null;
+  if (!config.analyticsEnabled || !config.googleTagManagerID) return null;
   return (
     isProduction() && (
       <noscript>

@@ -11,9 +11,9 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { trialExpiresInfo, usageLimitInfo } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { isNetBirdCloud } from "@utils/netbird";
+import loadConfig from "@utils/config";
 
-const ANNOUNCEMENTS_URL =
-  "https://raw.githubusercontent.com/netbirdio/dashboard/main/announcements.json";
+const ANNOUNCEMENTS_URL = loadConfig().announcementsUrl;
 const STORAGE_KEY = "netbird-announcements";
 const CACHE_DURATION_MS = 30 * 60 * 1000;
 
@@ -80,6 +80,13 @@ const getRemoteAnnouncements = async (): Promise<{
     } catch {}
 
     const now = Date.now();
+
+    if (!ANNOUNCEMENTS_URL) {
+      return {
+        announcements: [],
+        closedAnnouncements: stored?.closedAnnouncements ?? [],
+      };
+    }
 
     let raw: Announcement[];
 

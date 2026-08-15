@@ -1,6 +1,7 @@
 import { useOidcUser } from "@axa-fr/react-oidc";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
 import { Params, useApiCall } from "@utils/api";
+import loadConfig from "@utils/config";
 import { useIsMd } from "@utils/responsive";
 import { getLatestNetbirdRelease } from "@utils/version";
 import React, {
@@ -14,6 +15,8 @@ import React, {
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { User } from "@/interfaces/User";
 import type { NetbirdRelease } from "@/interfaces/Version";
+
+const config = loadConfig();
 
 type Props = {
   children: React.ReactNode;
@@ -89,8 +92,16 @@ export default function ApplicationProvider({ children }: Props) {
   }, [isMd]);
 
   useEffect(() => {
+    if (!config.releasesUrl) {
+      setLatestRelease(undefined);
+      return;
+    }
+
     async function fetchLatestRelease() {
-      const release = await getLatestNetbirdRelease(latestRelease);
+      const release = await getLatestNetbirdRelease(
+        latestRelease,
+        config.releasesUrl,
+      );
       setLatestRelease(release);
     }
     fetchLatestRelease().then();

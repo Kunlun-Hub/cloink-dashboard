@@ -62,7 +62,11 @@ export NETBIRD_GOOGLE_TAG_MANAGER_ID=${NETBIRD_GOOGLE_TAG_MANAGER_ID}
 export NETBIRD_TOKEN_SOURCE=${NETBIRD_TOKEN_SOURCE:-accessToken}
 export NETBIRD_DRAG_QUERY_PARAMS=${NETBIRD_DRAG_QUERY_PARAMS:-false}
 export NETBIRD_AUTH_SERVICE_URL=${NETBIRD_AUTH_SERVICE_URL}
-export NETBIRD_WASM_PATH=${NETBIRD_WASM_PATH}
+export NETBIRD_WASM_PATH=${NETBIRD_WASM_PATH:-/netbird.wasm}
+export NETBIRD_WASM_EXEC_PATH=${NETBIRD_WASM_EXEC_PATH:-/wasm_exec.js}
+export NETBIRD_ANNOUNCEMENTS_URL=${NETBIRD_ANNOUNCEMENTS_URL}
+export NETBIRD_RELEASES_URL=${NETBIRD_RELEASES_URL}
+export NETBIRD_ANALYTICS_ENABLED=${NETBIRD_ANALYTICS_ENABLED:-false}
 export NETBIRD_CSP=${NETBIRD_CSP}
 export NETBIRD_LICENSED=${NETBIRD_LICENSED:-false}
 export NETBIRD_CLOUD=${NETBIRD_CLOUD:-false}
@@ -77,11 +81,17 @@ export NETBIRD_ANALYTICS_EXCLUDED_EMAILS=${NETBIRD_ANALYTICS_EXCLUDED_EMAILS}
 echo "NetBird latest version: ${NETBIRD_LATEST_VERSION}"
 
 # Build CSP
-FIRST_PARTY_CSP="pkgs.netbird.io"
-FIRST_PARTY_CSP_CONNECT_SRC="wss://*.netbird.io"
-THIRD_PARTY_CSP="*.licdn.com *.linkedin.com *.vector.co *.sibforms.com *.hotjar.com *.hotjar.io *.redditstatic.com pixel-config.reddit.com *.clarity.ms c.bing.com *.microsoft.com googleads.g.doubleclick.net pagead2.googlesyndication.com www.google.com www.googleadservices.com *.google-analytics.com *.googletagmanager.com analytics.google.com *.hubapi.com *.hs-banner.com *.hubspot.com *.hubspot.net js.hs-analytics.com *.hsforms.net *.hscollectedforms.net *.hs-analytics.net *.hsforms.com track.hubspot.com *.hsadspixel.net static.hsappstatic.net"
-THIRD_PARTY_CSP_CONNECT_SRC="https://api.github.com/repos/netbirdio/netbird/releases/latest https://raw.githubusercontent.com/netbirdio/dashboard/ wss://ws.hotjar.com https://api.hetzner.cloud https://api.digitalocean.com"
-THIRD_PARTY_CSP_SCRIPT_SRC="'sha256-7knV6EIjKUvCpYWE2rCYx8dYV2WCNb2bpTuitFXzBcA=' *.hs-scripts.com"
+FIRST_PARTY_CSP=""
+FIRST_PARTY_CSP_CONNECT_SRC=""
+THIRD_PARTY_CSP=""
+THIRD_PARTY_CSP_CONNECT_SRC="https://api.hetzner.cloud https://api.digitalocean.com"
+THIRD_PARTY_CSP_SCRIPT_SRC=""
+
+if [[ "${NETBIRD_ANALYTICS_ENABLED}" == "true" ]]; then
+    THIRD_PARTY_CSP="*.licdn.com *.linkedin.com *.vector.co *.sibforms.com *.hotjar.com *.hotjar.io *.redditstatic.com pixel-config.reddit.com *.clarity.ms c.bing.com *.microsoft.com googleads.g.doubleclick.net pagead2.googlesyndication.com www.google.com www.googleadservices.com *.google-analytics.com *.googletagmanager.com analytics.google.com *.hubapi.com *.hs-banner.com *.hubspot.com *.hubspot.net js.hs-analytics.com *.hsforms.net *.hscollectedforms.net *.hs-analytics.net *.hsforms.com track.hubspot.com *.hsadspixel.net static.hsappstatic.net"
+    THIRD_PARTY_CSP_CONNECT_SRC="$THIRD_PARTY_CSP_CONNECT_SRC wss://ws.hotjar.com"
+    THIRD_PARTY_CSP_SCRIPT_SRC="'sha256-7knV6EIjKUvCpYWE2rCYx8dYV2WCNb2bpTuitFXzBcA=' *.hs-scripts.com"
+fi
 
 CSP_DOMAINS=""
 CSP_DOMAINS_CONNECT_SRC=""
@@ -89,6 +99,15 @@ CSP_DOMAINS_CONNECT_SRC=""
 if [[ -n "${NETBIRD_CSP}" ]]; then
     CSP_DOMAINS="$CSP_DOMAINS $NETBIRD_CSP"
 fi
+
+# Explicit private release, announcement and WASM endpoints are allowed, but
+# no NetBird public endpoint is added implicitly.
+for ENDPOINT in "${NETBIRD_WASM_PATH}" "${NETBIRD_WASM_EXEC_PATH}" "${NETBIRD_ANNOUNCEMENTS_URL}" "${NETBIRD_RELEASES_URL}"; do
+    if [[ "$ENDPOINT" == http://* || "$ENDPOINT" == https://* ]]; then
+        ENDPOINT_ORIGIN=$(echo "$ENDPOINT" | sed -E 's|^(https?://[^/]+).*|\1|')
+        CSP_DOMAINS="$CSP_DOMAINS $ENDPOINT_ORIGIN"
+    fi
+done
 
 # Add AUTH_AUTHORITY to CSP
 if [[ -n "${AUTH_AUTHORITY}" ]]; then
@@ -163,7 +182,7 @@ sed -i "s|add_header Content-Security-Policy \"[^\"]*\" always;|$CSP_HEADER|g" /
 }
 
 # replace ENVs in the config
-ENV_STR="\$\$USE_AUTH0 \$\$AUTH_AUDIENCE \$\$AUTH_AUTHORITY \$\$AUTH_CLIENT_ID \$\$AUTH_CLIENT_SECRET \$\$AUTH_SUPPORTED_SCOPES \$\$NETBIRD_MGMT_API_ENDPOINT \$\$NETBIRD_MGMT_GRPC_API_ENDPOINT \$\$NETBIRD_HOTJAR_TRACK_ID \$\$NETBIRD_GOOGLE_ANALYTICS_ID \$\$NETBIRD_GOOGLE_TAG_MANAGER_ID \$\$AUTH_REDIRECT_URI \$\$AUTH_SILENT_REDIRECT_URI \$\$NETBIRD_TOKEN_SOURCE \$\$NETBIRD_DRAG_QUERY_PARAMS \$\$NETBIRD_AUTH_SERVICE_URL \$\$NETBIRD_WASM_PATH \$\$NETBIRD_LICENSED \$\$NETBIRD_CLOUD \$\$NETBIRD_AGENT_NETWORK_ONLY \$\$NETBIRD_AGENT_NETWORK_ENABLED \$\$NETBIRD_HUBSPOT_PORTAL_ID \$\$NETBIRD_HUBSPOT_SIGNUP_FORM_ID \$\$NETBIRD_HUBSPOT_ONBOARDING_FORM_ID \$\$NETBIRD_HUBSPOT_SURVEY_FORM_ID \$\$NETBIRD_ANALYTICS_EXCLUDED_EMAILS"
+ENV_STR="\$\$USE_AUTH0 \$\$AUTH_AUDIENCE \$\$AUTH_AUTHORITY \$\$AUTH_CLIENT_ID \$\$AUTH_CLIENT_SECRET \$\$AUTH_SUPPORTED_SCOPES \$\$NETBIRD_MGMT_API_ENDPOINT \$\$NETBIRD_MGMT_GRPC_API_ENDPOINT \$\$NETBIRD_HOTJAR_TRACK_ID \$\$NETBIRD_GOOGLE_ANALYTICS_ID \$\$NETBIRD_GOOGLE_TAG_MANAGER_ID \$\$AUTH_REDIRECT_URI \$\$AUTH_SILENT_REDIRECT_URI \$\$NETBIRD_TOKEN_SOURCE \$\$NETBIRD_DRAG_QUERY_PARAMS \$\$NETBIRD_AUTH_SERVICE_URL \$\$NETBIRD_WASM_PATH \$\$NETBIRD_WASM_EXEC_PATH \$\$NETBIRD_ANNOUNCEMENTS_URL \$\$NETBIRD_RELEASES_URL \$\$NETBIRD_ANALYTICS_ENABLED \$\$NETBIRD_LICENSED \$\$NETBIRD_CLOUD \$\$NETBIRD_AGENT_NETWORK_ONLY \$\$NETBIRD_AGENT_NETWORK_ENABLED \$\$NETBIRD_HUBSPOT_PORTAL_ID \$\$NETBIRD_HUBSPOT_SIGNUP_FORM_ID \$\$NETBIRD_HUBSPOT_ONBOARDING_FORM_ID \$\$NETBIRD_HUBSPOT_SURVEY_FORM_ID \$\$NETBIRD_ANALYTICS_EXCLUDED_EMAILS"
 
 OIDC_TRUSTED_DOMAINS="/usr/share/nginx/html/OidcTrustedDomains.js"
 envsubst "$ENV_STR" < "$OIDC_TRUSTED_DOMAINS".tmpl > "$OIDC_TRUSTED_DOMAINS"

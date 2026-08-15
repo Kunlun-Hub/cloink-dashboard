@@ -19,6 +19,10 @@ interface Config {
   googleTagManagerID?: string;
   authServiceUrl?: string;
   wasmPath: string;
+  wasmExecPath: string;
+  announcementsUrl?: string;
+  releasesUrl?: string;
+  analyticsEnabled: boolean;
   licensed: boolean;
   cloud: boolean;
   // agentNetworkOnly: dedicated Agent Network surface — the regular UI
@@ -81,8 +85,11 @@ const loadConfig = (): Config => {
     googleAnalyticsID: configJson?.googleAnalyticsID || undefined,
     googleTagManagerID: configJson?.googleTagManagerID || undefined,
     authServiceUrl: configJson?.authServiceUrl ?? undefined,
-    wasmPath:
-      configJson?.wasmPath || "https://pkgs.netbird.io/wasm/client/v0.76.3",
+    wasmPath: configJson?.wasmPath || "/netbird.wasm",
+    wasmExecPath: configJson?.wasmExecPath || "/wasm_exec.js",
+    announcementsUrl: configJson?.announcementsUrl || undefined,
+    releasesUrl: configJson?.releasesUrl || undefined,
+    analyticsEnabled: configJson?.analyticsEnabled === "true",
     licensed: configJson?.licensed === "true",
     cloud: configJson?.cloud === "true",
     agentNetworkOnly: configJson?.agentNetworkOnly === "true",

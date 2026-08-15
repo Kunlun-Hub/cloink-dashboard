@@ -3,12 +3,14 @@ import dayjs from "dayjs";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { NetbirdRelease } from "@/interfaces/Version";
 
-const GITHUB_API_ENDPOINT = "https://api.github.com";
 const LATEST_RELEASE_CHECK_INTERVAL_IN_MINUTES = 10;
 
 export const getLatestNetbirdRelease = async (
   release?: NetbirdRelease,
+  releasesUrl?: string,
 ): Promise<NetbirdRelease | undefined> => {
+  if (!releasesUrl) return undefined;
+
   const runFetch =
     release === undefined ||
     release.last_checked === undefined ||
@@ -17,15 +19,14 @@ export const getLatestNetbirdRelease = async (
     );
 
   if (runFetch) {
-    const data = (await fetch(
-      `${GITHUB_API_ENDPOINT}/repos/netbirdio/netbird/releases/latest`,
-    ).then((response) => response.json())) as any;
-
     try {
+      const response = await fetch(releasesUrl);
+      if (!response.ok) return undefined;
+      const data = (await response.json()) as any;
       return {
-        latest_version: data.name,
+        latest_version: data.name || data.tag_name || data.latest_version,
         last_checked: new Date(),
-        url: data.html_url as string,
+        url: (data.html_url || data.url) as string,
       } as NetbirdRelease;
     } catch (e) {
       console.warn(e);

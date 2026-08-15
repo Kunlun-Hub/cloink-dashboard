@@ -11,7 +11,7 @@ import { installWebSocketProxy } from "@/modules/remote-access/rdp/websocket-pro
 const config = loadConfig();
 
 const WASM_CONFIG = {
-  SCRIPT_PATH: "/wasm_exec.js",
+  SCRIPT_PATH: config.wasmExecPath,
   WASM_PATH: config.wasmPath,
   INIT_TIMEOUT: 10000,
   RETRY_DELAY: 100,
@@ -289,7 +289,12 @@ export const useNetBirdClient = () => {
           {
             name,
             wg_pub_key: keyPairs.publicKey,
-            rules: rules ?? ["tcp/22022", "tcp/3389", "tcp/44338", "netbird-ssh/22"],
+            rules: rules ?? [
+              "tcp/22022",
+              "tcp/3389",
+              "tcp/44338",
+              "netbird-ssh/22",
+            ],
           },
           `/${peerId}/temporary-access`,
         );

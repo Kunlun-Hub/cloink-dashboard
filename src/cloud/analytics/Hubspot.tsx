@@ -72,6 +72,7 @@ export const Hubspot = () => {
   }, [account]);
 
   return (
+    config.analyticsEnabled &&
     account &&
     loggedInUser &&
     isOwner &&
@@ -181,6 +182,7 @@ export const submitHubspotForm = async ({
   portalId,
 }: FormProps) => {
   try {
+    if (!config.analyticsEnabled) return;
     const resolvedPortalId = portalId || config.hubspotPortalId;
     if (!resolvedPortalId || !id) return;
 
@@ -193,23 +195,24 @@ export const submitHubspotForm = async ({
     return fetch(
       `https://api.hsforms.com/submissions/v3/integration/submit/${resolvedPortalId}/${id}`,
       {
-      method: "POST",
-      body: JSON.stringify({
-        submittedAt: dayjs().valueOf(),
-        fields: [
-          ...fields,
-          { name: "gaid", value: gaId || Cookies.get("_ga") || "" },
-        ],
-        context: {
-          hutk: Cookies.get("hubspotutk") || hubspotQueryId || undefined,
-          pageName: document?.title || "",
-          pageUri: window?.location?.href,
+        method: "POST",
+        body: JSON.stringify({
+          submittedAt: dayjs().valueOf(),
+          fields: [
+            ...fields,
+            { name: "gaid", value: gaId || Cookies.get("_ga") || "" },
+          ],
+          context: {
+            hutk: Cookies.get("hubspotutk") || hubspotQueryId || undefined,
+            pageName: document?.title || "",
+            pageUri: window?.location?.href,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
       },
-    });
+    );
   } catch (error) {}
 };
