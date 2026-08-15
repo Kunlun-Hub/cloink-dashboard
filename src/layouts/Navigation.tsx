@@ -1,15 +1,19 @@
 "use client";
 
 import { ScrollArea } from "@components/ScrollArea";
+import { SmallBadge } from "@components/ui/SmallBadge";
 import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
+import * as React from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
+import ActivityIcon from "@/assets/icons/ActivityIcon";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import ControlCenterIcon from "@/assets/icons/ControlCenterIcon";
 import DNSIcon from "@/assets/icons/DNSIcon";
 import DocsIcon from "@/assets/icons/DocsIcon";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { DistributorNavigation } from "@/cloud/distributor/DistributorNavigation";
@@ -19,14 +23,11 @@ import { NavigationVersionInfo } from "@/components/VersionInfo";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { headerHeight } from "@/layouts/Header";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import { NavigationUsageInfo } from "@/modules/billing/NavigationUsageInfo";
 import { NetworkNavigation } from "@/modules/networks/misc/NetworkNavigation";
-import { SmallBadge } from "@components/ui/SmallBadge";
-import * as React from "react";
-import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
-import ActivityIcon from "@/assets/icons/ActivityIcon";
 
 type Props = {
   fullWidth?: boolean;
@@ -40,6 +41,7 @@ export default function Navigation({
   const { bannerHeight } = useAnnouncement();
   const { isNavigationCollapsed } = useApplicationContext();
   const { permission, isRestricted } = usePermissions();
+  const { t } = useI18n();
   const { only: agentNetworkOnly, enabled: agentNetworkEnabled } =
     useAgentNetworkMode();
 
@@ -83,14 +85,14 @@ export default function Navigation({
               <SidebarItemGroup>
                 <SidebarItem
                   icon={<ControlCenterIcon size={16} />}
-                  label="Control Center"
+                  label={t("nav.controlCenter")}
                   href={"/control-center"}
                   visible={permission.policies.read}
                 />
 
                 <SidebarItem
                   icon={<PeerIcon />}
-                  label="Peers"
+                  label={t("nav.peers")}
                   href={"/peers"}
                   visible={!isRestricted}
                 />
@@ -98,26 +100,26 @@ export default function Navigation({
                 <DistributorNavigation />
                 <SidebarItem
                   icon={<AccessControlIcon />}
-                  label="Access Control"
+                  label={t("nav.accessControl")}
                   href={"/access-control"}
                   collapsible
                   visible={permission.policies.read}
                 >
                   <SidebarItem
-                    label="Policies"
+                    label={t("nav.policies")}
                     href={"/access-control"}
                     isChild
                     exactPathMatch={true}
                     visible={permission.policies.read}
                   />
                   <SidebarItem
-                    label="Groups"
+                    label={t("nav.groups")}
                     isChild
                     href={"/groups"}
                     visible={permission.policies.read}
                   />
                   <SidebarItem
-                    label="Posture Checks"
+                    label={t("nav.postureChecks")}
                     isChild
                     href={"/posture-checks"}
                     exactPathMatch={true}
@@ -132,7 +134,7 @@ export default function Navigation({
                   labelClassName={"pr-0"}
                   label={
                     <div className={"flex items-center gap-2"}>
-                      Reverse Proxy
+                      {t("nav.reverseProxy")}
                       <SmallBadge
                         text={"Beta"}
                         variant={"sky"}
@@ -147,28 +149,28 @@ export default function Navigation({
                   visible={permission?.services?.read && !agentNetworkOnly}
                 >
                   <SidebarItem
-                    label="Services"
+                    label={t("nav.services")}
                     isChild
                     href={"/reverse-proxy/services"}
                     exactPathMatch={true}
                     visible={permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Custom Domains"
+                    label={t("nav.customDomains")}
                     isChild
                     href={"/reverse-proxy/custom-domains"}
                     exactPathMatch={true}
                     visible={permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Clusters"
+                    label={t("nav.clusters")}
                     isChild
                     href={"/reverse-proxy/clusters"}
                     exactPathMatch={true}
                     visible={permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Access Logs"
+                    label={t("nav.accessLogs")}
                     isChild
                     href={"/reverse-proxy/logs"}
                     exactPathMatch={true}
@@ -181,7 +183,7 @@ export default function Navigation({
                   labelClassName={"pr-0"}
                   label={
                     <div className={"flex items-center gap-2"}>
-                      Agent Network
+                      {t("nav.agentNetwork")}
                       {!agentNetworkOnly && (
                         <SmallBadge
                           text={"Beta"}
@@ -203,28 +205,28 @@ export default function Navigation({
                   visible={agentNetworkEnabled && permission?.services?.read}
                 >
                   <SidebarItem
-                    label="Providers"
+                    label={t("nav.providers")}
                     isChild
                     href={"/agent-network/providers"}
                     exactPathMatch={true}
                     visible={agentNetworkEnabled && permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Policies"
+                    label={t("nav.policies")}
                     isChild
                     href={"/agent-network/policies"}
                     exactPathMatch={true}
                     visible={agentNetworkEnabled && permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Usage & Logs"
+                    label={t("nav.usageLogs")}
                     isChild
                     href={"/agent-network/usage"}
                     exactPathMatch={true}
                     visible={agentNetworkEnabled && permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Configuration"
+                    label={t("nav.configuration")}
                     isChild
                     href={"/agent-network/configuration"}
                     exactPathMatch={true}
@@ -234,7 +236,7 @@ export default function Navigation({
 
                 <SidebarItem
                   icon={<DNSIcon />}
-                  label="DNS"
+                  label={t("nav.dns")}
                   href={"/dns"}
                   collapsible
                   exactPathMatch={true}
@@ -244,19 +246,19 @@ export default function Navigation({
                   }
                 >
                   <SidebarItem
-                    label="Nameservers"
+                    label={t("nav.nameservers")}
                     isChild
                     href={"/dns/nameservers"}
                     visible={permission.nameservers.read}
                   />
                   <SidebarItem
-                    label="Zones"
+                    label={t("nav.zones")}
                     isChild
                     href={"/dns/zones"}
                     visible={permission?.dns?.read}
                   />
                   <SidebarItem
-                    label="DNS Settings"
+                    label={t("nav.dnsSettings")}
                     isChild
                     href={"/dns/settings"}
                     visible={permission.dns.read}
@@ -264,19 +266,19 @@ export default function Navigation({
                 </SidebarItem>
                 <SidebarItem
                   icon={<TeamIcon />}
-                  label="Team"
+                  label={t("nav.team")}
                   href={"/team"}
                   collapsible
                   visible={permission.users.read}
                 >
                   <SidebarItem
-                    label="Users"
+                    label={t("nav.users")}
                     isChild
                     href={"/team/users"}
                     visible={permission.users.read}
                   />
                   <SidebarItem
-                    label="Service Users"
+                    label={t("nav.serviceUsers")}
                     isChild
                     href={"/team/service-users"}
                     visible={permission.users.read}
@@ -288,7 +290,7 @@ export default function Navigation({
               <SidebarItemGroup>
                 <SidebarItem
                   icon={<SettingsIcon />}
-                  label="Settings"
+                  label={t("nav.settings")}
                   href={"/settings"}
                   exactPathMatch={true}
                   visible={permission.settings.read}
@@ -296,7 +298,7 @@ export default function Navigation({
                 <MSPNavigationItem />
                 <SidebarItem
                   icon={<IntegrationIcon />}
-                  label="Integrations"
+                  label={t("nav.integrations")}
                   href={"/integrations"}
                   exactPathMatch={true}
                   visible={
@@ -310,7 +312,7 @@ export default function Navigation({
                   icon={<DocsIcon />}
                   href={"https://docs.netbird.io/"}
                   target={"_blank"}
-                  label="Documentation"
+                  label={t("nav.documentation")}
                   visible={true}
                 />
               </SidebarItemGroup>
@@ -343,24 +345,25 @@ export function SidebarItemGroup({ children }: SidebarItemGroupProps) {
 const ActivityNavigationItem = () => {
   const { permission } = usePermissions();
   const { only: agentNetworkOnly } = useAgentNetworkMode();
+  const { t } = useI18n();
 
   return (
     <SidebarItem
       icon={<ActivityIcon />}
-      label="Activity"
+      label={t("nav.activity")}
       href={"/events"}
       collapsible
       visible={permission.events.read && !agentNetworkOnly}
     >
       <SidebarItem
-        label="Audit Events"
+        label={t("nav.auditEvents")}
         href={"/events/audit"}
         isChild
         exactPathMatch={true}
         visible={permission.events.read}
       />
       <SidebarItem
-        label="Traffic Events"
+        label={t("nav.networkLogs")}
         isChild
         href={"/events/traffic"}
         exactPathMatch={true}

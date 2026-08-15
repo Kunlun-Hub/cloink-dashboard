@@ -10,6 +10,7 @@
     "copytrusted": "copyfiles -f ./public/local/OidcTrustedDomains.js ./public",
     "dev": "next dev -p 3000",
     "build": "next build",
+    "i18n:check": "node scripts/check-i18n.mjs",
     "postbuild": "node postbuild.js",
     "start": "next start",
     "lint": "eslint .",
