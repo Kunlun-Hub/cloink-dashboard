@@ -1,3 +1,4 @@
+import Badge from "@components/Badge";
 import Button from "@components/Button";
 import Code from "@components/Code";
 import {
@@ -9,6 +10,7 @@ import {
 } from "@components/DropdownMenu";
 import InlineLink from "@components/InlineLink";
 import { Modal, ModalContent, ModalFooter } from "@components/modal/Modal";
+import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
@@ -36,13 +38,12 @@ import {
 } from "@components/table/TableFilters";
 import GetStartedTest from "@components/ui/GetStartedTest";
 import MultipleGroups from "@components/ui/MultipleGroups";
-import Skeleton from "react-loading-skeleton";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import useFetchApi, { useApiCall } from "@utils/api";
-import { notify } from "@components/Notification";
-import { MoreVertical, RefreshCw } from "lucide-react";
+import { cn, generateColorFromString } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
 import dayjs from "dayjs";
+import { MoreVertical, RefreshCw } from "lucide-react";
 import {
   Cog,
   CopyIcon,
@@ -55,25 +56,26 @@ import {
   Trash2,
   User2,
 } from "lucide-react";
-import NetBirdIcon from "@/assets/icons/NetBirdIcon";
-import Badge from "@components/Badge";
 import { usePathname } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
+import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { cn, generateColorFromString } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
+import type { MessageKey } from "@/i18n/messages";
 import { Group } from "@/interfaces/Group";
 import {
   Role,
   UserInvite,
   UserInviteRegenerateResponse,
 } from "@/interfaces/User";
-import UserInviteModal from "@/modules/users/UserInviteModal";
 import { useAccount } from "@/modules/account/useAccount";
+import UserInviteModal from "@/modules/users/UserInviteModal";
 
 // Name cell for invites - same styling as UserNameCell but for invites
 function InviteNameCell({ invite }: { invite: UserInvite }) {
@@ -105,6 +107,16 @@ function InviteNameCell({ invite }: { invite: UserInvite }) {
 // Role cell for invites - same styling as UserRoleCell but for invites
 function InviteRoleCell({ invite }: { invite: UserInvite }) {
   const role = invite.role as Role;
+  const { t } = useI18n();
+
+  const roleLabels: Partial<Record<Role, MessageKey>> = {
+    [Role.User]: "userRoles.user",
+    [Role.Admin]: "userRoles.admin",
+    [Role.Owner]: "userRoles.owner",
+    [Role.BillingAdmin]: "userRoles.billingAdmin",
+    [Role.Auditor]: "userRoles.auditor",
+    [Role.NetworkAdmin]: "userRoles.networkAdmin",
+  };
 
   return (
     <div className={cn("flex gap-3 items-center text-nb-gray-200")}>
@@ -112,37 +124,37 @@ function InviteRoleCell({ invite }: { invite: UserInvite }) {
         {role === Role.User && (
           <>
             <User2 size={14} />
-            User
+            {t(roleLabels[Role.User] as MessageKey)}
           </>
         )}
         {role === Role.Admin && (
           <>
             <Cog size={14} />
-            Admin
+            {t(roleLabels[Role.Admin] as MessageKey)}
           </>
         )}
         {role === Role.Owner && (
           <>
             <NetBirdIcon size={14} />
-            Owner
+            {t(roleLabels[Role.Owner] as MessageKey)}
           </>
         )}
         {role === Role.BillingAdmin && (
           <>
             <CreditCardIcon size={14} />
-            Billing Admin
+            {t(roleLabels[Role.BillingAdmin] as MessageKey)}
           </>
         )}
         {role === Role.Auditor && (
           <>
             <EyeIcon size={14} />
-            Auditor
+            {t(roleLabels[Role.Auditor] as MessageKey)}
           </>
         )}
         {role === Role.NetworkAdmin && (
           <>
             <NetworkIcon size={14} />
-            Network Admin
+            {t(roleLabels[Role.NetworkAdmin] as MessageKey)}
           </>
         )}
       </Badge>
@@ -153,6 +165,7 @@ function InviteRoleCell({ invite }: { invite: UserInvite }) {
 // Groups cell for invites - read-only display of auto_groups
 function InviteGroupCell({ invite }: { invite: UserInvite }) {
   const { groups, isLoading } = useGroups();
+  const { t } = useI18n();
 
   const foundGroups = useMemo(() => {
     if (isLoading || !groups) return [];
@@ -173,7 +186,7 @@ function InviteGroupCell({ invite }: { invite: UserInvite }) {
   return (
     <MultipleGroups
       groups={foundGroups}
-      label={"Auto-assigned Groups"}
+      label={t("setupKeys.autoAssignedGroups")}
       countOnly={true}
     />
   );
@@ -181,8 +194,9 @@ function InviteGroupCell({ invite }: { invite: UserInvite }) {
 
 // Status cell for invites - shows Valid/Expired based on expired field
 function InviteStatusCell({ invite }: { invite: UserInvite }) {
+  const { t } = useI18n();
   const isExpired = invite.expired;
-  const text = isExpired ? "Expired" : "Valid";
+  const text = isExpired ? t("filters.expired") : t("filters.valid");
   const color = isExpired ? "bg-red-500" : "bg-green-500";
 
   return (
@@ -200,9 +214,13 @@ function InviteStatusCell({ invite }: { invite: UserInvite }) {
 function InviteActionCell({ invite }: { invite: UserInvite }) {
   const { confirm } = useDialog();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const inviteRequest = useApiCall<UserInvite>("/users/invites");
   const regenerateRequest = useApiCall<UserInviteRegenerateResponse>(
     `/users/invites/${invite.id}/regenerate`,
+  );
+  const resendRequest = useApiCall<UserInviteRegenerateResponse>(
+    `/users/invites/${invite.id}/resend`,
   );
   const { mutate } = useSWRConfig();
 
@@ -220,14 +238,27 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
 
   const handleRegenerate = async () => {
     notify({
-      title: "Regenerate Invite",
-      description: `Regenerating invite link for ${invite.name}...`,
+      title: t("userInvites.regenerate"),
+      description: t("userInvites.regeneratingDescription", {
+        name: invite.name,
+      }),
       promise: regenerateRequest.post({}).then((response) => {
         setRegeneratedData(response);
         setModalOpen(true);
         mutate("/users/invites");
       }),
-      loadingMessage: "Regenerating...",
+      loadingMessage: t("userInvites.regenerating"),
+    });
+  };
+
+  const handleResend = async () => {
+    notify({
+      title: t("userInvites.resendTitle"),
+      description: t("userInvites.resendDescription", { email: invite.email }),
+      promise: resendRequest.post({}).then(() => {
+        mutate("/users/invites");
+      }),
+      loadingMessage: t("userInvites.sending"),
     });
   };
 
@@ -239,25 +270,24 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
   };
 
   const deleteInvite = async () => {
-    const name = invite.name || invite.email || "Invite";
+    const name = invite.name || invite.email || t("userInvites.fallbackName");
     notify({
-      title: `'${name}' deleted`,
-      description: "Invite was successfully deleted.",
+      title: t("userInvites.deletedTitle", { name }),
+      description: t("userInvites.deletedDescription"),
       promise: inviteRequest.del("", `/${invite.id}`).then(() => {
         mutate("/users/invites");
       }),
-      loadingMessage: "Deleting the invite...",
+      loadingMessage: t("userInvites.deleting"),
     });
   };
 
   const openDeleteConfirm = async () => {
-    const name = invite.name || invite.email || "Invite";
+    const name = invite.name || invite.email || t("userInvites.fallbackName");
     const choice = await confirm({
-      title: `Delete invite for '${name}'?`,
-      description:
-        "Deleting this invite will revoke the invite link. The user will no longer be able to join using this invite.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("userInvites.deleteTitle", { name }),
+      description: t("userInvites.deleteDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       maxWidthClass: "max-w-md",
       type: "danger",
     });
@@ -279,7 +309,7 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
             <Button
               variant={"secondary"}
               className={"!px-3"}
-              aria-label={"Invite actions"}
+              aria-label={t("userInvites.actions")}
             >
               <MoreVertical size={16} className={"shrink-0"} />
             </Button>
@@ -292,7 +322,17 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
             >
               <div className={"flex gap-3 items-center"}>
                 <RefreshCw size={14} className={"shrink-0"} />
-                Regenerate
+                {t("userInvites.regenerate")}
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleResend}
+              disabled={!permission.users.update}
+              data-cy={"resend-invite"}
+            >
+              <div className={"flex gap-3 items-center"}>
+                <MailPlus size={14} className={"shrink-0"} />
+                {t("userInvites.resend")}
               </div>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -304,7 +344,7 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
             >
               <div className={"flex gap-3 items-center"}>
                 <Trash2 size={14} className={"shrink-0"} />
-                Delete
+                {t("common.delete")}
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -329,11 +369,10 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
             <div className={"flex flex-col items-center justify-center gap-3"}>
               <div>
                 <h2 className={"text-2xl text-center mb-2"}>
-                  Invite link regenerated!
+                  {t("userInvites.regeneratedTitle")}
                 </h2>
                 <Paragraph className={"mt-0 text-sm text-center"}>
-                  Share this link with the user. They will be able to set their
-                  own password.
+                  {t("userInvites.regeneratedDescription")}
                 </Paragraph>
               </div>
             </div>
@@ -341,7 +380,7 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
 
           <div className={"px-8 pb-6"}>
             <Code
-              message={"Invite link was copied to your clipboard!"}
+              message={t("userInvites.linkCopied")}
               codeToCopy={getInviteFullUrl()}
             >
               <span className="break-all whitespace-normal block">
@@ -352,7 +391,7 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
               <Paragraph
                 className={"mt-3 text-xs text-nb-gray-400 text-center"}
               >
-                Expires on{" "}
+                {t("userInvites.expiresOn")}{" "}
                 {new Date(regeneratedData.invite_expires_at).toLocaleString()}
               </Paragraph>
             )}
@@ -364,7 +403,7 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
               onClick={handleCopyAndClose}
             >
               <CopyIcon size={14} />
-              Copy & Close
+              {t("userInvites.copyAndClose")}
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -373,70 +412,86 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
   );
 }
 
-export const InvitesTableColumns: ColumnDef<UserInvite>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
-    },
-    accessorFn: (row) => row.name + " " + row.email,
-    sortingFn: "text",
-    cell: ({ row }) => <InviteNameCell invite={row.original} />,
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
-    },
-    sortingFn: "text",
-    cell: ({ row }) => <InviteRoleCell invite={row.original} />,
-  },
-  {
-    accessorKey: "expired",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
-    },
-    sortingFn: "basic",
-    cell: ({ row }) => <InviteStatusCell invite={row.original} />,
-  },
-  {
-    accessorKey: "auto_groups",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
-    },
-    sortingFn: "text",
-    cell: ({ row }) => <InviteGroupCell invite={row.original} />,
-  },
-  {
-    accessorKey: "expires_at",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Expires</DataTableHeader>;
-    },
-    sortingFn: "datetime",
-    cell: ({ row }) => (
-      <span className="text-nb-gray-400">
-        {dayjs(row.original.expires_at).format("D MMM, YYYY")}
-      </span>
-    ),
-  },
-  {
-    id: "role_filter",
-    accessorFn: (row) => [row.role],
-    filterFn: "arrIncludesSome",
-  },
-  {
-    id: "group_names_filter",
-    accessorFn: (row) =>
-      (row as UserInvite & { _group_names?: string[] })._group_names ?? [],
-    filterFn: "arrIncludesSome",
-  },
-  {
-    accessorKey: "id",
-    header: "",
-    sortingFn: "text",
-    cell: ({ row }) => <InviteActionCell invite={row.original} />,
-  },
-];
+function InviteColumnHeader({
+  column,
+  label,
+}: {
+  column: Parameters<typeof DataTableHeader>[0]["column"];
+  label: MessageKey;
+}) {
+  const { t } = useI18n();
+  return <DataTableHeader column={column}>{t(label)}</DataTableHeader>;
+}
+
+function useInvitesTableColumns() {
+  return useMemo<ColumnDef<UserInvite>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({ column }) => {
+          return <InviteColumnHeader column={column} label="table.name" />;
+        },
+        accessorFn: (row) => row.name + " " + row.email,
+        sortingFn: "text",
+        cell: ({ row }) => <InviteNameCell invite={row.original} />,
+      },
+      {
+        accessorKey: "role",
+        header: ({ column }) => {
+          return <InviteColumnHeader column={column} label="table.role" />;
+        },
+        sortingFn: "text",
+        cell: ({ row }) => <InviteRoleCell invite={row.original} />,
+      },
+      {
+        accessorKey: "expired",
+        header: ({ column }) => {
+          return <InviteColumnHeader column={column} label="table.status" />;
+        },
+        sortingFn: "basic",
+        cell: ({ row }) => <InviteStatusCell invite={row.original} />,
+      },
+      {
+        accessorKey: "auto_groups",
+        header: ({ column }) => {
+          return <InviteColumnHeader column={column} label="table.groups" />;
+        },
+        sortingFn: "text",
+        cell: ({ row }) => <InviteGroupCell invite={row.original} />,
+      },
+      {
+        accessorKey: "expires_at",
+        header: ({ column }) => {
+          return <InviteColumnHeader column={column} label="table.expires" />;
+        },
+        sortingFn: "datetime",
+        cell: ({ row }) => (
+          <span className="text-nb-gray-400">
+            {dayjs(row.original.expires_at).format("D MMM, YYYY")}
+          </span>
+        ),
+      },
+      {
+        id: "role_filter",
+        accessorFn: (row) => [row.role],
+        filterFn: "arrIncludesSome",
+      },
+      {
+        id: "group_names_filter",
+        accessorFn: (row) =>
+          (row as UserInvite & { _group_names?: string[] })._group_names ?? [],
+        filterFn: "arrIncludesSome",
+      },
+      {
+        accessorKey: "id",
+        header: "",
+        sortingFn: "text",
+        cell: ({ row }) => <InviteActionCell invite={row.original} />,
+      },
+    ],
+    [],
+  );
+}
 
 type Props = {
   headingTarget?: HTMLHeadingElement | null;
@@ -449,10 +504,12 @@ export default function UserInvitesTable({
 }: Readonly<Props>) {
   useFetchApi("/groups");
   const { groups } = useGroups();
+  const { t } = useI18n();
   const { data: invites, isLoading } =
     useFetchApi<UserInvite[]>("/users/invites");
   const { mutate } = useSWRConfig();
   const path = usePathname();
+  const invitesTableColumns = useInvitesTableColumns();
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -487,30 +544,30 @@ export default function UserInvitesTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: false, label: "Valid", dotClass: "bg-green-500" },
-      { value: true, label: "Expired", dotClass: "bg-red-500" },
+      { value: undefined, label: t("filters.all"), dotClass: "bg-nb-gray-500" },
+      { value: false, label: t("filters.valid"), dotClass: "bg-green-500" },
+      { value: true, label: t("filters.expired"), dotClass: "bg-red-500" },
     ],
-    [],
+    [t],
   );
 
   const roleOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "owner", label: "Owner" },
-      { value: "admin", label: "Admin" },
-      { value: "user", label: "User" },
-      { value: "network_admin", label: "Network Admin" },
-      { value: "billing_admin", label: "Billing Admin" },
-      { value: "auditor", label: "Auditor" },
+      { value: "owner", label: t("userRoles.owner") },
+      { value: "admin", label: t("userRoles.admin") },
+      { value: "user", label: t("userRoles.user") },
+      { value: "network_admin", label: t("userRoles.networkAdmin") },
+      { value: "billing_admin", label: t("userRoles.billingAdmin") },
+      { value: "auditor", label: t("userRoles.auditor") },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "expired",
-        label: "Status",
+        label: t("table.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -524,7 +581,7 @@ export default function UserInvitesTable({
       },
       {
         id: "role_filter",
-        label: "Role",
+        label: t("table.role"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -538,7 +595,7 @@ export default function UserInvitesTable({
       },
       {
         id: "group_names_filter",
-        label: "Groups",
+        label: t("table.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -550,21 +607,21 @@ export default function UserInvitesTable({
         formatChip: (v) => formatGroupsChip(v as string[] | undefined),
       },
     ],
-    [statusOptions, roleOptions, tableGroups],
+    [statusOptions, roleOptions, tableGroups, t],
   );
 
   return (
     <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"Invites"}
+      text={t("userInvites.title")}
       sorting={sorting}
       setSorting={setSorting}
-      columns={InvitesTableColumns}
+      columns={invitesTableColumns}
       data={invitesWithGroupNames}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder={"Search by name or email..."}
+      searchPlaceholder={t("userInvites.searchPlaceholder")}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
       )}
@@ -581,10 +638,8 @@ export default function UserInvitesTable({
               size={"large"}
             />
           }
-          title={"No Pending Invites"}
-          description={
-            "There are no pending invites. Create an invite to add users to your network."
-          }
+          title={t("userInvites.emptyTitle")}
+          description={t("userInvites.emptyDescription")}
           button={
             <div className={"flex flex-col items-center justify-center"}>
               <InviteUserButton show={true} />
@@ -592,14 +647,14 @@ export default function UserInvitesTable({
           }
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMore")}{" "}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/add-users-to-your-network"
                 }
                 target={"_blank"}
               >
-                Users
+                {t("nav.users")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -637,7 +692,7 @@ export default function UserInvitesTable({
             />
             <Button variant={"secondary"} onClick={onShowUsers}>
               <User2 size={14} />
-              Show Users
+              {t("userInvites.showUsers")}
             </Button>
           </>
         );
@@ -658,6 +713,7 @@ export const InviteUserButton = ({
   groups,
 }: InviteUserButtonProps) => {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const account = useAccount();
 
   if (!show) return null;
@@ -677,7 +733,7 @@ export const InviteUserButton = ({
         disabled={!permission.users.create}
       >
         <MailPlus size={16} />
-        {isCloud ? "Invite User" : "Add User"}
+        {isCloud ? t("users.inviteUser") : t("users.addUser")}
       </Button>
     </UserInviteModal>
   );

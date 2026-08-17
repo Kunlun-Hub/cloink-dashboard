@@ -9,6 +9,7 @@ import {
   FolderGit2Icon,
   KeyRound,
   LockIcon,
+  MailIcon,
   MonitorSmartphoneIcon,
   NetworkIcon,
   ShieldIcon,
@@ -23,12 +24,12 @@ import {
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useI18n } from "@/i18n/I18nProvider";
-import { LanguageSelector } from "@/i18n/LanguageSelector";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import AuthenticationTab from "@/modules/settings/AuthenticationTab";
 import ClientSettingsTab from "@/modules/settings/ClientSettingsTab";
 import DangerZoneTab from "@/modules/settings/DangerZoneTab";
+import EmailSettingsTab from "@/modules/settings/EmailSettingsTab";
 import GroupsSettings from "@/modules/settings/GroupsSettings";
 import IdentityProvidersTab from "@/modules/settings/IdentityProvidersTab";
 import MetricsTab from "@/modules/settings/MetricsTab";
@@ -54,15 +55,14 @@ export default function NetBirdSettings() {
 
   useEffect(() => {
     if (queryTab) {
+      // Keep deep links (for example /settings?tab=email) in sync with tabs.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTab(queryTab);
     }
   }, [queryTab]);
 
   return (
     <PageContainer>
-      <div className="mb-4 flex justify-end">
-        <LanguageSelector />
-      </div>
       <VerticalTabs value={tab} onChange={setTab}>
         <VerticalTabs.List>
           {permission.settings.read && (
@@ -119,6 +119,10 @@ export default function NetBirdSettings() {
                 <ChartNoAxesCombined size={14} />
                 {t("settings.metrics")}
               </VerticalTabs.Trigger>
+              <VerticalTabs.Trigger value="email">
+                <MailIcon size={14} />
+                {t("settings.email")}
+              </VerticalTabs.Trigger>
             </>
           )}
           <CloudSettingsTabTrigger />
@@ -138,6 +142,7 @@ export default function NetBirdSettings() {
             {account && <NetworkSettingsTab account={account} />}
             {account && <ClientSettingsTab account={account} />}
             {account && <MetricsTab account={account} />}
+            {account && permission.settings.read && <EmailSettingsTab />}
             {account && <DangerZoneTab account={account} />}
             <CloudSettingsTabContent />
           </div>

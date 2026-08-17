@@ -291,6 +291,94 @@ const en = {
   "settings.networks": "Networks",
   "settings.clients": "Clients",
   "settings.metrics": "Metrics",
+  "settings.email": "Email",
+  "emailSettings.title": "Email notifications",
+  "emailSettings.description":
+    "Configure SMTP and invitation/approval email templates.",
+  "emailSettings.notificationsTitle": "Email notification settings",
+  "emailSettings.updatedDescription": "SMTP and email templates were updated.",
+  "emailSettings.saving": "Saving email notification settings",
+  "emailSettings.testTitle": "Test email",
+  "emailSettings.testSent": "Test email sent.",
+  "emailSettings.sendingTest": "Sending test email",
+  "emailSettings.previewTitle": "Template preview",
+  "emailSettings.previewRendered": "Template rendered.",
+  "emailSettings.rendering": "Rendering template",
+  "emailSettings.enable": "Enable email notifications",
+  "emailSettings.enableHelp":
+    "When enabled, invitations, user creation, and approval events send email.",
+  "emailSettings.smtpSection": "SMTP configuration",
+  "emailSettings.host": "SMTP host",
+  "emailSettings.hostPlaceholder": "smtp.example.com",
+  "emailSettings.port": "Port",
+  "emailSettings.encryption": "Encryption",
+  "emailSettings.encryptionNone": "None",
+  "emailSettings.username": "Username",
+  "emailSettings.password": "Password",
+  "emailSettings.passwordConfigured": "Configured; leave blank to keep",
+  "emailSettings.passwordPlaceholder": "SMTP password",
+  "emailSettings.clearAfterSave": "Password will be cleared after saving",
+  "emailSettings.clearPassword": "Clear saved password",
+  "emailSettings.fromName": "From name",
+  "emailSettings.fromEmail": "From email",
+  "emailSettings.replyTo": "Reply-To",
+  "emailSettings.skipTls": "Skip TLS certificate verification",
+  "emailSettings.skipTlsHelp":
+    "Only for self-signed or test SMTP services. Not recommended in production.",
+  "emailSettings.adminRecipients": "Administrator recipients",
+  "emailSettings.adminRecipientsHelp":
+    "One email per line. If empty, approval alerts go to account administrators.",
+  "emailSettings.testRecipient": "Test recipient",
+  "emailSettings.sendTest": "Send test",
+  "emailSettings.saveBeforeAction":
+    "Save your changes before sending a test email or previewing a template.",
+  "emailSettings.templatesSection": "Email templates",
+  "emailSettings.restoreDefault": "Restore default",
+  "emailSettings.subject": "Subject",
+  "emailSettings.htmlBody": "HTML body",
+  "emailSettings.textBody": "Text body",
+  "emailSettings.variables":
+    "Available variables: {{.account.name}}, {{.dashboard.url}}, {{.user.email}}, {{.invite.url}}, {{.approval.url}}, {{.device.name}}.",
+  "emailSettings.preview": "Preview template",
+  "emailSettings.previewHtml": "HTML preview",
+  "emailSettings.previewText": "Plain-text preview",
+  "emailSettings.templateInviteUser": "Invite user",
+  "emailSettings.templateCreateUser": "User created",
+  "emailSettings.templateInviteAccepted": "Invite accepted",
+  "emailSettings.templateUserPendingApproval": "User pending approval",
+  "emailSettings.templateDevicePendingApproval": "Device pending approval",
+  "emailSettings.defaultInviteSubject":
+    "You are invited to join {{.account.name}}",
+  "emailSettings.defaultInviteHtml":
+    '<p>{{.invite.created_by_name}} invited you to join {{.account.name}}.</p><p><a href="{{.invite.url}}">Accept invitation</a></p><p>The invitation expires at {{.invite.expires_at}}.</p>',
+  "emailSettings.defaultInviteText":
+    "{{.invite.created_by_name}} invited you to join {{.account.name}}.\n\nAccept invitation: {{.invite.url}}\n\nThe invitation expires at {{.invite.expires_at}}.",
+  "emailSettings.defaultCreateUserSubject": "Your Cloink account was created",
+  "emailSettings.defaultCreateUserHtml":
+    '<p>Your Cloink account was created.</p><p>Account: {{.user.email}}</p><p><a href="{{.dashboard.url}}">Open dashboard</a></p>',
+  "emailSettings.defaultCreateUserText":
+    "Your Cloink account was created.\n\nAccount: {{.user.email}}\nDashboard: {{.dashboard.url}}",
+  "emailSettings.defaultInviteAcceptedSubject":
+    "{{.user.email}} accepted the invitation",
+  "emailSettings.defaultInviteAcceptedHtml":
+    "<p>{{.user.name}} ({{.user.email}}) accepted the invitation and completed registration.</p><p>Time: {{.time}}</p>",
+  "emailSettings.defaultInviteAcceptedText":
+    "{{.user.name}} ({{.user.email}}) accepted the invitation and completed registration.\n\nTime: {{.time}}",
+  "emailSettings.defaultUserPendingApprovalSubject":
+    "A new user is waiting for approval",
+  "emailSettings.defaultUserPendingApprovalHtml":
+    '<p>A new user is waiting for approval.</p><p>User: {{.user.name}} ({{.user.email}})</p><p><a href="{{.approval.url}}">Open approvals</a></p>',
+  "emailSettings.defaultUserPendingApprovalText":
+    "A new user is waiting for approval.\n\nUser: {{.user.name}} ({{.user.email}})\nApprovals: {{.approval.url}}",
+  "emailSettings.defaultDevicePendingApprovalSubject":
+    "A new device is waiting for approval",
+  "emailSettings.defaultDevicePendingApprovalHtml":
+    '<p>A new device is waiting for approval.</p><p>Device: {{.device.name}}</p><p>User: {{.device.user_email}}</p><p><a href="{{.approval.url}}">Open approvals</a></p>',
+  "emailSettings.defaultDevicePendingApprovalText":
+    "A new device is waiting for approval.\n\nDevice: {{.device.name}}\nUser: {{.device.user_email}}\nApprovals: {{.approval.url}}",
+  "emailSettings.previewSampleUserName": "Alex User",
+  "emailSettings.previewSampleInviterName": "Admin",
+  "emailSettings.previewSampleTime": "2026-06-12 18:00:00 UTC",
   "settings.language": "Language",
   "settings.dangerZone": "Danger zone",
   "accessControl.title": "Access Control",
