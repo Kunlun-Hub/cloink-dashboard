@@ -171,7 +171,11 @@ if [[ "$NETBIRD_MGMT_API_ENDPOINT" == http://* || "$AUTH_AUTHORITY" == http://* 
 fi
 
 # Update CSP in nginx config
-CSP_POLICY="default-src 'none'; connect-src 'self' $CSP_CONNECT_SRC; frame-src 'self' $CSP_FRAME_SRC; script-src 'self' 'wasm-unsafe-eval' $CSP_SCRIPT_SRC; font-src 'self'; img-src * data:; manifest-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';$CSP_UPGRADE_INSECURE"
+# Next.js static export embeds React Flight bootstrap scripts in every HTML
+# page. Their contents are page-specific, so a fixed hash allowlist cannot
+# cover the exported routes; allow inline bootstrap scripts while keeping the
+# rest of the CSP sources explicit.
+CSP_POLICY="default-src 'none'; connect-src 'self' $CSP_CONNECT_SRC; frame-src 'self' $CSP_FRAME_SRC; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' $CSP_SCRIPT_SRC; font-src 'self'; img-src * data:; manifest-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';$CSP_UPGRADE_INSECURE"
 CSP_HEADER="add_header Content-Security-Policy \"$CSP_POLICY\" always;"
 
 echo "CSP header: $CSP_HEADER"

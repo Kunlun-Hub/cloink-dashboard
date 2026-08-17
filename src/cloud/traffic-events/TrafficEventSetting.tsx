@@ -21,7 +21,6 @@ import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Account } from "@/interfaces/Account";
-import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 
 type Props = {
@@ -138,72 +137,65 @@ export const TrafficEventSetting = ({ account }: Props) => {
         </div>
       </div>
       <div className={"relative"}>
-        <LockedFeatureBadge
-          center={true}
-          featureText={"Traffic Events"}
-          feature={"TRAFFIC_EVENTS"}
-          disabled={trafficEventsEnabled}
-        >
-          <div className={"flex flex-col relative mb-4"}>
+        <div className={"flex flex-col relative mb-4"}>
+          <FancyToggleSwitch
+            value={trafficEventsEnabled}
+            onChange={toggleTrafficEvents}
+            data-testid="traffic-events"
+            label={
+              <>
+                <ArrowLeftRightIcon size={15} />
+                Enable Traffic Events
+              </>
+            }
+            helpText={
+              <>
+                Enable traffic events for all peers. This requires NetBird
+                client v0.39 or higher.
+              </>
+            }
+            disabled={!permission.settings.update}
+          />
+
+          <div
+            className={cn(
+              "border border-nb-gray-900 border-t-0 rounded-b-md bg-nb-gray-940 px-[1.28rem] pt-3 pb-5 flex flex-col gap-4 mx-[0.25rem]",
+              !trafficEventsEnabled
+                ? "opacity-50 pointer-events-none"
+                : "bg-nb-gray-930/80",
+            )}
+          >
             <FancyToggleSwitch
-              value={trafficEventsEnabled}
-              onChange={toggleTrafficEvents}
-              data-testid="traffic-events"
-              label={
-                <>
-                  <ArrowLeftRightIcon size={15} />
-                  Enable Traffic Events
-                </>
-              }
+              variant={"blank"}
+              className={"mt-2"}
+              value={trafficPacketCounterEnabled}
+              onChange={toggleTrafficPacketCounter}
+              data-testid="traffic-reporting-kernel"
+              label={<>Enable Traffic Reporting (Kernel)</>}
               helpText={
                 <>
-                  Enable traffic events for all peers. This requires NetBird
-                  client v0.39 or higher.
+                  Traffic reporting is always enabled in userspace, and this
+                  setting only applies to kernel. If enabled, network packets
+                  and their size will be counted and reported.
                 </>
               }
               disabled={!permission.settings.update}
             />
-
-            <div
-              className={cn(
-                "border border-nb-gray-900 border-t-0 rounded-b-md bg-nb-gray-940 px-[1.28rem] pt-3 pb-5 flex flex-col gap-4 mx-[0.25rem]",
-                !trafficEventsEnabled
-                  ? "opacity-50 pointer-events-none"
-                  : "bg-nb-gray-930/80",
+            <div className={"mt-2"}>
+              <Label>Limit To Specific Groups</Label>
+              <HelpText className={"mb-3"}>
+                Select peer groups for which traffic events will be logged.{" "}
+                <br />
+                If no group is selected, logging applies to all peers.
+              </HelpText>
+              {!groups ? (
+                <Skeleton height={46} />
+              ) : (
+                <TrafficEventGroupsSetting account={account} />
               )}
-            >
-              <FancyToggleSwitch
-                variant={"blank"}
-                className={"mt-2"}
-                value={trafficPacketCounterEnabled}
-                onChange={toggleTrafficPacketCounter}
-                data-testid="traffic-reporting-kernel"
-                label={<>Enable Traffic Reporting (Kernel)</>}
-                helpText={
-                  <>
-                    Traffic reporting is always enabled in userspace, and this
-                    setting only applies to kernel. If enabled, network packets
-                    and their size will be counted and reported.
-                  </>
-                }
-                disabled={!permission.settings.update}
-              />
-              <div className={"mt-2"}>
-                <Label>Limit To Specific Groups</Label>
-                <HelpText className={"mb-3"}>
-                  Select peer groups for which traffic events will be logged.{" "}
-                  <br />
-                  If no group is selected, logging applies to all peers.
-                </HelpText>
-                {!groups ? (
-                  <Skeleton height={46} />
-                ) : (
-                  <TrafficEventGroupsSetting account={account} />
-                )}
-              </div>
             </div>
           </div>
-        </LockedFeatureBadge>
+        </div>
       </div>
     </>
   );

@@ -9,7 +9,6 @@ import dayjs from "dayjs";
 import { ArrowLeftRightIcon, ExternalLinkIcon } from "lucide-react";
 import React, { useMemo } from "react";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
-import { useIsFeatureLocked } from "@/cloud/cloud-hooks/useIsFeatureLocked";
 import { TRAFFIC_EVENTS_DOC_LINK } from "@/cloud/traffic-events/TrafficEventSetting";
 import TrafficEventsTable from "@/cloud/traffic-events/TrafficEventsTable";
 import PeersProvider from "@/contexts/PeersProvider";
@@ -17,8 +16,6 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import ServerPaginationProvider from "@/contexts/ServerPaginationProvider";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
-import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
-import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import { EventStreamingCard } from "@/modules/integrations/event-streaming/EventStreamingCard";
 
 export default function NetworkTrafficPage() {
@@ -26,8 +23,6 @@ export default function NetworkTrafficPage() {
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
-  const isTrafficEventsLocked = useIsFeatureLocked("TRAFFIC_EVENTS");
-
   const isEnabled = !!account?.settings?.extra?.network_traffic_logs_enabled;
 
   const defaultFilters = useMemo(
@@ -74,29 +69,20 @@ export default function NetworkTrafficPage() {
         page="Traffic Events"
         hasAccess={permission.events.read}
       >
-        <div className={"p-default"}>
-          <LockedFeatureInfoCard
-            className={"mb-6"}
-            feature={"TRAFFIC_EVENTS"}
-            featureText={"Traffic Events"}
-          />
-        </div>
-        <LockedFeatureOverlay feature={"TRAFFIC_EVENTS"}>
-          <EventStreamingCard />
-          <PeersProvider>
-            <ServerPaginationProvider
-              url={"/events/network-traffic"}
-              defaultPageSize={10}
-              defaultFilters={defaultFilters}
-              enabled={!isTrafficEventsLocked}
-            >
-              <TrafficEventsTable
-                headingTarget={portalTarget}
-                isSettingEnabled={isEnabled}
-              />
-            </ServerPaginationProvider>
-          </PeersProvider>
-        </LockedFeatureOverlay>
+        <EventStreamingCard />
+        <PeersProvider>
+          <ServerPaginationProvider
+            url={"/events/network-traffic"}
+            defaultPageSize={10}
+            defaultFilters={defaultFilters}
+            enabled={true}
+          >
+            <TrafficEventsTable
+              headingTarget={portalTarget}
+              isSettingEnabled={isEnabled}
+            />
+          </ServerPaginationProvider>
+        </PeersProvider>
       </RestrictedAccess>
     </PageContainer>
   );
