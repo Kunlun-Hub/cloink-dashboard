@@ -2443,6 +2443,9 @@ const en = {
   "authenticationTab.loginMethodEmail": "Email only",
   "authenticationTab.loginMethodEmailDisabled":
     "Email login is disabled for this instance, so this option is unavailable.",
+  "authenticationTab.loginMethodWeChatWork": "WeCom only",
+  "authenticationTab.loginMethodWeChatWorkDisabled":
+    "No WeCom identity provider is configured, so this option is unavailable.",
   "authenticationTab.localMfaLabel": "Enable Local MFA",
   "authenticationTab.localMfaHelpLine1":
     "Require multi-factor authentication for users",
@@ -2455,6 +2458,7 @@ const en = {
   "identityProviders.type": "Type",
   "identityProviders.description":
     "Configure identity providers for user authentication in your network.",
+  "identityProviders.wechatwork": "WeCom",
   "identityProviders.searchPlaceholder": "Search by name or type...",
   "identityProviders.emptyTitle": "Add Identity Provider",
   "identityProviders.emptyDescription":
@@ -2488,6 +2492,7 @@ const en = {
   "identityProviderModal.name": "Name",
   "identityProviderModal.nameHelp": "A friendly name to identify this provider",
   "identityProviderModal.namePlaceholder": "e.g., Corporate SSO",
+  "identityProviderModal.wechatworkName": "WeCom",
   "identityProviderModal.issuerUrl": "Issuer URL",
   "identityProviderModal.issuerUrlHelp":
     "The OIDC issuer URL for this provider",
@@ -2502,10 +2507,22 @@ const en = {
     "Leave empty to keep the existing secret, or enter a new one",
   "identityProviderModal.clientSecretPlaceholder": "Enter client secret",
   "identityProviderModal.clientSecretMaskedPlaceholder": "••••••••",
+  "identityProviderModal.wechatworkCorpId": "Corp ID",
+  "identityProviderModal.wechatworkCorpIdHelp":
+    "Enter the Corp ID of your WeCom organization.",
+  "identityProviderModal.wechatworkCorpIdPlaceholder": "Enter WeCom Corp ID",
   "identityProviderModal.agentId": "Agent ID",
   "identityProviderModal.agentIdHelp":
     "Enter the Agent ID of your WeCom application. The official login component uses this value to initialize the sign-in panel.",
   "identityProviderModal.agentIdPlaceholder": "Enter WeCom Agent ID",
+  "identityProviderModal.wechatworkSecret": "Secret",
+  "identityProviderModal.wechatworkSecretHelp":
+    "Enter the secret of your WeCom self-built application.",
+  "identityProviderModal.wechatworkSecretKeepExisting":
+    "Leave empty to keep the existing WeCom application secret.",
+  "identityProviderModal.wechatworkSecretPlaceholder": "Enter WeCom app secret",
+  "identityProviderModal.wechatworkSecretKeepPlaceholder":
+    "Leave empty to keep the existing secret",
   "identityProviderModal.redirectUrl": "Redirect / Callback URL",
   "identityProviderModal.redirectUrlHelp":
     "Copy this URL to your identity provider configuration",

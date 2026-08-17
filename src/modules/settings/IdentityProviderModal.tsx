@@ -34,14 +34,15 @@ import {
 } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
+import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   SSOIdentityProvider,
   SSOIdentityProviderOptions,
   SSOIdentityProviderRequest,
   SSOIdentityProviderType,
 } from "@/interfaces/IdentityProvider";
-import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 
 const issuerHints: Partial<Record<SSOIdentityProviderType, string>> = {
   keycloak: "https://keycloak.example.com/realms/{REALM}",
@@ -64,6 +65,7 @@ const defaultNames: Record<SSOIdentityProviderType, string> = {
   authentik: "Authentik",
   keycloak: "Keycloak",
   adfs: "Microsoft AD FS",
+  wechatwork: "WeCom",
 };
 
 type Props = {
@@ -85,6 +87,7 @@ export default function IdentityProviderModal({
 }: Readonly<Props>) {
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const isEditing = !!provider;
 
   const createRequest = useApiCall<SSOIdentityProvider>("/identity-providers");
@@ -98,9 +101,12 @@ export default function IdentityProviderModal({
   const [name, setName] = useState(provider?.name ?? "");
   const [issuer, setIssuer] = useState(provider?.issuer ?? "");
   const [clientId, setClientId] = useState(provider?.client_id ?? "");
+  const [agentId, setAgentId] = useState(provider?.agent_id ?? "");
   const [clientSecret, setClientSecret] = useState("");
 
-  const requiresIssuer = type !== "google" && type !== "microsoft";
+  const isWeChatWork = type === "wechatwork";
+  const requiresIssuer =
+    type !== "google" && type !== "microsoft" && !isWeChatWork;
 
   const clientIdChanged = isEditing && trim(clientId) !== provider?.client_id;
 
@@ -108,17 +114,29 @@ export default function IdentityProviderModal({
     const trimmedName = trim(name);
     const trimmedIssuer = trim(issuer);
     const trimmedClientId = trim(clientId);
+    const trimmedAgentId = trim(agentId);
     const trimmedClientSecret = trim(clientSecret);
 
     if (trimmedName.length === 0) return true;
     if (requiresIssuer && trimmedIssuer.length === 0) return true;
     if (trimmedClientId.length === 0) return true;
+    if (isWeChatWork && trimmedAgentId.length === 0) return true;
     // Client secret required for new providers, or when client ID changed during edit
     if ((!isEditing || clientIdChanged) && trimmedClientSecret.length === 0)
       return true;
 
     return false;
-  }, [name, issuer, clientId, clientSecret, isEditing, clientIdChanged, requiresIssuer]);
+  }, [
+    name,
+    issuer,
+    clientId,
+    agentId,
+    clientSecret,
+    isEditing,
+    clientIdChanged,
+    isWeChatWork,
+    requiresIssuer,
+  ]);
 
   const submit = () => {
     const payload: SSOIdentityProviderRequest = {
@@ -126,6 +144,7 @@ export default function IdentityProviderModal({
       name: trim(name),
       issuer: trim(issuer),
       client_id: trim(clientId),
+      agent_id: isWeChatWork ? trim(agentId) : undefined,
       client_secret: trim(clientSecret),
     };
 
@@ -185,7 +204,11 @@ export default function IdentityProviderModal({
                   const newType = v as SSOIdentityProviderType;
                   setType(newType);
                   if (!isEditing) {
-                    setName(defaultNames[newType]);
+                    setName(
+                      newType === "wechatwork"
+                        ? t("identityProviderModal.wechatworkName")
+                        : defaultNames[newType],
+                    );
                   }
                 }}
                 disabled={isEditing}
@@ -198,7 +221,11 @@ export default function IdentityProviderModal({
                     <SelectItem key={idp.value} value={idp.value}>
                       <div className="flex items-center gap-2">
                         {idpIcon(idp.value)}
-                        <span>{idp.label}</span>
+                        <span>
+                          {idp.value === "wechatwork"
+                            ? t("identityProviderModal.wechatworkName")
+                            : idp.label}
+                        </span>
                       </div>
                     </SelectItem>
                   ))}
@@ -235,28 +262,73 @@ export default function IdentityProviderModal({
             )}
 
             <div>
-              <Label>Client ID</Label>
-              <HelpText>The OAuth2 confidential client ID</HelpText>
+              <Label>
+                {isWeChatWork
+                  ? t("identityProviderModal.wechatworkCorpId")
+                  : t("identityProviderModal.clientId")}
+              </Label>
+              <HelpText>
+                {isWeChatWork
+                  ? t("identityProviderModal.wechatworkCorpIdHelp")
+                  : t("identityProviderModal.clientIdHelp")}
+              </HelpText>
               <Input
-                placeholder={"Enter client ID"}
+                placeholder={
+                  isWeChatWork
+                    ? t("identityProviderModal.wechatworkCorpIdPlaceholder")
+                    : t("identityProviderModal.clientIdPlaceholder")
+                }
                 value={clientId}
                 onChange={(e) => setClientId(e.target.value)}
                 customPrefix={<IdCard size={16} className="text-nb-gray-300" />}
               />
             </div>
 
+            {isWeChatWork && (
+              <div>
+                <Label>{t("identityProviderModal.agentId")}</Label>
+                <HelpText>{t("identityProviderModal.agentIdHelp")}</HelpText>
+                <Input
+                  placeholder={t("identityProviderModal.agentIdPlaceholder")}
+                  value={agentId}
+                  onChange={(e) => setAgentId(e.target.value)}
+                  customPrefix={
+                    <IdCard size={16} className="text-nb-gray-300" />
+                  }
+                />
+              </div>
+            )}
+
             <div>
-              <Label>Client Secret</Label>
+              <Label>
+                {isWeChatWork
+                  ? t("identityProviderModal.wechatworkSecret")
+                  : t("identityProviderModal.clientSecret")}
+              </Label>
               <HelpText>
-                {isEditing
+                {isWeChatWork
+                  ? isEditing
+                    ? t("identityProviderModal.wechatworkSecretKeepExisting")
+                    : t("identityProviderModal.wechatworkSecretHelp")
+                  : isEditing
                   ? clientIdChanged
-                    ? "Required when client ID is changed"
-                    : "Leave empty to keep the existing secret, or enter a new one"
-                  : "The OAuth2 client secret"}
+                    ? t("identityProviderModal.clientSecretChangedHelp")
+                    : t("identityProviderModal.clientSecretOptionalHelp")
+                  : t("identityProviderModal.clientSecretHelp")}
               </HelpText>
               <Input
                 type="password"
-                placeholder={isEditing ? "••••••••" : "Enter client secret"}
+                placeholder={
+                  isWeChatWork
+                    ? isEditing
+                      ? t(
+                          "identityProviderModal.wechatworkSecretKeepPlaceholder",
+                        )
+                      : t("identityProviderModal.wechatworkSecretPlaceholder")
+                    : isEditing
+                    ? t("identityProviderModal.clientSecretMaskedPlaceholder")
+                    : t("identityProviderModal.clientSecretPlaceholder")
+                }
                 value={clientSecret}
                 onChange={(e) => setClientSecret(e.target.value)}
                 customPrefix={
@@ -277,8 +349,17 @@ export default function IdentityProviderModal({
 
               <div>
                 <Label className={"text-xs mb-1"}>Redirect / Callback</Label>
-                <Code codeToCopy={redirectUrl} message={copyMessage}>
-                  <Code.Line>{redirectUrl}</Code.Line>
+                <Code
+                  codeToCopy={
+                    isWeChatWork ? `${redirectUrl}/{connector_id}` : redirectUrl
+                  }
+                  message={copyMessage}
+                >
+                  <Code.Line>
+                    {isWeChatWork
+                      ? `${redirectUrl}/{connector_id}`
+                      : redirectUrl}
+                  </Code.Line>
                 </Code>
               </div>
 

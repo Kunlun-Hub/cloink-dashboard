@@ -93,7 +93,8 @@ export type SSOIdentityProviderType =
   | "microsoft"
   | "authentik"
   | "keycloak"
-  | "adfs";
+  | "adfs"
+  | "wechatwork";
 
 export const SSOIdentityProviderOptions: {
   value: SSOIdentityProviderType;
@@ -109,6 +110,7 @@ export const SSOIdentityProviderOptions: {
   { value: "authentik", label: "Authentik" },
   { value: "keycloak", label: "Keycloak" },
   { value: "adfs", label: "Microsoft AD FS" },
+  { value: "wechatwork", label: "WeCom" },
 ];
 
 export const getSSOIdentityProviderLabelByType = (
@@ -126,6 +128,7 @@ export interface SSOIdentityProvider {
   name: string;
   issuer: string;
   client_id: string;
+  agent_id?: string;
   redirect_url?: string;
 }
 
@@ -134,5 +137,6 @@ export interface SSOIdentityProviderRequest {
   name: string;
   issuer: string;
   client_id: string;
+  agent_id?: string;
   client_secret: string;
 }

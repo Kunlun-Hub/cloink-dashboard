@@ -33,6 +33,7 @@ export interface Account {
     metrics_push_enabled?: boolean;
     local_auth_disabled?: boolean;
     local_mfa_enabled?: boolean;
+    login_method?: "all" | "email" | "wechatwork";
     ipv6_enabled_groups?: string[];
     network_range_v6?: string;
     agent_network_only?: boolean;

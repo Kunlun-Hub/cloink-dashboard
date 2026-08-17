@@ -2272,6 +2272,9 @@ const zhCN = {
   "authenticationTab.loginMethodEmail": "仅邮箱登录",
   "authenticationTab.loginMethodEmailDisabled":
     "当前实例已禁用邮箱登录，因此这个选项不可用。",
+  "authenticationTab.loginMethodWeChatWork": "仅企业微信",
+  "authenticationTab.loginMethodWeChatWorkDisabled":
+    "当前未配置企业微信身份提供商，因此这个选项不可用。",
   "authenticationTab.localMfaLabel": "启用本地 MFA",
   "authenticationTab.localMfaHelpLine1": "要求使用本地凭证登录的用户",
   "authenticationTab.localMfaHelpLine2": "必须通过多因素认证。",
@@ -2280,6 +2283,7 @@ const zhCN = {
     "启用后，用户与管理连接断开 10 分钟后将需要重新认证。",
   "identityProviders.type": "类型",
   "identityProviders.description": "为你的网络配置用于用户认证的身份提供商。",
+  "identityProviders.wechatwork": "企业微信",
   "identityProviders.searchPlaceholder": "按名称或类型搜索...",
   "identityProviders.emptyTitle": "添加身份提供商",
   "identityProviders.emptyDescription":
@@ -2307,6 +2311,7 @@ const zhCN = {
   "identityProviderModal.name": "名称",
   "identityProviderModal.nameHelp": "输入一个便于识别该提供商的名称",
   "identityProviderModal.namePlaceholder": "例如：企业 SSO",
+  "identityProviderModal.wechatworkName": "企业微信",
   "identityProviderModal.issuerUrl": "颁发者 URL",
   "identityProviderModal.issuerUrlHelp": "该提供商的 OIDC 颁发者 URL",
   "identityProviderModal.clientId": "客户端 ID",
@@ -2319,10 +2324,22 @@ const zhCN = {
     "留空可保留现有密钥，或输入新的密钥",
   "identityProviderModal.clientSecretPlaceholder": "输入客户端密钥",
   "identityProviderModal.clientSecretMaskedPlaceholder": "••••••••",
+  "identityProviderModal.wechatworkCorpId": "Corp ID",
+  "identityProviderModal.wechatworkCorpIdHelp": "填写企业微信组织的 Corp ID。",
+  "identityProviderModal.wechatworkCorpIdPlaceholder": "输入企业微信 Corp ID",
   "identityProviderModal.agentId": "Agent ID",
   "identityProviderModal.agentIdHelp":
     "填写企业微信应用的 Agent ID，官方登录组件会使用该值初始化登录面板。",
   "identityProviderModal.agentIdPlaceholder": "输入企业微信 Agent ID",
+  "identityProviderModal.wechatworkSecret": "Secret",
+  "identityProviderModal.wechatworkSecretHelp":
+    "填写企业微信自建应用的 Secret。",
+  "identityProviderModal.wechatworkSecretKeepExisting":
+    "留空将保留现有企业微信应用 Secret。",
+  "identityProviderModal.wechatworkSecretPlaceholder":
+    "输入企业微信应用 Secret",
+  "identityProviderModal.wechatworkSecretKeepPlaceholder":
+    "留空则保留现有 Secret",
   "identityProviderModal.redirectUrl": "重定向 / 回调 URL",
   "identityProviderModal.redirectUrlHelp":
     "将此 URL 复制到你的身份提供商配置中",

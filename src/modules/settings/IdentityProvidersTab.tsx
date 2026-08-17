@@ -1,5 +1,11 @@
 import Breadcrumbs from "@components/Breadcrumbs";
 import Button from "@components/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@components/DropdownMenu";
 import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
 import SquareIcon from "@components/SquareIcon";
@@ -9,8 +15,8 @@ import DataTableRefreshButton from "@components/table/DataTableRefreshButton";
 import { DataTableRowsPerPage } from "@components/table/DataTableRowsPerPage";
 import GetStartedTest from "@components/ui/GetStartedTest";
 import * as Tabs from "@radix-ui/react-tabs";
-import useFetchApi, { useApiCall } from "@utils/api";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
+import useFetchApi, { useApiCall } from "@utils/api";
 import {
   FingerprintIcon,
   KeyRound,
@@ -21,23 +27,18 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
+import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   getSSOIdentityProviderLabelByType,
   SSOIdentityProvider,
   SSOIdentityProviderType,
 } from "@/interfaces/IdentityProvider";
 import IdentityProviderModal from "@/modules/settings/IdentityProviderModal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@components/DropdownMenu";
-import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 
 export const idpTypeLabels: Record<SSOIdentityProviderType, string> = {
   oidc: "OIDC",
@@ -50,6 +51,7 @@ export const idpTypeLabels: Record<SSOIdentityProviderType, string> = {
   authentik: "Authentik",
   keycloak: "Keycloak",
   adfs: "Microsoft AD FS",
+  wechatwork: "WeCom",
 };
 
 type ActionCellProps = {
@@ -119,6 +121,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
 
 export default function IdentityProvidersTab() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { data: providers, isLoading } = useFetchApi<SSOIdentityProvider[]>(
     "/identity-providers",
@@ -172,7 +175,9 @@ export default function IdentityProvidersTab() {
       ),
       cell: ({ row }) => (
         <span className="text-nb-gray-400">
-          {getSSOIdentityProviderLabelByType(row.original.type)}
+          {row.original.type === "wechatwork"
+            ? t("identityProviders.wechatwork")
+            : getSSOIdentityProviderLabelByType(row.original.type)}
         </span>
       ),
     },

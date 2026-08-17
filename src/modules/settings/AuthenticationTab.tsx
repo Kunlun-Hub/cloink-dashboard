@@ -8,7 +8,6 @@ import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
-import { SmallBadge } from "@components/ui/SmallBadge";
 import {
   Select,
   SelectContent,
@@ -17,12 +16,14 @@ import {
   SelectValue,
 } from "@components/Select";
 import Separator from "@components/Separator";
+import { SmallBadge } from "@components/ui/SmallBadge";
 import { useExpirationState } from "@hooks/useExpirationState";
 import { convertToSeconds } from "@hooks/useTimeFormatter";
 import * as Tabs from "@radix-ui/react-tabs";
 import { IconDevicesCheck } from "@tabler/icons-react";
 import { useApiCall } from "@utils/api";
 import { cn } from "@utils/helpers";
+import { isNetBirdCloud } from "@utils/netbird";
 import {
   CalendarClock,
   ExternalLinkIcon,
@@ -36,11 +37,12 @@ import { useSWRConfig } from "swr";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { AccountMFASettings } from "@/cloud/mfa/AccountMFASettings";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import { useHasChanges } from "@/hooks/useHasChanges";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
-import { isNetBirdCloud } from "@utils/netbird";
 
 type Props = {
   account: Account;
@@ -48,8 +50,18 @@ type Props = {
 
 export default function AuthenticationTab({ account }: Readonly<Props>) {
   const { permission } = usePermissions();
+  const { t } = useI18n();
+  const { providers } = useEmbeddedIdentityProviders();
 
   const { mutate } = useSWRConfig();
+
+  const hasWeChatWorkProvider = !!providers?.some(
+    (provider) => provider.type === "wechatwork",
+  );
+  const localAuthDisabled = account.settings.local_auth_disabled === true;
+  const [loginMethod, setLoginMethod] = useState<
+    "all" | "email" | "wechatwork"
+  >(() => account.settings.login_method || "all");
 
   // Check if any mdm & edr integration is enabled
   const { isAnyIntegrationEnabled, activeIntegrationName } = useIntegrations();
@@ -118,6 +130,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
   const saveRequest = useApiCall<Account>("/accounts/" + account.id);
 
   const { hasChanges, updateRef } = useHasChanges([
+    loginMethod,
     peerApproval,
     userApprovalRequired,
     loginExpiration,
@@ -140,6 +153,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
           id: account.id,
           settings: {
             ...account.settings,
+            login_method: loginMethod,
             peer_login_expiration_enabled: loginExpiration,
             peer_login_expiration: loginExpiration ? expiration : 86400,
             peer_inactivity_expiration_enabled: loginExpiration
@@ -159,6 +173,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
         .then(() => {
           mutate("/accounts");
           updateRef([
+            loginMethod,
             peerApproval,
             userApprovalRequired,
             loginExpiration,
@@ -231,6 +246,52 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
           className={"flex flex-col gap-6 w-full mt-8 mb-3"}
           data-auth-setting={"toggles"}
         >
+          {account.settings.embedded_idp_enabled && (
+            <div className={"flex flex-col gap-3"}>
+              <div>
+                <Label>{t("authenticationTab.loginMethodLabel")}</Label>
+                <HelpText>{t("authenticationTab.loginMethodHelp")}</HelpText>
+              </div>
+              <Select
+                value={loginMethod}
+                onValueChange={(value: "all" | "email" | "wechatwork") =>
+                  setLoginMethod(value)
+                }
+                disabled={!permission.settings.update}
+              >
+                <SelectTrigger data-cy={"account-login-method-select"}>
+                  <SelectValue
+                    placeholder={t("authenticationTab.loginMethodPlaceholder")}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    {t("authenticationTab.loginMethodAll")}
+                  </SelectItem>
+                  <SelectItem value="email" disabled={localAuthDisabled}>
+                    {t("authenticationTab.loginMethodEmail")}
+                  </SelectItem>
+                  <SelectItem
+                    value="wechatwork"
+                    disabled={!hasWeChatWorkProvider}
+                  >
+                    {t("authenticationTab.loginMethodWeChatWork")}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              {localAuthDisabled && (
+                <HelpText>
+                  {t("authenticationTab.loginMethodEmailDisabled")}
+                </HelpText>
+              )}
+              {!hasWeChatWorkProvider && (
+                <HelpText>
+                  {t("authenticationTab.loginMethodWeChatWorkDisabled")}
+                </HelpText>
+              )}
+            </div>
+          )}
+
           <FullTooltip
             content={
               <div className={"text-xs max-w-sm"}>
