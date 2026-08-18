@@ -35,6 +35,7 @@ export interface Permissions {
     proxy_configuration: Permission;
 
     services: Permission;
+    version_releases: Permission;
   };
 }
 

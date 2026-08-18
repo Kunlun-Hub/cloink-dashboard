@@ -12,6 +12,7 @@ import {
   MailIcon,
   MonitorSmartphoneIcon,
   NetworkIcon,
+  PackageIcon,
   ShieldIcon,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -36,6 +37,7 @@ import MetricsTab from "@/modules/settings/MetricsTab";
 import NetworkSettingsTab from "@/modules/settings/NetworkSettingsTab";
 import PermissionsTab from "@/modules/settings/PermissionsTab";
 import SetupKeysTab from "@/modules/settings/SetupKeysTab";
+import VersionReleasesTab from "@/modules/settings/VersionReleasesTab";
 
 export default function NetBirdSettings() {
   const queryParams = useSearchParams();
@@ -123,6 +125,12 @@ export default function NetBirdSettings() {
                 <MailIcon size={14} />
                 {t("settings.email")}
               </VerticalTabs.Trigger>
+              {permission.version_releases.read && (
+                <VerticalTabs.Trigger value="version-releases">
+                  <PackageIcon size={14} />
+                  {t("settings.versionReleases")}
+                </VerticalTabs.Trigger>
+              )}
             </>
           )}
           <CloudSettingsTabTrigger />
@@ -143,6 +151,9 @@ export default function NetBirdSettings() {
             {account && <ClientSettingsTab account={account} />}
             {account && <MetricsTab account={account} />}
             {account && permission.settings.read && <EmailSettingsTab />}
+            {account &&
+              permission.settings.read &&
+              permission.version_releases.read && <VersionReleasesTab />}
             {account && <DangerZoneTab account={account} />}
             <CloudSettingsTabContent />
           </div>

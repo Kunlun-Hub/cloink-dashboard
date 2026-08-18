@@ -51,9 +51,16 @@ async function apiRequest<T>(
     options?.ignoreGlobalParams ? undefined : options?.globalParams,
   );
 
+  const requestBody =
+    typeof FormData !== "undefined" && data instanceof FormData
+      ? data
+      : data === undefined
+      ? undefined
+      : JSON.stringify(data);
+
   const res = await oidcFetch(`${origin}${newUrl}`, {
     method,
-    body: JSON.stringify(data),
+    body: requestBody,
     signal: options?.signal,
   });
 
@@ -106,11 +113,12 @@ export function useNetBirdFetch(ignoreError: boolean = false): {
       } as ErrorResponse);
     }
 
-    const headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    };
+    const headers = new Headers(init?.headers);
+    if (!(typeof FormData !== "undefined" && init?.body instanceof FormData)) {
+      headers.set("Content-Type", "application/json");
+    }
+    headers.set("Accept", "application/json");
+    headers.set("Authorization", `Bearer ${token}`);
 
     return fetch(input, {
       ...init,
