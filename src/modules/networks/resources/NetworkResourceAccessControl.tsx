@@ -21,6 +21,7 @@ import CircleIcon from "@/assets/icons/CircleIcon";
 import AccessControlProtocolCell from "@/modules/access-control/table/AccessControlProtocolCell";
 import AccessControlPortsCell from "@/modules/access-control/table/AccessControlPortsCell";
 import TruncatedText from "@components/ui/TruncatedText";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   existingPolicies: Policy[];
@@ -47,6 +48,7 @@ export default function NetworkResourceAccessControl({
   resourceId,
   hasResourceGroups = false,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { network, confirmMultiResourceAction } = useNetworksContext();
   const { openEditPolicyModal, deletePolicy } = usePolicies();
   const [policyModalOpen, setPolicyModalOpen] = useState(false);
@@ -125,11 +127,9 @@ export default function NetworkResourceAccessControl({
   return (
     <div className={"px-8 flex-col flex gap-6"}>
       <div>
-        <Label>Access Control Policies</Label>
+        <Label>{t("networkResources.accessControlPoliciesLabel")}</Label>
         <HelpText>
-          Define which source groups are allowed to access this resource. You
-          can also restrict access to specific protocols and ports. Without
-          policies access to this resource will not be possible.
+          {t("networkResources.accessControlPoliciesHelp")}
         </HelpText>
 
         {allPolicies.length > 0 && (
@@ -142,13 +142,13 @@ export default function NetworkResourceAccessControl({
               <thead>
                 <tr>
                   <th className="py-2 px-4 text-left text-[11px] uppercase tracking-wider text-nb-gray-400 font-medium">
-                    Name
+                    {t("table.name")}
                   </th>
                   <th className="py-2 pl-5 pr-2 text-left text-[11px] uppercase tracking-wider text-nb-gray-400 font-medium">
-                    Source Groups
+                    {t("networkResources.columnSourceGroups")}
                   </th>
                   <th className="py-2 px-4 text-left text-[11px] uppercase tracking-wider text-nb-gray-400 font-medium">
-                    Protocol & Ports
+                    {t("networkResources.columnProtocolPorts")}
                   </th>
                   <th className="py-2 pr-4 pl-2" />
                 </tr>
@@ -235,7 +235,7 @@ export default function NetworkResourceAccessControl({
                               >
                                 <div className="flex gap-3 items-center">
                                   <Edit2 size={14} className="shrink-0" />
-                                  Edit Policy
+                                  {t("networks.editPolicy")}
                                 </div>
                               </DropdownMenuItem>
                               <DropdownMenuItem
@@ -244,7 +244,7 @@ export default function NetworkResourceAccessControl({
                               >
                                 <div className="flex gap-3 items-center">
                                   <Trash2 size={14} className="shrink-0" />
-                                  Delete Policy
+                                  {t("networks.deletePolicy")}
                                 </div>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -267,7 +267,7 @@ export default function NetworkResourceAccessControl({
           data-testid="add-policy"
         >
           <PlusIcon size={14} />
-          Add Policy
+          {t("networks.addPolicy")}
         </Button>
       </div>
 
@@ -291,7 +291,9 @@ export default function NetworkResourceAccessControl({
           }
           disableDestinationSelector={!hasResourceGroups}
           additionalResources={[currentResource]}
-          initialName={`${resourceName || address} Access`}
+          initialName={t("networkResources.defaultPolicyName", {
+            name: resourceName || address,
+          })}
           initialDescription={
             network?.description
               ? `${network.name}, ${network.description}`

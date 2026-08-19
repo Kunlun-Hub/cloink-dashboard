@@ -62,6 +62,7 @@ import { PeerOSCell } from "@/modules/peers/PeerOSCell";
 import PeerStatusCell from "@/modules/peers/PeerStatusCell";
 import PeerVersionCell from "@/modules/peers/PeerVersionCell";
 import { removeAllSpaces } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Stable key per OS family for the filter column. Mirrors the icon
 // selection in PeerOSCell so the chip label and the displayed OS icon
@@ -82,188 +83,190 @@ function peerOsKey(os: string | undefined): string {
   }
 }
 
-const PeersTableColumns: ColumnDef<Peer>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <div className={"min-w-[20px] max-w-[20px]"}>
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
+  return [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <div className={"min-w-[20px] max-w-[20px]"}>
+          <Checkbox
+            checked={table.getIsAllPageRowsSelected()}
+            onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+            aria-label={t("table.selectAll")}
+          />
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className={"min-w-[20px] max-w-[20px]"}>
+          <Checkbox
+            checked={row.getIsSelected()}
+            variant={"tableCell"}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label={t("table.selectRow")}
+          />
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      id: "name",
+      accessorFn: (peer) => `${peer?.name}${peer?.dns_label}`,
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <PeerNameCell peer={row.original} />,
+    },
+    {
+      id: "approval_required",
+      accessorKey: "approval_required",
+      sortingFn: "basic",
+      accessorFn: (peer) => peer.approval_required,
+    },
+    {
+      id: "force_approved",
+      accessorKey: "force_approved",
+      accessorFn: (peer) => peer.force_approved,
+    },
+    {
+      id: "connected",
+      accessorKey: "connected",
+      accessorFn: (peer) => peer.connected,
+    },
+    {
+      accessorKey: "ip",
+      sortingFn: "text",
+    },
+    {
+      id: "user_name",
+      accessorFn: (peer) => (peer.user ? peer.user?.name : "Unknown"),
+    },
+    {
+      id: "user_email",
+      accessorFn: (peer) => (peer.user ? peer.user?.email : "Unknown"),
+      filterFn: "equalsString",
+    },
+    {
+      id: "dns_label",
+      accessorKey: "dns_label",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.address")}</DataTableHeader>;
+      },
+      cell: ({ row }) => <PeerAddressCell peer={row.original} />,
+    },
+    {
+      accessorKey: "group_name_strings",
+      accessorFn: (peer) => peer.groups?.map((g) => g?.name || "").join(", "),
+      sortingFn: "text",
+    },
+    {
+      accessorKey: "group_names",
+      accessorFn: (peer) => peer.groups?.map((g) => g?.name || ""),
+      sortingFn: "text",
+      filterFn: "arrIncludesSome",
+    },
+    {
+      accessorFn: (peer) => peer.groups?.length,
+      id: "groups",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.groups")}</DataTableHeader>;
+      },
+      cell: ({ row }) => (
+        <PeerProvider peer={row.original}>
+          <PeerGroupCell />
+        </PeerProvider>
+      ),
+    },
+    {
+      accessorKey: "last_seen",
+      header: ({ column, table }) => {
+        return (
+          <DataTableHeader
+            column={column}
+            onSort={() => {
+              const desc = column.getIsSorted() === "desc";
+              table.setSorting([{ id: "last_seen", desc: !desc }]);
+            }}
+          >
+            {t("peers.lastSeen")}
+          </DataTableHeader>
+        );
+      },
+      sortingFn: "datetime",
+      cell: ({ row }) => <PeerLastSeenCell peer={row.original} />,
+    },
+    {
+      id: "os",
+      accessorFn: (peer) => removeAllSpaces(peer?.os),
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.os")}</DataTableHeader>;
+      },
+      cell: ({ row }) => (
+        <PeerOSCell os={row.original.os} serial={row.original.serial_number} />
+      ),
+    },
+    {
+      id: "os_kind",
+      accessorFn: (peer) => peerOsKey(peer.os),
+      filterFn: "arrIncludesSome",
+    },
+    {
+      id: "serial",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.serialNumber")}</DataTableHeader>;
+      },
+      accessorFn: (peer) => peer.serial_number,
+      sortingFn: "text",
+    },
+    {
+      accessorKey: "version",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.version")}</DataTableHeader>;
+      },
+      cell: ({ row }) => (
+        <PeerVersionCell
+          version={row.original.version}
+          os={row.original.os}
+          serial={row.original.serial_number}
+          ephemeral={row.original.ephemeral}
         />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className={"min-w-[20px] max-w-[20px]"}>
-        <Checkbox
-          checked={row.getIsSelected()}
-          variant={"tableCell"}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: "name",
-    accessorFn: (peer) => `${peer?.name}${peer?.dns_label}`,
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      ),
     },
-    sortingFn: "text",
-    cell: ({ row }) => <PeerNameCell peer={row.original} />,
-  },
-  {
-    id: "approval_required",
-    accessorKey: "approval_required",
-    sortingFn: "basic",
-    accessorFn: (peer) => peer.approval_required,
-  },
-  {
-    id: "force_approved",
-    accessorKey: "force_approved",
-    accessorFn: (peer) => peer.force_approved,
-  },
-  {
-    id: "connected",
-    accessorKey: "connected",
-    accessorFn: (peer) => peer.connected,
-  },
-  {
-    accessorKey: "ip",
-    sortingFn: "text",
-  },
-  {
-    id: "user_name",
-    accessorFn: (peer) => (peer.user ? peer.user?.name : "Unknown"),
-  },
-  {
-    id: "user_email",
-    accessorFn: (peer) => (peer.user ? peer.user?.email : "Unknown"),
-    filterFn: "equalsString",
-  },
-  {
-    id: "dns_label",
-    accessorKey: "dns_label",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+    {
+      id: "status",
+      accessorFn: (peer) => {
+        let statusCount = 0;
+        if (peer.login_expired) statusCount++;
+        if (peer.approval_required) statusCount++;
+        return statusCount;
+      },
+      header: () => {
+        return "";
+      },
+      sortingFn: "text",
+      cell: ({ row }) => (
+        <PeerProvider peer={row.original}>
+          <PeerStatusCell peer={row.original} />
+        </PeerProvider>
+      ),
     },
-    cell: ({ row }) => <PeerAddressCell peer={row.original} />,
-  },
-  {
-    accessorKey: "group_name_strings",
-    accessorFn: (peer) => peer.groups?.map((g) => g?.name || "").join(", "),
-    sortingFn: "text",
-  },
-  {
-    accessorKey: "group_names",
-    accessorFn: (peer) => peer.groups?.map((g) => g?.name || ""),
-    sortingFn: "text",
-    filterFn: "arrIncludesSome",
-  },
-  {
-    accessorFn: (peer) => peer.groups?.length,
-    id: "groups",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+    {
+      id: "actions",
+      accessorKey: "id",
+      header: "",
+      cell: ({ row }) => (
+        <PeerProvider peer={row.original}>
+          <PeerActionCell />
+        </PeerProvider>
+      ),
     },
-    cell: ({ row }) => (
-      <PeerProvider peer={row.original}>
-        <PeerGroupCell />
-      </PeerProvider>
-    ),
-  },
-  {
-    accessorKey: "last_seen",
-    header: ({ column, table }) => {
-      return (
-        <DataTableHeader
-          column={column}
-          onSort={() => {
-            const desc = column.getIsSorted() === "desc";
-            table.setSorting([{ id: "last_seen", desc: !desc }]);
-          }}
-        >
-          Last seen
-        </DataTableHeader>
-      );
+    {
+      id: "ipv6",
+      accessorFn: (row) => row.ipv6,
     },
-    sortingFn: "datetime",
-    cell: ({ row }) => <PeerLastSeenCell peer={row.original} />,
-  },
-  {
-    id: "os",
-    accessorFn: (peer) => removeAllSpaces(peer?.os),
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>OS</DataTableHeader>;
-    },
-    cell: ({ row }) => (
-      <PeerOSCell os={row.original.os} serial={row.original.serial_number} />
-    ),
-  },
-  {
-    id: "os_kind",
-    accessorFn: (peer) => peerOsKey(peer.os),
-    filterFn: "arrIncludesSome",
-  },
-  {
-    id: "serial",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Serial number</DataTableHeader>;
-    },
-    accessorFn: (peer) => peer.serial_number,
-    sortingFn: "text",
-  },
-  {
-    accessorKey: "version",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Version</DataTableHeader>;
-    },
-    cell: ({ row }) => (
-      <PeerVersionCell
-        version={row.original.version}
-        os={row.original.os}
-        serial={row.original.serial_number}
-        ephemeral={row.original.ephemeral}
-      />
-    ),
-  },
-  {
-    id: "status",
-    accessorFn: (peer) => {
-      let statusCount = 0;
-      if (peer.login_expired) statusCount++;
-      if (peer.approval_required) statusCount++;
-      return statusCount;
-    },
-    header: () => {
-      return "";
-    },
-    sortingFn: "text",
-    cell: ({ row }) => (
-      <PeerProvider peer={row.original}>
-        <PeerStatusCell peer={row.original} />
-      </PeerProvider>
-    ),
-  },
-  {
-    id: "actions",
-    accessorKey: "id",
-    header: "",
-    cell: ({ row }) => (
-      <PeerProvider peer={row.original}>
-        <PeerActionCell />
-      </PeerProvider>
-    ),
-  },
-  {
-    id: "ipv6",
-    accessorFn: (row) => row.ipv6,
-  },
-];
+  ];
+}
 
 export type PeersTableKind = "users" | "servers";
 
@@ -294,9 +297,12 @@ export default function PeersTable({
   kind,
   onKindChange,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
   const path = usePathname();
+
+  const PeersTableColumns = useMemo(() => getPeersTableColumns(t), [t]);
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -416,7 +422,7 @@ export default function PeersTable({
     const defs: TableFilterDef[] = [
       {
         id: "connected",
-        label: "Status",
+        label: t("table.status"),
         renderPicker: (p) => (
           <StatusPicker
             value={p.value as boolean | undefined}
@@ -424,11 +430,11 @@ export default function PeersTable({
             close={p.close}
           />
         ),
-        formatChip: (v) => formatStatusChip(v as boolean | undefined),
+        formatChip: (v) => formatStatusChip(v as boolean | undefined, t),
       },
       {
         id: "os_kind",
-        label: "OS",
+        label: t("table.os"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -444,7 +450,7 @@ export default function PeersTable({
     if (!isUser) {
       defs.push({
         id: "group_names",
-        label: "Groups",
+        label: t("table.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -459,7 +465,7 @@ export default function PeersTable({
     if (kind === "users" && !isUser && tableUsers.length > 0) {
       defs.push({
         id: "user_email",
-        label: "Users",
+        label: t("peers.users"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -472,7 +478,7 @@ export default function PeersTable({
       });
     }
     return defs;
-  }, [isUser, kind, osOptions, tableGroups, tableUsers]);
+  }, [isUser, kind, osOptions, tableGroups, tableUsers, t]);
 
   return (
     <>
@@ -485,14 +491,14 @@ export default function PeersTable({
         rowSelection={selectedRows}
         setRowSelection={setSelectedRows}
         useRowId={true}
-        text={"Peers"}
+        text={t("peers.title")}
         sorting={sorting}
         setSorting={setSorting}
         initialPageSize={25}
         showResetFilterButton={false}
         columns={PeersTableColumns}
         data={showBrowserPeers ? browserPeers : regularPeers}
-        searchPlaceholder={"Search by name, IP, owner or group..."}
+        searchPlaceholder={t("peers.searchPlaceholder")}
         columnVisibility={{
           select: permission.groups.read,
           connected: false,
@@ -549,7 +555,7 @@ export default function PeersTable({
                   onKindChange?.(kind === "users" ? undefined : "users");
                 }}
               >
-                User Devices
+                {t("peers.userDevices")}
               </ButtonGroup.Button>
               <ButtonGroup.Button
                 // Drop the left border so it doesn't stack with the first
@@ -561,7 +567,7 @@ export default function PeersTable({
                   onKindChange?.(kind === "servers" ? undefined : "servers");
                 }}
               >
-                Servers
+                {t("peers.servers")}
               </ButtonGroup.Button>
             </ButtonGroup>
 
@@ -580,8 +586,8 @@ export default function PeersTable({
                 content={
                   <div className={"text-xs max-w-xs"}>
                     {isAnyIntegrationEnabled
-                      ? "Peers that failed compliance checks and need attention"
-                      : "Peers waiting for administrator approval"}
+                      ? t("peers.nonCompliantTooltip")
+                      : t("peers.pendingApprovalsTooltip")}
                   </div>
                 }
               >
@@ -632,10 +638,10 @@ export default function PeersTable({
                   {isAnyIntegrationEnabled ? (
                     <>
                       <AlertTriangle size={16} />
-                      Non-Compliant
+                      {t("peers.nonCompliant")}
                     </>
                   ) : (
-                    "Pending Approvals"
+                    t("peers.pendingApprovals")
                   )}
                   <NotificationCountBadge count={pendingApprovalCount} />
                 </Button>
@@ -646,7 +652,7 @@ export default function PeersTable({
               <FullTooltip
                 content={
                   <div className={"text-xs max-w-xs"}>
-                    Peers with compliance checks bypassed by an administrator
+                    {t("peers.bypassedTooltip")}
                   </div>
                 }
               >
@@ -694,7 +700,7 @@ export default function PeersTable({
                   }
                 >
                   <ShieldCheck size={16} />
-                  Bypassed
+                  {t("peers.bypassed")}
                   <NotificationCountBadge count={bypassedCount} />
                 </Button>
               </FullTooltip>
@@ -704,9 +710,7 @@ export default function PeersTable({
               <FullTooltip
                 content={
                   <div className={"max-w-sm text-xs"}>
-                    Show temporary peers created by the NetBird browser client.
-                    These peers are ephemeral and will be deleted automatically
-                    after a short period of time.
+                    {t("peers.browserPeersTooltip")}
                   </div>
                 }
               >

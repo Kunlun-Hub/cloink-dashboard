@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { NameserverGroup } from "@/interfaces/Nameserver";
 
 type Props = {
@@ -24,6 +25,7 @@ export default function NameserverActionCell({ ns }: Readonly<Props>) {
   const nsRequest = useApiCall<NameserverGroup>("/dns/nameservers");
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   const canUpdate = permission.nameservers.update;
@@ -33,11 +35,10 @@ export default function NameserverActionCell({ ns }: Readonly<Props>) {
     const enabled = !ns.enabled;
     notify({
       title: ns.name,
-      description:
-        "Nameserver was successfully" +
-        (enabled ? " enabled" : " disabled") +
-        ".",
-      loadingMessage: "Updating your nameserver...",
+      description: enabled
+        ? t("nameservers.toggleEnabledDescription")
+        : t("nameservers.toggleDisabledDescription"),
+      loadingMessage: t("nameservers.updating"),
       promise: nsRequest
         .put(
           {
@@ -60,22 +61,21 @@ export default function NameserverActionCell({ ns }: Readonly<Props>) {
 
   const deleteRule = async () => {
     notify({
-      title: "Nameserver " + ns.name,
-      description: "The nameserver was successfully removed.",
+      title: t("nameservers.deleteSuccessTitle", { name: ns.name }),
+      description: t("nameservers.deleteSuccessDescription"),
       promise: nsRequest.del("", `/${ns.id}`).then(() => {
         mutate("/dns/nameservers");
       }),
-      loadingMessage: "Deleting the nameserver...",
+      loadingMessage: t("nameservers.deleteLoadingMessage"),
     });
   };
 
   const openConfirm = async () => {
     const choice = await confirm({
-      title: `Delete '${ns.name}'?`,
-      description:
-        "Are you sure you want to delete this nameserver? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("nameservers.deleteConfirmTitle", { name: ns.name }),
+      description: t("nameservers.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -112,7 +112,7 @@ export default function NameserverActionCell({ ns }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {ns.enabled ? "Disable" : "Enable"}
+              {ns.enabled ? t("common.disable") : t("common.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -124,7 +124,7 @@ export default function NameserverActionCell({ ns }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -7,6 +7,7 @@ import {
   AIAccessLogEntry,
   formatDenyReason,
 } from "@/modules/agent-network/data/mockData";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   entry: AIAccessLogEntry;
@@ -19,6 +20,7 @@ type Props = {
  * reason for blocked requests, and the per-request metadata.
  */
 export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
+  const { t } = useI18n();
   const isDeny = entry.decision === "deny";
   const hasSession = Boolean(entry.sessionId);
   const hasPrompt = Boolean(entry.prompt);
@@ -69,7 +71,7 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
   return (
     <div className={"px-4 py-4 space-y-3 bg-nb-gray-940/30"}>
       {requestLine && (
-        <Section heading={"Request"}>
+        <Section heading={t("agentNetwork.request")}>
           <Code dark small codeToCopy={requestLine}>
             <Code.Line>{requestLine}</Code.Line>
           </Code>
@@ -78,12 +80,8 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
 
       {hasSession && (
         <Section
-          heading={"Session ID"}
-          tooltip={
-            "The provider-side session this request belongs to. A single user " +
-            "can make several separate calls that the provider groups under the " +
-            "same session id."
-          }
+          heading={t("agentNetwork.sessionId")}
+          tooltip={t("agentNetwork.sessionIdTooltip")}
         >
           <Code dark small codeToCopy={entry.sessionId}>
             <Code.Line>{entry.sessionId}</Code.Line>
@@ -92,21 +90,21 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
       )}
 
       {isDeny && (
-        <Section heading={"Reason"}>
+        <Section heading={t("agentNetwork.reason")}>
           <div
             className={
               "rounded-md border border-red-500/20 bg-red-500/5 p-3 text-xs text-red-300"
             }
           >
             {denyReason
-              ? `Request denied: ${denyReason}`
-              : "Request denied by policy."}
+              ? t("agentNetwork.requestDeniedWithReason", { reason: denyReason })
+              : t("agentNetwork.requestDeniedByPolicy")}
           </div>
         </Section>
       )}
 
       {hasPrompt && (
-        <Section heading={"Prompt"}>
+        <Section heading={t("agentNetwork.prompt")}>
           <Code dark small codeToCopy={entry.prompt}>
             <pre className={"whitespace-pre-wrap text-xs"}>{entry.prompt}</pre>
           </Code>
@@ -114,7 +112,7 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
       )}
 
       {!isDeny && hasBody && (
-        <Section heading={"Completion"}>
+        <Section heading={t("agentNetwork.completion")}>
           {hasCompletion ? (
             <Code dark small codeToCopy={entry.completion}>
               <pre className={"whitespace-pre-wrap text-xs"}>
@@ -122,22 +120,20 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
               </pre>
             </Code>
           ) : (
-            <Muted>No response captured.</Muted>
+            <Muted>{t("agentNetwork.noResponseCaptured")}</Muted>
           )}
         </Section>
       )}
 
       {!isDeny && !hasBody && (
-        <Section heading={"Prompt & Response"}>
+        <Section heading={t("agentNetwork.promptAndResponse")}>
           <Muted>
-            No prompt or response captured for this request — only metadata is
-            recorded for non-completion calls (e.g. listing models) or when
-            prompt collection is off.
+            {t("agentNetwork.noPromptOrResponseCaptured")}
           </Muted>
         </Section>
       )}
 
-      <Section heading={"Metadata"}>
+      <Section heading={t("agentNetwork.metadata")}>
         <Code dark small codeToCopy={metadataJSON}>
           <Code.Line>{metadataJSON}</Code.Line>
         </Code>

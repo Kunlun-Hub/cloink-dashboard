@@ -40,6 +40,7 @@ import { DNSZonesSearchDomainCell } from "@/modules/dns/zones/table/DNSZonesSear
 import { Group } from "@/interfaces/Group";
 import DNSZoneIcon from "@/assets/icons/DNSZoneIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export const DNSZonesColumns: ColumnDef<DNSZone>[] = [
   {
@@ -119,6 +120,7 @@ export default function DNSZonesTable({
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { groups } = useGroups();
+  const { t } = useI18n();
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -163,9 +165,9 @@ export default function DNSZonesTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("zones.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("zones.active"), dotClass: "bg-green-500" },
+      { value: false, label: t("zones.inactive"), dotClass: "bg-nb-gray-700" },
     ],
     [],
   );
@@ -174,7 +176,7 @@ export default function DNSZonesTable({
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("zones.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -188,7 +190,7 @@ export default function DNSZonesTable({
       },
       {
         id: "group_names_filter",
-        label: "Groups",
+        label: t("groups.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -207,7 +209,7 @@ export default function DNSZonesTable({
     <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"DNS Zones"}
+      text={t("zones.pageTitle")}
       sorting={sorting}
       setSorting={setSorting}
       columns={DNSZonesColumns}
@@ -222,7 +224,7 @@ export default function DNSZonesTable({
       keepStateInLocalStorage={!isGroupPage}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder={"Search by domain, ip, content or group..."}
+      searchPlaceholder={t("zones.searchPlaceholder")}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
       )}
@@ -247,10 +249,8 @@ export default function DNSZonesTable({
             icon={<DNSZoneIcon className={"fill-nb-gray-200"} size={24} />}
             className={"py-4"}
             contentClassName={"max-w-lg"}
-            title={"This group is not used within any zones yet"}
-            description={
-              "Assign this group as a distribution group in your zones to see them listed here."
-            }
+            title={t("zones.emptyGroupTitle")}
+            description={t("zones.emptyGroupDescription")}
           >
             <div className={"gap-x-4 flex items-center justify-center mt-4"}>
               <AddZoneButton distributionGroups={distributionGroups} />
@@ -265,10 +265,8 @@ export default function DNSZonesTable({
                 size={"large"}
               />
             }
-            title={"Create New Zone"}
-            description={
-              "It looks like you don't have any zones. Control domain name resolution for your network by adding a zone."
-            }
+            title={t("zones.emptyTitle")}
+            description={t("zones.emptyDescription")}
             button={
               <div className={"gap-x-4 flex items-center justify-center"}>
                 <AddZoneButton distributionGroups={distributionGroups} />
@@ -276,9 +274,9 @@ export default function DNSZonesTable({
             }
             learnMore={
               <>
-                Learn more about
+                {t("common.learnMore")}
                 <InlineLink href={DNS_ZONE_DOCS_LINK} target={"_blank"}>
-                  DNS Zones
+                  {t("zones.pageTitle")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>

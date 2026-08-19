@@ -3,6 +3,8 @@
 import { cn } from "@utils/helpers";
 import { CheckIcon } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
+import type { MessageKey } from "@/i18n/messages";
 
 // StatusPicker — three-way radio that maps to the `connected` column.
 //   undefined → All
@@ -14,12 +16,6 @@ type Option = {
   dotClass: string;
 };
 
-const OPTIONS: Option[] = [
-  { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-  { value: true, label: "Online", dotClass: "bg-green-500" },
-  { value: false, label: "Offline", dotClass: "bg-nb-gray-700" },
-];
-
 type Props = {
   value: boolean | undefined;
   onChange: (next: boolean | undefined) => void;
@@ -27,6 +23,14 @@ type Props = {
 };
 
 export function StatusPicker({ value, onChange, close }: Props) {
+  const { t } = useI18n();
+
+  const OPTIONS: Option[] = [
+    { value: undefined, label: t("common.all"), dotClass: "bg-nb-gray-500" },
+    { value: true, label: t("common.online"), dotClass: "bg-green-500" },
+    { value: false, label: t("common.offline"), dotClass: "bg-nb-gray-700" },
+  ];
+
   return (
     <div className={"flex flex-col gap-0.5"}>
       {OPTIONS.map((option) => {
@@ -66,8 +70,11 @@ export function StatusPicker({ value, onChange, close }: Props) {
 }
 
 // formatChip helper exported for use in the filter def's formatChip().
-export function formatStatusChip(value: boolean | undefined): string | null {
-  if (value === true) return "Online";
-  if (value === false) return "Offline";
+export function formatStatusChip(
+  value: boolean | undefined,
+  t: (key: MessageKey) => string,
+): string | null {
+  if (value === true) return t("common.online");
+  if (value === false) return t("common.offline");
   return null;
 }

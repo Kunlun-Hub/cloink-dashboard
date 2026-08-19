@@ -40,6 +40,7 @@ import {
   ClusterCloudDeploy,
   CloudProvider,
 } from "@/modules/reverse-proxy/clusters/ClusterCloudDeploy";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -82,6 +83,7 @@ const renderHighlightedCommand = (command: string, highlights: string[]) => {
 };
 
 export const ClustersModal = ({ open, onOpenChange }: Props) => {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const [tab, setTab] = useState("domain");
   const [domain, setDomain] = useState("");
@@ -102,7 +104,7 @@ export const ClustersModal = ({ open, onOpenChange }: Props) => {
       preventLeadingAndTrailingDots: true,
     });
     if (!isValid) {
-      return "Please enter a valid TLD domain, e.g., company.com";
+      return t("reverseProxy.customDomainError");
     }
     return "";
   }, [domain]);
@@ -217,32 +219,32 @@ spec:
   const deployment = {
     docker: {
       label: "Docker",
-      title: "Run with Docker",
+      title: t("reverseProxy.deployTitleDocker"),
       command: dockerCommand,
     },
     compose: {
       label: "Docker Compose",
-      title: "Run with Docker Compose",
+      title: t("reverseProxy.deployTitleCompose"),
       command: composeCommand,
     },
     kubernetes: {
       label: "Kubernetes",
-      title: "Deploy on Kubernetes",
+      title: t("reverseProxy.deployTitleKubernetes"),
       command: kubernetesCommand,
     },
     hetzner: {
       label: "Hetzner Cloud",
-      title: "Deploy on Hetzner Cloud",
+      title: t("reverseProxy.deployTitleHetzner"),
       command: "",
     },
     digitalocean: {
       label: "DigitalOcean",
-      title: "Deploy on DigitalOcean",
+      title: t("reverseProxy.deployTitleDigitalOcean"),
       command: "",
     },
     aws: {
       label: "AWS CloudFormation",
-      title: "Deploy on AWS",
+      title: t("reverseProxy.deployTitleAws"),
       command: "",
     },
   }[deployMethod];
@@ -266,14 +268,14 @@ spec:
 
   const deployDescription =
     deployMethod === "digitalocean"
-      ? "Launch a droplet to run the proxy."
+      ? t("reverseProxy.deployDescriptionDigitalOcean")
       : deployMethod === "aws"
-      ? "Launch a dedicated AWS server to run the proxy."
+      ? t("reverseProxy.deployDescriptionAws")
       : isCloudDeploy
-      ? "Launch a cloud server to run the proxy."
+      ? t("reverseProxy.deployDescriptionCloud")
       : deployMethod === "kubernetes"
-      ? "Apply this manifest to start the proxy."
-      : "Run on your machine to start the proxy.";
+      ? t("reverseProxy.deployDescriptionKubernetes")
+      : t("reverseProxy.deployDescriptionDefault");
 
   const generateToken = useCallback(async () => {
     setIsGeneratingToken(true);
@@ -290,10 +292,10 @@ spec:
       });
 
     notify({
-      title: "Proxy Token",
-      description: "Failed to generate proxy token",
+      title: t("reverseProxy.proxyToken"),
+      description: t("reverseProxy.proxyTokenFailed"),
       promise,
-      loadingMessage: "Generating proxy token...",
+      loadingMessage: t("reverseProxy.proxyTokenGenerating"),
       showOnlyError: true,
       preventSuccessToast: true,
     });
@@ -315,8 +317,8 @@ spec:
       <ModalContent maxWidthClass={"relative max-w-[600px]"} showClose={true}>
         <ModalHeader
           icon={<ServerIcon size={16} />}
-          title={"Setup Cluster"}
-          description={"Setup a proxy cluster on infra you own"}
+          title={t("reverseProxy.clusterSetupTitle")}
+          description={t("reverseProxy.clusterSetupDescription")}
           color={"netbird"}
         />
 
@@ -327,7 +329,7 @@ spec:
           <TabsList justify={"start"} className={"px-8"}>
             <TabsTrigger value={"domain"}>
               <GlobeIcon size={14} />
-              Domain
+              {t("reverseProxy.domain")}
             </TabsTrigger>
             {!isCloudDeploy && (
               <TabsTrigger
@@ -335,7 +337,7 @@ spec:
                 disabled={!domain.trim() || !!domainError}
               >
                 <ListIcon size={14} />
-                DNS Records
+                {t("reverseProxy.dnsRecords")}
               </TabsTrigger>
             )}
             <TabsTrigger
@@ -343,20 +345,20 @@ spec:
               disabled={!domain.trim() || !!domainError}
             >
               <SquareTerminalIcon size={14} />
-              {isCloudDeploy ? "Deploy" : "Run the Proxy"}
+              {isCloudDeploy ? t("reverseProxy.deploy") : t("reverseProxy.runProxy")}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value={"domain"} className={"pb-8"}>
             <div className={"px-8 flex flex-col gap-6"}>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("reverseProxy.domain")}</Label>
                 <HelpText>
-                  Enter a domain name that will be used for your cluster.
+                  {t("reverseProxy.clusterDomainHelp")}
                 </HelpText>
                 <Input
                   autoFocus={true}
-                  placeholder={"e.g., proxy.company.com"}
+                  placeholder={t("reverseProxy.selfHostedDomainPlaceholder")}
                   value={domain}
                   error={domainError}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -365,7 +367,7 @@ spec:
                 />
               </div>
               <div>
-                <Label>Deployment Method</Label>
+                <Label>{t("reverseProxy.deploymentMethod")}</Label>
                 <HelpText>{deployDescription}</HelpText>
                 <SelectDropdown
                   value={deployMethod}
@@ -382,23 +384,22 @@ spec:
               </div>
               {!isCloudDeploy && (
                 <Callout variant={"info"}>
-                  In order to run the proxy, please make sure your machine meets
-                  the following requirements:
+                  {t("reverseProxy.selfHostedRequirements")}
                   <ul className={"list-disc pl-4 mt-2 flex flex-col gap-1"}>
                     <li>
                       <span className={"text-white font-medium"}>
-                        Publicly accessible IP address
+                        {t("reverseProxy.publiclyAccessibleIp")}
                       </span>
                     </li>
                     <li>
                       <span className={"text-white font-medium"}>Docker</span>{" "}
-                      installed and running
+                      {t("reverseProxy.dockerInstalled")}
                     </li>
                     <li>
                       <span className={"text-white font-medium"}>
-                        Port 80 and 443
+                        {t("reverseProxy.ports80And443")}
                       </span>{" "}
-                      open and not in use
+                      {t("reverseProxy.portsOpen")}
                     </li>
                   </ul>
                 </Callout>
@@ -409,17 +410,16 @@ spec:
           <TabsContent value={"dns"} className={"pb-8"}>
             <div className={"px-8 flex flex-col"}>
               <div>
-                <Label>Configure DNS</Label>
+                <Label>{t("reverseProxy.configureDns")}</Label>
                 <HelpText>
-                  Add the following DNS records pointing to your machine&apos;s
-                  public IP address.
+                  {t("reverseProxy.configureDnsHelp")}
                 </HelpText>
               </div>
               <CardTable>
                 <CardTable.Header>
-                  <CardTable.HeaderCell width={100}>Type</CardTable.HeaderCell>
-                  <CardTable.HeaderCell>Name</CardTable.HeaderCell>
-                  <CardTable.HeaderCell>Content</CardTable.HeaderCell>
+                  <CardTable.HeaderCell width={100}>{t("reverseProxy.dnsType")}</CardTable.HeaderCell>
+                  <CardTable.HeaderCell>{t("reverseProxy.dnsName")}</CardTable.HeaderCell>
+                  <CardTable.HeaderCell>{t("reverseProxy.dnsContent")}</CardTable.HeaderCell>
                 </CardTable.Header>
                 <CardTable.Body>
                   <CardTable.Row>
@@ -428,7 +428,7 @@ spec:
                       {domain}
                     </CardTable.Cell>
                     <CardTable.Cell className={"italic"}>
-                      Your machine&apos;s IP
+                      {t("reverseProxy.yourMachineIp")}
                     </CardTable.Cell>
                   </CardTable.Row>
                   <CardTable.Row>
@@ -454,15 +454,13 @@ spec:
 
               {!isNetBirdCloud() && (
                 <Callout variant={"warning"}>
-                  For self-hosted deployments, make sure the proxy service
-                  routes are configured on your NetBird management server before
-                  starting the proxy.&nbsp;
+                  {t("reverseProxy.selfHostedRoutingWarning")}&nbsp;
                   <InlineLink
                     href={REVERSE_PROXY_SELFHOSTED_ROUTING_DOCS_LINK}
                     target={"_blank"}
                     className={"block mt-1"}
                   >
-                    Required routing endpoints
+                    {t("reverseProxy.requiredRoutingEndpoints")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </Callout>
@@ -491,7 +489,7 @@ spec:
                     {isGeneratingToken && (
                       <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 text-nb-gray-100 bg-nb-gray-950/90">
                         <Loader2 size={16} className="animate-spin" />
-                        Generating proxy token...
+                        {t("reverseProxy.proxyTokenGenerating")}
                       </div>
                     )}
 
@@ -503,12 +501,12 @@ spec:
                   </Code>
 
                   <HelpText className={"mb-0"}>
-                    Need to fine-tune the proxy? See all available&nbsp;
+                    {t("reverseProxy.envReferenceHelp")}&nbsp;
                     <InlineLink
                       href={REVERSE_PROXY_ENV_REFERENCE_DOCS_LINK}
                       target={"_blank"}
                     >
-                      environment variables
+                      {t("reverseProxy.environmentVariables")}
                       <ExternalLinkIcon size={12} />
                     </InlineLink>
                   </HelpText>
@@ -521,12 +519,12 @@ spec:
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("reverseProxy.learnMoreAbout")}{" "}
               <InlineLink
                 href={REVERSE_PROXY_CLUSTERS_DOCS_LINK}
                 target={"_blank"}
               >
-                Proxy Cluster
+                {t("reverseProxy.proxyClusterLearnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
@@ -535,24 +533,24 @@ spec:
             {tab === "domain" && (
               <>
                 <ModalClose asChild={true}>
-                  <Button variant={"secondary"}>Cancel</Button>
+                  <Button variant={"secondary"}>{t("common.cancel")}</Button>
                 </ModalClose>
                 <Button
                   variant={"primary"}
                   onClick={() => (isCloudDeploy ? goToInstall() : setTab("dns"))}
                   disabled={!domain.trim() || !!domainError}
                 >
-                  Continue
+                  {t("common.continue")}
                 </Button>
               </>
             )}
             {tab === "dns" && (
               <>
                 <Button variant={"secondary"} onClick={() => setTab("domain")}>
-                  Back
+                  {t("common.back")}
                 </Button>
                 <Button variant={"primary"} onClick={goToInstall}>
-                  Continue
+                  {t("common.continue")}
                 </Button>
               </>
             )}
@@ -562,14 +560,14 @@ spec:
                   variant={"secondary"}
                   onClick={() => setTab(isCloudDeploy ? "domain" : "dns")}
                 >
-                  Back
+                  {t("common.back")}
                 </Button>
                 <Button
                   variant={"primary"}
                   onClick={finishSetup}
                   disabled={isCloudDeploy && !proxyRegistered}
                 >
-                  Finish Setup
+                  {t("reverseProxy.finishSetup")}
                 </Button>
               </>
             )}

@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/entra-id.png";
 import { AzureADIntegration } from "@/interfaces/IdentityProvider";
@@ -61,6 +62,7 @@ type ModalProps = {
 };
 
 export function SetupContent({ onSuccess }: ModalProps) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const azureRequest = useApiCall<AzureADIntegration>(
     "/integrations/azure-idp",
@@ -91,8 +93,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
   const connect = async () => {
     notify({
-      title: "Entra ID Integration",
-      description: `Entra ID was successfully connected to NetBird.`,
+      title: t("azureAd.notifyTitle"),
+      description: t("idpSync.integrationConnected", { provider: "Entra ID" }),
       promise: azureRequest
         .post({
           client_secret: btoa(clientSecret), // Encode client secret to base64
@@ -110,7 +112,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
           mutate("/integrations/azure-idp");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -145,10 +147,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with Entra ID (API)"}
-        description={
-          "Start syncing your users and groups from Entra ID to NetBird. Follow the steps below to get started."
-        }
+        title={t("azureAd.connectTitle")}
+        description={t("azureAd.connectDescription")}
       />
 
       {step === -1 && (
@@ -172,21 +172,19 @@ export function SetupContent({ onSuccess }: ModalProps) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
             Ensure that you have an{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Azure AD user account
+              {t("azureAd.accountType")}
             </span>{" "}
             with the following{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
               permissions
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your Azure AD administrator to grant them to you."
-            }
+            {t("azureAd.accountSuffix")}
           </p>
           <div
             className={
@@ -199,7 +197,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create Azure AD applications
+              {t("azureAd.permCreate")}
             </div>
             <div
               className={
@@ -207,7 +205,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage Azure AD applications
+              {t("azureAd.permManage")}
             </div>
           </div>
         </div>
@@ -217,12 +215,12 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Create and configure Azure AD application
+            {t("azureAd.step1Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("azureAd.step1Navigate")}{"  "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
@@ -230,20 +228,21 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/Overview"
                   }
                 >
-                  Azure Active Directory
+                  {t("azureAd.step1Link")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>App Registrations</Mark> in the left menu then click
-                on the <Mark>+ New registration</Mark> button to create a new
-                application.
+                {t("azureAd.step2Click")} <Mark>App Registrations</Mark>{" "}
+                {t("azureAd.step2InLeftMenu")}{" "}
+                <Mark>+ New registration</Mark>{" "}
+                {t("azureAd.step2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Fill in the form with the following values and click{" "}
+                {t("azureAd.step3Prefix")}{" "}
                 <Mark>Register</Mark>
               </p>
             </Steps.Step>
@@ -252,20 +251,19 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <MinimalList
             data={[
               {
-                label: "Name",
+                label: t("azureAd.listName"),
                 value: "NetBird",
               },
               {
-                label: "Account Types",
-                value:
-                  "Accounts in this organizational directory only (Default Directory only - Single tenant)",
+                label: t("azureAd.listAccountTypes"),
+                value: t("azureAd.listAccountTypesValue"),
               },
               {
-                label: "Redirect Type",
-                value: "Single-page application (SPA)",
+                label: t("azureAd.listRedirectType"),
+                value: t("azureAd.listRedirectTypeValue"),
               },
               {
-                label: "Redirect URI",
+                label: t("azureAd.listRedirectUri"),
                 value: "https://app.netbird.io/silent-auth",
               },
             ]}
@@ -277,32 +275,43 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Shield size={20} />
-            Add API permissions
+            {t("azureAd.apiPermTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>API permissions</Mark> on the left side menu
+                {t("azureAd.step2Click")} <Mark>API permissions</Mark>{" "}
+                {t("azureAd.apiPermStep1")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>Add a permission</Mark> then{" "}
-                <Mark>Microsoft Graph</Mark> and then on the{" "}
-                <Mark>Application permissions</Mark> tab.
+                {t("azureAd.step2Click")} <Mark>Add a permission</Mark>{" "}
+                {t("azureAd.apiPermStep2Prefix")}{" "}
+                <Mark>Microsoft Graph</Mark>{" "}
+                {t("azureAd.apiPermStep2Middle")}{" "}
+                <Mark>Application permissions</Mark>{" "}
+                {t("azureAd.apiPermStep2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                In <Mark>Select permissions</Mark> select{" "}
-                <Mark>User.Read.All</Mark> and <Mark>Group.Read.All</Mark> and
-                click <Mark>Add permissions</Mark>
+                {t("azureAd.apiPermStep3InPrefix")}{" "}
+                <Mark>Select permissions</Mark>{" "}
+                {t("azureAd.apiPermStep3Select")}{" "}
+                <Mark>User.Read.All</Mark>{" "}
+                {t("azureAd.apiPermStep3And")}{" "}
+                <Mark>Group.Read.All</Mark>{" "}
+                {t("azureAd.apiPermStep3Click")}{" "}
+                <Mark>Add permissions</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Grant admin consent for Default Directory</Mark> and
-                click <Mark>Yes</Mark>
+                {t("azureAd.apiPermStep4Prefix")}{" "}
+                <Mark>Grant admin consent for Default Directory</Mark>{" "}
+                {t("azureAd.apiPermStep4Middle")}{" "}
+                <Mark>Yes</Mark>
               </p>
               <Lightbox image={azureGrantAdmin} />
             </Steps.Step>

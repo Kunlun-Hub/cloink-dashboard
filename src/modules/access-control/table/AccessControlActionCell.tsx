@@ -13,6 +13,7 @@ import { mutate } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Policy } from "@/interfaces/Policy";
 
 type Props = {
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export default function AccessControlActionCell({ policy }: Readonly<Props>) {
+  const { t } = useI18n();
   const { confirm } = useDialog();
   const { permission } = usePermissions();
   const { deletePolicy, updatePolicy, serializeRules } = usePolicies();
@@ -37,18 +39,17 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
         mutate("/policies");
       },
       nextEnabled
-        ? "The rule was successfully enabled"
-        : "The rule was successfully disabled",
+        ? t("accessControl.ruleEnabled")
+        : t("accessControl.ruleDisabled"),
     );
   };
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${policy.name}'?`,
-      description:
-        "Are you sure you want to delete this access control policy? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("policies.deleteTitle").replace("{name}", policy.name),
+      description: t("policies.deleteDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -84,7 +85,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {policy.enabled ? "Disable" : "Enable"}
+              {policy.enabled ? t("common.disable") : t("common.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -96,7 +97,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

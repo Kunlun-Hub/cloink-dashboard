@@ -10,6 +10,7 @@ import { UserCircle2 } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // UsersPicker — single-select search list mirroring the Activity ›
 // Audit Logs user filter. The value stored on the column filter is the
@@ -40,11 +41,13 @@ const searchPredicate = (item: UserOption, query: string) => {
 };
 
 export function UsersPicker({ value, onChange, close, options }: Props) {
+  const { t } = useI18n();
+
   const [filteredItems, search, setSearch] = useSearch(
     options.concat({
       id: ALL_USERS_ID,
-      name: "All Users",
-      email: "Include all users",
+      name: t("users.allUsers"),
+      email: t("users.includeAllUsers"),
     }),
     searchPredicate,
     { filter: true, debounce: 150 },
@@ -131,7 +134,7 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
                 <div className={"flex flex-col text-xs w-full min-w-0"}>
                   <span className={"text-nb-gray-200 flex items-center gap-1.5"}>
                     <TextWithTooltip
-                      text={isSystemUser ? "System" : user?.name || user?.id}
+                      text={isSystemUser ? t("users.system") : user?.name || user?.id}
                       maxChars={22}
                     />
                   </span>

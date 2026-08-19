@@ -5,6 +5,7 @@ import { merge, orderBy, uniqBy } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import {
   AuthorizedGroups,
@@ -43,6 +44,7 @@ export const useAccessControl = ({
   initialPorts,
   initialDestinationResource,
 }: Props = {}) => {
+  const { t } = useI18n();
   const { data: allPostureChecks, isLoading: isPostureChecksLoading } =
     useFetchApi<PostureCheck[]>("/posture-checks");
 
@@ -320,13 +322,13 @@ export const useAccessControl = ({
           mutate("/policies");
           onSuccess && onSuccess(p);
         },
-        "The policy was successfully saved",
+        t("accessControl.policySaved"),
       );
     } else {
       notify({
-        title: "Create Access Control Policy",
-        description: "Policy was created successfully.",
-        loadingMessage: "Creating your policy...",
+        title: t("accessControl.createdTitle"),
+        description: t("accessControl.createdDescription"),
+        loadingMessage: t("accessControl.creating"),
         promise: policyRequest.post(policyObj).then((policy) => {
           mutate("/policies");
           onSuccess && onSuccess(policy);

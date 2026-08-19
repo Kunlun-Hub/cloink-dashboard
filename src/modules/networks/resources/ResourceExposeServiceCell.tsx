@@ -11,12 +11,14 @@ import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import Badge from "@components/Badge";
 import { CirclePlusIcon } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   resource: NetworkResource;
 };
 
 export const ResourceExposeServiceCell = ({ resource }: Props) => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { openModal, reverseProxies } = useReverseProxies();
   const { network } = useNetworksContext();
@@ -73,7 +75,7 @@ export const ResourceExposeServiceCell = ({ resource }: Props) => {
         disabled={!permission.services?.create}
       >
         <CirclePlusIcon size={12} />
-        Expose
+        {t("networkResources.expose")}
       </Button>
     </div>
   );

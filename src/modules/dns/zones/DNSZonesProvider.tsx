@@ -4,6 +4,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DNSRecord, DNSZone } from "@/interfaces/DNS";
 import { Group } from "@/interfaces/Group";
 import DNSRecordModal from "@/modules/dns/zones/DNSRecordModal";
@@ -41,6 +42,7 @@ export const DNSZonesProvider = ({ children }: Props) => {
   const [initialDistributionGroups, setInitialDistributionGroups] =
     useState<Group[]>();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const createZone = async (zone: DNSZone): Promise<DNSZone> => {
     const promise = zoneRequest.post(zone).then((zone) => {
@@ -79,11 +81,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
     if (!zone?.id) return Promise.reject("Can not delete DNS Zone without ID");
 
     const choice = await confirm({
-      title: `Delete zone '${zone.domain}'?`,
-      description:
-        "Are you sure you want to delete this zone? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("zones.deleteConfirmTitle", { domain: zone.domain }),
+      description: t("zones.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
       maxWidthClass: "max-w-md",
     });
@@ -95,10 +96,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
     });
 
     notify({
-      title: `DNS Zone '${zone.domain}'`,
-      description: `DNS Zone was deleted successfully.`,
+      title: t("zones.deleteSuccessTitle", { domain: zone.domain }),
+      description: t("zones.deletedDescription"),
       promise: promise,
-      loadingMessage: "Deleting DNS Zone...",
+      loadingMessage: t("zones.deleteLoadingMessage"),
     });
 
     return promise;
@@ -118,10 +119,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `${record.type} Record '${record.name}'`,
-      description: `DNS Record was added successfully.`,
+      title: t("zones.recordNotifyTitle", { type: record.type, name: record.name }),
+      description: t("zones.recordCreatedDescription"),
       promise: promise,
-      loadingMessage: "Adding DNS Record...",
+      loadingMessage: t("zones.recordCreating"),
     });
 
     return promise;
@@ -143,10 +144,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `${record.type} Record '${record.name}'`,
-      description: `DNS Record was updated successfully.`,
+      title: t("zones.recordNotifyTitle", { type: record.type, name: record.name }),
+      description: t("zones.recordUpdatedDescription"),
       promise: promise,
-      loadingMessage: "Updating DNS Record...",
+      loadingMessage: t("zones.recordUpdating"),
     });
 
     return promise;
@@ -162,11 +163,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
       return Promise.reject("Can not delete DNS Record without ID");
 
     const choice = await confirm({
-      title: `Delete record '${record.name}'?`,
-      description:
-        "Are you sure you want to delete this record? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("zones.recordDeleteConfirmTitle", { name: record.name }),
+      description: t("zones.recordDeleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
       maxWidthClass: "max-w-md",
     });
@@ -180,10 +180,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `${record.type} Record '${record.name}'`,
-      description: `DNS Record was deleted successfully.`,
+      title: t("zones.recordNotifyTitle", { type: record.type, name: record.name }),
+      description: t("zones.recordDeletedDescription"),
       promise: promise,
-      loadingMessage: "Deleting DNS Record...",
+      loadingMessage: t("zones.recordDeleting"),
     });
 
     return promise;
@@ -203,11 +203,10 @@ export const DNSZonesProvider = ({ children }: Props) => {
 
   const askForRecord = async (zone: DNSZone) => {
     const choice = await confirm({
-      title: `Add new record to '${zone.name}'?`,
-      description:
-        "Add either an A, AAAA or a CNAME record to control domain name resolution for your network.",
-      confirmText: "Add Record",
-      cancelText: "Later",
+      title: t("zones.askRecordTitle", { name: zone.name }),
+      description: t("zones.askRecordDescription"),
+      confirmText: t("zones.addRecord"),
+      cancelText: t("zones.later"),
       type: "default",
       maxWidthClass: "max-w-md",
     });

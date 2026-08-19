@@ -3,6 +3,7 @@ import { cn } from "@utils/helpers";
 import { FileJson2 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   value: string;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const JSONFileUpload = ({ onChange }: Props) => {
+  const { t } = useI18n();
   const [dragActive, setDragActive] = React.useState(false);
   const [, setFileName] = useState("");
 
@@ -19,7 +21,7 @@ export const JSONFileUpload = ({ onChange }: Props) => {
     // check if file is json
     if (files[0].type !== "application/json") {
       notify({
-        title: "You uploaded the wrong file type",
+        title: t("fileUpload.wrongFileType"),
         description: "Please upload a JSON file",
         icon: <FileJson2 size={20} />,
         backgroundColor: "bg-red-500",

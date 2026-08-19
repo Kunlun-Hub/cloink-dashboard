@@ -6,6 +6,7 @@ import { TrashIcon } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   DomainValidationStatus,
   EnterpriseConnectionDomain,
@@ -21,21 +22,22 @@ export const DomainVerificationCard = ({ domain, connectionId }: Props) => {
   const [modal, setModal] = useState(false);
   const { deleteDomain, mutate } = useEnterpriseConnections();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const deleteDomainHandler = async () => {
     const choice = await confirm({
-      title: `Remove Domain?`,
-      description: "Are you sure you want to remove this domain?",
-      confirmText: "Remove",
-      cancelText: "Cancel",
+      title: t("sso.domain.removeTitle"),
+      description: t("sso.domain.removeDescription"),
+      confirmText: t("common.remove"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
     notify({
-      title: "Okta Domains",
-      description: `${domain.name} has been removed`,
+      title: t("sso.domain.notifyTitle"),
+      description: t("sso.domain.removed", { name: domain.name }),
       promise: deleteDomain(connectionId, domain.name).then(() => mutate()),
-      loadingMessage: "Removing domain...",
+      loadingMessage: t("sso.domain.removing"),
     });
   };
 
@@ -66,7 +68,7 @@ export const DomainVerificationCard = ({ domain, connectionId }: Props) => {
             size={"xs"}
             onClick={() => setModal(true)}
           >
-            Verify
+            {t("sso.domain.verify")}
           </Button>
         )}
 
@@ -76,7 +78,7 @@ export const DomainVerificationCard = ({ domain, connectionId }: Props) => {
           onClick={deleteDomainHandler}
         >
           <TrashIcon size={14} />
-          Remove
+          {t("common.remove")}
         </Button>
       </div>
     </Card>
@@ -84,6 +86,7 @@ export const DomainVerificationCard = ({ domain, connectionId }: Props) => {
 };
 
 const VerificationStatus = ({ status }: { status: DomainValidationStatus }) => {
+  const { t } = useI18n();
   const isVerified = status === DomainValidationStatus.VERIFIED;
   const isPending = status === DomainValidationStatus.PENDING;
   const isFailed = status === DomainValidationStatus.FAILED;
@@ -102,9 +105,9 @@ const VerificationStatus = ({ status }: { status: DomainValidationStatus }) => {
           isFailed && "bg-red-500",
         )}
       ></span>
-      {isVerified && "Ownership Verified"}
-      {isFailed && "Verification Failed"}
-      {isPending && "Pending Verification"}
+      {isVerified && t("sso.domain.ownershipVerified")}
+      {isFailed && t("sso.domain.verificationFailed")}
+      {isPending && t("sso.domain.pendingVerification")}
     </span>
   );
 };

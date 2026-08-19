@@ -34,6 +34,7 @@ import FullTooltip from "@/components/FullTooltip";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { SentinelOneIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { matchAttributesReducer } from "@/modules/integrations/edr/sentinel-one/SentinelOne";
@@ -82,6 +83,7 @@ export function ConfigurationContent({
 }: Readonly<ModalProps>) {
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const [tab, setTab] = useState<string>("peer-approval");
 
@@ -109,23 +111,23 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("idpSync.deleteIntegrationTitle"),
+      description: t("idpSync.deleteIntegrationDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully deleted`,
+      title: t("edr.sentinelOne.notifyTitle"),
+      description: t("edr.sentinelOne.notifyDeleted"),
       promise: integrationRequest.del({}).then(() => {
         mutate("/integrations/edr/sentinelone");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("edr.sentinelOne.deleting"),
     });
   };
 
@@ -133,8 +135,8 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully updated`,
+      title: t("edr.sentinelOne.notifyTitle"),
+      description: t("edr.sentinelOne.notifyUpdated"),
       promise: integrationRequest
         .put({
           api_token: secretPlaceholder === apiToken ? undefined : apiToken,
@@ -148,7 +150,7 @@ export function ConfigurationContent({
           mutate("/integrations/edr/sentinelone");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("edr.sentinelOne.updating"),
     });
   };
 
@@ -172,10 +174,8 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"SentinelOne Configuration"}
-        description={
-          "Restrict network access to IT-managed devices marked Compliant in SentinelOne."
-        }
+        title={t("edr.sentinelOne.configTitle")}
+        description={t("edr.sentinelOne.configDescription")}
       />
 
       <Tabs

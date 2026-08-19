@@ -14,6 +14,7 @@ import TrafficEventsTable from "@/cloud/traffic-events/TrafficEventsTable";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import ServerPaginationProvider from "@/contexts/ServerPaginationProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import { EventStreamingCard } from "@/modules/integrations/event-streaming/EventStreamingCard";
@@ -21,6 +22,7 @@ import { EventStreamingCard } from "@/modules/integrations/event-streaming/Event
 export default function NetworkTrafficPage() {
   const account = useAccount();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
   const isEnabled = !!account?.settings?.extra?.network_traffic_logs_enabled;
@@ -38,35 +40,34 @@ export default function NetworkTrafficPage() {
       <div className="p-default py-6">
         <Breadcrumbs>
           <Breadcrumbs.Item
-            label="Activity"
+            label={t("nav.activity")}
             disabled
             icon={<ActivityIcon size={13} />}
           />
           <Breadcrumbs.Item
             href="/events/traffic"
-            label="Traffic Events"
+            label={t("nav.trafficEvents")}
             icon={<ArrowLeftRightIcon size={15} />}
           />
         </Breadcrumbs>
 
-        <h1 ref={headingRef}>Traffic Events</h1>
+        <h1 ref={headingRef}>{t("nav.trafficEvents")}</h1>
 
         <Paragraph>
-          Traffic events is an experimental feature. Functionality and behavior
-          may evolve, including changes to how data is collected or reported.
+          {t("trafficEvents.description")}
         </Paragraph>
 
         <Paragraph>
-          Learn more about{" "}
+          {t("common.learnMoreAbout")}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
-            Traffic Events <ExternalLinkIcon size={12} />
+            {t("nav.trafficEvents")} <ExternalLinkIcon size={12} />
           </InlineLink>{" "}
-          in our documentation.
+          {t("trafficEvents.inDocumentation")}
         </Paragraph>
       </div>
 
       <RestrictedAccess
-        page="Traffic Events"
+        page={t("events.trafficEventsPage")}
         hasAccess={permission.events.read}
       >
         <EventStreamingCard />

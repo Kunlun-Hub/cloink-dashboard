@@ -1,14 +1,19 @@
 import CopyToClipboardText from "@components/CopyToClipboardText";
 import React from "react";
 import { NetworkResource } from "@/interfaces/Network";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   resource: NetworkResource;
 };
 export default function ResourceAddressCell({ resource }: Readonly<Props>) {
+  const { t } = useI18n();
+
   return (
     <CopyToClipboardText
-      message={`${resource.address} has been copied to your clipboard`}
+      message={t("networkResources.copiedToClipboard", {
+        address: resource.address,
+      })}
     >
       <div
         className={

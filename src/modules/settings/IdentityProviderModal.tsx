@@ -74,8 +74,6 @@ type Props = {
   provider?: SSOIdentityProvider | null;
 };
 
-const copyMessage = "Redirect URL was copied to your clipboard!";
-const logoutCopyMessage = "Logout URL was copied to your clipboard!";
 const config = loadConfig();
 const redirectUrl = `${config.apiOrigin}/oauth2/callback`;
 const logoutUrl = `${config.apiOrigin}/oauth2/logout/callback`;
@@ -150,23 +148,23 @@ export default function IdentityProviderModal({
 
     if (isEditing) {
       notify({
-        title: "Update Identity Provider",
-        description: "Identity provider was updated successfully.",
+        title: t("identityProviderModal.updateTitle"),
+        description: t("identityProviderModal.updatedDescription"),
         promise: updateRequest.put(payload).then(() => {
           mutate("/identity-providers");
           onClose();
         }),
-        loadingMessage: "Updating identity provider...",
+        loadingMessage: t("identityProviderModal.updating"),
       });
     } else {
       notify({
-        title: "Create Identity Provider",
-        description: "Identity provider was created successfully.",
+        title: t("identityProviderModal.createTitle"),
+        description: t("identityProviderModal.createdDescription"),
         promise: createRequest.post(payload).then(() => {
           mutate("/identity-providers");
           onClose();
         }),
-        loadingMessage: "Creating identity provider...",
+        loadingMessage: t("identityProviderModal.creating"),
       });
     }
   };
@@ -182,12 +180,14 @@ export default function IdentityProviderModal({
           <ModalHeader
             icon={<FingerprintIcon size={20} />}
             title={
-              isEditing ? "Edit Identity Provider" : "Add Identity Provider"
+              isEditing
+                ? t("identityProviderModal.editModalTitle")
+                : t("identityProviderModal.addModalTitle")
             }
             description={
               isEditing
-                ? "Update the identity provider configuration"
-                : "Configure a new identity provider for authentication"
+                ? t("identityProviderModal.editModalDescription")
+                : t("identityProviderModal.addModalDescription")
             }
             color={"netbird"}
           />
@@ -196,8 +196,8 @@ export default function IdentityProviderModal({
 
           <div className={"px-8 py-6 flex flex-col gap-6"}>
             <div>
-              <Label>Provider Type</Label>
-              <HelpText>Select the type of identity provider</HelpText>
+              <Label>{t("identityProviderModal.providerType")}</Label>
+              <HelpText>{t("identityProviderModal.providerTypeHelp")}</HelpText>
               <Select
                 value={type}
                 onValueChange={(v) => {
@@ -214,7 +214,7 @@ export default function IdentityProviderModal({
                 disabled={isEditing}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select provider type..." />
+                  <SelectValue placeholder={t("identityProviderModal.selectProviderType")} />
                 </SelectTrigger>
                 <SelectContent>
                   {SSOIdentityProviderOptions.map((idp) => (
@@ -234,10 +234,10 @@ export default function IdentityProviderModal({
             </div>
 
             <div>
-              <Label>Name</Label>
-              <HelpText>A friendly name to identify this provider</HelpText>
+              <Label>{t("identityProviderModal.name")}</Label>
+              <HelpText>{t("identityProviderModal.nameHelp")}</HelpText>
               <Input
-                placeholder={"e.g., Corporate SSO"}
+                placeholder={t("identityProviderModal.namePlaceholder")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 customPrefix={
@@ -248,8 +248,8 @@ export default function IdentityProviderModal({
 
             {requiresIssuer && (
               <div>
-                <Label>Issuer URL</Label>
-                <HelpText>The OIDC issuer URL for this provider</HelpText>
+                <Label>{t("identityProviderModal.issuerUrl")}</Label>
+                <HelpText>{t("identityProviderModal.issuerUrlHelp")}</HelpText>
                 <Input
                   placeholder={issuerHints[type] ?? "https://login.example.com"}
                   value={issuer}
@@ -341,19 +341,19 @@ export default function IdentityProviderModal({
 
             <div className={"flex flex-col gap-3"}>
               <div>
-                <Label>Endpoint URLs</Label>
+                <Label>{t("identityProviderModal.endpointUrls")}</Label>
                 <HelpText margin={false}>
-                  Add these to your identity provider configuration
+                  {t("identityProviderModal.endpointUrlsHelp")}
                 </HelpText>
               </div>
 
               <div>
-                <Label className={"text-xs mb-1"}>Redirect / Callback</Label>
+                <Label className={"text-xs mb-1"}>{t("identityProviderModal.redirectCallback")}</Label>
                 <Code
                   codeToCopy={
                     isWeChatWork ? `${redirectUrl}/{connector_id}` : redirectUrl
                   }
-                  message={copyMessage}
+                  message={t("identityProviderModal.redirectCopied")}
                 >
                   <Code.Line>
                     {isWeChatWork
@@ -364,19 +364,19 @@ export default function IdentityProviderModal({
               </div>
 
               <div>
-                <Label className={"text-xs mb-1"}>Logout</Label>
-                <Code codeToCopy={logoutUrl} message={logoutCopyMessage}>
+                <Label className={"text-xs mb-1"}>{t("identityProviderModal.logout")}</Label>
+                <Code codeToCopy={logoutUrl} message={t("identityProviderModal.logoutCopied")}>
                   <Code.Line>{logoutUrl}</Code.Line>
                 </Code>
                 <HelpText margin={false} className={"mt-1.5"}>
-                  Not all identity providers support logout.{" "}
+                  {t("identityProviderModal.logoutHelp")}{" "}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/selfhosted/identity-providers"
                     }
                     target={"_blank"}
                   >
-                    Learn more
+                    {t("common.learnMore")}
                   </InlineLink>
                 </HelpText>
               </div>
@@ -386,7 +386,7 @@ export default function IdentityProviderModal({
           <ModalFooter className={"items-center"}>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
 
               <Button
@@ -402,12 +402,12 @@ export default function IdentityProviderModal({
                 {isEditing ? (
                   <>
                     <SaveIcon size={16} />
-                    Save Changes
+                    {t("common.saveChanges")}
                   </>
                 ) : (
                   <>
                     <PlusCircle size={16} />
-                    Add Provider
+                    {t("identityProviderModal.addProvider")}
                   </>
                 )}
               </Button>

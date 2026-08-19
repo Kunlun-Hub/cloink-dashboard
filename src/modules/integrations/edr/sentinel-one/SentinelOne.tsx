@@ -12,6 +12,7 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/sentinelone.png";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 import {
   SentinelOneIntegration,
@@ -32,6 +33,7 @@ export const SentinelOne = ({ account }: Props) => {
   const [setupModal, setSetupModal] = useState(false);
   const { permission } = usePermissions();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const {
     sentinelOne: integration,
@@ -54,10 +56,10 @@ export const SentinelOne = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable SentinelOne?`,
-          description: `Are you sure you want to disable the SentinelOne integration?`,
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("edr.sentinelOne.disableTitle"),
+          description: t("edr.sentinelOne.disableDescription"),
+          confirmText: t("common.disable"),
+          cancelText: t("common.cancel"),
           type: "warning",
         })
       : true;
@@ -67,10 +69,10 @@ export const SentinelOne = ({ account }: Props) => {
       integration.groups?.map((group) => (group as Group).id) || [];
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("edr.sentinelOne.notifyTitle"),
+      description: isCurrentlyEnabled
+        ? t("edr.sentinelOne.notifyDisabled")
+        : t("edr.sentinelOne.notifyEnabled"),
       promise: integrationRequest
         .put({
           ...integration,
@@ -81,7 +83,7 @@ export const SentinelOne = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/sentinelone");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("edr.sentinelOne.updating"),
     });
   };
 
@@ -91,7 +93,7 @@ export const SentinelOne = ({ account }: Props) => {
     <>
       <IntegrationCard
         name={"SentinelOne"}
-        description="AI-powered endpoint protection platform for real-time threat detection and automated response."
+        description={t("edr.sentinelOne.cardDescription")}
         url={{
           title: "sentinelone.com",
           href: "https://www.sentinelone.com/",
@@ -124,11 +126,14 @@ type ConfigurationProps = {
 };
 const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
+  const { t } = useI18n();
 
   const lastSync = useMemo(() => {
-    if (isEmpty(config?.last_synced_at)) return "Not synchronized";
-    return "Synced " + dayjs().to(config?.last_synced_at);
-  }, [config]);
+    if (isEmpty(config?.last_synced_at)) return t("edr.sentinelOne.notSynced");
+    return t("edr.sentinelOne.synced", {
+      time: dayjs().to(config?.last_synced_at),
+    });
+  }, [config, t]);
 
   return (
     <>
@@ -151,7 +156,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("edr.sentinelOne.settings")}
         </Button>
       </div>
       <SentinelOneConfiguration

@@ -10,6 +10,7 @@ import { concat, sortBy, uniqBy } from "lodash";
 import { FilterIcon } from "lucide-react";
 import * as React from "react";
 import { useCallback, useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface Props<TData> {
   table: Table<TData>;
@@ -76,6 +77,7 @@ export function DataTableFilter<TData>({
 }: Readonly<Props<TData>>) {
   const searchRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   const options = useMemo(
     () =>
@@ -191,7 +193,7 @@ export function DataTableFilter<TData>({
             <span className={"text-white"}>
               {activeFiltersCount > 0 && activeFiltersCount}
             </span>
-            {activeFiltersCount > 0 ? ` Filter(s)` : "Filter"}
+            {activeFiltersCount > 0 ? ` ${t("filters.filtersCount")}` : t("filters.filter")}
           </span>
         </Button>
       </PopoverTrigger>

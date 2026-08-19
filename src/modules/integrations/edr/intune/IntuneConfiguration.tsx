@@ -18,6 +18,7 @@ import FullTooltip from "@/components/FullTooltip";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { IntuneIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
@@ -63,6 +64,7 @@ export function ConfigurationContent({
 }: Readonly<ModalProps>) {
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const [tab, setTab] = useState<string>("peer-approval");
 
@@ -89,23 +91,23 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("edr.intune.deleteConfirmTitle"),
+      description: t("edr.intune.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Intune Integration",
-      description: `Intune was successfully deleted`,
+      title: t("edr.intune.notifyTitle"),
+      description: t("edr.intune.notifyDeleted"),
       promise: intuneRequest.del({}).then(() => {
         mutate("/integrations/edr/intune");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("edr.intune.deleting"),
     });
   };
 
@@ -113,8 +115,8 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "Intune Integration",
-      description: `Intune was successfully updated`,
+      title: t("edr.intune.notifyTitle"),
+      description: t("edr.intune.notifyUpdated"),
       promise: intuneRequest
         .put({
           client_id: clientId,
@@ -129,7 +131,7 @@ export function ConfigurationContent({
           mutate("/integrations/edr/intune");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("edr.intune.updating"),
     });
   };
 
@@ -153,10 +155,8 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Intune Configuration"}
-        description={
-          "Restrict network access to IT-managed devices marked Compliant in Intune."
-        }
+        title={t("edr.intune.configTitle")}
+        description={t("edr.intune.configDescription")}
       />
 
       <Tabs
@@ -172,7 +172,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t("edr.intune.tabPeerApproval")}
           </TabsTrigger>
           <TabsTrigger value={"sync-window"}>
             <RefreshCcw
@@ -181,7 +181,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Intune Sync Window
+            {t("edr.intune.tabSyncWindow")}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -190,7 +190,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("edr.intune.tabSettings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -199,7 +199,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("edr.intune.tabDangerZone")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={"settings"} className={"px-8 text-sm"}>
@@ -212,7 +212,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Application (client) ID
+                  {t("edr.intune.applicationIdLabel")}
                 </div>
               }
               placeholder={"62d3a656-c87d-4f30-a242-5b6347e29e9f"}
@@ -227,7 +227,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Folder size={16} />
-                  Directory (tenant) ID
+                  {t("edr.intune.directoryIdLabel")}
                 </div>
               }
               placeholder={"5d60468a-65b7-45eb-a61a-53ecfbcd1ea3"}
@@ -242,7 +242,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  Client Secret
+                  {t("edr.intune.clientSecretLabel")}
                 </div>
               }
               placeholder={"YdV7Q~JJ62Xl.LvYoBanxZR2sJA2va_3UbqvncY8"}
@@ -267,11 +267,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={14} />
-                Groups
+                {t("edr.intune.peerApprovalTitle")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Select groups you want to apply the Intune integration to
+              {t("edr.intune.peerApprovalHelp")}
             </HelpText>
 
             <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -284,16 +284,12 @@ export function ConfigurationContent({
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with Intune for 27 hours. Even though
-                  it&apos;s marked as Compliant in Intune, it will still be
-                  blocked from network access
+                  {t("edr.intune.syncWindowTooltip")}
                 </div>
               }
             >
               <HelpText className={"max-w-sm"}>
-                Devices not synced with Intune in this time won&apos;t have
-                network access.
+                {t("edr.intune.syncWindowHelp")}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -308,7 +304,7 @@ export function ConfigurationContent({
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("edr.intune.hoursSuffix")}
             />
           </div>
         </TabsContent>
@@ -318,14 +314,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={16} />
-                Delete Integration
+                {t("edr.intune.deleteIntegrationLabel")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t("edr.intune.deleteIntegrationHelp")}
             </HelpText>
           </div>
           <Button
@@ -334,7 +327,7 @@ export function ConfigurationContent({
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("edr.intune.deleteIntegrationLabel")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -343,7 +336,7 @@ export function ConfigurationContent({
       <ModalFooter className={"items-center gap-4"}>
         <ModalClose asChild={true}>
           <Button variant={"secondary"} className={"w-full"}>
-            Cancel
+            {t("common.cancel")}
           </Button>
         </ModalClose>
 
@@ -353,7 +346,7 @@ export function ConfigurationContent({
           disabled={!canSave}
           onClick={updateIntegration}
         >
-          Save
+          {t("common.saveChanges")}
         </Button>
       </ModalFooter>
     </ModalContent>

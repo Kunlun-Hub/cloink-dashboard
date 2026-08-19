@@ -14,8 +14,10 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Network } from "@/interfaces/Network";
 import PageContainer from "@/layouts/PageContainer";
 import NetworksTable from "@/modules/networks/table/NetworksTable";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function Networks() {
+  const { t } = useI18n();
   const { data: networks, isLoading } = useFetchApi<Network[]>("/networks");
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
@@ -26,20 +28,19 @@ export default function Networks() {
       <div className={"p-default py-6"}>
         <Breadcrumbs>
           <Breadcrumbs.Item
-            label={"Network Routing"}
+            label={t("nav.networkRouting")}
             icon={<NetworkRoutesIcon size={13} />}
           />
-          <Breadcrumbs.Item href={"/networks"} label={"Networks"} />
+          <Breadcrumbs.Item href={"/networks"} label={t("nav.networks")} />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Networks</h1>
+        <h1 ref={headingRef}>{t("networks.title")}</h1>
         <Paragraph>
-          Access internal resources in LANs and VPCs without installing NetBird
-          on every machine.{" "}
+          {t("networks.pageDescription")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/networks"}
             target={"_blank"}
           >
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

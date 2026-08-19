@@ -42,6 +42,7 @@ import {
 } from "@/modules/integrations/edr/huntress/Huntress";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { HuntressMatchSettings } from "@/modules/integrations/edr/huntress/HuntressMatchSettings";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -84,6 +85,7 @@ export function ConfigurationContent({
 }: Readonly<ModalProps>) {
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const [tab, setTab] = useState<string>("peer-approval");
 
@@ -112,23 +114,23 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("edr.huntress.deleteConfirmTitle"),
+      description: t("edr.huntress.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Huntress Integration",
-      description: `Huntress was successfully deleted`,
+      title: t("edr.huntress.notifyTitle"),
+      description: t("edr.huntress.notifyDeleted"),
       promise: integrationRequest.del({}).then(() => {
         mutate("/integrations/edr/huntress");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("edr.huntress.deleting"),
     });
   };
 
@@ -136,8 +138,8 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "Huntress Integration",
-      description: `Huntress was successfully updated`,
+      title: t("edr.huntress.notifyTitle"),
+      description: t("edr.huntress.notifyUpdated"),
       promise: integrationRequest
         .put({
           api_key: secretPlaceholder === apiKey ? undefined : apiKey,
@@ -151,7 +153,7 @@ export function ConfigurationContent({
           mutate("/integrations/edr/huntress");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("edr.huntress.updating"),
     });
   };
 
@@ -175,10 +177,8 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Huntress Configuration"}
-        description={
-          "Restrict network access to IT-managed devices marked Compliant in Huntress."
-        }
+        title={t("edr.huntress.configTitle")}
+        description={t("edr.huntress.configDescription")}
       />
 
       <Tabs
@@ -194,7 +194,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t("edr.huntress.peerApprovalTitle")}
           </TabsTrigger>
           <TabsTrigger value={"compliance"}>
             <ShieldCheckIcon
@@ -203,7 +203,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Compliance
+            {t("edr.huntress.complianceTitle")}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -212,7 +212,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("common.settings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -307,7 +307,7 @@ export function ConfigurationContent({
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("edr.huntress.hoursSuffix")}
             />
           </div>
 

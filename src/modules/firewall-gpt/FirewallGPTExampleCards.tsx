@@ -7,29 +7,29 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { memo } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onClick: (prompt: string) => void;
   textAreaRef: React.RefObject<HTMLTextAreaElement | null>;
 };
 const FirewallGptExampleCards = ({ onClick, textAreaRef }: Props) => {
+  const { t } = useI18n();
   return (
     <div className={"grid grid-cols-2 px-6 z-10 relative gap-4 mb-2"}>
       <FirewallGptExampleCard
-        title={"SSH Access for Developers"}
+        title={t("firewallGpt.exampleCards.sshAccess.title")}
         icon={<SquareTerminal size={16} />}
-        description={
-          "Connect developers on Windows and Macs from Germany to production servers via SSH"
-        }
+        description={t("firewallGpt.exampleCards.sshAccess.description")}
         onClick={(prompt) => {
           onClick(prompt);
           textAreaRef.current?.focus();
         }}
       />
       <FirewallGptExampleCard
-        title={"RDP Access for IT Support"}
+        title={t("firewallGpt.exampleCards.rdpAccess.title")}
         icon={<Cast size={16} />}
-        description={"Connect IT Support users to staff workstations via RDP"}
+        description={t("firewallGpt.exampleCards.rdpAccess.description")}
         onClick={(prompt) => {
           onClick(prompt);
           textAreaRef.current?.focus();
@@ -37,20 +37,16 @@ const FirewallGptExampleCards = ({ onClick, textAreaRef }: Props) => {
       />
       <FirewallGptExampleCard
         icon={<Database size={16} />}
-        title={"Database Access for Admins"}
-        description={
-          "Allow access for IT Admins to production PostgreSQL databases"
-        }
+        title={t("firewallGpt.exampleCards.databaseAccess.title")}
+        description={t("firewallGpt.exampleCards.databaseAccess.description")}
         onClick={(prompt) => {
           onClick(prompt);
           textAreaRef.current?.focus();
         }}
       />
       <FirewallGptExampleCard
-        title={"Cloud to On-Prem Access"}
-        description={
-          "Connect web servers running in the cloud to on premises databases"
-        }
+        title={t("firewallGpt.exampleCards.cloudAccess.title")}
+        description={t("firewallGpt.exampleCards.cloudAccess.description")}
         onClick={(prompt) => {
           onClick(prompt);
           textAreaRef.current?.focus();

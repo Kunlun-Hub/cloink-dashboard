@@ -48,6 +48,7 @@ import { User } from "@/interfaces/User";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 import { PeerOperatingSystemIcon } from "@/modules/peers/PeerOperatingSystemIcon";
 import TruncatedText from "@components/ui/TruncatedText";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type PeerGroupSelectorTab = "peers" | "groups" | "resources" | "clusters";
 
@@ -143,6 +144,7 @@ export function PeerGroupSelector({
   selectedCluster,
   onClusterChange,
 }: Readonly<MultiSelectProps>) {
+  const { t } = useI18n();
   const { data: fetchedResources, isLoading: isResourcesLoading } = useFetchApi<
     NetworkResource[]
   >("/networks/resources");
@@ -315,11 +317,11 @@ export function PeerGroupSelector({
 
   const searchPlaceholder = useMemo(() => {
     if (tab === "groups") return placeholderForSearch;
-    if (tab === "resources") return "Search resource...";
-    if (tab === "peers") return "Search peer by name or ip...";
-    if (tab === "clusters") return "Search cluster...";
-    return "Search...";
-  }, [tab, placeholderForSearch]);
+    if (tab === "resources") return t("peerGroupSelector.searchResource");
+    if (tab === "peers") return t("peerGroupSelector.searchPeer");
+    if (tab === "clusters") return t("peerGroupSelector.searchCluster");
+    return t("peerGroupSelector.search");
+  }, [tab, placeholderForSearch, t]);
 
   const filteredClusters = useMemo(() => {
     if (!clusters || clusters.length === 0) return [];
@@ -949,6 +951,8 @@ const PolicyCounter = ({
 
   if (count === 0) return null;
 
+  const { t } = useI18n();
+
   return (
     <div
       className={
@@ -956,7 +960,7 @@ const PolicyCounter = ({
       }
     >
       <ShieldCheck size={14} className={"shrink-0"} />
-      {count} {count === 1 ? "Policy" : "Policies"}
+      {count} {count === 1 ? t("peerGroupSelector.policy") : t("peerGroupSelector.policies")}
     </div>
   );
 };

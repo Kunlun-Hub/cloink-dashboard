@@ -5,8 +5,10 @@ import { usePeer } from "@/contexts/PeerProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import GroupsRow from "@/modules/common-table-rows/GroupsRow";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function PeerGroupCell() {
+  const { t } = useI18n();
   const { peer, peerGroups } = usePeer();
   const [modal, setModal] = useState(false);
   const { mutate } = useSWRConfig();
@@ -15,13 +17,13 @@ export default function PeerGroupCell() {
   const handleSave = async (promises: Promise<Group>[]) => {
     notify({
       title: peer.name,
-      description: "Groups of the peer were successfully saved",
+      description: t("peerGroupCell.saved"),
       promise: Promise.all(promises).then(() => {
         setModal(false);
         mutate("/peers");
         mutate("/groups");
       }),
-      loadingMessage: "Saving the groups of the peer...",
+      loadingMessage: t("peerGroupCell.saving"),
     });
   };
 
@@ -38,8 +40,8 @@ export default function PeerGroupCell() {
 
   return (
     <GroupsRow
-      label={"Assigned Groups"}
-      description={"Use groups to control what this peer can access"}
+      label={t("groups.assignedGroups")}
+      description={t("groups.useGroupsToControlAccess")}
       groups={groupIDs || []}
       hideAllGroup={true}
       showAddGroupButton={true}

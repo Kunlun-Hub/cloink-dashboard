@@ -34,59 +34,74 @@ import ClustersConnectedCell from "@/modules/reverse-proxy/clusters/ClustersConn
 import ClustersFeaturesCell from "@/modules/reverse-proxy/clusters/ClustersFeaturesCell";
 import { ClustersModal } from "@/modules/reverse-proxy/clusters/ClustersModal";
 import ClustersNameCell from "@/modules/reverse-proxy/clusters/ClustersNameCell";
+import { useI18n } from "@/i18n/I18nProvider";
 
-const ClustersColumns: ColumnDef<ReverseProxyCluster>[] = [
-  {
-    accessorKey: "address",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Cluster</DataTableHeader>;
+function useClustersColumns(): ColumnDef<ReverseProxyCluster>[] {
+  const { t } = useI18n();
+  return [
+    {
+      accessorKey: "address",
+      header: ({ column }) => {
+        return (
+          <DataTableHeader column={column}>
+            {t("clustersTable.cluster")}
+          </DataTableHeader>
+        );
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <ClustersNameCell cluster={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <ClustersNameCell cluster={row.original} />,
-  },
-  {
-    accessorKey: "connected_proxies",
-    header: ({ column }) => {
-      return (
-        <DataTableHeader column={column}>Connected Proxies</DataTableHeader>
-      );
+    {
+      accessorKey: "connected_proxies",
+      header: ({ column }) => {
+        return (
+          <DataTableHeader column={column}>
+            {t("clustersTable.connectedProxies")}
+          </DataTableHeader>
+        );
+      },
+      sortingFn: "basic",
+      cell: ({ row }) => <ClustersConnectedCell cluster={row.original} />,
     },
-    sortingFn: "basic",
-    cell: ({ row }) => <ClustersConnectedCell cluster={row.original} />,
-  },
-  {
-    id: "features",
-    header: () => <span className={"font-medium text-xs"}>Features</span>,
-    enableSorting: false,
-    cell: ({ row }) => <ClustersFeaturesCell cluster={row.original} />,
-  },
-  {
-    id: "searchString",
-    accessorFn: (row) => row.address,
-  },
-  {
-    id: "online",
-    accessorKey: "online",
-    filterFn: "exactMatch",
-  },
-  {
-    id: "type",
-    accessorKey: "type",
-    filterFn: "exactMatch",
-  },
-  {
-    id: "actions",
-    accessorKey: "address",
-    header: "",
-    cell: ({ row }) => <ClustersActionCell cluster={row.original} />,
-  },
-];
+    {
+      id: "features",
+      header: () => (
+        <span className={"font-medium text-xs"}>
+          {t("clustersTable.features")}
+        </span>
+      ),
+      enableSorting: false,
+      cell: ({ row }) => <ClustersFeaturesCell cluster={row.original} />,
+    },
+    {
+      id: "searchString",
+      accessorFn: (row) => row.address,
+    },
+    {
+      id: "online",
+      accessorKey: "online",
+      filterFn: "exactMatch",
+    },
+    {
+      id: "type",
+      accessorKey: "type",
+      filterFn: "exactMatch",
+    },
+    {
+      id: "actions",
+      accessorKey: "address",
+      header: "",
+      cell: ({ row }) => <ClustersActionCell cluster={row.original} />,
+    },
+  ];
+}
 
 type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
 export default function ClustersTable({ headingTarget }: Readonly<Props>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { permission } = usePermissions();
@@ -95,6 +110,7 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
   );
 
   const rows = clusters ?? [];
+  const columns = useClustersColumns();
 
   const [addModalOpen, setAddModalOpen] = useState(false);
 
@@ -110,27 +126,27 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Online", dotClass: "bg-green-500" },
-      { value: false, label: "Offline", dotClass: "bg-red-500" },
+      { value: undefined, label: t("filters.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("clustersTable.online"), dotClass: "bg-green-500" },
+      { value: false, label: t("clustersTable.offline"), dotClass: "bg-red-500" },
     ],
-    [],
+    [t],
   );
 
   const typeOptions = useMemo<RadioOption<string | undefined>[]>(
     () => [
-      { value: undefined, label: "All" },
-      { value: ReverseProxyClusterType.SHARED, label: "Shared" },
-      { value: ReverseProxyClusterType.ACCOUNT, label: "Self-Hosted" },
+      { value: undefined, label: t("filters.all") },
+      { value: ReverseProxyClusterType.SHARED, label: t("clustersTable.shared") },
+      { value: ReverseProxyClusterType.ACCOUNT, label: t("clustersTable.selfHosted") },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "online",
-        label: "Status",
+        label: t("clustersTable.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -144,7 +160,7 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
       },
       {
         id: "type",
-        label: "Type",
+        label: t("clustersTable.type"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as string | undefined}
@@ -157,7 +173,7 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
           formatRadioChip(v as string | undefined, typeOptions),
       },
     ],
-    [statusOptions, typeOptions],
+    [t, statusOptions, typeOptions],
   );
 
   return (
@@ -175,13 +191,13 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
         keepStateInLocalStorage={false}
         initialPageSize={25}
         showResetFilterButton={false}
-        text={"Clusters"}
+        text={t("clustersTable.title")}
         sorting={sorting}
         setSorting={setSorting}
-        columns={ClustersColumns}
+        columns={columns}
         data={rows}
         useRowId={true}
-        searchPlaceholder={"Search by cluster domain..."}
+        searchPlaceholder={t("clustersTable.searchPlaceholder")}
         aboveTable={(table) => (
           <TableFilterChips table={table} filters={filterDefs} />
         )}
@@ -199,10 +215,8 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
                 size={"large"}
               />
             }
-            title={"No clusters available"}
-            description={
-              "Set up a cluster to route traffic through your own infrastructure."
-            }
+            title={t("clustersTable.emptyTitle")}
+            description={t("clustersTable.emptyDescription")}
             button={
               <Button
                 variant={"primary"}
@@ -210,7 +224,7 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
                 disabled={!permission?.services?.create}
               >
                 <PlusCircle size={16} />
-                Setup Self-Hosted Cluster
+                {t("clustersTable.setupSelfHostedCluster")}
               </Button>
             }
           />
@@ -225,7 +239,7 @@ export default function ClustersTable({ headingTarget }: Readonly<Props>) {
                 disabled={!permission?.services?.create}
               >
                 <PlusCircle size={16} />
-                Setup Self-Hosted Cluster
+                {t("clustersTable.setupSelfHostedCluster")}
               </Button>
             )}
           </>

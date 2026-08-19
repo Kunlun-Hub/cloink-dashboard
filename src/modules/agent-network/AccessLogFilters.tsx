@@ -31,15 +31,20 @@ import { DateRange } from "react-day-picker";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
+import type { MessageKey } from "@/i18n/messages";
 
 type FilterRow = Record<string, unknown>;
 
 // formatDateChip renders the active date-range filter as a compact chip body.
 // Quick-range presets (Last 14 Days, Last Month, …) show their label; a custom
 // range shows the compact "from – to" span.
-export function formatDateChip(value: DateRange | undefined): string | null {
+export function formatDateChip(
+  value: DateRange | undefined,
+  t: (key: MessageKey) => string,
+): string | null {
   if (!value?.from && !value?.to) return null;
-  const preset = dateRangePresetLabel(value);
+  const preset = dateRangePresetLabel(value, t);
   if (preset) return preset;
   const from = value?.from ? dayjs(value.from).format("MMM D") : "…";
   const to = value?.to ? dayjs(value.to).format("MMM D") : "…";
@@ -52,6 +57,7 @@ export function formatDateChip(value: DateRange | undefined): string | null {
 // params) plus the Filters button and chips for a standalone bar. The Date
 // filter defaults to the last 14 days; resetting returns to that default.
 export function useAccessLogFilters() {
+  const { t } = useI18n();
   const { providers } = useAIProviders();
   const { users } = useUsers();
   const { groups } = useGroups();
@@ -132,7 +138,7 @@ export function useAccessLogFilters() {
             />
           </div>
         ),
-        formatChip: (v) => formatDateChip(v as DateRange | undefined),
+        formatChip: (v) => formatDateChip(v as DateRange | undefined, t),
       },
       {
         id: "user",

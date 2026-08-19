@@ -92,17 +92,21 @@ const IRON_ERROR_KIND_NAMES = [
   "NegotiationFailure",
 ] as const;
 
-// User-facing message per error kind. "General" is intentionally absent: it
+// User-facing message key per error kind. "General" is intentionally absent: it
 // carries no structured detail, so its reason is read from the backtrace.
-const IRON_ERROR_KIND_MESSAGES: Record<string, string> = {
-  WrongPassword: "Incorrect username or password.",
-  LogonFailure: "Login failed. Check your username and password.",
-  AccessDenied: "The remote host denied access.",
-  RDCleanPath: "Could not establish the RDP connection to the host.",
-  ProxyConnect: "Could not reach the remote host.",
-  NegotiationFailure:
-    "RDP negotiation failed. The host may not support the required security protocol.",
+const IRON_ERROR_KIND_KEYS: Record<string, string> = {
+  WrongPassword: "remoteAccess.rdpErrorWrongPassword",
+  LogonFailure: "remoteAccess.rdpErrorLogonFailure",
+  AccessDenied: "remoteAccess.rdpErrorAccessDenied",
+  RDCleanPath: "remoteAccess.rdpErrorRDCleanPath",
+  ProxyConnect: "remoteAccess.rdpErrorProxyConnect",
+  NegotiationFailure: "remoteAccess.rdpErrorNegotiationFailure",
 };
+
+export type TranslatorFn = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
 
 export class IronRDPWASMBridge {
   private ironrdp: IronRDPModule | null = null;
@@ -110,6 +114,11 @@ export class IronRDPWASMBridge {
   private sessions = new Map<string, RDPSession>();
   private lastClipboardContent = "";
   private clipboardEventListeners: (() => void)[] = [];
+  private t: TranslatorFn;
+
+  constructor(t?: TranslatorFn) {
+    this.t = t || ((key: string) => key);
+  }
 
   // Expose clipboard sync method for input handler
   async initialize(): Promise<void> {
@@ -163,7 +172,7 @@ export class IronRDPWASMBridge {
       await this.initialize();
     }
     if (!this.ironrdp) {
-      throw new Error("IronRDP module not loaded");
+      throw new Error(this.t("remoteAccess.ironrdpModuleNotLoaded"));
     }
     const sessionId = `${hostname}:${port}_${Date.now()}`;
     try {
@@ -214,7 +223,7 @@ export class IronRDPWASMBridge {
       }
       // RDCleanPath proxy is required for IronRDP
       if (!netbirdClient || !netbirdClient.createRDPProxy) {
-        throw new Error("NetBird client with RDP proxy support is required");
+        throw new Error(this.t("remoteAccess.rdpProxySupportRequired"));
       }
       const proxyURL = await netbirdClient.createRDPProxy(
         hostname,
@@ -275,54 +284,55 @@ export class IronRDPWASMBridge {
     }
   }
   private formatWSAError(wsaCode: number): string {
-    const wsaDescriptions: Record<number, string> = {
-      10004: "interrupted system call",
-      10009: "bad file descriptor",
-      10013: "permission denied",
-      10014: "bad address",
-      10022: "invalid argument",
-      10024: "too many open files",
-      10035: "resource temporarily unavailable",
-      10036: "operation now in progress",
-      10037: "operation already in progress",
-      10038: "socket operation on nonsocket",
-      10039: "destination address required",
-      10040: "message too long",
-      10041: "protocol wrong type for socket",
-      10042: "bad protocol option",
-      10043: "protocol not supported",
-      10044: "socket type not supported",
-      10045: "operation not supported",
-      10046: "protocol family not supported",
-      10047: "address family not supported by protocol family",
-      10048: "address already in use",
-      10049: "cannot assign requested address",
-      10050: "network is down",
-      10051: "network is unreachable",
-      10052: "network dropped connection on reset",
-      10053: "software caused connection abort",
-      10054: "connection reset by peer",
-      10055: "no buffer space available",
-      10056: "socket is already connected",
-      10057: "socket is not connected",
-      10058: "cannot send after socket shutdown",
-      10060: "connection timed out",
-      10061: "connection refused",
-      10064: "host is down",
-      10065: "no route to host",
-      10067: "too many processes",
-      10091: "network subsystem is unavailable",
-      10092: "Winsock version not supported",
-      10093: "successful WSAStartup not yet performed",
-      10101: "graceful shutdown in progress",
-      10109: "class type not found",
-      11001: "host not found",
-      11002: "nonauthoritative host not found",
-      11003: "this is a nonrecoverable error",
-      11004: "valid name, no data record of requested type",
+    const wsaKeys: Record<number, string> = {
+      10004: "remoteAccess.wsaInterruptedSystemCall",
+      10009: "remoteAccess.wsaBadFileDescriptor",
+      10013: "remoteAccess.wsaPermissionDenied",
+      10014: "remoteAccess.wsaBadAddress",
+      10022: "remoteAccess.wsaInvalidArgument",
+      10024: "remoteAccess.wsaTooManyOpenFiles",
+      10035: "remoteAccess.wsaResourceTemporarilyUnavailable",
+      10036: "remoteAccess.wsaOperationNowInProgress",
+      10037: "remoteAccess.wsaOperationAlreadyInProgress",
+      10038: "remoteAccess.wsaSocketOperationOnNonsocket",
+      10039: "remoteAccess.wsaDestinationAddressRequired",
+      10040: "remoteAccess.wsaMessageTooLong",
+      10041: "remoteAccess.wsaProtocolWrongTypeForSocket",
+      10042: "remoteAccess.wsaBadProtocolOption",
+      10043: "remoteAccess.wsaProtocolNotSupported",
+      10044: "remoteAccess.wsaSocketTypeNotSupported",
+      10045: "remoteAccess.wsaOperationNotSupported",
+      10046: "remoteAccess.wsaProtocolFamilyNotSupported",
+      10047: "remoteAccess.wsaAddressFamilyNotSupported",
+      10048: "remoteAccess.wsaAddressAlreadyInUse",
+      10049: "remoteAccess.wsaCannotAssignRequestedAddress",
+      10050: "remoteAccess.wsaNetworkIsDown",
+      10051: "remoteAccess.wsaNetworkIsUnreachable",
+      10052: "remoteAccess.wsaNetworkDroppedConnectionOnReset",
+      10053: "remoteAccess.wsaSoftwareCausedConnectionAbort",
+      10054: "remoteAccess.wsaConnectionResetByPeer",
+      10055: "remoteAccess.wsaNoBufferSpaceAvailable",
+      10056: "remoteAccess.wsaSocketIsAlreadyConnected",
+      10057: "remoteAccess.wsaSocketIsNotConnected",
+      10058: "remoteAccess.wsaCannotSendAfterSocketShutdown",
+      10060: "remoteAccess.wsaConnectionTimedOut",
+      10061: "remoteAccess.wsaConnectionRefused",
+      10064: "remoteAccess.wsaHostIsDown",
+      10065: "remoteAccess.wsaNoRouteToHost",
+      10067: "remoteAccess.wsaTooManyProcesses",
+      10091: "remoteAccess.wsaNetworkSubsystemUnavailable",
+      10092: "remoteAccess.wsaWinsockVersionNotSupported",
+      10093: "remoteAccess.wsaWSAStartupNotPerformed",
+      10101: "remoteAccess.wsaGracefulShutdownInProgress",
+      10109: "remoteAccess.wsaClassTypeNotFound",
+      11001: "remoteAccess.wsaHostNotFound",
+      11002: "remoteAccess.wsaNonauthoritativeHostNotFound",
+      11003: "remoteAccess.wsaNonrecoverableError",
+      11004: "remoteAccess.wsaValidNameNoDataRecord",
     };
 
-    return wsaDescriptions[wsaCode] || "unknown error";
+    const key = wsaKeys[wsaCode];
+    return key ? this.t(key) : this.t("remoteAccess.wsaUnknownError");
   }
 
   private formatRDCleanPathError(backtraceMsg: string): string {
@@ -330,12 +340,17 @@ export class IronRDPWASMBridge {
     if (wsaMatch) {
       const wsaCode = parseInt(wsaMatch[1], 10);
       const description = this.formatWSAError(wsaCode);
-      return `Connection failed: ${description} (WSA ${wsaCode})`;
+      return this.t("remoteAccess.rdpErrorConnectionFailedWsa", {
+        description,
+        code: wsaCode,
+      });
     }
 
     const httpMatch = backtraceMsg.match(/HTTP status code = (\d+)/);
     if (httpMatch) {
-      return `Connection failed: HTTP ${httpMatch[1]}`;
+      return this.t("remoteAccess.rdpErrorConnectionFailedHttp", {
+        code: httpMatch[1],
+      });
     }
 
     return backtraceMsg;
@@ -347,19 +362,21 @@ export class IronRDPWASMBridge {
       try {
         if (typeof ironError.kind === "function") {
           const kindName = IRON_ERROR_KIND_NAMES[ironError.kind()];
-          if (kindName && IRON_ERROR_KIND_MESSAGES[kindName]) {
-            return IRON_ERROR_KIND_MESSAGES[kindName];
+          if (kindName && IRON_ERROR_KIND_KEYS[kindName]) {
+            return this.t(IRON_ERROR_KIND_KEYS[kindName]);
           }
         }
         if (typeof ironError.backtrace === "function") {
           const backtrace = ironError.backtrace();
           const formatted = this.formatRDCleanPathError(backtrace);
-          if (formatted.startsWith("Connection failed:")) {
+          if (
+            formatted.startsWith(this.t("remoteAccess.connectionFailed") + ":")
+          ) {
             return formatted;
           }
           const reason = this.extractIronReason(backtrace);
           if (reason) {
-            return `RDP session error: ${reason}`;
+            return this.t("remoteAccess.rdpSessionError", { reason });
           }
         }
       } catch {
@@ -369,7 +386,7 @@ export class IronRDPWASMBridge {
     if (error instanceof Error && error.message) {
       return error.message;
     }
-    return "RDP connection failed";
+    return this.t("remoteAccess.rdpGenericError");
   }
 
   // extractIronReason pulls the human-readable reason out of an IronRDP

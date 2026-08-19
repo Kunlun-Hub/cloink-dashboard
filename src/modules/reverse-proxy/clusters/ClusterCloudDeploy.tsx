@@ -19,6 +19,7 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useApiCall } from "@/utils/api";
 import { ReverseProxyCluster } from "@/interfaces/ReverseProxy";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Synced from templates/reverse-proxy/netbird-proxy-cfn.yaml by the
 // sync-deploy-templates workflow.
@@ -240,6 +241,7 @@ const RegistrationCheck = ({
   domain: string;
   onRegistered?: () => void;
 }) => {
+  const { t } = useI18n();
   const clustersRequest = useApiCall<ReverseProxyCluster[]>(
     "/reverse-proxies/clusters",
     true,
@@ -280,14 +282,14 @@ const RegistrationCheck = ({
         <>
           <CheckCircle2 size={16} className={"text-green-500 shrink-0"} />
           <span className={"text-nb-gray-100"}>
-            Proxy registered with NetBird and connected.
+            {t("reverseProxy.proxyRegistered")}
           </span>
         </>
       ) : (
         <>
           <Loader2 size={16} className={"animate-spin shrink-0"} />
           <span className={"text-nb-gray-300"}>
-            Waiting for the proxy to register with NetBird...
+            {t("reverseProxy.waitingForRegistration")}
           </span>
         </>
       )}
@@ -308,34 +310,32 @@ const DeploySuccess = ({
   onRegistered,
   children,
 }: DeploySuccessProps) => {
+  const { t } = useI18n();
   return (
     <div className={"flex flex-col gap-4"}>
       <Callout variant={"info"}>
-        {resourceLabel} <span className={"text-white font-medium"}>{name}</span>{" "}
-        was created
         {ip ? (
-          <>
-            {" "}
-            with {isStaticIP ? "static IP" : "IP"}{" "}
-            <span className={"text-netbird font-medium"}>{ip}</span> and is still
-            bootstrapping. Meanwhile, add the DNS records below.
-          </>
+          t("reverseProxy.resourceCreatedWithIp", {
+            resourceLabel,
+            name,
+            ipType: isStaticIP ? t("reverseProxy.staticIp") : t("reverseProxy.ip"),
+            ip,
+          })
         ) : (
-          <> {ipPendingNote}</>
+          t("reverseProxy.ipPendingNote", { resourceLabel, name, note: ipPendingNote ?? "" })
         )}
       </Callout>
       {ip && (
         <div>
-          <Label>Create DNS Records</Label>
+          <Label>{t("reverseProxy.createDnsRecords")}</Label>
           <HelpText>
-            Point these records at the new {resourceLabel.toLowerCase()}. The
-            proxy gets its certificate once they resolve.
+            {t("reverseProxy.createDnsRecordsHelp", { resource: resourceLabel.toLowerCase() })}
           </HelpText>
           <CardTable>
             <CardTable.Header>
-              <CardTable.HeaderCell width={100}>Type</CardTable.HeaderCell>
-              <CardTable.HeaderCell>Name</CardTable.HeaderCell>
-              <CardTable.HeaderCell>Content</CardTable.HeaderCell>
+              <CardTable.HeaderCell width={100}>{t("reverseProxy.dnsType")}</CardTable.HeaderCell>
+              <CardTable.HeaderCell>{t("reverseProxy.dnsName")}</CardTable.HeaderCell>
+              <CardTable.HeaderCell>{t("reverseProxy.dnsContent")}</CardTable.HeaderCell>
             </CardTable.Header>
             <CardTable.Body>
               <CardTable.Row>
@@ -373,6 +373,7 @@ const HetznerDeploy = ({
   isGeneratingToken,
   onRegistered,
 }: ProviderProps) => {
+  const { t } = useI18n();
   const [hetznerToken, setHetznerToken] = useState("");
   const [catalog, setCatalog] = useState<HetznerCatalog | null>(null);
   const [catalogError, setCatalogError] = useState("");
@@ -509,10 +510,10 @@ const HetznerDeploy = ({
       .finally(() => setIsDeploying(false));
 
     notify({
-      title: "Hetzner Deployment",
-      description: "Failed to create the Hetzner server",
+      title: t("reverseProxy.hetznerDeployment"),
+      description: t("reverseProxy.hetznerDeployFailed"),
       promise,
-      loadingMessage: "Creating Hetzner server...",
+      loadingMessage: t("reverseProxy.creatingHetznerServer"),
       showOnlyError: true,
       preventSuccessToast: true,
     });
@@ -521,7 +522,7 @@ const HetznerDeploy = ({
   if (serverIP) {
     return (
       <DeploySuccess
-        resourceLabel={"Server"}
+        resourceLabel={t("reverseProxy.server")}
         name={serverName}
         ip={serverIP}
         isStaticIP={staticIP}
@@ -535,32 +536,30 @@ const HetznerDeploy = ({
     <div className={"flex flex-col gap-4"}>
       <div>
         <Label>
-          Hetzner API Token
+          {t("reverseProxy.hetznerApiToken")}
           <HelpTooltip
             interactive={true}
             content={
               <>
-                The token goes straight from your browser to Hetzner and never
-                touches NetBird&apos;s servers, and you can delete it once setup
-                succeeds.{" "}
+                {t("reverseProxy.hetznerTokenTooltip")}{" "}
                 <InlineLink
                   href={
                     "https://docs.hetzner.com/cloud/api/getting-started/generating-api-token/"
                   }
                   target={"_blank"}
                 >
-                  How to create a token
+                  {t("reverseProxy.howToCreateToken")}
                 </InlineLink>
               </>
             }
           />
         </Label>
         <HelpText>
-          Create a read &amp; write API token. It is never stored by NetBird.
+          {t("reverseProxy.hetznerTokenHelp")}
         </HelpText>
         <Input
           type={"password"}
-          placeholder={"Paste your Hetzner Cloud API token here"}
+          placeholder={t("reverseProxy.hetznerTokenPlaceholder")}
           value={hetznerToken}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setHetznerToken(e.target.value)
@@ -569,14 +568,14 @@ const HetznerDeploy = ({
       </div>
       {catalogError && (
         <Callout variant={"warning"}>
-          Could not load Hetzner options: {catalogError}
+          {t("reverseProxy.hetznerCatalogError", { error: catalogError })}
         </Callout>
       )}
       {catalog ? (
         <>
           <div className={"flex gap-4"}>
             <div className={"w-1/2"}>
-              <Label>Location</Label>
+              <Label>{t("reverseProxy.location")}</Label>
               <SelectDropdown
                 value={location}
                 onChange={(v) => setLocation(v as string)}
@@ -584,7 +583,7 @@ const HetznerDeploy = ({
               />
             </div>
             <div className={"w-1/2"}>
-              <Label>Server Type</Label>
+              <Label>{t("reverseProxy.serverType")}</Label>
               <SelectDropdown
                 value={serverType}
                 onChange={(v) => setServerType(v as string)}
@@ -593,7 +592,7 @@ const HetznerDeploy = ({
             </div>
           </div>
           <div>
-            <Label>SSH Key</Label>
+            <Label>{t("reverseProxy.sshKey")}</Label>
             {catalog.sshKeys.length > 0 ? (
               <SelectDropdown
                 value={sshKeyId}
@@ -605,25 +604,22 @@ const HetznerDeploy = ({
               />
             ) : (
               <HelpText className={"mb-0"}>
-                No SSH keys found in this Hetzner project. Add one in the
-                Hetzner Console first if you need SSH access to the server.
+                {t("reverseProxy.noSshKeysFound")}
               </HelpText>
             )}
           </div>
           <FancyToggleSwitch
             value={staticIP}
             onChange={setStaticIP}
-            label={"Static IP"}
-            helpText={
-              "Keep the server's IP when the server is deleted or rebuilt, so the DNS records stay valid. Hetzner bills unassigned IPs."
-            }
+            label={t("reverseProxy.staticIpLabel")}
+            helpText={t("reverseProxy.hetznerStaticIpHelp")}
           />
         </>
       ) : (
         <HelpText className={"mb-0"}>
           {isLoadingCatalog
-            ? "Loading available locations and server types..."
-            : "Enter your API token to load the available locations and server types."}
+            ? t("reverseProxy.loadingLocations")
+            : t("reverseProxy.enterTokenToLoad")}
         </HelpText>
       )}
       <Button
@@ -643,7 +639,7 @@ const HetznerDeploy = ({
         ) : (
           <RocketIcon size={16} />
         )}
-        {isGeneratingToken ? "Preparing proxy token..." : "Deploy Server"}
+        {isGeneratingToken ? t("reverseProxy.preparingProxyToken") : t("reverseProxy.deployServer")}
       </Button>
     </div>
   );
@@ -682,6 +678,7 @@ const DigitalOceanDeploy = ({
   isGeneratingToken,
   onRegistered,
 }: ProviderProps) => {
+  const { t } = useI18n();
   const [rootPassword] = useState(generateRootPassword);
   const [doToken, setDoToken] = useState("");
   const [region, setRegion] = useState("fra1");
@@ -751,10 +748,10 @@ const DigitalOceanDeploy = ({
       .finally(() => setIsDeploying(false));
 
     notify({
-      title: "DigitalOcean Deployment",
-      description: "Failed to create the DigitalOcean droplet",
+      title: t("reverseProxy.digitalOceanDeployment"),
+      description: t("reverseProxy.digitalOceanDeployFailed"),
       promise,
-      loadingMessage: "Creating DigitalOcean droplet...",
+      loadingMessage: t("reverseProxy.creatingDroplet"),
       showOnlyError: true,
       preventSuccessToast: true,
     });
@@ -763,7 +760,7 @@ const DigitalOceanDeploy = ({
   if (isCreated) {
     return (
       <DeploySuccess
-        resourceLabel={"Droplet"}
+        resourceLabel={t("reverseProxy.droplet")}
         name={dropletName}
         ip={reservedIP || dropletIP}
         isStaticIP={!!reservedIP}
@@ -771,15 +768,14 @@ const DigitalOceanDeploy = ({
         onRegistered={onRegistered}
         ipPendingNote={
           isDeploying
-            ? "and is provisioning. Waiting for its public IP..."
-            : "but waiting for its public IP timed out - find the IP in the DigitalOcean control panel."
+            ? t("reverseProxy.dropletIpProvisioning")
+            : t("reverseProxy.dropletIpTimeout")
         }
       >
         <div>
-          <Label>Droplet Root Password</Label>
+          <Label>{t("reverseProxy.dropletRootPassword")}</Label>
           <HelpText>
-            Use it with the Droplet Web Console. Copy it now - it is not stored
-            anywhere.
+            {t("reverseProxy.dropletRootPasswordHelp")}
           </HelpText>
           <Code codeToCopy={rootPassword}>
             <Code.Line>{rootPassword}</Code.Line>
@@ -793,36 +789,34 @@ const DigitalOceanDeploy = ({
     <div className={"flex flex-col gap-4"}>
       <div>
         <Label>
-          DigitalOcean API Token
+          {t("reverseProxy.digitalOceanApiToken")}
           <HelpTooltip
             interactive={true}
             content={
               <>
-                For the tightest scope, grant full access to{" "}
-                <span className={"font-mono text-netbird"}>tag</span>,{" "}
-                <span className={"font-mono text-netbird"}>droplet</span>, and{" "}
-                <span className={"font-mono text-netbird"}>reserved_ip</span>{" "}
-                only. The token goes straight from your browser to DigitalOcean
-                and never touches NetBird&apos;s servers, and you can delete it
-                once setup succeeds.{" "}
+                {t("reverseProxy.digitalOceanTokenTooltip", {
+                  tag: "tag",
+                  droplet: "droplet",
+                  reservedIp: "reserved_ip",
+                })}{" "}
                 <InlineLink
                   href={
                     "https://docs.digitalocean.com/reference/api/create-personal-access-token/"
                   }
                   target={"_blank"}
                 >
-                  How to create a token
+                  {t("reverseProxy.howToCreateToken")}
                 </InlineLink>
               </>
             }
           />
         </Label>
         <HelpText>
-          Create a token with write access. It is never stored by NetBird.
+          {t("reverseProxy.digitalOceanTokenHelp")}
         </HelpText>
         <Input
           type={"password"}
-          placeholder={"Paste your DigitalOcean API token here"}
+          placeholder={t("reverseProxy.digitalOceanTokenPlaceholder")}
           value={doToken}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setDoToken(e.target.value)
@@ -831,7 +825,7 @@ const DigitalOceanDeploy = ({
       </div>
       <div className={"flex gap-4"}>
         <div className={"w-1/2"}>
-          <Label>Region</Label>
+          <Label>{t("reverseProxy.region")}</Label>
           <SelectDropdown
             value={region}
             onChange={(v) => setRegion(v as string)}
@@ -839,7 +833,7 @@ const DigitalOceanDeploy = ({
           />
         </div>
         <div className={"w-1/2"}>
-          <Label>Droplet Size</Label>
+          <Label>{t("reverseProxy.dropletSize")}</Label>
           <SelectDropdown
             value={size}
             onChange={(v) => setSize(v as string)}
@@ -850,10 +844,8 @@ const DigitalOceanDeploy = ({
       <FancyToggleSwitch
         value={staticIP}
         onChange={setStaticIP}
-        label={"Static IP"}
-        helpText={
-          "Reserve a static IP so DNS records remain valid after rebuilds. Free of charge while assigned to a Droplet."
-        }
+        label={t("reverseProxy.staticIpLabel")}
+        helpText={t("reverseProxy.digitalOceanStaticIpHelp")}
       />
       <Button
         variant={"primary"}
@@ -865,7 +857,7 @@ const DigitalOceanDeploy = ({
         ) : (
           <RocketIcon size={16} />
         )}
-        {isGeneratingToken ? "Preparing proxy token..." : "Deploy Droplet"}
+        {isGeneratingToken ? t("reverseProxy.preparingProxyToken") : t("reverseProxy.deployDroplet")}
       </Button>
     </div>
   );
@@ -878,6 +870,7 @@ const AWSDeploy = ({
   isGeneratingToken,
   onRegistered,
 }: ProviderProps) => {
+  const { t } = useI18n();
   const [region, setRegion] = useState("eu-central-1");
   const [launched, setLaunched] = useState(false);
 
@@ -894,19 +887,18 @@ const AWSDeploy = ({
   return (
     <div className={"flex flex-col gap-4"}>
       <div>
-        <Label>Proxy Access Token</Label>
+        <Label>{t("reverseProxy.proxyAccessToken")}</Label>
         <HelpText>
-          Copy this token for AWS stack creation. It is excluded from outputs and
-          logs.
+          {t("reverseProxy.proxyAccessTokenHelp")}
         </HelpText>
         <Code codeToCopy={token} showCopyIcon={!isGeneratingToken}>
           <Code.Line>
-            {isGeneratingToken ? "Generating proxy token..." : token}
+            {isGeneratingToken ? t("reverseProxy.proxyTokenGenerating") : token}
           </Code.Line>
         </Code>
       </div>
       <div>
-        <Label>Region</Label>
+        <Label>{t("reverseProxy.region")}</Label>
         <SelectDropdown
           value={region}
           onChange={(v) => setRegion(v as string)}
@@ -922,12 +914,11 @@ const AWSDeploy = ({
         }}
       >
         <RocketIcon size={16} />
-        Launch Stack in AWS Console
+        {t("reverseProxy.launchStackAws")}
         <ExternalLinkIcon size={14} />
       </Button>
       <HelpText className={"mb-0"}>
-        The AWS Console opens with a prefilled form. Paste the token, create the
-        stack, then point your DNS records to the PublicIP output.
+        {t("reverseProxy.awsConsoleHelp")}
       </HelpText>
       {launched && (
         <RegistrationCheck domain={domain} onRegistered={onRegistered} />

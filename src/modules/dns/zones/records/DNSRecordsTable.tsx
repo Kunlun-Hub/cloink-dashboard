@@ -8,6 +8,7 @@ import { DNSRecordContentCell } from "@/modules/dns/zones/records/DNSRecordConte
 import { DNSRecordNameCell } from "@/modules/dns/zones/records/DNSRecordNameCell";
 import { DNSRecordTimeToLiveCell } from "@/modules/dns/zones/records/DNSRecordTimeToLiveCell";
 import { DNSRecordTypeCell } from "@/modules/dns/zones/records/DNSRecordTypeCell";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   zone: DNSZone;
@@ -17,28 +18,28 @@ export const DNSRecordsTableColumns: ColumnDef<DNSRecord>[] = [
   {
     accessorKey: "type",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("zones.recordType")}</DataTableHeader>;
     },
     cell: ({ row }) => <DNSRecordTypeCell record={row.original} />,
   },
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Hostname</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("zones.hostname")}</DataTableHeader>;
     },
     cell: ({ row }) => <DNSRecordNameCell record={row.original} />,
   },
   {
     accessorKey: "content",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Content</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("zones.content")}</DataTableHeader>;
     },
     cell: ({ row }) => <DNSRecordContentCell record={row.original} />,
   },
   {
     accessorKey: "ttl",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>TTL</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("zones.ttl")}</DataTableHeader>;
     },
     cell: ({ row }) => <DNSRecordTimeToLiveCell record={row.original} />,
   },
@@ -53,6 +54,7 @@ const ZoneContext = createContext({} as DNSZone);
 
 export default function DNSRecordsTable({ zone }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const { t } = useI18n();
 
   return (
     <ZoneContext.Provider value={zone}>
@@ -65,7 +67,7 @@ export default function DNSRecordsTable({ zone }: Props) {
         rowClassName={"last:pb-10"}
         className={"bg-nb-gray-960 py-2"}
         inset={true}
-        text={"DNS Records"}
+        text={t("zones.records")}
         initialPageSize={zone?.records?.length}
         manualPagination={true}
         sorting={sorting}
