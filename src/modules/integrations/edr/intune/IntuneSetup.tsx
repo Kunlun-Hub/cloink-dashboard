@@ -237,14 +237,14 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("edr.intune.step2Click")} <Mark>App Registrations</Mark>{" "}
+                {t("edr.intune.step2Click")} <Mark>{t("integrations.appRegistrations")}</Mark>{" "}
                 {t("edr.intune.step2InLeftMenu")} <Mark>+ New registration</Mark>{" "}
                 {t("edr.intune.step2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                {t("edr.intune.step3Prefix")} <Mark>Register</Mark>
+                {t("edr.intune.step3Prefix")} <Mark>{t("integrations.register")}</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -273,30 +273,30 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                <Mark>API permissions</Mark> {t("edr.intune.apiPermStep1")}
+                <Mark>{t("integrations.apiPermissions")}</Mark> {t("edr.intune.apiPermStep1")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("edr.intune.step2Click")} <Mark>Add a permission</Mark>{" "}
-                {t("edr.intune.apiPermStep2Prefix")} <Mark>Microsoft Graph</Mark>{" "}
+                {t("edr.intune.step2Click")} <Mark>{t("integrations.addAPermission")}</Mark>{" "}
+                {t("edr.intune.apiPermStep2Prefix")} <Mark>{t("integrations.microsoftGraph")}</Mark>{" "}
                 {t("edr.intune.apiPermStep2Middle")}{" "}
-                <Mark>Application permissions</Mark>{" "}
+                <Mark>{t("integrations.applicationPermissions")}</Mark>{" "}
                 {t("edr.intune.apiPermStep2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
                 {t("edr.intune.apiPermStep3InPrefix")}{" "}
-                <Mark>Select permissions</Mark> {t("edr.intune.apiPermStep3Select")}{" "}
+                <Mark>{t("integrations.selectPermissions")}</Mark> {t("edr.intune.apiPermStep3Select")}{" "}
                 <Mark>DeviceManagementManagedDevices.Read.All</Mark>{" "}
-                {t("edr.intune.apiPermStep3And")} <Mark>Add permissions</Mark>
+                {t("edr.intune.apiPermStep3And")} <Mark>{t("integrations.addPermissions")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
                 {t("edr.intune.apiPermStep4Prefix")}{" "}
-                <Mark>Grant admin consent for Default Directory</Mark>{" "}
+                <Mark>{t("integrations.grantAdminConsent")}</Mark>{" "}
                 {t("edr.intune.apiPermStep4Middle")} <Mark>Yes</Mark>
               </p>
               <Lightbox image={azureGrantAdmin} />

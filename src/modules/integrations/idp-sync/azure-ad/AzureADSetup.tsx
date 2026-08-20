@@ -234,7 +234,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("azureAd.step2Click")} <Mark>App Registrations</Mark>{" "}
+                {t("azureAd.step2Click")} <Mark>{t("integrations.appRegistrations")}</Mark>{" "}
                 {t("azureAd.step2InLeftMenu")}{" "}
                 <Mark>+ New registration</Mark>{" "}
                 {t("azureAd.step2Suffix")}
@@ -243,7 +243,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
                 {t("azureAd.step3Prefix")}{" "}
-                <Mark>Register</Mark>
+                <Mark>{t("integrations.register")}</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -280,36 +280,36 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                {t("azureAd.step2Click")} <Mark>API permissions</Mark>{" "}
+                {t("azureAd.step2Click")} <Mark>{t("integrations.apiPermissions")}</Mark>{" "}
                 {t("azureAd.apiPermStep1")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("azureAd.step2Click")} <Mark>Add a permission</Mark>{" "}
+                {t("azureAd.step2Click")} <Mark>{t("integrations.addAPermission")}</Mark>{" "}
                 {t("azureAd.apiPermStep2Prefix")}{" "}
-                <Mark>Microsoft Graph</Mark>{" "}
+                <Mark>{t("integrations.microsoftGraph")}</Mark>{" "}
                 {t("azureAd.apiPermStep2Middle")}{" "}
-                <Mark>Application permissions</Mark>{" "}
+                <Mark>{t("integrations.applicationPermissions")}</Mark>{" "}
                 {t("azureAd.apiPermStep2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
                 {t("azureAd.apiPermStep3InPrefix")}{" "}
-                <Mark>Select permissions</Mark>{" "}
+                <Mark>{t("integrations.selectPermissions")}</Mark>{" "}
                 {t("azureAd.apiPermStep3Select")}{" "}
-                <Mark>User.Read.All</Mark>{" "}
+                <Mark>{t("integrations.userReadAll")}</Mark>{" "}
                 {t("azureAd.apiPermStep3And")}{" "}
-                <Mark>Group.Read.All</Mark>{" "}
+                <Mark>{t("integrations.groupReadAll")}</Mark>{" "}
                 {t("azureAd.apiPermStep3Click")}{" "}
-                <Mark>Add permissions</Mark>
+                <Mark>{t("integrations.addPermissions")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
                 {t("azureAd.apiPermStep4Prefix")}{" "}
-                <Mark>Grant admin consent for Default Directory</Mark>{" "}
+                <Mark>{t("integrations.grantAdminConsent")}</Mark>{" "}
                 {t("azureAd.apiPermStep4Middle")}{" "}
                 <Mark>Yes</Mark>
               </p>

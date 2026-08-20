@@ -194,7 +194,7 @@ const CustomerModalContent = ({
                   tabIndex={0}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={"Acme Inc."}
+                  placeholder={t("common.companyNamePlaceholder")}
                   className={"min-w-[270px]"}
                 />
               </div>
@@ -250,7 +250,7 @@ const CustomerModalContent = ({
                   tabIndex={0}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={"Acme Inc."}
+                  placeholder={t("common.companyNamePlaceholder")}
                   className={"min-w-[270px]"}
                 />
               </div>

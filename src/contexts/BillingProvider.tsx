@@ -29,19 +29,19 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const usageLimitInfo: Announcement = {
-  tag: "Notice",
-  text: "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.",
+export const getUsageLimitInfo = (t: (key: string) => string): Announcement => ({
+  tag: t("billing.notice"),
+  text: t("billing.usageLimitsReached"),
   link: "/settings?tab=plans-and-billing",
-  linkText: "Go to Plans & Billing",
+  linkText: t("billing.goToPlansBilling"),
   variant: "default", // "default" or "important"
   isExternal: false,
   closeable: false,
   isCloudOnly: true,
-};
+});
 
-export const trialExpiresInfo: Announcement = {
-  tag: "Trial",
+export const getTrialExpiresInfo = (t: (key: string) => string): Announcement => ({
+  tag: t("billing.trial"),
   text: "Your trial is ending soon. Need more time? Contact us to extend your trial.",
   variant: "default", // "default" or "important"
   link: "mailto:support@netbird.io",
@@ -49,7 +49,7 @@ export const trialExpiresInfo: Announcement = {
   isExternal: false,
   closeable: false,
   isCloudOnly: true,
-};
+});
 
 export function resolveActiveCurrency(subscription?: Subscription): Currency {
   return subscription?.active && subscription?.currency
@@ -430,7 +430,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     if (isTrial && trialDaysRemaining <= 3) {
       setAnnouncements((prev) => {
         const prevAnnouncements = prev || [];
-        const hash = md5(trialExpiresInfo.text).toString();
+        const hash = md5(getTrialExpiresInfo(t).text).toString();
         return prevAnnouncements.map((a) => {
           if (a.hash === hash) {
             return { ...a, isOpen: true };
@@ -439,14 +439,14 @@ function BillingContextProvider({ children }: Readonly<Props>) {
         });
       });
     }
-  }, [isTrial, setAnnouncements, isLoading, trialDaysRemaining]);
+  }, [isTrial, setAnnouncements, isLoading, trialDaysRemaining, t]);
 
   useEffect(() => {
     if (isLoading) return;
     if (usagePercentage > 100 && isFreePlan && !isTrial) {
       setAnnouncements((prev) => {
         const prevAnnouncements = prev || [];
-        const usageInfoHash = md5(usageLimitInfo.text).toString();
+        const usageInfoHash = md5(getUsageLimitInfo(t).text).toString();
         return prevAnnouncements.map((a) => {
           if (a.hash === usageInfoHash) {
             return { ...a, isOpen: true };
@@ -455,7 +455,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
         });
       });
     }
-  }, [isFreePlan, usagePercentage, setAnnouncements, isLoading, isTrial]);
+  }, [isFreePlan, usagePercentage, setAnnouncements, isLoading, isTrial, t]);
 
   return (
     <BillingContext.Provider

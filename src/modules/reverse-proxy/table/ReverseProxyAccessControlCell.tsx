@@ -156,7 +156,7 @@ export default function ReverseProxyAccessControlCell({
     if (hasCrowdSec) {
       entries.push({
         key: "crowdsec",
-        label: "CrowdSec",
+        label: t("reverseProxy.crowdSec"),
         Icon: ShieldAlert,
         value:
           restrictions?.crowdsec_mode === CrowdSecMode.ENFORCE

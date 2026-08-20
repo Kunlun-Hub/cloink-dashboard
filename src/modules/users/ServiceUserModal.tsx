@@ -51,8 +51,8 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
 
   const create = async () => {
     notify({
-      title: "Service user created",
-      description: `${name} was successfully created.`,
+      title: t("serviceUser.created"),
+      description: t("serviceUser.createdDescription", { name }),
       promise: userRequest
         .post({
           name,
@@ -64,7 +64,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
           onSuccess && onSuccess();
           mutate("/users?service_user=true");
         }),
-      loadingMessage: "Creating service user...",
+      loadingMessage: t("serviceUser.creating"),
     });
   };
 
@@ -94,7 +94,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
                   <User2 size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"John Doe"}
+              placeholder={t("common.personNamePlaceholder")}
               value={name}
               data-testid={"service-user-name"}
               onChange={(e) => setName(e.target.value)}

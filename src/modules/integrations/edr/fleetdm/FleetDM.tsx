@@ -57,7 +57,7 @@ export const FleetDM = ({ account }: Props) => {
       ? await confirm({
           title: t("fleetdm.disableTitle"),
           description: t("fleetdm.disableDescription"),
-          confirmText: "Disable",
+          confirmText: t("common.disableAction"),
           cancelText: t("common.cancel"),
           type: "warning",
         })

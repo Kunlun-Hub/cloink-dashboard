@@ -122,7 +122,7 @@ export function SetupContent({
     }
     notify({
       title: `${name} Integration`,
-      description: `${name} was successfully set up`,
+      description: t("integrations.setupSuccessfully", { name }),
       promise: integrationRequest
         .put(
           {
@@ -140,7 +140,7 @@ export function SetupContent({
           mutate("/integrations/scim-idp");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("integrations.settingUpIntegration"),
     });
   };
 
@@ -293,7 +293,7 @@ export function SetupContent({
               <span>
                 It seems your account is currently not logged in via Entra ID.
                 Please logout and simply sign in with the{" "}
-                <span className={"font-medium"}>Continue with Entra ID </span>{" "}
+                <span className={"font-medium"}>{t("integrations.continueWithEntraId")}</span>{" "}
                 button on the login page.
               </span>
             </Callout>

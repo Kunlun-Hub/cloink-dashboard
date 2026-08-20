@@ -250,9 +250,9 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                {t("oktaSetup.configureSsoStep3Prefix")} <Mark>Credentials Details</Mark>{" "}
+                {t("oktaSetup.configureSsoStep3Prefix")} <Mark>{t("integrations.credentialsDetails")}</Mark>{" "}
                 {t("oktaSetup.configureSsoStep3Middle")}
-                <Mark>Application username format</Mark> {t("oktaSetup.configureSsoStep3To")} <Mark>Email</Mark>{" "}
+                <Mark>{t("integrations.applicationUsernameFormat")}</Mark> {t("oktaSetup.configureSsoStep3To")} <Mark>Email</Mark>{" "}
                 {t("oktaSetup.configureSsoStep3AndSelect")} <Mark>Save</Mark>
               </p>
               <Lightbox image={oktaSSO} />
@@ -278,26 +278,26 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("oktaSetup.enableScimStep2Prefix")} <Mark>Provisioning</Mark>{" "}
+                {t("oktaSetup.enableScimStep2Prefix")} <Mark>{t("integrations.provisioning")}</Mark>{" "}
                 {t("oktaSetup.enableScimStep2Tab")}{" "}
-                <Mark>Integration</Mark>
+                <Mark>{t("integrations.integration")}</Mark>
                 {t("oktaSetup.enableScimStep2Then")}{" "}
-                <Mark>Configure API Integration</Mark>
+                <Mark>{t("integrations.configureApiIntegration")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                {t("oktaSetup.enableScimStep3Prefix")} <Mark>Enable API integration</Mark>{" "}
-                {t("oktaSetup.enableScimStep3Middle")} <Mark>API Token</Mark>{" "}
+                {t("oktaSetup.enableScimStep3Prefix")} <Mark>{t("integrations.enableApiIntegration")}</Mark>{" "}
+                {t("oktaSetup.enableScimStep3Middle")} <Mark>{t("integrations.apiToken")}</Mark>{" "}
                 {t("oktaSetup.enableScimStep3Field")}
               </p>
               <MinimalList
-                data={[{ label: "Authorization (Bearer)", value: authToken }]}
+                data={[{ label: t("integrations.authorizationBearer"), value: authToken }]}
               />
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                {t("oktaSetup.enableScimStep4Prefix")} <Mark>Test API Credentials</Mark>{" "}
+                {t("oktaSetup.enableScimStep4Prefix")} <Mark>{t("integrations.testApiCredentials")}</Mark>{" "}
                 {t("oktaSetup.enableScimStep4Middle")} <Mark>Save</Mark>
               </p>
             </Steps.Step>
@@ -320,11 +320,11 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                {t("oktaSetup.configureScimStep2Prefix")} <Mark>Create Users</Mark>
+                {t("oktaSetup.configureScimStep2Prefix")} <Mark>{t("integrations.createUsers")}</Mark>
                 {t("oktaSetup.configureScimStep2Middle")}{" "}
-                <Mark>Update User Attributes</Mark>
+                <Mark>{t("integrations.updateUserAttributes")}</Mark>
                 {t("oktaSetup.configureScimStep2And")}{" "}
-                <Mark>Deactivate Users</Mark> {t("oktaSetup.configureScimStep2Suffix")} <Mark>Save</Mark>
+                <Mark>{t("integrations.deactivateUsers")}</Mark> {t("oktaSetup.configureScimStep2Suffix")} <Mark>Save</Mark>
               </p>
               <Lightbox image={oktaSCIMToApp} />
             </Steps.Step>
@@ -341,21 +341,21 @@ export function SetupContent({
           <Steps>
             <Steps.Step step={1}>
               <p>
-                {t("oktaSetup.syncUsersStep1Prefix")} <Mark>Assignments</Mark>{" "}
+                {t("oktaSetup.syncUsersStep1Prefix")} <Mark>{t("integrations.assignments")}</Mark>{" "}
                 {t("oktaSetup.syncUsersStep1Tab")}{" "}
-                <Mark>Assign</Mark> {t("oktaSetup.syncUsersStep1AndClick")} <Mark>Assign to Groups</Mark>
+                <Mark>{t("integrations.assign")}</Mark> {t("oktaSetup.syncUsersStep1AndClick")} <Mark>{t("integrations.assignToGroups")}</Mark>
               </p>
               <Lightbox image={oktaGroupsAssignments} />
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("oktaSetup.syncUsersStep2Prefix")}{" "}
-                <Mark>Assign</Mark> {t("oktaSetup.syncUsersStep2AndClick")} <Mark>Save and Go Back</Mark>
+                <Mark>{t("integrations.assign")}</Mark> {t("oktaSetup.syncUsersStep2AndClick")} <Mark>{t("integrations.saveAndGoBack")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                {t("oktaSetup.syncUsersStep3Prefix")} <Mark>Done</Mark>{" "}
+                {t("oktaSetup.syncUsersStep3Prefix")} <Mark>{t("common.done")}</Mark>{" "}
                 {t("oktaSetup.syncUsersStep3Suffix")}
               </p>
             </Steps.Step>
@@ -372,10 +372,10 @@ export function SetupContent({
           <Steps>
             <Steps.Step step={1}>
               <p>
-                {t("oktaSetup.syncGroupsStep1Prefix")} <Mark>Push Groups</Mark>{" "}
+                {t("oktaSetup.syncGroupsStep1Prefix")} <Mark>{t("integrations.pushGroups")}</Mark>{" "}
                 {t("oktaSetup.syncGroupsStep1Tab")}{" "}
-                <Mark>Push Groups</Mark> {t("oktaSetup.syncGroupsStep1AndClick")}{" "}
-                <Mark>Find groups by name</Mark>
+                <Mark>{t("integrations.pushGroups")}</Mark> {t("oktaSetup.syncGroupsStep1AndClick")}{" "}
+                <Mark>{t("integrations.findGroupsByName")}</Mark>
               </p>
               <Lightbox image={oktaSyncGroups} />
             </Steps.Step>
@@ -564,8 +564,8 @@ export function SetupSSOContent() {
             <Steps.Step step={3} line={false}>
               <p>
                 {t("oktaSetup.installAppStep3Prefix")}{" "}
-                <Mark>Assignments</Mark> {t("oktaSetup.installAppStep3Tab")} <Mark>Assign</Mark>{" "}
-                {t("oktaSetup.installAppStep3AndClick")} <Mark>Assign to People</Mark>{" "}
+                <Mark>{t("integrations.assignments")}</Mark> {t("oktaSetup.installAppStep3Tab")} <Mark>{t("integrations.assign")}</Mark>{" "}
+                {t("oktaSetup.installAppStep3AndClick")} <Mark>{t("integrations.assignToPeople")}</Mark>{" "}
                 {t("oktaSetup.installAppStep3Suffix")}
               </p>
             </Steps.Step>
@@ -584,20 +584,20 @@ export function SetupSSOContent() {
               <p className={"font-normal"}>
                 {t("oktaSetup.shareDetailsStep1Prefix")} <Mark>{"Sign On"}</Mark>{" "}
                 {t("oktaSetup.shareDetailsStep1Tab")} <br />
-                {t("oktaSetup.shareDetailsStep1Of")} <Mark>Client ID</Mark> <Mark>Client secret</Mark>
+                {t("oktaSetup.shareDetailsStep1Of")} <Mark>{t("integrations.clientId")}</Mark> <Mark>{t("integrations.clientSecret")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("oktaSetup.shareDetailsStep2Prefix")}{" "}
-                <Mark>Okta account domain</Mark>
+                <Mark>{t("integrations.oktaAccountDomain")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                {t("oktaSetup.shareDetailsStep3Prefix")} <Mark>Client ID</Mark> <Mark>Client secret</Mark>{" "}
-                <Mark>Okta account domain</Mark> {t("oktaSetup.shareDetailsStep3And")} {"user's"}
-                <Mark>Primary email domain</Mark> {t("oktaSetup.shareDetailsStep3With")}
+                {t("oktaSetup.shareDetailsStep3Prefix")} <Mark>{t("integrations.clientId")}</Mark> <Mark>{t("integrations.clientSecret")}</Mark>{" "}
+                <Mark>{t("integrations.oktaAccountDomain")}</Mark> {t("oktaSetup.shareDetailsStep3And")} {"user's"}
+                <Mark>{t("integrations.primaryEmailDomain")}</Mark> {t("oktaSetup.shareDetailsStep3With")}
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>

@@ -1,4 +1,5 @@
 import SidebarItem from "@components/SidebarItem";
+import { useI18n } from "@/i18n/I18nProvider";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
@@ -12,6 +13,7 @@ import { Role } from "@/interfaces/User";
 import PeerIcon from "@/assets/icons/PeerIcon";
 
 export const DistributorNavigation = () => {
+  const { t } = useI18n();
   const { isActive } = useDistributor();
   const { isOwnerOrAdmin, loggedInUser } = useLoggedInUser();
   const { permission, isRestricted } = usePermissions();
@@ -46,7 +48,7 @@ export const DistributorNavigation = () => {
           but user role has no other pages to navigate to */}
       <SidebarItem
         icon={<PeerIcon />}
-        label="Peers"
+        label={t("nav.peers")}
         href={"/peers"}
         visible={!isRestricted && loggedInUser?.role === Role.User}
       />
@@ -54,7 +56,7 @@ export const DistributorNavigation = () => {
       <SidebarItem
         icon={<MSPIcon size={17} />}
         visible={isOwnerOrAdmin}
-        label={"Customers"}
+        label={t("nav.customers")}
         href={"/customers"}
         exactPathMatch={true}
         labelClassName={"-left-[1.5px] relative"}
@@ -63,18 +65,18 @@ export const DistributorNavigation = () => {
       <SidebarItem
         icon={<TeamIcon />}
         visible={permission.users.read}
-        label={"Team"}
+        label={t("nav.team")}
         href={"/team"}
         collapsible
       >
         <SidebarItem
-          label={"Users"}
+          label={t("nav.users")}
           isChild
           href={"/team/users"}
           visible={permission.users.read}
         />
         <SidebarItem
-          label={"Service Users"}
+          label={t("nav.serviceUsers")}
           isChild
           href={"/team/service-users"}
           visible={permission.users.read}
@@ -83,7 +85,7 @@ export const DistributorNavigation = () => {
       <SidebarItem
         icon={<ActivityIcon />}
         visible={permission.events.read}
-        label={"Audit Events"}
+        label={t("nav.auditEvents")}
         href={"/events/audit"}
         exactPathMatch={true}
       />

@@ -11,6 +11,7 @@ import * as React from "react";
 import { useMemo, useRef } from "react";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import ActivityTypeIcon from "@/modules/activity/ActivityTypeIcon";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // ActivityTypePicker — multi-select grouped list of activity codes used by
 // the Audit Events table. Mirrors the original ActivityEventCodeSelector
@@ -34,6 +35,7 @@ export function ActivityTypePicker({
   onChange,
   events,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const searchRef = useRef<HTMLInputElement>(null);
   const selected = value ?? [];
 
@@ -80,7 +82,7 @@ export function ActivityTypePicker({
               "dark:placeholder:text-nb-gray-400 font-light placeholder:text-neutral-500 pl-9",
             )}
             ref={searchRef}
-            placeholder={"Search event..."}
+            placeholder={t("common.searchEventPlaceholder")}
           />
           <div
             className={

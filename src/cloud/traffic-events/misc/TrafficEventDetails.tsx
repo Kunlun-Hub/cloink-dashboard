@@ -30,14 +30,14 @@ export const TrafficEventDetails = ({ open, setOpen }: Props) => {
           <div className={"px-10 pt-6 mt-4"}>
             <ul>
               <ListItem>
-                Connection successfully established between Peer 1 and Peer 2
+                {t("trafficEvents.connectionEstablished")}
               </ListItem>
-              <ListItem>Peer 2 accepted the connection request</ListItem>
+              <ListItem>{t("trafficEvents.peerAcceptedConnection")}</ListItem>
 
               <ListItem>{t("trafficEvents.postureCheckPassed", { name: "XYZ" })}</ListItem>
               <ListItem>{t("trafficEvents.accessControlPolicyPassed", { name: "XYZ" })}</ListItem>
               <ListItem hideLastLine={true}>
-                Peer 1 requested to connect to Peer 2
+                {t("trafficEvents.peerRequestedConnection")}
               </ListItem>
             </ul>
           </div>

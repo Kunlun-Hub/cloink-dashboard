@@ -29,33 +29,33 @@ const CFN_TEMPLATE_URL =
 const DEFAULT_WIREGUARD_PORT = 51820;
 
 const DIGITALOCEAN_REGIONS = [
-  { value: "fra1", label: "Frankfurt, Germany (fra1)" },
-  { value: "ams3", label: "Amsterdam, Netherlands (ams3)" },
-  { value: "lon1", label: "London, UK (lon1)" },
-  { value: "nyc3", label: "New York, USA (nyc3)" },
-  { value: "sfo3", label: "San Francisco, USA (sfo3)" },
-  { value: "tor1", label: "Toronto, Canada (tor1)" },
-  { value: "sgp1", label: "Singapore (sgp1)" },
-  { value: "blr1", label: "Bangalore, India (blr1)" },
-  { value: "syd1", label: "Sydney, Australia (syd1)" },
+  { value: "fra1", labelKey: "reverseProxy.frankfurtGermany", label: "Frankfurt, Germany (fra1)" },
+  { value: "ams3", labelKey: "reverseProxy.amsterdamNetherlands", label: "Amsterdam, Netherlands (ams3)" },
+  { value: "lon1", labelKey: "reverseProxy.londonUk", label: "London, UK (lon1)" },
+  { value: "nyc3", labelKey: "reverseProxy.newYorkUsa", label: "New York, USA (nyc3)" },
+  { value: "sfo3", labelKey: "reverseProxy.sanFranciscoUsa", label: "San Francisco, USA (sfo3)" },
+  { value: "tor1", labelKey: "reverseProxy.torontoCanada", label: "Toronto, Canada (tor1)" },
+  { value: "sgp1", labelKey: "reverseProxy.singapore", label: "Singapore (sgp1)" },
+  { value: "blr1", labelKey: "reverseProxy.bangaloreIndia", label: "Bangalore, India (blr1)" },
+  { value: "syd1", labelKey: "reverseProxy.sydneyAustralia", label: "Sydney, Australia (syd1)" },
 ];
 
 const DIGITALOCEAN_SIZES = [
-  { value: "s-1vcpu-1gb", label: "Basic - 1 vCPU / 1 GB" },
-  { value: "s-1vcpu-2gb", label: "Basic - 1 vCPU / 2 GB" },
-  { value: "s-2vcpu-2gb", label: "Basic - 2 vCPU / 2 GB" },
-  { value: "s-2vcpu-4gb", label: "Basic - 2 vCPU / 4 GB" },
+  { value: "s-1vcpu-1gb", labelKey: "reverseProxy.basic1vcpu1gb", label: "Basic - 1 vCPU / 1 GB" },
+  { value: "s-1vcpu-2gb", labelKey: "reverseProxy.basic1vcpu2gb", label: "Basic - 1 vCPU / 2 GB" },
+  { value: "s-2vcpu-2gb", labelKey: "reverseProxy.basic2vcpu2gb", label: "Basic - 2 vCPU / 2 GB" },
+  { value: "s-2vcpu-4gb", labelKey: "reverseProxy.basic2vcpu4gb", label: "Basic - 2 vCPU / 4 GB" },
 ];
 
 const AWS_REGIONS = [
-  { value: "us-east-1", label: "US East (N. Virginia)" },
-  { value: "us-east-2", label: "US East (Ohio)" },
-  { value: "us-west-2", label: "US West (Oregon)" },
-  { value: "eu-central-1", label: "Europe (Frankfurt)" },
-  { value: "eu-west-1", label: "Europe (Ireland)" },
-  { value: "eu-west-2", label: "Europe (London)" },
-  { value: "ap-southeast-1", label: "Asia Pacific (Singapore)" },
-  { value: "ap-northeast-1", label: "Asia Pacific (Tokyo)" },
+  { value: "us-east-1", labelKey: "reverseProxy.usEastVirginia", label: "US East (N. Virginia)" },
+  { value: "us-east-2", labelKey: "reverseProxy.usEastOhio", label: "US East (Ohio)" },
+  { value: "us-west-2", labelKey: "reverseProxy.usWestOregon", label: "US West (Oregon)" },
+  { value: "eu-central-1", labelKey: "reverseProxy.europeFrankfurt", label: "Europe (Frankfurt)" },
+  { value: "eu-west-1", labelKey: "reverseProxy.europeIreland", label: "Europe (Ireland)" },
+  { value: "eu-west-2", labelKey: "reverseProxy.europeLondon", label: "Europe (London)" },
+  { value: "ap-southeast-1", labelKey: "reverseProxy.asiaPacificSingapore", label: "Asia Pacific (Singapore)" },
+  { value: "ap-northeast-1", labelKey: "reverseProxy.asiaPacificTokyo", label: "Asia Pacific (Tokyo)" },
 ];
 
 export type CloudProvider = "hetzner" | "digitalocean" | "aws";
@@ -689,6 +689,15 @@ const DigitalOceanDeploy = ({
   const [dropletIP, setDropletIP] = useState("");
   const [reservedIP, setReservedIP] = useState("");
 
+  const translatedRegions = useMemo(
+    () => DIGITALOCEAN_REGIONS.map((r) => ({ value: r.value, label: t(r.labelKey) })),
+    [t],
+  );
+  const translatedSizes = useMemo(
+    () => DIGITALOCEAN_SIZES.map((s) => ({ value: s.value, label: t(s.labelKey) })),
+    [t],
+  );
+
   const dropletName = useMemo(() => {
     const label = domain.replace(/[^a-zA-Z0-9.-]/g, "-").toLowerCase();
     return `netbird-proxy-${label}`.slice(0, 63).replace(/[-.]+$/, "");
@@ -829,7 +838,7 @@ const DigitalOceanDeploy = ({
           <SelectDropdown
             value={region}
             onChange={(v) => setRegion(v as string)}
-            options={DIGITALOCEAN_REGIONS}
+            options={translatedRegions}
           />
         </div>
         <div className={"w-1/2"}>
@@ -837,7 +846,7 @@ const DigitalOceanDeploy = ({
           <SelectDropdown
             value={size}
             onChange={(v) => setSize(v as string)}
-            options={DIGITALOCEAN_SIZES}
+            options={translatedSizes}
           />
         </div>
       </div>
@@ -874,6 +883,11 @@ const AWSDeploy = ({
   const [region, setRegion] = useState("eu-central-1");
   const [launched, setLaunched] = useState(false);
 
+  const translatedRegions = useMemo(
+    () => AWS_REGIONS.map((r) => ({ value: r.value, label: t(r.labelKey) })),
+    [t],
+  );
+
   const launchUrl = useMemo(() => {
     const params = new URLSearchParams({
       templateURL: CFN_TEMPLATE_URL,
@@ -902,7 +916,7 @@ const AWSDeploy = ({
         <SelectDropdown
           value={region}
           onChange={(v) => setRegion(v as string)}
-          options={AWS_REGIONS}
+          options={translatedRegions}
         />
       </div>
       <Button

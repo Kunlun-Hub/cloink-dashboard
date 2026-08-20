@@ -33,25 +33,25 @@ type ServiceModeConfig = {
 /** @deprecated Use useServiceModes() for translated labels. Kept for backward compatibility. */
 export const SERVICE_MODES: Record<ServiceMode, ServiceModeConfig> = {
   [ServiceMode.HTTP]: {
-    label: "HTTPS Service",
+    label: "reverseProxy.httpsService",
     description:
       "Reverse proxy with path routing and built-in authentication (SSO, PIN, password). Typically used for web applications and APIs.",
     icon: <Globe size={14} />,
   },
   [ServiceMode.TLS]: {
-    label: "TLS Passthrough",
+    label: "reverseProxy.tlsPassthrough",
     description:
       "Passes encrypted TLS traffic straight through to the backend. Typically used for services that manage their own TLS certificates.",
     icon: <LockKeyhole size={14} />,
   },
   [ServiceMode.TCP]: {
-    label: "TCP Service",
+    label: "reverseProxy.tcpService",
     description:
       "Forwards raw TCP traffic to your backend on a dedicated port. Typically used for databases, custom protocols, or any TCP-based service.",
     icon: <ArrowRightFromLine size={14} />,
   },
   [ServiceMode.UDP]: {
-    label: "UDP Service",
+    label: "reverseProxy.udpService",
     description:
       "Forwards raw UDP traffic to your backend on a dedicated port. Typically used for real-time services like voice, video, or streaming.",
     icon: <ArrowRightFromLine size={14} />,

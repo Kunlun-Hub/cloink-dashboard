@@ -42,7 +42,7 @@ export default function ClustersFeaturesCell({ cluster }: Readonly<Props>) {
   if (cluster.supports_crowdsec) {
     features.push({
       key: "crowdsec",
-      label: "CrowdSec",
+      label: t("reverseProxy.crowdSec"),
       description: t("reverseProxy.featureCrowdSecDescription"),
       icon: <ShieldAlert size={14} className={"text-green-500"} />,
     });

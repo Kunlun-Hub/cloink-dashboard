@@ -42,7 +42,7 @@ type Props = {
 export default function MultipleGroups({
   groups,
   label,
-  description = "Use groups to control what this peer can access",
+  description,
   onClick,
   className,
   showResources = false,
@@ -55,6 +55,7 @@ export default function MultipleGroups({
   const { permission } = usePermissions();
   const { t } = useI18n();
   const resolvedLabel = label ?? t("groups.assignedGroups");
+  const resolvedDescription = description ?? t("groups.useGroupsToControl");
 
   if (!groups || groups?.length === 0) return <EmptyRow />;
   const orderedGroups = [...groups].sort((a, b) => {

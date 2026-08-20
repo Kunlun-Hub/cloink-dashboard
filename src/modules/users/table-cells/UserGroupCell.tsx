@@ -50,7 +50,7 @@ export default function UserGroupCell({ user }: Readonly<Props>) {
 
     notify({
       title: user?.name || user?.email || "User",
-      description: "Groups of the user were successfully saved",
+      description: t("user.groupsSaved"),
       promise: userRequest
         .put(
           {
@@ -65,7 +65,7 @@ export default function UserGroupCell({ user }: Readonly<Props>) {
           mutate(`/integrations/msp/switcher`);
           mutate("/groups");
         }),
-      loadingMessage: "Updating groups...",
+      loadingMessage: t("user.updatingGroups"),
     });
   };
 

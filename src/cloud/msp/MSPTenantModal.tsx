@@ -222,7 +222,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 value={name}
                 data-testid={"name"}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"Acme Inc."}
+                placeholder={t("common.companyNamePlaceholder")}
                 className={"min-w-[270px]"}
               />
             </div>

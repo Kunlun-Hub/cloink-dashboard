@@ -218,32 +218,32 @@ spec:
 
   const deployment = {
     docker: {
-      label: "Docker",
+      label: t("reverseProxy.docker"),
       title: t("reverseProxy.deployTitleDocker"),
       command: dockerCommand,
     },
     compose: {
-      label: "Docker Compose",
+      label: t("reverseProxy.dockerCompose"),
       title: t("reverseProxy.deployTitleCompose"),
       command: composeCommand,
     },
     kubernetes: {
-      label: "Kubernetes",
+      label: t("reverseProxy.kubernetes"),
       title: t("reverseProxy.deployTitleKubernetes"),
       command: kubernetesCommand,
     },
     hetzner: {
-      label: "Hetzner Cloud",
+      label: t("reverseProxy.hetznerCloud"),
       title: t("reverseProxy.deployTitleHetzner"),
       command: "",
     },
     digitalocean: {
-      label: "DigitalOcean",
+      label: t("reverseProxy.digitalOcean"),
       title: t("reverseProxy.deployTitleDigitalOcean"),
       command: "",
     },
     aws: {
-      label: "AWS CloudFormation",
+      label: t("reverseProxy.awsCloudFormation"),
       title: t("reverseProxy.deployTitleAws"),
       command: "",
     },
@@ -373,12 +373,12 @@ spec:
                   value={deployMethod}
                   onChange={(v) => setDeployMethod(v as DeployMethod)}
                   options={[
-                    { value: "docker", label: "Docker" },
-                    { value: "compose", label: "Docker Compose" },
-                    { value: "kubernetes", label: "Kubernetes" },
-                    { value: "hetzner", label: "Hetzner Cloud" },
-                    { value: "digitalocean", label: "DigitalOcean" },
-                    { value: "aws", label: "AWS CloudFormation" },
+                    { value: "docker", label: t("reverseProxy.docker") },
+                    { value: "compose", label: t("reverseProxy.dockerCompose") },
+                    { value: "kubernetes", label: t("reverseProxy.kubernetes") },
+                    { value: "hetzner", label: t("reverseProxy.hetznerCloud") },
+                    { value: "digitalocean", label: t("reverseProxy.digitalOcean") },
+                    { value: "aws", label: t("reverseProxy.awsCloudFormation") },
                   ]}
                 />
               </div>

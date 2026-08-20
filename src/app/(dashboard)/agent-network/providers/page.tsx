@@ -64,7 +64,7 @@ function EndpointBadge({ endpoint }: { endpoint: string }) {
         className={
           "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-white transition-colors shrink-0"
         }
-        onClick={() => copy("Endpoint copied to clipboard")}
+        onClick={() => copy(t("agentNetwork.endpointCopied"))}
         aria-label={t("agentNetwork.copyEndpoint")}
       >
         <Copy size={12} />

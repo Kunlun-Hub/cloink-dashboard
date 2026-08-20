@@ -52,7 +52,7 @@ export const Intune = ({ account }: Props) => {
       ? await confirm({
           title: t("intune.disableTitle"),
           description: t("intune.disableDescription"),
-          confirmText: "Disable",
+          confirmText: t("common.disableAction"),
           cancelText: t("common.cancel"),
           type: "warning",
         })

@@ -53,7 +53,7 @@ export const CrowdStrike = ({ account }: Props) => {
       ? await confirm({
           title: t("crowdStrike.disableTitle"),
           description: t("crowdStrike.disableDescription"),
-          confirmText: "Disable",
+          confirmText: t("common.disableAction"),
           cancelText: t("common.cancel"),
           type: "warning",
         })

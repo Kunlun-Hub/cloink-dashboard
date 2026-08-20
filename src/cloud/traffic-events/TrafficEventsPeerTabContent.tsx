@@ -387,12 +387,12 @@ const TrafficEventsPeerDetailTable = ({
         <NoResults
           className={"py-4"}
           title={
-            isSettingEnabled ? "No Traffic Events" : "Traffic Events Disabled"
+            isSettingEnabled ? t("trafficEvents.noTrafficEvents") : t("trafficEvents.trafficEventsDisabled")
           }
           description={
             isSettingEnabled
-              ? "It looks like you don't have any traffic events. Traffic events will appear here once clients start connecting to your network."
-              : "It looks like you don't have any traffic events. To start receiving traffic events, you need to enable it in your account settings."
+              ? t("trafficEvents.noTrafficEventsDescription")
+              : t("trafficEvents.trafficEventsDisabledDescription")
           }
           icon={<ArrowLeftRightIcon size={20} className={"text-nb-gray-200"} />}
         >

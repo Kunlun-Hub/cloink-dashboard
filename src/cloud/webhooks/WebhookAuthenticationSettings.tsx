@@ -24,25 +24,25 @@ export enum AuthType {
   Custom = "custom",
 }
 
-export const authenticationOptions = [
+export const authenticationOptions = (t: (key: string) => string) => [
   {
     value: AuthType.None,
-    label: "No Authentication",
+    label: t("webhook.noAuthentication"),
     icon: () => <CircleOffIcon size={14} />,
   },
   {
     value: AuthType.Basic,
-    label: "Basic Auth",
+    label: t("webhook.basicAuth"),
     icon: () => <CircleUserIcon size={14} />,
   },
   {
     value: AuthType.Bearer,
-    label: "Bearer Token",
+    label: t("webhook.bearerToken"),
     icon: () => <KeyRoundIcon size={14} />,
   },
   {
     value: AuthType.Custom,
-    label: "Custom Authentication",
+    label: t("webhook.customAuthentication"),
     icon: () => <BracesIcon size={14} />,
   },
 ] as SelectOption[];
@@ -62,7 +62,7 @@ export const AuthenticationSettings = ({
     <SelectDropdown
       value={value.authenticationType}
       onChange={value.setAuthenticationType}
-      options={authenticationOptions}
+      options={authenticationOptions(t)}
       data-testid="webhook-auth-type"
     />
     {value.authenticationType === AuthType.Basic && (

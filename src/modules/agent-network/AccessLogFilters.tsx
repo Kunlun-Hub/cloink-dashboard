@@ -129,7 +129,7 @@ export function useAccessLogFilters() {
     () => [
       {
         id: "date",
-        label: "Date",
+        label: t("accessLog.date"),
         renderPicker: (p) => (
           <div className={"p-1"}>
             <DatePickerWithRange
@@ -142,7 +142,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "user",
-        label: "User",
+        label: t("accessLog.user"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -156,7 +156,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "group",
-        label: "Group",
+        label: t("accessLog.group"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -169,7 +169,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "provider",
-        label: "Provider",
+        label: t("accessLog.provider"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -187,7 +187,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "model",
-        label: "Model",
+        label: t("accessLog.model"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -200,7 +200,7 @@ export function useAccessLogFilters() {
           formatCheckboxChip(v as string[] | undefined, modelOptions, "models"),
       },
     ],
-    [userOptions, groups, providerOptions, modelOptions],
+    [t, userOptions, groups, providerOptions, modelOptions],
   );
 
   const filtersButton = (

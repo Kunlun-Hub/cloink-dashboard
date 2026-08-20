@@ -29,6 +29,7 @@ type Props = {
 
 type Distro = {
   label: string;
+  labelKey?: string;
   value: string;
   /** Commands that register the NetBird package repository. */
   repository: string[];
@@ -41,6 +42,7 @@ type Distro = {
    */
   desktopApp?: string[];
   note: string;
+  noteKey: string;
 };
 
 const YUM_REPOSITORY = [
@@ -61,6 +63,7 @@ const YUM_REPOSITORY = [
 const DISTROS: Distro[] = [
   {
     label: "Debian / Ubuntu (APT)",
+    labelKey: "setupNetbirdModal.debianUbuntuApt",
     value: "apt",
     repository: [
       "sudo apt-get update",
@@ -74,17 +77,21 @@ const DISTROS: Distro[] = [
       "sudo apt-get install netbird-ui libgtk-4-1 libwebkitgtk-6.0-4 xdg-utils",
     ],
     note: "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
+    noteKey: "setupNetbirdModal.debianNote",
   },
   {
     label: "Fedora (DNF)",
+    labelKey: "setupNetbirdModal.fedoraDnf",
     value: "fedora",
     repository: YUM_REPOSITORY,
     cli: "sudo dnf install netbird",
     desktopApp: ["sudo dnf install netbird-ui gtk4 webkitgtk6.0 xdg-utils"],
     note: "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
+    noteKey: "setupNetbirdModal.fedoraNote",
   },
   {
     label: "RHEL / AlmaLinux / Rocky (DNF)",
+    labelKey: "setupNetbirdModal.rhelAlmaRockyDnf",
     value: "rhel",
     repository: YUM_REPOSITORY,
     cli: "sudo dnf install netbird",
@@ -95,6 +102,7 @@ const DISTROS: Distro[] = [
       "sudo dnf install netbird-ui gtk4 webkitgtk6.0 xdg-utils",
     ],
     note: "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
+    noteKey: "setupNetbirdModal.rhelNote",
   },
   {
     label: "openSUSE (Zypper)",
@@ -110,13 +118,16 @@ const DISTROS: Distro[] = [
       "sudo zypper install netbird-ui libgtk-4-1 libwebkitgtk-6_0-4 xdg-utils",
     ],
     note: "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
+    noteKey: "setupNetbirdModal.opensuseNote",
   },
   {
     label: "Amazon Linux (YUM)",
+    labelKey: "setupNetbirdModal.amazonLinuxYum",
     value: "amazon",
     repository: YUM_REPOSITORY,
     cli: "sudo yum install netbird",
     note: "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available.",
+    noteKey: "setupNetbirdModal.amazonLinuxNote",
   },
 ];
 
@@ -183,9 +194,9 @@ export default function LinuxTab({
                   value={distroValue}
                   className={"w-[280px]"}
                   onChange={setDistroValue}
-                  placeholder={"Select distribution"}
-                  options={DISTROS.map(({ label, value }) => ({
-                    label,
+                  placeholder={t("common.selectDistributionPlaceholder")}
+                  options={DISTROS.map(({ label, labelKey, value }) => ({
+                    label: labelKey ? t(labelKey) : label,
                     value,
                   }))}
                   data-testid={"linux-distro-select"}
@@ -220,7 +231,7 @@ export default function LinuxTab({
                     )}
                   </Code>
                   <Callout variant={"info"} className={"mt-1"}>
-                    {distro.note}
+                    {t(distro.noteKey)}
                     {hasDesktopApp &&
                       " Desktop app packages are available for x86_64 only."}
                   </Callout>

@@ -121,15 +121,15 @@ function SlackModalContent({ onSave }: Readonly<ModalContentProps>) {
                   {t("notificationSlack.createAppStep1Link")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>{" "}
-                {t("notificationSlack.createAppStep1Middle")} <Mark>Create an app</Mark> <br />
-                {t("notificationSlack.createAppStep1AndChoose")} <Mark>From scratch</Mark>
+                {t("notificationSlack.createAppStep1Middle")} <Mark>{t("notifications.createAnApp")}</Mark> <br />
+                {t("notificationSlack.createAppStep1AndChoose")} <Mark>{t("notifications.fromScratch")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
                 {t("notificationSlack.createAppStep2Prefix")}{" "}
-                <Mark copy={true}>NetBird Notifications</Mark> {t("notificationSlack.createAppStep2Middle")}{" "}
-                <Mark>Create App</Mark>
+                <Mark copy={true}>{t("notifications.netbirdNotifications")}</Mark> {t("notificationSlack.createAppStep2Middle")}{" "}
+                <Mark>{t("notifications.createApp")}</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -146,20 +146,20 @@ function SlackModalContent({ onSave }: Readonly<ModalContentProps>) {
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                {t("notificationSlack.configureWebhookStep1Prefix")} <Mark>Incoming Webhooks</Mark> {t("notificationSlack.configureWebhookStep1Middle")}
-                <Mark>Activate Incoming Webhooks</Mark> {t("notificationSlack.configureWebhookStep1To")} <Mark>On</Mark>
+                {t("notificationSlack.configureWebhookStep1Prefix")} <Mark>{t("notifications.incomingWebhooks")}</Mark> {t("notificationSlack.configureWebhookStep1Middle")}
+                <Mark>{t("notifications.activateIncomingWebhooks")}</Mark> {t("notificationSlack.configureWebhookStep1To")} <Mark>On</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("notificationSlack.configureWebhookStep2Prefix")} <Mark>Add New Webhook</Mark>{" "}
+                {t("notificationSlack.configureWebhookStep2Prefix")} <Mark>{t("notifications.addNewWebhook")}</Mark>{" "}
                 {t("notificationSlack.configureWebhookStep2Middle")}{" "}
                 <Mark>Allow</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                {t("notificationSlack.configureWebhookStep3Prefix")} <Mark>Webhook URL</Mark> {t("notificationSlack.configureWebhookStep3Suffix")}
+                {t("notificationSlack.configureWebhookStep3Prefix")} <Mark>{t("notifications.webhookUrl")}</Mark> {t("notificationSlack.configureWebhookStep3Suffix")}
               </p>
             </Steps.Step>
           </Steps>

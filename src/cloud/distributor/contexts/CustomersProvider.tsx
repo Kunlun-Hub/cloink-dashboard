@@ -88,7 +88,7 @@ export const CustomersProvider = ({ children }: Props) => {
 
     notify({
       title: `Request Account Access`,
-      description: "Request has been sent successfully.",
+      description: t("common.requestSentSuccessfully"),
       loadingMessage: "Sending request...",
       promise: request,
     });

@@ -11,6 +11,7 @@ import * as React from "react";
 import { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { ReverseProxy } from "@/interfaces/ReverseProxy";
 
 type Props = {
@@ -22,6 +23,7 @@ export default function ReverseProxyActionCell({
 }: Readonly<Props>) {
   const { permission } = usePermissions();
   const { openModal, handleDelete, handleToggle } = useReverseProxies();
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   return (
@@ -66,7 +68,7 @@ export default function ReverseProxyActionCell({
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {reverseProxy.enabled ? "Disable" : "Enable"}
+              {reverseProxy.enabled ? t("common.disableAction") : t("common.enableAction")}
             </div>
           </DropdownMenuItem>
 

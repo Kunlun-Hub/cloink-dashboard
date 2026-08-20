@@ -300,7 +300,7 @@ export default function NetworkRoutesTable({
                   disabled={!permission.routes.create}
                 >
                   <PlusCircle size={16} />
-                  Add Route
+                  {t("route.addRoute")}
                 </Button>
               </div>
             </NoResults>
@@ -318,10 +318,8 @@ export default function NetworkRoutesTable({
                   size={"large"}
                 />
               }
-              title={"Create New Route"}
-              description={
-                "It looks like you don't have any routes. Access LANs and VPC by adding a network route."
-              }
+              title={t("route.createNewRoute")}
+              description={t("route.noRoutesDescription")}
               button={
                 <div className={"gap-x-4 flex items-center justify-center"}>
                   <AddExitNodeButton distributionGroups={distributionGroups} />
@@ -333,7 +331,7 @@ export default function NetworkRoutesTable({
                     data-testid="open-add-route"
                   >
                     <PlusCircle size={16} />
-                    Add Route
+                    {t("route.addRoute")}
                   </Button>
                 </div>
               }
@@ -367,7 +365,7 @@ export default function NetworkRoutesTable({
                   data-testid="open-add-route"
                 >
                   <PlusCircle size={16} />
-                  Add Route
+                  {t("route.addRoute")}
                 </Button>
               </div>
             )}

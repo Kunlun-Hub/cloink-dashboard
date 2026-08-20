@@ -144,7 +144,7 @@ export const RDPCredentialsModal = ({
             </HelpText>
             <div className={"flex flex-col gap-2 w-full"}>
               <Input
-                placeholder={"Administrator or DOMAIN\\username"}
+                placeholder={t("rdp.administratorOrDomainPlaceholder")}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -159,7 +159,7 @@ export const RDPCredentialsModal = ({
               />
               <Input
                 value={password}
-                placeholder={"Enter password"}
+                placeholder={t("rdp.enterPasswordPlaceholder")}
                 type={"password"}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={handleKeyDown}

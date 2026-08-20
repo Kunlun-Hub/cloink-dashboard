@@ -426,7 +426,7 @@ export default function EmailSettingsTab() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={"starttls"}>STARTTLS</SelectItem>
+                    <SelectItem value={"starttls"}>{t("settings.starttls")}</SelectItem>
                     <SelectItem value={"tls"}>TLS</SelectItem>
                     <SelectItem value={"none"}>
                       {t("emailSettings.encryptionNone")}

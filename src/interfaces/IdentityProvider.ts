@@ -99,18 +99,19 @@ export type SSOIdentityProviderType =
 export const SSOIdentityProviderOptions: {
   value: SSOIdentityProviderType;
   label: string;
+  labelKey: string;
 }[] = [
-  { value: "oidc", label: "OIDC (Generic)" },
-  { value: "google", label: "Google" },
-  { value: "microsoft", label: "Microsoft" },
-  { value: "entra", label: "Microsoft Entra" },
-  { value: "okta", label: "Okta" },
-  { value: "zitadel", label: "Zitadel" },
-  { value: "pocketid", label: "PocketID" },
-  { value: "authentik", label: "Authentik" },
-  { value: "keycloak", label: "Keycloak" },
-  { value: "adfs", label: "Microsoft AD FS" },
-  { value: "wechatwork", label: "WeCom" },
+  { value: "oidc", label: "OIDC (Generic)", labelKey: "identityProvider.oidcGeneric" },
+  { value: "google", label: "Google", labelKey: "identityProvider.google" },
+  { value: "microsoft", label: "Microsoft", labelKey: "identityProvider.microsoft" },
+  { value: "entra", label: "Microsoft Entra", labelKey: "identityProvider.microsoftEntra" },
+  { value: "okta", label: "Okta", labelKey: "identityProvider.okta" },
+  { value: "zitadel", label: "Zitadel", labelKey: "identityProvider.zitadel" },
+  { value: "pocketid", label: "PocketID", labelKey: "identityProvider.pocketId" },
+  { value: "authentik", label: "Authentik", labelKey: "identityProvider.authentik" },
+  { value: "keycloak", label: "Keycloak", labelKey: "identityProvider.keycloak" },
+  { value: "adfs", label: "Microsoft AD FS", labelKey: "identityProvider.microsoftAdFs" },
+  { value: "wechatwork", label: "WeCom", labelKey: "identityProvider.weCom" },
 ];
 
 export const getSSOIdentityProviderLabelByType = (

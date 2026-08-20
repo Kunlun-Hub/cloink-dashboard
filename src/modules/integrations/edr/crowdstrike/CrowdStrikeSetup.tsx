@@ -222,18 +222,18 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("crowdStrike.setup.step2Click")} <Mark>Create API client</Mark>{" "}
+                {t("crowdStrike.setup.step2Click")} <Mark>{t("edr.createApiClient")}</Mark>{" "}
                 {t("crowdStrike.setup.step2AndEnter")}
                 <Mark copy>NetBird</Mark>
                 {t("crowdStrike.setup.step2AsClientName")}{" "}
-                <Mark>Hosts (Read)</Mark> {t("crowdStrike.setup.step2And")}{" "}
-                <Mark>Zero Trust Assessment (Read)</Mark>{" "}
+                <Mark>{t("edr.hostsRead")}</Mark> {t("crowdStrike.setup.step2And")}{" "}
+                <Mark>{t("edr.zeroTrustAssessmentRead")}</Mark>{" "}
                 {t("crowdStrike.setup.step2AsScope")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                {t("crowdStrike.setup.step3Click")} <Mark>Create</Mark>{" "}
+                {t("crowdStrike.setup.step3Click")} <Mark>{t("edr.create")}</Mark>{" "}
                 {t("crowdStrike.setup.step3AndEnterCredentials")}
               </p>
             </Steps.Step>

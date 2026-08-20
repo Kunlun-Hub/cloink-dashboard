@@ -50,7 +50,7 @@ export default function Datadog() {
     const choice = await confirm({
       title: t("datadog.disconnectTitle"),
       description: t("datadog.disconnectDescription"),
-      confirmText: "Disconnect",
+      confirmText: t("common.disconnect"),
       cancelText: t("common.cancel"),
       type: "warning",
     });

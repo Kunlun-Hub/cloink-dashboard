@@ -1,4 +1,5 @@
 import { notify } from "@components/Notification";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useDebounce } from "@hooks/useDebounce";
 import { IconCircleX } from "@tabler/icons-react";
 import { ErrorResponse } from "@utils/api";
@@ -16,6 +17,7 @@ const ErrorBoundaryContext = React.createContext(
 );
 
 export default function ErrorBoundaryProvider({ children }: Props) {
+  const { t } = useI18n();
   const [error, setError] = useState<ErrorResponse>();
   const errorDebounced = useDebounce(error, 300);
 
@@ -24,8 +26,8 @@ export default function ErrorBoundaryProvider({ children }: Props) {
       const firstCharUpper = errorDebounced.message.charAt(0).toUpperCase();
       const message = firstCharUpper + errorDebounced.message.slice(1);
       notify({
-        title: `Request failed with status code ${errorDebounced.code}`,
-        description: "Error: " + message,
+        title: t("common.requestFailedWithCode", { code: errorDebounced.code }),
+        description: t("common.errorPrefix", { message }),
         icon: <IconCircleX size={24} />,
         backgroundColor: "bg-red-500",
         duration: 10000,

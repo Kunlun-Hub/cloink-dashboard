@@ -142,12 +142,12 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
 
   const typeOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "http", label: "HTTP" },
+      { value: "http", label: t("reverseProxy.http") },
       { value: "tcp", label: "TCP" },
       { value: "udp", label: "UDP" },
       { value: "tls", label: "TLS" },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(

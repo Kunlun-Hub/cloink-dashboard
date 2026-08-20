@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useRoutes } from "@/contexts/RoutesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Route } from "@/interfaces/Route";
 
 type Props = {
@@ -13,6 +14,7 @@ export default function RouteActiveCell({ route }: Readonly<Props>) {
 
   const { updateRoute } = useRoutes();
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
 
   const update = async (enabled: boolean) => {
     updateRoute(
@@ -22,8 +24,8 @@ export default function RouteActiveCell({ route }: Readonly<Props>) {
         mutate("/routes");
       },
       enabled
-        ? "The network route was successfully enabled"
-        : "The network route was successfully disabled",
+        ? t("route.enabledSuccessfully")
+        : t("route.disabledSuccessfully"),
     );
   };
 

@@ -86,7 +86,7 @@ export default function InvoicesTable({
       columns={InvoicesColumns}
       keepStateInLocalStorage={false}
       data={invoices}
-      searchPlaceholder={"Search by invoice number or date..."}
+      searchPlaceholder={t("common.searchByInvoiceNumberOrDatePlaceholder")}
       isLoading={isLoading}
       getStartedCard={
         <NoResults

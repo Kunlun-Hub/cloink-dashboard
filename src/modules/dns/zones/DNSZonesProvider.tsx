@@ -52,9 +52,9 @@ export const DNSZonesProvider = ({ children }: Props) => {
 
     notify({
       title: `DNS Zone '${zone.domain}'`,
-      description: `DNS Zone was added successfully.`,
+      description: t("dns.zoneAdded"),
       promise: promise,
-      loadingMessage: "Adding DNS Zone...",
+      loadingMessage: t("dns.addingZone"),
     });
 
     return promise;
@@ -69,9 +69,9 @@ export const DNSZonesProvider = ({ children }: Props) => {
 
     notify({
       title: `DNS Zone '${zone.domain}'`,
-      description: `DNS Zone was updated successfully.`,
+      description: t("dns.zoneUpdated"),
       promise: promise,
-      loadingMessage: "Updating DNS Zone...",
+      loadingMessage: t("dns.updatingZone"),
     });
 
     return promise;

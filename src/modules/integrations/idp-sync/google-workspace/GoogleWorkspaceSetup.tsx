@@ -287,9 +287,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("googleWorkspace.step2Line2Prefix")}{" "}
-                <Mark>CREATE CREDENTIALS</Mark>{" "}
+                <Mark>{t("integrations.createCredentials")}</Mark>{" "}
                 {t("googleWorkspace.step2Line2Middle")}{" "}
-                <Mark>Service account</Mark>
+                <Mark>{t("integrations.serviceAccount")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
@@ -507,7 +507,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
                 {t("googleWorkspace.step6Line2Prefix")}{" "}
-                <Mark>CREATE ROLE</Mark>
+                <Mark>{t("integrations.createRole")}</Mark>
               </p>
               <Lightbox image={googlePrivilegesReview} />
             </Steps.Step>
@@ -548,7 +548,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
                 {t("googleWorkspace.step7Line3Prefix")}{" "}
-                <Mark>ASSIGN ROLE</Mark>
+                <Mark>{t("integrations.assignRole")}</Mark>
               </p>
               <Lightbox image={googleAssignServiceAccount} />
             </Steps.Step>

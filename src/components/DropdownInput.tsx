@@ -1,3 +1,4 @@
+import { useI18n } from "@/i18n/I18nProvider";
 import { IconArrowBack } from "@tabler/icons-react";
 import { cn } from "@utils/helpers";
 import { SearchIcon } from "lucide-react";
@@ -17,13 +18,14 @@ export const DropdownInput = forwardRef<HTMLInputElement, Props>(
     {
       value,
       onChange,
-      placeholder = "Search...",
+      placeholder,
       className,
       hideEnterIcon = false,
       ...props
     },
     ref,
   ) => {
+    const { t } = useI18n();
     return (
       <div className={"relative w-full"}>
         <input
@@ -37,7 +39,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, Props>(
           )}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
+          placeholder={placeholder ?? t("common.search")}
           {...props}
         />
         <div className={"absolute left-0 top-0 h-full flex items-center pl-4"}>

@@ -54,14 +54,14 @@ export default function WindowsTab({
                 value={windowsUrl}
                 className={"w-[170px]"}
                 onChange={setWindowsUrl}
-                placeholder={"Select architecture"}
+                placeholder={t("common.selectArchitecturePlaceholder")}
                 options={[
                   {
                     label: "64-Bit",
                     value: pkgsDownloadUrl("windows/x64"),
                   },
                   {
-                    label: "ARM64",
+                    label: t("setupNetbirdModal.arm64"),
                     value: pkgsDownloadUrl("windows/arm64"),
                   },
                   {
@@ -69,7 +69,7 @@ export default function WindowsTab({
                     value: pkgsDownloadUrl("windows/msi/x64"),
                   },
                   {
-                    label: "ARM64 (MSI)",
+                    label: t("setupNetbirdModal.arm64Msi"),
                     value: pkgsDownloadUrl("windows/msi/arm64"),
                   },
                 ]}

@@ -56,50 +56,62 @@ export const companySizes = [
 export const referralSourceOptions = [
   {
     label: "Search Engines (Google, Bing etc.)",
+    labelKey: "onboarding.searchEngines",
     value: "Search Engines (Google, Bing etc.)",
   },
   {
     label: "Coworker or Friend",
+    labelKey: "onboarding.coworkerOrFriend",
     value: "Coworker or Friend",
   },
   {
     label: "Trade Show or Event",
+    labelKey: "onboarding.tradeShowOrEvent",
     value: "Trade Show or Event",
   },
   {
     label: "Blogs",
+    labelKey: "onboarding.blogs",
     value: "Blogs",
   },
   {
     label: "Comparison Sites",
+    labelKey: "onboarding.comparisonSites",
     value: "Comparison Sites",
   },
   {
     label: "Slack",
+    labelKey: "onboarding.slack",
     value: "Slack",
   },
   {
     label: "Other",
+    labelKey: "onboarding.other",
     value: "Other",
   },
   {
     label: "NetBird YouTube Channel",
+    labelKey: "onboarding.netbirdYouTubeChannel",
     value: "NetBird YouTube Channel",
   },
   {
     label: "Other YouTube Channel",
+    labelKey: "onboarding.otherYouTubeChannel",
     value: "Other YouTube Channel",
   },
   {
     label: "NetBird SubReddit",
+    labelKey: "onboarding.netbirdSubReddit",
     value: "NetBird SubReddit",
   },
   {
     label: "Other Reddit Thread",
+    labelKey: "onboarding.otherRedditThread",
     value: "Other Reddit Thread",
   },
   {
     label: "GitHub",
+    labelKey: "onboarding.github",
     value: "GitHub",
   },
 ];
@@ -349,7 +361,7 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
               onChange={setReferralSource}
               options={randomizedOptions.map((opt) => ({
                 ...opt,
-                label: t(`onboarding.referralSource.${opt.value}` as any),
+                label: t((opt as any).labelKey || `onboarding.referralSource.${opt.value}` as any),
               }))}
               showValues={false}
               placeholder={t("onboarding.selectOption")}

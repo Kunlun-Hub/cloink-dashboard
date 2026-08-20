@@ -205,7 +205,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("s3.clickCreatePrefix")} <Mark>Create bucket</Mark>
+                {t("s3.clickCreatePrefix")} <Mark>{t("integrations.createBucket")}</Mark>
                 {t("s3.clickCreateSuffix")}
               </p>
             </Steps.Step>
@@ -213,7 +213,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               <p className={"font-normal"}>
                 {t("s3.giveNamePrefix")}{" "}
                 <Mark copy>netbird-activity-events</Mark>
-                {t("s3.andClick")} <Mark>Create bucket</Mark>
+                {t("s3.andClick")} <Mark>{t("integrations.createBucket")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
@@ -272,8 +272,8 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                {t("s3.securityCredentialsPrefix")} <Mark>Security Credentials</Mark>
-                {t("s3.securityCredentialsTab")} <Mark>Create access key</Mark>
+                {t("s3.securityCredentialsPrefix")} <Mark>{t("integrations.securityCredentials")}</Mark>
+                {t("s3.securityCredentialsTab")} <Mark>{t("integrations.createAccessKey")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={5}>

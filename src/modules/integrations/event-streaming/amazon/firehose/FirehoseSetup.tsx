@@ -209,19 +209,19 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("firehose.clickCreatePrefix")} <Mark>Create Firehose stream</Mark>
+                {t("firehose.clickCreatePrefix")} <Mark>{t("integrations.createFirehoseStream")}</Mark>
                 {t("firehose.clickCreateSuffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                {t("firehose.asSourcePrefix")} <Mark>Source</Mark>
-                {t("firehose.asSourceSelect")} <Mark>Direct PUT</Mark>
+                {t("firehose.asSourcePrefix")} <Mark>{t("integrations.source")}</Mark>
+                {t("firehose.asSourceSelect")} <Mark>{t("integrations.directPut")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                {t("firehose.asDestinationPrefix")} <Mark>Destination</Mark>
+                {t("firehose.asDestinationPrefix")} <Mark>{t("integrations.destination")}</Mark>
                 {t("firehose.asDestinationSuffix")}
               </p>
             </Steps.Step>
@@ -229,7 +229,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               <p className={"font-normal"}>
                 {t("firehose.giveNamePrefix")}{" "}
                 <Mark copy>netbird-activity-events</Mark>
-                {t("firehose.andClick")} <Mark>Create Firehose stream</Mark>
+                {t("firehose.andClick")} <Mark>{t("integrations.createFirehoseStream")}</Mark>
                 <Tooltip>
                   <TooltipTrigger>
                     <InfoIcon
@@ -302,8 +302,8 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                {t("firehose.securityCredentialsPrefix")} <Mark>Security Credentials</Mark>
-                {t("firehose.securityCredentialsTab")} <Mark>Create access key</Mark>
+                {t("firehose.securityCredentialsPrefix")} <Mark>{t("integrations.securityCredentials")}</Mark>
+                {t("firehose.securityCredentialsTab")} <Mark>{t("integrations.createAccessKey")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={5}>

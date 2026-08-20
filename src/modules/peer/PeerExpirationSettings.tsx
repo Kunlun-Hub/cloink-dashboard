@@ -7,12 +7,14 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { notify } from "@components/Notification";
 import { useSWRConfig } from "swr";
 import { cn } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useAccount } from "@/modules/account/useAccount";
 
 export const PeerExpirationSettings = () => {
   const { peer, update } = usePeer();
   const { permission } = usePermissions();
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const account = useAccount();
 
   const [peerLoginExpiration, setPeerLoginExpiration] = useState(
@@ -40,9 +42,9 @@ export const PeerExpirationSettings = () => {
 
     notify({
       title: peer.name,
-      description: "Expiration was successfully updated",
+      description: t("peer.expirationUpdated"),
       promise,
-      loadingMessage: "Updating setting...",
+      loadingMessage: t("peer.updatingSetting"),
     });
 
     return promise;

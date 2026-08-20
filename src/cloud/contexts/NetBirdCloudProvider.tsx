@@ -1,4 +1,5 @@
 import { notify } from "@components/Notification";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useApiCall } from "@utils/api";
 import loadConfig from "@utils/config";
 import { isNetBirdCloud } from "@utils/netbird";
@@ -23,6 +24,7 @@ import { useAccount } from "@/modules/account/useAccount";
 import { OnboardingProvider } from "@/modules/onboarding/OnboardingProvider";
 
 export const NetBirdCloudProvider = () => {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { subscription } = useBilling();
   const [awsUserId, setAwsUserId] = useState<string | undefined>();
@@ -86,7 +88,7 @@ export const NetBirdCloudProvider = () => {
         ...(isNewAccount ? { agent_network_only: true } : {}),
       };
       notify({
-        title: "Agent Network",
+        title: t("cloud.agentNetwork"),
         description: isNewAccount
           ? "Agent Network focused view enabled for your account."
           : "Agent Network enabled for your account.",

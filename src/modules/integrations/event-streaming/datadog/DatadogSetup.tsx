@@ -202,8 +202,8 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             <Steps.Step step={3}>
               <p className={"font-normal"}>
                 {t("datadog.giveNamePrefix")}{" "}
-                <Mark copy>NetBird Activity Events</Mark>
-                {t("datadog.andClick")} <Mark>Create Key</Mark>
+                <Mark copy>{t("integrations.netbirdActivityEvents")}</Mark>
+                {t("datadog.andClick")} <Mark>{t("integrations.createKey")}</Mark>
                 <Tooltip>
                   <TooltipTrigger>
                     <InfoIcon
