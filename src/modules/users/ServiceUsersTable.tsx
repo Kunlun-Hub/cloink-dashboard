@@ -30,6 +30,7 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
+import { MessageKey } from "@/i18n/messages";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { User } from "@/interfaces/User";
 import ServiceUserModal from "@/modules/users/ServiceUserModal";
@@ -38,49 +39,53 @@ import UserActionCell from "@/modules/users/table-cells/UserActionCell";
 import UserRoleCell from "@/modules/users/table-cells/UserRoleCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 
-export const ServiceUsersTableColumns: ColumnDef<User>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+export function createServiceUsersTableColumns(
+  t: (key: MessageKey, values?: Record<string, string | number>) => string,
+): ColumnDef<User>[] {
+  return [
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <ServiceUserNameCell user={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <ServiceUserNameCell user={row.original} />,
-  },
-  {
-    accessorKey: "is_current",
-    sortingFn: "basic",
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+    {
+      accessorKey: "is_current",
+      sortingFn: "basic",
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserRoleCell user={row.original} />,
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+    {
+      accessorKey: "role",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.role")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserRoleCell user={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserStatusCell user={row.original} />,
-  },
-  {
-    id: "role_filter",
-    accessorFn: (u) => [u?.role],
-    filterFn: "arrIncludesSome",
-  },
-  {
-    accessorKey: "id",
-    header: "",
-    sortingFn: "text",
-    cell: ({ row }) => (
-      <UserActionCell user={row.original} serviceUser={true} />
-    ),
-  },
-];
+    {
+      accessorKey: "status",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserStatusCell user={row.original} />,
+    },
+    {
+      id: "role_filter",
+      accessorFn: (u) => [u?.role],
+      filterFn: "arrIncludesSome",
+    },
+    {
+      accessorKey: "id",
+      header: "",
+      sortingFn: "text",
+      cell: ({ row }) => (
+        <UserActionCell user={row.original} serviceUser={true} />
+      ),
+    },
+  ];
+}
 
 type Props = {
   users?: User[];

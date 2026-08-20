@@ -7,6 +7,7 @@ import {
   ShieldCheckIcon,
 } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onNext: () => void;
@@ -16,48 +17,42 @@ type Props = {
 // It frames what Agent Network does before the operator starts wiring up a
 // device, provider, and policy. Mirrors the intro of the quickstart guide.
 export const OnboardingAgentWelcome = ({ onNext }: Props) => {
+  const { t } = useI18n();
+
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
-        <h1 className={"text-xl text-center"}>Welcome to Agent Network</h1>
+        <h1 className={"text-xl text-center"}>{t("onboarding.agent.welcome.title")}</h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          {`Agent Network is the access-control layer for AI agents. Route LLM
-          requests through one keyless endpoint and give agents scoped access to
-          internal resources, all enforced by your policies.`}
+          {t("onboarding.agent.welcome.description")}
         </div>
       </div>
 
       <div className={"mt-4 flex flex-col gap-4"}>
         <Highlight
           icon={<KeyRoundIcon size={16} />}
-          title={"Keyless access over the tunnel"}
-          description={
-            "Agents access LLM providers and internal resources through encrypted WireGuard tunnel, without exposing API keys on the client."
-          }
+          title={t("onboarding.agent.welcome.keylessTitle")}
+          description={t("onboarding.agent.welcome.keylessDescription")}
         />
         <Highlight
           icon={<ShieldCheckIcon size={16} />}
-          title={"Policy-controlled access"}
-          description={
-            "Every request is authorized against your policies before it reaches a provider, with optional token and budget limits and guardrails."
-          }
+          title={t("onboarding.agent.welcome.policyTitle")}
+          description={t("onboarding.agent.welcome.policyDescription")}
         />
         <Highlight
           icon={<BotIcon size={16} />}
-          title={"Per-identity usage & logs"}
-          description={
-            "See who called which model, how many tokens it cost, and whether it was allowed. All attributed to the real caller."
-          }
+          title={t("onboarding.agent.welcome.usageTitle")}
+          description={t("onboarding.agent.welcome.usageDescription")}
         />
       </div>
 
       <div className={"flex items-center justify-center mt-6"}>
         <Button variant={"primary"} onClick={onNext}>
-          Get Started
+          {t("onboarding.agent.welcome.getStarted")}
           <ArrowRightIcon size={16} />
         </Button>
       </div>

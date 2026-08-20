@@ -7,6 +7,7 @@ import { GRPC_API_ORIGIN, pkgsDownloadUrl } from "@utils/netbird";
 import { DownloadIcon, PackageOpenIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
   NetBirdUpCommand,
@@ -28,6 +29,7 @@ export default function WindowsTab({
   showSetupKeyInfo,
   hostname,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const [windowsUrl, setWindowsUrl] = useState(pkgsDownloadUrl("windows/x64"));
   // The CLI-run branch is required for the server flow (setupKeyContent
   // present) even before a key is generated — the placeholder keeps the
@@ -42,11 +44,11 @@ export default function WindowsTab({
       <TabsContentPadding>
         <p className={"font-medium flex gap-3 items-center text-base"}>
           <PackageOpenIcon size={16} />
-          Install on Windows
+          {t("windowsTab.installOnWindows")}
         </p>
         <Steps>
           <Steps.Step step={1}>
-            <p>Download and run Windows Installer</p>
+            <p>{t("windowsTab.downloadInstaller")}</p>
             <div className={"flex gap-4 mt-1"}>
               <SelectDropdown
                 value={windowsUrl}
@@ -124,7 +126,7 @@ export default function WindowsTab({
                 </p>
               </Steps.Step>
               <Steps.Step step={runStep + 1} line={false}>
-                <p>Sign up using your email address</p>
+                <p>{t("setupNetbirdModal.signUpEmail")}</p>
               </Steps.Step>
             </>
           )}

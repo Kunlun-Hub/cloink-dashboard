@@ -26,6 +26,7 @@ const en = {
   "common.delete": "Delete",
   "common.edit": "Edit",
   "common.disabled": "Disabled",
+  "common.enabled": "Enabled",
   "common.active": "Active",
   "common.inactive": "Inactive",
   "common.status": "Status",
@@ -759,6 +760,14 @@ const en = {
     "Please enter a valid IP address, e.g., 85.203.15.42",
   "reverseProxy.validCidrBlock":
     "Please enter a valid CIDR block, e.g., 74.125.0.0/16",
+  "reverseProxy.accessControlValidIpAddress":
+    "Please enter a valid IP address, e.g., 85.203.15.42 or 2001:db8::1",
+  "reverseProxy.accessControlValidCidrBlock":
+    "Please enter a valid CIDR block, e.g., 74.125.0.0/16 or 2001:db8::/64",
+  "reverseProxy.accessControlIpPlaceholder":
+    "e.g., 85.203.15.42 or 2001:db8::1",
+  "reverseProxy.accessControlCidrPlaceholder":
+    "e.g., 74.125.0.0/16 or 2001:db8::/64",
   "reverseProxy.removeRule": "Remove rule",
   "reverseProxy.addRule": "Add Rule",
   "reverseProxy.searchTargetsPlaceholder":
@@ -825,7 +834,9 @@ const en = {
   "reverseProxy.clusterOfflineSelfHosted":
     "Cluster {clusterName} is offline. Make sure the proxy server is running and connected to the right management address.",
   "reverseProxy.searchDomains": "Search domains...",
+  "reverseProxy.accountBadge": "Account",
   "reverseProxy.freeBadge": "Free",
+  "reverseProxy.sharedBadge": "Shared",
   "reverseProxy.clusterBadge": "Cluster",
   "reverseProxy.customBadge": "Custom",
   "reverseProxy.customDomainsTitle": "Domains",
@@ -1279,6 +1290,9 @@ const en = {
   "networkResources.deprecationTooltip":
     "Network Routes will be deprecated and replaced with Networks.",
   "table.name": "Name",
+  "table.date": "Date",
+  "table.inUse": "In Use",
+  "table.models": "Models",
   "table.selectAll": "Select all",
   "table.selectRow": "Select row",
   "table.address": "Address",
@@ -1538,6 +1552,7 @@ const en = {
   "onboarding.createSetupKeyDescription":
     "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
   "onboarding.dialogTitle": "Onboarding",
+  "onboarding.agentNetworkDialogTitle": "Agent Network Onboarding",
   "onboarding.getStartedWithNetBird": "Get started with NetBird",
   "onboarding.netbirdFlexibility":
     "NetBird provides the flexibility of both a peer-to-peer overlay network and a remote network access solution. Choose what fits your needs, you can always combine both.",
@@ -1798,10 +1813,13 @@ const en = {
   "table.protocol": "Protocol",
   "table.ports": "Ports",
   "table.rowsPerPage": "rows per page",
+  "table.checks": "Checks",
   "versionInfo.latest": "Latest",
   "versionInfo.management": "Management",
   "versionInfo.dashboard": "Dashboard",
   "versionInfo.updateAvailable": "Update available",
+  "linuxTab.addRepository": "Add our repository",
+  "linuxTab.installNetBird": "Install NetBird",
   "groupDetails.title": "Group Information",
   "groupDetails.notFound":
     "The group you are attempting to access cannot be found. It may have been deleted, or you may not have permission to view it. Please verify the URL or return to the dashboard.",
@@ -3486,6 +3504,8 @@ const en = {
   "postureChecks.minimumRequiredVersionHelp":
     "Only peers with the minimum specified NetBird client version will have access to the network.",
   "postureChecks.versionPlaceholder": "e.g., 0.25.0",
+  "postureChecks.versionError":
+    "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1",
   "postureChecks.clientVersionCheck": "Client Version Check",
   "postureChecks.geoLocationTitle": "Country & Region",
   "postureChecks.geoLocationDescription":
@@ -4747,7 +4767,6 @@ const en = {
   "edr.huntress.configTitle": "Huntress Configuration",
   "edr.huntress.configDescription":
     "Restrict network access to devices protected by Huntress.",
-  "edr.huntress.peerApprovalTitle": "Peer Approval",
   "edr.huntress.complianceTitle": "Compliance",
   "edr.huntress.hoursSuffix": "Hours",
   "edr.huntress.deleteConfirmTitle": "Delete integration?",
@@ -5279,18 +5298,157 @@ const en = {
   "agentNetwork.promptAndResponse": "Prompt & Response",
   "agentNetwork.noPromptOrResponseCaptured": "No prompt or response captured for this request — only metadata is recorded for non-completion calls (e.g. listing models) or when prompt collection is off.",
   "agentNetwork.metadata": "Metadata",
-  "userRoles.owner": "Owner",
-  "userRoles.admin": "Admin",
-  "userRoles.networkAdmin": "Network Admin",
-  "userRoles.billingAdmin": "Billing Admin",
-  "userRoles.auditor": "Auditor",
-  "userRoles.user": "User",
-  "userRoles.transferOwnershipTitle": "Transfer Ownership?",
+  "agentNetwork.policiesDescription":
+    "Bind IdP groups to providers: Engineering gets Claude, Finance doesn't. Enforce token limits, budgets, and guardrails.",
+  "agentNetwork.apiBaseUrl": "API Base URL",
+  "agentNetwork.apiBaseUrlTooltip1":
+    "Use this URL as the base URL when configuring your AI agents or LLM SDK clients (e.g. OpenAI's",
+  "agentNetwork.apiBaseUrlTooltip2": ", Anthropic's",
+  "agentNetwork.apiBaseUrlTooltip3":
+    ", or any HTTP client). Calls hit NetBird first, get authorised by your policies, and only then reach the upstream provider.",
+  "agentNetwork.copyEndpoint": "Copy endpoint",
+  "agentNetwork.copy": "Copy",
+  "agentNetwork.agentConfig": "Agent Config",
+  "agentNetwork.connectFirstProvider":
+    "Connect your first provider to set up your agent network endpoint.",
+  "agentNetwork.providersDescription1":
+    "Connect AI providers and gateways like LiteLLM, OpenAI, and Anthropic through one keyless endpoint, accessible only via NetBird's tunnel.",
+  "agentNetwork.logCollection": "Log Collection",
+  "agentNetwork.enableLogCollection": "Enable Log Collection",
+  "agentNetwork.enableLogCollectionHelp":
+    "Persist access log entries for every agent-network request.",
+  "agentNetwork.retentionPeriod": "Retention Period",
+  "agentNetwork.retentionPeriodHelp":
+    "How long access logs are kept before they're deleted. Usage history is kept separately.",
+  "agentNetwork.selectRetention": "Select retention...",
+  "agentNetwork.enablePromptCollection": "Enable Prompt Collection",
+  "agentNetwork.enablePromptCollectionHelp":
+    "Capture prompt and completion bodies. A policy guardrail must also be enabled.",
+  "agentNetwork.retention.7days": "7 days",
+  "agentNetwork.retention.14days": "14 days",
+  "agentNetwork.retention.30days": "30 days",
+  "agentNetwork.retention.60days": "60 days",
+  "agentNetwork.retention.90days": "90 days",
+  "agentNetwork.retention.indefinite": "Indefinite",
+  "agentNetwork.updateGlobalLimit": "Update Global Limit",
+  "agentNetwork.createGlobalLimit": "Create Global Limit",
+  "agentNetwork.globalLimitModalDescription":
+    "Account-level token and budget caps. Apply account-wide or scope to specific groups or users.",
+  "agentNetwork.tabRule": "Rule",
+  "agentNetwork.tabLimits": "Limits",
+  "agentNetwork.nameOfGlobalLimit": "Name of the Global Limit",
+  "agentNetwork.nameOfGlobalLimitHelp":
+    "Set an easily identifiable name for this limit.",
+  "agentNetwork.nameOfGlobalLimitPlaceholder":
+    "e.g. Account-wide monthly cap",
+  "agentNetwork.targetGroupsTooltip":
+    "Restrict this rule to members of the selected groups. Leave empty (and no users) to apply account-wide.",
+  "agentNetwork.all": "All",
+  "agentNetwork.selectTargetGroups": "Select target group(s)...",
+  "agentNetwork.targetUsersTooltip":
+    "Restrict this rule to specific users. Leave empty (and no groups) to apply account-wide.",
+  "agentNetwork.accountWideNote":
+    "With no targets selected, this rule applies",
+  "agentNetwork.accountWideHighlight": "account-wide",
+  "agentNetwork.accountWideNoteSuffix":
+    "— every agent-network request is counted against its caps.",
+  "agentNetwork.saveGlobalLimit": "Save Global Limit",
+  "agentNetwork.addGlobalLimitButton": "Add Global Limit",
+  "agentNetwork.selectUsers": "Select user(s)...",
+  "agentNetwork.searchUsers": "Search users...",
+  "agentNetwork.noUsersMatch": "No users match.",
+  "agentNetwork.updateGuardrail": "Update Guardrail",
+  "agentNetwork.createGuardrail": "Create Guardrail",
+  "agentNetwork.guardrailModalDescription":
+    "Define a reusable set of LLM guardrails to attach to one or more policies.",
+  "agentNetwork.tabChecks": "Checks",
+  "agentNetwork.tabNameAndDescription": "Name & Description",
+  "agentNetwork.nameOfGuardrail": "Name of the Guardrail",
+  "agentNetwork.nameOfGuardrailHelp":
+    "Set an easily identifiable name for this guardrail set.",
+  "agentNetwork.nameOfGuardrailPlaceholder": "e.g., Strict — Production",
+  "agentNetwork.descriptionOptional": "Description (optional)",
+  "agentNetwork.descriptionOfGuardrailHelp":
+    "Write a short description to add more context to this guardrail.",
+  "agentNetwork.descriptionOfGuardrailPlaceholder":
+    "e.g., Tight model allowlist, PII redaction, hard monthly budget.",
+  "agentNetwork.createGuardrailButton": "Create Guardrail",
+  "agentNetwork.modelAllowlist": "Model Allowlist",
+  "agentNetwork.modelAllowlistDescription":
+    "Block requests for models not on the allowlist.",
+  "agentNetwork.noModelsOnSelectedProviders":
+    "The selected providers don't expose any models yet. Add models to a destination provider first — the allowlist is restricted to what those providers expose.",
+  "agentNetwork.noModelsOnAnyProvider":
+    "No models configured on any provider yet. Add models to a provider first — the allowlist is restricted to what the providers actually expose.",
+  "agentNetwork.promptCapture": "Prompt Capture",
+  "agentNetwork.promptCaptureDescription":
+    "Redact PII before storing the prompt body.",
+  "agentNetwork.promptCaptureDetails":
+    "NetBird redacts emails, SSN-shaped, phone-shaped, and credit-card patterns before storing the prompt body. Enabling this guardrail adds strict redaction on top of the proxy's built-in token redaction.",
+  "agentNetwork.limitSingular": "Limit",
+  "agentNetwork.limitPlural": "Limits",
+  "agentNetwork.limitsTabDescription":
+    "Token and budget caps applied directly to this policy.",
+  "agentNetwork.addTokenLimit": "Add Token Limit",
+  "agentNetwork.addBudgetLimit": "Add Budget Limit",
+  "agentNetwork.limitRowGroup": "Group",
+  "agentNetwork.limitRowIndividual": "Individual",
+  "agentNetwork.limitRowResetsEvery": "resets every",
+  "agentNetwork.editLimit": "Edit Limit",
+  "agentNetwork.detach": "Detach",
+  "agentNetwork.noLimitsYet": "You haven't added any limits yet",
+  "agentNetwork.noLimitsDescription":
+    "Add token or budget caps that apply directly to this policy.",
+  "agentNetwork.tokenLimitModalDescription":
+    "Cap total tokens per group and per individual user over a rolling window.",
+  "agentNetwork.budgetLimitModalDescription":
+    "Cap USD spend per group and per individual user over a rolling window.",
+  "agentNetwork.groupCap": "Group Cap",
+  "agentNetwork.groupCapTooltip":
+    "Caps the group's total consumption within the window. Once reached, every member is blocked until the window resets, regardless of individual usage.",
+  "agentNetwork.groupCapHelp": "Group total within the window.",
+  "agentNetwork.uncappedPlaceholder": "0 = uncapped",
+  "agentNetwork.individualCap": "Individual Cap",
+  "agentNetwork.individualCapTooltip":
+    "Caps each member's own consumption within the window. A user that hits this cap is blocked even when the group still has headroom.",
+  "agentNetwork.individualCapHelp": "Per-user limit within the window.",
+  "agentNetwork.resetWindow": "Reset Window",
+  "agentNetwork.resetWindowHelp":
+    "How often the cap counters reset. Minimum 1 minute.",
+  "agentNetwork.minutes": "Minutes",
+  "agentNetwork.hours": "Hours",
+  "agentNetwork.daysUnit": "Days",
+  "agentNetwork.updateAgentPolicy": "Update Agent Policy",
+  "agentNetwork.createAgentPolicy": "Create Agent Policy",
+  "agentNetwork.agentPolicyDescription":
+    "Govern which groups can call which AI providers and under what guardrails.",
+  "agentNetwork.tabPolicy": "Policy",
+  "agentNetwork.tabGuardrails": "Guardrails",
+  "agentNetwork.source": "Source",
+  "agentNetwork.sourceTooltip":
+    "Group of users this policy authorises to call the destination providers. One group per policy in this release.",
+  "agentNetwork.legacyMultipleSourceGroupsPrefix":
+    "This policy was created with multiple source groups. Only the first group is kept on save —",
+  "agentNetwork.legacyMultipleSourceGroupsSuffix":
+    "will be retained, the others removed.",
+  "agentNetwork.provider": "Provider",
+  "agentNetwork.providerTooltip": "AI providers the source is allowed to reach.",
+  "agentNetwork.nameOfPolicy": "Name of the Policy",
+  "agentNetwork.nameOfPolicyHelp":
+    "Set an easily identifiable name for your policy.",
+  "agentNetwork.nameOfPolicyPlaceholder": "e.g. Engineering → OpenAI",
+  "agentNetwork.descriptionOfPolicyHelp":
+    "Write a short description to add more context to this policy.",
+  "agentNetwork.descriptionOfPolicyPlaceholder":
+    "e.g., Engineers can call OpenAI under production guardrails.",
+  "agentNetwork.addPolicy": "Add Policy",
+  "agentNetwork.selectSourceGroups": "Select source group(s)...",
+  "agentNetwork.selectProviders": "Select provider(s)...",
+  "agentNetwork.noProvidersConnected": "No providers connected yet.",
   "userRoles.transferOwnershipDescription1": "This action will transfer the",
   "userRoles.transferOwnershipDescription2": "role to",
   "userRoles.transferOwnershipDescription3": "and leave you with the",
   "userRoles.transferOwnershipDescription4": "role. This action can only be undone if the new owner transfers the role back to you.",
-  "userRoles.thisUser": "this user",
   "userStatus.disabled": "Disabled",
   "userStatus.pending": "Pending",
   "userStatus.blocked": "Blocked",
@@ -5308,41 +5466,21 @@ const en = {
   "networkSettings.routingPeerDnsDisabled": "Routing Peer DNS Resolution successfully disabled.",
   "networkSettings.updatingRoutingPeerDns": "Updating routing peer DNS resolution setting...",
   "networkSettings.updatedSuccessfully": "Network settings successfully updated.",
-  "networkSettings.updating": "Updating network settings...",
   "networkSettings.invalidDomain": "Please enter a valid domain, e.g. example.com or intra.example.com",
   "networkSettings.networkRangeEmpty": "Network range cannot be empty",
   "networkSettings.invalidIpv4Cidr": "Please enter a valid IPv4 CIDR range, e.g. 100.64.0.0/16 or 192.168.1.0/24",
   "networkSettings.invalidIpv6Cidr": "Please enter a valid IPv6 CIDR range, e.g. fd00:1234::/64",
   "networkSettings.invalidPrefixLength": "Prefix length must be between /48 and /112",
-  "networkSettings.dnsDomain": "DNS Domain",
-  "networkSettings.dnsDomainHelp": "Specify a custom peer DNS domain for your network. This should not point to a valid domain to avoid overriding DNS results.",
-  "networkSettings.networkRange": "Network Range",
-  "networkSettings.networkRangeHelp": "Specify a custom IPv4 range for your network in CIDR format. All peer IPs will be re-allocated when changed.",
-  "networkSettings.ipv6NetworkRange": "IPv6 Network Range",
-  "networkSettings.ipv6NetworkRangeHelp": "Specify a custom IPv6 range for your network in CIDR format. All peer IPv6 addresses will be re-allocated when changed.",
-  "networkSettings.ipv6EnabledGroups": "IPv6 Enabled Groups",
-  "networkSettings.ipv6EnabledGroupsHelp": "Peers in the selected groups will receive IPv6 overlay addresses (dual-stack). Remove all groups to disable IPv6. Changes apply on save and will restart affected clients.",
   "networkSettings.selectIpv6Groups": "Select groups to enable IPv6...",
   "networkSettings.enableRoutingPeerDns": "Enable Routing Peer DNS Resolution",
   "networkSettings.routingPeerDnsHelp": "Resolves DNS for routed domains on the routing peer instead of on the client. Requires NetBird client v0.35 or higher. Changes will only take effect after restarting the clients.",
   "filters.filter": "Filter",
   "filters.filtersCount": "Filter(s)",
-  "datePicker.allTime": "All Time",
-  "datePicker.lastMonth": "Last Month",
-  "datePicker.last14Days": "Last 14 Days",
-  "datePicker.last7Days": "Last 7 Days",
-  "datePicker.last2Days": "Last 2 Days",
-  "datePicker.yesterday": "Yesterday",
-  "datePicker.today": "Today",
-  "datePicker.selectDateRange": "Select date range",
   "refresh.cooldownMessage": "You can refresh it again in 5 seconds",
   "refresh.refresh": "Refresh",
   "fileUpload.wrongFileType": "You uploaded the wrong file type",
   "radioCard.optionsAriaLabel": "Options",
-  "peerGroupSelector.searchResource": "Search resource...",
-  "peerGroupSelector.searchPeer": "Search peer by name or ip...",
   "peerGroupSelector.searchCluster": "Search cluster...",
-  "peerGroupSelector.search": "Search...",
   "peerGroupSelector.policy": "Policy",
   "peerGroupSelector.policies": "Policies",
   "common.never": "Never",
@@ -5360,6 +5498,753 @@ const en = {
   "trafficEvents.description":
     "Traffic events is an experimental feature. Functionality and behavior may evolve, including changes to how data is collected or reported.",
   "trafficEvents.inDocumentation": "in our documentation.",
+  "agentOverview.byDay": "by day",
+  "agentOverview.inputOutputDesc": "Input and output tokens per day.",
+  "agentOverview.estimatedSpendDesc": "Estimated spend per day.",
+  "agentOverview.tokens": "Tokens",
+  "agentOverview.cost": "Cost",
+  "agentOverview.inputTokens": "Input Tokens",
+  "agentOverview.outputTokens": "Output Tokens",
+  "agentOverview.totalTokens": "Total Tokens",
+  "agentOverview.days": "Days",
+  "agentOverview.noUsageTitle": "No usage recorded yet",
+  "agentOverview.noUsageDescription":
+    "Daily token and cost totals appear here as agents send requests through the providers you've connected.",
+  "agentOverview.agentNetwork": "Agent Network",
+  "agentOverview.noUsageRange": "No usage in the selected range",
+  "agentOverview.date": "Date",
+  "groupResources.searchPlaceholder": "Search by name, address or group...",
+  "groupResources.emptyTitle": "This group has no assigned resources",
+  "groupResources.emptyDescription":
+    "Assign this group to your resources inside your networks to see them listed here.",
+  "groupResources.goToNetworks": "Go to Networks",
+  "setupNetbirdModal.installOnMacOS": "Install on macOS",
+  "setupNetbirdModal.downloadAndRunInstaller":
+    "Download and run macOS Installer",
+  "setupNetbirdModal.downloadNetBird": "Download NetBird",
+  "setupNetbirdModal.managementUrlInstructions":
+    'Click on "Settings" then "Advanced Settings" from the NetBird icon in your system tray and enter the following "Management URL"',
+  "setupNetbirdModal.openTerminalAndRun": "Open Terminal and run NetBird",
+  "setupNetbirdModal.clickConnect":
+    'Click on "Connect" from the NetBird icon in your system tray',
+  "setupNetbirdModal.signUpEmail": "Sign up using your email address",
+  "setupNetbirdModal.installManuallyTerminal":
+    "Install manually with Terminal",
+  "setupNetbirdModal.runNetBird": "Run NetBird",
+  "setupNetbirdModal.andLogInBrowser": "and log in the browser",
+  "setupNetbirdModal.installManuallyHomebrew":
+    "Install manually with HomeBrew",
+  "setupNetbirdModal.downloadInstallHomebrew": "Download and install HomeBrew",
+  "setupNetbirdModal.homebrewInstallationGuide": "HomeBrew Installation Guide",
+  "setupNetbirdModal.startNetBirdDaemon": "Start NetBird daemon",
+  "rdpCertificate.title": "RDP Certificate Verification",
+  "rdpCertificate.serverPresenting":
+    "The server <strong>{hostname}</strong> is presenting a certificate:",
+  "rdpCertificate.subject": "Subject:",
+  "rdpCertificate.issuer": "Issuer:",
+  "rdpCertificate.serial": "Serial:",
+  "rdpCertificate.sha256": "SHA-256:",
+  "rdpCertificate.trustQuestion": "Do you trust this certificate?",
+  "rdpCertificate.remember": "Remember this certificate for future connections",
+  "rdpCertificate.reject": "Reject",
+  "rdpCertificate.accept": "Accept",
+  "rdpCertificate.unableToParse": "Unable to parse",
+  "rdpCertificate.changedTitle": "⚠️ Certificate has changed!",
+  "rdpCertificate.previousFingerprint": "Previous fingerprint:",
+  "domainVerification.domain": "Domain",
+  "domainVerification.lastCheck": "Last Check",
+  "domainVerification.lastCheckedOn": "Last checked on",
+  "domainVerification.domains": "Domains",
+  "minimalPeers.noAccessiblePeersTitle": "This peer has no accessible peers",
+  "minimalPeers.noAccessiblePeersDescription":
+    "Add more peers to your network or check your access control policies.",
+  "onboarding.agent.welcome.title": "Welcome to Agent Network",
+  "onboarding.agent.welcome.description":
+    "Agent Network is the access-control layer for AI agents. Route LLM requests through one keyless endpoint and give agents scoped access to internal resources, all enforced by your policies.",
+  "onboarding.agent.welcome.getStarted": "Get Started",
+  "onboarding.agent.welcome.keylessTitle":
+    "Keyless access over the tunnel",
+  "onboarding.agent.welcome.keylessDescription":
+    "Agents access LLM providers and internal resources through encrypted WireGuard tunnel, without exposing API keys on the client.",
+  "onboarding.agent.welcome.policyTitle": "Policy-controlled access",
+  "onboarding.agent.welcome.policyDescription":
+    "Every request is authorized against your policies before it reaches a provider, with optional token and budget limits and guardrails.",
+  "onboarding.agent.welcome.usageTitle": "Per-identity usage & logs",
+  "onboarding.agent.welcome.usageDescription":
+    "See who called which model, how many tokens it cost, and whether it was allowed. All attributed to the real caller.",
+  "onboarding.agent.device.title": "Connect your device",
+  "onboarding.agent.device.description":
+    "Agent Network endpoints are private and reachable only over the NetBird overlay. Install the client and sign in to join the network with keyless, encrypted access.",
+  "onboarding.agent.device.connected":
+    "Your device is connected to the network.",
+  "onboarding.agent.device.waiting":
+    "Waiting for your device to connect…",
+  "onboarding.agent.provider.title": "Connect a provider",
+  "onboarding.agent.provider.description":
+    "A provider is an upstream LLM service NetBird routes to, such as OpenAI, Anthropic, or an AI gateway. NetBird stores the API key securely and returns a tunnel-only endpoint.",
+  "onboarding.agent.provider.connectButton": "Connect Provider",
+  "onboarding.agent.provider.connectedSingular": "Provider connected.",
+  "onboarding.agent.provider.connectedPlural":
+    "{count} providers connected.",
+  "onboarding.agent.provider.endpointReady":
+    "Your agent network endpoint is ready.",
+  "onboarding.agent.provider.apiBaseUrl": "API Base URL",
+  "onboarding.agent.provider.endpointCopied":
+    "Endpoint copied to clipboard",
+  "onboarding.agent.provider.copyEndpoint": "Copy endpoint",
+  "onboarding.agent.provider.copy": "Copy",
+  "onboarding.agent.policy.title": "Create a policy",
+  "onboarding.agent.policy.description":
+    "By default Agent Network denies every request. Policies connect source groups, your users or agents, to providers, with optional token and budget limits and guardrails.",
+  "onboarding.agent.policy.createdSingular": "Policy created.",
+  "onboarding.agent.policy.createdPlural":
+    "{count} policies created.",
+  "onboarding.agent.policy.authorized":
+    "Authorized agents can now reach the provider.",
+  "onboarding.agent.policy.addButton": "Add Policy",
+  "onboarding.agent.configure.title": "Configure your agent",
+  "onboarding.agent.configure.description":
+    "Point your agent to the NetBird base URL. No client API key is needed, NetBird authorizes each request and injects the upstream key server side.",
+  "onboarding.agent.configure.noProvider":
+    "Connect a provider to generate your endpoint, then your agent config appears here.",
+  "trafficEventSetting.experimental": "Experimental",
+  "trafficEventSetting.experimentalDescription":
+    "Traffic events is an experimental feature. Functionality and behavior may evolve, including changes to how data is collected or reported. Traffic events data retention is limited to 48 hours and capped at a maximum of 50,000 events.",
+  "trafficEventSetting.enableTrafficEvents": "Enable Traffic Events",
+  "trafficEventSetting.enableTrafficEventsHelp":
+    "Enable traffic events for all peers. This requires NetBird client v0.39 or higher.",
+  "trafficEventSetting.enableTrafficReporting":
+    "Enable Traffic Reporting (Kernel)",
+  "trafficEventSetting.enableTrafficReportingHelp":
+    "Traffic reporting is always enabled in userspace, and this setting only applies to kernel. If enabled, network packets and their size will be counted and reported.",
+  "trafficEventSetting.limitToGroups": "Limit To Specific Groups",
+  "trafficEventSetting.limitToGroupsHelp":
+    "Select peer groups for which traffic events will be logged. If no group is selected, logging applies to all peers.",
+  "trafficEventSetting.saveGroups": "Save Groups",
+  "trafficEventSetting.searchPlaceholder":
+    "Select groups to log traffic events for...",
+  "trafficEventSetting.notifyTitle": "Traffic Events",
+  "trafficEventSetting.enabledSuccess":
+    "Traffic events successfully enabled.",
+  "trafficEventSetting.disabledSuccess":
+    "Traffic events successfully disabled.",
+  "trafficEventSetting.updating": "Updating traffic events setting...",
+  "trafficEventSetting.reportingNotifyTitle": "Traffic Reporting",
+  "trafficEventSetting.reportingEnabledSuccess":
+    "Traffic reporting successfully enabled.",
+  "trafficEventSetting.reportingDisabledSuccess":
+    "Traffic reporting successfully disabled.",
+  "trafficEventSetting.updatingReporting":
+    "Updating traffic reporting setting...",
+  "trafficEventSetting.confirmTitle":
+    "Enable Traffic Reporting (Kernel)?",
+  "trafficEventSetting.confirmDescription":
+    "Note: Enabling this setting will lead to a higher CPU usage than usual on the NetBird client.",
+  "trafficEventSetting.groupsNotifyTitle": "Traffic Events Groups",
+  "trafficEventSetting.groupsUpdatedSuccess":
+    "Traffic events groups successfully updated.",
+  "trafficEventSetting.updatingGroups":
+    "Updating traffic events groups...",
+  "webhook.endpointUrl": "Endpoint URL",
+  "webhook.enterEndpointUrl": "Enter your Endpoint URL",
+  "webhook.urlHelpText":
+    "Full HTTP(S) URL where events will be sent via a POST request.",
+  "webhook.authentication": "Authentication",
+  "webhook.authenticationHelp":
+    "Select your preferred authentication method for the endpoint.",
+  "accessToken.createTitle": "Create Access Token",
+  "accessToken.createDescription":
+    "Use this token to access NetBird's public API",
+  "accessToken.nameHelp":
+    "Set an easily identifiable name for your token",
+  "accessToken.namePlaceholder": "e.g., Infra token",
+  "accessToken.expiresIn": "Expires in",
+  "accessToken.expiresInHelp": "Should be between 1 and 365 days.",
+  "accessToken.days": "Day(s)",
+  "accessToken.createToken": "Create Token",
+  "accessToken.successTitle": "Access token created successfully!",
+  "accessToken.successDescription":
+    "This token will not be shown again, so be sure to copy it and store in a secure location.",
+  "accessToken.copyToClipboard": "Copy to clipboard",
+  "accessToken.creatingTitle": "Creating access token",
+  "accessToken.creatingSuccess": "{name} was created successfully",
+  "accessToken.creating": "Creating access token...",
+  "accessToken.copyMessage":
+    "Access token was copied to your clipboard!",
+  "accessToken.creationFailed": "Setup key could not be created...",
+  "accessToken.accessTokens": "Access Tokens",
+  "crowdStrike.scoreThreshold": "Score Threshold",
+  "crowdStrike.scoreThresholdHelp":
+    "If the peer's ZTA score is below the threshold, the peer will be rejected. The score should be between 1 and 100.",
+  "eventStreaming.title": "Event Streaming",
+  "eventStreaming.description":
+    "Event Streaming allows you to stream NetBirds audit & traffic events to different third-party services.",
+  "azureAd.configurationTitle": "Entra ID (API) Configuration",
+  "azureAd.configurationDescription":
+    "Sync your users and groups from Entra ID to NetBird.",
+  "azureAd.settings": "Settings",
+  "azureAd.groupSync": "Group Sync",
+  "azureAd.userSync": "User Sync",
+  "azureAd.applicationClientId": "Application (client) ID",
+  "azureAd.clientSecret": "Client Secret",
+  "azureAd.syncInterval": "Sync Interval",
+  "azureAd.syncIntervalHelp":
+    "The interval in seconds when the synchronization should happen.",
+  "azureAd.seconds": "Seconds",
+  "azureAd.synchronizeGroups": "Synchronize Groups",
+  "azureAd.synchronizeUsers": "Synchronize Users",
+  "azureAd.addUserGroupFilter": "Add user group filter",
+  "azureAd.userGroupStartsWith": "User group starts with...",
+  "azureAd.deleteIntegration": "Delete Integration",
+  "azureAd.deleteIntegrationHelp":
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+  "azureAd.deleteConfirmTitle": "Delete integration?",
+  "azureAd.deleteConfirmDescription":
+    "Are you sure you want to delete this integration?",
+  "azureAd.deletedSuccess": "Entra ID (API) was successfully deleted",
+  "azureAd.updatedSuccess": "Entra ID (API) was successfully updated",
+  "azureAd.deleting": "Deleting integration...",
+  "azureAd.updating": "Updating integration...",
+  "idp.identityProvider": "Identity Provider",
+  "idp.identityProviderHelp":
+    "Select your identity provider connector for this integration.",
+  "idp.connectorCannotBeChangedLine1":
+    "The identity provider connector cannot be changed afterwards.",
+  "idp.connectorCannotBeChangedLine2":
+    "If you want to change the connector, please delete this integration and set it up again with a different connector.",
+  "idp.selectProvider": "Select your identity provider...",
+  "idp.noCompatibleProvidersPrefix":
+    "No compatible identity providers found. Please go to",
+  "idp.noCompatibleProvidersLink": "Settings › Identity Providers",
+  "idp.noCompatibleProvidersSuffix": "to set one up.",
+  "idpSync.title": "Identity Provider Sync",
+  "idpSync.description":
+    "Configure your preferred Identity Provider (IdP) to synchronize your users and groups to NetBird.",
+  "idpSync.featureText": "Identity Provider (IdP) Sync",
+  "idpSync.calloutPrefix":
+    "Looking to enable a custom IdP like Keycloak?",
+  "idpSync.calloutContact": "Please contact us at",
+  "debugJob.title": "Debug Bundle",
+  "debugJob.description":
+    "Generate a debug bundle on this peer with logs and diagnostics. Useful for troubleshooting without CLI access.",
+  "debugJob.logFileCount": "Log File Count",
+  "debugJob.logFileCountHelp":
+    "Sets the limit for how many individual log files will be included in the debug bundle.",
+  "debugJob.files": "File(s)",
+  "debugJob.enableBundleDuration": "Enable Bundle Duration",
+  "debugJob.enableBundleDurationHelp":
+    "When enabled, allows you to specify a time period for log collection before generating the debug bundle.",
+  "debugJob.duration": "Duration",
+  "debugJob.durationHelp":
+    "Time period for which logs should be collected before creating the debug bundle.",
+  "debugJob.minutes": "Minute(s)",
+  "debugJob.anonymizeLogData": "Anonymize Log Data",
+  "debugJob.anonymizeLogDataHelp":
+    "Remove sensitive information (IP addresses, domains etc.) before creating the debug bundle.",
+  "debugJob.createDebugBundle": "Create Debug Bundle",
+  "debugJob.notifyTitle": "Create Debug Job",
+  "debugJob.notifySuccess": "Debug job triggered successfully.",
+  "debugJob.creating": "Creating job...",
+  "peerSSH.access": "SSH Access",
+  "peerSSH.accessHelp":
+    "Enable the SSH server on this peer to access the machine via an secure shell.",
+  "peerSSH.setupHelpText":
+    "Set up SSH and create an explicit access control policy defining which users can access specific local usernames of this machine via SSH.",
+  "peerSSH.createPolicy": "Create SSH Policy",
+  "peerSSH.enableAccess": "Enable SSH Access",
+  "peerSSH.disableConfirmTitle": "Disable SSH Access?",
+  "peerSSH.disableConfirmDescription":
+    "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
+  "peerSSH.permissionDenied":
+    "You don't have the required permissions to update this setting.",
+  "rdp.usernameAndPassword": "Username & Password",
+  "rdp.usernameAndPasswordHelp":
+    "Enter the credentials required to authenticate with the remote host. For domain accounts, use DOMAIN\\username or username@domain format.",
+  "rdp.port": "Port",
+  "rdp.portHelp":
+    "Specify the RDP port for your remote connection.",
+  "rdp.connect": "Connect",
+  "rdp.error": "Error",
+  "rdp.usernameEmptyError": "Username cannot be empty",
+  "rdp.portRangeError": "Port must be a number between 1 and 65535",
+  "rdp.description": "Connect to {ip} via RDP",
+  "routeAddRoutingPeer.networkIdentifier": "Network Identifier",
+  "routeAddRoutingPeer.networkIdentifierHelp":
+    "Network name and CIDR that you are adding the route to.",
+  "routeAddRoutingPeer.routingPeer": "Routing Peer",
+  "routeAddRoutingPeer.routingPeerHelp":
+    "Assign a single peer as a routing peer for the network route.",
+  "routeAddRoutingPeer.distributionGroups": "Distribution Groups",
+  "routeAddRoutingPeer.distributionGroupsHelp":
+    "Advertise this route to peers that belong to the following groups",
+  "routeAddRoutingPeer.accessControlGroups":
+    "Access Control Groups (optional)",
+  "routeAddRoutingPeer.accessControlGroupsHelp":
+    "These groups offer a more granular control of internal services in your network. They can be used in access control policies to limit and control access of this route.",
+  "routeAddRoutingPeer.networkRoutes": "Network Routes",
+  "routeUpdate.route": "Route",
+  "routeUpdate.routingPeer": "Routing Peer",
+  "routeUpdate.routingPeerHelp":
+    "Assign a single peer as a routing peer for the network route.",
+  "routeUpdate.routingPeerExitNodeHelp":
+    "Assign a single peer as a routing peer for the exit node.",
+  "routeUpdate.peerGroup": "Peer Group",
+  "routeUpdate.peerGroupHelp":
+    "Assign a peer group with machines to be used as routing peers.",
+  "routeUpdate.peerGroupExitNodeHelp":
+    "Assign a peer group with machines to be used as exit nodes.",
+  "routeUpdate.distributionGroups": "Distribution Groups",
+  "routeUpdate.distributionGroupsHelp":
+    "Advertise this route to peers that belong to the following groups",
+  "routeUpdate.accessControlGroups": "Access Control Groups (optional)",
+  "routeUpdate.descriptionLabel": "Description (optional)",
+  "routeUpdate.descriptionHelp":
+    "Write a short description to add more context to this route.",
+  "routeUpdate.descriptionPlaceholder":
+    "e.g., Route to access all devices in the AWS VPC, located in Frankfurt.",
+  "routeUpdate.enableRoute": "Enable Route",
+  "routeUpdate.enableRouteHelp":
+    "Use this switch to enable or disable the route.",
+  "routeUpdate.autoApplyRoute": "Auto Apply Route",
+  "routeUpdate.autoApplyRouteHelp":
+    "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+  "routeUpdate.metric": "Metric",
+  "routeUpdate.metricError": "Metric must be between 1 and 9999",
+  "routeUpdate.networkRoutes": "Network Routes",
+  "metricsTab.description":
+    "Help us improve NetBird by sharing performance metrics such as connection timing, sync duration, and login latency.",
+  "metricsTab.shareMetrics": "Share performance metrics",
+  "metricsTab.shareMetricsHelp":
+    "When enabled, clients will periodically send performance data to help us identify and fix issues.",
+  "metricsTab.notifyTitle": "Metrics",
+  "metricsTab.enabledSuccess": "Metrics push successfully enabled.",
+  "metricsTab.disabledSuccess": "Metrics push successfully disabled.",
+  "metricsTab.updating": "Updating metrics setting...",
+  "metricsTab.clientMetrics": "Client Metrics",
+  "metricsTab.documentationPrefix": "Learn more about",
+  "metricsTab.documentationSuffix": "in our documentation.",
+  "permissionsTab.saveSuccess": "Permissions were updated successfully.",
+  "customers.title": "Customers",
+  "customers.description":
+    "Use this view to manage customer accounts and their plans.",
+  "customers.docsSuffix": "in our documentation.",
+  "tenants.title": "Tenants",
+  "tenants.description":
+    "A list of all tenants and their subscription details. Use this view to manage accounts, plans and permissions.",
+  "tenants.docsSuffix": "in our documentation.",
+  "clusters.pageDescription":
+    "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure.",
+  "invoices.title": "Invoices",
+  "invoices.description": "View and export all your available invoices",
+  "distributorCustomers.editTitle": "Edit Customer",
+  "distributorCustomers.addTitle": "Add Customer",
+  "distributorCustomers.addDescription":
+    "Add a new customer account to your distributor organization.",
+  "distributorCustomers.tabGeneral": "General",
+  "distributorCustomers.tabPlan": "Plan",
+  "distributorCustomers.companyLabel": "Company",
+  "distributorCustomers.companyHelp":
+    "Enter the name of your customers company.",
+  "distributorCustomers.domainLabel": "Domain",
+  "distributorCustomers.domainHelp":
+    "The domain associated with this customer account.",
+  "distributorCustomers.customerIdLabel": "Customer ID (optional)",
+  "distributorCustomers.customerIdHelp":
+    "An optional identifier to easier map customers to your internal systems.",
+  "distributorCustomers.validDomainError":
+    "Please enter a valid domain, e.g. netbird.io",
+  "distributorCustomers.addNotifyTitle": "Add {domain} customer",
+  "distributorCustomers.addNotifyDescription":
+    "The customer account has been created successfully.",
+  "distributorCustomers.addNotifyLoading": "Creating customer account...",
+  "distributorCustomers.updateNotifyTitle": "Update {name}",
+  "distributorCustomers.updateNotifyDescription":
+    "The customer has been updated successfully.",
+  "distributorCustomers.updateNotifyLoading": "Updating customer...",
+  "distributorCustomers.pricingAndPlans": "Pricing & Plans",
+  "distributorCustomers.addCustomerButton": "Add Customer",
+  "mspTenants.editTitle": "Update Tenant",
+  "mspTenants.addTitle": "Add Tenant",
+  "mspTenants.addDescription":
+    "Add a new tenant account to your organization.",
+  "mspTenants.tabGeneral": "General",
+  "mspTenants.tabPermissions": "Permissions",
+  "mspTenants.nameLabel": "Name",
+  "mspTenants.nameHelp": "Set an easily recognizable name for the tenant.",
+  "mspTenants.domainLabel": "Domain",
+  "mspTenants.domainHelpNew": "Enter the primary domain of the tenant.",
+  "mspTenants.domainHelpExisting": "Primary domain of the tenant.",
+  "mspTenants.ownershipVerified": "Ownership Verified",
+  "mspTenants.pendingVerification": "Pending Verification",
+  "mspTenants.verifyDomain": "Verify Domain",
+  "mspTenants.validDomainError":
+    "Please enter a valid domain, e.g. netbird.io",
+  "mspTenants.addNotifyTitle": "Add {domain} account",
+  "mspTenants.addNotifyDescription":
+    "The tenant account has been created successfully.",
+  "mspTenants.updateNotifyTitle": "Update {domain} account",
+  "mspTenants.updateNotifyDescription":
+    "The tenant account has been updated successfully.",
+  "mspTenants.pricingAndPlans": "Pricing & Plans",
+  "mspTenants.addAccountButton": "Add Account",
+  "mspUnlink.title": "Unlink Tenant",
+  "mspUnlink.newOwnerLabel": "New Owner",
+  "mspUnlink.newOwnerHelp":
+    "In order to unlink this tenant, you need to assign a new owner.",
+  "mspUnlink.newOwnerPlaceholder": "Select a new owner...",
+  "mspUnlink.warningText":
+    "After unlinking, the existing subscription for this tenant will be canceled, and the new owner will need to set up their own billing information.",
+  "mspUnlink.learnMoreLink": "Unlinking Tenants",
+  "mspUnlink.unlinkButton": "Unlink",
+  "notifications.title": "Notifications",
+  "notifications.description":
+    "Choose how to be notified when important events occur in your account.",
+  "notifications.channelsLink": "Notification Channels",
+  "notifications.docsSuffix": "in our documentation.",
+  "notifications.emailTitle": "Email",
+  "notifications.emailChannelLabel": "Enable Email Channel",
+  "notifications.emailChannelHelp":
+    "Enable or disable all email notifications for your account",
+  "notifications.emailAddressesLabel": "Email Addresses",
+  "notifications.emailAddressesHelp":
+    "Add one or more email addresses that should receive notifications",
+  "notifications.emailNotifyTitle": "Email Notifications",
+  "notifications.emailAddSuccess":
+    "{email} has been successfully added",
+  "notifications.emailAddLoading": "Adding {email}...",
+  "notifications.emailRemoveSuccess":
+    "{email} has been successfully removed",
+  "notifications.emailRemoveLoading": "Removing {email}...",
+  "notifications.slackTitle": "Slack",
+  "notifications.slackNotConnected": "Not Connected",
+  "notifications.slackConnect": "Connect",
+  "notifications.slackDisconnect": "Disconnect",
+  "notifications.slackNotifyTitle": "Slack Notifications",
+  "notifications.slackSaveNew":
+    "Slack has been successfully connected.",
+  "notifications.slackSaveUpdated":
+    "Slack configuration has been successfully updated.",
+  "notifications.slackConnecting": "Connecting Slack...",
+  "notifications.slackUpdating": "Updating Slack...",
+  "notifications.slackDisconnectTitle": "Disconnect Slack",
+  "notifications.slackDisconnectDescription":
+    "Are you sure you want to disconnect Slack? You will no longer receive notifications in your Slack channel.",
+  "notifications.slackDisconnectConfirm": "Disconnect",
+  "notifications.slackDisconnected":
+    "Slack has been successfully disconnected.",
+  "notifications.slackDisconnecting": "Disconnecting Slack...",
+  "notifications.webhookTitle": "Webhook",
+  "notifications.webhookNotConnected": "Not Connected",
+  "notifications.webhookConnect": "Connect",
+  "notifications.webhookNotifyTitle": "Webhook Notifications",
+  "notifications.webhookSaveNew":
+    "Webhook has been successfully connected.",
+  "notifications.webhookSaveUpdated":
+    "Webhook configuration has been successfully updated.",
+  "notifications.webhookConnecting": "Connecting webhook...",
+  "notifications.webhookUpdating": "Updating webhook...",
+  "notifications.webhookDeleteTitle": "Delete Webhook Connection",
+  "notifications.webhookDeleteDescription":
+    "Are you sure you want to delete this webhook connection? This action cannot be undone.",
+  "notifications.webhookDeleteConfirm": "Delete",
+  "notifications.webhookDeleted":
+    "Webhook connection has been successfully deleted.",
+  "notifications.webhookDeleting": "Deleting webhook...",
+  "oktaSetup.connectTitle": "Connect NetBird with Okta",
+  "oktaSetup.connectDescription":
+    "Start syncing your users and groups from Okta to NetBird. Follow the steps below to get started.",
+  "oktaSetup.requiredPermissions": "Required Permissions",
+  "oktaSetup.accountPrefix": "Ensure that you have an",
+  "oktaSetup.accountType": "Okta user account",
+  "oktaSetup.permissionsWord": "permissions",
+  "oktaSetup.accountSuffix":
+    "If you don't have the required permissions, ask your Okta administrator to grant them to you.",
+  "oktaSetup.permAdd": "Add Okta applications",
+  "oktaSetup.permConfigure": "Configure Okta applications",
+  "oktaSetup.configureSsoTitle": "Configure SSO in Okta",
+  "oktaSetup.configureSsoStep1":
+    "Access the Okta dashboard and navigate to",
+  "oktaSetup.configureSsoStep1Suffix":
+    ", selecting the previously installed",
+  "oktaSetup.configureSsoStep2": "Go to",
+  "oktaSetup.configureSsoStep2Suffix": "and select",
+  "oktaSetup.configureSsoStep3Prefix": "In the",
+  "oktaSetup.configureSsoStep3Middle":
+    "section, change the",
+  "oktaSetup.configureSsoStep3To": "to",
+  "oktaSetup.configureSsoStep3AndSelect": "and select",
+  "oktaSetup.enableScimTitle": "Enable Okta SCIM in NetBird",
+  "oktaSetup.enableScimStep1": "From the Okta dashboard, navigate to",
+  "oktaSetup.enableScimStep1AndSelect": "and select the",
+  "oktaSetup.enableScimStep2Prefix": "Under the",
+  "oktaSetup.enableScimStep2Tab": "tab, choose",
+  "oktaSetup.enableScimStep2Then": ", then select",
+  "oktaSetup.enableScimStep3Prefix": "Opt to",
+  "oktaSetup.enableScimStep3Middle": "and insert this token into the",
+  "oktaSetup.enableScimStep3Field": "field",
+  "oktaSetup.enableScimStep4Prefix": "Click",
+  "oktaSetup.enableScimStep4Middle":
+    "to verify the SCIM connection, then select",
+  "oktaSetup.configureScimTitle": "Configure SCIM provisioning to NetBird",
+  "oktaSetup.configureScimStep1Prefix": "Go to the",
+  "oktaSetup.configureScimStep1AndClick": "and click",
+  "oktaSetup.configureScimStep2Prefix": "Enable",
+  "oktaSetup.configureScimStep2Middle": "and",
+  "oktaSetup.configureScimStep2And": "and",
+  "oktaSetup.configureScimStep2Suffix": "and click",
+  "oktaSetup.syncUsersTitle": "Sync Users to NetBird",
+  "oktaSetup.syncUsersStep1Prefix": "Go to the",
+  "oktaSetup.syncUsersStep1Tab": "tab, select the",
+  "oktaSetup.syncUsersStep1AndClick": "and click",
+  "oktaSetup.syncUsersStep2Prefix":
+    "Select the groups you want to provision, and then select",
+  "oktaSetup.syncUsersStep2AndClick": "and click",
+  "oktaSetup.syncUsersStep3Prefix": "Select",
+  "oktaSetup.syncUsersStep3Suffix":
+    "after you have finished assigning groups. At this point, all members of the groups assigned to the application will be synced to NetBird.",
+  "oktaSetup.syncGroupsTitle": "Sync Groups to NetBird",
+  "oktaSetup.syncGroupsStep1Prefix": "Go to the",
+  "oktaSetup.syncGroupsStep1Tab": "tab, select",
+  "oktaSetup.syncGroupsStep1AndClick": "and click",
+  "oktaSetup.syncGroupsStep2Prefix":
+    "Search groups to push and then click",
+  "oktaSetup.syncGroupsStep2Suffix":
+    ". The selected groups will then be synced to NetBird.",
+  "oktaSetup.estimatedTime": "5-15 Minutes",
+  "oktaSetup.ssoConnectTitle": "Connect NetBird with Okta",
+  "oktaSetup.ssoConnectDescription":
+    "Start syncing your users and groups from Okta to NetBird. Follow the steps below to get started.",
+  "oktaSetup.installAppTitle": "Install NetBird application for Okta",
+  "oktaSetup.installAppStep1": "Navigate to",
+  "oktaSetup.installAppStep2Prefix": "Click",
+  "oktaSetup.installAppStep2AndThen": "and then",
+  "oktaSetup.installAppStep3Prefix":
+    "After installing the application go to the",
+  "oktaSetup.installAppStep3Tab": "tab, select the",
+  "oktaSetup.installAppStep3AndClick": "and click",
+  "oktaSetup.installAppStep3Suffix":
+    "and assign your user to the application",
+  "oktaSetup.shareDetailsTitle": "Share your Okta details with NetBird",
+  "oktaSetup.shareDetailsStep1Prefix": "Click on the",
+  "oktaSetup.shareDetailsStep1Tab": "tab and take note",
+  "oktaSetup.shareDetailsStep1Of": "of the",
+  "oktaSetup.shareDetailsStep2Prefix":
+    "Under your user profile, take note of your",
+  "oktaSetup.shareDetailsStep3Prefix": "Share your",
+  "oktaSetup.shareDetailsStep3And": "and your",
+  "oktaSetup.shareDetailsStep3With": "with the NetBird team",
+  "oktaSetup.shareDetailsStep4Prefix":
+    "Once the NetBird team has enabled the authentication for your account you will receive an email. After that you can visit",
+  "oktaSetup.shareDetailsStep4Middle":
+    "and authenticate using your Okta's credentials",
+  "oktaSetup.shareDetailsTipPrefix": "You can use",
+  "oktaSetup.shareDetailsTipMiddle":
+    "or any other secure sharing tool to share your Okta details with the NetBird team. If you need help, please contact us at",
+  "oktaSetup.ssoEstimatedTime": "5 Minutes",
+  "azureAd.genSecretStepTitle": "Generate client secret",
+  "azureAd.appIdsStepTitle": "Enter Application ID and Directory ID",
+  "azureAd.groupsToSyncTitle": "Groups to be synchronized",
+  "azureAd.usersToSyncTitle": "Users to be synchronized",
+  "firehose.connectTitle": "Connect NetBird with Amazon Data Firehose",
+  "firehose.connectDescription":
+    "Start streaming your NetBird audit & traffic events to Amazon Data Firehose. Follow the steps below to get started.",
+  "firehose.selectRegionTitle": "Select your Amazon Data Firehose region",
+  "firehose.selectRegionHelp":
+    "To identify which region you are on please check out the",
+  "firehose.dashboardLink": "Amazon Data Firehose Dashboard.",
+  "firehose.createStreamTitle": "Create your Firehose Stream",
+  "firehose.navigateDashboard":
+    "Navigate to the Amazon Data Firehose Stream Dashboard",
+  "firehose.dashboardButton": "Amazon Data Firehose Stream Dashboard",
+  "firehose.clickCreatePrefix": "Click",
+  "firehose.clickCreateSuffix": "at the top right corner",
+  "firehose.asSourcePrefix": "As",
+  "firehose.asSourceSelect": "select",
+  "firehose.asDestinationPrefix": "As",
+  "firehose.asDestinationSuffix":
+    "select the AWS service you want to push the events to",
+  "firehose.giveNamePrefix": "Give it a descriptive name like",
+  "firehose.andClick": "and click",
+  "firehose.streamNameTooltip":
+    "You can transform and convert the event messages to fit your needs.",
+  "firehose.enterStreamName": "Enter your Firehose stream name",
+  "firehose.createIamTitle": "Create IAM credential",
+  "firehose.navigateIamDashboard": "Navigate to the Amazon IAM Dashboard",
+  "firehose.iamDashboardButton": "Amazon IAM Dashboard",
+  "firehose.createIamUserPrefix": "Create an IAM User (for details see the",
+  "firehose.createIamUserSuffix": ")",
+  "firehose.amazonDocs": "Amazon Docs",
+  "firehose.createPolicyPrefix": "Create and assign a policy with",
+  "firehose.createPolicyMiddle": "and",
+  "firehose.createPolicySuffix":
+    "to the user and scope it to the created stream",
+  "firehose.securityCredentialsPrefix":
+    "Select the user and go to the",
+  "firehose.securityCredentialsTab": "tab and select",
+  "firehose.enterAccessKey": "Enter your Access-Key",
+  "firehose.enterSecretKey": "Enter your Secret-Key",
+  "firehose.notifyTitle": "Amazon Data Firehose Integration",
+  "firehose.notifyDescription":
+    "Amazon Data Firehose was successfully connected to NetBird.",
+  "s3.connectTitle": "Connect NetBird with Amazon S3",
+  "s3.connectDescription":
+    "Start streaming your NetBird audit & traffic events to Amazon S3. Follow the steps below to get started.",
+  "s3.selectRegionTitle": "Select your Amazon S3 region",
+  "s3.selectRegionHelp":
+    "To identify which region you are on please check out the",
+  "s3.dashboardLink": "Amazon S3 Dashboard.",
+  "s3.createBucketTitle": "Create your S3 Bucket",
+  "s3.navigateDashboard": "Navigate to the Amazon S3 Dashboard",
+  "s3.dashboardButton": "Amazon S3 Dashboard",
+  "s3.clickCreatePrefix": "Click",
+  "s3.clickCreateSuffix": "at the top right corner",
+  "s3.giveNamePrefix": "Give it a descriptive name like",
+  "s3.andClick": "and click",
+  "s3.enterBucketName": "Enter your S3 Bucket name",
+  "s3.createIamTitle": "Create IAM credential",
+  "s3.navigateIamDashboard": "Navigate to the Amazon IAM Dashboard",
+  "s3.iamDashboardButton": "Amazon IAM Dashboard",
+  "s3.createIamUserPrefix": "Create an IAM User (for details see the",
+  "s3.createIamUserSuffix": ")",
+  "s3.amazonDocs": "Amazon Docs",
+  "s3.createPolicyPrefix": "Create and assign a policy with",
+  "s3.createPolicyMiddle": "and",
+  "s3.createPolicySuffix":
+    "to the user and scope it to the created bucket",
+  "s3.securityCredentialsPrefix":
+    "Select the user and go to the",
+  "s3.securityCredentialsTab": "tab and select",
+  "s3.enterAccessKey": "Enter your Access-Key",
+  "s3.enterSecretKey": "Enter your Secret-Key",
+  "s3.notifyTitle": "Amazon S3 Integration",
+  "s3.notifyDescription": "Amazon S3 was successfully connected to NetBird.",
+  "datadog.connectTitle": "Connect NetBird with Datadog",
+  "datadog.connectDescription":
+    "Start streaming your NetBird audit & traffic events to Datadog. Follow the steps below to get started.",
+  "datadog.selectRegionTitle": "Select your Datadog region",
+  "datadog.selectRegionHelp":
+    "To identify which region you are on please check out the",
+  "datadog.docsLink": "Datadog Documentation.",
+  "datadog.getApiKeyTitle": "Get your Datadog API Key",
+  "datadog.navigateApiKeys": "Navigate to Datadogs API Keys page",
+  "datadog.apiKeysButton": "API Keys",
+  "datadog.clickNewKeyPrefix": "Click",
+  "datadog.clickNewKeySuffix": "at the top",
+  "datadog.giveNamePrefix": "Give it a descriptive name like",
+  "datadog.andClick": "and click",
+  "datadog.apiKeyTooltip":
+    "When creating a new Datadog API key, it could take up to 5 minutes for the key to be available for use.",
+  "datadog.enterApiKey": "Enter your API-Key",
+  "datadog.notifyTitle": "Datadog Integration",
+  "datadog.notifyDescription":
+    "Datadog was successfully connected to NetBird.",
+  "crowdStrike.connectTitle": "Connect NetBird with CrowdStrike",
+  "crowdStrike.connectDescription":
+    "Restrict network access only to devices managed by the company's IT department",
+  "crowdStrike.setup.selectRegionTitle": "Select your CrowdStrike region",
+  "crowdStrike.setup.selectRegionHelp":
+    "To identify which region you are on check your CrowdStrike dashboard url.",
+  "crowdStrike.setup.apiCredentialsTitle": "Get your API Credentials",
+  "crowdStrike.setup.navigateApiClients":
+    "Navigate to the CrowdStrike's API Clients & Keys page",
+  "crowdStrike.setup.apiClientsButton": "API Clients & Keys",
+  "crowdStrike.setup.clientIdLabel": "Client ID",
+  "crowdStrike.setup.secretLabel": "Secret",
+  "crowdStrike.setup.peerApprovalTitle": "Peer Approval",
+  "crowdStrike.setup.peerApprovalHelp": "Only peers that meet the ZTA score threshold will be allowed to connect.",
+  "crowdStrike.setup.estimatedTime": "5-10 Minutes",
+  "crowdStrike.setup.notifyTitle": "CrowdStrike Integration",
+  "crowdStrike.setup.notifyDescription":
+    "CrowdStrike was successfully connected to NetBird.",
+  "trafficEvents.time": "Time",
+  "trafficEvents.event": "Event",
+  "trafficEvents.source": "Source",
+  "trafficEvents.protocolPort": "Protocol & Port",
+  "trafficEvents.destination": "Destination",
+  "trafficEvents.traffic": "Traffic",
+  "trafficEvents.router": "Router",
+  "trafficEvents.searchPlaceholder": "Search by ip, port, peer or resource...",
+  "trafficEvents.title": "Traffic Events",
+  "trafficEvents.getStartedTitle": "Traffic Events",
+  "trafficEvents.getStartedDescription":
+    "Traffic Events help you understand the network activity in your organization. You can see which machines are connecting to each other, and what kind of traffic is flowing between them.",
+  "trafficEvents.enableButton": "Enable Traffic Events",
+  "trafficEvents.emptyTitle": "No traffic events yet",
+  "trafficEvents.emptyDescription":
+    "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity.",
+  "notificationSlack.connectTitle": "Connect NetBird with Slack",
+  "notificationSlack.connectDescription":
+    "Receive NetBird notification events directly in your Slack channel via an Incoming Webhook.",
+  "notificationSlack.createAppTitle": "Create a Slack App",
+  "notificationSlack.createAppStep1Prefix": "Open",
+  "notificationSlack.createAppStep1Link": "Slack App Management",
+  "notificationSlack.createAppStep1Middle": "click",
+  "notificationSlack.createAppStep1AndChoose":
+    "and choose",
+  "notificationSlack.createAppStep2Prefix": "Set the app name to",
+  "notificationSlack.createAppStep2Middle":
+    "and select your workspace. After that click",
+  "notificationSlack.configureWebhookTitle": "Configure Incoming Webhook",
+  "notificationSlack.configureWebhookStep1Prefix":
+    "In the app settings, go to",
+  "notificationSlack.configureWebhookStep1Middle": "and toggle",
+  "notificationSlack.configureWebhookStep1To": "to",
+  "notificationSlack.configureWebhookStep2Prefix": "Click",
+  "notificationSlack.configureWebhookStep2Middle":
+    "and select the channel where you want to receive notifications and confirm with",
+  "notificationSlack.configureWebhookStep3Prefix":
+    "Copy the generated",
+  "notificationSlack.configureWebhookStep3Suffix": "and paste it below.",
+  "notificationSlack.urlError":
+    "Please enter a valid url, e.g., https://hooks.slack.com/services/...",
+  "msp.tenant": "Tenant",
+  "msp.plan": "Plan",
+  "msp.users": "Users",
+  "msp.peers": "Peers",
+  "msp.estCostMonth": "Est. Cost / Month",
+  "msp.estCostTooltip":
+    "The estimated price is calculated based on the number of active users and active peers.",
+  "msp.permissionGroups": "Permission Groups",
+  "msp.searchPlaceholder": "Search by name, email or group...",
+  "msp.addTenant": "Add Tenant",
+  "msp.addNewTenant": "Add New Tenant",
+  "msp.addNewTenantDescription":
+    "It looks like you don't have any tenants yet. Add a new tenant to get started.",
+  "msp.invoices": "Invoices",
+  "msp.managingTenants": "Managing Tenants",
+  "distributor.customer": "Customer",
+  "distributor.customerId": "Customer ID",
+  "distributor.customerIdCopied": "Customer ID copied to clipboard",
+  "distributor.plan": "Plan",
+  "distributor.tenants": "Tenants",
+  "distributor.searchPlaceholder": "Search by name, domain or id...",
+  "distributor.addCustomer": "Add Customer",
+  "distributor.addNewCustomer": "Add New Customer",
+  "distributor.addNewCustomerDescription":
+    "It looks like you don't have any customers yet. Add a new customer to get started.",
+  "distributor.invoices": "Invoices",
+  "customDomainsTable.domain": "Domain",
+  "customDomainsTable.status": "Status",
+  "customDomainsTable.cluster": "Cluster",
+  "peerRoutesTable.name": "Name",
+  "peerRoutesTable.network": "Network",
+  "peerRoutesTable.distributionGroups": "Distribution Groups",
+  "peerRoutesTable.active": "Active",
+  "groupUsersTable.name": "Name",
+  "groupUsersTable.role": "Role",
+  "groupUsersTable.status": "Status",
+  "groupUsersTable.blockUser": "Block User",
+  "groupUsersTable.lastLogin": "Last Login",
+  "versionInfo.installed": "Installed:",
+  "versionInfo.latestLabel": "Latest:",
+  "versionInfo.updateAvailableLabel": "Update available",
+  "windowsTab.installOnWindows": "Install on Windows",
+  "windowsTab.downloadInstaller": "Download and run Windows Installer",
+  "linuxTab.installWithCli": "Install with Command-line",
+  "linuxTab.installManually": "Install manually with a package manager",
+  "trafficEvents.postureCheckPassed": "Posture Check {name} passed",
+  "trafficEvents.accessControlPolicyPassed": "Access Control Policy {name} passed",
+  "common.dialog": "Dialog",
 } as const;
 
 export default en;

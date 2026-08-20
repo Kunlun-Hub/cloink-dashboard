@@ -25,6 +25,7 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
+import { useI18n } from "@/i18n/I18nProvider";
 import datadogLogo from "@/assets/integrations/datadog.png";
 import { EventStream } from "@/interfaces/EventStream";
 import {
@@ -61,6 +62,7 @@ type ModalProps = {
 };
 
 export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
 
   const integrationRequest = useApiCall<EventStream>(
@@ -97,8 +99,8 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
   const connect = async () => {
     notify({
-      title: "Datadog Integration",
-      description: `Datadog was successfully connected to NetBird.`,
+      title: t("datadog.notifyTitle"),
+      description: t("datadog.notifyDescription"),
       promise: integrationRequest
         .post({
           platform: "datadog",
@@ -112,7 +114,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
           mutate("/integrations/event-streaming");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -128,27 +130,25 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={datadogLogo}
-        title={"Connect NetBird with Datadog"}
-        description={
-          "Start streaming your NetBird audit & traffic events to Datadog. Follow the steps below to get started."
-        }
+        title={t("datadog.connectTitle")}
+        description={t("datadog.connectDescription")}
       />
 
       {step == 1 && (
         <div className={"px-8 py-3 flex flex-col mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={16} />
-            Select your Datadog region
+            {t("datadog.selectRegionTitle")}
           </p>
           <p className={"mb-3 mt-2"}>
-            To identify which region you are on please check out the{" "}
+            {t("datadog.selectRegionHelp")}{" "}
             <InlineLink
               href={"https://docs.datadoghq.com/getting_started/site/"}
               target={"_blank"}
               variant={"default"}
               className={"inline"}
             >
-              Datadog Documentation.
+              {t("datadog.docsLink")}
             </InlineLink>
           </p>
           <SelectDropdown
@@ -179,11 +179,11 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Get your Datadog API Key
+            {t("datadog.getApiKeyTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to Datadogs API Keys page</p>
+              <p>{t("datadog.navigateApiKeys")}</p>
               <div className={"flex gap-4"}>
                 <Link href={apiPageUrl} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
@@ -195,15 +195,15 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>+ New Key</Mark>
-                at the top
+                {t("datadog.clickNewKeyPrefix")} <Mark>+ New Key</Mark>
+                {t("datadog.clickNewKeySuffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Give it a descriptive name like{" "}
+                {t("datadog.giveNamePrefix")}{" "}
                 <Mark copy>NetBird Activity Events</Mark>
-                and click <Mark>Create Key</Mark>
+                {t("datadog.andClick")} <Mark>Create Key</Mark>
                 <Tooltip>
                   <TooltipTrigger>
                     <InfoIcon
@@ -215,14 +215,14 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className={"max-w-[200px] text-xs"}>
-                      {`When creating a new Datadog API key, it could take up to 5 minutes for the key to be available for use.`}
+                      {t("datadog.apiKeyTooltip")}
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
-              <p className={"font-normal"}>Enter your API-Key</p>
+              <p className={"font-normal"}>{t("datadog.enterApiKey")}</p>
             </Steps.Step>
           </Steps>
           <div className={"mb-4"}>
@@ -250,7 +250,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             disabled={!apiUrlEntered}
             onClick={() => setStep(2)}
           >
-            Continue
+            {t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -262,7 +262,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={() => setStep(1)}
             >
               <IconArrowLeft size={16} />
-              Back
+              {t("common.back")}
             </Button>
             <Button
               variant={"primary"}
@@ -271,7 +271,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={connect}
             >
               <Repeat size={16} />
-              Connect
+              {t("idpSync.connect")}
             </Button>
           </>
         )}

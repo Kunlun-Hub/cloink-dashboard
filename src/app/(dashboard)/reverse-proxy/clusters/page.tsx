@@ -12,12 +12,14 @@ import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { REVERSE_PROXY_CLUSTERS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
 );
 
 export default function ReverseProxyClustersPage() {
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   const { ref: headingRef, portalTarget } =
@@ -29,28 +31,26 @@ export default function ReverseProxyClustersPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Reverse Proxy"}
+            label={t("reverseProxy.title")}
             icon={<ReverseProxyIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/reverse-proxy/clusters"}
-            label={"Clusters"}
+            label={t("nav.clusters")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Clusters</h1>
+        <h1 ref={headingRef}>{t("clustersTable.title")}</h1>
         <Paragraph>
-          Proxy clusters route inbound traffic to your services. Shared clusters
-          are run by the platform; account clusters (self-hosted) run on your
-          own infrastructure.{" "}
+          {t("clusters.pageDescription")}{" "}
           <InlineLink href={REVERSE_PROXY_CLUSTERS_DOCS_LINK} target={"_blank"}>
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
       </div>
       <RestrictedAccess
-        page={"Clusters"}
+        page={t("nav.clusters")}
         hasAccess={permission?.services?.read}
       >
         <Suspense fallback={<SkeletonTable />}>

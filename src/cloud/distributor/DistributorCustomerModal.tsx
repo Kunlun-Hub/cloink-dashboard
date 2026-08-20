@@ -34,6 +34,7 @@ import {
   DistributorCustomerStatus,
 } from "@/cloud/distributor/interfaces/Distributor";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -73,6 +74,7 @@ const CustomerModalContent = ({
   initialTab,
   onCreated,
 }: Omit<Props, "open">) => {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const customerRequest = useApiCall<DistributorCustomer>(
     "/integrations/msp/reseller/msps",
@@ -89,10 +91,10 @@ const CustomerModalContent = ({
   const domainInputError = useMemo(() => {
     if (domain === "") return "";
     if (!validator.isValidDomain(domain)) {
-      return "Please enter a valid domain, e.g. netbird.io";
+      return t("distributorCustomers.validDomainError");
     }
     return "";
-  }, [domain]);
+  }, [domain, t]);
 
   const createCustomer = async () => {
     const body: Record<string, string> = {
@@ -108,10 +110,10 @@ const CustomerModalContent = ({
     });
 
     notify({
-      title: `Add ${domain} customer`,
-      description: "The customer account has been created successfully.",
+      title: t("distributorCustomers.addNotifyTitle").replace("{domain}", domain),
+      description: t("distributorCustomers.addNotifyDescription"),
       preventSuccessToast: true,
-      loadingMessage: "Creating customer account...",
+      loadingMessage: t("distributorCustomers.addNotifyLoading"),
       promise,
     });
   };
@@ -126,9 +128,9 @@ const CustomerModalContent = ({
     });
 
     notify({
-      title: `Update ${customer.name}`,
-      description: "The customer has been updated successfully.",
-      loadingMessage: "Updating customer...",
+      title: t("distributorCustomers.updateNotifyTitle").replace("{name}", customer.name),
+      description: t("distributorCustomers.updateNotifyDescription"),
+      loadingMessage: t("distributorCustomers.updateNotifyLoading"),
       promise,
     });
   };
@@ -148,11 +150,11 @@ const CustomerModalContent = ({
     <ModalContent maxWidthClass={cn(ModalWidth[tab] || ModalWidth.general)}>
       <ModalHeader
         icon={<UserIcon size={18} />}
-        title={customer ? "Edit Customer" : "Add Customer"}
+        title={customer ? t("distributorCustomers.editTitle") : t("distributorCustomers.addTitle")}
         description={
           customer
             ? `${customer.name} (${customer.domain})`
-            : "Add a new customer account to your distributor organization."
+            : t("distributorCustomers.addDescription")
         }
         color={"netbird"}
       />
@@ -166,7 +168,7 @@ const CustomerModalContent = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              General
+              {t("distributorCustomers.tabGeneral")}
             </TabsTrigger>
             {isActive && (
               <TabsTrigger value={"plan"}>
@@ -176,16 +178,16 @@ const CustomerModalContent = ({
                     "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                   }
                 />
-                Plan
+                {t("distributorCustomers.tabPlan")}
               </TabsTrigger>
             )}
           </TabsList>
           <TabsContent value={"general"} className={"px-8 pb-10"}>
             <div className={"flex flex-col gap-6"}>
               <div>
-                <Label>Company</Label>
+                <Label>{t("distributorCustomers.companyLabel")}</Label>
                 <HelpText>
-                  Enter the name of your customers company.
+                  {t("distributorCustomers.companyHelp")}
                 </HelpText>
                 <Input
                   autoFocus={true}
@@ -197,9 +199,9 @@ const CustomerModalContent = ({
                 />
               </div>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("distributorCustomers.domainLabel")}</Label>
                 <HelpText>
-                  The domain associated with this customer account.
+                  {t("distributorCustomers.domainHelp")}
                 </HelpText>
                 <Input
                   customPrefix={<GlobeIcon size={16} />}
@@ -213,10 +215,9 @@ const CustomerModalContent = ({
               </div>
 
               <div>
-                <Label>Customer ID (optional)</Label>
+                <Label>{t("distributorCustomers.customerIdLabel")}</Label>
                 <HelpText>
-                  An optional identifier to easier map customers to your{" "}
-                  <b className="text-white">internal systems</b>.
+                  {t("distributorCustomers.customerIdHelp")}
                 </HelpText>
                 <Input
                   tabIndex={0}
@@ -240,9 +241,9 @@ const CustomerModalContent = ({
           <div className={"px-8 py-6 pb-8"}>
             <div className={"flex flex-col gap-6"}>
               <div>
-                <Label>Company</Label>
+                <Label>{t("distributorCustomers.companyLabel")}</Label>
                 <HelpText>
-                  Enter the name of your customers company.
+                  {t("distributorCustomers.companyHelp")}
                 </HelpText>
                 <Input
                   autoFocus={true}
@@ -254,9 +255,9 @@ const CustomerModalContent = ({
                 />
               </div>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("distributorCustomers.domainLabel")}</Label>
                 <HelpText>
-                  The domain associated with this customer account.
+                  {t("distributorCustomers.domainHelp")}
                 </HelpText>
                 <Input
                   customPrefix={<GlobeIcon size={16} />}
@@ -269,10 +270,9 @@ const CustomerModalContent = ({
                 />
               </div>
               <div>
-                <Label>Customer ID (optional)</Label>
+                <Label>{t("distributorCustomers.customerIdLabel")}</Label>
                 <HelpText>
-                  An optional identifier to easier map customers to your{" "}
-                  <b className="text-white">internal systems</b>.
+                  {t("distributorCustomers.customerIdHelp")}
                 </HelpText>
                 <Input
                   tabIndex={0}
@@ -291,12 +291,12 @@ const CustomerModalContent = ({
           <Paragraph className={"text-sm mt-auto"}>
             {tab === "plan" ? (
               <>
-                Learn more about
+                {t("common.learnMoreAbout")}
                 <InlineLink
                   href={"https://netbird.io/pricing"}
                   target={"_blank"}
                 >
-                  Pricing & Plans
+                  {t("distributorCustomers.pricingAndPlans")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -309,7 +309,7 @@ const CustomerModalContent = ({
           {!customer && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -317,21 +317,21 @@ const CustomerModalContent = ({
                 disabled={!canCreate}
               >
                 <PlusCircle size={16} />
-                Add Customer
+                {t("distributorCustomers.addCustomerButton")}
               </Button>
             </>
           )}
           {customer && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 onClick={saveCustomer}
                 disabled={!hasChanges || name === ""}
               >
-                Save
+                {t("common.save")}
               </Button>
             </>
           )}

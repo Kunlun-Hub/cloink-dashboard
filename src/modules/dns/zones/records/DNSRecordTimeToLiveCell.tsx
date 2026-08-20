@@ -1,5 +1,6 @@
 import { ClockIcon } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DNSRecord } from "@/interfaces/DNS";
 import { getTTLLabel } from "@/modules/dns/zones/DNSRecordModal";
 
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export const DNSRecordTimeToLiveCell = ({ record }: Props) => {
+  const { t } = useI18n();
   return (
     <div
       className={
@@ -15,7 +17,7 @@ export const DNSRecordTimeToLiveCell = ({ record }: Props) => {
       }
     >
       <ClockIcon size={14} />
-      {getTTLLabel(record.ttl)}
+      {getTTLLabel(record.ttl, t)}
     </div>
   );
 };

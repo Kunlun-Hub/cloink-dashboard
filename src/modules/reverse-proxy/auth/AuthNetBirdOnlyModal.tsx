@@ -6,6 +6,7 @@ import { GradientFadedBackground } from "@components/ui/GradientFadedBackground"
 import React, { useState } from "react";
 import { Group } from "@/interfaces/Group";
 import { useUsers } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import Badge from "@components/Badge";
 import { CircleUser } from "lucide-react";
 
@@ -27,6 +28,7 @@ export default function AuthNetBirdOnlyModal({
   onRemove,
 }: Readonly<Props>) {
   const { users } = useUsers();
+  const { t } = useI18n();
   const [groups, setGroups] = useState<Group[]>(currentGroups);
   const isEditing = isEnabled;
 
@@ -74,7 +76,7 @@ export default function AuthNetBirdOnlyModal({
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
@@ -90,7 +92,7 @@ export default function AuthNetBirdOnlyModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"

@@ -15,6 +15,7 @@ import { TenantGroup } from "@/cloud/msp/interfaces/Tenant";
 import { useUsers } from "@/contexts/UsersProvider";
 import { Group } from "@/interfaces/Group";
 import { Role } from "@/interfaces/User";
+import { useI18n } from "@/i18n/I18nProvider";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 import { UserRoles, UserRoleSelector } from "@/modules/users/UserRoleSelector";
 
@@ -125,6 +126,7 @@ const ListItem = ({
   role = Role.Admin,
 }: ListItemProps) => {
   const { users } = useUsers();
+  const { t } = useI18n();
   const selectedRole = UserRoles.find((r) => r.value === role) || UserRoles[0];
 
   const usersOfGroup =
@@ -160,7 +162,7 @@ const ListItem = ({
               stopPropagation={false}
             >
               <selectedRole.icon size={14} width={14} />
-              {selectedRole?.name}
+              {t(selectedRole.nameKey)}
               <ChevronDownIcon size={14} />
             </Button>
           }

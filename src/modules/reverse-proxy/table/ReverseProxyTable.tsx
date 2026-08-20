@@ -26,6 +26,8 @@ import { ExternalLinkIcon, PlusCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
+import { useI18n } from "@/i18n/I18nProvider";
+import { MessageKey } from "@/i18n/messages";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
@@ -43,11 +45,14 @@ import ReverseProxyTargetsCell from "@/modules/reverse-proxy/table/ReverseProxyT
 import ReverseProxyTargetsTable from "@/modules/reverse-proxy/targets/ReverseProxyTargetsTable";
 import { ReverseProxyTypeCell } from "@/modules/reverse-proxy/table/ReverseProxyTypeCell";
 
-const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
+function getReverseProxyColumns(
+  t: (key: MessageKey, values?: Record<string, string | number>) => string,
+): ColumnDef<ReverseProxy>[] {
+  return [
   {
     accessorKey: "domain",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("reverseProxy.domain")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <ReverseProxyNameCell reverseProxy={row.original} />,
@@ -55,7 +60,7 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
   {
     accessorKey: "mode",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("reverseProxy.type")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <ReverseProxyTypeCell reverseProxy={row.original} />,
@@ -102,16 +107,19 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
     },
   },
 ];
+}
 
 type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
 export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { permission } = usePermissions();
   const { reverseProxies, isLoading, openModal } = useReverseProxies();
+  const ReverseProxyColumns = getReverseProxyColumns(t);
 
   const [sorting, setSorting] = useLocalStorage<SortingState>(
     "netbird-table-sort" + path,

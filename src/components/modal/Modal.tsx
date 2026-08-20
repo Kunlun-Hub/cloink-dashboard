@@ -6,6 +6,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { cn } from "@utils/helpers";
 import { X } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { headerHeight } from "@/layouts/Header";
 
 const Modal = DialogPrimitive.Root;
@@ -64,7 +65,9 @@ const ModalContent = React.forwardRef<
       ...props
     },
     ref,
-  ) => (
+  ) => {
+    const { t } = useI18n();
+    return (
     <ModalPortal>
       <ModalOverlay>
         <DialogPrimitive.Content
@@ -91,7 +94,7 @@ const ModalContent = React.forwardRef<
           onClick={(e) => e.stopPropagation()}
         >
           <VisuallyHidden asChild>
-            <DialogPrimitive.Title>Dialog</DialogPrimitive.Title>
+            <DialogPrimitive.Title>{t("common.dialog")}</DialogPrimitive.Title>
           </VisuallyHidden>
           {children}
           {showClose && (
@@ -106,7 +109,8 @@ const ModalContent = React.forwardRef<
         </DialogPrimitive.Content>
       </ModalOverlay>
     </ModalPortal>
-  ),
+    );
+  },
 );
 ModalContent.displayName = DialogPrimitive.Content.displayName;
 
@@ -125,6 +129,7 @@ const SidebarModalContent = React.forwardRef<
     },
     ref,
   ) => {
+    const { t } = useI18n();
     return (
       <ModalPortal>
         <div
@@ -147,7 +152,7 @@ const SidebarModalContent = React.forwardRef<
             onClick={(e) => e.stopPropagation()}
           >
             <VisuallyHidden asChild>
-              <DialogPrimitive.Title>Dialog</DialogPrimitive.Title>
+              <DialogPrimitive.Title>{t("common.dialog")}</DialogPrimitive.Title>
             </VisuallyHidden>
             {children}
             {showClose && (

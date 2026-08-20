@@ -8,7 +8,7 @@ import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { removeAllSpaces } from "@utils/helpers";
 import { ArrowUpRightIcon, Layers3Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import { NetworkAccessControlProvider } from "@/modules/networks/NetworkAccessControlProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
@@ -22,8 +22,9 @@ import { ResourceEnabledCell } from "@/modules/networks/resources/ResourceEnable
 import { ResourceGroupCell } from "@/modules/networks/resources/ResourceGroupCell";
 import ResourceNameCell from "@/modules/networks/resources/ResourceNameCell";
 import { ResourcePolicyCell } from "@/modules/networks/resources/ResourcePolicyCell";
+import { useI18n } from "@/i18n/I18nProvider";
 
-const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
+const createGroupResourcesColumns = (t: (key: any, ...args: any[]) => string): ColumnDef<NetworkResourceWithNetwork>[] => [
   {
     id: "id",
     accessorKey: "id",
@@ -33,7 +34,7 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Resource</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.resource")}</DataTableHeader>;
     },
     cell: ({ row }) => {
       return <ResourceNameCell resource={row.original} />;
@@ -49,7 +50,7 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "address",
     accessorKey: "address",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.address")}</DataTableHeader>;
     },
     cell: ({ row }) => {
       return <ResourceAddressCell resource={row.original} />;
@@ -59,7 +60,7 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "enabled",
     accessorKey: "enabled",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Active</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("common.active")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <ResourceEnabledCell
@@ -75,7 +76,7 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
       return groups.map((group) => group.name).join(", ");
     },
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.groups")}</DataTableHeader>;
     },
     cell: ({ row }) => {
       return <ResourceGroupCell resource={row.original} />;
@@ -85,7 +86,7 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "policies",
     accessorKey: "id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Policies</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("networkResources.policyPlural")}</DataTableHeader>;
     },
     cell: ({ row }) => {
       return <ResourcePolicyCell resource={row.original} />;
@@ -114,6 +115,8 @@ export const GroupResourcesSection = ({
   const { permission } = usePermissions();
   const router = useRouter();
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
+  const columns = useMemo(() => createGroupResourcesColumns(t), [t]);
 
   return (
     <NetworkAccessControlProvider>
@@ -138,17 +141,17 @@ export const GroupResourcesSection = ({
           )}
           inset={false}
           tableClassName={"mt-0"}
-          text={"Resources"}
-          columns={GroupResourcesColumns}
+          text={t("networkDetails.resources")}
+          columns={columns}
           keepStateInLocalStorage={false}
           data={resources}
-          searchPlaceholder={"Search by name, address or group..."}
+          searchPlaceholder={t("groupResources.searchPlaceholder")}
           getStartedCard={
             <NoResults
               className={"py-4"}
-              title={"This group has no assigned resources"}
+              title={t("groupResources.emptyTitle")}
               description={
-                "Assign this group to your resources inside your networks to see them listed here."
+                t("groupResources.emptyDescription")
               }
               icon={<Layers3Icon size={20} />}
             >
@@ -159,7 +162,7 @@ export const GroupResourcesSection = ({
                     className={"mt-4"}
                     onClick={() => router.push("/networks")}
                   >
-                    Go to Networks
+                    {t("groupResources.goToNetworks")}
                     <ArrowUpRightIcon size={16} />
                   </Button>
                 </>

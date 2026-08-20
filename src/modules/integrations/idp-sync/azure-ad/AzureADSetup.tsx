@@ -181,7 +181,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </span>{" "}
             with the following{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("oktaSetup.permissionsWord")}
             </span>
             .{" "}
             {t("azureAd.accountSuffix")}
@@ -323,7 +323,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={20} />
-            Generate client secret
+            {t("azureAd.genSecretStepTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
@@ -370,7 +370,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Enter Application ID and Directory ID
+            {t("azureAd.appIdsStepTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
@@ -402,7 +402,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Application (client) ID
+                  {t("azureAd.appClientId")}
                 </div>
               }
               placeholder={"62d3a656-c87d-4f30-a242-5b6347e29e9f"}
@@ -415,7 +415,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Folder size={16} />
-                  Directory (tenant) ID
+                  {t("azureAd.directoryTenantId")}
                 </div>
               }
               placeholder={"5d60468a-65b7-45eb-a61a-53ecfbcd1ea3"}
@@ -430,7 +430,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={20} />
-            Groups to be synchronized
+            {t("azureAd.groupsToSyncTitle")}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -449,7 +449,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <UserCircle size={18} />
-            Users to be synchronized
+            {t("azureAd.usersToSyncTitle")}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -458,8 +458,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </div>
 
             <GroupPrefixInput
-              addText={"Add user group filter"}
-              text={"User group starts with..."}
+              addText={t("idpSync.addUserGroupFilter")}
+              text={t("idpSync.userGroupStartsWith")}
               value={userGroupPrefixes}
               onChange={setUserGroupPrefixes}
             />
@@ -475,7 +475,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step + 1)}
             disabled={!connectorId || connectorId === ""}
           >
-            Continue
+            {t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -486,7 +486,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -496,7 +496,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -508,7 +508,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("idpSync.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -520,8 +520,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("azureAd.estimatedTime")}</span>
           </div>
         </div>
       )}

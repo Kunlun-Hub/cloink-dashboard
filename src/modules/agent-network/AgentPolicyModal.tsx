@@ -48,6 +48,7 @@ import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import AgentPolicyGuardrailsTab from "@/modules/agent-network/AgentPolicyGuardrailsTab";
 import AgentPolicyLimitsTab from "@/modules/agent-network/AgentPolicyLimitsTab";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -84,6 +85,7 @@ function AgentPolicyModalContent({
   initialTab?: string;
   onSuccess: () => void;
 }) {
+  const { t } = useI18n();
   const { providers, addPolicy, updatePolicy } = useAIProviders();
   const { mutate } = useSWRConfig();
 
@@ -213,10 +215,8 @@ function AgentPolicyModalContent({
     <ModalContent maxWidthClass={"max-w-3xl"}>
       <ModalHeader
         icon={<AccessControlIcon className={"fill-netbird"} />}
-        title={policy ? "Update Agent Policy" : "Create Agent Policy"}
-        description={
-          "Govern which groups can call which AI providers and under what guardrails."
-        }
+        title={policy ? t("agentNetwork.updateAgentPolicy") : t("agentNetwork.createAgentPolicy")}
+        description={t("agentNetwork.agentPolicyDescription")}
         color={"netbird"}
       />
 
@@ -224,15 +224,15 @@ function AgentPolicyModalContent({
         <TabsList justify={"start"} className={"px-8"}>
           <TabsTrigger value={"policy"}>
             <ArrowRightLeft size={16} />
-            Policy
+            {t("agentNetwork.tabPolicy")}
           </TabsTrigger>
           <TabsTrigger value={"limits"}>
             <Gauge size={16} />
-            Limits
+            {t("agentNetwork.tabLimits")}
           </TabsTrigger>
           <TabsTrigger value={"guardrails"}>
             <ShieldHalf size={16} />
-            Guardrails
+            {t("agentNetwork.tabGuardrails")}
           </TabsTrigger>
         </TabsList>
 
@@ -242,13 +242,11 @@ function AgentPolicyModalContent({
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
                   <FolderDown size={15} />
-                  Source
+                  {t("agentNetwork.source")}
                   <HelpTooltip
                     content={
                       <>
-                        Group of users this policy authorises to call the
-                        destination providers. One group per policy in this
-                        release.
+                        {t("agentNetwork.sourceTooltip")}
                       </>
                     }
                   />
@@ -263,10 +261,8 @@ function AgentPolicyModalContent({
                       "mt-2 text-xs text-yellow-400 leading-snug"
                     }
                   >
-                    This policy was created with multiple source groups.
-                    Only the first group is kept on save —{" "}
-                    {sourceGroupsRaw[0]?.name ?? "—"} will be retained,
-                    the others removed.
+                    {t("agentNetwork.legacyMultipleSourceGroupsPrefix")}{" "}
+                    {sourceGroupsRaw[0]?.name ?? "—"} {t("agentNetwork.legacyMultipleSourceGroupsSuffix")}
                   </div>
                 )}
               </div>
@@ -274,11 +270,11 @@ function AgentPolicyModalContent({
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
                   <Sparkles size={15} />
-                  Provider
+                  {t("agentNetwork.provider")}
                   <HelpTooltip
                     content={
                       <>
-                        AI providers the source is allowed to reach.
+                        {t("agentNetwork.providerTooltip")}
                       </>
                     }
                   />
@@ -292,9 +288,9 @@ function AgentPolicyModalContent({
             </div>
 
             <div>
-              <Label>Name of the Policy</Label>
+              <Label>{t("agentNetwork.nameOfPolicy")}</Label>
               <HelpText>
-                Set an easily identifiable name for your policy.
+                {t("agentNetwork.nameOfPolicyHelp")}
               </HelpText>
               <Input
                 value={name}
@@ -302,20 +298,18 @@ function AgentPolicyModalContent({
                   userEditedName.current = true;
                   setName(e.target.value);
                 }}
-                placeholder={"e.g. Engineering → OpenAI"}
+                placeholder={t("agentNetwork.nameOfPolicyPlaceholder")}
               />
             </div>
             <div>
-              <Label>Description (optional)</Label>
+              <Label>{t("agentNetwork.descriptionOptional")}</Label>
               <HelpText>
-                Write a short description to add more context to this policy.
+                {t("agentNetwork.descriptionOfPolicyHelp")}
               </HelpText>
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder={
-                  "e.g., Engineers can call OpenAI under production guardrails."
-                }
+                placeholder={t("agentNetwork.descriptionOfPolicyPlaceholder")}
                 rows={3}
               />
             </div>
@@ -334,9 +328,9 @@ function AgentPolicyModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-              Agent Network
+              {t("agentNetwork.agentNetwork")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -347,14 +341,14 @@ function AgentPolicyModalContent({
               {tab === "policy" && (
                 <>
                   <ModalClose asChild>
-                    <Button variant={"secondary"}>Cancel</Button>
+                    <Button variant={"secondary"}>{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant={"primary"}
                     onClick={() => setTab("limits")}
                     disabled={!canContinueFromPolicy || name.trim().length === 0}
                   >
-                    Continue
+                    {t("common.continue")}
                   </Button>
                 </>
               )}
@@ -364,13 +358,13 @@ function AgentPolicyModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("policy")}
                   >
-                    Back
+                    {t("common.back")}
                   </Button>
                   <Button
                     variant={"primary"}
                     onClick={() => setTab("guardrails")}
                   >
-                    Continue
+                    {t("common.continue")}
                   </Button>
                 </>
               )}
@@ -380,7 +374,7 @@ function AgentPolicyModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("limits")}
                   >
-                    Back
+                    {t("common.back")}
                   </Button>
                   <Button
                     variant={"primary"}
@@ -388,7 +382,7 @@ function AgentPolicyModalContent({
                     disabled={submitDisabled}
                   >
                     <PlusCircle size={16} />
-                    Add Policy
+                    {t("agentNetwork.addPolicy")}
                   </Button>
                 </>
               )}
@@ -396,14 +390,14 @@ function AgentPolicyModalContent({
           ) : (
             <>
               <ModalClose asChild>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 onClick={handleSubmit}
                 disabled={submitDisabled}
               >
-                Save Changes
+                {t("common.saveChanges")}
               </Button>
             </>
           )}
@@ -420,6 +414,7 @@ function SourceGroupsSelector({
   value: Group[];
   onChange: React.Dispatch<React.SetStateAction<Group[]>>;
 }) {
+  const { t } = useI18n();
   const { users } = useUsers();
   return (
     <PeerGroupSelector
@@ -428,9 +423,9 @@ function SourceGroupsSelector({
         <div className={"flex items-center gap-2"}>
           <Badge className={"py-[3px]"} variant={"gray-ghost"}>
             <CircleUser size={12} />
-            All
+            {t("agentNetwork.all")}
           </Badge>
-          Select source group(s)...
+          {t("agentNetwork.selectSourceGroups")}
         </div>
       }
       values={value}
@@ -450,6 +445,7 @@ function ProviderMultiSelect({
   value: string[];
   onChange: (next: string[]) => void;
 }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -495,7 +491,7 @@ function ProviderMultiSelect({
           }
         >
           {value.length === 0 ? (
-            <span className={"pl-1"}>Select provider(s)...</span>
+            <span className={"pl-1"}>{t("agentNetwork.selectProviders")}</span>
           ) : (
             value.map((id) => {
               const p = providers.find((pp) => pp.id === id);
@@ -540,7 +536,7 @@ function ProviderMultiSelect({
         >
           {providers.length === 0 ? (
             <div className={"text-xs text-nb-gray-400 px-3 py-3"}>
-              No providers connected yet.
+              {t("agentNetwork.noProvidersConnected")}
             </div>
           ) : (
             providers.map((p) => {

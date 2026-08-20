@@ -1015,11 +1015,15 @@ const ResourcesList = ({
   }
 
   if (search == "" && filteredItems.length == 0) {
+    const { t } = useI18n();
     return (
       <DropdownInfoText className={"mt-5 max-w-sm mx-auto"}>
-        There are no resources available yet. <br />
-        Go to <InlineLink href={"/networks"}>Networks</InlineLink> to add some
-        resources.
+        {t("peerGroupSelector.noResourcesAvailable")} <br />
+        {t("peerGroupSelector.toAddResourcesPrefix")}{" "}
+        <InlineLink href={"/networks"}>
+          {t("peerGroupSelector.goToNetworksToAdd")}
+        </InlineLink>{" "}
+        {t("peerGroupSelector.toAddResourcesSuffix")}
       </DropdownInfoText>
     );
   }
@@ -1190,10 +1194,15 @@ const PeersList = ({
   }
 
   if (search == "" && filteredItems.length == 0) {
+    const { t } = useI18n();
     return (
       <DropdownInfoText className={"mt-5 max-w-sm mx-auto"}>
-        There are no peers available yet. <br />
-        Go to <InlineLink href={"/peers"}>Peers</InlineLink> to add some peers.
+        {t("peerGroupSelector.noPeersAvailable")} <br />
+        {t("peerGroupSelector.toAddPeersPrefix")}{" "}
+        <InlineLink href={"/peers"}>
+          {t("peerGroupSelector.goToPeersToAdd")}
+        </InlineLink>{" "}
+        {t("peerGroupSelector.toAddPeersSuffix")}
       </DropdownInfoText>
     );
   }

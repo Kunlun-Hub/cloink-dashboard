@@ -8,8 +8,10 @@ import Link from "next/link";
 import React from "react";
 import AppStoreButton from "@/assets/app-store-badge.png";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function IOSTab() {
+  const { t } = useI18n();
   return (
     <TabsContent value={String(OperatingSystem.IOS)}>
       <TabsContentPadding>
@@ -51,7 +53,7 @@ export default function IOSTab() {
             </p>
           </Steps.Step>
           <Steps.Step step={GRPC_API_ORIGIN ? 4 : 3} line={false}>
-            <p>Sign up using your email address</p>
+            <p>{t("setupNetbirdModal.signUpEmail")}</p>
           </Steps.Step>
         </Steps>
       </TabsContentPadding>

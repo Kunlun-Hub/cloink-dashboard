@@ -20,6 +20,7 @@ import { PeerOSCell } from "@/modules/peers/PeerOSCell";
 import UserNameCell from "@/modules/users/table-cells/UserNameCell";
 import UserRoleCell from "@/modules/users/table-cells/UserRoleCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   group: Group;
@@ -71,8 +72,10 @@ export const AssignUserToGroupModalContent = ({
   onSuccess,
   excludedUsers,
   showClose = true,
-  buttonText = "Assign Users",
+  buttonText,
 }: ContentProps) => {
+  const { t } = useI18n();
+  const resolvedButtonText = buttonText ?? t("groupUsers.assignUsers");
   const { data: users, isLoading } = useFetchApi<User[]>(
     "/users?service_user=false",
   );
@@ -103,27 +106,25 @@ export const AssignUserToGroupModalContent = ({
         rowSelection={selectedRows}
         setRowSelection={setSelectedRows}
         onRowClick={(row) => row.toggleSelected()}
-        text={"Users"}
+        text={t("users.title")}
         resetRowSelectionOnSearch={false}
         uniqueKey={group?.id ?? group?.name}
         sorting={sorting}
         keepStateInLocalStorage={false}
         setSorting={setSorting}
-        columns={UsersTableColumns}
+        columns={useMemo(() => createUsersTableColumns(t), [t])}
         data={data}
         isLoading={isLoading}
         tableCellClassName={"!py-1 scale-[95%]"}
-        searchPlaceholder={"Search by name, email or role..."}
+        searchPlaceholder={t("groupUsers.searchPlaceholder")}
         searchClassName={"w-[350px]"}
         minimal={false}
         columnVisibility={{}}
         getStartedCard={
           <NoResultsCard
             className={"mb-8"}
-            title={"You don't have any users to assign"}
-            description={
-              "In order to assign users to this group you need to have at least one user that is not already part of this group."
-            }
+            title={t("groupUsers.emptyAssignTitle")}
+            description={t("groupUsers.emptyAssignDescription")}
             icon={<TeamIcon className={"fill-nb-gray-200"} size={14} />}
           />
         }
@@ -135,7 +136,7 @@ export const AssignUserToGroupModalContent = ({
                   <span className={"text-netbird font-medium"}>
                     {Object.keys(selectedRows).length}
                   </span>{" "}
-                  User(s) selected
+                  {t("groupUsers.selected")}
                 </div>
               )}
             </div>
@@ -153,7 +154,7 @@ export const AssignUserToGroupModalContent = ({
                   onSuccess?.(selectedUsers);
                 }}
               >
-                {buttonText}
+                {resolvedButtonText}
               </Button>
             )}
           </div>
@@ -163,7 +164,9 @@ export const AssignUserToGroupModalContent = ({
   );
 };
 
-const UsersTableColumns: ColumnDef<User>[] = [
+const createUsersTableColumns = (
+  t: (key: any, ...args: any[]) => string,
+): ColumnDef<User>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -191,7 +194,7 @@ const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
     },
     accessorFn: (row) => row.name + " " + row.email,
     sortingFn: "text",
@@ -200,7 +203,7 @@ const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "role",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.role")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <UserRoleCell user={row.original} />,
@@ -208,7 +211,7 @@ const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <UserStatusCell user={row.original} />,
@@ -216,13 +219,13 @@ const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "last_login",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Login</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.lastLogin")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => (
       <LastTimeRow
         date={dayjs(row.original.last_login).toDate()}
-        text={"Last login on"}
+        text={t("groupUsers.lastLoginOn")}
       />
     ),
   },

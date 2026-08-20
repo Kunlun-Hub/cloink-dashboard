@@ -18,6 +18,7 @@ import { cn } from "@utils/helpers";
 import { FolderGit2 } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
@@ -125,6 +126,7 @@ export function EditGroupsModal({
   hideAllGroup = false,
   disabled,
 }: Readonly<EditGroupsModalProps>) {
+  const { t } = useI18n();
   const [selectedGroups, setSelectedGroups, { getAllGroupCalls }] =
     useGroupHelper({
       initial: groups,
@@ -160,7 +162,7 @@ export function EditGroupsModal({
       <ModalFooter className={"items-center"}>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
 
           <Button

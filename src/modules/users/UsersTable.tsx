@@ -45,6 +45,7 @@ import { useSWRConfig } from "swr";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
+import { MessageKey } from "@/i18n/messages";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Group } from "@/interfaces/Group";
 import { User, UserInvite } from "@/interfaces/User";
@@ -60,92 +61,96 @@ import UserInviteModal from "@/modules/users/UserInviteModal";
 import UserInvitesTable from "@/modules/users/UserInvitesTable";
 import { useAccount } from "@/modules/account/useAccount";
 
-export const UsersTableColumns: ColumnDef<User>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+export function createUsersTableColumns(
+  t: (key: MessageKey, values?: Record<string, string | number>) => string,
+): ColumnDef<User>[] {
+  return [
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
+      },
+      accessorFn: (row) => row.name + " " + row.email,
+      sortingFn: "text",
+      cell: ({ row }) => <UserNameCell user={row.original} />,
     },
-    accessorFn: (row) => row.name + " " + row.email,
-    sortingFn: "text",
-    cell: ({ row }) => <UserNameCell user={row.original} />,
-  },
-  {
-    accessorKey: "is_current",
-    sortingFn: "basic",
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+    {
+      accessorKey: "is_current",
+      sortingFn: "basic",
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserRoleCell user={row.original} />,
-  },
-  {
-    id: "status",
-    // Derive a semantic status that matches what UserStatusCell renders so
-    // the filter and the visible label stay in sync. `pending_approval`
-    // is a separate bucket from `invited` (the cell renders the former as
-    // "Pending" and the latter as "Invited").
-    accessorFn: (row) => {
-      if (row.pending_approval) return "pending";
-      if (row.status === "invited") return "invited";
-      return row.status ?? "";
+    {
+      accessorKey: "role",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.role")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserRoleCell user={row.original} />,
     },
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+    {
+      id: "status",
+      // Derive a semantic status that matches what UserStatusCell renders so
+      // the filter and the visible label stay in sync. `pending_approval`
+      // is a separate bucket from `invited` (the cell renders the former as
+      // "Pending" and the latter as "Invited").
+      accessorFn: (row) => {
+        if (row.pending_approval) return "pending";
+        if (row.status === "invited") return "invited";
+        return row.status ?? "";
+      },
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserStatusCell user={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserStatusCell user={row.original} />,
-  },
 
-  {
-    accessorKey: "auto_groups",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+    {
+      accessorKey: "auto_groups",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.groups")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserGroupCell user={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserGroupCell user={row.original} />,
-  },
 
-  {
-    accessorKey: "last_login",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Login</DataTableHeader>;
+    {
+      accessorKey: "last_login",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.lastLogin")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => (
+        <LastTimeRow
+          date={dayjs(row.original.last_login).toDate()}
+          text={t("users.lastLoginOn")}
+        />
+      ),
     },
-    sortingFn: "text",
-    cell: ({ row }) => (
-      <LastTimeRow
-        date={dayjs(row.original.last_login).toDate()}
-        text={"Last login on"}
-      />
-    ),
-  },
-  {
-    id: "approval_required",
-    accessorKey: "approval_required",
-    sortingFn: "basic",
-    accessorFn: (u) => u?.pending_approval,
-  },
-  {
-    id: "role_filter",
-    accessorFn: (u) => [u?.role],
-    filterFn: "arrIncludesSome",
-  },
-  {
-    id: "group_names_filter",
-    accessorFn: (row) =>
-      (row as User & { _group_names?: string[] })._group_names ?? [],
-    filterFn: "arrIncludesSome",
-  },
-  {
-    accessorKey: "id",
-    header: "",
-    sortingFn: "text",
-    cell: ({ row }) => <UserActionCell user={row.original} />,
-  },
-];
+    {
+      id: "approval_required",
+      accessorKey: "approval_required",
+      sortingFn: "basic",
+      accessorFn: (u) => u?.pending_approval,
+    },
+    {
+      id: "role_filter",
+      accessorFn: (u) => [u?.role],
+      filterFn: "arrIncludesSome",
+    },
+    {
+      id: "group_names_filter",
+      accessorFn: (row) =>
+        (row as User & { _group_names?: string[] })._group_names ?? [],
+      filterFn: "arrIncludesSome",
+    },
+    {
+      accessorKey: "id",
+      header: "",
+      sortingFn: "text",
+      cell: ({ row }) => <UserActionCell user={row.original} />,
+    },
+  ];
+}
 
 type Props = {
   users?: User[];

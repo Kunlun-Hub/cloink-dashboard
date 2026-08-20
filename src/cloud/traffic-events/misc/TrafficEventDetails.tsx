@@ -3,6 +3,7 @@ import { cn } from "@utils/helpers";
 import { ArrowDownIcon, ArrowUpIcon, CheckIcon, HashIcon } from "lucide-react";
 import * as React from "react";
 import { TrafficEventChart } from "@/cloud/traffic-events/misc/TrafficEventChart";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const TrafficEventDetails = ({ open, setOpen }: Props) => {
+  const { t } = useI18n();
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <SidebarModalContent
@@ -32,8 +34,8 @@ export const TrafficEventDetails = ({ open, setOpen }: Props) => {
               </ListItem>
               <ListItem>Peer 2 accepted the connection request</ListItem>
 
-              <ListItem>Posture Check XYZ passed</ListItem>
-              <ListItem>Access Control Policy XYZ passed</ListItem>
+              <ListItem>{t("trafficEvents.postureCheckPassed", { name: "XYZ" })}</ListItem>
+              <ListItem>{t("trafficEvents.accessControlPolicyPassed", { name: "XYZ" })}</ListItem>
               <ListItem hideLastLine={true}>
                 Peer 1 requested to connect to Peer 2
               </ListItem>

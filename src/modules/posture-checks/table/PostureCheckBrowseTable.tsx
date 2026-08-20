@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-table";
 import useFetchApi from "@utils/api";
 import React, { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckChecksCell } from "@/modules/posture-checks/table/cells/PostureCheckChecksCell";
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export default function PostureCheckBrowseTable({ onAdd }: Readonly<Props>) {
+  const { t } = useI18n();
   const { data: postureChecks, isLoading } =
     useFetchApi<PostureCheck[]>("/posture-checks");
   const { mutate } = useSWRConfig();
@@ -46,7 +48,7 @@ export default function PostureCheckBrowseTable({ onAdd }: Readonly<Props>) {
         sorting={sorting}
         wrapperClassName={""}
         setSorting={setSorting}
-        columns={PostureChecksColumns}
+        columns={getPostureChecksColumns(t)}
         showHeader={true}
         columnVisibility={{
           description: false,
@@ -90,7 +92,8 @@ export default function PostureCheckBrowseTable({ onAdd }: Readonly<Props>) {
   );
 }
 
-export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
+export function getPostureChecksColumns(t: (key: string) => string): ColumnDef<PostureCheck>[] {
+  return [
   {
     id: "select",
     header: ({ table }) => (
@@ -118,7 +121,7 @@ export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <PostureCheckNameCell small={true} check={row.original} />
@@ -127,8 +130,9 @@ export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Checks</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.checks")}</DataTableHeader>;
     },
     cell: ({ row }) => <PostureCheckChecksCell check={row.original} />,
   },
 ];
+}

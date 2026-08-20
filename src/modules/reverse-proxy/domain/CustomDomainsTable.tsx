@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
@@ -44,11 +45,11 @@ import CustomDomainClusterCell from "@/modules/reverse-proxy/domain/CustomDomain
 import { CustomDomainModal } from "./CustomDomainModal";
 import { CustomDomainVerificationModal } from "./CustomDomainVerificationModal";
 
-const CustomDomainsColumns: ColumnDef<ReverseProxyDomain>[] = [
+const CustomDomainsColumns = (t: (...args: any[]) => string): ColumnDef<ReverseProxyDomain>[] => [
   {
     accessorKey: "domain",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("customDomainsTable.domain")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <CustomDomainNameCell domain={row.original} />,
@@ -56,7 +57,7 @@ const CustomDomainsColumns: ColumnDef<ReverseProxyDomain>[] = [
   {
     accessorKey: "validated",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("customDomainsTable.status")}</DataTableHeader>;
     },
     filterFn: "exactMatch",
     cell: ({ row }) => <CustomDomainStatusCell domain={row.original} />,
@@ -64,7 +65,7 @@ const CustomDomainsColumns: ColumnDef<ReverseProxyDomain>[] = [
   {
     accessorKey: "target_cluster",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Cluster</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("customDomainsTable.cluster")}</DataTableHeader>;
     },
     cell: ({ row }) => <CustomDomainClusterCell domain={row.original} />,
   },
@@ -84,6 +85,7 @@ type Props = {
 };
 
 export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { permission } = usePermissions();
@@ -177,7 +179,7 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
         text={"Domains"}
         sorting={sorting}
         setSorting={setSorting}
-        columns={CustomDomainsColumns}
+        columns={CustomDomainsColumns(t)}
         data={data}
         useRowId={true}
         searchPlaceholder={"Search by domain..."}

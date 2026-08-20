@@ -9,6 +9,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
+import { useI18n } from "@/i18n/I18nProvider";
 import { RoutingPeerSetupKeyInfo } from "@/modules/setup-netbird-modal/SetupModal";
 
 type Props = {
@@ -26,6 +27,7 @@ export default function DockerTab({
   showSetupKeyInfo = false,
   hostname,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const offset = setupKeyContent ? 1 : 0;
   return (
     <TabsContent value={String(OperatingSystem.DOCKER)}>
@@ -36,7 +38,7 @@ export default function DockerTab({
         </p>
         <Steps>
           <Steps.Step step={1}>
-            <p>Install Docker</p>
+            <p>{t("setupModal.installDocker")}</p>
             <div className={"flex gap-4 mt-1"}>
               <Link
                 href={"https://docs.docker.com/engine/install/"}
@@ -90,7 +92,7 @@ export default function DockerTab({
             </Code>
           </Steps.Step>
           <Steps.Step step={3 + offset} line={false}>
-            <p>Read our documentation</p>
+            <p>{t("setupModal.readDocumentation")}</p>
             <InlineLink
               href={"https://docs.netbird.io/how-to/installation/docker"}
               passHref={true}

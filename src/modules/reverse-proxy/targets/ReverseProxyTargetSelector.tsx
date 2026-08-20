@@ -5,6 +5,7 @@ import { Label } from "@components/Label";
 import { Modal } from "@components/modal/Modal";
 import { ClusterOption, PeerGroupSelector } from "@components/PeerGroupSelector";
 import React, { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Network } from "@/interfaces/Network";
 import {
   ReverseProxyDomainType,
@@ -47,6 +48,7 @@ export default function ReverseProxyTargetSelector({
   serviceCluster,
   onClusterPick,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { resources, peers, domains } = useReverseProxies();
   const [installModal, setInstallModal] = useState(false);
 
@@ -118,7 +120,7 @@ export default function ReverseProxyTargetSelector({
                   reached through a routing peer that forwards traffic to them.
                   <span className={"mt-1 block"}>
                     If you don&apos;t have resources yet, go to{" "}
-                    <InlineLink href={"/networks"}>Networks</InlineLink> to
+                    <InlineLink href={"/networks"}>{t("reverseProxy.networks")}</InlineLink> to
                     create some.
                   </span>
                 </>

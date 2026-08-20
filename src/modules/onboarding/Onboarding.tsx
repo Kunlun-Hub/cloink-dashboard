@@ -30,6 +30,7 @@ import { OnboardingExplainDefaultPolicy } from "@/modules/onboarding/p2p/Onboard
 import { OnboardingFirstDevice } from "@/modules/onboarding/p2p/OnboardingFirstDevice";
 import { OnboardingSecondDevice } from "@/modules/onboarding/p2p/OnboardingSecondDevice";
 import { OnboardingTestP2P } from "@/modules/onboarding/p2p/OnboardingTestP2P";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export interface OnboardingState {
   intent: Intent;
@@ -102,6 +103,7 @@ export const Onboarding = ({
   const { data: networks } = useFetchApi<Network[]>("/networks", true, false);
   const { data: policies } = useFetchApi<Policy[]>("/policies", true);
   const router = useRouter();
+  const { t } = useI18n();
 
   const resourceRequest = useApiCall<NetworkResource>("/networks", true);
   const routerRequest = useApiCall<NetworkRouter>("/networks", true);
@@ -306,7 +308,7 @@ export const Onboarding = ({
         >
           <div data-testid={"regular-onboarding"}>
             <VisuallyHidden asChild>
-              <DialogTitle>Onboarding</DialogTitle>
+              <DialogTitle>{t("onboarding.dialogTitle")}</DialogTitle>
             </VisuallyHidden>
             <div
               className={cn(

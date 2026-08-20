@@ -4,35 +4,38 @@ import DataTableHeader from "@components/table/DataTableHeader";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import * as React from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { EnterpriseConnectionDomain } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import LastTimeRow from "@/modules/common-table-rows/LastTimeRow";
 
-export const DomainTableColumns: ColumnDef<EnterpriseConnectionDomain>[] = [
+const createDomainTableColumns = (
+  t: (key: any, ...args: any[]) => string,
+): ColumnDef<EnterpriseConnectionDomain>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("domainVerification.domain")}</DataTableHeader>;
     },
     sortingFn: "text",
   },
   {
     accessorKey: "validation_status",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>;
     },
     sortingFn: "text",
   },
   {
     accessorKey: "validation_last_updated",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Check</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("domainVerification.lastCheck")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => (
       <LastTimeRow
         date={dayjs(row.original.validation_last_updated).toDate()}
-        text={"Last checked on"}
+        text={t("domainVerification.lastCheckedOn")}
       />
     ),
   },
@@ -42,6 +45,8 @@ type Props = {
   domains: EnterpriseConnectionDomain[];
 };
 export const DomainVerificationTable = ({ domains }: Props) => {
+  const { t } = useI18n();
+  const columns = useMemo(() => createDomainTableColumns(t), [t]);
   const [sorting, setSorting] = useState<SortingState>([
     {
       id: "is_current",
@@ -60,10 +65,10 @@ export const DomainVerificationTable = ({ domains }: Props) => {
         tableClassName={"w-full mt-0"}
         minimal={true}
         showSearchAndFilters={false}
-        text={"Domains"}
+        text={t("domainVerification.domains")}
         sorting={sorting}
         setSorting={setSorting}
-        columns={DomainTableColumns}
+        columns={columns}
         data={domains}
       />
     </Card>

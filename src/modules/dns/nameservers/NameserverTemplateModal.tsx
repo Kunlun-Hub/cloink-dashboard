@@ -125,6 +125,7 @@ function NameserverTemplate({
   hrefTitle?: string;
   "data-testid"?: string;
 }>) {
+  const { t } = useI18n();
   return (
     <button
       className={

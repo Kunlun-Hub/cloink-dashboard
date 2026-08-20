@@ -30,8 +30,10 @@ import ReverseProxyDestinationCell from "@/modules/reverse-proxy/table/ReversePr
 import ReverseProxyNameCell from "@/modules/reverse-proxy/table/ReverseProxyNameCell";
 import ReverseProxyFlatTargetActionCell from "@/modules/reverse-proxy/targets/flat/ReverseProxyFlatTargetActionCell";
 import { ReverseProxyTargetDevice } from "@/modules/reverse-proxy/targets/ReverseProxyTargetDevice";
+import { useI18n } from "@/i18n/I18nProvider";
 
-const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
+function getFlatTargetsColumns(t: (key: string) => string): ColumnDef<ReverseProxyFlatTarget>[] {
+  return [
   {
     id: "target_id",
     accessorKey: "target_id",
@@ -78,7 +80,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     accessorKey: "host",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Destination</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.destination")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <div data-proxy-id={row.original.proxy.id}>
@@ -93,7 +95,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     accessorKey: "target_type",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Resource</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.resource")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <div data-proxy-id={row.original.proxy.id}>
@@ -140,6 +142,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
     },
   },
 ];
+}
 
 type Props = {
   targets: ReverseProxyFlatTarget[];
@@ -159,6 +162,8 @@ export const ReverseProxyFlatTargetsTable = ({
   const [sorting, setSorting] = useState<SortingState>([
     { id: "domain", desc: false },
   ]);
+  const { t } = useI18n();
+  const FlatTargetsTableColumns = getFlatTargetsColumns(t);
   const { permission } = usePermissions();
   const { openModal } = useReverseProxies();
   const params = useSearchParams();
@@ -210,7 +215,7 @@ export const ReverseProxyFlatTargetsTable = ({
       minimal={true}
       showSearchAndFilters={true}
       tableClassName="mt-0"
-      text="Service"
+      text={t("reverseProxy.tabService")}
       sorting={sorting}
       setSorting={setSorting}
       columns={FlatTargetsTableColumns}

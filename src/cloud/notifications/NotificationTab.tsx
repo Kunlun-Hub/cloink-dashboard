@@ -23,12 +23,14 @@ import {
 import { SkeletonNotificationSettings } from "@components/skeletons/SkeletonNotificationSettings";
 import { NotificationSlackChannel } from "@/cloud/notifications/channels/NotificationSlackChannel";
 import { SmallBadge } from "@components/ui/SmallBadge";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const NotificationsOverview = ({
   onSelectChannel,
 }: {
   onSelectChannel: (value: string) => void;
 }) => {
+  const { t } = useI18n();
   const { getFirstChannelByType } = useNotifications();
   const { permission } = usePermissions();
   const canUpdate = permission?.settings?.update ?? false;
@@ -42,33 +44,32 @@ const NotificationsOverview = ({
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/settings"}
-          label={"Settings"}
+          label={t("settings.title")}
           icon={<SettingsIcon size={13} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications"}
-          label={"Notifications"}
+          label={t("notifications.title")}
           icon={<MessageSquareDot size={14} />}
           active
         />
       </Breadcrumbs>
       <div className={"flex items-start justify-between"}>
         <div>
-          <h1>Notifications</h1>
+          <h1>{t("notifications.title")}</h1>
           <Paragraph>
-            Choose how to be notified when important events occur in your
-            account.
+            {t("notifications.description")}
           </Paragraph>
           <Paragraph>
-            Learn more about{" "}
+            {t("common.learnMoreAbout")}{" "}
             <InlineLink
               href={NOTIFICATION_CHANNELS_DOCS_LINK}
               target={"_blank"}
             >
-              Notification Channels
+              {t("notifications.channelsLink")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
-            in our documentation.
+            {t("notifications.docsSuffix")}
           </Paragraph>
         </div>
       </div>
@@ -170,6 +171,7 @@ const NotificationSlackChannelPage = () => {
 };
 
 export const NotificationsTabTrigger = () => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { isLicensed } = useIsLicensed();
 
@@ -179,7 +181,7 @@ export const NotificationsTabTrigger = () => {
   return (
     <VerticalTabs.Trigger value="notifications">
       <MessageSquareDot size={14} />
-      Notifications
+      {t("notifications.title")}
       <SmallBadge
         text={"Beta"}
         variant={"sky"}

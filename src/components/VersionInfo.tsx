@@ -4,6 +4,7 @@ import FullTooltip from "@components/FullTooltip";
 import { cn } from "@utils/helpers";
 import { ArrowUpCircle } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import Skeleton from "react-loading-skeleton";
 import useFetchApi from "@utils/api";
 import { isNetBirdCloud } from "@utils/netbird";
@@ -70,6 +71,7 @@ export const NavigationVersionInfo = () => {
 };
 
 const NavigationVersionInfoContent = () => {
+  const { t } = useI18n();
   const { data: versionInfo, isLoading } = useFetchApi<VersionInfoType>(
     "/instance/version",
     true, // ignore errors
@@ -107,11 +109,11 @@ const NavigationVersionInfoContent = () => {
           content={
             <div className="text-xs flex flex-col gap-1">
               <span>
-                Installed:{" "}
+                {t("versionInfo.installed")}{" "}
                 {formatVersion(versionInfo.management_current_version)}
               </span>
               <span>
-                Latest: {formatVersion(versionInfo.management_available_version)}
+                {t("versionInfo.latestLabel")} {formatVersion(versionInfo.management_available_version)}
               </span>
             </div>
           }
@@ -119,7 +121,7 @@ const NavigationVersionInfoContent = () => {
           className="w-full"
         >
           <div className="flex items-center justify-between w-full cursor-default">
-            <span>Management</span>
+            <span>{t("versionInfo.management")}</span>
             <span className="text-nb-gray-300 font-medium">
               {formatShortVersion(versionInfo.management_current_version)}
             </span>
@@ -128,9 +130,9 @@ const NavigationVersionInfoContent = () => {
         <FullTooltip
           content={
             <div className="text-xs flex flex-col gap-1">
-              <span>Installed: {formatVersion(dashboardVersion)}</span>
+              <span>{t("versionInfo.installed")} {formatVersion(dashboardVersion)}</span>
               <span>
-                Latest: {formatVersion(versionInfo.dashboard_available_version)}
+                {t("versionInfo.latestLabel")} {formatVersion(versionInfo.dashboard_available_version)}
               </span>
             </div>
           }
@@ -138,7 +140,7 @@ const NavigationVersionInfoContent = () => {
           className="w-full"
         >
           <div className="flex items-center justify-between w-full cursor-default">
-            <span>Dashboard</span>
+            <span>{t("versionInfo.dashboard")}</span>
             <span className="text-nb-gray-300 font-medium">
               {formatShortVersion(dashboardVersion)}
             </span>
@@ -154,7 +156,7 @@ const NavigationVersionInfoContent = () => {
           className="flex items-center justify-center gap-1.5 text-white font-medium bg-netbird hover:bg-netbird-500 transition-colors rounded-md py-1.5 px-2 mt-1"
         >
           <ArrowUpCircle size={12} />
-          <span>Update available</span>
+          <span>{t("versionInfo.updateAvailableLabel")}</span>
         </a>
       )}
     </div>

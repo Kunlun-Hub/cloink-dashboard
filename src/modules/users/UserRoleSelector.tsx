@@ -22,6 +22,7 @@ import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useElementSize } from "@/hooks/useElementSize";
 import { Role, User } from "@/interfaces/User";
 import { useI18n } from "@/i18n/I18nProvider";
+import { MessageKey } from "@/i18n/messages";
 
 interface MultiSelectProps {
   value?: Role;
@@ -36,7 +37,13 @@ interface MultiSelectProps {
   align?: "start" | "center" | "end";
 }
 
-export const UserRoles = [
+type UserRoleOption = {
+  nameKey: MessageKey;
+  value: Role;
+  icon: React.ElementType;
+};
+
+export const UserRoles: UserRoleOption[] = [
   {
     nameKey: "userRoles.owner",
     value: Role.Owner,

@@ -15,6 +15,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import { WebhookConfig } from "@/cloud/webhooks/useWebhookConfig";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export enum AuthType {
   None = "none",
@@ -54,7 +55,9 @@ type AuthenticationSettingsProps = {
 export const AuthenticationSettings = ({
   value,
   mask,
-}: AuthenticationSettingsProps) => (
+}: AuthenticationSettingsProps) => {
+  const { t } = useI18n();
+  return (
   <>
     <SelectDropdown
       value={value.authenticationType}
@@ -66,14 +69,14 @@ export const AuthenticationSettings = ({
       <div className={"flex flex-col gap-2 mt-3"}>
         <Input
           customPrefix={<UserIcon size={16} />}
-          placeholder="Username"
+          placeholder={t("common.username")}
           value={value.username}
           onChange={(e) => value.setUsername(e.target.value)}
           data-testid="webhook-basic-username"
         />
         <Input
           customPrefix={<KeyRoundIcon size={16} />}
-          placeholder="Password"
+          placeholder={t("common.password")}
           value={value.password}
           onChange={(e) => value.setPassword(e.target.value)}
           type={mask ? "password" : "text"}
@@ -125,4 +128,5 @@ export const AuthenticationSettings = ({
       </div>
     )}
   </>
-);
+  );
+};

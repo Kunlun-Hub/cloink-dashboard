@@ -24,6 +24,7 @@ import { Network } from "@/interfaces/Network";
 import { ReverseProxyTarget } from "@/interfaces/ReverseProxy";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
 import { cn } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   targets: ReverseProxyTarget[];
@@ -44,12 +45,13 @@ export default function ReverseProxyHTTPTargets({
   initialNetwork,
   onNavigateToResources,
 }: Readonly<Props>) {
+  const { t } = useI18n();
+
   return (
     <div>
-      <Label>HTTPS Targets</Label>
+      <Label>{t("reverseProxy.httpTargets")}</Label>
       <HelpText>
-        Add one or more devices running your service or resources to make it
-        publicly accessible.
+        {t("reverseProxy.httpTargetsHelp")}
       </HelpText>
 
       {targets.length > 0 && (
@@ -107,7 +109,7 @@ export default function ReverseProxyHTTPTargets({
                           >
                             <div className="flex gap-3 items-center">
                               <Edit size={14} className="shrink-0" />
-                              Edit Target
+                              {t("reverseProxy.editTarget")}
                             </div>
                           </DropdownMenuItem>
                           <DropdownMenuItem
@@ -117,7 +119,7 @@ export default function ReverseProxyHTTPTargets({
                           >
                             <div className="flex gap-3 items-center">
                               <MinusCircleIcon size={14} className="shrink-0" />
-                              Remove Target
+                              {t("reverseProxy.removeTarget")}
                             </div>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -140,7 +142,7 @@ export default function ReverseProxyHTTPTargets({
         disabled={!!(initialNetwork && !initialNetwork.resources?.length)}
       >
         <PlusIcon size={14} />
-        Add Target
+        {t("reverseProxy.addTarget")}
       </Button>
 
       {initialNetwork && !initialNetwork.resources?.length && (
@@ -151,13 +153,13 @@ export default function ReverseProxyHTTPTargets({
             <AlertTriangle size={14} className="shrink-0 relative top-[3px]" />
           }
         >
-          There are currently no resources in your network{" "}
+          {t("reverseProxy.noResourcesPrefix")}{" "}
           <span className={"text-netbird-100 font-medium"}>
             {initialNetwork?.name}
           </span>
-          . Add resources to your network before exposing it as a service.{" "}
+          {t("reverseProxy.noResourcesSuffix")}{" "}
           <InlineButtonLink variant={"default"} onClick={onNavigateToResources}>
-            Go to Resources
+            {t("reverseProxy.goToResources")}
             <ArrowUpRight size={14} />
           </InlineButtonLink>
         </Callout>

@@ -23,6 +23,7 @@ import { uniqBy } from "lodash";
 import { ExternalLinkIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DateRange } from "react-day-picker";
 import { useSWRConfig } from "swr";
 import PeerIcon from "@/assets/icons/PeerIcon";
@@ -40,11 +41,12 @@ type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
-const ActivityFeedColumnsTable: ColumnDef<ActivityEvent>[] = [
+function getActivityColumns(t: (key: string) => string): ColumnDef<ActivityEvent>[] {
+  return [
   {
     accessorKey: "activity_code",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Code</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("activity.code")}</DataTableHeader>;
     },
     sortingFn: "text",
     filterFn: "arrIncludesSomeExact",
@@ -81,6 +83,7 @@ const ActivityFeedColumnsTable: ColumnDef<ActivityEvent>[] = [
     filterFn: "exactMatch",
   },
 ];
+}
 
 const defaultFromDate = dayjs().subtract(14, "day").toDate();
 const defaultToDate = dayjs().toDate();
@@ -90,6 +93,8 @@ export default function ActivityTable({
   isLoading,
   headingTarget,
 }: Props) {
+  const { t } = useI18n();
+  const ActivityFeedColumnsTable = getActivityColumns(t);
   const { mutate } = useSWRConfig();
   const path = usePathname();
 

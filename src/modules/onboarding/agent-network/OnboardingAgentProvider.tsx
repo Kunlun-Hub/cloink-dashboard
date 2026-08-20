@@ -5,6 +5,7 @@ import * as React from "react";
 import { useState } from "react";
 import AIProviderModal from "@/modules/agent-network/AIProviderModal";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onBack: () => void;
@@ -16,6 +17,7 @@ type Props = {
 // settings and generates the tunnel-only endpoint, so we key "done" off
 // settings being present rather than counting providers.
 export const OnboardingAgentProvider = ({ onBack, onNext }: Props) => {
+  const { t } = useI18n();
   const { settings, providers, openWizard, closeWizard, isWizardOpen } =
     useAIProviders();
   const connected = !!settings;
@@ -23,15 +25,13 @@ export const OnboardingAgentProvider = ({ onBack, onNext }: Props) => {
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
-        <h1 className={"text-xl text-center"}>Connect a provider</h1>
+        <h1 className={"text-xl text-center"}>{t("onboarding.agent.provider.title")}</h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          {`A provider is an upstream LLM service NetBird routes to, such as
-          OpenAI, Anthropic, or an AI gateway. NetBird
-          stores the API key securely and returns a tunnel-only endpoint.`}
+          {t("onboarding.agent.provider.description")}
         </div>
       </div>
 
@@ -41,17 +41,17 @@ export const OnboardingAgentProvider = ({ onBack, onNext }: Props) => {
         <div className={"mt-4 flex items-center justify-center"}>
           <Button variant={"primary"} onClick={openWizard}>
             <PlusIcon size={16} />
-            Connect Provider
+            {t("onboarding.agent.provider.connectButton")}
           </Button>
         </div>
       )}
 
       <div className={"flex items-center justify-center mt-4 gap-3"}>
         <Button variant={"secondary"} onClick={onBack}>
-          Go Back
+          {t("actions.goBack")}
         </Button>
         <Button variant={"primary"} disabled={!connected} onClick={onNext}>
-          Continue
+          {t("common.continue")}
           <ArrowRightIcon size={16} />
         </Button>
       </div>
@@ -68,6 +68,7 @@ const EndpointPanel = ({
   endpoint: string;
   count: number;
 }) => {
+  const { t } = useI18n();
   const [, copy] = useCopyToClipboard(`https://${endpoint}`);
   return (
     <div className={"mt-4 flex flex-col gap-3"}>
@@ -75,9 +76,9 @@ const EndpointPanel = ({
         <CheckCircle2Icon size={16} className={"text-green-500"} />
         <span>
           {count > 1
-            ? `${count} providers connected.`
-            : "Provider connected."}{" "}
-          Your agent network endpoint is ready.
+            ? t("onboarding.agent.provider.connectedPlural", { count })
+            : t("onboarding.agent.provider.connectedSingular")}{" "}
+          {t("onboarding.agent.provider.endpointReady")}
         </span>
       </div>
       <div
@@ -91,7 +92,7 @@ const EndpointPanel = ({
               "text-[10px] text-nb-gray-400 uppercase tracking-wider font-medium"
             }
           >
-            API Base URL
+            {t("onboarding.agent.provider.apiBaseUrl")}
           </div>
           <code
             className={
@@ -106,11 +107,11 @@ const EndpointPanel = ({
           className={
             "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-white transition-colors shrink-0"
           }
-          onClick={() => copy("Endpoint copied to clipboard")}
-          aria-label={"Copy endpoint"}
+          onClick={() => copy(t("onboarding.agent.provider.endpointCopied"))}
+          aria-label={t("onboarding.agent.provider.copyEndpoint")}
         >
           <Copy size={12} />
-          Copy
+          {t("onboarding.agent.provider.copy")}
         </button>
       </div>
     </div>

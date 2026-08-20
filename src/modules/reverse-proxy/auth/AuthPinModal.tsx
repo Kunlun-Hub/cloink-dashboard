@@ -4,6 +4,7 @@ import ModalHeader from "@components/modal/ModalHeader";
 import PinCodeInput from "@components/PinCodeInput";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 import React, { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -22,6 +23,7 @@ export default function AuthPinModal({
   onSave,
   onRemove,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const [pin, setPin] = useState(currentPin);
   const [isMasked, setIsMasked] = useState(isEnabled && currentPin === "");
   const isEditing = isEnabled;
@@ -43,7 +45,7 @@ export default function AuthPinModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-md">
         <ModalHeader
-          title="PIN Code"
+          title={t("reverseProxy.authPin")}
           description="Require a numeric PIN code to access this service."
         />
 
@@ -73,7 +75,7 @@ export default function AuthPinModal({
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
@@ -89,7 +91,7 @@ export default function AuthPinModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"

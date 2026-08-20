@@ -14,6 +14,7 @@ import { ShieldHalf } from "lucide-react";
 import React, { useState } from "react";
 import { AgentGuardrail } from "@/modules/agent-network/data/mockData";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -29,6 +30,7 @@ export default function AgentGuardrailBrowseModal({
   onSuccess,
 }: Readonly<Props>) {
   const { guardrails } = useAIProviders();
+  const { t } = useI18n();
   const [selected, setSelected] = useState<string[]>([]);
 
   React.useEffect(() => {
@@ -73,7 +75,7 @@ export default function AgentGuardrailBrowseModal({
         <ModalFooter className={"items-center"}>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common.cancel")}</Button>
             </ModalClose>
             <Button
               variant={"primary"}

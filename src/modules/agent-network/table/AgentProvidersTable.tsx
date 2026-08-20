@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import AIAccessIcon from "@/assets/icons/AgentNetworkIcon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useI18n } from "@/i18n/I18nProvider";
 import { AIProvider } from "@/modules/agent-network/data/mockData";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
@@ -76,13 +77,13 @@ function ModelsCell({ provider }: { provider: AIProvider }) {
   );
 }
 
-const columns: ColumnDef<AIProvider>[] = [
+const getColumns = (t: (...args: any[]) => string): ColumnDef<AIProvider>[] => [
   {
     id: "name",
     accessorKey: "name",
     sortingFn: "text",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Name</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>
     ),
     cell: ({ row }) => <NameCell provider={row.original} />,
   },
@@ -91,7 +92,7 @@ const columns: ColumnDef<AIProvider>[] = [
     accessorFn: (p) => p.models.length,
     sortingFn: "basic",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Models</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.models")}</DataTableHeader>
     ),
     cell: ({ row }) => <ModelsCell provider={row.original} />,
   },
@@ -111,6 +112,7 @@ export default function AgentProvidersTable({
   headingTarget,
 }: Readonly<Props>) {
   const path = usePathname();
+  const { t } = useI18n();
   const { providers, isLoading } = useAIProviders();
 
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -141,7 +143,7 @@ export default function AgentProvidersTable({
       text={"Providers"}
       sorting={sorting}
       setSorting={setSorting}
-      columns={columns}
+      columns={getColumns(t)}
       data={providers}
       searchPlaceholder={"Search by name..."}
       onRowClick={(row) => {

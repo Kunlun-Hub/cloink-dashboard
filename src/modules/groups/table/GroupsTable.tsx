@@ -25,17 +25,18 @@ import TeamIcon from "@/assets/icons/TeamIcon";
 import { AddGroupButton } from "@/components/ui/AddGroupButton";
 import { GroupProvider } from "@/contexts/GroupProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useI18n } from "@/i18n/I18nProvider";
 import GroupsActionCell from "@/modules/groups/table/GroupsActionCell";
 import GroupsCountCell from "@/modules/groups/table/GroupsCountCell";
 import GroupsNameCell from "@/modules/groups/table/GroupsNameCell";
 import useGroupsUsage, { GroupUsage } from "@/modules/groups/useGroupsUsage";
 import DNSZoneIcon from "@/assets/icons/DNSZoneIcon";
 
-export const GroupsTableColumns: ColumnDef<GroupUsage>[] = [
+export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<GroupUsage>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
     },
     cell: ({ row }) => {
       const in_use = !!row.getValue("in_use");
@@ -237,7 +238,7 @@ export const GroupsTableColumns: ColumnDef<GroupUsage>[] = [
   {
     id: "in_use",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>In Use</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.inUse")}</DataTableHeader>;
     },
     sortingFn: "basic",
     accessorFn: (row) => {
@@ -274,6 +275,7 @@ type Props = {
 };
 
 export default function GroupsTable({ headingTarget }: Readonly<Props>) {
+  const { t } = useI18n();
   const { data: groups, isLoading } = useGroupsUsage();
   const path = usePathname();
 
@@ -328,7 +330,7 @@ export default function GroupsTable({ headingTarget }: Readonly<Props>) {
       sorting={sorting}
       isLoading={isLoading}
       setSorting={setSorting}
-      columns={GroupsTableColumns}
+      columns={GroupsTableColumns(t)}
       data={groups}
       initialPageSize={25}
       showResetFilterButton={false}

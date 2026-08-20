@@ -8,7 +8,7 @@ import NoResults from "@components/ui/NoResults";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import * as React from "react";
-import { lazy, useState } from "react";
+import { lazy, useMemo, useState } from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import { useGroupContext } from "@/contexts/GroupProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
@@ -20,10 +20,11 @@ import PeerAddressCell from "@/modules/peers/PeerAddressCell";
 import PeerLastSeenCell from "@/modules/peers/PeerLastSeenCell";
 import PeerNameCell from "@/modules/peers/PeerNameCell";
 import { PeerOSCell } from "@/modules/peers/PeerOSCell";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const GroupPeersTable = lazy(() => import("@/modules/peer/MinimalPeersTable"));
 
-const GroupPeersTableColumns: ColumnDef<Peer>[] = [
+const createGroupPeersTableColumns = (t: (key: any, ...args: any[]) => string): ColumnDef<Peer>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -51,7 +52,7 @@ const GroupPeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <PeerNameCell peer={row.original} />,
@@ -76,14 +77,14 @@ const GroupPeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "dns_label",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.address")}</DataTableHeader>;
     },
     cell: ({ row }) => <PeerAddressCell peer={row.original} />,
   },
   {
     accessorKey: "last_seen",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last seen</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.lastSeen")}</DataTableHeader>;
     },
     sortingFn: "datetime",
     cell: ({ row }) => <PeerLastSeenCell peer={row.original} />,
@@ -91,7 +92,7 @@ const GroupPeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "os",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>OS</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.os")}</DataTableHeader>;
     },
     cell: ({ row }) => <PeerOSCell os={row.original.os} />,
   },
@@ -113,22 +114,22 @@ export const GroupPeersSection = ({ peers, isLoading = true }: Props) => {
   const [selectedRows, setSelectedRows] = useState<RowSelectionState>({});
   const [open, setOpen] = useState(false);
   const { permission } = usePermissions();
+  const { t } = useI18n();
+  const columns = useMemo(() => createGroupPeersTableColumns(t), [t]);
 
   return (
     <GroupDetailsTableContainer>
       <GroupPeersTable
         isLoading={isLoading}
         peers={peers}
-        columns={GroupPeersTableColumns}
+        columns={columns}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         getStartedCard={
           <NoResults
             className={"py-4"}
-            title={"This group has no assigned peers yet"}
-            description={
-              "Install NetBird and assign existing peers to this group to see them listed here."
-            }
+            title={t("groupPeers.emptyTitle")}
+            description={t("groupPeers.emptyDescription")}
             icon={<PeerIcon size={20} className={"fill-nb-gray-300"} />}
           >
             {permission?.peers?.update && permission?.groups?.update && (
@@ -140,7 +141,7 @@ export const GroupPeersSection = ({ peers, isLoading = true }: Props) => {
                   onClick={() => setOpen(true)}
                 >
                   <PlusCircle size={16} />
-                  Assign Peers
+                  {t("groupPeers.assignPeers")}
                 </Button>
               </div>
             )}
@@ -158,7 +159,7 @@ export const GroupPeersSection = ({ peers, isLoading = true }: Props) => {
                 <>
                   <FullTooltip
                     content={
-                      <span className={"text-xs"}>Remove Peers from Group</span>
+                      <span className={"text-xs"}>{t("groupPeers.removeFromGroup")}</span>
                     }
                   >
                     <Button
@@ -186,7 +187,7 @@ export const GroupPeersSection = ({ peers, isLoading = true }: Props) => {
               useSave={false}
               showHeader={false}
               showClose={false}
-              buttonText={"Assign Peers"}
+              buttonText={t("groupPeers.assignPeers")}
               selectInitialPeers={false}
               excludedPeers={peers}
               onUpdate={(g) => {
@@ -205,7 +206,7 @@ export const GroupPeersSection = ({ peers, isLoading = true }: Props) => {
                       onClick={() => setOpen(true)}
                     >
                       <PlusCircle size={16} />
-                      Assign Peers
+                      {t("groupPeers.assignPeers")}
                     </Button>
                   )}
                 </div>

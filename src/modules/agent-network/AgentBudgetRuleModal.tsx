@@ -42,6 +42,7 @@ import {
   PolicyLimits,
 } from "@/modules/agent-network/data/mockData";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -78,6 +79,7 @@ function AgentBudgetRuleModalContent({
   initialTab?: string;
   onSuccess: () => void;
 }) {
+  const { t } = useI18n();
   const { addBudgetRule, updateBudgetRule } = useAIProviders();
   const { mutate } = useSWRConfig();
   const { users: allUsers } = useUsers();
@@ -151,10 +153,8 @@ function AgentBudgetRuleModalContent({
     <ModalContent maxWidthClass={"max-w-3xl"}>
       <ModalHeader
         icon={<SlidersHorizontal size={19} />}
-        title={rule ? "Update Global Limit" : "Create Global Limit"}
-        description={
-          "Account-level token and budget caps. Apply account-wide or scope to specific groups or users."
-        }
+        title={rule ? t("agentNetwork.updateGlobalLimit") : t("agentNetwork.createGlobalLimit")}
+        description={t("agentNetwork.globalLimitModalDescription")}
         color={"netbird"}
       />
 
@@ -162,25 +162,25 @@ function AgentBudgetRuleModalContent({
         <TabsList justify={"start"} className={"px-8"}>
           <TabsTrigger value={"rule"}>
             <SlidersHorizontal size={16} />
-            Rule
+            {t("agentNetwork.tabRule")}
           </TabsTrigger>
           <TabsTrigger value={"limits"}>
             <Gauge size={16} />
-            Limits
+            {t("agentNetwork.tabLimits")}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value={"rule"} className={"pb-8"}>
           <div className={"px-8 flex-col flex gap-6 pt-2"}>
             <div>
-              <Label>Name of the Global Limit</Label>
+              <Label>{t("agentNetwork.nameOfGlobalLimit")}</Label>
               <HelpText>
-                Set an easily identifiable name for this limit.
+                {t("agentNetwork.nameOfGlobalLimitHelp")}
               </HelpText>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"e.g. Account-wide monthly cap"}
+                placeholder={t("agentNetwork.nameOfGlobalLimitPlaceholder")}
                 data-testid={"budget-rule-name"}
               />
             </div>
@@ -189,13 +189,11 @@ function AgentBudgetRuleModalContent({
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
                   <Users2 size={15} />
-                  Target Groups
+                  {t("agentNetwork.targetGroups")}
                   <HelpTooltip
                     content={
                       <>
-                        Restrict this rule to members of the selected
-                        groups. Leave empty (and no users) to apply
-                        account-wide.
+                        {t("agentNetwork.targetGroupsTooltip")}
                       </>
                     }
                   />
@@ -206,9 +204,9 @@ function AgentBudgetRuleModalContent({
                     <div className={"flex items-center gap-2"}>
                       <Badge className={"py-[3px]"} variant={"gray-ghost"}>
                         <CircleUser size={12} />
-                        All
+                        {t("agentNetwork.all")}
                       </Badge>
-                      Select target group(s)...
+                      {t("agentNetwork.selectTargetGroups")}
                     </div>
                   }
                   values={targetGroupsRaw}
@@ -220,12 +218,11 @@ function AgentBudgetRuleModalContent({
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
                   <CircleUser size={15} />
-                  Target Users
+                  {t("agentNetwork.targetUsers")}
                   <HelpTooltip
                     content={
                       <>
-                        Restrict this rule to specific users. Leave empty
-                        (and no groups) to apply account-wide.
+                        {t("agentNetwork.targetUsersTooltip")}
                       </>
                     }
                   />
@@ -240,12 +237,11 @@ function AgentBudgetRuleModalContent({
 
             {accountWide && (
               <div className={"text-xs text-nb-gray-300 leading-snug"}>
-                With no targets selected, this rule applies{" "}
+                {t("agentNetwork.accountWideNote")}{" "}
                 <span className={"text-amber-400 font-medium"}>
-                  account-wide
+                  {t("agentNetwork.accountWideHighlight")}
                 </span>{" "}
-                — every agent-network request is counted against its
-                caps.
+                {t("agentNetwork.accountWideNoteSuffix")}
               </div>
             )}
           </div>
@@ -257,9 +253,9 @@ function AgentBudgetRuleModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-              Agent Network
+              {t("agentNetwork.agentNetwork")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -270,14 +266,14 @@ function AgentBudgetRuleModalContent({
               {tab === "rule" && (
                 <>
                   <ModalClose asChild>
-                    <Button variant={"secondary"}>Cancel</Button>
+                    <Button variant={"secondary"}>{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant={"primary"}
                     onClick={() => setTab("limits")}
                     disabled={name.trim().length === 0}
                   >
-                    Continue
+                    {t("common.continue")}
                   </Button>
                 </>
               )}
@@ -287,7 +283,7 @@ function AgentBudgetRuleModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("rule")}
                   >
-                    Back
+                    {t("common.back")}
                   </Button>
                   <Button
                     variant={"primary"}
@@ -295,7 +291,7 @@ function AgentBudgetRuleModalContent({
                     disabled={submitDisabled}
                   >
                     <PlusCircle size={16} />
-                    {rule ? "Save Global Limit" : "Add Global Limit"}
+                    {rule ? t("agentNetwork.saveGlobalLimit") : t("agentNetwork.addGlobalLimitButton")}
                   </Button>
                 </>
               )}
@@ -303,14 +299,14 @@ function AgentBudgetRuleModalContent({
           ) : (
             <>
               <ModalClose asChild>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 onClick={handleSubmit}
                 disabled={submitDisabled}
               >
-                Save Changes
+                {t("common.saveChanges")}
               </Button>
             </>
           )}
@@ -329,6 +325,7 @@ function UserMultiSelect({
   value: string[];
   onChange: (next: string[]) => void;
 }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -392,7 +389,7 @@ function UserMultiSelect({
           }
         >
           {selectedUsers.length === 0 ? (
-            <span className={"pl-1"}>Select user(s)...</span>
+            <span className={"pl-1"}>{t("agentNetwork.selectUsers")}</span>
           ) : (
             selectedUsers.map((u) => (
               <Badge
@@ -436,13 +433,13 @@ function UserMultiSelect({
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={"Search users..."}
+              placeholder={t("agentNetwork.searchUsers")}
             />
           </div>
           <div className={"overflow-y-auto p-1"}>
             {filtered.length === 0 ? (
               <div className={"text-xs text-nb-gray-400 px-3 py-3"}>
-                No users match.
+                {t("agentNetwork.noUsersMatch")}
               </div>
             ) : (
               filtered.map((u) => {

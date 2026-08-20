@@ -10,6 +10,7 @@ import { ColumnDef, SortingState, Table } from "@tanstack/react-table";
 import { HelpCircle, PlusCircle, ReceiptTextIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { Fragment } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import MSPIcon from "@/assets/icons/MSPIcon";
 import { useTenants } from "@/cloud/msp/contexts/TenantsProvider";
@@ -28,12 +29,12 @@ import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFe
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 
-const TenantsTableColumns: ColumnDef<Tenant>[] = [
+const TenantsTableColumns = (t: (...args: any[]) => string): ColumnDef<Tenant>[] => [
   {
     id: "name",
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Tenant</DataTableHeader>
+      <DataTableHeader column={column}>{t("msp.tenant")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantNameCell tenant={row.original} />,
   },
@@ -45,7 +46,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "plan",
     accessorKey: "plan",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Plan</DataTableHeader>
+      <DataTableHeader column={column}>{t("msp.plan")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantPlanCell tenant={row.original} />,
   },
@@ -53,7 +54,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "users",
     accessorKey: "users",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Users</DataTableHeader>
+      <DataTableHeader column={column}>{t("msp.users")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantUsersCell tenant={row.original} />,
   },
@@ -61,7 +62,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "peers",
     accessorKey: "peers",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Peers</DataTableHeader>
+      <DataTableHeader column={column}>{t("msp.peers")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantPeersCell tenant={row.original} />,
   },
@@ -74,8 +75,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
         <FullTooltip
           content={
             <div className={"text-xs max-w-xs"}>
-              The estimated price is calculated based on the number of active
-              users and active peers.
+              {t("msp.estCostTooltip")}
             </div>
           }
           interactive={false}
@@ -95,7 +95,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "groups",
     accessorKey: "peers",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Permission Groups</DataTableHeader>
+      <DataTableHeader column={column}>{t("msp.permissionGroups")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantGroupsCell tenant={row.original} />,
   },
@@ -122,6 +122,7 @@ export default function MSPTenantsTable({
   isLoading,
   headingTarget,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { hasReseller } = useMSP();
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
@@ -165,7 +166,7 @@ export default function MSPTenantsTable({
     <>
       <LockedFeatureInfoCard
         className={"px-4 sm:px-6 md:px-8 mt-0 mb-8"}
-        featureText={"Managing Tenants"}
+        featureText={t("msp.managingTenants")}
         feature={"MSP"}
         offerTrial={false}
       />
@@ -180,9 +181,9 @@ export default function MSPTenantsTable({
           text={"Tenants"}
           sorting={sorting}
           setSorting={setSorting}
-          columns={TenantsTableColumns}
+          columns={TenantsTableColumns(t)}
           data={tenants}
-          searchPlaceholder={"Search by name, email or group..."}
+          searchPlaceholder={t("msp.searchPlaceholder")}
           columnVisibility={{
             created_at: false,
             domain: false,
@@ -197,10 +198,8 @@ export default function MSPTenantsTable({
                   size={"large"}
                 />
               }
-              title={"Add New Tenant"}
-              description={
-                "It looks like you don't have any tenants yet. Add a new tenant to get started."
-              }
+              title={t("msp.addNewTenant")}
+              description={t("msp.addNewTenantDescription")}
               button={<AddTenantButton />}
               learnMore={<MSPTenantDocsLink />}
             />

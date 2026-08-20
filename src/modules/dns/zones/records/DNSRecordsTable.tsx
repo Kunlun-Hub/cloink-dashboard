@@ -14,7 +14,9 @@ type Props = {
   zone: DNSZone;
 };
 
-export const DNSRecordsTableColumns: ColumnDef<DNSRecord>[] = [
+export const DNSRecordsTableColumns = (
+  t: (key: string) => string,
+): ColumnDef<DNSRecord>[] => [
   {
     accessorKey: "type",
     header: ({ column }) => {
@@ -73,7 +75,7 @@ export default function DNSRecordsTable({ zone }: Props) {
         sorting={sorting}
         columnVisibility={{}}
         setSorting={setSorting}
-        columns={DNSRecordsTableColumns}
+        columns={DNSRecordsTableColumns(t)}
         data={zone.records}
       />
     </ZoneContext.Provider>

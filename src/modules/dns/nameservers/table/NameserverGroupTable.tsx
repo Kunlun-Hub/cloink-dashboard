@@ -42,7 +42,7 @@ import NameserverMatchDomainsCell from "@/modules/dns/nameservers/table/Nameserv
 import NameserverNameCell from "@/modules/dns/nameservers/table/NameserverNameCell";
 import NameserverNameserversCell from "@/modules/dns/nameservers/table/NameserverNameserversCell";
 
-export const NameserverGroupTableColumns: ColumnDef<NameserverGroup>[] = [
+export const NameserverGroupTableColumns = (t: (...args: any[]) => string): ColumnDef<NameserverGroup>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -71,7 +71,7 @@ export const NameserverGroupTableColumns: ColumnDef<NameserverGroup>[] = [
     accessorFn: (row) => row.domains?.length || 0,
     id: "domains",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Match Domains</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("nameservers.matchDomains")}</DataTableHeader>;
     },
     cell: ({ row }) => <NameserverMatchDomainsCell ns={row.original} />,
   },
@@ -245,7 +245,7 @@ export default function NameserverGroupTable({
           setEditModal(true);
           setCurrentCellClicked(cell);
         }}
-        columns={NameserverGroupTableColumns}
+        columns={NameserverGroupTableColumns(t)}
         data={nameserverGroupsWithNames}
         searchPlaceholder={t("nameservers.searchPlaceholder")}
         getStartedCard={

@@ -3,6 +3,7 @@ import { Input } from "@components/Input";
 import { Modal, ModalClose, ModalContent } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
 import React, { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 
 type Props = {
@@ -22,6 +23,7 @@ export default function AuthPasswordModal({
   onSave,
   onRemove,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const [password, setPassword] = useState(currentPassword);
   const [isMasked, setIsMasked] = useState(isEnabled && currentPassword === "");
   const isEditing = isEnabled;
@@ -43,7 +45,7 @@ export default function AuthPasswordModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-md">
         <ModalHeader
-          title="Password"
+          title={t("reverseProxy.authPassword")}
           description="Require a password to access this service."
         />
 
@@ -83,7 +85,7 @@ export default function AuthPasswordModal({
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
@@ -99,7 +101,7 @@ export default function AuthPasswordModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"

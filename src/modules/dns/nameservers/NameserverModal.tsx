@@ -581,6 +581,7 @@ function NameserverInput({
   onError?: (error: boolean) => void;
   disabled?: boolean;
 }>) {
+  const { t } = useI18n();
   const [ip, setIP] = useState(value.ip);
   const [port, setPort] = useState<string>(value.port.toString());
 

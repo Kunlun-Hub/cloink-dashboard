@@ -47,6 +47,7 @@ import {
   HUNTRESS_DOCUMENTATION_URL,
   matchAttributesReducer,
 } from "@/modules/integrations/edr/huntress/Huntress";
+import { useI18n } from "@/i18n/I18nProvider";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { HuntressMatchSettings } from "@/modules/integrations/edr/huntress/HuntressMatchSettings";
 
@@ -83,6 +84,7 @@ type ModalProps = {
 
 export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const huntressRequest = useApiCall<HuntressIntegration>(
     "/integrations/edr/huntress",
   );
@@ -127,8 +129,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
     const savedGroups = await saveGroups();
 
     notify({
-      title: "Huntress Integration",
-      description: `Huntress was successfully connected to NetBird.`,
+      title: t("edr.huntress.notifyTitle"),
+      description: t("edr.huntress.setup.connectedDescription"),
       promise: huntressRequest
         .post({
           api_key: apiKey,
@@ -142,7 +144,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           mutate("/integrations/edr/huntress");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -184,10 +186,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with Huntress"}
-        description={
-          "Restrict network access to devices managed by Huntress based on their security posture."
-        }
+        title={t("edr.huntress.setupTitle")}
+        description={t("edr.huntress.setupDescription")}
       />
 
       {step === 0 && (
@@ -202,21 +202,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t("edr.huntress.setup.permissionsEnsure")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Huntress account
+              {t("edr.huntress.setup.permissionsAccount")}
             </span>{" "}
-            with the following{" "}
+            {t("edr.huntress.setup.permissionsWith")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("edr.huntress.setup.permissionsLabel")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your administrator to grant them to you."
-            }
+            {t("edr.huntress.setup.permissionsHelp")}
           </p>
           <div
             className={
@@ -229,7 +227,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create API Keys
+              {t("edr.huntress.setup.createApiKeys")}
             </div>
             <div
               className={
@@ -237,7 +235,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage API Keys
+              {t("edr.huntress.setup.manageApiKeys")}
             </div>
           </div>
         </div>
@@ -247,41 +245,40 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={18} />
-            Get Huntress API Credentials
+            {t("edr.huntress.setup.getCredentialsTitle")}
           </p>
 
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to your{" "}
+                {t("edr.huntress.setup.getCredentialsStep1Navigate")}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://huntress.io/login"}
                 >
-                  Huntress Management Console
+                  {t("edr.huntress.setup.getCredentialsStep1Console")}
                 </InlineLink>{" "}
-                then open the menu at the top right and click{" "}
-                <Mark>API Credentials</Mark>
+                {t("edr.huntress.setup.getCredentialsStep1Then")}{" "}
+                <Mark>{t("edr.huntress.setup.getCredentialsStep1Mark")}</Mark>
               </p>
             </Steps.Step>
 
             <Steps.Step step={2}>
               <p>
-                Under User API Credentials click <Mark>+ Add</Mark> then select
-                your user and add
-                <Mark copy={true}>NetBird</Mark> as the description
+                {t("edr.huntress.setup.getCredentialsStep2Under")} <Mark>{t("edr.huntress.setup.getCredentialsStep2Add")}</Mark> {t("edr.huntress.setup.getCredentialsStep2Then")}
+                <Mark copy={true}>NetBird</Mark> {t("edr.huntress.setup.getCredentialsStep2Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
-              <p>Enter your API Credentials</p>
+              <p>{t("edr.huntress.setup.getCredentialsStep3")}</p>
             </Steps.Step>
           </Steps>
           <div className={"mb-4 flex-col gap-4 flex"}>
             <Input
               type={"text"}
               className={"w-full"}
-              customPrefix={<div className={"min-w-[80px]"}>API Key</div>}
+              customPrefix={<div className={"min-w-[80px]"}>{t("edr.huntress.setup.apiKeyLabel")}</div>}
               placeholder={"hk_30813a372c41f72f1892"}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
@@ -289,7 +286,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             <Input
               type={"text"}
               className={"w-full"}
-              customPrefix={<div className={"min-w-[80px]"}>API Secret</div>}
+              customPrefix={<div className={"min-w-[80px]"}>{t("edr.huntress.setup.apiSecretLabel")}</div>}
               placeholder={"hs_3b80d8e463aeb037ac211fafb7fc59c1"}
               value={apiSecret}
               onChange={(e) => setApiSecret(e.target.value)}
@@ -302,11 +299,11 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={16} />
-            Peer Approval
+            {t("edr.huntress.setup.peerApprovalTitle")}
           </p>
 
           <HelpText className={"max-w-lg mt-2"}>
-            Select groups you want to apply the Huntress integration to
+            {t("edr.huntress.setup.peerApprovalHelp")}
           </HelpText>
 
           <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -317,16 +314,15 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <ShieldCheckIcon size={16} />
-            Compliance Requirements
+            {t("edr.huntress.setup.complianceTitle")}
           </p>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Set the specific requirements that devices must meet to be
-            considered compliant. Learn more in the{" "}
+            {t("edr.huntress.setup.complianceDesc")}{" "}
             <InlineLink href={HUNTRESS_DOCUMENTATION_URL} target={"_blank"}>
-              Huntress Documentation
+              {t("edr.huntress.setup.complianceDocLink")}
               <ExternalLinkIcon size={12} />
             </InlineLink>{" "}
-            about the different statuses.
+            {t("edr.huntress.setup.complianceDescSuffix")}
           </p>
 
           <HuntressMatchSettings
@@ -340,23 +336,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <RefreshCcw size={16} />
-            Huntress Sync Window
+            {t("edr.huntress.setup.syncWindowTitle")}
           </p>
           <div className={"mt-2 flex flex-row gap-3"}>
             <FullTooltip
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with Huntress for 27 hours. Even though
-                  it&apos;s marked as Compliant in Huntress, it will still be
-                  blocked from network access.
+                  {t("edr.huntress.setup.syncWindowTooltip")}
                 </div>
               }
             >
               <HelpText className={"max-w-lg"}>
-                Devices not synced with Huntress in this time won&apos;t have
-                network access.
+                {t("edr.huntress.setup.syncWindowHelp")}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -371,7 +363,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("edr.huntress.hoursSuffix")}
             />
           </div>
         </div>

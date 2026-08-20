@@ -8,17 +8,16 @@ import {
   defaultLocale,
   Locale,
   locales,
-  MessageKey,
   messages,
 } from "./messages";
 
-type TranslationValues = Record<string, string | number>;
+type TranslationValues = Record<string, unknown>;
 
 type I18nContextValue = {
   locale: Locale;
   locales: readonly Locale[];
   setLocale: (locale: Locale) => void;
-  t: (key: MessageKey, values?: TranslationValues) => string;
+  t: (key: string, values?: TranslationValues) => string;
 };
 
 const I18nContext = createContext<I18nContextValue | undefined>(undefined);

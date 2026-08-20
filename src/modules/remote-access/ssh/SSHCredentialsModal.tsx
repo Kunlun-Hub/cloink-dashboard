@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
 import { SSH_DOCS_LINK } from "@/modules/remote-access/ssh/useSSH";
@@ -33,6 +34,7 @@ type Props = {
 };
 
 export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
+  const { t } = useI18n();
   const [username, setUsername] = useState(
     getOperatingSystem(peer.os) === OperatingSystem.WINDOWS
       ? "Administrator"
@@ -136,7 +138,7 @@ export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
           </div>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common.cancel")}</Button>
             </ModalClose>
 
             <Button

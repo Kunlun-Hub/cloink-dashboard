@@ -19,8 +19,10 @@ import AIProvidersProvider, {
 } from "@/modules/agent-network/AIProvidersProvider";
 import AgentProvidersTable from "@/modules/agent-network/table/AgentProvidersTable";
 import InlineLink from "@components/InlineLink";
+import { useI18n } from "@/i18n/I18nProvider";
 
 function EndpointBadge({ endpoint }: { endpoint: string }) {
+  const { t } = useI18n();
   const [, copy] = useCopyToClipboard(`https://${endpoint}`);
   const [connectOpen, setConnectOpen] = useState(false);
   return (
@@ -35,17 +37,16 @@ function EndpointBadge({ endpoint }: { endpoint: string }) {
             "text-[10px] text-nb-gray-400 uppercase tracking-wider font-medium inline-flex items-center gap-1.5"
           }
         >
-          API Base URL
+          {t("agentNetwork.apiBaseUrl")}
           <HelpTooltip
             iconSize={11}
             content={
               <>
-                Use this URL as the base URL when configuring your AI agents or
-                LLM SDK clients (e.g. OpenAI&apos;s
-                <code className={"font-mono"}> base_url</code>, Anthropic&apos;s{" "}
-                <code className={"font-mono"}>baseURL</code>, or any HTTP
-                client). Calls hit NetBird first, get authorised by your
-                policies, and only then reach the upstream provider.
+                {t("agentNetwork.apiBaseUrlTooltip1")}
+                <code className={"font-mono"}> base_url</code>
+                {t("agentNetwork.apiBaseUrlTooltip2")}{" "}
+                <code className={"font-mono"}>baseURL</code>
+                {t("agentNetwork.apiBaseUrlTooltip3")}
               </>
             }
           />
@@ -64,10 +65,10 @@ function EndpointBadge({ endpoint }: { endpoint: string }) {
           "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-white transition-colors shrink-0"
         }
         onClick={() => copy("Endpoint copied to clipboard")}
-        aria-label={"Copy endpoint"}
+        aria-label={t("agentNetwork.copyEndpoint")}
       >
         <Copy size={12} />
-        Copy
+        {t("agentNetwork.copy")}
       </button>
       <button
         type={"button"}
@@ -75,10 +76,10 @@ function EndpointBadge({ endpoint }: { endpoint: string }) {
           "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-white transition-colors shrink-0"
         }
         onClick={() => setConnectOpen(true)}
-        aria-label={"Agent config"}
+        aria-label={t("agentNetwork.agentConfig")}
       >
         <Plug size={12} />
-        Agent Config
+        {t("agentNetwork.agentConfig")}
       </button>
       <AgentConnectModal
         open={connectOpen}
@@ -90,6 +91,7 @@ function EndpointBadge({ endpoint }: { endpoint: string }) {
 }
 
 function EndpointHeader() {
+  const { t } = useI18n();
   const { settings, settingsLoading, openWizard } = useAIProviders();
   if (settingsLoading) return null;
   if (!settings) {
@@ -114,26 +116,24 @@ function EndpointHeader() {
               "text-[10px] text-nb-gray-500 uppercase tracking-wider font-medium inline-flex items-center gap-1.5"
             }
           >
-            API Base URL
+            {t("agentNetwork.apiBaseUrl")}
             <span onClick={(e) => e.stopPropagation()}>
               <HelpTooltip
                 iconSize={11}
                 content={
                   <>
-                    Use this URL as the base URL when configuring your AI agents
-                    or LLM SDK clients (e.g. OpenAI&apos;s
-                    <code className={"font-mono"}> base_url</code>,
-                    Anthropic&apos;s{" "}
-                    <code className={"font-mono"}>baseURL</code>, or any HTTP
-                    client). Calls hit NetBird first, get authorised by your
-                    policies, and only then reach the upstream provider.
+                    {t("agentNetwork.apiBaseUrlTooltip1")}
+                    <code className={"font-mono"}> base_url</code>
+                    {t("agentNetwork.apiBaseUrlTooltip2")}{" "}
+                    <code className={"font-mono"}>baseURL</code>
+                    {t("agentNetwork.apiBaseUrlTooltip3")}
                   </>
                 }
               />
             </span>
           </div>
           <span className={"text-xs text-nb-gray-400 leading-tight mt-0.5"}>
-            Connect your first provider to set up your agent network endpoint.
+            {t("agentNetwork.connectFirstProvider")}
           </span>
         </div>
       </button>
@@ -160,6 +160,7 @@ function PageBody({
 }
 
 export default function AgentNetworkProvidersPage() {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
@@ -170,7 +171,7 @@ export default function AgentNetworkProvidersPage() {
           agent-network state, so they must not mount for users without
           services.read. */}
       <RestrictedAccess
-        page={"Providers"}
+        page={t("nav.providers")}
         hasAccess={permission?.services?.read}
       >
         <AIProvidersProvider>
@@ -178,25 +179,23 @@ export default function AgentNetworkProvidersPage() {
             <Breadcrumbs>
               <Breadcrumbs.Item
                 href={"/agent-network/providers"}
-                label={"Agent Network"}
+                label={t("agentNetwork.agentNetwork")}
                 icon={<AgentNetworkIcon size={16} />}
               />
               <Breadcrumbs.Item
                 href={"/agent-network/providers"}
-                label={"Providers"}
+                label={t("nav.providers")}
                 active={true}
               />
             </Breadcrumbs>
-            <h1 ref={headingRef}>Providers</h1>
+            <h1 ref={headingRef}>{t("nav.providers")}</h1>
             <Paragraph>
-              Connect AI providers and gateways like LiteLLM, OpenAI, and
-              Anthropic through one keyless endpoint, accessible only via
-              NetBird’s tunnel.
+              {t("agentNetwork.providersDescription1")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network/providers"}
                 target={"_blank"}
               >
-                Learn more
+                {t("common.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>

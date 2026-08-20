@@ -33,6 +33,7 @@ import {
 } from "@/modules/agent-network/data/mockData";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -52,6 +53,7 @@ export default function AgentGuardrailModal({
   onSuccess,
   providerIds,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { addGuardrail, updateGuardrail } = useAIProviders();
 
   const [tab, setTab] = useState("checks");
@@ -91,10 +93,8 @@ export default function AgentGuardrailModal({
       >
         <ModalHeader
           icon={<ShieldHalf size={19} />}
-          title={guardrail ? "Update Guardrail" : "Create Guardrail"}
-          description={
-            "Define a reusable set of LLM guardrails to attach to one or more policies."
-          }
+          title={guardrail ? t("agentNetwork.updateGuardrail") : t("agentNetwork.createGuardrail")}
+          description={t("agentNetwork.guardrailModalDescription")}
           color={"netbird"}
         />
 
@@ -102,7 +102,7 @@ export default function AgentGuardrailModal({
           <TabsList justify={"start"} className={"px-8"}>
             <TabsTrigger value={"checks"}>
               <LayoutList size={16} />
-              Checks
+              {t("agentNetwork.tabChecks")}
             </TabsTrigger>
             <TabsTrigger value={"general"} disabled={!atLeastOneEnabled}>
               <Text
@@ -111,7 +111,7 @@ export default function AgentGuardrailModal({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Name & Description
+              {t("agentNetwork.tabNameAndDescription")}
             </TabsTrigger>
           </TabsList>
 
@@ -148,29 +148,26 @@ export default function AgentGuardrailModal({
           <TabsContent value={"general"} className={"pb-8 px-8"}>
             <div className={"flex flex-col gap-6"}>
               <div>
-                <Label>Name of the Guardrail</Label>
+                <Label>{t("agentNetwork.nameOfGuardrail")}</Label>
                 <HelpText>
-                  Set an easily identifiable name for this guardrail set.
+                  {t("agentNetwork.nameOfGuardrailHelp")}
                 </HelpText>
                 <Input
                   autoFocus={true}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={"e.g., Strict — Production"}
+                  placeholder={t("agentNetwork.nameOfGuardrailPlaceholder")}
                 />
               </div>
               <div>
-                <Label>Description (optional)</Label>
+                <Label>{t("agentNetwork.descriptionOptional")}</Label>
                 <HelpText>
-                  Write a short description to add more context to this
-                  guardrail.
+                  {t("agentNetwork.descriptionOfGuardrailHelp")}
                 </HelpText>
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder={
-                    "e.g., Tight model allowlist, PII redaction, hard monthly budget."
-                  }
+                  placeholder={t("agentNetwork.descriptionOfGuardrailPlaceholder")}
                   rows={3}
                 />
               </div>
@@ -181,9 +178,9 @@ export default function AgentGuardrailModal({
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                Agent Network
+                {t("agentNetwork.agentNetwork")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
@@ -194,12 +191,12 @@ export default function AgentGuardrailModal({
                 variant={"secondary"}
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
             )}
             {tab === "general" && (
               <Button variant={"secondary"} onClick={() => setTab("checks")}>
-                Back
+                {t("common.back")}
               </Button>
             )}
             {!guardrail && tab === "checks" && (
@@ -208,7 +205,7 @@ export default function AgentGuardrailModal({
                 onClick={() => setTab("general")}
                 disabled={!atLeastOneEnabled}
               >
-                Continue
+                {t("common.continue")}
               </Button>
             )}
             {((!guardrail && tab === "general") || guardrail) && (
@@ -217,7 +214,7 @@ export default function AgentGuardrailModal({
                 onClick={handleSubmit}
                 disabled={!canSubmit}
               >
-                {guardrail ? "Save Changes" : "Create Guardrail"}
+                {guardrail ? t("common.saveChanges") : t("agentNetwork.createGuardrailButton")}
               </Button>
             )}
           </div>
@@ -236,6 +233,7 @@ function ModelAllowlistCheck({
   onChange: (value: string[] | undefined) => void;
   providerIds?: string[];
 }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <PostureCheckCard
@@ -243,8 +241,8 @@ function ModelAllowlistCheck({
       setOpen={setOpen}
       key={open ? 1 : 0}
       active={Boolean(value && value.length > 0)}
-      title={"Model Allowlist"}
-      description={"Block requests for models not on the allowlist."}
+      title={t("agentNetwork.modelAllowlist")}
+      description={t("agentNetwork.modelAllowlistDescription")}
       icon={<Boxes size={16} />}
       iconClass={"bg-gradient-to-tr from-netbird-200 to-netbird-100"}
       modalWidthClass={"max-w-2xl"}
@@ -271,6 +269,7 @@ function ModelAllowlistContent({
   onChange: (value: string[] | undefined) => void;
   providerIds?: string[];
 }) {
+  const { t } = useI18n();
   const [draft, setDraft] = useState<string[]>(value ?? []);
   const { providers } = useAIProviders();
   // When opened from a policy with destination providers selected,
@@ -313,8 +312,8 @@ function ModelAllowlistContent({
         {providerModels.length === 0 ? (
           <Paragraph className={"!text-xs"}>
             {providerIds && providerIds.length > 0
-              ? "The selected providers don't expose any models yet. Add models to a destination provider first — the allowlist is restricted to what those providers expose."
-              : "No models configured on any provider yet. Add models to a provider first — the allowlist is restricted to what the providers actually expose."}
+              ? t("agentNetwork.noModelsOnSelectedProviders")
+              : t("agentNetwork.noModelsOnAnyProvider")}
           </Paragraph>
         ) : (
           <div className={"space-y-1.5 max-h-[360px] overflow-y-auto"}>
@@ -351,23 +350,23 @@ function ModelAllowlistContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-              Model Allowlist
+              {t("agentNetwork.modelAllowlist")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
             disabled={draft.length === 0}
             onClick={() => onChange(draft.length === 0 ? undefined : draft)}
           >
-            Save
+            {t("common.save")}
           </Button>
         </div>
       </ModalFooter>
@@ -383,6 +382,7 @@ function PromptCaptureCheck({
   value: boolean;
   onChange: (enabled: boolean) => void;
 }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   return (
     <PostureCheckCard
@@ -390,8 +390,8 @@ function PromptCaptureCheck({
       setOpen={setOpen}
       key={open ? 1 : 0}
       active={value}
-      title={"Prompt Capture"}
-      description={"Redact PII before storing the prompt body."}
+      title={t("agentNetwork.promptCapture")}
+      description={t("agentNetwork.promptCaptureDescription")}
       icon={<ShieldCheckIcon size={16} />}
       iconClass={"bg-gradient-to-tr from-blue-500 to-blue-400"}
       modalWidthClass={"max-w-lg"}
@@ -408,32 +408,30 @@ function PromptCaptureCheck({
 }
 
 function PromptCaptureContent({ onConfirm }: { onConfirm: () => void }) {
+  const { t } = useI18n();
   return (
     <>
       <div className={"flex flex-col px-8 gap-3 pb-6"}>
         <div className={"text-sm text-nb-gray-300"}>
-          NetBird redacts emails, SSN-shaped, phone-shaped, and credit-card
-          patterns before storing the prompt body. Enabling this guardrail
-          adds strict redaction on top of the proxy&apos;s built-in token
-          redaction.
+          {t("agentNetwork.promptCaptureDetails")}
         </div>
       </div>
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-              Prompt Capture
+              {t("agentNetwork.promptCapture")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
           <Button variant={"primary"} onClick={onConfirm}>
-            Save
+            {t("common.save")}
           </Button>
         </div>
       </ModalFooter>

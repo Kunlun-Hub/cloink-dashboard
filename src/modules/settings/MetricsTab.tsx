@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 
 export default function MetricsTab({ account }: Readonly<Props>) {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const saveRequest = useApiCall<Account>("/accounts/" + account.id, true);
 
@@ -30,10 +32,10 @@ export default function MetricsTab({ account }: Readonly<Props>) {
 
   const toggleMetricsPush = async (toggle: boolean) => {
     notify({
-      title: "Metrics",
-      description: `Metrics push successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t("metricsTab.notifyTitle"),
+      description: toggle
+        ? t("metricsTab.enabledSuccess")
+        : t("metricsTab.disabledSuccess"),
       promise: saveRequest
         .put({
           id: account.id,
@@ -46,7 +48,7 @@ export default function MetricsTab({ account }: Readonly<Props>) {
           setMetricsPushEnabled(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating metrics setting...",
+      loadingMessage: t("metricsTab.updating"),
     });
   };
 
@@ -61,29 +63,28 @@ export default function MetricsTab({ account }: Readonly<Props>) {
           />
           <Breadcrumbs.Item
             href={"/settings?tab=metrics"}
-            label={"Metrics"}
+            label={t("settings.metrics")}
             icon={<ChartNoAxesCombined size={14} />}
             active
           />
         </Breadcrumbs>
         <div>
-          <h1>Metrics</h1>
+          <h1>{t("settings.metrics")}</h1>
           <Paragraph>
-            Help us improve NetBird by sharing performance metrics
-            such as connection timing, sync duration, and login latency.
+            {t("metricsTab.description")}
           </Paragraph>
           <Paragraph>
-            Learn more about{" "}
+            {t("metricsTab.documentationPrefix")}{" "}
             <InlineLink
               href={
                 "https://docs.netbird.io/manage/client-metrics"
               }
               target={"_blank"}
             >
-              Client Metrics
+              {t("metricsTab.clientMetrics")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
-            in our documentation.
+            {t("metricsTab.documentationSuffix")}
           </Paragraph>
         </div>
 
@@ -94,12 +95,10 @@ export default function MetricsTab({ account }: Readonly<Props>) {
           label={
             <>
               <ChartNoAxesCombined size={15} />
-              Share performance metrics
+              {t("metricsTab.shareMetrics")}
             </>
           }
-          helpText={
-            "When enabled, clients will periodically send performance data to help us identify and fix issues."
-          }
+          helpText={t("metricsTab.shareMetricsHelp")}
           disabled={!permission.settings.update}
         />
       </div>

@@ -19,6 +19,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function TenantsPage() {
   const { isActive, isMSPInMSPContext, isMspInfoLoading } = useMSP();
@@ -40,6 +41,7 @@ const Redirect = () => {
 };
 
 const TenantsPageContent = () => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { data: tenants, isLoading } = useFetchApi<Tenant[]>(
     "/integrations/msp/tenants",
@@ -55,21 +57,20 @@ const TenantsPageContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/tenants"}
-            label={"Tenants"}
+            label={t("tenants.title")}
             icon={<MSPIcon size={15} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Tenants</h1>
+        <h1 ref={headingRef}>{t("tenants.title")}</h1>
         <Paragraph>
-          A list of all tenants and their subscription details. Use this view to
-          manage accounts, plans and permissions.
+          {t("tenants.description")}
         </Paragraph>
         <Paragraph>
           <MSPTenantDocsLink />
-          in our documentation.
+          {t("tenants.docsSuffix")}
         </Paragraph>
       </div>
-      <RestrictedAccess page={"Tenants"} hasAccess={permission.tenants.read}>
+      <RestrictedAccess page={t("tenants.title")} hasAccess={permission.tenants.read}>
         <Suspense fallback={<SkeletonTable />}>
           <TenantsProvider>
             <MSPTenantsTable

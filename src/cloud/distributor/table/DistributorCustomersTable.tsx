@@ -10,6 +10,7 @@ import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { PlusCircle, ReceiptTextIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import MSPIcon from "@/assets/icons/MSPIcon";
 import { DistributorDocsLink } from "@/cloud/distributor/DistributorDocsLink";
@@ -36,12 +37,12 @@ const CustomerPlanCellWithUpgrade = ({
   );
 };
 
-const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
+const CustomersTableColumns = (t: (...args: any[]) => string): ColumnDef<DistributorCustomer>[] => [
   {
     id: "name",
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Customer</DataTableHeader>
+      <DataTableHeader column={column}>{t("distributor.customer")}</DataTableHeader>
     ),
     cell: ({ row }) => <CustomerNameCell customer={row.original} />,
   },
@@ -53,11 +54,11 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "reseller_customer_id",
     accessorKey: "reseller_customer_id",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Customer ID</DataTableHeader>
+      <DataTableHeader column={column}>{t("distributor.customerId")}</DataTableHeader>
     ),
     cell: ({ row }) =>
       row.original.reseller_customer_id ? (
-        <CopyToClipboardText message={`Customer ID copied to clipboard`}>
+        <CopyToClipboardText message={t("distributor.customerIdCopied")}>
           <span className={"text-sm text-nb-gray-300 font-mono"}>
             {row.original.reseller_customer_id}
           </span>
@@ -70,7 +71,7 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "plan",
     accessorKey: "plan",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Plan</DataTableHeader>
+      <DataTableHeader column={column}>{t("distributor.plan")}</DataTableHeader>
     ),
     cell: ({ row }) => <CustomerPlanCellWithUpgrade customer={row.original} />,
   },
@@ -78,7 +79,7 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "tenants",
     accessorKey: "tenants",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Tenants</DataTableHeader>
+      <DataTableHeader column={column}>{t("distributor.tenants")}</DataTableHeader>
     ),
     cell: ({ row }) => <CustomerTenantsCell customer={row.original} />,
   },
@@ -101,6 +102,7 @@ export default function DistributorCustomersTable({
   isLoading,
   headingTarget,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const router = useRouter();
@@ -133,9 +135,9 @@ export default function DistributorCustomersTable({
       text={"Customers"}
       sorting={sorting}
       setSorting={setSorting}
-      columns={CustomersTableColumns}
+      columns={CustomersTableColumns(t)}
       data={customers}
-      searchPlaceholder={"Search by name, domain or id..."}
+      searchPlaceholder={t("distributor.searchPlaceholder")}
       columnVisibility={{
         domain: false,
       }}
@@ -149,10 +151,8 @@ export default function DistributorCustomersTable({
               size={"large"}
             />
           }
-          title={"Add New Customer"}
-          description={
-            "It looks like you don't have any customers yet. Add a new customer to get started."
-          }
+          title={t("distributor.addNewCustomer")}
+          description={t("distributor.addNewCustomerDescription")}
           button={<AddCustomerButton />}
           learnMore={<DistributorDocsLink />}
         />

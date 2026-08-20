@@ -39,6 +39,7 @@ import entraAssignUsers from "@/modules/integrations/idp-sync/entra-scim/images/
 import entraEditExternalId from "@/modules/integrations/idp-sync/entra-scim/images/entra-edit-externalid.png";
 import entraGroupMapping from "@/modules/integrations/idp-sync/entra-scim/images/entra-group-attribute-mapping.png";
 import { Lightbox } from "@components/ui/Lightbox";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface Props extends GenericSCIMProps {
   open: boolean;
@@ -91,6 +92,7 @@ export function SetupContent({
   onClose,
   provider = IdentityProvider.ENTRA,
 }: ModalProps) {
+  const { t } = useI18n();
   const { isEmbeddedIdPEnabled } = useEmbeddedIdentityProviders();
   const [step, setStep] = useState(isEmbeddedIdPEnabled ? -1 : 0);
   const [authToken, setAuthToken] = useState("");
@@ -303,48 +305,39 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Configure SCIM in Microsoft Entra ID
+            {t("entraScim.step1Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("entraScim.step1Step1Prefix")}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://portal.azure.com/"}
                 >
-                  Azure Portal
+                  {t("entraScim.step1Step1Link")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Go to <Mark>Azure Active Directory</Mark> then{" "}
-                <Mark>Enterprise applications</Mark>
+                {t("entraScim.step1Step2Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Click
-                <Mark>+ New application</Mark> to create a new enterprise
-                application and then click{" "}
-                <Mark>+ Create your own application</Mark>
+                {t("entraScim.step1Step3Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                Enter <Mark copy={true}>NetBird SCIM</Mark> as the name and
-                select
-                <Mark>
-                  Integrate any other application you don&apos;t find in the
-                  gallery (Non-gallery)
-                </Mark>
+                {t("entraScim.step1Step4Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={5} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Create</Mark>
+                {t("entraScim.step1Step5Desc")}
               </p>
             </Steps.Step>
           </Steps>
@@ -355,35 +348,33 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Enable Provisioning
+            {t("entraScim.step2Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Once the application is created, click <Mark>Manage</Mark>, then
-                click <Mark>Provisioning</Mark>. Under the Create configuration
-                section, click <Mark>Connect your application</Mark>
+                {t("entraScim.step2Step1Desc")}
               </p>
               <Lightbox image={entraGetStarted} />
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Fill in the form with the following details
+                {t("entraScim.step2Step2Desc")}
               </p>
               <MinimalList
                 data={[
                   {
-                    label: "Authentication Method",
-                    value: "Bearer authentication",
+                    label: t("entraScim.authMethod"),
+                    value: t("entraScim.authMethodValue"),
                     noCopy: true,
                   },
                   {
-                    label: "Tenant URL",
+                    label: t("entraScim.tenantUrl"),
                     value:
                       "https://api.netbird.io/api/scim/v2?aadOptscim062020",
                   },
                   {
-                    label: "Secret token",
+                    label: t("entraScim.secretToken"),
                     value:
                       authToken === "" ? (
                         <Skeleton height={17} width={200} />
@@ -395,25 +386,21 @@ export function SetupContent({
                 ]}
               />
               <Callout variant={"warning"}>
-                The <span className={"font-medium"}>'?aadOptscim062020'</span>{" "}
-                flag appended to the Tenant URL is required to ensure Microsoft
-                Entra ID sends SCIM 2.0 compliant requests.{" "}
+                {t("entraScim.step2CalloutPrefix")}
                 <InlineLink
                   target={"_blank"}
                   href={
                     "https://learn.microsoft.com/en-us/entra/identity/app-provisioning/application-provisioning-config-problem-scim-compatibility#flags-to-alter-the-scim-behavior"
                   }
                 >
-                  Learn more
+                  {t("common.learnMore")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Callout>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                After that click <Mark>Test Connection</Mark> to verify the SCIM
-                connection. If the connection is successful click{" "}
-                <Mark>Create</Mark> to save the configuration.
+                {t("entraScim.step2Step3Desc")}
               </p>
             </Steps.Step>
           </Steps>
@@ -424,27 +411,23 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Group Attribute Mapping
+            {t("entraScim.step3Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to the <Mark>Attribute mapping</Mark> section and
-                select the <Mark>Groups</Mark> tab
+                {t("entraScim.step3Step1Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                In the attribute mappings list, locate the{" "}
-                <Mark>externalId</Mark> row <br />
-                and click <Mark>Delete</Mark>
+                {t("entraScim.step3Step2Desc")}
               </p>
               <Lightbox image={entraGroupMapping} />
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Save</Mark> to apply the updated group attribute
-                mapping configuration
+                {t("entraScim.step3Step3Desc")}
               </p>
             </Steps.Step>
           </Steps>
@@ -455,19 +438,17 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            User Attribute Mapping
+            {t("entraScim.step4Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to the <Mark>Attribute mapping</Mark> section and
-                select the <Mark>Users</Mark> tab
+                {t("entraScim.step4Step1Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                In the attribute mappings list, remove all attribute mappings
-                except for the following:
+                {t("entraScim.step4Step2Desc")}
               </p>
               <div>
                 <Mark>userName</Mark>
@@ -481,19 +462,13 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                In the attribute mappings list, locate the{" "}
-                <Mark>externalId</Mark> row <br />
-                and click <Mark>Edit</Mark>. Change the{" "}
-                <Mark>Source attribute</Mark> from <Mark>mailNickname</Mark> to{" "}
-                <Mark>objectId</Mark> and click <Mark>Ok</Mark> to save the
-                change
+                {t("entraScim.step4Step3Desc")}
               </p>
               <Lightbox image={entraEditExternalId} />
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Save</Mark> to apply the final attribute mapping
-                configuration
+                {t("entraScim.step4Step4Desc")}
               </p>
             </Steps.Step>
           </Steps>
@@ -504,25 +479,23 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Assign Users and Groups
+            {t("entraScim.step5Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to your NetBird enterprise application and click on{" "}
-                <Mark>Users and groups</Mark> in the left menu
+                {t("entraScim.step5Step1Desc")}
               </p>
               <Lightbox image={entraAssignUsers} />
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>+ Add user/group</Mark> and select the users and
-                groups you want to synchronize to NetBird
+                {t("entraScim.step5Step2Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Assign</Mark> to save the assignments
+                {t("entraScim.step5Step3Desc")}
               </p>
             </Steps.Step>
           </Steps>
@@ -533,23 +506,18 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Start provisioning
+            {t("entraScim.step6Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                After assigning users and groups, navigate back to the
-                provisioning configuration, click <Mark>Overview</Mark>, then
-                click the <Mark>Start provisioning</Mark> button to enable
-                automatic synchronization
+                {t("entraScim.step6Step1Desc")}
               </p>
               <Lightbox image={entraStartProvisioning} />
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                The first sync will begin shortly after provisioning is started.{" "}
-                <br />
-                Click <Mark>Finish Setup</Mark> below to finalize this setup.
+                {t("entraScim.step6Step2Desc")}
               </p>
             </Steps.Step>
           </Steps>
@@ -564,7 +532,7 @@ export function SetupContent({
             onClick={() => setStep(step + 1)}
             disabled={!connectorId || connectorId === ""}
           >
-            Continue
+            {t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -575,7 +543,7 @@ export function SetupContent({
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -585,7 +553,7 @@ export function SetupContent({
             disabled={!entraConnection && isAuth0()}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -596,7 +564,7 @@ export function SetupContent({
             onClick={finishSetup}
             disabled={integrationId === "" || authToken === ""}
           >
-            Finish Setup
+            {t("idpSync.finishSetup")}
           </Button>
         )}
       </ModalFooter>
@@ -608,8 +576,8 @@ export function SetupContent({
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("azureAd.estimatedTime")}</span>
           </div>
         </div>
       )}

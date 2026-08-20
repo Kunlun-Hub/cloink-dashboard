@@ -11,6 +11,7 @@ import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
 import { ReverseProxyDomainType } from "@/interfaces/ReverseProxy";
 import { isNetBirdCloud } from "@utils/netbird";
 import TruncatedText from "@components/ui/TruncatedText";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface DomainSelectorProps {
   value: string;
@@ -28,6 +29,7 @@ export function CustomDomainSelector({
   "data-testid": dataTestId,
 }: DomainSelectorProps) {
   const router = useRouter();
+  const { t } = useI18n();
   const { domains, isSelfHostedCluster } = useReverseProxies();
 
   const options: SelectOption[] = useMemo(() => {
@@ -49,11 +51,11 @@ export function CustomDomainSelector({
                 <TruncatedText text={`.${domain.domain}`} maxWidth={"260px"} />
               </div>
               {isAccountCluster ? (
-                <SmallBadge text="Account" variant="sky" size="md" />
+                <SmallBadge text={t("reverseProxy.accountBadge")} variant="sky" size="md" />
               ) : isNetBirdCloud() ? (
-                <SmallBadge text="Free" variant="green" size="md" />
+                <SmallBadge text={t("reverseProxy.freeBadge")} variant="green" size="md" />
               ) : (
-                <SmallBadge text="Shared" variant="green" size="md" />
+                <SmallBadge text={t("reverseProxy.sharedBadge")} variant="green" size="md" />
               )}
             </div>
           ),
@@ -70,7 +72,7 @@ export function CustomDomainSelector({
           renderItem: () => (
             <div className="flex items-center gap-2 w-full text-sm justify-between">
               <span>.{domain.domain}</span>
-              <SmallBadge text="Custom" variant="sky" size="md" />
+              <SmallBadge text={t("reverseProxy.customBadge")} variant="sky" size="md" />
             </div>
           ),
         });
@@ -79,11 +81,11 @@ export function CustomDomainSelector({
     // Add "Add Custom Domain" option
     opts.push({
       value: "add_custom",
-      label: "Add Custom Domain",
+      label: t("reverseProxy.addCustomDomain"),
       renderItem: () => (
         <div className="flex items-center justify-between gap-2 text-netbird text-sm w-full">
           <div className={"flex items-center gap-2"}>
-            <span>Add Custom Domain</span>
+            <span>{t("reverseProxy.addCustomDomain")}</span>
           </div>
           <ArrowUpRight size={16} />
         </div>
@@ -91,7 +93,7 @@ export function CustomDomainSelector({
     });
 
     return opts;
-  }, [domains, isSelfHostedCluster]);
+  }, [domains, isSelfHostedCluster, t]);
 
   const handleChange = (selectedValue: string) => {
     if (selectedValue === "add_custom") {

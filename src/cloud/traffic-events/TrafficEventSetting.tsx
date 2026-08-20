@@ -19,6 +19,7 @@ import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Account } from "@/interfaces/Account";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
@@ -35,6 +36,7 @@ export const TrafficEventSetting = ({ account }: Props) => {
   const { groups } = useGroups();
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
+  const { t } = useI18n();
   const saveRequest = useApiCall<Account>("/accounts/" + account.id);
 
   const [trafficEventsEnabled, setTrafficEventsEnabled] = useState(
@@ -51,10 +53,10 @@ export const TrafficEventSetting = ({ account }: Props) => {
       setTrafficPacketCounterEnabled(false);
     }
     notify({
-      title: "Traffic Events",
-      description: `Traffic events successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t("trafficEventSetting.notifyTitle"),
+      description: toggle
+        ? t("trafficEventSetting.enabledSuccess")
+        : t("trafficEventSetting.disabledSuccess"),
       promise: saveRequest
         .put({
           id: account.id,
@@ -73,7 +75,7 @@ export const TrafficEventSetting = ({ account }: Props) => {
           setTrafficEventsEnabled(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating traffic events setting...",
+      loadingMessage: t("trafficEventSetting.updating"),
     });
   };
 
@@ -81,21 +83,20 @@ export const TrafficEventSetting = ({ account }: Props) => {
     let choice = false;
     if (toggle) {
       choice = await confirm({
-        title: "Enable Traffic Reporting (Kernel)?",
-        description:
-          "Note: Enabling this setting will lead to a higher CPU usage than usual on the NetBird client.",
-        confirmText: "Enable",
-        cancelText: "Cancel",
+        title: t("trafficEventSetting.confirmTitle"),
+        description: t("trafficEventSetting.confirmDescription"),
+        confirmText: t("common.enable"),
+        cancelText: t("common.cancel"),
         type: "default",
       });
       if (!choice) return;
     }
 
     notify({
-      title: "Traffic Reporting",
-      description: `Traffic reporting successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t("trafficEventSetting.reportingNotifyTitle"),
+      description: toggle
+        ? t("trafficEventSetting.reportingEnabledSuccess")
+        : t("trafficEventSetting.reportingDisabledSuccess"),
       promise: saveRequest
         .put({
           id: account.id,
@@ -111,7 +112,7 @@ export const TrafficEventSetting = ({ account }: Props) => {
           setTrafficPacketCounterEnabled(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating traffic reporting setting...",
+      loadingMessage: t("trafficEventSetting.updatingReporting"),
     });
   };
 
@@ -119,19 +120,16 @@ export const TrafficEventSetting = ({ account }: Props) => {
     <>
       <div className={"mt-4"}>
         <h2 className={"text-lg font-medium"}>
-          Experimental
+          {t("trafficEventSetting.experimental")}
           <FlaskConicalIcon
             size={16}
             className={"inline ml-1.5 relative -top-[2px]"}
           />
         </h2>
         <div className={"text-sm text-gray-400"}>
-          Traffic events is an experimental feature. Functionality and behavior
-          may evolve, including changes to how data is collected or reported.
-          Traffic events data retention is limited to 48 hours and capped at a
-          maximum of 50,000 events.{" "}
+          {t("trafficEventSetting.experimentalDescription")}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target={"_blank"}>
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </div>
@@ -145,13 +143,12 @@ export const TrafficEventSetting = ({ account }: Props) => {
             label={
               <>
                 <ArrowLeftRightIcon size={15} />
-                Enable Traffic Events
+                {t("trafficEventSetting.enableTrafficEvents")}
               </>
             }
             helpText={
               <>
-                Enable traffic events for all peers. This requires NetBird
-                client v0.39 or higher.
+                {t("trafficEventSetting.enableTrafficEventsHelp")}
               </>
             }
             disabled={!permission.settings.update}
@@ -171,22 +168,18 @@ export const TrafficEventSetting = ({ account }: Props) => {
               value={trafficPacketCounterEnabled}
               onChange={toggleTrafficPacketCounter}
               data-testid="traffic-reporting-kernel"
-              label={<>Enable Traffic Reporting (Kernel)</>}
+              label={<>{t("trafficEventSetting.enableTrafficReporting")}</>}
               helpText={
                 <>
-                  Traffic reporting is always enabled in userspace, and this
-                  setting only applies to kernel. If enabled, network packets
-                  and their size will be counted and reported.
+                  {t("trafficEventSetting.enableTrafficReportingHelp")}
                 </>
               }
               disabled={!permission.settings.update}
             />
             <div className={"mt-2"}>
-              <Label>Limit To Specific Groups</Label>
+              <Label>{t("trafficEventSetting.limitToGroups")}</Label>
               <HelpText className={"mb-3"}>
-                Select peer groups for which traffic events will be logged.{" "}
-                <br />
-                If no group is selected, logging applies to all peers.
+                {t("trafficEventSetting.limitToGroupsHelp")}
               </HelpText>
               {!groups ? (
                 <Skeleton height={46} />
@@ -210,6 +203,7 @@ export const TrafficEventGroupsSetting = ({
 }: TrafficEventGroupsSettingProps) => {
   const saveRequest = useApiCall<Account>("/accounts/" + account.id);
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
 
   const [trafficGroups, setTrafficGroups, { save: saveGroups }] =
     useGroupHelper({
@@ -223,8 +217,8 @@ export const TrafficEventGroupsSetting = ({
     const groupIds = groups.map((group) => group.id) as string[];
 
     notify({
-      title: "Traffic Events Groups",
-      description: "Traffic events groups successfully updated.",
+      title: t("trafficEventSetting.groupsNotifyTitle"),
+      description: t("trafficEventSetting.groupsUpdatedSuccess"),
       promise: saveRequest
         .put({
           id: account.id,
@@ -241,7 +235,7 @@ export const TrafficEventGroupsSetting = ({
           updateRef([groups]);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating traffic events groups...",
+      loadingMessage: t("trafficEventSetting.updatingGroups"),
     });
   };
 
@@ -253,7 +247,7 @@ export const TrafficEventGroupsSetting = ({
         hideAllGroup={true}
         showResources={false}
         showResourceCounter={false}
-        placeholderForSearch={"Select groups to log traffic events for..."}
+        placeholderForSearch={t("trafficEventSetting.searchPlaceholder")}
         data-testid="traffic-events-groups-selector"
       />
       <Button
@@ -263,7 +257,7 @@ export const TrafficEventGroupsSetting = ({
         onClick={saveTrafficGroups}
         data-testid="save-traffic-groups"
       >
-        Save Groups
+        {t("trafficEventSetting.saveGroups")}
       </Button>
     </div>
   );

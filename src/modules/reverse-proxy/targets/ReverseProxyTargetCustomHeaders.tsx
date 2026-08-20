@@ -4,6 +4,7 @@ import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import { MinusCircleIcon, PlusIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const HEADER_NAME_RE = /^[A-Za-z0-9!#$%&'*+\-.^_`|~]+$/;
 const BLOCKED_HEADERS = new Set([
@@ -43,29 +44,29 @@ export function headerEntriesToRecord(
   return Object.keys(record).length > 0 ? record : undefined;
 }
 
-function validateHeaderName(
+const validateHeaderNameStatic = (
   name: string,
   allNames: string[],
-): string | undefined {
-  if (!name) return undefined;
-  if (!HEADER_NAME_RE.test(name))
-    return "Invalid characters in header name. Please use another one.";
-  if (BLOCKED_HEADERS.has(name.toLowerCase()))
-    return `"${name}" is a reserved header. Please use another one.`;
+): "invalid" | "reserved" | "duplicate" | null => {
+  if (!name) return null;
+  if (!HEADER_NAME_RE.test(name)) return "invalid";
+  if (BLOCKED_HEADERS.has(name.toLowerCase())) return "reserved";
   const dupeCount = allNames.filter(
     (n) => n.toLowerCase() === name.toLowerCase(),
   ).length;
-  if (dupeCount > 1) return "Duplicate header name. Please use another one.";
-  return undefined;
-}
+  if (dupeCount > 1) return "duplicate";
+  return null;
+};
 
-function validateHeaderValue(value: string): string | undefined {
-  if (value.includes("\r") || value.includes("\n"))
-    return "Value must not contain line breaks";
-  return undefined;
-}
+const validateHeaderValueStatic = (
+  value: string,
+): "linebreaks" | null => {
+  if (value.includes("\r") || value.includes("\n")) return "linebreaks";
+  return null;
+};
 
 export function useCustomHeaders(initialHeaders?: Record<string, string>) {
+  const { t } = useI18n();
   const [nextId] = useState(() => {
     let id = 0;
     return () => ++id;
@@ -96,10 +97,22 @@ export function useCustomHeaders(initialHeaders?: Record<string, string>) {
   );
 
   const allHeaderNames = headerEntries.map((h) => h.name);
-  const headerErrors = headerEntries.map((entry) => ({
-    name: validateHeaderName(entry.name, allHeaderNames),
-    value: validateHeaderValue(entry.value),
-  }));
+  const headerErrors = headerEntries.map((entry) => {
+    const nameError = validateHeaderNameStatic(entry.name, allHeaderNames);
+    const valueError = validateHeaderValueStatic(entry.value);
+    return {
+      name: nameError === "invalid"
+        ? t("reverseProxy.headerInvalidName")
+        : nameError === "reserved"
+          ? t("reverseProxy.headerReserved", { name: entry.name })
+          : nameError === "duplicate"
+            ? t("reverseProxy.headerDuplicate")
+            : undefined,
+      value: valueError === "linebreaks"
+        ? t("reverseProxy.headerLineBreaks")
+        : undefined,
+    };
+  });
 
   const hasHeaderErrors = headerErrors.some((e) => e.name || e.value);
 
@@ -130,21 +143,21 @@ export default function ReverseProxyTargetCustomHeaders({
   updateHeaderEntry,
   headerErrors,
 }: CustomHeadersProps) {
+  const { t } = useI18n();
+
   return (
     <div>
-      <Label>Custom Headers</Label>
+      <Label>{t("reverseProxy.customHeaders")}</Label>
       <HelpText>
-        Add additional headers to include when forwarding requests.
-        <br />
-        Hop-by-hop headers like Host or Connection are not allowed.
+        {t("reverseProxy.customHeadersHelp")}
       </HelpText>
       {headerEntries.length > 0 && (
         <div className="flex flex-col gap-2 mb-3">
           {headerEntries.map((entry, index) => (
             <div key={entry.id} className="flex items-center gap-2">
               <Input
-                placeholder="Header, e.g., Authorization"
-                aria-label={`Header name for entry ${entry.id}`}
+                placeholder={t("reverseProxy.headerNamePlaceholder")}
+                aria-label={t("reverseProxy.headerNameEntry", { id: entry.id })}
                 value={entry.name}
                 onChange={(e) =>
                   updateHeaderEntry(entry.id, "name", e.target.value)
@@ -155,8 +168,8 @@ export default function ReverseProxyTargetCustomHeaders({
                 data-testid={`custom-header-name-${index}`}
               />
               <Input
-                placeholder="Value, e.g., Bearer eyJhbGci..."
-                aria-label={`Header value for entry ${entry.id}`}
+                placeholder={t("reverseProxy.headerValuePlaceholder")}
+                aria-label={t("reverseProxy.headerValueEntry", { id: entry.id })}
                 value={entry.value}
                 onChange={(e) =>
                   updateHeaderEntry(entry.id, "value", e.target.value)
@@ -170,7 +183,7 @@ export default function ReverseProxyTargetCustomHeaders({
                 variant="default-outline"
                 className="!px-2 shrink-0"
                 onClick={() => removeHeader(entry.id)}
-                aria-label="Remove header"
+                aria-label={t("reverseProxy.removeHeader")}
               >
                 <MinusCircleIcon size={14} />
               </Button>
@@ -186,7 +199,7 @@ export default function ReverseProxyTargetCustomHeaders({
         data-testid={"add-custom-header"}
       >
         <PlusIcon size={14} />
-        Add Header
+        {t("reverseProxy.addHeader")}
       </Button>
     </div>
   );

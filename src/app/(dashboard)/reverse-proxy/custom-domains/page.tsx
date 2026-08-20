@@ -13,12 +13,14 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import ReverseProxiesProvider from "@/contexts/ReverseProxiesProvider";
 import { REVERSE_PROXY_CUSTOM_DOMAINS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const CustomDomainsTable = lazy(
   () => import("@/modules/reverse-proxy/domain/CustomDomainsTable"),
 );
 
 export default function ReverseProxyCustomDomainsPage() {
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   const { ref: headingRef, portalTarget } =
@@ -30,29 +32,29 @@ export default function ReverseProxyCustomDomainsPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Reverse Proxy"}
+            label={t("reverseProxy.title")}
             icon={<ReverseProxyIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/reverse-proxy/custom-domains"}
-            label={"Custom Domains"}
+            label={t("nav.customDomains")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Domains</h1>
+        <h1 ref={headingRef}>{t("customDomains.title")}</h1>
         <Paragraph>
-          Add and manage custom domains for your reverse proxy services.{" "}
+          {t("customDomains.description")}{" "}
           <InlineLink
             href={REVERSE_PROXY_CUSTOM_DOMAINS_DOCS_LINK}
             target={"_blank"}
           >
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
       </div>
       <RestrictedAccess
-        page={"Custom Domains"}
+        page={t("nav.customDomains")}
         hasAccess={permission?.services?.read}
       >
         <ReverseProxiesProvider>

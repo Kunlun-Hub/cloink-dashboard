@@ -16,6 +16,7 @@ import { Mark } from "@components/ui/Mark";
 import { cn } from "@utils/helpers";
 import { ExternalLinkIcon, GlobeIcon } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
 
 type Props = {
@@ -32,6 +33,7 @@ export const DomainVerificationModal = ({
   token,
   connectionId,
 }: Props) => {
+  const { t } = useI18n();
   const { verifyDomain } = useEnterpriseConnections();
 
   const startVerification = async () => {
@@ -129,7 +131,7 @@ export const DomainVerificationModal = ({
           </div>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Verify Later</Button>
+              <Button variant={"secondary"}>{t("reverseProxy.verifyLater")}</Button>
             </ModalClose>
 
             <Button variant={"primary"} onClick={startVerification}>

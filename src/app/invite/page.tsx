@@ -18,6 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { UserInviteInfo } from "@/interfaces/User";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function InviteAcceptPage() {
   return (
@@ -30,6 +31,7 @@ export default function InviteAcceptPage() {
 function InviteAcceptContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { t } = useI18n();
   const token = searchParams?.get("token");
 
   const [loading, setLoading] = useState(true);
@@ -247,7 +249,7 @@ function InviteAcceptContent() {
             <div>
               <Input
                 type="password"
-                placeholder="Password"
+                placeholder={t("invite.passwordPlaceholder")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 customPrefix={
@@ -257,9 +259,9 @@ function InviteAcceptContent() {
               {password && (
                 <div className="mt-2 space-y-1">
                   <PasswordRule met={hasMinLength} text="At least 8 characters" />
-                  <PasswordRule met={hasUppercase} text="One uppercase letter" />
-                  <PasswordRule met={hasLowercase} text="One lowercase letter" />
-                  <PasswordRule met={hasNumber} text="One number" />
+                  <PasswordRule met={hasUppercase} text={t("invite.passwordRuleUppercase")} />
+                  <PasswordRule met={hasLowercase} text={t("invite.passwordRuleLowercase")} />
+                  <PasswordRule met={hasNumber} text={t("invite.passwordRuleNumber")} />
                   <PasswordRule met={hasSpecialChar} text="One special character (!@#$%^&*)" />
                 </div>
               )}
@@ -268,7 +270,7 @@ function InviteAcceptContent() {
             <div>
               <Input
                 type="password"
-                placeholder="Confirm Password"
+                placeholder={t("invite.confirmPasswordPlaceholder")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 customPrefix={

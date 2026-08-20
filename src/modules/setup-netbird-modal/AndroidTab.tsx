@@ -8,8 +8,10 @@ import Link from "next/link";
 import React from "react";
 import GooglePlayButton from "@/assets/google-play-badge.png";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function AndroidTab() {
+  const { t } = useI18n();
   return (
     <TabsContent value={String(OperatingSystem.ANDROID)}>
       <TabsContentPadding>
@@ -53,7 +55,7 @@ export default function AndroidTab() {
             </p>
           </Steps.Step>
           <Steps.Step step={GRPC_API_ORIGIN ? 4 : 3} line={false}>
-            <p>Sign up using your email address</p>
+            <p>{t("setupNetbirdModal.signUpEmail")}</p>
           </Steps.Step>
         </Steps>
       </TabsContentPadding>
