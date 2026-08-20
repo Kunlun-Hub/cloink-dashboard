@@ -39,6 +39,7 @@ import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -84,6 +85,7 @@ export default function ControlCenter() {
 }
 
 function ControlCenterView() {
+  const { t } = useI18n();
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const reactFlow = useReactFlow();
@@ -189,11 +191,11 @@ function ControlCenterView() {
     );
     allNetworks.unshift({
       value: "",
-      label: "All Networks",
+      label: t("controlCenter.allNetworks"),
       icon: () => <LayoutGridIcon size={14} />,
     } as SelectOption);
     return allNetworks;
-  }, [networks]);
+  }, [networks, t]);
 
   const onDestinationGroupSelect = useCallback(
     (groupId: string) => {
@@ -1622,7 +1624,7 @@ function ControlCenterView() {
         currentPeer: peerId,
         onPeerChange: handlePeerChange,
         userId: userId,
-        placeholder: "Search peers of user...",
+        placeholder: t("controlCenter.searchPeersOfUser"),
       },
     };
     setNodes([selectPeerNode]);
@@ -1927,10 +1929,8 @@ function ControlCenterView() {
                     size={"large"}
                   />
                 }
-                title={"Create New Network"}
-                description={
-                  "It looks like you don't have any networks. Access internal resources in your LANs and VPC by adding a network."
-                }
+                title={t("controlCenter.emptyNetworkTitle")}
+                description={t("controlCenter.emptyNetworkDescription")}
                 button={
                   <div className={"gap-x-4 flex items-center justify-center"}>
                     <Button
@@ -1938,18 +1938,18 @@ function ControlCenterView() {
                       onClick={() => router.push("/networks")}
                       disabled={!permission.networks.create}
                     >
-                      Go to Networks
+                      {t("controlCenter.goToNetworks")}
                     </Button>
                   </div>
                 }
                 learnMore={
                   <>
-                    Learn more about
+                    {t("common.learnMoreAbout")}
                     <InlineLink
                       href={"https://docs.netbird.io/how-to/networks"}
                       target={"_blank"}
                     >
-                      Networks
+                      {t("nav.networks")}
                       <ExternalLinkIcon size={12} />
                     </InlineLink>
                   </>
@@ -2023,7 +2023,7 @@ function ControlCenterView() {
         <div className={"absolute right-0 top-0 z-10"}>
           <div className={"px-6 py-4"}>
             <SmallBadge
-              text={"Beta"}
+              text={t("common.beta")}
               variant={"sky"}
               className={"text-[12px] leading-none py-[3px] px-[6px]"}
               textClassName={"top-0"}
@@ -2036,7 +2036,7 @@ function ControlCenterView() {
             <a href={"https://forms.gle/MKJnVXCiUM1KtxLy6"} target={"_blank"}>
               <Button variant={"secondary"} size={"xs"}>
                 <MessageSquareShareIcon size={12} />
-                Feedback
+                {t("help.feedback")}
               </Button>
             </a>
           </div>

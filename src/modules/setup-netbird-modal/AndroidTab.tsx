@@ -17,11 +17,11 @@ export default function AndroidTab() {
       <TabsContentPadding>
         <p className={"font-medium flex gap-3 items-center text-base"}>
           <ShoppingBagIcon size={16} />
-          Install on Android
+          {t("setupNetbirdModal.installOnAndroid")}
         </p>
         <Steps>
           <Steps.Step step={1}>
-            <p>Download and install the application from Google Play Store:</p>
+            <p>{t("setupNetbirdModal.downloadFromGooglePlay")}</p>
             <div className={"flex gap-4 mt-1"}>
               <Link
                 href={
@@ -31,7 +31,7 @@ export default function AndroidTab() {
               >
                 <Image
                   src={GooglePlayButton}
-                  alt={"Download NetBird from Google Play"}
+                  alt={t("setupNetbirdModal.downloadNetBirdGooglePlay")}
                   height={50}
                 />
               </Link>
@@ -40,7 +40,7 @@ export default function AndroidTab() {
           {GRPC_API_ORIGIN && (
             <Steps.Step step={2}>
               <p>
-                {`Click on "Change Server" and enter the following "Server"`}
+                {t("setupNetbirdModal.clickChangeServer")}
               </p>
               <Code>
                 <Code.Line>{GRPC_API_ORIGIN}</Code.Line>
@@ -51,7 +51,7 @@ export default function AndroidTab() {
           <Steps.Step step={GRPC_API_ORIGIN ? 3 : 2}>
             <p>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              Click on the "Connect" button in the middle of the screen
+              {t("setupNetbirdModal.clickConnectButton")}
             </p>
           </Steps.Step>
           <Steps.Step step={GRPC_API_ORIGIN ? 4 : 3} line={false}>

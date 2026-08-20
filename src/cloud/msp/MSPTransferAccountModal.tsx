@@ -20,12 +20,14 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { TenantDNSResponse, TenantStatus } from "@/cloud/msp/interfaces/Tenant";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export const MSPTransferAccountModal = () => {
   const { mspInfo } = useMSP();
   const { confirm } = useDialog();
   const { isOwner } = useLoggedInUser();
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const tenantRequest = useApiCall<TenantDNSResponse>(
     "/integrations/msp/tenants",
     true,
@@ -41,18 +43,22 @@ export const MSPTransferAccountModal = () => {
 
   const grantAccess = async () => {
     const choice = await confirm({
-      title: `Granting access to ${mspInfo?.parent_domain}?`,
-      description: `Are you sure you want to grant access? This action cannot be undone.`,
-      confirmText: "Grant Access",
-      cancelText: "Cancel",
+      title: t("mspTransfer.grantingAccessTitle", {
+        domain: mspInfo?.parent_domain ?? "",
+      }),
+      description: t("distributorTransfer.grantAccessDescription"),
+      confirmText: t("distributorTransfer.grantAccess"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
 
     notify({
-      title: `Granting access to ${mspInfo?.parent_domain}`,
-      description: "Access has been successfully granted.",
-      loadingMessage: "Granting access...",
+      title: t("mspTransfer.grantingAccessTitle", {
+        domain: mspInfo?.parent_domain ?? "",
+      }),
+      description: t("distributorTransfer.accessGranted"),
+      loadingMessage: t("distributorTransfer.grantingAccessLoading"),
       promise: tenantRequest
         .put(
           {
@@ -69,9 +75,9 @@ export const MSPTransferAccountModal = () => {
 
   const deny = () => {
     notify({
-      title: "Access request denied",
-      description: "You have denied the access request.",
-      loadingMessage: "Declining access...",
+      title: t("distributorTransfer.accessDenied"),
+      description: t("mspTransfer.accessDeniedDescription"),
+      loadingMessage: t("distributorTransfer.decliningAccess"),
       promise: tenantRequest
         .put(
           {
@@ -139,50 +145,49 @@ export const MSPTransferAccountModal = () => {
             }
           >
             <h2 className={"text-lg my-0 leading-[1.5 text-center]"}>
-              {mspInfo?.parent_owner_name
-                ? mspInfo?.parent_owner_name + " from "
-                : ""}
-              <span>{mspInfo?.parent_name || mspInfo?.name}</span> is requesting
-              access to your account
+              {t("mspTransfer.requestingAccessTitle", {
+                ownerPrefix: mspInfo?.parent_owner_name
+                  ? mspInfo?.parent_owner_name + " from "
+                  : "",
+                name: mspInfo?.parent_name || mspInfo?.name || "",
+              })}
             </h2>
             <Paragraph
               className={cn("text-sm text-center max-w-[450px] px-4 mt-2")}
             >
-              A Managed Service Provider (MSP) is requesting access to manage
-              your account and all of its associated resources.
+              {t("mspTransfer.requestingAccessDescription")}
             </Paragraph>
             <div
               className={"bg-nb-gray-920 px-5 py-4 rounded-lg mt-4 text-left"}
             >
               <div className={"text-sm text-nb-gray-200 mb-2 text-left"}>
-                Please review the request carefully before proceeding. Granting
-                them access will allow them to:
+                {t("mspTransfer.reviewRequest")}
               </div>
               <ul className="flex flex-col gap-1.5 mt-4 mb-1">
                 <li className="flex items-center gap-2 text-sm text-nb-gray-200">
                   <SettingsIcon size={16} className={"text-netbird"} />
-                  Manage your account, settings and configurations
+                  {t("mspTransfer.permissionSettings")}
                 </li>
                 <li className="flex items-center gap-2 text-sm text-nb-gray-200">
                   <MonitorSmartphoneIcon size={16} className={"text-netbird"} />
-                  Manage all devices and associated resources
+                  {t("mspTransfer.permissionDevices")}
                 </li>
                 <li className="flex items-center gap-2 text-sm text-nb-gray-200">
                   <UserIcon size={16} className={"text-netbird"} />
-                  Manage all users, groups and permissions
+                  {t("mspTransfer.permissionUsers")}
                 </li>
               </ul>
             </div>
             <div className={"flex gap-4 items-center mt-6 w-full"}>
               <Button className={"w-full"} variant={"secondary"} onClick={deny}>
-                Deny
+                {t("distributorTransfer.deny")}
               </Button>
               <Button
                 className={"w-full"}
                 variant={"danger"}
                 onClick={grantAccess}
               >
-                Grant Access
+                {t("distributorTransfer.grantAccess")}
               </Button>
             </div>
           </div>

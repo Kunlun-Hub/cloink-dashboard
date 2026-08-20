@@ -36,6 +36,7 @@ import { CrowdStrikeRegionsData } from "@/modules/integrations/edr/crowdstrike/C
 import { CrowdStrikeZtaScoreInput } from "@/modules/integrations/edr/crowdstrike/CrowdStrikeZtaScoreInput";
 import { CrowdStrikeZtaToggle } from "@/modules/integrations/edr/crowdstrike/CrowdStrikeZtaToggle";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -76,6 +77,7 @@ type ModalProps = {
 export function ConfigurationContent({ onSuccess, config }: ModalProps) {
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
+  const { t } = useI18n();
   const [tab, setTab] = useState<string>("peer-approval");
 
   const crowdStrikeRequest = useApiCall<CrowdstrikeIntegration>(
@@ -103,23 +105,23 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("crowdStrike.deleteConfirmTitle"),
+      description: t("crowdStrike.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "CrowdStrike Integration",
-      description: `CrowdStrike Integration was successfully deleted`,
+      title: t("crowdStrike.notifyTitle"),
+      description: t("crowdStrike.deletedDescription"),
       promise: crowdStrikeRequest.del().then(() => {
         mutate("/integrations/edr/falcon");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("crowdStrike.deleting"),
     });
   };
 
@@ -128,8 +130,8 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
     const score = parseInt(ztaScore);
 
     notify({
-      title: "CrowdStrike Integration",
-      description: `CrowdStrike Integration was successfully updated`,
+      title: t("crowdStrike.notifyTitle"),
+      description: t("crowdStrike.updatedDescription"),
       promise: crowdStrikeRequest
         .put({
           zta_score_threshold:
@@ -144,7 +146,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           mutate("/integrations/edr/falcon");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("crowdStrike.updating"),
     });
   };
 
@@ -175,9 +177,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
       <IntegrationModalHeader
         image={integrationImage}
         title={"CrowdStrike"}
-        description={
-          "Restrict network access only to devices managed by the company's IT department"
-        }
+        description={t("crowdStrike.configHeaderDescription")}
       />
 
       <Tabs
@@ -193,7 +193,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t("crowdStrike.tabPeerApproval")}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -202,7 +202,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("crowdStrike.tabSettings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -211,7 +211,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("crowdStrike.tabDangerZone")}
           </TabsTrigger>
         </TabsList>
 
@@ -225,7 +225,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 </div>
               </Label>
               <HelpText className={"max-w-lg mt-2"}>
-                Select groups you want to apply the CrowdStrike integration to
+                {t("crowdStrike.groupsHelp")}
               </HelpText>
 
               <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -251,7 +251,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               <Label className={"mb-3"}>
                 <div className={"flex gap-2 items-center"}>
                   <GlobeIcon size={14} />
-                  Region
+                  {t("crowdStrike.regionLabel")}
                 </div>
               </Label>
 
@@ -265,7 +265,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               <Label className={"mb-3"}>
                 <div className={"flex gap-2 items-center"}>
                   <KeyRound size={14} />
-                  CrowdStrike Credentials
+                  {t("crowdStrike.credentialsLabel")}
                 </div>
               </Label>
               <div className={"flex flex-col gap-3"}>
@@ -276,7 +276,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                   customPrefix={
                     <div className={"min-w-[85px] flex gap-2 items-center"}>
                       <PencilIcon size={16} />
-                      Client ID
+                      {t("crowdStrike.clientIdLabel")}
                     </div>
                   }
                   placeholder={"9f6c80ac8a384e1d88a1fd1f279541d0"}
@@ -290,7 +290,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                   customPrefix={
                     <div className={"min-w-[85px] flex gap-2 items-center"}>
                       <KeyRound size={16} />
-                      Secret
+                      {t("crowdStrike.secretLabel")}
                     </div>
                   }
                   placeholder={"qF41DKYkQJBS53w0XPVyO6v9AtZ8WMbHp72eIdml"}
@@ -307,13 +307,11 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={14} />
-                Delete Integration
+                {t("crowdStrike.deleteIntegrationLabel")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the current configuration.
-              If you delete the integration you will need to reconfigure it
-              again.
+              {t("crowdStrike.deleteIntegrationHelp")}
             </HelpText>
           </div>
           <Button
@@ -322,7 +320,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("crowdStrike.deleteIntegrationLabel")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -331,7 +329,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
       <ModalFooter className={"items-center gap-4"}>
         <ModalClose asChild={true}>
           <Button variant={"secondary"} className={"w-full"}>
-            Cancel
+            {t("common.cancel")}
           </Button>
         </ModalClose>
 
@@ -341,7 +339,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           disabled={!canSave}
           onClick={updateIntegration}
         >
-          Save Changes
+          {t("common.saveChanges")}
         </Button>
       </ModalFooter>
     </ModalContent>

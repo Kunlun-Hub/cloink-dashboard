@@ -188,7 +188,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                 <Link href={apiPageUrl} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    API Keys
+                    {t("datadog.apiKeysButton")}
                   </Button>
                 </Link>
               </div>

@@ -76,7 +76,7 @@ function SettingCardItem({
             disabled={disabled}
           >
             <SquarePen size={12} />
-            Edit
+            {t("common.edit")}
           </Button>
         ) : (
           <Button
@@ -87,7 +87,7 @@ function SettingCardItem({
             disabled={disabled}
           >
             <PlusCircle size={12} />
-            Add
+            {t("common.add")}
           </Button>
         )}
       </div>

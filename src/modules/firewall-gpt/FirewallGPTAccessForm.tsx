@@ -14,6 +14,7 @@ import { useSWRConfig } from "swr";
 import { useDomainCategory } from "@/cloud/cloud-hooks/useDomainCategory";
 import { useAnalytics } from "@/contexts/AnalyticsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { Peer } from "@/interfaces/Peer";
 import { companySizes } from "@/modules/onboarding/OnboardingSurvey";
 
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export const FirewallGptAccessForm = ({ account_id, onSubmit }: Props) => {
+  const { t } = useI18n();
   const { loggedInUser } = useLoggedInUser();
   const { domainCategory, isPrivate } = useDomainCategory();
   const { trackEvent } = useAnalytics();
@@ -100,13 +102,10 @@ export const FirewallGptAccessForm = ({ account_id, onSubmit }: Props) => {
       <div className={"flex flex-col gap-6 relative z-10 px-8 z-10"}>
         <div className={"text-center"}>
           <h2 className={"text-xl my-0 leading-[1.5] text-center"}>
-            Want to try Smart Firewall?
+            {t("firewallGpt.accessForm.title")}
           </h2>
           <Paragraph className={cn("text-sm text-center mt-2")}>
-            {`Smart Firewall translates natural language prompts into network
-            policies. You can describe your access needs in plain language, and
-            AI will handle the rest. If you're interested in early access,
-            please fill out the form below.`}
+            {t("firewallGpt.accessForm.description")}
           </Paragraph>
         </div>
         <div className={"flex flex-col gap-6"}>
@@ -114,7 +113,7 @@ export const FirewallGptAccessForm = ({ account_id, onSubmit }: Props) => {
             <div className={"flex w-full flex-col gap-2"}>
               <div>
                 <Label>
-                  How many people in your company will use NetBird?
+                  {t("firewallGpt.accessForm.companySizeLabel")}
                   <span className={"text-red-500 relative -top-[2.5px] "}>
                     *
                   </span>
@@ -142,7 +141,7 @@ export const FirewallGptAccessForm = ({ account_id, onSubmit }: Props) => {
           <div className={"flex w-full flex-col gap-2"}>
             <div>
               <Label>
-                Why and how are you planning to use our Smart Firewall?
+                {t("firewallGpt.accessForm.messageLabel")}
                 <span className={"text-red-500 relative -top-[2.5px] "}>*</span>
               </Label>
             </div>
@@ -150,9 +149,7 @@ export const FirewallGptAccessForm = ({ account_id, onSubmit }: Props) => {
               variant={"darker"}
               tabIndex={0}
               autoFocus={true}
-              placeholder={
-                "We need to set up secure access to our staging servers. I'd like to use Smart Firewall to quickly create and manage..."
-              }
+              placeholder={t("firewallGpt.accessForm.messagePlaceholder")}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
@@ -170,7 +167,7 @@ export const FirewallGptAccessForm = ({ account_id, onSubmit }: Props) => {
           {isSubmitting && (
             <Loader2 size={16} className={cn("animate-spin", "block")} />
           )}
-          Request Early Access
+          {t("firewallGpt.accessForm.submit")}
         </Button>
       </div>
     </ModalContent>

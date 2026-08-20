@@ -8,6 +8,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import { lazy, Suspense } from "react";
 import { useUsers } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { Peer } from "@/interfaces/Peer";
 
 const AccessiblePeersTable = lazy(
@@ -18,6 +19,7 @@ type Props = {
   peerID: string;
 };
 export const AccessiblePeersSection = ({ peerID }: Props) => {
+  const { t } = useI18n();
   const { data: peers, isLoading } = useFetchApi<Peer[]>(
     `/peers/${peerID}/accessible-peers`,
   );
@@ -37,13 +39,12 @@ export const AccessiblePeersSection = ({ peerID }: Props) => {
         <div className={"flex justify-between items-center mb-5"}>
           <div>
             <Paragraph>
-              This peer can connect to the following peers within the NetBird
-              network.{" "}
+              {t("peer.accessiblePeersDescription")}{" "}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/manage-network-access"}
                 target={"_blank"}
               >
-                Learn more
+                {t("common.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>

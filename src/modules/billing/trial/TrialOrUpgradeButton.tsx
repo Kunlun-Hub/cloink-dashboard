@@ -10,6 +10,7 @@ import { useState } from "react";
 import { PlanFeatures } from "@/cloud/cloud-hooks/useIsFeatureLocked";
 import { useTrial } from "@/cloud/cloud-hooks/useTrial";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { PlanTier } from "@/interfaces/Subscription";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 
@@ -35,6 +36,7 @@ export const TrialOrUpgradeButton = ({
   const { isTrialAvailable, startTrial, plans, canUpgrade } = useTrial();
   const [isLoading, setIsLoading] = useState(false);
   const { isOwnerOrAdmin } = useLoggedInUser();
+  const { t } = useI18n();
   const router = useRouter();
   if (hidden) return;
 
@@ -53,8 +55,8 @@ export const TrialOrUpgradeButton = ({
       <div>
         <div>
           {isTrialAvailable && offerTrial
-            ? "Only the owner or an administrator can start a free trial."
-            : "Only the owner or an administrator can upgrade the plan."}
+            ? t("billing.onlyOwnerOrAdminStartTrial")
+            : t("billing.onlyOwnerOrAdminUpgrade")}
         </div>
       </div>
     );
@@ -70,7 +72,7 @@ export const TrialOrUpgradeButton = ({
           className={cn("w-full h-[34px]")}
           disabled={!isOwnerOrAdmin}
         >
-          Go to Plans & Billing
+          {t("billing.goToPlansAndBilling")}
         </Button>
       </div>
     );
@@ -89,8 +91,7 @@ export const TrialOrUpgradeButton = ({
           disabled={canUpgrade}
           content={
             <div className={"text-xs max-w-sm"}>
-              Your plan was recently updated. Please wait for 48 hours from the
-              last update to change your plan again.
+              {t("billing.planRecentlyUpdated")}
             </div>
           }
         >
@@ -110,7 +111,7 @@ export const TrialOrUpgradeButton = ({
             {isLoading ? (
               <Loader2 size={15} className={"animate-spin"} />
             ) : (
-              "Start 14-Day Free Trial"
+              t("billing.startFreeTrial")
             )}
             {!canUpgrade && (
               <IconHelpCircle size={13} className={"relative -top-[1px]"} />
@@ -125,7 +126,7 @@ export const TrialOrUpgradeButton = ({
             !isOwnerOrAdmin && "opacity-50",
           )}
         >
-          No credit card required
+          {t("billing.noCreditCardRequired")}
         </div>
       </div>
     );
@@ -145,6 +146,7 @@ export const SelfHostedUpgradeButton = ({
   variant?: "primary" | "white";
 }) => {
   const { only: agentNetworkOnly } = useAgentNetworkMode();
+  const { t } = useI18n();
   // Agent Network-only deployments point at the Agent Network pricing page
   // (tagged so the visit is attributable); the regular self-hosted product
   // keeps the on-prem pricing anchor.
@@ -165,7 +167,7 @@ export const SelfHostedUpgradeButton = ({
           className={cn("w-full h-[34px]")}
           data-testid={"self-hosted-upgrade-cta"}
         >
-          Get a License
+          {t("billing.getLicense")}
           <ExternalLinkIcon size={13} className={"shrink-0"} />
         </Button>
       </a>

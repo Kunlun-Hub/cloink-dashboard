@@ -1,5 +1,6 @@
 import Button from "@components/Button";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Policy } from "@/interfaces/Policy";
 import { OnboardingPolicy } from "@/modules/onboarding/OnboardingPolicy";
 
@@ -14,19 +15,20 @@ export const OnboardingExplainPolicy = ({
   onNext,
   onToggle,
 }: Props) => {
+  const { t } = useI18n();
+
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-            {`Set the rules. You're in control`}
+          {t("onboarding.explainPolicyTitle")}
         </h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-            {`NetBird makes it easy for admins to enforce least-privilege access with access control policies.
-            We've already created one for your resource during onboarding.`}
+          {t("onboarding.explainPolicyDescription")}
         </div>
 
         {policy && (
@@ -35,7 +37,7 @@ export const OnboardingExplainPolicy = ({
               "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
             }
           >
-              Flip the switch, then try pinging your resource again to see how it affects the connection.
+            {t("onboarding.explainPolicyFlipResource")}
           </div>
         )}
       </div>
@@ -45,7 +47,7 @@ export const OnboardingExplainPolicy = ({
       </div>
 
       <Button variant={"primary"} onClick={onNext}>
-        Continue
+        {t("common.continue")}
       </Button>
     </div>
   );

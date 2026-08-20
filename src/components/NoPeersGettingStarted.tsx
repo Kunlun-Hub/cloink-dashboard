@@ -5,6 +5,7 @@ import GetStartedTest from "@components/ui/GetStartedTest";
 import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   showBackground?: boolean;
@@ -13,6 +14,8 @@ type Props = {
 export const NoPeersGettingStarted = ({
   showBackground = true,
 }: Readonly<Props>) => {
+  const { t } = useI18n();
+
   return (
     <GetStartedTest
       showBackground={showBackground}
@@ -23,20 +26,17 @@ export const NoPeersGettingStarted = ({
           size={"large"}
         />
       }
-      title={"Get Started with NetBird"}
-      description={
-        "It looks like you don't have any connected machines.\n" +
-        "Get started by adding one to your network."
-      }
+      title={t("noPeersGettingStarted.title")}
+      description={t("noPeersGettingStarted.description")}
       button={<AddPeerDropdown />}
       learnMore={
         <>
-          Learn more in our{" "}
+          {t("noPeersGettingStarted.learnMorePrefix")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/getting-started"}
             target={"_blank"}
           >
-            Getting Started Guide
+            {t("noPeersGettingStarted.gettingStartedGuide")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </>

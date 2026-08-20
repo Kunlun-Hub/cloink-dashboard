@@ -200,7 +200,7 @@ export function DNSRecordModalContent({
                 className="w-full pl-4"
                 data-testid={"dns-record-type-select"}
               >
-                <SelectValue placeholder="Select type..." />
+                <SelectValue placeholder={t("zones.selectType")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="A">A</SelectItem>

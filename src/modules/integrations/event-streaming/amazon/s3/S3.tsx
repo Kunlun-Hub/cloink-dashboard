@@ -11,9 +11,11 @@ import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { EventStream } from "@/interfaces/EventStream";
 import S3Setup from "@/modules/integrations/event-streaming/amazon/s3/S3Setup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function S3() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   // Event Streaming is a licensed feature; skip the call on open-source.
   const { isLicensed } = useIsLicensed();
 
@@ -46,22 +48,21 @@ export default function S3() {
     if (!s3Settings) return setSetupModal(true);
 
     const choice = await confirm({
-      title: `Disconnect S3?`,
-      description:
-        "Disconnecting deletes the current configuration. You will need to start the setup process again.",
-      confirmText: "Disconnect",
-      cancelText: "Cancel",
+      title: t("s3.disconnectTitle"),
+      description: t("s3.disconnectDescription"),
+      confirmText: t("common.disconnect"),
+      cancelText: t("common.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     notify({
-      title: "S3 Integration",
-      description: `S3 was successfully disconnected`,
+      title: t("s3.notifyTitle"),
+      description: t("s3.disconnectedDescription"),
       promise: integrationRequest.del({}, "/" + s3Settings.id).then(() => {
         mutate("/integrations/event-streaming");
       }),
-      loadingMessage: "Disconnecting integration...",
+      loadingMessage: t("s3.disconnecting"),
     });
   };
 
@@ -71,7 +72,7 @@ export default function S3() {
     <>
       <IntegrationCard
         name="Amazon S3"
-        description="Amazon S3 is a scalable storage in the cloud."
+        description={t("s3.cardDescription")}
         url={{
           title: "aws.amazon.com/s3",
           href: "https://aws.amazon.com/s3",

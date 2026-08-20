@@ -59,7 +59,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
       return (
         <DataTableHeader
           column={column}
-          tooltip={<div className={"text-xs normal-case"}>Users</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.users")}</div>}
         >
           <TeamIcon size={12} />
         </DataTableHeader>
@@ -71,7 +71,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=users`}
         hidden={row.original.name === "All"}
-        text={"User(s)"}
+        text={t("groups.count.users")}
         count={row.original.users_count}
       />
     ),
@@ -82,7 +82,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
       return (
         <DataTableHeader
           column={column}
-          tooltip={<div className={"text-xs normal-case"}>Peers</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.peers")}</div>}
         >
           <PeerIcon size={12} />
         </DataTableHeader>
@@ -94,7 +94,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=peers`}
         hidden={row.original.name === "All"}
-        text={"Peer(s)"}
+        text={t("groups.count.peers")}
         count={row.original.peers_count}
       />
     ),
@@ -105,7 +105,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
       return (
         <DataTableHeader
           column={column}
-          tooltip={<div className={"text-xs normal-case"}>Policies</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.policies")}</div>}
         >
           <AccessControlIcon size={12} />
         </DataTableHeader>
@@ -116,7 +116,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         icon={<AccessControlIcon size={10} />}
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=policies`}
-        text={row.original.policies_count === 1 ? "Policy" : "Policies"}
+        text={row.original.policies_count === 1 ? t("groups.count.policy") : t("groups.count.policies")}
         count={row.original.policies_count}
       />
     ),
@@ -128,7 +128,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         <DataTableHeader
           column={column}
           tooltip={
-            <div className={"text-xs normal-case"}>Network Resources</div>
+            <div className={"text-xs normal-case"}>{t("groups.tooltip.networkResources")}</div>
           }
         >
           <Layers3Icon size={12} />
@@ -140,7 +140,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         icon={<Layers3Icon size={10} />}
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=resources`}
-        text={"Network Resource(s)"}
+        text={t("groups.count.networkResources")}
         count={row.original.resources_count}
       />
     ),
@@ -151,7 +151,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
       return (
         <DataTableHeader
           column={column}
-          tooltip={<div className={"text-xs normal-case"}>Network Routes</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.networkRoutes")}</div>}
         >
           <NetworkRoutesIcon size={12} />
         </DataTableHeader>
@@ -162,7 +162,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         icon={<NetworkRoutesIcon size={10} />}
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=network-routes`}
-        text={"Network Route(s)"}
+        text={t("groups.count.networkRoutes")}
         count={row.original.routes_count}
       />
     ),
@@ -173,7 +173,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
       return (
         <DataTableHeader
           column={column}
-          tooltip={<div className={"text-xs normal-case"}>Nameservers</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.nameservers")}</div>}
         >
           <DNSIcon size={12} />
         </DataTableHeader>
@@ -184,7 +184,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         icon={<DNSIcon size={10} />}
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=nameservers`}
-        text={"Nameserver(s)"}
+        text={t("groups.count.nameservers")}
         count={row.original.nameservers_count}
       />
     ),
@@ -195,7 +195,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
       return (
         <DataTableHeader
           column={column}
-          tooltip={<div className={"text-xs normal-case"}>Zones</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.zones")}</div>}
         >
           <DNSZoneIcon size={16} />
         </DataTableHeader>
@@ -206,7 +206,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         icon={<DNSZoneIcon size={14} />}
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=zones`}
-        text={"Zone(s)"}
+        text={t("groups.count.zones")}
         count={row.original.zones_count}
       />
     ),
@@ -218,7 +218,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         <DataTableHeader
           column={column}
           center={true}
-          tooltip={<div className={"text-xs normal-case"}>Setup Keys</div>}
+          tooltip={<div className={"text-xs normal-case"}>{t("groups.tooltip.setupKeys")}</div>}
         >
           <SetupKeysIcon size={12} />
         </DataTableHeader>
@@ -230,7 +230,7 @@ export const GroupsTableColumns = (t: (...args: any[]) => string): ColumnDef<Gro
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=setup-keys`}
         hidden={row.original.name === "All"}
-        text={"Setup Key(s)"}
+        text={t("groups.count.setupKeys")}
         count={row.original.setup_keys_count}
       />
     ),
@@ -296,18 +296,18 @@ export default function GroupsTable({ headingTarget }: Readonly<Props>) {
 
   const usageOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All" },
-      { value: true, label: "Used" },
-      { value: false, label: "Unused" },
+      { value: undefined, label: t("common.all") },
+      { value: true, label: t("groups.used") },
+      { value: false, label: t("groups.unused") },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "in_use",
-        label: "Usage",
+        label: t("table.usage"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -320,13 +320,13 @@ export default function GroupsTable({ headingTarget }: Readonly<Props>) {
           formatRadioChip(v as boolean | undefined, usageOptions),
       },
     ],
-    [usageOptions],
+    [usageOptions, t],
   );
 
   return (
     <DataTable
       headingTarget={headingTarget}
-      text={"Groups"}
+      text={t("groups.title")}
       sorting={sorting}
       isLoading={isLoading}
       setSorting={setSorting}
@@ -334,7 +334,7 @@ export default function GroupsTable({ headingTarget }: Readonly<Props>) {
       data={groups}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder={"Search group by name..."}
+      searchPlaceholder={t("groups.searchByName")}
       rightSide={() => <AddGroupButton />}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />

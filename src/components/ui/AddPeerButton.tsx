@@ -7,12 +7,14 @@ import React, { memo, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Peer } from "@/interfaces/Peer";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   isUserDevice?: boolean;
 };
 
 function AddPeerButton({ isUserDevice }: Readonly<Props>) {
+  const { t } = useI18n();
   const { data: peers } = useFetchApi<Peer[]>("/peers");
   const { oidcUser: user } = useOidcUser();
 
@@ -40,7 +42,7 @@ function AddPeerButton({ isUserDevice }: Readonly<Props>) {
           data-testid={"add-peer-button"}
         >
           <PlusCircle size={16} />
-          Add Peer
+          {t("peers.addPeer")}
         </Button>
       </ModalTrigger>
       <SetupModal user={user} isUserDevice={isUserDevice} />

@@ -202,7 +202,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                 <Link href={firehoseDashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon Data Firehose Stream Dashboard
+                    {t("firehose.dashboardButton")}
                   </Button>
                 </Link>
               </div>
@@ -278,7 +278,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                 <Link href={iamDashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon IAM Dashboard
+                    {t("firehose.iamDashboardButton")}
                   </Button>
                 </Link>
               </div>

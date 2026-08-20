@@ -110,9 +110,9 @@ export function CustomDomainSelector({
       options={options}
       popoverWidth={380}
       showSearch={true}
-      searchPlaceholder="Search domains..."
+      searchPlaceholder={t("reverseProxy.searchDomains")}
       disabled={disabled}
-      placeholder="Select domain..."
+      placeholder={t("reverseProxy.selectDomain")}
       className={className}
       data-testid={dataTestId}
     />

@@ -32,6 +32,7 @@ export const MSPTenantPermissionsTab = ({
   tenantGroups,
   setTenantGroups,
 }: Props) => {
+  const { t } = useI18n();
   const { users } = useUsers();
 
   const handleGroupRemove = (group: Group) => {
@@ -57,10 +58,8 @@ export const MSPTenantPermissionsTab = ({
     <div>
       <div className={"flex gap-4 justify-between w-full items-start"}>
         <div>
-          <Label>Permissions (required)</Label>
-          <HelpText>
-            Add user groups to grant them access to this tenant.
-          </HelpText>
+          <Label>{t("msp.permissionsRequired")}</Label>
+          <HelpText>{t("msp.permissionsHelp")}</HelpText>
         </div>
         <div>
           <PeerGroupSelector
@@ -72,7 +71,7 @@ export const MSPTenantPermissionsTab = ({
                 className={"pl-3"}
               >
                 <PlusIcon size={14} />
-                Add Group
+                {t("msp.addGroup")}
               </Button>
             }
             onChange={onGroupsChange}

@@ -71,14 +71,14 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
       <DropdownInput
         value={search}
         onChange={setSearch}
-        placeholder={"Search user..."}
+        placeholder={t("activity.searchUserPlaceholder")}
         hideEnterIcon={true}
       />
 
       {options.length === 0 && !search && (
         <div className={"max-w-xs mx-auto"}>
           <DropdownInfoText>
-            {"No users available to select."}
+            {t("users.noUsersAvailable")}
           </DropdownInfoText>
         </div>
       )}
@@ -86,7 +86,7 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
       {filteredItems.length === 0 && search !== "" && (
         <div className={"px-10"}>
           <DropdownInfoText>
-            There are no users matching your search.
+            {t("users.noUsersMatchingSearch")}
           </DropdownInfoText>
         </div>
       )}

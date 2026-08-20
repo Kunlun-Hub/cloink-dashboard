@@ -67,12 +67,13 @@ function NameCell({ provider }: { provider: AIProvider }) {
 }
 
 function ModelsCell({ provider }: { provider: AIProvider }) {
+  const { t } = useI18n();
   if (provider.models.length === 0) {
-    return <span className={"text-xs text-nb-gray-400"}>All models</span>;
+    return <span className={"text-xs text-nb-gray-400"}>{t("agentProviders.allModels")}</span>;
   }
   return (
     <span className={"text-xs text-nb-gray-300"}>
-      {provider.models.length} configured
+      {t("agentProviders.modelsConfigured", { count: provider.models.length })}
     </span>
   );
 }
@@ -140,12 +141,12 @@ export default function AgentProvidersTable({
       <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"Providers"}
+      text={t("nav.providers")}
       sorting={sorting}
       setSorting={setSorting}
       columns={getColumns(t)}
       data={providers}
-      searchPlaceholder={"Search by name..."}
+      searchPlaceholder={t("agentProviders.searchPlaceholder")}
       onRowClick={(row) => {
         setEditingProvider(row.original);
         setEditOpen(true);
@@ -159,10 +160,8 @@ export default function AgentProvidersTable({
               size={"large"}
             />
           }
-          title={"Connect a provider"}
-          description={
-            "Route OpenAI, Anthropic, and other LLM APIs through NetBird to enforce access control, track token spend, and capture prompts."
-          }
+          title={t("onboarding.agent.provider.title")}
+          description={t("agentProviders.emptyDescription")}
           button={
             <div className={"gap-x-4 flex items-center justify-center"}>
               <AddProviderButton />
@@ -170,12 +169,12 @@ export default function AgentProvidersTable({
           }
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network/providers"}
                 target={"_blank"}
               >
-                Agent Network Providers
+                {t("aiProvider.modal.agentNetworkProviders")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -196,11 +195,12 @@ export default function AgentProvidersTable({
 }
 
 const AddProviderButton = () => {
+  const { t } = useI18n();
   const { openWizard } = useAIProviders();
   return (
     <Button variant={"primary"} onClick={openWizard}>
       <PlusCircle size={16} />
-      Connect Provider
+      {t("aiProvider.modal.connectProvider")}
     </Button>
   );
 };

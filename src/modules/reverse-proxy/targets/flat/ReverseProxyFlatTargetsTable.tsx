@@ -43,7 +43,7 @@ function getFlatTargetsColumns(t: (key: string) => string): ColumnDef<ReversePro
     id: "domain",
     accessorFn: (row) => row.proxy.domain,
     header: ({ column }) => (
-      <DataTableHeader column={column}>URL</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.url")}</DataTableHeader>
     ),
     sortingFn: "text",
     cell: ({ row }) => {
@@ -110,7 +110,7 @@ function getFlatTargetsColumns(t: (key: string) => string): ColumnDef<ReversePro
   {
     id: "auth_and_access",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Auth &amp; Access</DataTableHeader>
+      <DataTableHeader column={column}>{t("reverseProxy.authAndAccess")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <div
@@ -179,18 +179,18 @@ export const ReverseProxyFlatTargetsTable = ({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("common.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("common.active"), dotClass: "bg-green-500" },
+      { value: false, label: t("common.inactive"), dotClass: "bg-nb-gray-700" },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -203,7 +203,7 @@ export const ReverseProxyFlatTargetsTable = ({
           formatRadioChip(v as boolean | undefined, statusOptions),
       },
     ],
-    [statusOptions],
+    [statusOptions, t],
   );
 
   return (
@@ -223,7 +223,7 @@ export const ReverseProxyFlatTargetsTable = ({
       keepStateInLocalStorage={false}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder="Search by URL, destination, or target..."
+      searchPlaceholder={t("reverseProxy.searchTargetsPlaceholder")}
       initialFilters={
         resourceId ? [{ id: "target_id", value: resourceId }] : undefined
       }
@@ -256,7 +256,7 @@ export const ReverseProxyFlatTargetsTable = ({
           disabled={!permission?.services?.create}
         >
           <PlusCircle size={16} />
-          Add
+          {t("actions.add")}
         </Button>
       )}
     >

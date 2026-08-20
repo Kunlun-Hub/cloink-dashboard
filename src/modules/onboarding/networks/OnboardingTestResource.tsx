@@ -7,6 +7,7 @@ import { cn } from "@utils/helpers";
 import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
 import { SetupModalContent } from "@/modules/setup-netbird-modal/SetupModal";
@@ -24,6 +25,7 @@ export const OnboardingTestResource = ({
   onNext,
   onTroubleshootingClick,
 }: Props) => {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   const isSubnet = resource?.type === "subnet";
@@ -36,33 +38,33 @@ export const OnboardingTestResource = ({
       if (a.endsWith("/32")) a = a.slice(0, -3);
       else if (a.endsWith("/128")) a = a.slice(0, -4);
     }
-    if (isWildCard) return `(any subdomain of ${a})`;
-    return isSubnet ? `(resource ip in your subnet)` : a;
-  }, [isWildCard, isHost, isSubnet, resource?.address]);
+    if (isWildCard) return t("onboarding.anySubdomain", { address: a });
+    return isSubnet ? t("onboarding.resourceIpInSubnet") : a;
+  }, [isWildCard, isHost, isSubnet, resource?.address, t]);
 
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-          {`Let's put that connection to the test`}
+          {t("onboarding.testResourceTitle")}
         </h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          {`Nice work connecting your client device! Now, let’s have a little fun and test if it can reach your resource.`}
+          {t("onboarding.testResourceDescription")}
         </div>
       </div>
 
       <Steps className={"stepper-bg-variant"}>
         <Steps.Step step={1}>
           <p className={"!text-nb-gray-300"}>
-            Open your command line and run this command from{" "}
+            {t("onboarding.testResourceStep1Prefix")}{" "}
             <span className={cn(device && "text-white")}>
-              {device?.name || "your device"}
+              {device?.name || t("onboarding.yourDevice")}
             </span>{" "}
-            to ping your resource.
+            {t("onboarding.testResourceStep1Suffix")}
           </p>
           <Code showCopyIcon={!isSubnet && !isWildCard}>
             ping {pingAddress}
@@ -70,14 +72,13 @@ export const OnboardingTestResource = ({
         </Steps.Step>
         <Steps.Step step={2} line={false} className={"pb-0"} disabled={!device}>
           <p className={"!text-nb-gray-300"}>
-            Everything working? Great! You can now continue with the onboarding.
-            If something isn’t right, please check our{" "}
+            {t("onboarding.testStep2Prefix")}{" "}
             <InlineLink
               href={"https://docs.netbird.io/how-to/troubleshooting-client"}
               target={"_blank"}
               onClick={onTroubleshootingClick}
             >
-              troubleshooting guide
+              {t("onboarding.troubleshootingGuide")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </p>
@@ -87,7 +88,7 @@ export const OnboardingTestResource = ({
               onClick={onNext}
               className={"w-full"}
             >
-              It works! - Continue
+              {t("onboarding.itWorksContinue")}
             </Button>
           </div>
         </Steps.Step>
@@ -95,7 +96,7 @@ export const OnboardingTestResource = ({
 
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent>
-          <SetupModalContent title={"Install NetBird"} />
+          <SetupModalContent title={t("common.installNetBird")} />
         </ModalContent>
       </Modal>
     </div>

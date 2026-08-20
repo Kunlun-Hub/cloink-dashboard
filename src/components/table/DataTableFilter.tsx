@@ -212,13 +212,13 @@ export function DataTableFilter<TData>({
             ref={searchRef}
             value={search}
             onChange={setSearch}
-            placeholder={"Search filters..."}
+            placeholder={t("dataTable.searchFilters")}
             hideEnterIcon={true}
           />
 
           {filteredItems.length == 0 && search != "" && (
             <DropdownInfoText className={"mb-4"}>
-              There are no filters matching your search.
+              {t("dataTable.noMatchingFilters")}
             </DropdownInfoText>
           )}
 

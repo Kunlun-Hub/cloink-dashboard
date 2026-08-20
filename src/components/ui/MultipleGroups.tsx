@@ -13,6 +13,7 @@ import { ArrowRightIcon, PencilLineIcon } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
@@ -40,7 +41,7 @@ type Props = {
 
 export default function MultipleGroups({
   groups,
-  label = "Assigned Groups",
+  label,
   description = "Use groups to control what this peer can access",
   onClick,
   className,
@@ -52,6 +53,8 @@ export default function MultipleGroups({
   countThreshold = 1,
 }: Readonly<Props>) {
   const { permission } = usePermissions();
+  const { t } = useI18n();
+  const resolvedLabel = label ?? t("groups.assignedGroups");
 
   if (!groups || groups?.length === 0) return <EmptyRow />;
   const orderedGroups = [...groups].sort((a, b) => {
@@ -83,7 +86,9 @@ export default function MultipleGroups({
                   permission.groups.update ? "group-hover:bg-nb-gray-800" : "",
                 )}
               >
-                {orderedGroups.length} Groups
+                {t("groups.groupCount", {
+                  count: orderedGroups.length,
+                })}
               </Badge>
             ) : countOnly ? (
               <div className={"inline-flex items-center gap-2"}>
@@ -137,7 +142,7 @@ export default function MultipleGroups({
             onClick={(e) => e.stopPropagation()}
           >
             <div className={"text-sm font-medium text-left px-5 pt-3"}>
-              {label}
+              {resolvedLabel}
             </div>
             <ScrollArea
               className={

@@ -160,9 +160,7 @@ export const PeerSSHToggle = () => {
             }
             className="my-3"
           >
-            You have SSH access configured but your client runs on an older
-            NetBird version. Please update your NetBird client to v.0.61.0+ in
-            order to allow SSH connections.
+            {t("peerSSH.clientUpdateWarning")}
           </Callout>
         )}
 
@@ -177,9 +175,7 @@ export const PeerSSHToggle = () => {
           }
           className="my-3"
         >
-          You have an SSH access policy configured, but the SSH server
-          isn&apos;t enabled on this client. Enable the SSH server to allow SSH
-          connections.
+          {t("peerSsh.serverDisabledWarning")}
         </Callout>
       )}
 
@@ -194,9 +190,7 @@ export const PeerSSHToggle = () => {
           }
           className="my-3"
         >
-          Your SSH server is enabled, but starting from NetBird v0.61.0, SSH
-          requires an explicit access control policy. Please create an SSH
-          access control policy in order to allow SSH connections.
+          {t("peerSSH.explicitPolicyWarning")}
         </Callout>
       )}
 
@@ -295,7 +289,7 @@ export const PeerSSHToggle = () => {
               <div>
                 <span className={"font-medium text-xs"}>
                   {singularize(
-                    "Active Policies",
+                    t("networkDetails.activePolicies"),
                     enabledPolicies?.length,
                     true,
                   )}

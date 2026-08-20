@@ -5,6 +5,7 @@ import * as React from "react";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useIsFeatureLocked } from "@/cloud/cloud-hooks/useIsFeatureLocked";
+import { useI18n } from "@/i18n/I18nProvider";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
@@ -23,6 +24,7 @@ export const PostureCheckTab = ({
   setPostureChecks,
   isLoading,
 }: Props) => {
+  const { t } = useI18n();
   const addPostureChecks = (checks: PostureCheck[]) => {
     setPostureChecks((prev) => {
       const previous = prev.map((check) => {
@@ -77,7 +79,7 @@ export const PostureCheckTab = ({
             <LockedFeatureBadge
               position={"relative"}
               side={"bottom"}
-              featureText={"Posture Checks"}
+              featureText={t("postureChecks.title")}
               feature={"POSTURE_CHECKS"}
             />
             {postureChecks.length > 0 && (
@@ -88,7 +90,7 @@ export const PostureCheckTab = ({
                 }
               >
                 <Trash2Icon size={13} className={"mr-1"} />
-                Remove Checks
+                {t("postureChecks.removeChecks")}
               </button>
             )}
           </div>

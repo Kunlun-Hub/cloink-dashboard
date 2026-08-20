@@ -23,6 +23,7 @@ import {
 } from "@/interfaces/Subscription";
 import { LimitsReachedModal } from "@/modules/billing/LimitsReachedModal";
 import { TrialSuccessModal } from "@/modules/billing/trial/TrialSuccessModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -110,6 +111,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
   const { confirm } = useDialog();
   const { trackEvent } = useAnalytics();
   const { setAnnouncements } = useAnnouncement();
+  const { t } = useI18n();
   const freeUsers = 0;
 
   const redirectUrl = useMemo(() => {
@@ -251,9 +253,9 @@ function BillingContextProvider({ children }: Readonly<Props>) {
           mutate("/integrations/billing/subscription");
         });
         notify({
-          title: "NetBird Subscription",
-          description: `Successfully subscribed to the ${plan.name} plan`,
-          loadingMessage: "Subscribing to NetBird via AWS Marketplace...",
+          title: t("billing.notifyTitle"),
+          description: t("billing.awsSubscribed", { name: plan.name }),
+          loadingMessage: t("billing.awsSubscribing"),
           promise: promise,
         });
         return promise;
@@ -280,17 +282,22 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     if (!priceID) return Promise.reject();
     const downgrade = isDowngrade(plan);
     const choice = await confirm({
-      title: `${downgrade ? "Downgrade" : "Upgrade"} to ${plan.name}?`,
+      title: t("billing.upgradeDowngradeTitle", {
+        action: downgrade ? t("billing.downgrade") : t("billing.upgrade"),
+        name: plan.name,
+      }),
       description: (
         <div className={"flex flex-col gap-2 text-sm text-nb-gray-300 mt-1"}>
           <div>
-            The transition to your new plan will take effect immediately.
-            Charges for the new plan will be incurred from this point forward.
+            {t("billing.planTransitionDescription")}
+          </div>
+          <div>
+            {t("billing.planTransitionCharges")}
           </div>
         </div>
       ),
-      confirmText: downgrade ? "Downgrade" : "Upgrade",
-      cancelText: "Cancel",
+      confirmText: downgrade ? t("billing.downgrade") : t("billing.upgrade"),
+      cancelText: t("common.cancel"),
       type: "default",
     });
     if (!choice) return;
@@ -312,10 +319,10 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     });
 
     notify({
-      title: "Update Subscription",
-      description: "Your subscription has been successfully updated.",
+      title: t("billing.updateSubscription"),
+      description: t("billing.subscriptionUpdated"),
       promise: promise,
-      loadingMessage: "Updating your subscription...",
+      loadingMessage: t("billing.updatingSubscription"),
     });
 
     return promise;

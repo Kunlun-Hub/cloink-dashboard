@@ -174,7 +174,7 @@ const createUsersTableColumns = (
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("groupUsers.selectAll")}
         />
       </div>
     ),
@@ -184,7 +184,7 @@ const createUsersTableColumns = (
           checked={row.getIsSelected()}
           variant={"tableCell"}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("groupUsers.selectRow")}
         />
       </div>
     ),

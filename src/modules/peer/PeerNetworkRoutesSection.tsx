@@ -3,6 +3,7 @@ import SkeletonTable from "@components/skeletons/SkeletonTable";
 import * as React from "react";
 import { lazy, Suspense } from "react";
 import type { Peer } from "@/interfaces/Peer";
+import { useI18n } from "@/i18n/I18nProvider";
 import { AddExitNodeButton } from "@/modules/exit-node/AddExitNodeButton";
 import { useHasExitNodes } from "@/modules/exit-node/useHasExitNodes";
 import AddRouteDropdownButton from "@/modules/peer/AddRouteDropdownButton";
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export const PeerNetworkRoutesSection = ({ peer }: Props) => {
+  const { t } = useI18n();
   const { peerRoutes, isLoading } = usePeerRoutes({ peer });
   const exitNodeInfo = useHasExitNodes(peer);
 
@@ -26,15 +28,14 @@ export const PeerNetworkRoutesSection = ({ peer }: Props) => {
         <div className={"flex justify-between items-center mb-5"}>
           <div>
             <Paragraph>
-              Access other networks without installing NetBird on every
-              resource.{" "}
+              {t("peerNetworkRoutes.description")}{" "}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/routing-traffic-to-private-networks"
                 }
                 target={"_blank"}
               >
-                Learn more
+                {t("common.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>

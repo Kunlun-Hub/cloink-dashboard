@@ -99,11 +99,11 @@ export function AgentConnectTabs({
   return (
     <Tabs key={defaultTab} defaultValue={defaultTab} className={"mt-2"}>
       <TabsList justify={"start"} className={listClassName}>
-        <TabsTrigger value={"claude-code"}>Claude Code</TabsTrigger>
-        <TabsTrigger value={"codex"}>Codex</TabsTrigger>
-        {hasKimi && <TabsTrigger value={"kimi-cli"}>Kimi CLI</TabsTrigger>}
-        <TabsTrigger value={"openai-sdk"}>OpenAI SDK</TabsTrigger>
-        <TabsTrigger value={"curl"}>cURL</TabsTrigger>
+        <TabsTrigger value={"claude-code"}>{t("agentConnect.tabClaudeCode")}</TabsTrigger>
+        <TabsTrigger value={"codex"}>{t("agentConnect.tabCodex")}</TabsTrigger>
+        {hasKimi && <TabsTrigger value={"kimi-cli"}>{t("agentConnect.tabKimiCli")}</TabsTrigger>}
+        <TabsTrigger value={"openai-sdk"}>{t("agentConnect.tabOpenAiSdk")}</TabsTrigger>
+        <TabsTrigger value={"curl"}>{t("agentConnect.tabCurl")}</TabsTrigger>
       </TabsList>
 
       <TabsContent value={"claude-code"}>
@@ -117,11 +117,11 @@ export function AgentConnectTabs({
                 )
               }
               options={[
-                { label: "Anthropic API", value: "anthropic" },
-                { label: "Vertex AI", value: "vertex" },
-                { label: "Bedrock", value: "bedrock" },
+                { label: t("agentConnect.optionAnthropicApi"), value: "anthropic" },
+                { label: t("agentConnect.optionVertexAi"), value: "vertex" },
+                { label: t("agentConnect.optionBedrock"), value: "bedrock" },
                 ...(hasKimi
-                  ? [{ label: "Kimi (Moonshot AI)", value: "kimi" }]
+                  ? [{ label: t("agentConnect.optionKimiMoonshot"), value: "kimi" }]
                   : []),
               ]}
               showValues={false}

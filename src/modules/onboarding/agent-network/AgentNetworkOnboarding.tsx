@@ -185,13 +185,13 @@ export const AgentNetworkOnboarding = ({
                       "text-sm text-nb-gray-400 font-light pt-10 text-center px-4"
                     }
                   >
-                    Already know how Agent Network works?
+                    {t("onboarding.agentNetwork.skipPrompt")}
                     <InlineLink
                       href={"#"}
                       className={"!text-nb-gray-200 ml-1"}
                       onClick={() => onSkip(step)}
                     >
-                      Skip to Dashboard
+                      {t("onboarding.skipToDashboard")}
                     </InlineLink>
                   </span>
                 )}

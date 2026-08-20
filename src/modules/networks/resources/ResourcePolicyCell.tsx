@@ -11,11 +11,13 @@ import { NetworkResource } from "@/interfaces/Network";
 import { Policy } from "@/interfaces/Policy";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { cn } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   resource?: NetworkResource;
 };
 export const ResourcePolicyCell = ({ resource }: Props) => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const {
     openResourceModal,
@@ -154,7 +156,7 @@ export const ResourcePolicyCell = ({ resource }: Props) => {
             e.stopPropagation();
             openResourceModal(network, resource, "access-control");
           }}
-          aria-label="Configure policies"
+          aria-label={t("networkResources.configurePolicies")}
         >
           <Settings size={12} />
         </Button>

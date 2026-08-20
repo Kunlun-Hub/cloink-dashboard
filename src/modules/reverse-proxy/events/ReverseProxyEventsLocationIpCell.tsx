@@ -10,12 +10,14 @@ import { useCountries } from "@/contexts/CountryProvider";
 import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
 import Skeleton from "react-loading-skeleton";
 import { ListItem } from "@components/ListItem";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   event: ReverseProxyEvent;
 };
 
 export const ReverseProxyEventsLocationIpCell = ({ event }: Props) => {
+  const { t } = useI18n();
   const { getRegionText, isLoading } = useCountries();
 
   const region = useMemo(() => {
@@ -49,14 +51,14 @@ export const ReverseProxyEventsLocationIpCell = ({ event }: Props) => {
         >
           <ListItem
             icon={<FlagIcon size={14} />}
-            label={"Region"}
+            label={t("reverseProxy.region")}
             value={
               isLoading && !region ? (
                 <Skeleton width={100} />
               ) : (
                 <CopyToClipboardText
                   iconAlignment={"right"}
-                  message={"Region has been copied to your clipboard"}
+                  message={t("peerAddress.regionCopied")}
                   alwaysShowIcon={true}
                 >
                   {region}
@@ -84,7 +86,7 @@ export const ReverseProxyEventsLocationIpCell = ({ event }: Props) => {
           )}
         </div>
         <CopyToClipboardText
-          message={"IP address has been copied to your clipboard"}
+          message={t("peerAddress.ipCopied")}
         >
           <span className={"text-nb-gray-200 font-mono text-[0.82rem]"}>
             {event.source_ip}

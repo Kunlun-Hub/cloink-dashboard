@@ -14,6 +14,7 @@ import { MSPSubscriptionModal } from "@/cloud/msp/MSPSubscriptionModal";
 import { MSPTenantModal } from "@/cloud/msp/MSPTenantModal";
 import { MSPUnlinkModal } from "@/cloud/msp/MSPUnlinkModal";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Currency, Plan } from "@/interfaces/Plan";
 import { User } from "@/interfaces/User";
 
@@ -54,6 +55,7 @@ export const TenantsProvider = ({ children }: Props) => {
   const [unlinkModal, setUnlinkModal] = useState(false);
   const [accountExistsModal, setAccountExistsModal] = useState(false);
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const tenantRequest = useApiCall<TenantDNSResponse>(
     `/integrations/msp/tenants`,
@@ -67,11 +69,10 @@ export const TenantsProvider = ({ children }: Props) => {
 
   const deleteTenant = async (tenant: Tenant) => {
     const choice = await confirm({
-      title: `Delete '${tenant.name}'?`,
-      description:
-        "Deleting this tenant will permanently remove all of its associated data, including its peers, users, groups and everything else. Please be aware that this action is irreversible and cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("msp.deleteTenantTitle", { name: tenant.name }),
+      description: t("msp.deleteTenantDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
       maxWidthClass: "max-w-[480px]",
     });

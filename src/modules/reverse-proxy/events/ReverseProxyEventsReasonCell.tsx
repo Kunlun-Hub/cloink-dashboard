@@ -4,23 +4,24 @@ import { ListItem } from "@components/ListItem";
 import { Info, ShieldAlert } from "lucide-react";
 import * as React from "react";
 import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
-
-const VERDICT_LABELS: Record<string, string> = {
-  crowdsec_ban: "Ban",
-  crowdsec_captcha: "Captcha",
-  crowdsec_throttle: "Throttle",
-};
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   event: ReverseProxyEvent;
 };
 
 export const ReverseProxyEventsReasonCell = ({ event }: Props) => {
+  const { t } = useI18n();
   const metadata = event.metadata;
   const verdict = metadata?.crowdsec_verdict;
 
   if (verdict && !event.auth_method_used?.startsWith("crowdsec_")) {
-    const verdictLabel = VERDICT_LABELS[verdict] ?? verdict;
+    const verdictLabels: Record<string, string> = {
+      crowdsec_ban: t("reverseProxy.verdictBan"),
+      crowdsec_captcha: t("reverseProxy.verdictCaptcha"),
+      crowdsec_throttle: t("reverseProxy.verdictThrottle"),
+    };
+    const verdictLabel = verdictLabels[verdict] ?? verdict;
     const metaEntries = Object.entries(metadata!).filter(
       ([k]) => k !== "crowdsec_verdict",
     );
@@ -49,7 +50,7 @@ export const ReverseProxyEventsReasonCell = ({ event }: Props) => {
         <div className="px-3 py-2">
           <Badge variant="gray" className="gap-1.5">
             <ShieldAlert size={12} className="text-yellow-500" />
-            CrowdSec Observe: {verdictLabel}
+            {t("reverseProxy.crowdsecObserveLabel")}: {verdictLabel}
           </Badge>
         </div>
       </FullTooltip>

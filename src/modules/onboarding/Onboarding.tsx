@@ -208,11 +208,11 @@ export const Onboarding = ({
       return request.then(() => mutate("/policies"));
     } else {
       notify({
-        title: p.name + " Policy",
-        description: `Policy was successfully ${
-          !enabled ? "enabled" : "disabled"
-        }`,
-        loadingMessage: "Updating policy...",
+        title: t("onboarding.policyNamedTitle", { name: p.name }),
+        description: !enabled
+          ? t("onboarding.policyEnabled")
+          : t("onboarding.policyDisabled"),
+        loadingMessage: t("onboarding.policyUpdating"),
         promise: request.then(() => mutate("/policies")),
         duration: 800,
       });
@@ -587,7 +587,7 @@ export const Onboarding = ({
                     "text-sm text-nb-gray-400 font-light pb-10 text-center px-4"
                   }
                 >
-                  Already know how NetBird works?
+                  {t("onboarding.skipPrompt")}
                   <InlineLink
                     href={"#"}
                     className={"!text-nb-gray-200 ml-1"}
@@ -598,7 +598,7 @@ export const Onboarding = ({
                       onSkip(intent, step);
                     }}
                   >
-                    Skip to Dashboard
+                    {t("onboarding.skipToDashboard")}
                   </InlineLink>
                 </span>
               )}

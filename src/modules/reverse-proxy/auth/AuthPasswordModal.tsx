@@ -46,7 +46,7 @@ export default function AuthPasswordModal({
       <ModalContent maxWidthClass="max-w-md">
         <ModalHeader
           title={t("reverseProxy.authPassword")}
-          description="Require a password to access this service."
+          description={t("reverseProxy.authPasswordDescription")}
         />
 
         <GradientFadedBackground />
@@ -66,7 +66,7 @@ export default function AuthPasswordModal({
                 setPassword(e.target.value);
               }
             }}
-            placeholder="Enter password..."
+            placeholder={t("reverseProxy.authPasswordPlaceholder")}
             autoComplete="off"
             data-1p-ignore
             data-lpignore="true"
@@ -81,7 +81,7 @@ export default function AuthPasswordModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-password" onClick={handleRemove}>
-                  Remove
+                  {t("common.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
@@ -92,7 +92,7 @@ export default function AuthPasswordModal({
                     onClick={handleSave}
                     disabled={!password.trim()}
                   >
-                    Save
+                    {t("common.save")}
                   </Button>
                 </div>
               </>
@@ -109,7 +109,7 @@ export default function AuthPasswordModal({
                     disabled={!password.trim()}
                     data-testid="submit-password"
                   >
-                    Add Password
+                    {t("reverseProxy.addPassword")}
                   </Button>
                 </div>
               </>

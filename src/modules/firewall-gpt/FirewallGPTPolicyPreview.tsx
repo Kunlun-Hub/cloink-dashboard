@@ -11,6 +11,7 @@ import * as React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
 import { Group } from "@/interfaces/Group";
 import { Policy } from "@/interfaces/Policy";
@@ -35,6 +36,7 @@ export const FirewallGptPolicyPreview = ({
   destinationGroupsToBeCreated,
   onSuccess,
 }: Props) => {
+  const { t } = useI18n();
   const {
     createOrUpdate: createOrUpdateGroups,
     reset: resetGroups,
@@ -215,9 +217,11 @@ export const FirewallGptPolicyPreview = ({
         } as Policy;
 
         notify({
-          title: "NetBird's Smart Firewall",
+          title: t("firewallGpt.policyCreated.title"),
           preventSuccessToast: true,
-          description: `Policy ${policyObj?.name} was successfully created.`,
+          description: t("firewallGpt.policyCreated.description", {
+            name: policyObj?.name,
+          }),
           promise: createPolicyRequest(policyObj)
             .then((p) => {
               createdPolicy = p;
@@ -227,12 +231,12 @@ export const FirewallGptPolicyPreview = ({
             .finally(() => {
               setCreatePolicyLoading(false);
             }),
-          loadingMessage: "Creating policy...",
+          loadingMessage: t("firewallGpt.creatingPolicy"),
         });
       })
       .catch((e) => {
         notify({
-          title: `Posture Check failed to create.`,
+          title: t("firewallGpt.postureCheckFailed"),
           description: `${e.message}`,
           icon: <IconCircleX size={24} />,
           backgroundColor: "bg-red-500",
@@ -270,8 +274,7 @@ export const FirewallGptPolicyPreview = ({
             size={15}
             className={"inline-flex mr-2 -top-[1px] relative"}
           />
-          Please review new groups, assigned peers, policy settings and posture
-          checks before creating the policy
+          {t("firewallGpt.reviewNotice")}
         </div>
       </motion.div>
       <motion.div
@@ -332,10 +335,10 @@ export const FirewallGptPolicyPreview = ({
                     content={
                       <div className={"text-nb-gray-300 text-xs"}>
                         {!rule?.ports?.length ? (
-                          "Allow connections through all ports"
+                          t("firewallGpt.allPorts")
                         ) : (
                           <>
-                            Allow connections through port
+                            {t("firewallGpt.portPrefix")}
                             <div
                               className={"inline-flex flex-wrap gap-1.5 ml-1.5"}
                             >
@@ -415,7 +418,7 @@ export const FirewallGptPolicyPreview = ({
                   }}
                 >
                   <span className={"text-[12px] pr-3 text-nb-gray-300"}>
-                    {check?.name ?? "Posture Check"}
+                    {check?.name ?? t("postureChecks.tableText")}
                   </span>
                 </PostureCheckChecksCell>
               </div>
@@ -447,7 +450,7 @@ export const FirewallGptPolicyPreview = ({
           onClick={() => setEditPolicyModal(true)}
         >
           <Edit size={15} />
-          Edit Policy
+          {t("networks.editPolicy")}
         </Button>
         <Button
           variant={"primary"}
@@ -460,7 +463,7 @@ export const FirewallGptPolicyPreview = ({
           ) : (
             <PlusCircle size={15} />
           )}
-          Create Policy
+          {t("routeModal.createPolicy")}
         </Button>
       </motion.div>
 

@@ -198,7 +198,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                 <Link href={s3DashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon S3 Dashboard
+                    {t("s3.dashboardButton")}
                   </Button>
                 </Link>
               </div>
@@ -249,7 +249,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                 <Link href={iamDashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon IAM Dashboard
+                    {t("s3.iamDashboardButton")}
                   </Button>
                 </Link>
               </div>

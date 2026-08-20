@@ -29,6 +29,7 @@ import ShellIcon from "@/assets/icons/ShellIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import useOperatingSystem from "@/hooks/useOperatingSystem";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { SetupKey } from "@/interfaces/SetupKey";
 import AndroidTab from "@/modules/setup-netbird-modal/AndroidTab";
@@ -113,6 +114,7 @@ export function SetupModalContent({
   const [isFirstRun] = useLocalStorage<boolean>("netbird-first-run", true);
   const pathname = usePathname();
   const isInstallPage = pathname === "/install";
+  const { t } = useI18n();
 
   // Server flow generates its own setup key when the caller hasn't
   // supplied one. The generated value lives here so the OS tabs and
@@ -181,7 +183,7 @@ export function SetupModalContent({
     }
 
     return effectiveSetupKey
-      ? "Install NetBird with Setup Key"
+      ? t("setupModal.installWithSetupKey")
       : "Install NetBird";
   }, [
     isFirstRun,
@@ -210,7 +212,7 @@ export function SetupModalContent({
             )}
           >
             {isUserDevice === false || effectiveSetupKey
-              ? "To get started, install and run NetBird with the setup key as a parameter."
+              ? t("setupModal.installWithSetupKeyDescription")
               : "To get started, install NetBird and log in with your email account."}
           </Paragraph>
         </div>
@@ -478,6 +480,7 @@ function SetupKeyGenerator({
 }: SetupKeyGeneratorProps) {
   const setupKeyRequest = useApiCall<SetupKey>("/setup-keys", true);
   const [isGenerating, setIsGenerating] = useState(false);
+  const { t } = useI18n();
 
   const generate = () => {
     setIsGenerating(true);
@@ -502,9 +505,9 @@ function SetupKeyGenerator({
       .finally(() => setIsGenerating(false));
 
     notify({
-      title: "Setup Key Created",
-      description: "A one-off setup key was generated for this install.",
-      loadingMessage: "Generating setup key...",
+      title: t("setupModal.setupKeyCreated"),
+      description: t("setupModal.setupKeyCreatedDescription"),
+      loadingMessage: t("setupModal.generatingSetupKey"),
       promise: request,
     });
   };
@@ -514,8 +517,8 @@ function SetupKeyGenerator({
     try {
       await navigator.clipboard.writeText(generatedKey.key);
       notify({
-        title: "Setup Key Copied",
-        description: "Successfully copied to clipboard.",
+        title: t("setupModal.setupKeyCopied"),
+        description: t("setupModal.setupKeyCopiedDescription"),
       });
     } catch {}
   };

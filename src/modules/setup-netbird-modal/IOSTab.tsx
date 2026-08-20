@@ -17,11 +17,11 @@ export default function IOSTab() {
       <TabsContentPadding>
         <p className={"font-medium flex gap-3 items-center text-base"}>
           <ShoppingBagIcon size={16} />
-          Install on iOS
+          {t("setupNetbirdModal.installOnIos")}
         </p>
         <Steps>
           <Steps.Step step={1}>
-            <p>Download and install the application on the App Store:</p>
+            <p>{t("setupNetbirdModal.downloadFromAppStore")}</p>
             <div className={"flex gap-4 mt-1"}>
               <Link
                 href={"https://apps.apple.com/app/netbird-p2p-vpn/id6469329339"}
@@ -29,7 +29,7 @@ export default function IOSTab() {
               >
                 <Image
                   src={AppStoreButton}
-                  alt={"Download NetBird on the App Store"}
+                  alt={t("setupNetbirdModal.downloadNetBirdAppStore")}
                   height={50}
                 />
               </Link>
@@ -38,7 +38,7 @@ export default function IOSTab() {
           {GRPC_API_ORIGIN && (
             <Steps.Step step={2}>
               <p>
-                {`Click on "Change Server" and enter the following "Server"`}
+                {t("setupNetbirdModal.clickChangeServer")}
               </p>
               <Code>
                 <Code.Line>{GRPC_API_ORIGIN}</Code.Line>
@@ -49,7 +49,7 @@ export default function IOSTab() {
           <Steps.Step step={GRPC_API_ORIGIN ? 3 : 2}>
             <p>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              Click on the "Connect" button in the middle of the screen
+              {t("setupNetbirdModal.clickConnectButton")}
             </p>
           </Steps.Step>
           <Steps.Step step={GRPC_API_ORIGIN ? 4 : 3} line={false}>

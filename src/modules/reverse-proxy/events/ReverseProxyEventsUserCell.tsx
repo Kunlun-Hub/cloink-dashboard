@@ -6,6 +6,7 @@ import { usePeers } from "@/contexts/PeersProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   event: ReverseProxyEvent;
@@ -20,6 +21,7 @@ type Props = {
 // display name; legacy rows from before the user-id-as-principal fix
 // still resolve via the peers map.
 export const ReverseProxyEventsUserCell = ({ event }: Props) => {
+  const { t } = useI18n();
   const { users } = useUsers();
   const { peers } = usePeers();
 
@@ -50,7 +52,7 @@ export const ReverseProxyEventsUserCell = ({ event }: Props) => {
     };
   } else if (peer) {
     displayName = peer.name || peer.hostname || event.user_id;
-    displaySub = "Peer";
+    displaySub = t("reverseProxy.targetPeerLabel");
     identityForColor = {
       id: peer.id ?? event.user_id,
       name: displayName,

@@ -11,6 +11,7 @@ import { Group, GroupPeer } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import { User } from "@/interfaces/User";
 import { PeerSSHInstructions } from "@/modules/peer/PeerSSHInstructions";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -53,25 +54,25 @@ export default function PeerProvider({
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
   const [sshInstructionsModal, setSSHInstructionsModal] = useState(false);
+  const { t } = useI18n();
 
   const deletePeer = async () => {
     const choice = await confirm({
-      title: `Delete '${peer.name}'?`,
-      description:
-        "Are you sure you want to delete this peer? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("peer.deleteTitle", { name: peer.name }),
+      description: t("peer.deleteDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (choice) {
       notify({
         title: peer.name,
-        description: "Peer was successfully deleted",
+        description: t("peer.deleteSuccess"),
         promise: peerRequest.del({}, `/${peer.id}`).then(() => {
           mutate("/peers");
           mutate("/groups");
         }),
-        loadingMessage: "Deleting peer...",
+        loadingMessage: t("peer.deleteLoading"),
       });
     }
   };
@@ -114,15 +115,15 @@ export default function PeerProvider({
     notify({
       title: peer.name,
       description: enable
-        ? "SSH Access successfully enabled"
-        : "SSH Access successfully disabled",
+        ? t("peer.sshEnabled")
+        : t("peer.sshDisabled"),
       promise: update({ ssh: enable }).then(() => {
         isPeerDetailPage ? mutate(`/peers/${peer.id}`) : mutate("/peers");
         setSSHInstructionsModal(false);
       }),
       loadingMessage: enable
-        ? "Enabling SSH Access..."
-        : "Disabling SSH Access...",
+        ? t("peer.sshEnabling")
+        : t("peer.sshDisabling"),
     });
   };
 

@@ -4,6 +4,7 @@ import { isNetBirdCloud } from "@utils/netbird";
 import { LockIcon, Sparkles } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { PLAN_TEXT } from "@/modules/billing/locked-feature/LockedFeatureContent";
 import { SelfHostedUpgradeButton } from "@/modules/billing/trial/TrialOrUpgradeButton";
 
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const FirewallGPTButton = ({ onClick }: Props) => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   if (!isNetBirdCloud()) {
@@ -25,8 +27,7 @@ export const FirewallGPTButton = ({ onClick }: Props) => {
               {PLAN_TEXT.ENTERPRISE}
             </div>
             <div className={"text-xs text-nb-gray-300 font-light"}>
-              Smart Firewall uses AI to help you create access policies and is
-              available with a NetBird Enterprise commercial license.
+              {t("firewallGpt.button.lockedDescription")}
             </div>
             <SelfHostedUpgradeButton />
           </div>
@@ -54,6 +55,7 @@ const FirewallGPTButtonContent = ({
   onClick?: () => void;
   disabled: boolean;
 }) => {
+  const { t } = useI18n();
   return (
     <button
       className={cn(
@@ -70,7 +72,7 @@ const FirewallGPTButtonContent = ({
         )}
       >
         <Sparkles size={14} />
-        Smart Firewall
+        {t("firewallGpt.smartFirewall")}
       </div>
     </button>
   );

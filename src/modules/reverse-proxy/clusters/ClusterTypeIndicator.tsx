@@ -5,6 +5,7 @@ import {
   ReverseProxyCluster,
   ReverseProxyClusterType,
 } from "@/interfaces/ReverseProxy";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   cluster: ReverseProxyCluster;
@@ -14,14 +15,16 @@ type Props = {
 // same pattern as EphemeralPeerIndicator — so the source of the
 // cluster is visible at a glance without a dedicated column.
 export const ClusterTypeIndicator = ({ cluster }: Props) => {
+  const { t } = useI18n();
   if (cluster.type === ReverseProxyClusterType.ACCOUNT) {
     return (
       <FullTooltip
         content={
           <div className={"text-xs max-w-xs"}>
-            <span className={"font-medium text-white"}>Account cluster.</span>{" "}
-            Self-hosted on your own infrastructure — you operate the proxy
-            nodes and control where traffic terminates.
+            <span className={"font-medium text-white"}>
+              {t("reverseProxy.accountClusterTitle")}
+            </span>{" "}
+            {t("reverseProxy.accountClusterDescription")}
           </div>
         }
       >
@@ -33,9 +36,10 @@ export const ClusterTypeIndicator = ({ cluster }: Props) => {
     <FullTooltip
       content={
         <div className={"text-xs max-w-xs"}>
-          <span className={"font-medium text-white"}>Shared cluster.</span>{" "}
-          Deployed at the server level and available to every account on this
-          instance.
+          <span className={"font-medium text-white"}>
+            {t("reverseProxy.sharedClusterTitle")}
+          </span>{" "}
+          {t("reverseProxy.sharedClusterDescription")}
         </div>
       }
     >

@@ -6,6 +6,7 @@ import * as React from "react";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { DeviceCard } from "@components/DeviceCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type NetworkNodeType = {
   network: Network;
@@ -14,6 +15,7 @@ type NetworkNodeType = {
 type NetworkNodeProps = Node<NetworkNodeType, "networkNode">;
 
 export const NetworkNode = ({ data }: NetworkNodeProps) => {
+  const { t } = useI18n();
   const { data: networkResources } = useFetchApi<NetworkResource[]>(
     "/networks/resources",
   );
@@ -47,7 +49,7 @@ export const NetworkNode = ({ data }: NetworkNodeProps) => {
               {n?.name}
             </div>
             <div className={"text-nb-gray-400 whitespace-nowrap mt-0.5"}>
-              {resources?.length || 0} Resources
+              {t("common.resourceCount", { count: resources?.length || 0 })}
             </div>
           </div>
         </div>
@@ -61,7 +63,7 @@ export const NetworkNode = ({ data }: NetworkNodeProps) => {
               routingPeersCount > 1 && "bg-green-400",
             )}
           />
-          {routingPeersCount} Routing Peer(s)
+          {t("common.routingPeerCount", { count: routingPeersCount })}
         </div>
       </div>
 

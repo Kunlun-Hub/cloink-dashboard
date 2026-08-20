@@ -17,6 +17,9 @@ export interface Nameserver {
   id?: string;
 }
 
+// i18n keys for preset descriptions (used by consuming components for display):
+//   Google: "nameservers.template.googleDescription"
+//   Cloudflare: "nameservers.template.cloudflareDescription"
 export const NameserverPresets: Record<string, NameserverGroup> = {
   Default: {
     name: "",

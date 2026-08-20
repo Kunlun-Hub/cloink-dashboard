@@ -18,6 +18,7 @@ import {
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
 import { TrafficEventProtocol } from "@/cloud/traffic-events/interfaces/TrafficEventProtocol";
 import { getTrafficEventTypeText } from "@/cloud/traffic-events/TrafficEventsTable";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface Props {
   table: Table<TrafficEvent>;
@@ -77,7 +78,8 @@ export function TrafficEventsFilter({
   onFilterChange,
   closeOnSelect = false,
 }: Readonly<Props>) {
-  const filterItems = useMemo(() => getFixedTypeFilters(), []);
+  const { t } = useI18n();
+  const filterItems = useMemo(() => getFixedTypeFilters(t), [t]);
   const searchRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [activeFilterIds, setActiveFilterIds] = useState<string[]>([]);
@@ -244,7 +246,9 @@ export function TrafficEventsFilter({
             <span className={"text-white"}>
               {activeFilterIds.length > 0 && activeFilterIds.length}
             </span>
-            {activeFilterIds.length > 0 ? ` Filter(s)` : "Filter"}
+            {activeFilterIds.length > 0
+              ? t("trafficEvents.filters")
+              : t("trafficEvents.filter")}
           </span>
         </Button>
       </PopoverTrigger>
@@ -273,13 +277,13 @@ export function TrafficEventsFilter({
             ref={searchRef}
             value={search}
             onChange={setSearch}
-            placeholder={"Search filters..."}
+            placeholder={t("trafficEvents.searchPlaceholder")}
             hideEnterIcon={true}
           />
 
           {filteredItems.length == 0 && search != "" && (
             <DropdownInfoText className={"mb-4"}>
-              There are no filters matching your search.
+              {t("trafficEvents.noFiltersMatching")}
             </DropdownInfoText>
           )}
 
@@ -317,7 +321,9 @@ export function TrafficEventsFilter({
   );
 }
 
-const getFixedTypeFilters = () => {
+const getFixedTypeFilters = (
+  t: (key: string, values?: Record<string, unknown>) => string,
+) => {
   let directions = [
     TrafficEventDirection.EGRESS,
     TrafficEventDirection.INGRESS,
@@ -330,23 +336,35 @@ const getFixedTypeFilters = () => {
 
   const filters: FixedFilterItem[] = [];
 
-  for (const t of types) {
+  for (const type of types) {
     for (const d of directions) {
       const eventTypeText =
-        t === TrafficEventType.CONNECTED
+        type === TrafficEventType.CONNECTED
           ? "started"
-          : t === TrafficEventType.STOPPED
-          ? "stopped"
-          : "blocked";
+          : type === TrafficEventType.STOPPED
+            ? "stopped"
+            : "blocked";
       const directionText =
         d === TrafficEventDirection.INGRESS ? "(inbound)" : "(outbound)";
 
       const displayText = `Connection ${eventTypeText} ${directionText}`;
+      const label = t("trafficEvents.filterTypeLabel", {
+        verb:
+          type === TrafficEventType.CONNECTED
+            ? t("trafficEvents.filterStarted")
+            : type === TrafficEventType.STOPPED
+              ? t("trafficEvents.filterStopped")
+              : t("trafficEvents.filterBlocked"),
+        direction:
+          d === TrafficEventDirection.INGRESS
+            ? t("trafficEvents.filterInbound")
+            : t("trafficEvents.filterOutbound"),
+      });
 
       const combinedFilter: CombinedFilter = {
-        id: getCombinedFilterId(t, d),
+        id: getCombinedFilterId(type, d),
         displayText,
-        type: t,
+        type,
         direction: d,
       };
 
@@ -363,13 +381,13 @@ const getFixedTypeFilters = () => {
               <span
                 className={cn(
                   "h-2 w-2 rounded-full",
-                  t == TrafficEventType.STOPPED && "bg-nb-gray-700",
-                  t == TrafficEventType.BLOCKED && "bg-red-500",
-                  t == TrafficEventType.CONNECTED && "bg-green-500",
+                  type == TrafficEventType.STOPPED && "bg-nb-gray-700",
+                  type == TrafficEventType.BLOCKED && "bg-red-500",
+                  type == TrafficEventType.CONNECTED && "bg-green-500",
                 )}
               ></span>
             </div>
-            {displayText}
+            {label}
           </div>
         ),
       });
@@ -408,46 +426,4 @@ const getFixedTypeFilters = () => {
   }
 
   return filters;
-};
-
-type TrafficEventTypeFilterItemProps = {
-  t: TrafficEventType;
-  isP2P: boolean;
-  direction: TrafficEventDirection;
-};
-
-const TrafficEventTypeFilterItem = ({
-  t,
-  isP2P,
-  direction,
-}: TrafficEventTypeFilterItemProps) => {
-  return (
-    <div className={"flex gap-2 items-center justify-center"}>
-      <div className={"px-0.5 flex items-center justify-center"}>
-        <span
-          className={cn(
-            "h-2 w-2 rounded-full",
-            t == TrafficEventType.STOPPED && "bg-nb-gray-700",
-            t == TrafficEventType.BLOCKED && "bg-red-500",
-            t == TrafficEventType.CONNECTED && "bg-green-500",
-          )}
-        ></span>
-      </div>
-      {getTrafficEventTypeText(t, isP2P, direction)}
-    </div>
-  );
-};
-
-const TrafficEventProtocolFilterItem = ({
-  p,
-}: {
-  p: keyof typeof TrafficEventProtocol;
-}) => {
-  const protocolName = getTrafficEventProtocol(p);
-  return (
-    <div className={"flex gap-2 items-center justify-center"}>
-      <Share2Icon size={14} className={"shrink-0"} />
-      {protocolName}
-    </div>
-  );
 };

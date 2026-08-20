@@ -8,6 +8,7 @@ import { Group } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import { ExitNodeHelpTooltip } from "@/modules/exit-node/ExitNodeHelpTooltip";
 import { RouteModalContent } from "@/modules/routes/RouteModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   peer?: Peer;
@@ -20,6 +21,7 @@ export const AddExitNodeButton = ({
   distributionGroups,
 }: Props) => {
   const [modal, setModal] = useState(false);
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   return (
@@ -33,12 +35,12 @@ export const AddExitNodeButton = ({
           {!firstTime ? (
             <>
               <IconCirclePlus size={16} />
-              Add Exit Node
+              {t("exitNodes.add")}
             </>
           ) : (
             <>
               <IconDirectionSign size={16} className={"text-yellow-400"} />
-              Set Up Exit Node
+              {t("exitNodes.setup")}
             </>
           )}
         </Button>

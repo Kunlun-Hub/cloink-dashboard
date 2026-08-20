@@ -1,10 +1,12 @@
 import { Clock4 } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   minutes?: number;
 };
 export const EstimatedSetupTime = ({ minutes = 5 }: Props) => {
+  const { t } = useI18n();
   return (
     <div
       className={
@@ -13,8 +15,8 @@ export const EstimatedSetupTime = ({ minutes = 5 }: Props) => {
     >
       <Clock4 size={12} />
       <div>
-        Estimated setup time:
-        <span className={"font-medium"}> {minutes} Minutes</span>
+        {t("idpSync.estimatedSetupTime")}
+        <span className={"font-medium"}> {minutes} {t("common.minutes")}</span>
       </div>
     </div>
   );

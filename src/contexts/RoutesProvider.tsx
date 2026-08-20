@@ -3,6 +3,7 @@ import { useApiCall } from "@utils/api";
 import React from "react";
 import { useSWRConfig } from "swr";
 import { Route } from "@/interfaces/Route";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const RoutesContext = React.createContext(
 export default function RoutesProvider({ children }: Readonly<Props>) {
   const routeRequest = useApiCall<Route>("/routes", true);
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
 
   const updateRoute = async (
     route: Route,
@@ -39,8 +41,8 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
     const hasDomains = route.domains ? route.domains.length > 0 : false;
 
     notify({
-      title: "Network " + route.network_id + "-" + route.network,
-      description: message ?? "The network route was successfully updated",
+      title: t("routes.namedTitle", { networkId: route.network_id, network: route.network }),
+      description: message ?? t("routes.updatedDescription"),
       promise: routeRequest
         .put(
           {
@@ -69,7 +71,7 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
           mutate("/groups");
           onSuccess && onSuccess(route);
         }),
-      loadingMessage: "Updating route...",
+      loadingMessage: t("routes.updating"),
     });
   };
 
@@ -79,8 +81,8 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
     message?: string,
   ) => {
     notify({
-      title: "Network " + route.network_id + "-" + route.network,
-      description: message ?? "The network route was successfully created",
+      title: t("routes.namedTitle", { networkId: route.network_id, network: route.network }),
+      description: message ?? t("routes.createdDescription"),
       promise: routeRequest
         .post({
           network_id: route.network_id,
@@ -102,7 +104,7 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
           mutate("/groups");
           onSuccess && onSuccess(route);
         }),
-      loadingMessage: "Creating route...",
+      loadingMessage: t("routes.creating"),
     });
   };
 

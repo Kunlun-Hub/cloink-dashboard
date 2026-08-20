@@ -85,21 +85,23 @@ export default function ReverseProxyTargetSelector({
     <div>
       <Label className={"gap-0 inline"}>
         {initialNetwork ? (
-          "Select Resource"
+          t("reverseProxy.targetSelectResource")
         ) : (
           <>
-            Select{" "}
+            {t("reverseProxy.targetSelectPeerOrResource")}{" "}
             <HelpTooltip
               className={"max-w-sm"}
               content={
                 <>
-                  A <span className={"text-white font-medium"}>peer</span> is a
-                  machine (e.g., laptop, server, container) running NetBird.
-                  Select a peer if your service runs directly on it.
+                  {t("reverseProxy.targetHelpArticle")}{" "}
+                  <span className={"text-white font-medium"}>
+                    {t("reverseProxy.targetPeerLabel")}
+                  </span>{" "}
+                  {t("reverseProxy.targetPeerHelpSuffix")}
                   <span className={"mt-1 block"}>
-                    If you don&apos;t have a peer yet, you can{" "}
+                    {t("reverseProxy.targetPeerInstall")}{" "}
                     <InlineButtonLink onClick={() => setInstallModal(true)}>
-                      Install NetBird
+                      {t("reverseProxy.installNetBird")}
                     </InlineButtonLink>
                     .
                   </span>
@@ -107,46 +109,47 @@ export default function ReverseProxyTargetSelector({
               }
               interactive={true}
             >
-              Peer
+              {t("reverseProxy.targetPeerLabel")}
             </HelpTooltip>
             ,{" "}
             <HelpTooltip
               className={"max-w-sm"}
               content={
                 <>
-                  A <span className={"text-white font-medium"}>resource</span>{" "}
-                  is a destination (IP, subnet, or domain) that can&apos;t run
-                  NetBird directly. Resources are part of a network and are
-                  reached through a routing peer that forwards traffic to them.
+                  {t("reverseProxy.targetHelpArticle")}{" "}
+                  <span className={"text-white font-medium"}>
+                    {t("reverseProxy.targetResourceLabel")}
+                  </span>{" "}
+                  {t("reverseProxy.targetResourceHelpSuffix")}
                   <span className={"mt-1 block"}>
-                    If you don&apos;t have resources yet, go to{" "}
-                    <InlineLink href={"/networks"}>{t("reverseProxy.networks")}</InlineLink> to
-                    create some.
+                    {t("reverseProxy.targetResourceCreate")}{" "}
+                    <InlineLink href={"/networks"}>{t("reverseProxy.networks")}</InlineLink>{" "}
+                    {t("reverseProxy.targetCreateSome")}
                   </span>
                 </>
               }
               interactive={true}
             >
-              Resource
+              {t("reverseProxy.targetResourceLabel")}
             </HelpTooltip>
             {showClusters && (
               <>
-                {" "}or{" "}
+                {" "}
+                {t("reverseProxy.targetPeerOrResourceConnector")}{" "}
                 <HelpTooltip
                   className={"max-w-sm"}
                   content={
                     <>
-                      A <span className={"text-white font-medium"}>
-                        proxy cluster
+                      {t("reverseProxy.targetHelpArticle")}{" "}
+                      <span className={"text-white font-medium"}>
+                        {t("reverseProxy.proxyCluster")}
                       </span>{" "}
-                      forwards inbound traffic to an upstream the proxy reaches
-                        without WireGuard. Useful for external APIs and services
-                        co-located with the proxy.
+                      {t("reverseProxy.proxyClusterHelpSuffix")}
                     </>
                   }
                   interactive={true}
                 >
-                  Proxy Cluster
+                  {t("reverseProxy.proxyCluster")}
                 </HelpTooltip>
               </>
             )}
@@ -155,18 +158,18 @@ export default function ReverseProxyTargetSelector({
       </Label>
       <HelpText>
         {initialNetwork
-          ? "Select the resource from your network you want to expose."
-          : "Choose where the proxy should forward incoming requests."}
+          ? t("reverseProxy.targetSelectResourceHelp")
+          : t("reverseProxy.targetSelectGeneralHelp")}
       </HelpText>
       <PeerGroupSelector
         values={[]}
         onChange={() => {}}
         placeholder={
           initialNetwork
-            ? "Select a resource..."
+            ? t("reverseProxy.targetSelectResourcePlaceholder")
             : showClusters
-            ? "Select a peer, resource, or proxy cluster..."
-            : "Select a peer or resource..."
+            ? t("reverseProxy.targetSelectPeerResourceOrClusterPlaceholder")
+            : t("reverseProxy.targetSelectPeerOrResourcePlaceholder")
         }
         showPeers={!initialNetwork}
         showResources={true}

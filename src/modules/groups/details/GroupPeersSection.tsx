@@ -32,7 +32,7 @@ const createGroupPeersTableColumns = (t: (key: any, ...args: any[]) => string): 
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("groupPeers.selectAll")}
         />
       </div>
     ),
@@ -42,7 +42,7 @@ const createGroupPeersTableColumns = (t: (key: any, ...args: any[]) => string): 
           checked={row.getIsSelected()}
           variant={"tableCell"}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("groupPeers.selectRow")}
         />
       </div>
     ),

@@ -46,7 +46,7 @@ export default function AuthPinModal({
       <ModalContent maxWidthClass="max-w-md">
         <ModalHeader
           title={t("reverseProxy.authPin")}
-          description="Require a numeric PIN code to access this service."
+          description={t("reverseProxy.authPinDescription")}
         />
 
         <GradientFadedBackground />
@@ -71,7 +71,7 @@ export default function AuthPinModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-pin" onClick={handleRemove}>
-                  Remove
+                  {t("common.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
@@ -82,7 +82,7 @@ export default function AuthPinModal({
                     onClick={handleSave}
                     disabled={pin.length !== 6}
                   >
-                    Save
+                    {t("common.save")}
                   </Button>
                 </div>
               </>
@@ -99,7 +99,7 @@ export default function AuthPinModal({
                     disabled={pin.length !== 6}
                     data-testid="submit-pin"
                   >
-                    Add PIN
+                    {t("reverseProxy.addPin")}
                   </Button>
                 </div>
               </>

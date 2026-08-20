@@ -510,14 +510,14 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                 }}
               >
                 <PlusCircle size={16} />
-                Add Policy
+                {t("agentPolicies.addPolicy")}
               </Button>
             }
             learnMore={
               <>
-                Learn more about
+                {t("common.learnMoreAbout")}
                 <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                  Agent Network
+                  {t("agentPolicies.agentNetwork")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -535,7 +535,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                 }}
               >
                 <PlusCircle size={16} />
-                Add Policy
+                {t("agentPolicies.addPolicy")}
               </Button>
             </div>
           )

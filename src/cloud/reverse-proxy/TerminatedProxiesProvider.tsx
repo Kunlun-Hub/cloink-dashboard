@@ -5,6 +5,7 @@ import FullTooltip from "@components/FullTooltip";
 import { AlertTriangle } from "lucide-react";
 import InlineLink from "@components/InlineLink";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export function TerminatedProxiesProvider() {
   const { reverseProxies } = useReverseProxies();
@@ -46,12 +47,14 @@ function enableElement(el: HTMLElement) {
   el.removeEventListener("click", blockEvent, true);
 }
 
-const terminatedBadge = (
+const TerminatedBadge = () => {
+  const { t } = useI18n();
+
+  return (
   <FullTooltip
     content={
       <div className={"text-xs max-w-xs"}>
-        This service has been terminated by the NetBird team as it violates the
-        Terms of Service. For questions, please contact{" "}
+        {t("reverseProxy.terminatedTooltip")}{" "}
         <InlineLink href="mailto:support@netbird.io?subject=Request%20for%20Assistance%3A%20Terminated%20Service">
           support@netbird.io
         </InlineLink>
@@ -61,10 +64,11 @@ const terminatedBadge = (
   >
     <Badge variant={"red"}>
       <AlertTriangle size={12} />
-      Terminated
+      {t("reverseProxy.terminated")}
     </Badge>
   </FullTooltip>
-);
+  );
+};
 
 function findAndDisableAll(proxyId: string) {
   const disabled: HTMLElement[] = [];
@@ -178,6 +182,6 @@ function TerminatedPortal({ proxyId }: { proxyId: string }) {
   if (statusTargets.length === 0) return null;
 
   return statusTargets.map((target, i) =>
-    createPortal(terminatedBadge, target, `${proxyId}-${i}`),
+    createPortal(<TerminatedBadge />, target, `${proxyId}-${i}`),
   );
 }

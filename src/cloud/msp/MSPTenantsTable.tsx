@@ -71,7 +71,7 @@ const TenantsTableColumns = (t: (...args: any[]) => string): ColumnDef<Tenant>[]
     accessorKey: "id",
     header: ({ column }) => (
       <DataTableHeader column={column}>
-        Est. Cost / Month
+        {t("msp.estCostMonth")}
         <FullTooltip
           content={
             <div className={"text-xs max-w-xs"}>
@@ -178,7 +178,7 @@ export default function MSPTenantsTable({
         <DataTable
           headingTarget={headingTarget}
           useRowId={true}
-          text={"Tenants"}
+          text={t("tenants.title")}
           sorting={sorting}
           setSorting={setSorting}
           columns={TenantsTableColumns(t)}
@@ -214,7 +214,7 @@ export default function MSPTenantsTable({
                       onClick={() => router.push("/settings?tab=invoices")}
                     >
                       <ReceiptTextIcon size={16} />
-                      Invoices
+                      {t("msp.invoices")}
                     </Button>
                   )}
 
@@ -253,11 +253,12 @@ export default function MSPTenantsTable({
 }
 
 const AddTenantButton = () => {
+  const { t } = useI18n();
   const { openCreateTenantModal } = useTenants();
   return (
     <Button variant={"primary"} size={"sm"} onClick={openCreateTenantModal}>
       <PlusCircle size={16} />
-      Add Tenant
+      {t("msp.addTenant")}
     </Button>
   );
 };

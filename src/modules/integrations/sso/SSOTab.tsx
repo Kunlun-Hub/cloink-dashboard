@@ -6,6 +6,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { ExternalLinkIcon, KeyRoundIcon } from "lucide-react";
 import React from "react";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useAccount } from "@/modules/account/useAccount";
 import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
@@ -13,6 +14,7 @@ import { OktaSSOIntegrationCard } from "@/modules/integrations/sso/okta/OktaSSOI
 
 export default function SSOTab() {
   const account = useAccount();
+  const { t } = useI18n();
 
   return (
     <Tabs.Content value={"sso"}>
@@ -20,21 +22,18 @@ export default function SSOTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Integrations"}
+            label={t("nav.integrations")}
             icon={<IntegrationIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=sso"}
-            label={"Single Sign-On"}
+            label={t("sso.title")}
             icon={<KeyRoundIcon size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1>Single Sign-On</h1>
-        <Paragraph>
-          Configure your preferred Identity Provider (IdP) to enable Single
-          Sign-On (SSO) for your team.
-        </Paragraph>
+        <h1>{t("sso.title")}</h1>
+        <Paragraph>{t("sso.description")}</Paragraph>
         <Paragraph>
           <InlineLink
             href={
@@ -42,13 +41,13 @@ export default function SSOTab() {
             }
             target={"_blank"}
           >
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
         <LockedFeatureInfoCard
-          featureText={"Identity Provider (IdP) Sync"}
+          featureText={t("sso.idpSyncFeatureText")}
           feature={"IDP_SYNC"}
         />
 

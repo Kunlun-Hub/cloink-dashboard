@@ -33,7 +33,7 @@ export const GroupUsersTableColumns = (t: (...args: any[]) => string): ColumnDef
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("groupUsers.selectAll")}
         />
       </div>
     ),
@@ -43,7 +43,7 @@ export const GroupUsersTableColumns = (t: (...args: any[]) => string): ColumnDef
           checked={row.getIsSelected()}
           variant={"tableCell"}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("groupUsers.selectRow")}
         />
       </div>
     ),
@@ -152,7 +152,7 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
                   onClick={() => setOpen(true)}
                 >
                   <PlusCircle size={16} />
-                  Assign Users
+                  {t("groupUsers.assignUsers")}
                 </Button>
                 <InviteUserButton show={true} groups={[group]} />
               </div>
@@ -215,7 +215,7 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
                     onClick={() => setOpen(true)}
                   >
                     <PlusCircle size={16} />
-                    Assign Users
+                    {t("groupUsers.assignUsers")}
                   </Button>
                   <InviteUserButton show={true} groups={[group]} />
                 </div>

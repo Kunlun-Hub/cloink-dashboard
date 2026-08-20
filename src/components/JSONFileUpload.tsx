@@ -22,7 +22,7 @@ export const JSONFileUpload = ({ onChange }: Props) => {
     if (files[0].type !== "application/json") {
       notify({
         title: t("fileUpload.wrongFileType"),
-        description: "Please upload a JSON file",
+        description: t("fileUpload.pleaseUploadJson"),
         icon: <FileJson2 size={20} />,
         backgroundColor: "bg-red-500",
       });
@@ -37,8 +37,8 @@ export const JSONFileUpload = ({ onChange }: Props) => {
       if (e.target === null) return;
       onChange(e.target.result as string);
       notify({
-        title: "Google Workspace",
-        description: "You successfully uploaded your service account key",
+        title: t("fileUpload.googleWorkspaceTitle"),
+        description: t("fileUpload.uploadSuccessDescription"),
         icon: <FileJson2 size={16} />,
       });
     };
@@ -104,7 +104,7 @@ export const JSONFileUpload = ({ onChange }: Props) => {
 
       <div>
         <p className={"text-[14px] font-medium text-nb-gray-100 "}>
-          Upload your service account key (.json)
+          {t("fileUpload.uploadPrompt")}
         </p>
         <p className={"text-xs !text-nb-gray-300 mt-1"}>
           <span
@@ -112,9 +112,9 @@ export const JSONFileUpload = ({ onChange }: Props) => {
               "underline underline-offset-4 group-hover/upload:text-nb-gray-200 transition-all"
             }
           >
-            Click to upload
+            {t("fileUpload.clickToUpload")}
           </span>{" "}
-          or drag and drop your file here
+          {t("fileUpload.orDragAndDrop")}
         </p>
       </div>
     </div>

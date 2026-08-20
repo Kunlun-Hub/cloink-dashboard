@@ -132,7 +132,7 @@ export default function DistributorCustomersTable({
     <DataTable
       headingTarget={headingTarget}
       useRowId={true}
-      text={"Customers"}
+      text={t("customers.title")}
       sorting={sorting}
       setSorting={setSorting}
       columns={CustomersTableColumns(t)}
@@ -166,7 +166,7 @@ export default function DistributorCustomersTable({
                 onClick={() => router.push("/settings?tab=invoices")}
               >
                 <ReceiptTextIcon size={16} />
-                Invoices
+                {t("distributor.invoices")}
               </Button>
               <AddCustomerButton />
             </div>
@@ -193,11 +193,12 @@ export default function DistributorCustomersTable({
 }
 
 const AddCustomerButton = () => {
+  const { t } = useI18n();
   const { openCreateCustomerModal } = useCustomers();
   return (
     <Button variant={"primary"} size={"sm"} onClick={openCreateCustomerModal}>
       <PlusCircle size={16} />
-      Add Customer
+      {t("distributor.addCustomer")}
     </Button>
   );
 };

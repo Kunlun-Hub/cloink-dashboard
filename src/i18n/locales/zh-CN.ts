@@ -425,8 +425,7 @@ const zhCN = {
   "versionReleases.downloadUrl": "下载地址",
   "versionReleases.downloadUrlHelp": "使用 HTTPS 地址，或在下方上传安装包。",
   "versionReleases.uploadArtifact": "安装包文件",
-  "versionReleases.uploadHelp":
-    "上传文件由管理服务保存，并自动计算 SHA256。",
+  "versionReleases.uploadHelp": "上传文件由管理服务保存，并自动计算 SHA256。",
   "versionReleases.chooseFile": "选择安装包文件",
   "versionReleases.uploading": "正在上传安装包...",
   "versionReleases.sha256Help": "标记为最新版本时必须填写。",
@@ -437,8 +436,7 @@ const zhCN = {
   "versionReleases.descriptionLabel": "描述",
   "versionReleases.descriptionPlaceholder": "版本说明或更新内容",
   "versionReleases.latest": "最新版本",
-  "versionReleases.latestHelp":
-    "每个平台、架构和渠道只保留一个最新版本。",
+  "versionReleases.latestHelp": "每个平台、架构和渠道只保留一个最新版本。",
   "versionReleases.publishedAt": "发布时间",
   "versionReleases.notAvailable": "无",
   "versionReleases.download": "下载",
@@ -473,8 +471,7 @@ const zhCN = {
   "dns.settingsSavedDescription": "设置已成功保存。",
   "dns.savingSettings": "正在保存设置...",
   "dns.disableManagementLabel": "为以下分组禁用 DNS 管理",
-  "dns.disableManagementHelp":
-    "这些分组中的设备将需要手动进行域名解析",
+  "dns.disableManagementHelp": "这些分组中的设备将需要手动进行域名解析",
   "nameservers.title": "域名服务器",
   "nameservers.description":
     "为你的 NetBird 网络添加用于域名解析的域名服务器。",
@@ -982,21 +979,14 @@ const zhCN = {
   "reverseProxy.environmentVariables": "环境变量",
   "reverseProxy.finishSetup": "完成设置",
   "reverseProxy.clusterSetupTitle": "设置集群",
-  "reverseProxy.clusterSetupDescription":
-    "在你自有的基础设施上设置代理集群",
-  "reverseProxy.clusterDomainHelp":
-    "输入将用于你的集群的域名。",
+  "reverseProxy.clusterSetupDescription": "在你自有的基础设施上设置代理集群",
+  "reverseProxy.clusterDomainHelp": "输入将用于你的集群的域名。",
   "reverseProxy.deploymentMethod": "部署方式",
-  "reverseProxy.deployDescriptionDigitalOcean":
-    "启动一个 Droplet 来运行代理。",
-  "reverseProxy.deployDescriptionAws":
-    "启动一台专用 AWS 服务器来运行代理。",
-  "reverseProxy.deployDescriptionCloud":
-    "启动一台云服务器来运行代理。",
-  "reverseProxy.deployDescriptionKubernetes":
-    "应用此清单以启动代理。",
-  "reverseProxy.deployDescriptionDefault":
-    "在你的机器上运行以启动代理。",
+  "reverseProxy.deployDescriptionDigitalOcean": "启动一个 Droplet 来运行代理。",
+  "reverseProxy.deployDescriptionAws": "启动一台专用 AWS 服务器来运行代理。",
+  "reverseProxy.deployDescriptionCloud": "启动一台云服务器来运行代理。",
+  "reverseProxy.deployDescriptionKubernetes": "应用此清单以启动代理。",
+  "reverseProxy.deployDescriptionDefault": "在你的机器上运行以启动代理。",
   "reverseProxy.dnsRecords": "DNS 记录",
   "reverseProxy.deploy": "部署",
   "reverseProxy.dnsType": "类型",
@@ -1009,12 +999,9 @@ const zhCN = {
   "reverseProxy.deployTitleDigitalOcean": "部署到 DigitalOcean",
   "reverseProxy.deployTitleAws": "部署到 AWS",
   "reverseProxy.proxyClusterLearnMore": "代理集群",
-  "reverseProxy.proxyRegistered":
-    "代理已注册并连接到 NetBird。",
-  "reverseProxy.waitingForRegistration":
-    "正在等待代理注册到 NetBird...",
-  "reverseProxy.resourceCreated":
-    "{resourceLabel} {name} 已创建",
+  "reverseProxy.proxyRegistered": "代理已注册并连接到 NetBird。",
+  "reverseProxy.waitingForRegistration": "正在等待代理注册到 NetBird...",
+  "reverseProxy.resourceCreated": "{resourceLabel} {name} 已创建",
   "reverseProxy.resourceCreatedWithIp":
     "{resourceLabel} {name} 已创建，{ipType}为 {ip}，仍在初始化中。请同时添加以下 DNS 记录。",
   "reverseProxy.staticIp": "静态 IP",
@@ -1028,8 +1015,7 @@ const zhCN = {
   "reverseProxy.howToCreateToken": "如何创建令牌",
   "reverseProxy.hetznerTokenHelp":
     "创建一个读写 API 令牌。NetBird 不会存储它。",
-  "reverseProxy.hetznerTokenPlaceholder":
-    "在此粘贴你的 Hetzner Cloud API 令牌",
+  "reverseProxy.hetznerTokenPlaceholder": "在此粘贴你的 Hetzner Cloud API 令牌",
   "reverseProxy.hetznerCatalogError": "无法加载 Hetzner 选项：{error}",
   "reverseProxy.location": "位置",
   "reverseProxy.serverType": "服务器类型",
@@ -1039,8 +1025,7 @@ const zhCN = {
   "reverseProxy.staticIpLabel": "静态 IP",
   "reverseProxy.hetznerStaticIpHelp":
     "在服务器被删除或重建时保留服务器的 IP，使 DNS 记录保持有效。Hetzner 会对未分配的 IP 收费。",
-  "reverseProxy.loadingLocations":
-    "正在加载可用的位置和服务器类型...",
+  "reverseProxy.loadingLocations": "正在加载可用的位置和服务器类型...",
   "reverseProxy.enterTokenToLoad":
     "输入你的 API 令牌以加载可用的位置和服务器类型。",
   "reverseProxy.preparingProxyToken": "正在准备代理令牌...",
@@ -1062,12 +1047,10 @@ const zhCN = {
     "预留静态 IP 以便在重建后 DNS 记录仍然有效。分配给 Droplet 期间免费。",
   "reverseProxy.deployDroplet": "部署 Droplet",
   "reverseProxy.digitalOceanDeployment": "DigitalOcean 部署",
-  "reverseProxy.digitalOceanDeployFailed":
-    "创建 DigitalOcean Droplet 失败",
+  "reverseProxy.digitalOceanDeployFailed": "创建 DigitalOcean Droplet 失败",
   "reverseProxy.creatingDroplet": "正在创建 DigitalOcean Droplet...",
   "reverseProxy.droplet": "Droplet",
-  "reverseProxy.dropletIpProvisioning":
-    "，正在配置中。正在等待其公网 IP...",
+  "reverseProxy.dropletIpProvisioning": "，正在配置中。正在等待其公网 IP...",
   "reverseProxy.dropletIpTimeout":
     "，但等待公网 IP 超时 - 请在 DigitalOcean 控制台中查找 IP。",
   "reverseProxy.dropletRootPassword": "Droplet  root 密码",
@@ -1086,8 +1069,7 @@ const zhCN = {
   "reverseProxy.addHeaderButton": "添加请求头",
   "reverseProxy.headersMatchGrantAccess":
     "匹配以下任一请求头的请求将被授权访问。",
-  "reverseProxy.headersMatchedStripped":
-    "匹配的请求头在到达后端之前会被移除。",
+  "reverseProxy.headersMatchedStripped": "匹配的请求头在到达后端之前会被移除。",
   "reverseProxy.addHeadersButton": "添加请求头",
   "reverseProxy.headerLabel": "请求头 {index}",
   "reverseProxy.headerLabelWithSuffix": "请求头 {index} - {header}",
@@ -1621,6 +1603,53 @@ const zhCN = {
   "userBlock.unblockedDescription": "{name} 已成功解除封禁。",
   "userBlock.blocking": "正在封禁用户...",
   "userBlock.unblocking": "正在解除封禁用户...",
+  "distributorTransfer.grantAccessTitle": "授予经销商访问权限？",
+  "distributorTransfer.grantAccessDescription":
+    "确定要授予访问权限吗？此操作无法撤销。",
+  "distributorTransfer.grantingAccess": "正在授予经销商访问权限",
+  "distributorTransfer.accessGranted": "访问权限已成功授予。",
+  "distributorTransfer.grantingAccessLoading": "正在授予访问权限...",
+  "distributorTransfer.accessDenied": "访问请求已被拒绝",
+  "distributorTransfer.accessDeniedDescription": "你已拒绝经销商的访问请求。",
+  "distributorTransfer.decliningAccess": "正在拒绝访问...",
+  "distributorTransfer.requestingAccessTitle": "经销商正在请求访问你的账号",
+  "distributorTransfer.requestingAccessDescription":
+    "授予访问权限后，经销商可以管理你账号的账单和订阅。",
+  "distributorTransfer.grantAccess": "授予访问权限",
+  "distributorTransfer.deny": "拒绝",
+  "mspTransfer.grantingAccessTitle": "正在授予访问权限给 {domain}",
+  "mspTransfer.accessDeniedDescription": "你已拒绝该访问请求。",
+  "mspTransfer.requestingAccessTitle":
+    "{ownerPrefix}{name} 正在请求访问你的账号",
+  "mspTransfer.requestingAccessDescription":
+    "一家托管服务提供商（MSP）正在请求访问权限，以管理你的账号及其所有相关资源。",
+  "mspTransfer.reviewRequest":
+    "请仔细审核此请求后再继续操作。授予其访问权限后，对方可以：",
+  "mspTransfer.permissionSettings": "管理你的账号、设置和配置",
+  "mspTransfer.permissionDevices": "管理所有设备和相关资源",
+  "mspTransfer.permissionUsers": "管理所有用户、分组和权限",
+  "mfa.netbirdMfa": "NetBird MFA",
+  "mfa.tooltipDescription":
+    "NetBird MFA 主要面向使用邮箱和密码登录的用户。如果你的 SSO 提供商（例如 Google、Microsoft）已启用 MFA，则可能不需要 NetBird MFA。",
+  "mfa.notEnrolled": "未注册",
+  "mfa.activate": "激活",
+  "mfa.resetTitle": "重置多因素认证？",
+  "mfa.resetDescription":
+    "确定要重置该用户当前的 MFA 方式吗？该用户将在下次登录时被要求重新设置 MFA。",
+  "mfa.resetNotifyTitle": "多因素认证（MFA）",
+  "mfa.resetSuccessDescription": "MFA 设置已重置",
+  "mfa.resettingLoading": "正在重置用户的 MFA...",
+  "mfa.resetButton": "重置 MFA",
+  "userBlock.fallbackName": "用户",
+  "postureCheck.disableTitle": "禁用此检查？",
+  "postureCheck.disableDescription":
+    "确定要禁用此检查吗？此检查的所有设置都将丢失。",
+  "fileUpload.pleaseUploadJson": "请上传 JSON 文件",
+  "fileUpload.googleWorkspaceTitle": "Google Workspace",
+  "fileUpload.uploadSuccessDescription": "你已成功上传你的服务账号密钥",
+  "fileUpload.uploadPrompt": "上传你的服务账号密钥（.json）",
+  "fileUpload.clickToUpload": "点击上传",
+  "fileUpload.orDragAndDrop": "或将文件拖放到此处",
   "userGroups.label": "用户组",
   "userGroups.description": "授权给这些用户组后，该用户的设备会继承访问权限。",
   "userGroups.savedDescription": "用户分组已成功保存。",
@@ -2202,8 +2231,7 @@ const zhCN = {
   "remoteAccess.wsaHostNotFound": "未找到主机",
   "remoteAccess.wsaNonauthoritativeHostNotFound": "非权威主机未找到",
   "remoteAccess.wsaNonrecoverableError": "这是一个不可恢复的错误",
-  "remoteAccess.wsaValidNameNoDataRecord":
-    "有效名称，但没有请求类型的数据记录",
+  "remoteAccess.wsaValidNameNoDataRecord": "有效名称，但没有请求类型的数据记录",
   "remoteAccess.wsaUnknownError": "未知错误",
   "routeModal.distributionGroups": "分发分组",
   "routeModal.distributionGroupsPeerHelp":
@@ -2581,7 +2609,8 @@ const zhCN = {
   "onboarding.resourceSubnetDescription": "输入网络的 CIDR 范围",
   "onboarding.resourceDomainInputDescription": "输入资源的域名",
   "onboarding.resourceIpPlaceholder": "例如：192.168.31.45 或 2001:db8::1",
-  "onboarding.resourceSubnetPlaceholder": "例如：192.168.1.0/24 或 2001:db8::/64",
+  "onboarding.resourceSubnetPlaceholder":
+    "例如：192.168.1.0/24 或 2001:db8::/64",
   "onboarding.resourceDomainPlaceholder":
     "例如：service.internal 或 *.services.internal",
   "onboarding.addResourceTitle": "添加你的第一个资源",
@@ -2590,7 +2619,8 @@ const zhCN = {
   "onboarding.singleIpAddress": "单个 IP 地址",
   "onboarding.singleIpDescription": "类似 192.168.31.45 的 IPv4 或 IPv6 地址",
   "onboarding.entireSubnet": "整个子网",
-  "onboarding.entireSubnetDescription": "类似 192.168.0.0/24 或 2001:db8::/64 的 CIDR 范围",
+  "onboarding.entireSubnetDescription":
+    "类似 192.168.0.0/24 或 2001:db8::/64 的 CIDR 范围",
   "onboarding.domain": "域名",
   "onboarding.domainDescription":
     "类似 service.internal 的域名，或类似 *.services.internal 的通配符域名",
@@ -3494,6 +3524,18 @@ const zhCN = {
   "policies.updating": "正在更新策略...",
   "policies.deletedDescription": "策略已成功删除。",
   "policies.deleting": "正在删除策略...",
+  "policies.notifyTitle": "访问控制策略 {{name}}",
+  "billing.notifyTitle": "NetBird 订阅",
+  "billing.awsSubscribed": "已成功订阅 {{name}} 套餐",
+  "billing.awsSubscribing": "正在通过 AWS Marketplace 订阅 NetBird...",
+  "billing.upgradeDowngradeTitle": "{{action}}{{name}？",
+  "billing.upgrade": "升级",
+  "billing.downgrade": "降级",
+  "billing.planTransitionDescription": "切换到新套餐将立即生效。",
+  "billing.planTransitionCharges": "新套餐的费用将从此时开始计算。",
+  "billing.updateSubscription": "更新订阅",
+  "billing.subscriptionUpdated": "你的订阅已成功更新。",
+  "billing.updatingSubscription": "正在更新你的订阅...",
   "notification.genericError": "发生了一些问题...",
   "peerGroupSelector.addOrSelectGroups": "添加或选择分组...",
   "peerGroupSelector.searchGroups": '搜索分组或按 "Enter" 添加新分组...',
@@ -3676,8 +3718,7 @@ const zhCN = {
   "routes.deletedDescription": "路由已成功移除",
   "routes.deleting": "正在删除路由...",
   "routes.deleteConfirmTitle": "删除“{name}”？",
-  "routes.deleteConfirmDescription":
-    "确定要删除此路由吗？此操作无法撤销。",
+  "routes.deleteConfirmDescription": "确定要删除此路由吗？此操作无法撤销。",
   "routes.ariaLabel": "路由操作",
   "routes.toggledEnabled": "网络路由已成功启用",
   "routes.toggledDisabled": "网络路由已成功停用",
@@ -3703,8 +3744,7 @@ const zhCN = {
   "routes.tabNameDescription": "名称与描述",
   "routes.tabAdditionalSettings": "其他设置",
   "routes.routeType": "路由类型",
-  "routes.routeTypeHelp":
-    "选择路由类型，可以添加网段或域名列表。",
+  "routes.routeTypeHelp": "选择路由类型，可以添加网段或域名列表。",
   "routes.networkRange": "网段",
   "routes.networkRangeHelp": "添加私有 IPv4 或 IPv6 地址或网段",
   "routes.networkRangePlaceholder":
@@ -3730,8 +3770,7 @@ const zhCN = {
     "通过此设备为以下分组路由所有互联网流量",
   "routes.distributionGroupsExitNodeHelp":
     "通过以下设备为以下分组路由所有互联网流量",
-  "routes.distributionGroupsRouteHelp":
-    "将此路由广播给属于以下分组的设备",
+  "routes.distributionGroupsRouteHelp": "将此路由广播给属于以下分组的设备",
   "routes.accessControlGroups": "访问控制分组（可选）",
   "routes.accessControlGroupsHelp":
     "这些分组可以限制对此路由的访问。在创建访问策略时，只需将这些分组用作目标即可。",
@@ -3883,8 +3922,7 @@ const zhCN = {
   "resourceActionCell.updateResource": "更新资源",
   "networkActionCell.rename": "重命名",
   "networkProvider.thisPolicyUsedByMultiple": "此策略被多个资源使用",
-  "networkProvider.editOrDeletePolicy":
-    "{action}策略 \u201c{name}\u201d？",
+  "networkProvider.editOrDeletePolicy": "{action}策略 \u201c{name}\u201d？",
   "networkProvider.addRoutingPeer": "添加路由设备",
   "peerAddress.netBirdIpv6": "NetBird IPv6",
   "peerAddress.ipCopied": "IP 地址已复制到剪贴板",
@@ -3894,10 +3932,10 @@ const zhCN = {
     "这将绕过合规检查并授予这些设备网络访问权限。如果设备恢复合规，绕过将自动撤销。",
   "peerMultiSelect.bypassCompliance": "绕过合规",
   "peerMultiSelect.bypassComplianceNotifyTitle": "绕过合规",
-  "peerMultiSelect.bypassComplianceNotifyDescription": "已成功绕过所选设备的合规检查",
+  "peerMultiSelect.bypassComplianceNotifyDescription":
+    "已成功绕过所选设备的合规检查",
   "peerMultiSelect.bypassingCompliance": "正在绕过所选设备的合规检查...",
-  "peerMultiSelect.revokeBypassTitle":
-    "撤销 {count} {peerWord}的合规绕过？",
+  "peerMultiSelect.revokeBypassTitle": "撤销 {count} {peerWord}的合规绕过？",
   "peerMultiSelect.revokeBypassDescription":
     "这些设备将恢复正常的合规验证。如果不合规，它们将失去网络访问权限。",
   "peerMultiSelect.revoke": "撤销",
@@ -3980,14 +4018,12 @@ const zhCN = {
   "idpSync.integrationTitle": "{provider} 集成",
   "idpSync.groupPrefixHelpUsersPrefix": "默认情况下,",
   "idpSync.groupPrefixHelpUsersAll": "所有用户",
-  "idpSync.groupPrefixHelpUsersSuffix":
-    "将从你的 IdP 同步到 NetBird。",
+  "idpSync.groupPrefixHelpUsersSuffix": "将从你的 IdP 同步到 NetBird。",
   "idpSync.groupPrefixHelpUsersFilter":
     "如果你只想同步属于特定组的用户,可以在下方添加。请注意,前缀匹配区分大小写。",
   "idpSync.groupPrefixHelpGroupsPrefix": "默认情况下,",
   "idpSync.groupPrefixHelpGroupsAll": "所有组",
-  "idpSync.groupPrefixHelpGroupsSuffix":
-    "将从你的 IdP 同步到 NetBird。",
+  "idpSync.groupPrefixHelpGroupsSuffix": "将从你的 IdP 同步到 NetBird。",
   "idpSync.groupPrefixHelpGroupsFilter":
     "如果你只想同步以特定前缀开头的组,可以在下方添加。请注意,前缀匹配区分大小写。",
 
@@ -4023,7 +4059,8 @@ const zhCN = {
   "googleWorkspace.step3Title": "获取你的服务账户邮箱",
   "googleWorkspace.step3ServiceAccounts": "服务账户",
   "googleWorkspace.step3Line2Prefix": "点击",
-  "googleWorkspace.step3Line2Middle": "以编辑服务账户。复制服务账户的邮箱地址。",
+  "googleWorkspace.step3Line2Middle":
+    "以编辑服务账户。复制服务账户的邮箱地址。",
   "googleWorkspace.step3Line3": "输入你的服务账户邮箱地址",
   "googleWorkspace.step4Title": "创建服务账户密钥",
   "googleWorkspace.step4Line1Prefix": "在同一页面,点击",
@@ -4108,8 +4145,7 @@ const zhCN = {
   "jumpcloud.testUserEmailValue": "未使用的邮箱,例如 test@yourdomain.com",
   "jumpcloud.step3Line4Prefix": "之后点击",
   "jumpcloud.step3TestConnection": "测试连接",
-  "jumpcloud.step3Line4Middle":
-    "以验证 SCIM 连接。如果连接成功,点击",
+  "jumpcloud.step3Line4Middle": "以验证 SCIM 连接。如果连接成功,点击",
   "jumpcloud.step3Activate": "激活",
   "jumpcloud.step3Line4Suffix": "以启用 SCIM 配置。",
 
@@ -4129,8 +4165,7 @@ const zhCN = {
   "okta.connectDescription":
     "使用 Okta 作为单点登录提供商来认证用户。请按照以下步骤开始。",
   "okta.accountType": "Okta 用户账户",
-  "okta.accountSuffix":
-    "如果你没有所需权限，请让你的 Okta 管理员为你授予。",
+  "okta.accountSuffix": "如果你没有所需权限，请让你的 Okta 管理员为你授予。",
   "okta.permAdd": "添加 Okta 应用",
   "okta.permConfigure": "配置 Okta 应用",
   "okta.step1Title": "为 Okta 安装 NetBird 应用",
@@ -4194,8 +4229,7 @@ const zhCN = {
   "fleetdm.notifyTitle": "FleetDM 集成",
   "fleetdm.notifyDeleted": "FleetDM 已成功删除",
   "fleetdm.notifyUpdated": "FleetDM 已成功更新",
-  "fleetdm.urlError":
-    "请输入有效的 URL，例如 https://fleet.example.com",
+  "fleetdm.urlError": "请输入有效的 URL，例如 https://fleet.example.com",
   "fleetdm.configTitle": "FleetDM 配置",
   "fleetdm.configDescription":
     "基于 FleetDM 合规策略限制 IT 管理设备的网络访问。",
@@ -4204,13 +4238,11 @@ const zhCN = {
   "fleetdm.groupsLabel": "分组",
   "fleetdm.groupsHelp": "选择要应用 FleetDM 集成的分组",
   "fleetdm.requirementsLabel": "要求",
-  "fleetdm.requirementsHelp":
-    "设置设备必须满足的具体要求，才能被视为合规。",
+  "fleetdm.requirementsHelp": "设置设备必须满足的具体要求，才能被视为合规。",
   "fleetdm.syncWindowLabel": "同步窗口",
   "fleetdm.syncWindowTooltip":
     "示例：此属性设置为 24 小时。Jane 的笔记本电脑已经 27 小时没有与 FleetDM 同步。即使它在 FleetDM 中标记为合规，仍然会被阻止访问网络",
-  "fleetdm.syncWindowHelp":
-    "在此时间内未与 FleetDM 同步的设备将无法访问网络。",
+  "fleetdm.syncWindowHelp": "在此时间内未与 FleetDM 同步的设备将无法访问网络。",
   "fleetdm.hoursSuffix": "小时",
   "fleetdm.serverUrlLabel": "服务器 URL",
   "fleetdm.apiTokenLabel": "API Token",
@@ -4224,8 +4256,7 @@ const zhCN = {
   "genericScim.connectTitle": "将 NetBird 与 {name} 连接",
   "genericScim.connectDescription":
     "开始将你的用户和组从 {name} 同步到 NetBird。请按照以下步骤开始。",
-  "genericScim.scimConfigHelpPrefix":
-    "SCIM 配置因身份提供商而异。请参阅我们的",
+  "genericScim.scimConfigHelpPrefix": "SCIM 配置因身份提供商而异。请参阅我们的",
   "genericScim.scimConfigHelpLink": "IdP 文档",
   "genericScim.scimConfigHelpSuffix": "获取针对特定提供商的设置指南。",
   "genericScim.contactSupportPrefix":
@@ -4261,8 +4292,7 @@ const zhCN = {
     "端点。它应该是公开可访问的并且使用 SSL 安全连接。",
   "sso.oidc.step3DescriptionPrefix": "输入你的",
   "sso.oidc.primaryEmailDomain": "Primary E-Mail Domain",
-  "sso.oidc.step3DescriptionSuffix":
-    "它将用于后续登录 NetBird。",
+  "sso.oidc.step3DescriptionSuffix": "它将用于后续登录 NetBird。",
   "sso.oidc.learnMorePrefix": "了解更多关于",
   "sso.oidc.integrationLink": "{name} 集成",
   "sso.oidc.connectButton": "连接",
@@ -4280,8 +4310,7 @@ const zhCN = {
 
   // ── EDR – SentinelOne ──────────────────────────────────────────────
   "edr.sentinelOne.disableTitle": "停用 SentinelOne？",
-  "edr.sentinelOne.disableDescription":
-    "确定要停用 SentinelOne 集成吗？",
+  "edr.sentinelOne.disableDescription": "确定要停用 SentinelOne 集成吗？",
   "edr.sentinelOne.notifyTitle": "SentinelOne 集成",
   "edr.sentinelOne.notifyEnabled": "SentinelOne 已成功启用",
   "edr.sentinelOne.notifyDisabled": "SentinelOne 已成功停用",
@@ -4300,8 +4329,7 @@ const zhCN = {
   "edr.sentinelOne.tabPeerApproval": "设备审批",
   "edr.sentinelOne.tabCompliance": "合规",
   "edr.sentinelOne.groupsLabel": "分组",
-  "edr.sentinelOne.groupsHelp":
-    "选择要应用 SentinelOne 集成的分组",
+  "edr.sentinelOne.groupsHelp": "选择要应用 SentinelOne 集成的分组",
   "edr.sentinelOne.requirementsLabel": "要求",
   "edr.sentinelOne.requirementsHelp":
     "设置设备必须满足的具体要求才能被视为合规。",
@@ -4367,15 +4395,13 @@ const zhCN = {
   "edr.intune.enterIdsNavigate": "前往",
   "edr.intune.enterIdsLink": "所有应用",
   "edr.intune.enterIdsSelectPrefix": "选择",
-  "edr.intune.enterIdsSelectSuffix":
-    "概览页面中的应用，然后输入你的",
+  "edr.intune.enterIdsSelectSuffix": "概览页面中的应用，然后输入你的",
   "edr.intune.enterIdsAnd": "和",
   "edr.intune.applicationIdLabel": "应用（客户端）ID",
   "edr.intune.directoryIdLabel": "目录（租户）ID",
   "edr.intune.clientSecretLabel": "客户端密钥",
   "edr.intune.peerApprovalTitle": "对等体审批",
-  "edr.intune.peerApprovalHelp":
-    "选择要应用 Intune 集成的组",
+  "edr.intune.peerApprovalHelp": "选择要应用 Intune 集成的组",
   "edr.intune.syncWindowTitle": "Intune 同步窗口",
   "edr.intune.syncWindowTooltip":
     "示例：此属性设置为 24 小时。Jane 的笔记本电脑已 27 小时未与 Intune 同步。即使它在 Intune 中标记为合规，它仍将被阻止访问网络",
@@ -4395,8 +4421,7 @@ const zhCN = {
   "edr.intune.deleteConfirmTitle": "删除集成？",
   "edr.intune.deleteConfirmDescription": "你确定要删除此集成吗？",
   "edr.intune.disableConfirmTitle": "禁用 Huntress？",
-  "edr.intune.disableConfirmDescription":
-    "你确定要禁用 Huntress 集成吗？",
+  "edr.intune.disableConfirmDescription": "你确定要禁用 Huntress 集成吗？",
   "edr.intune.cardDescription":
     "具有全面的企业级保护，并由 24/7 AI 辅助 SOC 持续支持的 EDR。",
   "edr.intune.estimatedSetupTime": "预计设置时间：",
@@ -4413,8 +4438,7 @@ const zhCN = {
   "edr.huntress.updating": "正在更新集成...",
   "edr.huntress.deleting": "正在删除集成...",
   "edr.huntress.disableTitle": "禁用 Huntress？",
-  "edr.huntress.disableDescription":
-    "你确定要禁用 Huntress 集成吗？",
+  "edr.huntress.disableDescription": "你确定要禁用 Huntress 集成吗？",
   "edr.huntress.cardDescription":
     "具有全面的企业级保护，并由 24/7 AI 辅助 SOC 持续支持的 EDR。",
   "edr.huntress.setupTitle": "将 NetBird 与 Huntress 连接",
@@ -4428,11 +4452,9 @@ const zhCN = {
   "edr.huntress.orgIdLabel": "组织 ID",
   "edr.huntress.orgIdHelp": "输入你的 Huntress 组织 ID",
   "edr.huntress.peerApprovalTitle": "对等体审批",
-  "edr.huntress.peerApprovalHelp":
-    "选择要应用 Huntress 集成的组",
+  "edr.huntress.peerApprovalHelp": "选择要应用 Huntress 集成的组",
   "edr.huntress.configTitle": "Huntress 配置",
-  "edr.huntress.configDescription":
-    "限制对受 Huntress 保护的设备的网络访问。",
+  "edr.huntress.configDescription": "限制对受 Huntress 保护的设备的网络访问。",
   "edr.huntress.complianceTitle": "合规性",
   "edr.huntress.hoursSuffix": "小时",
   "edr.huntress.deleteConfirmTitle": "删除集成？",
@@ -4503,7 +4525,8 @@ const zhCN = {
   "googleWorkspaceConfig.customerIdLabel": "Customer ID",
   "googleWorkspaceConfig.serviceAccountKeyLabel": "Service Account Key",
   "googleWorkspaceConfig.syncIntervalLabel": "同步间隔",
-  "googleWorkspaceConfig.syncIntervalHelp": "同步执行的时间间隔（以秒为单位）。",
+  "googleWorkspaceConfig.syncIntervalHelp":
+    "同步执行的时间间隔（以秒为单位）。",
   "googleWorkspaceConfig.secondsSuffix": "秒",
 
   // ── 代理网络 / AI 服务提供商 ─────────────────────────────────────
@@ -4538,20 +4561,16 @@ const zhCN = {
     "现有策略仍引用此防护栏，直到你将其解除关联。",
   "aiProvider.notify.guardrailRemoveFailed.title": "移除防护栏失败",
   "aiProvider.notify.budgetRuleCreated.title": "全局限制已创建",
-  "aiProvider.notify.budgetRuleCreated.description":
-    "{name} 现已生效。",
+  "aiProvider.notify.budgetRuleCreated.description": "{name} 现已生效。",
   "aiProvider.notify.budgetRuleCreateFailed.title": "创建全局限制失败",
   "aiProvider.notify.budgetRuleUpdated.title": "全局限制已更新",
   "aiProvider.notify.budgetRuleUpdateFailed.title": "更新全局限制失败",
   "aiProvider.notify.budgetRuleRemoved.title": "全局限制已移除",
   "aiProvider.notify.budgetRuleRemoved.description": "全局限制已删除。",
   "aiProvider.notify.budgetRuleRemoveFailed.title": "移除全局限制失败",
-  "aiProvider.notify.bootstrapFailed.title":
-    "设置代理网络端点失败",
-  "aiProvider.notify.accountControlsUpdateFailed.title":
-    "更新账户控制失败",
-  "aiProvider.notify.accountControlsNotBootstrapped":
-    "代理网络尚未初始化。",
+  "aiProvider.notify.bootstrapFailed.title": "设置代理网络端点失败",
+  "aiProvider.notify.accountControlsUpdateFailed.title": "更新账户控制失败",
+  "aiProvider.notify.accountControlsNotBootstrapped": "代理网络尚未初始化。",
   "aiProvider.notify.accountControlsUpdated.title": "账户控制已更新",
   // 弹窗 – 标题 / 标签页 / 底部
   "aiProvider.modal.editTitle": "编辑提供商",
@@ -4582,8 +4601,7 @@ const zhCN = {
     "OpenRouter 使用固定端点 openrouter.ai/api/v1；应用通过模型前缀选择上游提供商，例如 anthropic/claude-* 或 openai/gpt-*。",
   "aiProvider.modal.upstreamUrlHelp.vllm":
     "你的本地 vLLM 服务器的 OpenAI 兼容基础 URL。",
-  "aiProvider.modal.upstreamUrlHelp.default":
-    "NetBird 转发流量的目标地址。",
+  "aiProvider.modal.upstreamUrlHelp.default": "NetBird 转发流量的目标地址。",
   "aiProvider.modal.upstreamUrlPlaceholder.bifrost":
     "https://your-bifrost-host/openai",
   "aiProvider.modal.upstreamUrlPlaceholder.cloudflare_ai_gateway":
@@ -4596,16 +4614,11 @@ const zhCN = {
     "https://openrouter.ai/api/v1",
   "aiProvider.modal.upstreamUrlPlaceholder.litellm_proxy":
     "https://your-litellm-host",
-  "aiProvider.modal.upstreamUrlPlaceholder.portkey":
-    "https://api.portkey.ai",
-  "aiProvider.modal.upstreamUrlPlaceholder.vllm":
-    "https://your-vllm-host:8000",
-  "aiProvider.modal.upstreamUrlPlaceholder.kimi_api":
-    "https://api.moonshot.ai",
-  "aiProvider.modal.upstreamUrlPlaceholder.custom":
-    "https://your-llm-host",
-  "aiProvider.modal.upstreamUrlPlaceholder.default":
-    "https://api.openai.com",
+  "aiProvider.modal.upstreamUrlPlaceholder.portkey": "https://api.portkey.ai",
+  "aiProvider.modal.upstreamUrlPlaceholder.vllm": "https://your-vllm-host:8000",
+  "aiProvider.modal.upstreamUrlPlaceholder.kimi_api": "https://api.moonshot.ai",
+  "aiProvider.modal.upstreamUrlPlaceholder.custom": "https://your-llm-host",
+  "aiProvider.modal.upstreamUrlPlaceholder.default": "https://api.openai.com",
   "aiProvider.modal.kimiUpstreamUrlTooltip":
     "Moonshot AI 的国际平台端点。请保留裸主机名。Moonshot 使用相同的密钥提供两种 API 形态：代理调用的路径会透传到 Moonshot，因此基础 URL 决定了 API 形态（Claude Code 会追加 /anthropic；Kimi CLI 和 OpenAI 兼容调用方使用裸端点）。中国大陆账号使用 api.moonshot.cn。",
   "aiProvider.modal.skipTlsLabel": "跳过 TLS 验证",
@@ -4650,8 +4663,7 @@ const zhCN = {
     "在 OpenRouter 排名中显示的可读应用名称。",
   "aiProvider.modal.extraHeader.openrouterTitle.tooltip":
     "每次请求都会以 X-OpenRouter-Title 的形式注入。设置你的应用在 OpenRouter 公开排名和分析中的显示名称。需要同时设置 HTTP-Referer，否则 X-OpenRouter-Title 会被忽略。",
-  "aiProvider.modal.extraHeader.openrouterTitle.placeholder":
-    "你的应用名称",
+  "aiProvider.modal.extraHeader.openrouterTitle.placeholder": "你的应用名称",
   // 弹窗 – 映射标签页（通用）
   "aiProvider.modal.forwardIdentityMetadata": "转发身份元数据",
   "aiProvider.modal.identityMappingsLabel": "身份映射",
@@ -4669,15 +4681,13 @@ const zhCN = {
     "请求头发送。代理会先剥离客户端提供的任何值，因此应用无法伪造身份。配置的 API 密钥必须是具有",
   "aiProvider.modal.litellm.mappingsHelpSuffix":
     "的 LiteLLM 虚拟密钥，否则 LiteLLM 会静默丢弃这些标签。",
-  "aiProvider.modal.litellm.stampHelp":
-    "将以下身份映射注入到 LiteLLM 请求中。",
+  "aiProvider.modal.litellm.stampHelp": "将以下身份映射注入到 LiteLLM 请求中。",
   // Bifrost 映射
   "aiProvider.modal.bifrost.headersHelp":
     "选择哪些线级请求头在每次上游请求中携带调用方身份。代理会先剥离客户端提供的任何值，因此应用无法伪造身份。留空字段可禁用该维度的注入。占位符中显示的默认值使用",
   "aiProvider.modal.bifrost.headersHelpFamily":
     "系列（Prometheus / OTEL — 需要在网关的",
-  "aiProvider.modal.bifrost.headersHelpConfig":
-    "配置中进行匹配声明）。切换为",
+  "aiProvider.modal.bifrost.headersHelpConfig": "配置中进行匹配声明）。切换为",
   "aiProvider.modal.bifrost.headersHelpLogMetadata":
     "可使用 Bifrost 的常驻日志元数据路径 — 无需网关侧配置。",
   "aiProvider.modal.bifrost.userIdentityHeaderLabel": "用户身份请求头",
@@ -4687,7 +4697,8 @@ const zhCN = {
   "aiProvider.modal.bifrost.groupsHeaderHelp":
     "接收调用方 NetBird 分组（逗号分隔列表）的线级请求头名称。留空则跳过。",
   // Cloudflare JSON 元数据映射
-  "aiProvider.modal.cloudflare.metadataHelpPrefix": "NetBird 会将 JSON 对象注入到",
+  "aiProvider.modal.cloudflare.metadataHelpPrefix":
+    "NetBird 会将 JSON 对象注入到",
   "aiProvider.modal.cloudflare.metadataHelpInfix":
     "请求头中，携带调用方身份，以便网关的日志和分析基于真实用户而非恰好持有 API 令牌的应用进程。选择与你现有日志过滤器匹配的 JSON 键名；留空字段可省略该键。代理会先剥离客户端提供的任何值，因此应用无法伪造身份。",
   "aiProvider.modal.cloudflare.userIdentityKeyLabel": "用户身份键",
@@ -4902,16 +4913,19 @@ const zhCN = {
   "agentNetwork.updated": "更新时间",
   "agentNetwork.editRule": "编辑规则",
   "agentNetwork.deleteRuleTitle": "删除 '{name}'？",
-  "agentNetwork.deleteRuleDescription": "确定要删除此全局限制吗？此操作无法撤销。",
+  "agentNetwork.deleteRuleDescription":
+    "确定要删除此全局限制吗？此操作无法撤销。",
   "agentNetwork.globalLimits": "全局限制",
   "agentNetwork.searchGlobalLimits": "按名称搜索全局限制...",
   "agentNetwork.setGlobalLimit": "设置全局限制",
-  "agentNetwork.globalLimitsDescription": "全局限制对所有策略的令牌使用和支出设置上限。可在全账户范围内应用限制，或限定到特定分组或用户。",
+  "agentNetwork.globalLimitsDescription":
+    "全局限制对所有策略的令牌使用和支出设置上限。可在全账户范围内应用限制，或限定到特定分组或用户。",
   "agentNetwork.addGlobalLimit": "添加全局限制",
   "agentNetwork.agentNetwork": "代理网络",
   "agentNetwork.request": "请求",
   "agentNetwork.sessionId": "会话 ID",
-  "agentNetwork.sessionIdTooltip": "此请求所属的提供商端会话。单个用户可以发起多个独立调用，提供商会将这些调用归入同一个会话 ID 下。",
+  "agentNetwork.sessionIdTooltip":
+    "此请求所属的提供商端会话。单个用户可以发起多个独立调用，提供商会将这些调用归入同一个会话 ID 下。",
   "agentNetwork.reason": "原因",
   "agentNetwork.requestDeniedWithReason": "请求被拒绝：{reason}",
   "agentNetwork.requestDeniedByPolicy": "请求被策略拒绝。",
@@ -4919,7 +4933,8 @@ const zhCN = {
   "agentNetwork.completion": "补全",
   "agentNetwork.noResponseCaptured": "未捕获到响应。",
   "agentNetwork.promptAndResponse": "提示词与响应",
-  "agentNetwork.noPromptOrResponseCaptured": "此请求未捕获到提示词或响应 — 仅记录了元数据，适用于非补全调用（如列出模型）或提示词收集关闭的情况。",
+  "agentNetwork.noPromptOrResponseCaptured":
+    "此请求未捕获到提示词或响应 — 仅记录了元数据，适用于非补全调用（如列出模型）或提示词收集关闭的情况。",
   "agentNetwork.metadata": "元数据",
   "agentNetwork.policiesDescription":
     "将 IdP 分组绑定到提供商：工程部使用 Claude，财务部不使用。强制执行 Token 限制、预算和安全护栏。",
@@ -4960,18 +4975,15 @@ const zhCN = {
   "agentNetwork.tabRule": "规则",
   "agentNetwork.tabLimits": "限制",
   "agentNetwork.nameOfGlobalLimit": "全局限制名称",
-  "agentNetwork.nameOfGlobalLimitHelp":
-    "为此限制设置一个易于识别的名称。",
-  "agentNetwork.nameOfGlobalLimitPlaceholder":
-    "例如：全账户每月限额",
+  "agentNetwork.nameOfGlobalLimitHelp": "为此限制设置一个易于识别的名称。",
+  "agentNetwork.nameOfGlobalLimitPlaceholder": "例如：全账户每月限额",
   "agentNetwork.targetGroupsTooltip":
     "将此限制限定到所选分组的成员。留空（且不选择用户）则应用于全账户。",
   "agentNetwork.all": "全部",
   "agentNetwork.selectTargetGroups": "选择目标分组...",
   "agentNetwork.targetUsersTooltip":
     "将此限制限定到特定用户。留空（且不选择分组）则应用于全账户。",
-  "agentNetwork.accountWideNote":
-    "未选择目标时，此规则将",
+  "agentNetwork.accountWideNote": "未选择目标时，此规则将",
   "agentNetwork.accountWideHighlight": "全账户",
   "agentNetwork.accountWideNoteSuffix":
     "生效 — 每个代理网络请求都会计入其上限。",
@@ -4987,8 +4999,7 @@ const zhCN = {
   "agentNetwork.tabChecks": "检查项",
   "agentNetwork.tabNameAndDescription": "名称与描述",
   "agentNetwork.nameOfGuardrail": "护栏名称",
-  "agentNetwork.nameOfGuardrailHelp":
-    "为此护栏集设置一个易于识别的名称。",
+  "agentNetwork.nameOfGuardrailHelp": "为此护栏集设置一个易于识别的名称。",
   "agentNetwork.nameOfGuardrailPlaceholder": "例如：严格 — 生产环境",
   "agentNetwork.descriptionOptional": "描述（可选）",
   "agentNetwork.descriptionOfGuardrailHelp":
@@ -4997,21 +5008,18 @@ const zhCN = {
     "例如：严格的模型白名单、PII 脱敏、硬性月度预算。",
   "agentNetwork.createGuardrailButton": "创建护栏",
   "agentNetwork.modelAllowlist": "模型白名单",
-  "agentNetwork.modelAllowlistDescription":
-    "阻止对白名单之外模型的请求。",
+  "agentNetwork.modelAllowlistDescription": "阻止对白名单之外模型的请求。",
   "agentNetwork.noModelsOnSelectedProviders":
     "所选提供商尚未配置任何模型。请先为目标提供商添加模型 — 白名单仅限于这些提供商所暴露的模型。",
   "agentNetwork.noModelsOnAnyProvider":
     "尚未在任何提供商上配置模型。请先为提供商添加模型 — 白名单仅限于提供商实际暴露的模型。",
   "agentNetwork.promptCapture": "提示词捕获",
-  "agentNetwork.promptCaptureDescription":
-    "在存储提示词内容之前脱敏 PII。",
+  "agentNetwork.promptCaptureDescription": "在存储提示词内容之前脱敏 PII。",
   "agentNetwork.promptCaptureDetails":
     "NetBird 会在存储提示词内容之前脱敏邮箱、社会安全号码格式、电话号码格式和信用卡号格式。启用此护栏会在代理内置的 Token 脱敏基础上增加严格脱敏。",
   "agentNetwork.limitSingular": "个限制",
   "agentNetwork.limitPlural": "个限制",
-  "agentNetwork.limitsTabDescription":
-    "直接应用于此策略的 Token 和预算上限。",
+  "agentNetwork.limitsTabDescription": "直接应用于此策略的 Token 和预算上限。",
   "agentNetwork.addTokenLimit": "添加 Token 限制",
   "agentNetwork.addBudgetLimit": "添加预算限制",
   "agentNetwork.limitRowGroup": "分组",
@@ -5036,8 +5044,7 @@ const zhCN = {
     "限制每个成员在窗口期内的个人消耗量。用户达到此上限后会被阻止，即使分组仍有余额。",
   "agentNetwork.individualCapHelp": "窗口期内每个用户的限制。",
   "agentNetwork.resetWindow": "重置窗口",
-  "agentNetwork.resetWindowHelp":
-    "计数器重置的频率。最小 1 分钟。",
+  "agentNetwork.resetWindowHelp": "计数器重置的频率。最小 1 分钟。",
   "agentNetwork.minutes": "分钟",
   "agentNetwork.hours": "小时",
   "agentNetwork.daysUnit": "天",
@@ -5057,8 +5064,7 @@ const zhCN = {
   "agentNetwork.provider": "提供商",
   "agentNetwork.providerTooltip": "来源被允许访问的 AI 提供商。",
   "agentNetwork.nameOfPolicy": "策略名称",
-  "agentNetwork.nameOfPolicyHelp":
-    "为你的策略设置一个易于识别的名称。",
+  "agentNetwork.nameOfPolicyHelp": "为你的策略设置一个易于识别的名称。",
   "agentNetwork.nameOfPolicyPlaceholder": "例如：工程部 → OpenAI",
   "agentNetwork.descriptionOfPolicyHelp":
     "写一段简短描述，为此策略补充更多上下文。",
@@ -5071,15 +5077,19 @@ const zhCN = {
   "userRoles.transferOwnershipDescription1": "此操作将",
   "userRoles.transferOwnershipDescription2": "角色转移给",
   "userRoles.transferOwnershipDescription3": "并将你的角色更改为",
-  "userRoles.transferOwnershipDescription4": "角色。此操作只能由新所有者将角色转回给你才能撤销。",
+  "userRoles.transferOwnershipDescription4":
+    "角色。此操作只能由新所有者将角色转回给你才能撤销。",
   "userStatus.disabled": "已禁用",
   "userStatus.pending": "待处理",
   "userStatus.blocked": "已封禁",
   "userStatus.invited": "已邀请",
   "userStatus.active": "活跃",
-  "userStatus.localAuthDisabledTooltip1": "本地身份验证已禁用。此用户无法再登录。请使用你的 IdP 进行身份验证。",
-  "userStatus.invitedTooltip": "此用户已被邀请但尚未接受邀请。使用重新发送按钮发送另一封邀请邮件。",
-  "userStatus.pendingApprovalTooltip1": "此用户需要管理员批准才能加入你的组织。要禁用批准，请关闭",
+  "userStatus.localAuthDisabledTooltip1":
+    "本地身份验证已禁用。此用户无法再登录。请使用你的 IdP 进行身份验证。",
+  "userStatus.invitedTooltip":
+    "此用户已被邀请但尚未接受邀请。使用重新发送按钮发送另一封邀请邮件。",
+  "userStatus.pendingApprovalTooltip1":
+    "此用户需要管理员批准才能加入你的组织。要禁用批准，请关闭",
   "userStatus.userApprovalRequired": "'需要用户批准'",
   "userStatus.pendingApprovalTooltip2": "在",
   "networkSettings.title": "网络设置",
@@ -5087,16 +5097,21 @@ const zhCN = {
   "networkSettings.routingPeerDnsResolution": "路由对等体 DNS 解析",
   "networkSettings.routingPeerDnsEnabled": "路由对等体 DNS 解析已成功启用。",
   "networkSettings.routingPeerDnsDisabled": "路由对等体 DNS 解析已成功禁用。",
-  "networkSettings.updatingRoutingPeerDns": "正在更新路由对等体 DNS 解析设置...",
+  "networkSettings.updatingRoutingPeerDns":
+    "正在更新路由对等体 DNS 解析设置...",
   "networkSettings.updatedSuccessfully": "网络设置已成功更新。",
-  "networkSettings.invalidDomain": "请输入有效的域名，例如 example.com 或 intra.example.com",
+  "networkSettings.invalidDomain":
+    "请输入有效的域名，例如 example.com 或 intra.example.com",
   "networkSettings.networkRangeEmpty": "网络范围不能为空",
-  "networkSettings.invalidIpv4Cidr": "请输入有效的 IPv4 CIDR 范围，例如 100.64.0.0/16 或 192.168.1.0/24",
-  "networkSettings.invalidIpv6Cidr": "请输入有效的 IPv6 CIDR 范围，例如 fd00:1234::/64",
+  "networkSettings.invalidIpv4Cidr":
+    "请输入有效的 IPv4 CIDR 范围，例如 100.64.0.0/16 或 192.168.1.0/24",
+  "networkSettings.invalidIpv6Cidr":
+    "请输入有效的 IPv6 CIDR 范围，例如 fd00:1234::/64",
   "networkSettings.invalidPrefixLength": "前缀长度必须在 /48 和 /112 之间",
   "networkSettings.selectIpv6Groups": "选择要启用 IPv6 的分组...",
   "networkSettings.enableRoutingPeerDns": "启用路由对等体 DNS 解析",
-  "networkSettings.routingPeerDnsHelp": "在路由对等体上而非客户端上解析路由域名的 DNS。需要 NetBird 客户端 v0.35 或更高版本。更改仅在重启客户端后生效。",
+  "networkSettings.routingPeerDnsHelp":
+    "在路由对等体上而非客户端上解析路由域名的 DNS。需要 NetBird 客户端 v0.35 或更高版本。更改仅在重启客户端后生效。",
   "filters.filter": "筛选",
   "filters.filtersCount": "个筛选",
   "refresh.cooldownMessage": "请在 5 秒后再次刷新",
@@ -5202,8 +5217,7 @@ const zhCN = {
   "onboarding.agent.provider.connectButton": "连接提供商",
   "onboarding.agent.provider.connectedSingular": "提供商已连接。",
   "onboarding.agent.provider.connectedPlural": "已连接 {count} 个提供商。",
-  "onboarding.agent.provider.endpointReady":
-    "你的代理网络端点已就绪。",
+  "onboarding.agent.provider.endpointReady": "你的代理网络端点已就绪。",
   "onboarding.agent.provider.apiBaseUrl": "API 基础 URL",
   "onboarding.agent.provider.endpointCopied": "端点已复制到剪贴板",
   "onboarding.agent.provider.copyEndpoint": "复制端点",
@@ -5213,8 +5227,7 @@ const zhCN = {
     "默认情况下，Agent Network 会拒绝所有请求。策略将来源分组（你的用户或代理）连接到提供商，并可选配置令牌和预算限制以及安全护栏。",
   "onboarding.agent.policy.createdSingular": "策略已创建。",
   "onboarding.agent.policy.createdPlural": "已创建 {count} 条策略。",
-  "onboarding.agent.policy.authorized":
-    "已授权的代理现在可以访问提供商。",
+  "onboarding.agent.policy.authorized": "已授权的代理现在可以访问提供商。",
   "onboarding.agent.policy.addButton": "添加策略",
   "onboarding.agent.configure.title": "配置你的代理",
   "onboarding.agent.configure.description":
@@ -5304,8 +5317,7 @@ const zhCN = {
   "azureAd.deleting": "正在删除集成...",
   "azureAd.updating": "正在更新集成...",
   "idp.identityProvider": "身份提供商",
-  "idp.identityProviderHelp":
-    "为此集成选择你的身份提供商连接器。",
+  "idp.identityProviderHelp": "为此集成选择你的身份提供商连接器。",
   "idp.connectorCannotBeChangedLine1": "身份提供商连接器在设置后无法更改。",
   "idp.connectorCannotBeChangedLine2":
     "如果要更改连接器，请删除此集成并使用不同的连接器重新设置。",
@@ -5323,15 +5335,13 @@ const zhCN = {
   "debugJob.description":
     "在此设备上生成包含日志和诊断信息的调试包。适用于无需 CLI 访问的故障排查。",
   "debugJob.logFileCount": "日志文件数量",
-  "debugJob.logFileCountHelp":
-    "设置调试包中包含的日志文件数量上限。",
+  "debugJob.logFileCountHelp": "设置调试包中包含的日志文件数量上限。",
   "debugJob.files": "个文件",
   "debugJob.enableBundleDuration": "启用打包时长",
   "debugJob.enableBundleDurationHelp":
     "启用后，可以指定生成调试包前收集日志的时间段。",
   "debugJob.duration": "时长",
-  "debugJob.durationHelp":
-    "创建调试包前应收集日志的时间段。",
+  "debugJob.durationHelp": "创建调试包前应收集日志的时间段。",
   "debugJob.minutes": "分钟",
   "debugJob.anonymizeLogData": "匿名化日志数据",
   "debugJob.anonymizeLogDataHelp":
@@ -5365,8 +5375,7 @@ const zhCN = {
   "routeAddRoutingPeer.networkIdentifierHelp":
     "你要添加路由的网络名称和 CIDR。",
   "routeAddRoutingPeer.routingPeer": "路由设备",
-  "routeAddRoutingPeer.routingPeerHelp":
-    "指定一个设备作为网络路由的路由设备。",
+  "routeAddRoutingPeer.routingPeerHelp": "指定一个设备作为网络路由的路由设备。",
   "routeAddRoutingPeer.distributionGroups": "分发分组",
   "routeAddRoutingPeer.distributionGroupsHelp":
     "将此路由广播给属于以下分组的设备",
@@ -5376,18 +5385,14 @@ const zhCN = {
   "routeAddRoutingPeer.networkRoutes": "网络路由",
   "routeUpdate.route": "路由",
   "routeUpdate.routingPeer": "路由设备",
-  "routeUpdate.routingPeerHelp":
-    "指定一个设备作为网络路由的路由设备。",
-  "routeUpdate.routingPeerExitNodeHelp":
-    "指定一个设备作为出口节点的路由设备。",
+  "routeUpdate.routingPeerHelp": "指定一个设备作为网络路由的路由设备。",
+  "routeUpdate.routingPeerExitNodeHelp": "指定一个设备作为出口节点的路由设备。",
   "routeUpdate.peerGroup": "设备分组",
-  "routeUpdate.peerGroupHelp":
-    "指定一个设备分组，将其中的设备用作路由设备。",
+  "routeUpdate.peerGroupHelp": "指定一个设备分组，将其中的设备用作路由设备。",
   "routeUpdate.peerGroupExitNodeHelp":
     "指定一个设备分组，将其中的设备用作出口节点。",
   "routeUpdate.distributionGroups": "分发分组",
-  "routeUpdate.distributionGroupsHelp":
-    "将此路由广播给属于以下分组的设备",
+  "routeUpdate.distributionGroupsHelp": "将此路由广播给属于以下分组的设备",
   "routeUpdate.accessControlGroups": "访问控制分组（可选）",
   "routeUpdate.descriptionLabel": "描述（可选）",
   "routeUpdate.descriptionHelp": "写一段简短描述，为此路由补充更多上下文。",
@@ -5438,8 +5443,7 @@ const zhCN = {
   "distributorCustomers.customerIdLabel": "客户 ID（可选）",
   "distributorCustomers.customerIdHelp":
     "一个可选标识符，便于将客户映射到你的内部系统。",
-  "distributorCustomers.validDomainError":
-    "请输入有效域名，例如 netbird.io",
+  "distributorCustomers.validDomainError": "请输入有效域名，例如 netbird.io",
   "distributorCustomers.addNotifyTitle": "添加 {domain} 客户",
   "distributorCustomers.addNotifyDescription": "客户账号已成功创建。",
   "distributorCustomers.addNotifyLoading": "正在创建客户账号...",
@@ -5461,8 +5465,7 @@ const zhCN = {
   "mspTenants.ownershipVerified": "所有权已验证",
   "mspTenants.pendingVerification": "待验证",
   "mspTenants.verifyDomain": "验证域名",
-  "mspTenants.validDomainError":
-    "请输入有效域名，例如 netbird.io",
+  "mspTenants.validDomainError": "请输入有效域名，例如 netbird.io",
   "mspTenants.addNotifyTitle": "添加 {domain} 账号",
   "mspTenants.addNotifyDescription": "租户账号已成功创建。",
   "mspTenants.updateNotifyTitle": "更新 {domain} 账号",
@@ -5478,16 +5481,14 @@ const zhCN = {
   "mspUnlink.learnMoreLink": "解除租户关联",
   "mspUnlink.unlinkButton": "解除关联",
   "notifications.title": "通知",
-  "notifications.description":
-    "选择当你的账号中发生重要事件时如何接收通知。",
+  "notifications.description": "选择当你的账号中发生重要事件时如何接收通知。",
   "notifications.channelsLink": "通知渠道",
   "notifications.docsSuffix": "在我们的文档中。",
   "notifications.emailTitle": "邮件",
   "notifications.emailChannelLabel": "启用邮件渠道",
   "notifications.emailChannelHelp": "启用或停用你账号的所有邮件通知",
   "notifications.emailAddressesLabel": "邮件地址",
-  "notifications.emailAddressesHelp":
-    "添加一个或多个应接收通知的邮件地址",
+  "notifications.emailAddressesHelp": "添加一个或多个应接收通知的邮件地址",
   "notifications.emailNotifyTitle": "邮件通知",
   "notifications.emailAddSuccess": "{email} 已成功添加",
   "notifications.emailAddLoading": "正在添加 {email}...",
@@ -5564,8 +5565,7 @@ const zhCN = {
   "oktaSetup.syncUsersStep1Prefix": "前往",
   "oktaSetup.syncUsersStep1Tab": "标签页，选择",
   "oktaSetup.syncUsersStep1AndClick": "并点击",
-  "oktaSetup.syncUsersStep2Prefix":
-    "选择你要配置的分组，然后选择",
+  "oktaSetup.syncUsersStep2Prefix": "选择你要配置的分组，然后选择",
   "oktaSetup.syncUsersStep2AndClick": "并点击",
   "oktaSetup.syncUsersStep3Prefix": "完成分组分配后，选择",
   "oktaSetup.syncUsersStep3Suffix":
@@ -5575,8 +5575,7 @@ const zhCN = {
   "oktaSetup.syncGroupsStep1Tab": "标签页，选择",
   "oktaSetup.syncGroupsStep1AndClick": "并点击",
   "oktaSetup.syncGroupsStep2Prefix": "搜索要推送的分组，然后点击",
-  "oktaSetup.syncGroupsStep2Suffix":
-    "。所选分组将被同步到 NetBird。",
+  "oktaSetup.syncGroupsStep2Suffix": "。所选分组将被同步到 NetBird。",
   "oktaSetup.estimatedTime": "5-15 分钟",
   "oktaSetup.ssoConnectTitle": "将 NetBird 与 Okta 连接",
   "oktaSetup.ssoConnectDescription":
@@ -5702,7 +5701,8 @@ const zhCN = {
   "crowdStrike.setup.clientIdLabel": "Client ID",
   "crowdStrike.setup.secretLabel": "Secret",
   "crowdStrike.setup.peerApprovalTitle": "设备审批",
-  "crowdStrike.setup.peerApprovalHelp": "只有满足 ZTA 分数阈值的设备才能被允许连接。",
+  "crowdStrike.setup.peerApprovalHelp":
+    "只有满足 ZTA 分数阈值的设备才能被允许连接。",
   "crowdStrike.setup.estimatedTime": "5-10 分钟",
   "crowdStrike.setup.notifyTitle": "CrowdStrike 集成",
   "crowdStrike.setup.notifyDescription": "CrowdStrike 已成功连接到 NetBird。",
@@ -5731,8 +5731,7 @@ const zhCN = {
   "notificationSlack.createAppStep1Middle": "点击",
   "notificationSlack.createAppStep1AndChoose": "并选择",
   "notificationSlack.createAppStep2Prefix": "将应用名称设置为",
-  "notificationSlack.createAppStep2Middle":
-    "并选择你的工作区。然后点击",
+  "notificationSlack.createAppStep2Middle": "并选择你的工作区。然后点击",
   "notificationSlack.configureWebhookTitle": "配置 Incoming Webhook",
   "notificationSlack.configureWebhookStep1Prefix": "在应用设置中，前往",
   "notificationSlack.configureWebhookStep1Middle": "并将",
@@ -5749,8 +5748,7 @@ const zhCN = {
   "msp.users": "用户",
   "msp.peers": "设备",
   "msp.estCostMonth": "预估月费",
-  "msp.estCostTooltip":
-    "预估费用根据活跃用户数和活跃设备数计算。",
+  "msp.estCostTooltip": "预估费用根据活跃用户数和活跃设备数计算。",
   "msp.permissionGroups": "权限分组",
   "msp.searchPlaceholder": "按名称、邮箱或分组搜索...",
   "msp.addTenant": "添加租户",
@@ -5792,6 +5790,879 @@ const zhCN = {
   "trafficEvents.postureCheckPassed": "姿态检查 {name} 已通过",
   "trafficEvents.accessControlPolicyPassed": "访问控制策略 {name} 已通过",
   "common.dialog": "对话框",
+  "routeGroups.deleteNetworkTitle": "删除网络 {name}",
+  "routeGroups.deleteNetworkConfirmTitle": "删除网络 '{name}'？",
+  "routeGroups.deletedDescription": "网络已成功移除",
+  "routeGroups.deleting": "正在删除网络...",
+  "routeGroups.deleteConfirmDescription":
+    "确定要删除此网络吗？该网络内的所有路由都将被删除。此操作无法撤销。",
+  "agentProviders.enableToggle": "{action}",
+  "agentProviders.inUseTooltip":
+    "此提供商被 {count} 条策略引用，无法删除。请先将其从策略中解除关联。",
+  "agentProviders.deleteConfirmDescription":
+    "确定要删除此提供商吗？其对应的反向代理服务也将被移除。此操作无法撤销。",
+
+  // ── Okta SSO 设置弹窗 ─────────────────────────────────────────────
+  "okta.modalTitle": "Okta SSO 配置",
+  "okta.modalDescription": "使用 Okta 作为单点登录提供商来认证用户。",
+  "okta.tabDomains": "域名",
+  "okta.tabConfiguration": "配置",
+  "okta.tabDangerZone": "危险区域",
+  "okta.oktaDomainLabel": "Okta 域名",
+  "okta.clientIdLabel": "Client ID",
+  "okta.clientSecretLabel": "Client Secret",
+  "okta.addDomainButton": "添加域名",
+  "okta.deleteConfirmTitle": "删除集成？",
+  "okta.deleteConfirmDescription": "确定要删除此集成吗？此操作无法撤销。",
+  "okta.deleteIntegrationLabel": "删除集成",
+  "okta.deleteIntegrationHelp":
+    "删除此集成将无法再使用 Okta 作为 SSO 提供商。如果删除了集成，你需要重新配置才能启用单点登录。",
+  "okta.deletedDescription": "Okta 已成功删除",
+  "okta.deleting": "正在删除集成...",
+  "okta.domainsNotifyTitle": "Okta 域名",
+  "okta.domainAdded": "{domain} 已添加",
+  "okta.addingDomain": "正在添加域名...",
+
+  // ── CrowdStrike 配置弹窗 ──────────────────────────────────────────
+  "crowdStrike.notifyTitle": "CrowdStrike 集成",
+  "crowdStrike.configHeaderDescription":
+    "将网络访问限制为仅由公司 IT 部门管理的设备",
+  "crowdStrike.tabPeerApproval": "设备审批",
+  "crowdStrike.tabSettings": "设置",
+  "crowdStrike.tabDangerZone": "危险区域",
+  "crowdStrike.regionLabel": "区域",
+  "crowdStrike.groupsHelp": "选择要应用 CrowdStrike 集成的分组",
+  "crowdStrike.credentialsLabel": "CrowdStrike 凭据",
+  "crowdStrike.clientIdLabel": "Client ID",
+  "crowdStrike.secretLabel": "Secret",
+  "crowdStrike.deleteConfirmTitle": "删除集成？",
+  "crowdStrike.deleteConfirmDescription": "确定要删除此集成吗？",
+  "crowdStrike.deleteIntegrationLabel": "删除集成",
+  "crowdStrike.deleteIntegrationHelp":
+    "删除此集成将移除当前配置。如果删除了集成，你需要重新配置。",
+  "crowdStrike.deletedDescription": "CrowdStrike 集成已成功删除",
+  "crowdStrike.deleting": "正在删除集成...",
+  "crowdStrike.updatedDescription": "CrowdStrike 集成已成功更新",
+  "crowdStrike.updating": "正在更新集成...",
+  "crowdStrike.disableTitle": "停用 CrowdStrike？",
+  "crowdStrike.disableDescription": "确定要停用 CrowdStrike 集成吗？",
+  "crowdStrike.enabledDescription": "CrowdStrike 已成功启用",
+  "crowdStrike.disabledDescription": "CrowdStrike 已成功停用",
+  "crowdStrike.cardDescription":
+    "CrowdStrike 是一个云原生平台，用于保护端点、云工作负载、身份和数据。",
+
+  // ── Datadog 事件流 ─────────────────────────────────────────────────
+  "datadog.disconnectTitle": "断开 Datadog？",
+  "datadog.disconnectDescription":
+    "断开连接会删除当前配置。你需要重新开始设置流程。",
+  "datadog.disconnectedDescription": "Datadog 已成功断开连接",
+  "datadog.disconnecting": "正在断开集成...",
+  "datadog.cardDescription": "Datadog 是一个面向云规模应用的监控服务。",
+
+  // ── Firehose 事件流 ────────────────────────────────────────────────
+  "firehose.disconnectTitle": "断开 Amazon Data Firehose？",
+  "firehose.disconnectDescription":
+    "断开连接会删除当前配置。你需要重新开始设置流程。",
+  "firehose.disconnectedDescription": "Amazon Data Firehose 已成功断开连接",
+  "firehose.disconnecting": "正在断开集成...",
+  "firehose.cardDescription":
+    "Firehose 可将实时数据流传输到 Amazon S3、Amazon Redshift 等目标。",
+
+  // ── S3 事件流 ──────────────────────────────────────────────────────
+  "s3.disconnectTitle": "断开 S3？",
+  "s3.disconnectDescription":
+    "断开连接会删除当前配置。你需要重新开始设置流程。",
+  "s3.disconnectedDescription": "S3 已成功断开连接",
+  "s3.disconnecting": "正在断开集成...",
+  "s3.cardDescription": "Amazon S3 是云中的可扩展存储。",
+
+  // ── Intune EDR 卡片 ────────────────────────────────────────────────
+  "intune.disableTitle": "停用 Intune？",
+  "intune.disableDescription": "确定要停用 Intune 集成吗？",
+  "intune.enabledDescription": "Intune 已成功启用",
+  "intune.disabledDescription": "Intune 已成功停用",
+  "intune.updating": "正在更新集成...",
+  "intune.cardDescription":
+    "Microsoft Intune 是基于云的统一终端管理解决方案，面向你的组织。",
+
+  // ── FleetDM EDR 卡片 ───────────────────────────────────────────────
+  "fleetdm.disableTitle": "停用 FleetDM？",
+  "fleetdm.disableDescription": "确定要停用 FleetDM 集成吗？",
+  "fleetdm.enabledDescription": "FleetDM 已成功启用",
+  "fleetdm.disabledDescription": "FleetDM 已成功停用",
+  "fleetdm.updating": "正在更新集成...",
+  "fleetdm.cardDescription":
+    "开源设备管理平台，支持 macOS、Windows 和 Linux，提供基于 osquery 的合规策略。",
+  "fleetdm.notSynced": "未同步",
+  "fleetdm.synced": "已同步 {time}",
+
+  // ── Google Workspace IdP 同步卡片 ──────────────────────────────────
+  "googleWorkspace.enabledDescription": "Google Workspace 已成功启用",
+  "googleWorkspace.disabledDescription": "Google Workspace 已成功停用",
+  "googleWorkspace.updating": "正在更新集成...",
+  "googleWorkspace.syncedDescription": "Google Workspace 已成功同步",
+  "googleWorkspace.syncing": "正在同步集成...",
+  "googleWorkspace.cardDescription":
+    "灵活创新的解决方案，帮助个人和组织实现更多目标。",
+  "googleWorkspace.notSynced": "未同步",
+  "googleWorkspace.synced": "已同步 {time}",
+  "googleWorkspace.forceSyncTooltip": "强制同步用户和分组",
+  "activity.initiator": "发起者",
+  "activity.learnMoreInOur": "在我们的",
+  "activity.searchTablePlaceholder": "按审计名称、用户、设备、元数据搜索...",
+  "addPeerDropdown.userDevice": "用户设备",
+  "agentConnect.optionAnthropicApi": "Anthropic API",
+  "agentConnect.optionBedrock": "Bedrock",
+  "agentConnect.optionKimiMoonshot": "Kimi（月之暗面 AI）",
+  "agentConnect.optionVertexAi": "Vertex AI",
+  "agentConnect.tabClaudeCode": "Claude Code",
+  "agentConnect.tabCodex": "Codex",
+  "agentConnect.tabCurl": "cURL",
+  "agentConnect.tabKimiCli": "Kimi CLI",
+  "agentConnect.tabOpenAiSdk": "OpenAI SDK",
+  "agentNetwork.attach": "附加",
+  "agentNetwork.browseGuardrails": "浏览护栏",
+  "agentNetwork.browseGuardrailsDescription":
+    "选择一个或多个现有护栏进行附加。",
+  "agentNetwork.clustersTabDescriptionAgent":
+    "代理集群将您的代理流量路由到 AI 提供商，并在您自己的基础设施上运行。添加多个集群以扩展您的环境。",
+  "agentNetwork.clustersTabDescriptionProxy":
+    "代理集群将入站流量路由到您的服务。共享集群由平台运行；账户集群（自托管）在您自己的基础设施上运行。",
+  "agentNetwork.editGuardrail": "编辑护栏",
+  "agentNetwork.globalLimitsTabDescription":
+    "账户级别的令牌使用量与消费上限，适用于所有策略。可将限制限定到特定分组或用户，或保持为账户级别。",
+  "agentNetwork.guardrailPlural": "护栏",
+  "agentNetwork.guardrailSingular": "护栏",
+  "agentNetwork.guardrailsHelp":
+    "护栏强制实施模型允许列表，并捕获每次请求的提示词。",
+  "agentNetwork.modelAllowlistCount": "模型允许列表 · {count} 个模型",
+  "agentNetwork.newGuardrail": "新建护栏",
+  "agentNetwork.noGuardrailsDescription":
+    "添加护栏以强制实施模型允许列表，并捕获每次请求的提示词。",
+  "agentNetwork.noGuardrailsTitle": "您尚未添加任何护栏",
+  "agentNetwork.noMoreGuardrailsAvailable":
+    "没有更多可用护栏——所有已定义的护栏均已附加。",
+  "agentNetwork.promptCapturePiiRedaction": "提示词捕获 · PII 脱敏",
+  "agentNetwork.usagePageDescription":
+    "按请求进行审计，包含真实的调用者身份、成本归因与预算控制。",
+  "agentProviders.allModels": "全部模型",
+  "agentProviders.emptyDescription":
+    "通过 NetBird 路由 OpenAI、Anthropic 及其他 LLM API，以实施访问控制、跟踪令牌消费并捕获提示词。",
+  "agentProviders.modelsConfigured": "已配置 {count} 个",
+  "agentProviders.searchPlaceholder": "按名称搜索...",
+  "aws.changePlanLater": "您可以随时更改套餐。",
+  "aws.continueToDashboard": "继续前往仪表板",
+  "aws.existingSubscription":
+    "您似乎已拥有我们的有效订阅。要将 AWS 用作计费提供商，请联系我们的支持团队。",
+  "aws.flexiblePricing":
+    "凭借我们灵活的定价，您只需通过 AWS 账户为活跃用户和活跃设备付费。",
+  "aws.thanksForRegistering": "感谢您通过以下方式注册",
+  "billing.activateTrialDescription":
+    "激活 14 天试用即可使用 NetBird 的全部功能与集成。试用结束后，除非您选择升级，否则将恢复到您的 {plan} 套餐。",
+  "billing.approachingUsageLimit": "即将达到用量上限",
+  "billing.continueWith": "继续使用",
+  "billing.continueWithTrial": "继续使用试用版",
+  "billing.currentPlan": "当前套餐",
+  "billing.downgradeTo": "降级到",
+  "billing.exploreNetBird": "探索 NetBird",
+  "billing.findOutWhich": "了解哪种",
+  "billing.flexiblePricingDescription":
+    "凭借我们灵活的定价，您只需为活跃用户和活跃设备付费。",
+  "billing.freePlan": "免费版",
+  "billing.freeTrial": "免费试用",
+  "billing.getLicense": "获取许可证",
+  "billing.getSupport": "获取支持",
+  "billing.goToPlansAndBilling": "前往套餐与计费",
+  "billing.haventDecided": "还没有决定选择哪个套餐？",
+  "billing.increaseLimitDescription":
+    "升级套餐即可提高您的用户和设备数量上限。",
+  "billing.limitReachedDescription": "您似乎已达到当前订阅的上限。",
+  "billing.limitReachedTitle": "已达到订阅上限",
+  "billing.lockedFeature.availableOnBusiness": "商业版可用",
+  "billing.lockedFeature.availableOnBusinessPlan":
+    "{feature}{verb}可在商业版套餐中使用。",
+  "billing.lockedFeature.availableOnTeam": "团队版可用",
+  "billing.lockedFeature.availableOnTeamOrHigher":
+    "{feature}{verb}可在团队版或更高版本套餐中使用。",
+  "billing.lockedFeature.availableSelfHostedBusiness":
+    "{feature}{verb}需使用 NetBird 企业商业许可证，或在 NetBird 云上使用商业版套餐。",
+  "billing.lockedFeature.availableSelfHostedTeam":
+    "{feature}{verb}需使用 NetBird 企业商业许可证，或在 NetBird 云上使用团队版或更高版本套餐。",
+  "billing.lockedFeature.availableWithEnterprise": "企业许可证可用",
+  "billing.lockedFeature.contactAdminPrefix": "请联系您的账户管理员",
+  "billing.lockedFeature.contactAdminSuffix": "以升级套餐。",
+  "billing.lockedFeature.contactAdminUpgrade":
+    "请联系您的账户管理员以升级套餐。",
+  "billing.lockedFeature.onlyOwnerOrAdmin": "只有所有者或管理员可以升级套餐。",
+  "billing.lockedFeature.thisFeature": "此功能",
+  "billing.lockedFeature.upgradeOrStartTrial":
+    "升级或开始 14 天免费试用即可使用此功能。",
+  "billing.lockedFeature.upgradeYourCurrentPlan":
+    "升级您当前的套餐以使用此功能。",
+  "billing.lockedFeature.upgradeYourTenantsPlan":
+    "升级您的租户套餐以使用此功能。",
+  "billing.machinesIncluded": "100 台设备 + 每位用户 10 台",
+  "billing.managePlan": "管理套餐",
+  "billing.noCreditCardRequired": "无需信用卡",
+  "billing.ofPeers": " / {count} 台设备",
+  "billing.ofUsers": " / {count} 位用户",
+  "billing.onlyOwnerOrAdminStartTrial": "只有所有者或管理员可以开始免费试用。",
+  "billing.onlyOwnerOrAdminUpgrade": "只有所有者或管理员可以升级套餐。",
+  "billing.peer": " 设备",
+  "billing.peers": " 设备",
+  "billing.perMonth": " / 月",
+  "billing.perUserMonth": "每位用户 / 月",
+  "billing.planRecentlyUpdated":
+    "您的套餐最近已更新。请在上次更新 48 小时后再更改套餐。",
+  "billing.planSuccessDescription":
+    "您的订阅已成功激活。您现在可以完整使用所选套餐的全部 NetBird 功能。",
+  "billing.planSuccessTitle": "感谢您订阅 NetBird！🎉",
+  "billing.plansAndBilling": "套餐与计费",
+  "billing.pricingPlan": "定价套餐",
+  "billing.startFreeTrial": "开始 14 天免费试用",
+  "billing.subscribeTo": "订阅",
+  "billing.suitsYouBest": "最适合您，请访问我们的网站。",
+  "billing.trialAccessDescription": "您目前可以使用 NetBird 的全部功能与集成。",
+  "billing.trialAfterDescription":
+    "试用结束后，除非您选择升级，否则将恢复到您的 {plan} 套餐。",
+  "billing.trialEndsIn": "试用将在 {count} 天后结束",
+  "billing.trialExploreDescription":
+    "探索仪表板、我们的集成以及所有功能。您可以试用以下关键功能：",
+  "billing.trialFeatureDeviceApprovals": "启用设备审批以增强控制",
+  "billing.trialFeatureIdpSync": "配置 IdP 同步以进行用户和分组配置",
+  "billing.trialFeaturePostureChecks": "设置您的第一个设备合规检查",
+  "billing.trialStartedNextTwoWeeks": "为期两周",
+  "billing.trialStartedTitle": "您的 14 天试用已开始！",
+  "billing.trialStartedWelcome":
+    "欢迎使用！您现在可以使用 NetBird 的全部功能与集成",
+  "billing.trialTeamPlanNote": "试用期间您的团队版套餐保持有效。",
+  "billing.tryAllFeatures": "免费试用 NetBird 的全部功能",
+  "billing.unlimitedUsers": "无限用户",
+  "billing.updateNetBirdPlan": "更新您的 NetBird 套餐",
+  "billing.upgradeNetBirdPlan": "升级您的 NetBird 套餐",
+  "billing.upgradeNow": "立即升级",
+  "billing.upgradePlan": "升级套餐",
+  "billing.upgradeTo": "升级到",
+  "billing.usageLimitReached": "已达到用量上限",
+  "billing.user": "用户",
+  "billing.users": "用户",
+  "billing.visitAwsMarketplace": "访问 AWS Marketplace",
+  "billing.whatsNext": "接下来做什么？",
+  "common.block": "阻止",
+  "common.confirm": "确认",
+  "common.disconnect": "断开连接",
+  "common.getSupport": "获取支持",
+  "common.minutes": "分钟",
+  "common.name": "名称",
+  "common.notSet": "未设置",
+  "common.requestAccess": "请求访问",
+  "crowdStrike.setup.step2And": "和",
+  "crowdStrike.setup.step2AndEnter": "并输入",
+  "crowdStrike.setup.step2AsClientName": "作为客户端名称，并选择",
+  "crowdStrike.setup.step2AsScope": "作为范围",
+  "crowdStrike.setup.step2Click": "点击",
+  "crowdStrike.setup.step3AndEnterCredentials": "并输入您的凭据",
+  "crowdStrike.setup.step3Click": "点击",
+  "crowdStrike.ztaScoreError": "分数应在 1 到 100 之间",
+  "crowdStrike.ztaScoreLink": "ZTA 分数",
+  "crowdStrike.ztaToggleHelpPrefix": "该",
+  "crowdStrike.ztaToggleHelpSuffix":
+    "是一个参数，可让您设置设备获批所需的最低 ZTA 分数",
+  "crowdStrike.ztaToggleLabel": "使用零信任评估分数",
+  "distributor.accountExistsCallout":
+    "账户所有者必须登录仪表板来接受或拒绝您的请求。请在发出请求后告知他们。",
+  "distributor.accountExistsLine1": "此 NetBird 账户已",
+  "distributor.accountExistsLine2": "存在于我们的系统中",
+  "distributor.accountExistsManagePrefix": "要管理该账户",
+  "distributor.accountExistsManageSuffix":
+    "，您必须先向账户所有者请求访问权限。",
+  "distributor.invitationTooltip":
+    "客户账户所有者必须登录仪表板来接受或拒绝您的邀请。",
+  "distributor.netBirdPlanFor": "{name} 的 NetBird 套餐",
+  "distributor.pendingInvitation": "待处理的邀请",
+  "distributor.selectPlanForCustomer": "选择最适合您客户需求的套餐。",
+  "distributor.unlink": "解除关联",
+  "distributor.unlinkCustomerDescription":
+    "解除此客户的关联会将其从您的分销商账户中移除。该账户将继续独立存在。",
+  "distributor.unlinkCustomerTitle": "解除关联“{name}”？",
+  "edr.description":
+    "端点检测与响应（EDR）和移动设备管理（MDM）集成可让您仅允许由 IT 部门管理的设备访问网络。",
+  "edr.huntress.apiSecretLabel": "API 密钥",
+  "edr.huntress.defenderPolicyCompliance": "Defender 策略合规性",
+  "edr.huntress.defenderPolicyComplianceHelp":
+    "Defender 配置应符合您组织的安全策略要求",
+  "edr.huntress.firewall": "防火墙",
+  "edr.huntress.firewallHelpPrefix": "设备已启用防火墙，且",
+  "edr.huntress.firewallHelpSuffix": "所有必需的配置文件均已启用",
+  "edr.huntress.groupsLabel": "分组",
+  "edr.huntress.managedDefender": "托管式 Microsoft Defender",
+  "edr.huntress.managedDefenderHelp":
+    "Defender 已启用、已更新、最近已扫描，且未检测到冲突的杀毒软件",
+  "edr.huntress.requirementsLabel": "要求",
+  "edr.huntress.setup.complianceDesc":
+    "设置设备被视为合规所必须满足的具体要求。更多信息请参阅",
+  "edr.huntress.setup.complianceDescSuffix": "了解不同的状态。",
+  "edr.huntress.setup.complianceDocLink": "Huntress 文档",
+  "edr.huntress.setup.complianceTitle": "合规要求",
+  "edr.huntress.setup.connectedDescription": "Huntress 已成功连接到 NetBird。",
+  "edr.huntress.setup.createApiKeys": "创建 API 密钥",
+  "edr.huntress.setup.getCredentialsStep1Console": "Huntress 管理控制台",
+  "edr.huntress.setup.getCredentialsStep1Mark": "API 凭据",
+  "edr.huntress.setup.getCredentialsStep1Navigate": "前往您的",
+  "edr.huntress.setup.getCredentialsStep1Then": "然后打开右上角的菜单并点击",
+  "edr.huntress.setup.getCredentialsStep2Add": "+ 添加",
+  "edr.huntress.setup.getCredentialsStep2Desc": "作为描述",
+  "edr.huntress.setup.getCredentialsStep2Then": "然后选择您的用户并添加",
+  "edr.huntress.setup.getCredentialsStep2Under": "在“用户 API 凭据”下，点击",
+  "edr.huntress.setup.getCredentialsStep3": "输入您的 API 凭据",
+  "edr.huntress.setup.getCredentialsTitle": "获取 Huntress API 凭据",
+  "edr.huntress.setup.manageApiKeys": "管理 API 密钥",
+  "edr.huntress.setup.permissionsAccount": "Huntress 账户",
+  "edr.huntress.setup.permissionsEnsure": "请确保您拥有一个",
+  "edr.huntress.setup.permissionsHelp":
+    "如果您没有所需权限，请让管理员授予您这些权限。",
+  "edr.huntress.setup.permissionsLabel": "权限",
+  "edr.huntress.setup.permissionsWith": "并具备以下",
+  "edr.huntress.setup.syncWindowHelp":
+    "在此时间段内未与 Huntress 同步的设备将无法访问网络。",
+  "edr.huntress.setup.syncWindowTitle": "Huntress 同步窗口",
+  "edr.huntress.setup.syncWindowTooltip":
+    "示例：此属性设置为 24 小时。Jane 的笔记本电脑已 27 小时未与 Huntress 同步。即使它在 Huntress 中被标记为“合规”，也仍将被阻止访问网络。",
+  "edr.huntress.syncWindowLabel": "同步窗口",
+  "edr.sentinelOne.activeStatus": "活动状态",
+  "edr.sentinelOne.activeStatusHelp":
+    "SentinelOne 代理必须处于活动状态并正在上报。",
+  "edr.sentinelOne.allowedActiveThreats": "允许的活动威胁数",
+  "edr.sentinelOne.allowedActiveThreatsHelp":
+    "设备上允许的活动威胁的最大数量。",
+  "edr.sentinelOne.blockInfectedDevices": "阻止受感染的设备",
+  "edr.sentinelOne.blockInfectedDevicesHelp": "阻止存在活动感染的设备访问。",
+  "edr.sentinelOne.diskEncryption": "磁盘加密",
+  "edr.sentinelOne.diskEncryptionHelp": "设备必须启用磁盘加密。",
+  "edr.sentinelOne.firewall": "防火墙",
+  "edr.sentinelOne.firewallHelp": "设备必须启用防火墙。",
+  "edr.sentinelOne.latestAgentVersion": "最新代理版本",
+  "edr.sentinelOne.latestAgentVersionHelp": "SentinelOne 代理应运行最新版本。",
+  "edr.sentinelOne.networkConnectivity": "网络连接",
+  "edr.sentinelOne.networkConnectivityHelp":
+    "要求与 SentinelOne 保持活动的网络连接。",
+  "edr.sentinelOne.setup.complianceDesc":
+    "设置设备被视为合规所必须满足的具体要求。",
+  "edr.sentinelOne.setup.complianceTitle": "合规要求",
+  "edr.sentinelOne.setup.connectedDescription":
+    "SentinelOne 已成功连接到 NetBird。",
+  "edr.sentinelOne.setup.createApiTokens": "创建 API 令牌",
+  "edr.sentinelOne.setup.createTokenStep1Navigate": "前往",
+  "edr.sentinelOne.setup.createTokenStep1Path": "设置 » 用户 » 服务用户",
+  "edr.sentinelOne.setup.createTokenStep2Click": "点击",
+  "edr.sentinelOne.setup.createTokenStep2Mark": "创建服务用户",
+  "edr.sentinelOne.setup.createTokenStep3Desc":
+    "作为名称，添加可选描述，并选择您偏好的到期日期。",
+  "edr.sentinelOne.setup.createTokenStep3Enter": "输入",
+  "edr.sentinelOne.setup.createTokenStep3Name": "NetBird Integration",
+  "edr.sentinelOne.setup.createTokenStep3Next": "下一步",
+  "edr.sentinelOne.setup.createTokenStep4Click": "点击",
+  "edr.sentinelOne.setup.createTokenStep4Copy":
+    "，复制您的 API 令牌并输入到下方。",
+  "edr.sentinelOne.setup.createTokenStep4Create": "创建用户",
+  "edr.sentinelOne.setup.createTokenStep4Select":
+    "选择您的站点，并将范围设置为",
+  "edr.sentinelOne.setup.createTokenStep4Viewer": "查看者",
+  "edr.sentinelOne.setup.createTokenTitle": "创建 SentinelOne API 令牌",
+  "edr.sentinelOne.setup.description":
+    "根据安全状态，仅允许由 SentinelOne 管理的设备访问网络。",
+  "edr.sentinelOne.setup.estimatedTime": "10-20 分钟",
+  "edr.sentinelOne.setup.getUrlStep1": "前往您的 SentinelOne 管理控制台。",
+  "edr.sentinelOne.setup.getUrlStep2":
+    "从浏览器地址栏复制您的 SentinelOne 控制台 URL，并在此处输入。",
+  "edr.sentinelOne.setup.getUrlTitle": "获取您的 SentinelOne 控制台 URL",
+  "edr.sentinelOne.setup.manageApiTokens": "管理 API 令牌",
+  "edr.sentinelOne.setup.peerApprovalHelp": "选择要应用 SentinelOne 集成的分组",
+  "edr.sentinelOne.setup.peerApprovalTitle": "设备审批",
+  "edr.sentinelOne.setup.permissionsAccount": "SentinelOne 账户",
+  "edr.sentinelOne.setup.permissionsEnsure": "请确保您拥有一个",
+  "edr.sentinelOne.setup.permissionsHelp":
+    "如果您没有所需权限，请让管理员授予您这些权限。",
+  "edr.sentinelOne.setup.permissionsLabel": "权限",
+  "edr.sentinelOne.setup.permissionsWith": "并具备以下",
+  "edr.sentinelOne.setup.syncWindowHelp":
+    "在此时间段内未与 SentinelOne 同步的设备将无法访问网络。",
+  "edr.sentinelOne.setup.syncWindowTitle": "SentinelOne 同步窗口",
+  "edr.sentinelOne.setup.syncWindowTooltip":
+    "示例：此属性设置为 24 小时。Jane 的笔记本电脑已 27 小时未与 SentinelOne 同步。即使它在 SentinelOne 中被标记为“合规”，也仍将被阻止访问网络。",
+  "edr.sentinelOne.setup.title": "将 NetBird 与 SentinelOne 连接",
+  "edr.sentinelOne.threatsSuffix": "威胁",
+  "edr.title": "MDM 与 EDR",
+  "entraScim.authMethod": "身份验证方法",
+  "entraScim.authMethodValue": "Bearer 身份验证",
+  "entraScim.secretToken": "密钥令牌",
+  "entraScim.step1Step1Link": "Azure 门户",
+  "entraScim.step1Step1Prefix": "前往",
+  "entraScim.step1Step2Desc":
+    "前往 Azure Active Directory，然后进入企业应用程序",
+  "entraScim.step1Step3Desc":
+    "点击“+ 新建应用程序”以创建新的企业应用程序，然后点击“+ 创建自己的应用程序”",
+  "entraScim.step1Step4Desc":
+    "输入 NetBird SCIM 作为名称，并选择“集成库中未列出的任何其他应用程序（非库）”",
+  "entraScim.step1Step5Desc": "点击“创建”",
+  "entraScim.step1Title": "在 Microsoft Entra ID 中配置 SCIM",
+  "entraScim.step2CalloutPrefix":
+    "租户 URL 中附加的“?aadOptscim062020”标志是必需的，以确保 Microsoft Entra ID 发送符合 SCIM 2.0 规范的请求。",
+  "entraScim.step2Step1Desc":
+    "创建应用程序后，点击“管理”，然后点击“预配”。在“创建配置”部分下，点击“连接您的应用程序”",
+  "entraScim.step2Step2Desc": "在表单中填写以下信息",
+  "entraScim.step2Step3Desc":
+    "之后点击“测试连接”以验证 SCIM 连接。如果连接成功，点击“创建”以保存配置。",
+  "entraScim.step2Title": "启用预配",
+  "entraScim.step3Step1Desc": "前往“属性映射”部分并选择“组”选项卡",
+  "entraScim.step3Step2Desc":
+    "在属性映射列表中，找到 externalId 行并点击“删除”",
+  "entraScim.step3Step3Desc": "点击“保存”以应用更新后的组属性映射配置",
+  "entraScim.step3Title": "组属性映射",
+  "entraScim.step4Step1Desc": "前往“属性映射”部分并选择“用户”选项卡",
+  "entraScim.step4Step2Desc":
+    "在属性映射列表中，删除除以下内容外的所有属性映射：",
+  "entraScim.step4Step3Desc":
+    "在属性映射列表中，找到 externalId 行并点击“编辑”。将“源属性”从 mailNickname 更改为 objectId，然后点击“确定”以保存更改",
+  "entraScim.step4Step4Desc": "点击“保存”以应用最终的属性映射配置",
+  "entraScim.step4Title": "用户属性映射",
+  "entraScim.step5Step1Desc":
+    "前往您的 NetBird 企业应用程序，然后点击左侧菜单中的“用户和组”",
+  "entraScim.step5Step2Desc":
+    "点击“+ 添加用户/组”，然后选择要同步到 NetBird 的用户和组",
+  "entraScim.step5Step3Desc": "点击“分配”以保存分配",
+  "entraScim.step5Title": "分配用户和组",
+  "entraScim.step6Step1Desc":
+    "分配用户和组后，返回预配配置，点击“概览”，然后点击“开始预配”按钮以启用自动同步",
+  "entraScim.step6Step2Desc":
+    "开始预配后不久将开始首次同步。点击下方的“完成设置”以完成此配置。",
+  "entraScim.step6Title": "开始预配",
+  "entraScim.tenantUrl": "租户 URL",
+  "eventStreaming.cardDescription": "将您的活动事件流式传输到第三方服务。",
+  "firewallGpt.accessForm.companySizeLabel": "您公司有多少人会使用 NetBird？",
+  "firewallGpt.accessForm.description":
+    "智能防火墙将自然语言提示转换为网络策略。您可以用通俗的语言描述访问需求，AI 会处理其余部分。如果您对早期访问感兴趣，请填写下面的表单。",
+  "firewallGpt.accessForm.messageLabel":
+    "您计划如何使用我们的智能防火墙，用于什么场景？",
+  "firewallGpt.accessForm.messagePlaceholder":
+    "我们需要为测试服务器设置安全访问。我想使用智能防火墙快速创建和管理...",
+  "firewallGpt.accessForm.submit": "申请早期访问",
+  "firewallGpt.accessForm.title": "想试用智能防火墙吗？",
+  "firewallGpt.accessFormSuccess.close": "关闭消息",
+  "firewallGpt.accessFormSuccess.description":
+    "NetBird 智能防火墙可在您的账户中使用后，我们会向您发送电子邮件。",
+  "firewallGpt.accessFormSuccess.title": "感谢您的注册！",
+  "firewallGpt.allPorts": "允许通过所有端口连接",
+  "firewallGpt.button.lockedDescription":
+    "智能防火墙使用 AI 帮助您创建访问策略，需使用 NetBird 企业商业许可证。",
+  "firewallGpt.creatingPolicy": "正在创建策略...",
+  "firewallGpt.header.subtitle": "使用自然语言提示轻松创建访问控制策略",
+  "firewallGpt.newChat": "新对话",
+  "firewallGpt.policyCreated.description": "策略 {name} 已成功创建。",
+  "firewallGpt.policyCreated.title": "NetBird 智能防火墙",
+  "firewallGpt.portPrefix": "允许通过端口",
+  "firewallGpt.postureCheckFailed": "合规检查创建失败。",
+  "firewallGpt.reviewNotice":
+    "创建策略前，请检查新增的分组、已分配的设备、策略设置和合规检查",
+  "firewallGpt.smartFirewall": "智能防火墙",
+  "firewallGpt.successModal.description":
+    "您如何评价 NetBird 智能防火墙的使用体验？",
+  "firewallGpt.successModal.title": "策略“{name}”已成功创建！",
+  "fleetdm.complianceTitle": "合规要求",
+  "fleetdm.connectDescription":
+    "根据合规策略，仅允许由 FleetDM 管理的设备访问网络。",
+  "fleetdm.connectTitle": "将 NetBird 与 FleetDM 连接",
+  "fleetdm.diskEncryption": "磁盘加密",
+  "fleetdm.diskEncryptionHelp": "设备必须启用磁盘加密（FileVault/BitLocker）。",
+  "fleetdm.maxFailingPolicies": "最多未通过策略数",
+  "fleetdm.maxFailingPoliciesHelp": "设备上允许的未通过策略的最大数量。",
+  "fleetdm.maxVulnerableSoftware": "最多存在漏洞的软件数",
+  "fleetdm.maxVulnerableSoftwareHelp": "设备上允许的存在漏洞软件的最大数量。",
+  "fleetdm.notifyConnected": "FleetDM 已成功连接到 NetBird。",
+  "fleetdm.onlineStatus": "在线状态",
+  "fleetdm.onlineStatusHelp": "要求主机在线（最近被 Fleet 检测到）。",
+  "fleetdm.permApiOnly": "仅 API 用户或管理员访问权限",
+  "fleetdm.permReadAccess": "对主机和策略的读取权限",
+  "fleetdm.permissionsAccount": "FleetDM 账户",
+  "fleetdm.permissionsEnsure": "请确保您拥有一个",
+  "fleetdm.permissionsHelp": "如果您没有所需权限，请让管理员授予您这些权限。",
+  "fleetdm.policiesSuffix": "策略",
+  "fleetdm.requiredPolicyIds": "必需的 FleetDM 策略 ID",
+  "fleetdm.requiredPolicyIdsHelp": "设备上必须通过的策略 ID，以逗号分隔。",
+  "fleetdm.softwareSuffix": "软件",
+  "fleetdm.step1CopyUrl":
+    "从浏览器地址栏复制您的 FleetDM 服务器 URL，并在此处输入。",
+  "fleetdm.step1Navigate": "前往您的 FleetDM 管理控制台。",
+  "fleetdm.step1Title": "输入您的 FleetDM 服务器 URL",
+  "fleetdm.step2ApiOnlyUser": "仅 API 用户",
+  "fleetdm.step2Create": "创建一个",
+  "fleetdm.step2Login": "使用以下方式以管理员身份登录您的 Fleet 实例",
+  "fleetdm.step2Paste": "创建后，请将收到的 API 令牌粘贴到下方。",
+  "fleetdm.step2Title": "创建 FleetDM API 令牌",
+  "fleetdm.syncWindowTitle": "FleetDM 同步窗口",
+  "genericHttp.cardDescription":
+    "提供您的自定义 HTTP 端点以流式传输审计和流量事件。",
+  "genericHttp.disabledDescription": "HTTP 集成已成功禁用。",
+  "genericHttp.disabling": "正在禁用通用 HTTP 集成...",
+  "genericHttp.enabledDescription": "HTTP 集成已成功启用。",
+  "genericHttp.enabling": "正在启用通用 HTTP 集成...",
+  "groups.groups": "分组",
+  "groups.searchByName": "按名称搜索分组...",
+  "invite.acceptExpiresOn": "邀请将于 {date} 过期",
+  "invoices.downloadAsCsv": "下载为 CSV",
+  "invoices.downloadAsPdf": "下载为 PDF",
+  "invoices.downloadCsv": "下载发票（CSV）",
+  "invoices.downloadPdf": "下载发票（PDF）",
+  "invoices.downloadingCsv": "正在下载 {id}.csv...",
+  "invoices.gettingInvoice": "正在获取本计费周期的发票...",
+  "invoices.redirectingToStripe": "正在跳转到 Stripe 以下载发票...",
+  "mfa.appliesToAllUsers": "此设置为全局设置，适用于所有用户。",
+  "mfa.enableIfNotInIdp": "如果您的 IdP 中未配置，请启用 NetBird MFA。",
+  "mfa.enableMfa": "启用 MFA",
+  "mfa.mayNotNeedPrefix": "您的",
+  "mfa.mayNotNeedSuffix":
+    "可能已启用 MFA。启用此设置可能会导致重复的 MFA 验证。",
+  "mfa.mayNotNeedTitle": "您可能不需要 NetBird MFA",
+  "mfa.mfaDisabled": "您的账户现已禁用 MFA",
+  "mfa.mfaEnabled": "您的账户现已启用 MFA",
+  "mfa.rememberBrowser": "MFA 记住浏览器",
+  "mfa.rememberBrowserDisabled": "记住浏览器选项现已禁用",
+  "mfa.rememberBrowserEnabled": "记住浏览器选项现已启用",
+  "mfa.rememberBrowserHelp": "启用后，用户可以选择在 30 天内记住其浏览器。",
+  "mfa.rememberBrowserHelpSuffix": "在此期间，该浏览器将无需进行 MFA 验证。",
+  "mfa.ssoProvider": "SSO 提供商",
+  "mfa.title": "多因素认证（MFA）",
+  "mfa.updatingSettings": "正在更新 MFA 设置...",
+  "msp.accountExistsCallout":
+    "账户所有者必须登录仪表板来接受或拒绝您的请求。请在发出请求后告知他们。",
+  "msp.accountExistsLine1": "此 NetBird 账户已",
+  "msp.accountExistsLine2": "存在于我们的系统中",
+  "msp.accountExistsManagePrefix": "要管理该账户",
+  "msp.accountExistsManageSuffix": "，您必须先向账户所有者请求访问权限。",
+  "msp.accountTrialExpiredDescription": "您的账户免费试用期已结束。",
+  "msp.addGroup": "添加分组",
+  "msp.alreadyAccepted": "该邀请已被接受",
+  "msp.contactAccountAdmin": "要继续使用 NetBird，请联系您的账户管理员",
+  "msp.contactDistributor": "要继续使用 NetBird，请联系您的分销商。",
+  "msp.copyTxtRecordPrefix": "复制以下",
+  "msp.copyTxtRecordSuffix": "记录，并将其添加到以下域名的 DNS 配置中",
+  "msp.decline": "拒绝",
+  "msp.deleteTenantDescription":
+    "删除此租户将永久删除其所有关联数据，包括设备、用户、分组及其他所有内容。请注意此操作不可逆且无法撤销。",
+  "msp.deleteTenantTitle": "删除“{name}”？",
+  "msp.dnsNote":
+    "注意：DNS 更改可能需要一段时间才能生效。如果 NetBird 未立即找到该记录，请等待一天后重试。",
+  "msp.goToTenants": "前往租户",
+  "msp.host": "主机",
+  "msp.joinDescription":
+    "您将可访问 NetBird MSP 门户，在一个地方管理多个客户及其网络。",
+  "msp.joinTitle": "NetBird 邀请您以托管服务提供商（MSP）身份加入",
+  "msp.mspPortal": "MSP 门户",
+  "msp.netBirdPlanFor": "{name} 的 NetBird 套餐",
+  "msp.noCustomers": "您似乎还没有任何客户。",
+  "msp.noCustomersMatching": "没有符合搜索条件的客户。请尝试其他搜索词。",
+  "msp.noDnsAccessPrefix":
+    "如果您无法访问 DNS 配置，也可以通过向我们发送电子邮件来验证您的域名，邮箱为",
+  "msp.noDnsAccessSuffix": "。该电子邮件应从您要验证的域名发送。",
+  "msp.notifyDescription": "已成功以托管服务提供商身份加入",
+  "msp.notifyTitle": "NetBird 托管服务提供商",
+  "msp.ownerMustLoginTooltip": "账户所有者必须登录仪表板来接受或拒绝您的请求。",
+  "msp.ownerOnlyCallout":
+    "只有账户所有者可以接受此邀请。请联系账户所有者以接受邀请。",
+  "msp.pendingAccessRequest": "待处理的访问请求",
+  "msp.permissionsHelp": "添加用户分组以授予其访问此租户的权限。",
+  "msp.permissionsRequired": "权限（必填）",
+  "msp.processingInvitation": "正在处理您的邀请...",
+  "msp.searchByNameOrDomain": "按名称或域名搜索...",
+  "msp.selectPlanForTenant": "选择最适合您租户需求的套餐。",
+  "msp.switchToAccount": "切换到 {name} 的账户",
+  "msp.tenantTrialExpiredDescription":
+    "免费试用期已结束。要继续使用 NetBird，请为此租户升级套餐。",
+  "msp.the14DayTrialExpired": "14 天试用已过期！",
+  "msp.thisTenant": "此租户",
+  "msp.trialExpiredTooltip": "此租户的试用已过期。请升级套餐以继续使用该租户。",
+  "msp.txtHost": "TXT 主机",
+  "msp.txtRecord": "TXT 记录",
+  "msp.txtValue": "TXT 值",
+  "msp.verifyDomainOwnership": "验证域名所有权",
+  "msp.your14DayTrialExpired": "您的 14 天试用已过期！",
+  "nameservers.active": "已启用",
+  "nameservers.all": "全部",
+  "nameservers.deleteLoadingMessage": "正在删除域名服务器...",
+  "nameservers.inactive": "未启用",
+  "nameservers.status": "状态",
+  "networkResources.configurePolicies": "配置策略",
+  "noPeersGettingStarted.learnMorePrefix": "在我们的",
+  "notification.copyRequestId": "复制请求 ID",
+  "notification.errorCode": "代码 {code}：{message}",
+  "notification.requestId": "请求 ID：",
+  "onboarding.agentNetwork.skipPrompt": "已经了解代理网络的工作原理？",
+  "onboarding.defaultPolicyDescription": "允许您的所有设备之间建立连接",
+  "onboarding.endDescriptionExtended":
+    "接下来做什么？查看以下指南以充分利用 NetBird。要了解更多信息，请探索仪表板、访问我们的文档或浏览我们的 YouTube 频道。",
+  "onboarding.videoHowDescriptionExtended":
+    "进一步了解 NetBird 的工作原理、架构，以及它如何帮助您构建安全网络。",
+  "peer.approvalRequiredIssueTooltip":
+    "此设备在连接前需要管理员审批。请从该行的操作菜单中进行审批。",
+  "peer.complianceBypassedTooltip":
+    "此设备的合规检查已被管理员绕过。当设备恢复合规后，绕过将自动移除。",
+  "peer.notCompliantTooltip":
+    "此设备不符合 {name} 的合规要求，在恢复合规或被绕过之前无法连接。",
+  "peer.sessionExpirationToggleDescription":
+    "启用后，要求通过 SSO 登录的设备在会话于一段时间后过期时重新进行身份验证。",
+  "peer.settingDisabledForSetupKeyPeers":
+    "此设置对所有使用注册密钥添加的设备均已禁用。",
+  "peerGroupSelector.noClustersPrefix": "没有可用的代理集群。前往",
+  "peerGroupSelector.noClustersSuffix": "配置一个支持私有服务的集群。",
+  "peerResourcePicker.noMatchingResults": "没有匹配结果。",
+  "peerResourcePicker.noResourcesAvailable": "没有可选择的资源。",
+  "peerSSH.clientUpdateWarning":
+    "您已配置 SSH 访问，但您的客户端运行的是较旧的 NetBird 版本。请将 NetBird 客户端更新到 v.0.61.0 或更高版本以允许 SSH 连接。",
+  "peerSSH.explicitPolicyWarning":
+    "您的 SSH 服务器已启用，但从 NetBird v0.61.0 起，SSH 需要显式的访问控制策略。请创建 SSH 访问控制策略以允许 SSH 连接。",
+  "plan.business": "商业版",
+  "plan.free": "免费版",
+  "plan.freeTrial": "免费试用",
+  "plan.team": "团队版",
+  "plan.trialDayLeft": "（剩余 {count} 天）",
+  "plan.trialDaysLeft": "（剩余 {count} 天）",
+  "plan.trialExpired": "试用已过期",
+  "plan.trialHasExpired": "（试用已过期）",
+  "plan.upgradePlan": "升级套餐",
+  "postureChecks.noChecksDescription":
+    "添加各种合规检查以进一步限制网络访问。例如，仅允许具有特定 NetBird 客户端版本、操作系统或位置的客户端连接。",
+  "postureChecks.removeChecks": "移除检查",
+  "reverseProxy.clusterAddressCopied": "{address} 已复制到剪贴板",
+  "reverseProxy.customDomainNoClusterSelfHostedVerify":
+    "当前没有已连接的代理集群。请确保至少有一个代理正在运行以配置 DNS 验证。",
+  "reverseProxy.l4SingleTargetHelp":
+    "L4 服务（TCP / UDP / TLS）仅支持单个目标。",
+  "reverseProxy.netBirdOnlyModalDescription": "仅可从选定分组中的设备访问。",
+  "reverseProxy.proxyClusterHelpSuffix":
+    "会将入站流量转发到代理无需 WireGuard 即可访问的上游。适用于与代理部署在一起的外部 API 和服务。",
+  "reverseProxy.statusSeeDocsPrefix": "请参阅我们的",
+  "reverseProxy.statusSeeDocsSuffix": "以获取更多详情。",
+  "reverseProxy.statusTroubleshootingDocs": "故障排查文档",
+  "reverseProxy.targetHelpArticle": "一个",
+  "reverseProxy.targetPeerHelpSuffix":
+    "是运行 NetBird 的机器（例如笔记本、服务器、容器）。如果您的服务直接运行在其上，请选择设备。",
+  "reverseProxy.targetResourceHelpSuffix":
+    "是无法直接运行 NetBird 的目标（IP、子网或域名）。资源属于某个网络，并通过转发流量的路由节点访问。",
+  "reverseProxy.targetSelectGeneralHelp": "选择代理应将入站请求转发到何处。",
+  "reverseProxy.urlCopied": "URL 已复制到剪贴板",
+  "reverseProxy.verdictBan": "封禁",
+  "reverseProxy.verdictCaptcha": "验证码",
+  "reverseProxy.verdictThrottle": "限流",
+  "setupModal.generatingSetupKey": "正在生成注册密钥...",
+  "setupModal.installWithSetupKeyDescription":
+    "要开始使用，请安装 NetBird 并将注册密钥作为参数运行。",
+  "setupModal.setupKeyCopied": "注册密钥已复制",
+  "setupModal.setupKeyCopiedDescription": "已成功复制到剪贴板。",
+  "setupModal.setupKeyCreated": "注册密钥已创建",
+  "setupModal.setupKeyCreatedDescription": "已为此安装生成一个一次性注册密钥。",
+  "sso.title": "单点登录",
+  "table.lastSeen": "最近在线",
+  "userDropdown.plansAndBilling": "套餐与计费",
+  "zones.deleteLoadingMessage": "正在删除 DNS 区域...",
+  "azureAd.description":
+    "Microsoft Entra ID 是基于云的身份和访问管理解决方案。",
+  "azureAd.forceSyncTooltip": "强制同步用户和分组",
+  "idpSync.allGroups": "所有分组",
+  "idpSync.allUsers": "所有用户",
+  "idpSync.cardDescription": "从 Okta、Microsoft 或 Google IdP 同步用户和分组",
+  "idpSync.defaultPrefix": "默认情况下，",
+  "idpSync.groupPrefixHelp":
+    "如果您只想同步以特定前缀开头的分组，可以在下方添加。请注意前缀匹配区分大小写。",
+  "idpSync.groupsSyncSuffix": "将从您的 IdP 同步到 NetBird。",
+  "idpSync.identityProvider": "身份提供商",
+  "idpSync.identityProviderSync": "身份提供商同步",
+  "idpSync.userGroupHelp":
+    "如果您只想同步属于特定分组的用户，可以在下方添加。请注意前缀匹配区分大小写。",
+  "idpSync.usersSyncSuffix": "将从您的 IdP 同步到 NetBird。",
+  "jumpcloud.connect": "连接 Jumpcloud",
+  "jumpcloud.description": "Jumpcloud 是统一的身份、设备和访问管理平台。",
+  "okta.connect": "连接 Okta",
+  "okta.description": "Okta 是用于在云应用中配置和管理用户账户的平台。",
+  "okta.ssoRequired": "需要 Okta SSO",
+  "okta.ssoRequiredTooltip":
+    "请先在单点登录选项卡中配置 Okta SSO，以启用用户和分组同步。",
+  "onboarding.addUserDeviceDescription":
+    "您的第一个资源和路由节点已就绪。现在请拿出您的设备，安装 NetBird，然后完成连接。",
+  "onboarding.addUserDeviceTitle": "是时候添加您的客户端设备了",
+  "onboarding.agentCompanySize": "将有多少人使用代理网络？",
+  "onboarding.agentEndDescription":
+    "运行您的代理，或使用允许的模型发送测试请求。打开“用量与日志”以确认调用者身份、模型、令牌和费用。",
+  "onboarding.agentEndSubtitle": "您的代理网络已就绪。",
+  "onboarding.agentEndTitle": "全部就绪！",
+  "onboarding.agentReferral": "您是如何了解到代理网络的？",
+  "onboarding.agentSignupDescription":
+    "请分享一些关于您使用场景的信息，以便我们帮助您顺利开始。",
+  "onboarding.agentUseCase": "您计划如何使用代理网络？",
+  "onboarding.agentUseCaseHelp": "您也可以选择多个使用场景。",
+  "onboarding.agentWelcome": "欢迎使用 NetBird！",
+  "onboarding.agentWelcomeName": "欢迎使用 NetBird，{name}！",
+  "onboarding.firstDeviceDescription":
+    "要访问其他机器，请安装 NetBird 并登录，您的设备即会加入网络。您添加的每台设备都会成为网络中的一个 NetBird 设备。就这么简单。",
+  "onboarding.firstDeviceTitle": "让您的第一台设备上线",
+  "onboarding.goToAccessLogs": "前往访问日志",
+  "onboarding.otherUseCasePlaceholder": "例如：内部 RAG 服务、MCP 工具",
+  "reverseProxy.terminated": "已终止",
+  "reverseProxy.terminatedTooltip":
+    "此服务因违反服务条款已被 NetBird 团队终止。如有疑问，请联系",
+  "routes.lowerMetricPriority": "指标值越低，优先级越高。",
+  "search.close": "关闭",
+  "search.navigate": "导航",
+  "search.networksCount": "网络（{count}）",
+  "search.notFound": "未找到任何结果",
+  "search.notFoundDescription": "我们未找到任何结果。请尝试其他搜索词。",
+  "search.open": "打开",
+  "search.quickFind": "快速查找网络及其关联资源。",
+  "search.resources": "资源",
+  "search.resourcesCount": "资源（{count}）",
+  "search.startTyping": "开始输入以按名称、描述或地址搜索。",
+  "search.title": "搜索网络和资源",
+  "setupKeys.allowExtraDnsLabels": "允许设备名称中包含多个 DNS 标签（例如",
+  "sso.description":
+    "配置您首选的身份提供商（IdP），为团队启用单点登录（SSO）。",
+  "sso.failedVerification": "验证失败",
+  "sso.idpSyncFeatureText": "身份提供商（IdP）同步",
+  "survey.description":
+    "分享您是如何了解到 NetBird 的，帮助我们改进。您的反馈对我们非常重要。",
+  "survey.placeholder": "请选择一个选项...",
+  "survey.question": "您是如何了解到 NetBird 的？",
+  "survey.submit": "提交并继续",
+  "survey.title": "我们期待您的反馈",
+  "webhooks.addHeader": "添加标头",
+  "webhooks.basicAuth": "基本认证",
+  "webhooks.bearerToken": "Bearer 令牌",
+  "webhooks.headerConflictEnd": "标头。",
+  "webhooks.headerConflictMiddle": "标头。这将覆盖",
+  "webhooks.headerConflictPrefix": "警告：您已添加",
+  "webhooks.headerConflictSuffix": "上一步中的身份验证。请移除",
+  "webhooks.httpHeaders": "HTTP 标头（可选）",
+  "webhooks.httpHeadersHelp": "如果您的端点需要额外的标头，可以在此处添加。",
+  "routeGroup.addMorePeersToIncrease":
+    "您可以添加更多设备以提高此网络路由的可用性。",
+  "routeGroup.addMoreRoutingPeers":
+    "请添加更多路由节点，以为此网络路由启用高可用性。",
+  "routeGroup.addPeersToGroupViaPeersPage":
+    "您可以通过前往设备页面，将更多设备添加到此路由的分组中。",
+  "routeGroup.configureAddPeersToGroup":
+    "要配置，您必须将更多设备添加到此路由的分组中。您可以在设备菜单中完成。",
+  "routeGroup.haCurrentlyDisabled": "高可用性当前",
+  "routeGroup.haDisabled": "已禁用",
+  "routeGroup.haEnabled": "已启用",
+  "routeGroup.haForThisRoute": "用于此路由。",
+  "routeGroup.haIs": "高可用性",
+  "trafficEvents.accepted": "接受",
+  "trafficEvents.and": " 和 ",
+  "trafficEvents.blockedConnectionTo": "阻止连接，目标为",
+  "trafficEvents.blockedP2PConnectionFrom": "阻止 P2P 连接，来自",
+  "trafficEvents.blockedP2PConnectionTo": "阻止 P2P 连接到",
+  "trafficEvents.comma": "，",
+  "trafficEvents.connection": "{count} 个连接",
+  "trafficEvents.connectionBlocked": "已阻止",
+  "trafficEvents.connectionStarted": "已启动",
+  "trafficEvents.connectionStopped": "已停止",
+  "trafficEvents.connectionTo": "到",
+  "trafficEvents.connections": "{count} 个连接",
+  "trafficEvents.ended": "结束",
+  "trafficEvents.filter": "筛选",
+  "trafficEvents.filterBlocked": "已阻止",
+  "trafficEvents.filterInbound": "（入站）",
+  "trafficEvents.filterOutbound": "（出站）",
+  "trafficEvents.filterStarted": "已启动",
+  "trafficEvents.filterStopped": "已停止",
+  "trafficEvents.filterTypeLabel": "连接{direction}{verb}",
+  "trafficEvents.filters": " 个筛选",
+  "trafficEvents.from": "来自",
+  "trafficEvents.gotBlocked": " 被阻止 ",
+  "trafficEvents.inbound": "（入站）",
+  "trafficEvents.noFiltersMatching": "没有符合搜索条件的筛选器。",
+  "trafficEvents.outbound": "（出站）",
+  "trafficEvents.p2p": "P2P",
+  "trafficEvents.peerPrefix": "设备",
+  "trafficEvents.receivedConnectionTo": "接收到连接，目标为",
+  "trafficEvents.receivedP2PConnectionFrom": "接收到 P2P 连接，来自",
+  "trafficEvents.requestedConnectionTo": "请求连接到",
+  "trafficEvents.requestedP2PConnectionTo": "请求建立 P2P 连接到",
+  "trafficEvents.resourcePrefix": "资源",
+  "trafficEvents.routePrefix": "路由",
+  "trafficEvents.routed": "路由",
+  "trafficEvents.routingPeer": "路由节点",
+  "trafficEvents.started": "启动",
+  "trafficEvents.startedRoutingTo": "开始路由，目标为",
+  "trafficEvents.stoppedConnectionTo": "停止连接到",
+  "trafficEvents.stoppedP2PConnectionFrom": "停止 P2P 连接，来自",
+  "trafficEvents.stoppedP2PConnectionTo": "停止 P2P 连接到",
+  "trafficEvents.stoppedRoutingTo": "停止路由，目标为",
+  "trafficEvents.times": "次",
+  "trafficEvents.to": "到",
+  "trafficEvents.tryingToConnectTo": " 尝试连接到 ",
+  "trafficEvents.typeText": "{name}连接{direction}{verb}",
+  "trafficEvents.wasBlocked": "的连接被阻止",
+  "azureAd.apiNotifyTitle": "Entra ID（API）集成",
+  "azureAd.disabledDescription": "Entra ID（API）已成功禁用",
+  "azureAd.enabledDescription": "Entra ID（API）已成功启用",
+  "azureAd.syncedDescription": "Entra ID（API）已成功同步",
+  "integrations.notSynced": "未同步",
+  "integrations.synced": "已同步 {time}",
+  "integrations.syncing": "正在同步集成...",
+  "jumpcloud.disabledDescription": "Jumpcloud 已成功禁用",
+  "jumpcloud.enabledDescription": "Jumpcloud 已成功启用",
+  "jumpcloud.notifyTitle": "Jumpcloud 集成",
+  "okta.disabledDescription": "Okta 已成功禁用",
+  "okta.enabledDescription": "Okta 已成功启用",
+  "okta.scimNotifyTitle": "Okta 集成",
+  "onboarding.anySubdomain": "（{address} 的任意子域名）",
+  "onboarding.commandCopied": "命令已成功复制",
+  "onboarding.explainDefaultPolicyDescription":
+    "使用 NetBird，您可以决定谁可以访问什么。我们已经为您的设备设置了一条访问策略。",
+  "onboarding.explainDefaultPolicyFlip":
+    "切换开关，然后再次尝试 ping 您的另一台设备，看看它如何影响连接。",
+  "onboarding.explainPolicyDescription":
+    "NetBird 让管理员可以轻松通过访问控制策略实施最小权限访问。我们已在入门引导期间为您的资源创建了一条策略。",
+  "onboarding.explainPolicyFlipResource":
+    "切换开关，然后再次尝试 ping 您的资源，看看它如何影响连接。",
+  "onboarding.explainPolicyTitle": "由您制定规则，掌控全局",
+  "onboarding.resourceIpInSubnet": "（您子网中的资源 IP）",
+  "onboarding.testP2PStep1Middle": "运行此命令以 ping",
+  "onboarding.testP2PStep1Prefix": "从",
+  "onboarding.testP2PStep1Suffix": "。如果连接正常，您应该会收到响应。",
+  "onboarding.testResourceDescription":
+    "成功连接了客户端设备！现在来测试一下它能否访问您的资源。",
+  "onboarding.testResourceStep1Prefix": "打开命令行，并从",
+  "onboarding.testResourceStep1Suffix": "运行此命令以 ping 您的资源。",
+  "onboarding.testResourceTitle": "让我们测试一下这条连接",
+  "onboarding.testStep2Prefix":
+    "一切正常吗？很好！您现在可以继续完成入门引导。如果有问题，请查看我们的",
+  "onboarding.useCaseAuditLogging": "AI 审计与访问日志",
+  "onboarding.useCaseAutonomousAgent": "自主代理访问",
+  "onboarding.useCaseEmployeeLlm": "员工访问 LLM",
+  "onboarding.useCasePersonalLlm": "个人访问 LLM",
+  "onboarding.useCaseTokenBudget": "令牌与预算限制",
+  "onboarding.useCaseUsageCost": "用量与费用归因",
+  "common.codeCopied": "代码已复制到剪贴板",
+  "common.noResults": "未找到任何结果",
+  "common.noResultsDescription":
+    "未找到任何结果。请尝试其他搜索词或更改筛选条件。",
+  "genericScim.description": "提供您自己的自定义 SCIM 提供商以同步用户和分组。",
+  "integrations.disabledDescription": "{name} 已成功禁用",
+  "integrations.enabledDescription": "{name} 已成功启用",
+  "rdpCertificate.certificateChanged": "⚠️ 证书已更改！",
+  "reverseProxy.domainVerificationStarted": "{domain} 的验证已开始",
+  "reverseProxy.startingDomainVerification": "正在开始域名验证...",
+  "setupNetbirdModal.clickChangeServer": "点击“更改服务器”并输入以下“服务器”",
+  "setupNetbirdModal.clickConnectButton": "点击屏幕中间的“连接”按钮",
+  "setupNetbirdModal.downloadFromAppStore": "从 App Store 下载并安装应用：",
+  "setupNetbirdModal.downloadFromGooglePlay":
+    "从 Google Play 商店下载并安装应用：",
+  "setupNetbirdModal.downloadNetBirdAppStore": "从 App Store 下载 NetBird",
+  "setupNetbirdModal.downloadNetBirdGooglePlay": "从 Google Play 下载 NetBird",
+  "setupNetbirdModal.installOnAndroid": "在 Android 上安装",
+  "setupNetbirdModal.installOnIos": "在 iOS 上安装",
+  "table.lastSeenOn": "最近在线时间",
+  "table.peersSelected": "已选择设备",
 } as const;
 
 export default zhCN;

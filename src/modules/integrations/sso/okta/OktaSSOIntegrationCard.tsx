@@ -11,6 +11,7 @@ import {
   DomainValidationStatus,
   EnterpriseConnection,
 } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { OktaSsoSettings } from "@/modules/integrations/sso/okta/OktaSSOSettings";
 import OktaSSOSetup from "@/modules/integrations/sso/okta/OktaSSOSetup";
@@ -21,18 +22,19 @@ export const OktaSSOIntegrationCard = () => {
   const { oktaConnection, isDataLoading, toggleConnection, mutate, error } =
     useEnterpriseConnections();
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const handleToggleConnection = () => {
     if (!oktaConnection) return;
     notify({
-      title: "Okta SSO Integration",
-      description: `Okta was successfully ${
-        oktaConnection?.enabled ? "disabled" : "enabled"
-      }`,
+      title: t("okta.notifyTitle"),
+      description: oktaConnection?.enabled
+        ? t("okta.disabledDescription")
+        : t("okta.enabledDescription"),
       promise: toggleConnection(oktaConnection.id).then(() => {
         mutate();
       }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("idpSync.updatingIntegration"),
     });
   };
 
@@ -42,7 +44,7 @@ export const OktaSSOIntegrationCard = () => {
     <>
       <IntegrationCard
         name="Okta"
-        description="Okta is a platform to provision and manage user accounts in cloud-based applications."
+        description={t("okta.description")}
         data={oktaConnection}
         url={{
           title: "okta.com",
@@ -70,6 +72,7 @@ type ConfigurationProps = {
 };
 const ConfigurationContent = ({ connection }: ConfigurationProps) => {
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   const hasSomePendingDomains = useMemo(() => {
     return connection?.domains?.some(
@@ -111,12 +114,12 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
             )}
           ></span>
           {hasSomeVerifiedDomains
-            ? "Active"
+            ? t("common.active")
             : hasSomePendingDomains
-            ? "Pending Verification"
-            : hasSomeFailedDomains
-            ? "Failed Verification"
-            : "Inactive"}
+              ? t("reverseProxy.pendingVerification")
+              : hasSomeFailedDomains
+                ? t("sso.failedVerification")
+                : t("common.inactive")}
         </div>
       ) : (
         <div
@@ -125,7 +128,7 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
           }
         >
           <span className={cn("h-2 w-2 rounded-full bg-nb-gray-600")}></span>
-          Inactive
+          {t("common.inactive")}
         </div>
       )}
       <Button
@@ -135,7 +138,7 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
         onClick={() => setOpen(true)}
       >
         <Settings size={14} />
-        Settings
+        {t("common.settings")}
       </Button>
       {open && (
         <OktaSsoSettings

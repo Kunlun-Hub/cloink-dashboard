@@ -5,6 +5,7 @@ import { GradientFadedBackground } from "@components/ui/GradientFadedBackground"
 import { GlobeIcon } from "lucide-react";
 import * as React from "react";
 import { Tenant } from "@/cloud/msp/interfaces/Tenant";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -21,6 +22,7 @@ export const MSPAccountExistsModal = ({
   onAccept,
   onCancel,
 }: Props) => {
+  const { t } = useI18n();
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalContent
@@ -42,19 +44,16 @@ export const MSPAccountExistsModal = ({
             {tenant?.domain}
           </div>
           <div className={"text-xl font-medium text-center mb-1"}>
-            This NetBird account already <br />
-            exists in our system
+            {t("msp.accountExistsLine1")} <br />
+            {t("msp.accountExistsLine2")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}>
-            To manage the account{" "}
-            <span className="text-white">{tenant?.domain}</span>, you must first
-            request access from the account owner.
+            {t("msp.accountExistsManagePrefix")}{" "}
+            <span className="text-white">{tenant?.domain}</span>
+            {t("msp.accountExistsManageSuffix")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}></div>
-          <Callout>
-            The account owner must log in to the dashboard to accept or decline
-            your request. Please inform them after you have requested access.
-          </Callout>
+          <Callout>{t("msp.accountExistsCallout")}</Callout>
         </div>
 
         <ModalFooter separator={false} className={"gap-x-2"}>
@@ -64,7 +63,7 @@ export const MSPAccountExistsModal = ({
             variant={"secondary"}
             onClick={() => onCancel(tenant)}
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             autoFocus={true}
@@ -72,7 +71,7 @@ export const MSPAccountExistsModal = ({
             variant={"primary"}
             onClick={() => onAccept(tenant)}
           >
-            Request Access
+            {t("common.requestAccess")}
           </Button>
         </ModalFooter>
       </ModalContent>

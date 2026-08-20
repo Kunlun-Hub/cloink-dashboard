@@ -13,6 +13,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { SentinelOneMatchAttributes } from "@/interfaces/EDR";
 
 type Props = {
@@ -23,16 +24,17 @@ export const SentinelOneMatchSettings = ({
   value: matchAttributes,
   dispatch: dispatchMatchAttributes,
 }: Props) => {
+  const { t } = useI18n();
   return (
     <>
       <div className={cn("flex justify-between mt-6 gap-5")}>
         <div className={"w-full"}>
           <Label>
             <TriangleAlert size={14} />
-            Allowed Active Threats
+            {t("edr.sentinelOne.allowedActiveThreats")}
           </Label>
           <HelpText>
-            Maximum allowed number of active threats on a device.
+            {t("edr.sentinelOne.allowedActiveThreatsHelp")}
           </HelpText>
         </div>
         <Input
@@ -48,7 +50,7 @@ export const SentinelOneMatchSettings = ({
               payload: Number(e.target.value),
             })
           }
-          customSuffix={"Threats"}
+          customSuffix={t("edr.sentinelOne.threatsSuffix")}
         />
       </div>
       <div className={"mt-5 grid grid-cols-1 gap-6 mb-3"}>
@@ -64,10 +66,10 @@ export const SentinelOneMatchSettings = ({
           label={
             <>
               <HardDrive size={14} />
-              Disk Encryption
+              {t("edr.sentinelOne.diskEncryption")}
             </>
           }
-          helpText={"Devices must have disk encryption enabled."}
+          helpText={t("edr.sentinelOne.diskEncryptionHelp")}
         />
         <FancyToggleSwitch
           value={matchAttributes.firewall_enabled ?? false}
@@ -81,10 +83,10 @@ export const SentinelOneMatchSettings = ({
           label={
             <>
               <BrickWallShieldIcon size={14} />
-              Firewall
+              {t("edr.sentinelOne.firewall")}
             </>
           }
-          helpText={"Devices must have their firewall enabled."}
+          helpText={t("edr.sentinelOne.firewallHelp")}
         />
         <FancyToggleSwitch
           value={matchAttributes.infected === false}
@@ -98,10 +100,10 @@ export const SentinelOneMatchSettings = ({
           label={
             <>
               <BugOffIcon size={14} />
-              Block Infected Devices
+              {t("edr.sentinelOne.blockInfectedDevices")}
             </>
           }
-          helpText={"Prevent access for devices with active infections."}
+          helpText={t("edr.sentinelOne.blockInfectedDevicesHelp")}
         />
         <FancyToggleSwitch
           value={matchAttributes.network_status === "connected"}
@@ -115,10 +117,10 @@ export const SentinelOneMatchSettings = ({
           label={
             <>
               <ChevronsLeftRightEllipsis size={14} />
-              Network Connectivity
+              {t("edr.sentinelOne.networkConnectivity")}
             </>
           }
-          helpText={"Require active network connection to SentinelOne."}
+          helpText={t("edr.sentinelOne.networkConnectivityHelp")}
         />
         <FancyToggleSwitch
           value={matchAttributes.is_active ?? false}
@@ -132,10 +134,10 @@ export const SentinelOneMatchSettings = ({
           label={
             <>
               <PowerIcon size={14} />
-              Active Status
+              {t("edr.sentinelOne.activeStatus")}
             </>
           }
-          helpText={"SentinelOne agent must be active and reporting."}
+          helpText={t("edr.sentinelOne.activeStatusHelp")}
         />
         <FancyToggleSwitch
           value={matchAttributes.is_up_to_date ?? false}
@@ -149,12 +151,10 @@ export const SentinelOneMatchSettings = ({
           label={
             <>
               <RefreshCcw size={14} />
-              Latest Agent Version
+              {t("edr.sentinelOne.latestAgentVersion")}
             </>
           }
-          helpText={
-            "SentinelOne agent should be running on the latest version."
-          }
+          helpText={t("edr.sentinelOne.latestAgentVersionHelp")}
         />
       </div>
     </>

@@ -6,6 +6,7 @@ import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import { User } from "@/interfaces/User";
 import GroupsRow from "@/modules/common-table-rows/GroupsRow";
@@ -18,6 +19,7 @@ export default function UserGroupCell({ user }: Readonly<Props>) {
   const [modal, setModal] = useState(false);
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const userRequest = useApiCall<User>("/users");
 
   const allGroups = useMemo(() => {

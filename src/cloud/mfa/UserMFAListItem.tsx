@@ -22,6 +22,7 @@ import { useSWRConfig } from "swr";
 import { AccountMFA } from "@/cloud/mfa/AccountMFASettings";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const config = loadConfig();
 
@@ -42,6 +43,7 @@ interface UserAuthMethods {
 }
 
 const ListItem = ({ userId }: Props) => {
+  const { t } = useI18n();
   const { data: userMfa, isLoading: isUserMfaLoading } = useFetchApi<
     UserAuthMethods[]
   >(`/service/mfa/${userId}`, true, false, !!config.authServiceUrl, {
@@ -68,21 +70,19 @@ const ListItem = ({ userId }: Props) => {
       label={
         <>
           <ShieldCheckIcon size={16} />
-          NetBird MFA
+          {t("mfa.netbirdMfa")}
           <FullTooltip
             variant={"lighter"}
             content={
               <div className={"text-xs max-w-xs"}>
-                NetBird MFA is primarily intended for users who log in with
-                email and password. You may not need NetBird MFA if your SSO
-                provider (e.g., Google, Microsoft) already has MFA enabled.{" "}
+                {t("mfa.tooltipDescription")}{" "}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/multi-factor-authentication"
                   }
                   target={"_blank"}
                 >
-                  Learn more
+                  {t("common.learnMore")}
                   <ExternalLinkIcon size={10} />
                 </InlineLink>
               </div>
@@ -123,6 +123,7 @@ const MFAStatus = ({
   hasAuthMethods: boolean;
   userId: string;
 }) => {
+  const { t } = useI18n();
   return (
     <div className={"flex gap-4 items-center"}>
       {hasAuthMethods && enabled && <ResetMFAButton userId={userId} />}
@@ -136,19 +137,19 @@ const MFAStatus = ({
           {hasAuthMethods ? (
             <>
               <span className={cn("h-2 w-2 rounded-full", "bg-green-500")} />{" "}
-              Active
+              {t("common.active")}
             </>
           ) : (
             <>
               <span className={cn("h-2 w-2 rounded-full", "bg-yellow-400")} />{" "}
-              Not Enrolled
+              {t("mfa.notEnrolled")}
             </>
           )}
         </div>
       ) : (
         <div className={"h-[30px] flex items-center"}>
           <InlineLink href={"/settings?tab=authentication"}>
-            Activate
+            {t("mfa.activate")}
             <ArrowUpRightIcon size={14} />
           </InlineLink>
         </div>
@@ -163,24 +164,24 @@ const ResetMFAButton = ({ userId }: Props) => {
   }).del;
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
+  const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
 
   const resetMFA = async () => {
     const choice = await confirm({
-      title: `Reset Multi-factor Authentication?`,
-      description:
-        "Are you sure you want to reset the current MFA methods for this user? The user will be prompted to set up MFA again on their next login.",
-      confirmText: "Confirm",
-      cancelText: "Cancel",
+      title: t("mfa.resetTitle"),
+      description: t("mfa.resetDescription"),
+      confirmText: t("common.confirm"),
+      cancelText: t("common.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     setIsLoading(true);
     notify({
-      title: "Multi-factor authentication (MFA)",
-      description: "MFA settings have been reset",
-      loadingMessage: "Resetting MFA for user...",
+      title: t("mfa.resetNotifyTitle"),
+      description: t("mfa.resetSuccessDescription"),
+      loadingMessage: t("mfa.resettingLoading"),
       promise: mfaDeleteRequest({}).finally(() =>
         mutate(`/service/mfa/${userId}`).then(() => setIsLoading(false)),
       ),
@@ -199,7 +200,7 @@ const ResetMFAButton = ({ userId }: Props) => {
       ) : (
         <RotateCcw size={12} />
       )}
-      Reset MFA
+      {t("mfa.resetButton")}
     </Button>
   );
 };

@@ -144,7 +144,7 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
 
   const ztaError =
     ztaEnabled && (parseInt(ztaScore) <= 0 || parseInt(ztaScore) > 100)
-      ? "Score should be between 1 and 100"
+      ? t("crowdStrike.ztaScoreError")
       : undefined;
 
   const hasZtaError = ztaError != undefined;
@@ -210,27 +210,31 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>{"Navigate to the CrowdStrike's API Clients & Keys page"}</p>
+              <p>{t("crowdStrike.setup.navigateApiClients")}</p>
               <div className={"flex gap-4"}>
                 <Link href={apiPageUrl} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    API Clients & Keys
+                    {t("crowdStrike.setup.apiClientsButton")}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>Create API client</Mark> and enter
+                {t("crowdStrike.setup.step2Click")} <Mark>Create API client</Mark>{" "}
+                {t("crowdStrike.setup.step2AndEnter")}
                 <Mark copy>NetBird</Mark>
-                as the client name and select <Mark>Hosts (Read)</Mark> and{" "}
-                <Mark>Zero Trust Assessment (Read)</Mark> as the scope
+                {t("crowdStrike.setup.step2AsClientName")}{" "}
+                <Mark>Hosts (Read)</Mark> {t("crowdStrike.setup.step2And")}{" "}
+                <Mark>Zero Trust Assessment (Read)</Mark>{" "}
+                {t("crowdStrike.setup.step2AsScope")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Create</Mark> and enter your credentials
+                {t("crowdStrike.setup.step3Click")} <Mark>Create</Mark>{" "}
+                {t("crowdStrike.setup.step3AndEnterCredentials")}
               </p>
             </Steps.Step>
           </Steps>

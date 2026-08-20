@@ -7,6 +7,7 @@ import { cn } from "@utils/helpers";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import * as React from "react";
 import ConfettiExplosion from "react-confetti-explosion";
+import { useI18n } from "@/i18n/I18nProvider";
 import { FirewallGPTConfirmation } from "@/interfaces/FirewallGPT";
 import { Policy } from "@/interfaces/Policy";
 
@@ -22,6 +23,7 @@ export const FirewallGPTSuccessModal = ({
   open,
   setOpen,
 }: Props) => {
+  const { t } = useI18n();
   const firewallGPTRequest = useApiCall<FirewallGPTConfirmation>(
     "/integrations/assistant",
     true,
@@ -54,12 +56,10 @@ export const FirewallGPTSuccessModal = ({
             colors={["#f68330", "#ffc196", "#ffffff"]}
           />
           <h2 className={"text-xl my-0 leading-[1.5] mb-2 max-w-xs"}>
-            Policy {"'" + policy?.name + "'"} has been created successfully!
+            {t("firewallGpt.successModal.title", { name: policy?.name })}
           </h2>
           <Paragraph className={cn("text-sm text-center max-w-xs")}>
-            {
-              "How would you rate your experience with NetBird's Smart Firewall?"
-            }
+            {t("firewallGpt.successModal.description")}
           </Paragraph>
 
           <div className={"flex justify-center items-center gap-4"}>

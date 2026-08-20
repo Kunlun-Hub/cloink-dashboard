@@ -152,6 +152,7 @@ const ProfileSettingsDropdownItem = ({ onClick }: { onClick: () => void }) => {
 
 const PlansAndBillingDropdownItem = ({ onClick }: { onClick: () => void }) => {
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const { isAccountWithMSPParent } = useMSP();
   if (isAccountWithMSPParent) return;
@@ -161,7 +162,7 @@ const PlansAndBillingDropdownItem = ({ onClick }: { onClick: () => void }) => {
       <DropdownMenuItem onClick={onClick}>
         <div className={"flex gap-3 items-center"}>
           <CreditCardIcon size={14} />
-          Plans & Billing
+          {t("userDropdown.plansAndBilling")}
         </div>
       </DropdownMenuItem>
     )

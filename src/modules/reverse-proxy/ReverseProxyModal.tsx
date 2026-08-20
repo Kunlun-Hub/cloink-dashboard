@@ -81,7 +81,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { Group } from "@/interfaces/Group";
 import {
   ReverseProxyServiceModeSelector,
-  SERVICE_MODES,
+  useServiceModes,
 } from "@/modules/reverse-proxy/ReverseProxyServiceModeSelector";
 import { ReverseProxyAccessControlRules } from "@/modules/reverse-proxy/ReverseProxyAccessControlRules";
 
@@ -113,6 +113,7 @@ export default function ReverseProxyModal({
   onSuccess,
 }: Readonly<Props>) {
   const { t } = useI18n();
+  const serviceModes = useServiceModes();
   const router = useRouter();
   const { permission } = usePermissions();
   const { confirm } = useDialog();
@@ -562,9 +563,9 @@ export default function ReverseProxyModal({
 
   const modalTitle = useMemo(() => {
     const prefix = reverseProxy ? t("reverseProxy.modalEditPrefix") : t("reverseProxy.modalAddPrefix");
-    const label = serviceMode ? SERVICE_MODES[serviceMode].label : t("reverseProxy.modalDefaultLabel");
+    const label = serviceMode ? serviceModes[serviceMode].label : t("reverseProxy.modalDefaultLabel");
     return `${prefix}: ${label}`;
-  }, [reverseProxy, serviceMode, t]);
+  }, [reverseProxy, serviceMode, serviceModes, t]);
 
   const modalDescription = useMemo(
     () =>
@@ -929,19 +930,19 @@ export default function ReverseProxyModal({
               const docsLink = {
                 targets: {
                   href: REVERSE_PROXY_SERVICES_DOCS_LINK,
-                  label: "Services",
+                  label: t("reverseProxy.servicesTitle"),
                 },
                 auth: {
                   href: REVERSE_PROXY_AUTHENTICATION_DOCS_LINK,
-                  label: "Authentication",
+                  label: t("reverseProxy.tabAuthentication"),
                 },
                 "access-control": {
                   href: REVERSE_PROXY_ACCESS_CONTROL_DOCS_LINK,
-                  label: "Access Control",
+                  label: t("reverseProxy.accessControl"),
                 },
                 settings: {
                   href: REVERSE_PROXY_SETTINGS_DOCS_LINK,
-                  label: "Settings",
+                  label: t("common.settings"),
                 },
               }[tab];
               return docsLink ? (

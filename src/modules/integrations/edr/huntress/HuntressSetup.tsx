@@ -278,7 +278,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             <Input
               type={"text"}
               className={"w-full"}
-              customPrefix={<div className={"min-w-[80px]"}>{t("edr.huntress.setup.apiKeyLabel")}</div>}
+              customPrefix={<div className={"min-w-[80px]"}>{t("edr.huntress.apiKeyLabel")}</div>}
               placeholder={"hk_30813a372c41f72f1892"}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
@@ -286,7 +286,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             <Input
               type={"text"}
               className={"w-full"}
-              customPrefix={<div className={"min-w-[80px]"}>{t("edr.huntress.setup.apiSecretLabel")}</div>}
+              customPrefix={<div className={"min-w-[80px]"}>{t("edr.huntress.apiSecretLabel")}</div>}
               placeholder={"hs_3b80d8e463aeb037ac211fafb7fc59c1"}
               value={apiSecret}
               onChange={(e) => setApiSecret(e.target.value)}
@@ -299,11 +299,11 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={16} />
-            {t("edr.huntress.setup.peerApprovalTitle")}
+            {t("edr.huntress.peerApprovalTitle")}
           </p>
 
           <HelpText className={"max-w-lg mt-2"}>
-            {t("edr.huntress.setup.peerApprovalHelp")}
+            {t("edr.huntress.peerApprovalHelp")}
           </HelpText>
 
           <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -377,7 +377,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -387,7 +387,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step === 0 ? "Get Started" : "Continue"}
+            {step === 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -399,7 +399,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("idpSync.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -411,8 +411,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("azureAd.estimatedTime")}</span>
           </div>
         </div>
       )}

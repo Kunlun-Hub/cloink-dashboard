@@ -45,23 +45,38 @@ import { useUsers } from "@/contexts/UsersProvider";
 import { NetworkResource } from "@/interfaces/Network";
 
 export const getTrafficEventTypeText = (
-  t: TrafficEventType,
+  t: (key: string, values?: Record<string, unknown>) => string,
+  type: TrafficEventType,
   isP2P: boolean,
   direction: TrafficEventDirection,
 ) => {
-  const name = isP2P ? "P2P" : "Routed";
+  const name = isP2P ? t("trafficEvents.p2p") : t("trafficEvents.routed");
   const isInbound = direction === TrafficEventDirection.INGRESS;
-  const directionText = isInbound ? "(inbound)" : "(outbound)";
+  const directionText = isInbound
+    ? t("trafficEvents.inbound")
+    : t("trafficEvents.outbound");
 
-  switch (t) {
+  switch (type) {
     case TrafficEventType.CONNECTED:
-      return `${name} connection started ${directionText}`;
+      return t("trafficEvents.typeText", {
+        name,
+        verb: t("trafficEvents.connectionStarted"),
+        direction: directionText,
+      });
     case TrafficEventType.BLOCKED:
-      return `${name} connection blocked ${directionText}`;
+      return t("trafficEvents.typeText", {
+        name,
+        verb: t("trafficEvents.connectionBlocked"),
+        direction: directionText,
+      });
     case TrafficEventType.STOPPED:
-      return `${name} connection stopped ${directionText}`;
+      return t("trafficEvents.typeText", {
+        name,
+        verb: t("trafficEvents.connectionStopped"),
+        direction: directionText,
+      });
     default:
-      return "Unknown";
+      return t("common.unknown");
   }
 };
 
@@ -81,10 +96,16 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
   {
     id: "type",
     accessorKey: "type",
-    accessorFn: (t) => {
+    accessorFn: (row) => {
       const isP2P =
-        t.source.id === t.reporter_id || t.destination.id === t.reporter_id;
-      return getTrafficEventTypeText(t.events[0].type, isP2P, t.direction);
+        row.source.id === row.reporter_id ||
+        row.destination.id === row.reporter_id;
+      return getTrafficEventTypeText(
+        t,
+        row.events[0].type,
+        isP2P,
+        row.direction,
+      );
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
@@ -95,10 +116,16 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
   {
     id: "text",
     accessorKey: "type",
-    accessorFn: (t) => {
+    accessorFn: (row) => {
       const isP2P =
-        t.source.id === t.reporter_id || t.destination.id === t.reporter_id;
-      return getTrafficEventTypeText(t.events[0].type, isP2P, t.direction);
+        row.source.id === row.reporter_id ||
+        row.destination.id === row.reporter_id;
+      return getTrafficEventTypeText(
+        t,
+        row.events[0].type,
+        isP2P,
+        row.direction,
+      );
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (

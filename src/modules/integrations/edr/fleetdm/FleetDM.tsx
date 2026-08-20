@@ -21,6 +21,7 @@ import FleetDMSetup from "@/modules/integrations/edr/fleetdm/FleetDMSetup";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   account: Account;
@@ -31,6 +32,7 @@ export const FleetDM = ({ account }: Props) => {
   const [setupModal, setSetupModal] = useState(false);
   const { permission } = usePermissions();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const {
     fleetdm: integration,
@@ -53,10 +55,10 @@ export const FleetDM = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable FleetDM?`,
-          description: `Are you sure you want to disable the FleetDM integration?`,
+          title: t("fleetdm.disableTitle"),
+          description: t("fleetdm.disableDescription"),
           confirmText: "Disable",
-          cancelText: "Cancel",
+          cancelText: t("common.cancel"),
           type: "warning",
         })
       : true;
@@ -66,10 +68,10 @@ export const FleetDM = ({ account }: Props) => {
       integration.groups?.map((group) => (group as Group).id) || [];
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("fleetdm.notifyTitle"),
+      description: isCurrentlyEnabled
+        ? t("fleetdm.disabledDescription")
+        : t("fleetdm.enabledDescription"),
       promise: integrationRequest
         .put({
           ...integration,
@@ -80,7 +82,7 @@ export const FleetDM = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/fleetdm");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("fleetdm.updating"),
     });
   };
 
@@ -90,7 +92,7 @@ export const FleetDM = ({ account }: Props) => {
     <>
       <IntegrationCard
         name={"FleetDM"}
-        description="Open-source device management platform for macOS, Windows, and Linux with osquery-based compliance policies."
+        description={t("fleetdm.cardDescription")}
         url={{
           title: "fleetdm.com",
           href: "https://fleetdm.com/",
@@ -124,10 +126,12 @@ type ConfigurationProps = {
 const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
+  const { t } = useI18n();
+
   const lastSync = useMemo(() => {
-    if (isEmpty(config?.last_synced_at)) return "Not synchronized";
-    return "Synced " + dayjs().to(config?.last_synced_at);
-  }, [config]);
+    if (isEmpty(config?.last_synced_at)) return t("fleetdm.notSynced");
+    return t("fleetdm.synced", { time: dayjs().to(config?.last_synced_at) });
+  }, [config, t]);
 
   return (
     <>

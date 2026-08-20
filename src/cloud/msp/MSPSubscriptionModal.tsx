@@ -7,6 +7,7 @@ import * as React from "react";
 import { useTenantPlan } from "@/cloud/msp/hooks/useTenantPlan";
 import { Tenant } from "@/cloud/msp/interfaces/Tenant";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -31,6 +32,7 @@ const MSPSubscriptionModalContent = ({
   tenant,
   setOpen,
 }: SubscriptionModalContentProps) => {
+  const { t } = useI18n();
   const {
     plans,
     isLoading,
@@ -51,8 +53,8 @@ const MSPSubscriptionModalContent = ({
     >
       <ModalHeader
         icon={<CreditCardIcon size={18} />}
-        title={`NetBird Plan for ${tenant.name}`}
-        description={"Select the plan that best fits your tenant's needs."}
+        title={t("msp.netBirdPlanFor", { name: tenant.name })}
+        description={t("msp.selectPlanForTenant")}
         color={"netbird"}
       />
       <div className={"px-8 pb-1"}>
@@ -75,8 +77,8 @@ const MSPSubscriptionModalContent = ({
                   onClick={() => subscribe(plan).finally(() => setOpen(false))}
                   key={plan.name}
                   buttonText={{
-                    upgrade: "Continue with",
-                    downgrade: "Downgrade to",
+                    upgrade: t("billing.continueWith"),
+                    downgrade: t("billing.downgradeTo"),
                   }}
                 />
               );
@@ -84,10 +86,10 @@ const MSPSubscriptionModalContent = ({
         </div>
         <div className={"pt-6 flex items-center justify-center"}>
           <Paragraph className={"inline text-sm"}>
-            Haven’t decided for a plan yet?{" "}
+            {t("billing.haventDecided")}{" "}
             <ModalClose asChild={true}>
               <InlineButtonLink variant={"white"}>
-                Continue with Trial
+                {t("billing.continueWithTrial")}
               </InlineButtonLink>
             </ModalClose>
           </Paragraph>

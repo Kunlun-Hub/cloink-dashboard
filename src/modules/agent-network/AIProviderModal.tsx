@@ -644,7 +644,7 @@ export default function AIProviderModal({
                 >
                   {t("aiProvider.modal.noClustersAvailablePrefix")}
                   <InlineLink href={"/reverse-proxy/services"}>
-                    {" "}Reverse Proxy
+                    {" "}{t("reverseProxy.title")}
                   </InlineLink>
                   {" "}{t("aiProvider.modal.noClustersAvailableSuffix")}
                 </Callout>

@@ -221,7 +221,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("idpSync.dangerZone")}
           </TabsTrigger>
         </TabsList>
 
@@ -230,11 +230,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={14} />
-                Groups
+                {t("edr.huntress.groupsLabel")}
               </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Select groups you want to apply the Huntress integration to
+              {t("edr.huntress.peerApprovalHelp")}
             </HelpText>
 
             <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -244,21 +244,22 @@ export function ConfigurationContent({
         <TabsContent value={"compliance"} className={"px-8"}>
           <div className={""}>
             <Label>
-              <div className={"flex gap-2 items-center"}>Requirements</div>
+              <div className={"flex gap-2 items-center"}>
+                {t("edr.huntress.requirementsLabel")}
+              </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Set the specific requirements that devices must meet to be
-              considered compliant. Learn more in the{" "}
+              {t("edr.huntress.setup.complianceDesc")}{" "}
               <InlineLink
                 href={
                   HUNTRESS_DOCUMENTATION_URL
                 }
                 target={"_blank"}
               >
-                Huntress Documentation
+                {t("edr.huntress.setup.complianceDocLink")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>{" "}
-              about the different statuses.
+              {t("edr.huntress.setup.complianceDescSuffix")}
             </HelpText>
 
             <HuntressMatchSettings
@@ -274,23 +275,19 @@ export function ConfigurationContent({
               <Label>
                 <div className={"flex gap-2 items-center"}>
                   <RefreshCcw size={14} />
-                  Sync Window
+                  {t("edr.huntress.syncWindowLabel")}
                 </div>
               </Label>
               <FullTooltip
                 interactive={false}
                 content={
                   <div className={"max-w-xs text-xs"}>
-                    Example: This property is set to 24 hours. Jane&apos;s
-                    laptop hasn&apos;t synced with Huntress for 27 hours. Even
-                    though it&apos;s marked as Compliant in Huntress, it will
-                    still be blocked from network access
+                    {t("edr.huntress.setup.syncWindowTooltip")}
                   </div>
                 }
               >
                 <HelpText className={"max-w-sm mt-1"}>
-                  Devices not synced with Huntress in this time won&apos;t have
-                  network access.
+                  {t("edr.huntress.setup.syncWindowHelp")}
                   <IconInfoCircle
                     size={14}
                     className={"relative inline ml-1 -top-[1px]"}
@@ -319,7 +316,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  API Key
+                  {t("edr.huntress.apiKeyLabel")}
                 </div>
               }
               placeholder={"hk_30813a372c41f72f1892"}
@@ -343,7 +340,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  API Secret
+                  {t("edr.huntress.apiSecretLabel")}
                 </div>
               }
               placeholder={"hs_3b80d8e463aeb037ac211fafb7fc59c1"}
@@ -368,14 +365,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={14} />
-                Delete Integration
+                {t("idpSync.deleteIntegrationLabel")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t("idpSync.deleteIntegrationHelp")}
             </HelpText>
           </div>
           <Button
@@ -384,7 +378,7 @@ export function ConfigurationContent({
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("idpSync.deleteIntegrationLabel")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -393,12 +387,12 @@ export function ConfigurationContent({
       <ModalFooter className={"items-center gap-4"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink
               href={HUNTRESS_NETBIRD_DOCUMENTATION_URL}
               target={"_blank"}
             >
-              Huntress Integration
+              {t("edr.huntress.notifyTitle")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -406,7 +400,7 @@ export function ConfigurationContent({
         <div className={"flex gap-4"}>
           <ModalClose asChild={true}>
             <Button variant={"secondary"} className={"w-full"}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           </ModalClose>
 
@@ -416,7 +410,7 @@ export function ConfigurationContent({
             disabled={!canSave}
             onClick={updateIntegration}
           >
-            Save Changes
+            {t("common.saveChanges")}
           </Button>
         </div>
       </ModalFooter>

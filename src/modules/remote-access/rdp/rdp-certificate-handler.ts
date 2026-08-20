@@ -236,8 +236,8 @@ export class RDPCertificateHandler implements CertificateHandler {
       // Add warning about certificate change
       const warningDiv = modal.querySelector(".cert-warning") as HTMLElement;
       warningDiv.innerHTML = `
-        <strong>⚠️ Certificate has changed!</strong><br>
-        <small>Previous fingerprint: ${oldCert.fingerprint.substring(
+        <strong>${t("rdpCertificate.certificateChanged")}</strong><br>
+        <small>${t("rdpCertificate.previousFingerprint")} ${oldCert.fingerprint.substring(
           0,
           32,
         )}...</small>
