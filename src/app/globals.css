@@ -12,13 +12,13 @@ html{
 }
 
 h1 {
-    @apply text-2xl font-medium text-gray-700 dark:text-nb-gray-100 my-1;
+    @apply text-2xl font-medium text-nb-gray-100 my-1;
 }
 h2 {
-    @apply text-xl font-medium text-gray-700 dark:text-nb-gray-100 my-1;
+    @apply text-xl font-medium text-nb-gray-100 my-1;
 }
 p {
-    @apply font-light tracking-wide text-gray-700 dark:text-zinc-50 text-sm;
+    @apply font-light tracking-wide text-zinc-50 text-sm;
 }
 
 .p-default {
