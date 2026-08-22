@@ -311,7 +311,7 @@ docker compose up -d`,
               {loadingToken
                 ? t("relays.generatingToken")
                 : setupToken
-                  ? t("relays.tokenReady")
+                  ? `${t("relays.tokenReady")}${setupToken.expires_at ? ` (${t("relays.tokenExpiresAt")}: ${new Date(setupToken.expires_at).toLocaleString()})` : ""}`
                   : t("relays.tokenNotReady")}
             </div>
           )}

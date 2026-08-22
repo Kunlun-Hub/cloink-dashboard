@@ -176,6 +176,7 @@ const en = {
   "relays.generatingToken": "Generating relay setup token...",
   "relays.tokenReady":
     "Setup token is ready. Copy the command and run it on the relay server.",
+  "relays.tokenExpiresAt": "expires",
   "relays.tokenNotReady": "Setup token has not been generated yet.",
   "relays.tokenError": "Failed to generate relay setup token.",
   "relays.delete": "Delete relay",

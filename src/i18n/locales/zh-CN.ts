@@ -200,6 +200,7 @@ const zhCN = {
   "relays.composeFile": "docker-compose.yml",
   "relays.generatingToken": "正在生成中继安装令牌...",
   "relays.tokenReady": "安装令牌已生成，复制命令到中继服务器执行即可。",
+  "relays.tokenExpiresAt": "有效期至",
   "relays.tokenNotReady": "安装令牌尚未生成。",
   "relays.tokenError": "生成中继安装令牌失败。",
   "relays.delete": "删除中继",
