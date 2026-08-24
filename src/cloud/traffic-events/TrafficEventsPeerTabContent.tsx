@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useState } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { DateRange } from "react-day-picker";
 import { useSWRConfig } from "swr";
@@ -190,12 +190,7 @@ export const TrafficEventsPeerTabContent = () => {
     );
   };
 
-  const trafficEvents = useMemo(() => {
-    return events?.data?.map((event) => ({
-      ...event,
-      id: event.flow_id,
-    }));
-  }, [events]);
+  const trafficEvents = events?.data;
 
   return (
     <div className={"pb-10 px-8"}>

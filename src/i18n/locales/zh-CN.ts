@@ -5791,6 +5791,23 @@ const zhCN = {
   "trafficEvents.emptyTitle": "暂无流量事件",
   "trafficEvents.emptyDescription":
     "我们尚未检测到任何流量事件。这可能是因为你刚启用了此功能，或者还没有网络活动。",
+  "trafficEvents.windowStart": "窗口开始时间",
+  "trafficEvents.user": "用户",
+  "trafficEvents.unknownUser": "未知用户",
+  "trafficEvents.reporter": "上报设备",
+  "trafficEvents.details": "明细",
+  "trafficEvents.expandDetails": "展开已持久化明细",
+  "trafficEvents.collapseDetails": "收起已持久化明细",
+  "trafficEvents.eventCounts": "观测事件",
+  "trafficEvents.eventCountsValue": "开始 {starts} · 结束 {ends} · 丢弃 {drops}",
+  "trafficEvents.integrity": "完整性",
+  "trafficEvents.integrityUnknown": "未知",
+  "trafficEvents.integrityUnknownDescription":
+    "该窗口尚无采集完整性遥测数据。",
+  "trafficEvents.detailsLoading": "正在加载已持久化明细...",
+  "trafficEvents.detailsError": "无法加载已持久化明细。",
+  "trafficEvents.detailsEmpty": "该分组没有已持久化明细。",
+  "trafficEvents.retry": "重试",
   "notificationSlack.connectTitle": "将 NetBird 与 Slack 连接",
   "notificationSlack.connectDescription":
     "通过 Incoming Webhook 在你的 Slack 频道中直接接收 NetBird 通知事件。",

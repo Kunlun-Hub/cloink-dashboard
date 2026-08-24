@@ -9,15 +9,18 @@ type Props = {
 };
 
 export const TrafficEventsTimeCell = ({ timestamp, className }: Props) => {
+  const fullTimestamp = dayjs(timestamp).format("MMM D, YYYY h:mm:ss A Z");
   return (
-    <div
+    <time
+      dateTime={timestamp}
+      title={fullTimestamp}
       className={cn(
         "w-full flex flex-col gap-1 min-w-[120px] max-w-[120px]",
         className,
       )}
     >
-      <div>
-        <div
+      <span>
+        <span
           className={cn(
             "flex-col flex whitespace-nowrap",
             "dark:text-neutral-300 text-neutral-500 hover:text-neutral-100 py-2 px-3 rounded-md cursor-default",
@@ -29,9 +32,9 @@ export const TrafficEventsTimeCell = ({ timestamp, className }: Props) => {
           <span className={"text-nb-gray-400"}>
             {dayjs(timestamp).format("h:mm:ss A")}
           </span>
-        </div>
-      </div>
-    </div>
+        </span>
+      </span>
+    </time>
   );
 };
 

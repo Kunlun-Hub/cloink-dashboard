@@ -6241,6 +6241,23 @@ const en = {
   "trafficEvents.emptyTitle": "No traffic events yet",
   "trafficEvents.emptyDescription":
     "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity.",
+  "trafficEvents.windowStart": "Window start",
+  "trafficEvents.user": "User",
+  "trafficEvents.unknownUser": "Unknown user",
+  "trafficEvents.reporter": "Reporter",
+  "trafficEvents.details": "Details",
+  "trafficEvents.expandDetails": "Expand persisted details",
+  "trafficEvents.collapseDetails": "Collapse persisted details",
+  "trafficEvents.eventCounts": "Observed events",
+  "trafficEvents.eventCountsValue": "{starts} start · {ends} end · {drops} drop",
+  "trafficEvents.integrity": "Integrity",
+  "trafficEvents.integrityUnknown": "Unknown",
+  "trafficEvents.integrityUnknownDescription":
+    "Collection completeness telemetry is not available for this window.",
+  "trafficEvents.detailsLoading": "Loading persisted details...",
+  "trafficEvents.detailsError": "Persisted details could not be loaded.",
+  "trafficEvents.detailsEmpty": "No persisted details were found for this group.",
+  "trafficEvents.retry": "Retry",
   "notificationSlack.connectTitle": "Connect NetBird with Slack",
   "notificationSlack.connectDescription":
     "Receive NetBird notification events directly in your Slack channel via an Incoming Webhook.",

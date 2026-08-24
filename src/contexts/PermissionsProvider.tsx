@@ -27,6 +27,7 @@ const MODULE_KEYS: Array<keyof Permissions["modules"]> = [
   "users",
   "pats",
   "events",
+  "network_traffic",
   "settings",
   "accounts",
   "billing",

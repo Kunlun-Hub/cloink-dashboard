@@ -393,7 +393,7 @@ const PeerOverviewTabs = () => {
           </TabsTrigger>
         )}
 
-        {permission.events.read && <TrafficEventsPeerTabTrigger />}
+        {permission.network_traffic.read && <TrafficEventsPeerTabTrigger />}
       </TabsList>
 
       <TabsContent value={"overview"} className={"pb-8"}>
@@ -430,7 +430,7 @@ const PeerOverviewTabs = () => {
         </TabsContent>
       )}
 
-      {permission.events.read && (
+      {permission.network_traffic.read && (
         <TabsContent value={"traffic-events"} className={"pb-8"}>
           <TrafficEventsPeerTabContent />
         </TabsContent>

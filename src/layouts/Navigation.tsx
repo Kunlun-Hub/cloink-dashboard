@@ -361,7 +361,10 @@ const ActivityNavigationItem = () => {
       label={t("nav.activity")}
       href={"/events"}
       collapsible
-      visible={permission.events.read && !agentNetworkOnly}
+      visible={
+        (permission.events.read || permission.network_traffic.read) &&
+        !agentNetworkOnly
+      }
     >
       <SidebarItem
         label={t("nav.auditEvents")}
@@ -375,7 +378,7 @@ const ActivityNavigationItem = () => {
         isChild
         href={"/events/traffic"}
         exactPathMatch={true}
-        visible={permission.events.read}
+        visible={permission.network_traffic.read}
       />
     </SidebarItem>
   );

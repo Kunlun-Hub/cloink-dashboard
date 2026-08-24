@@ -18,6 +18,7 @@ export interface Permissions {
     pats: Permission;
 
     events: Permission;
+    network_traffic: Permission;
 
     settings: Permission;
     accounts: Permission;

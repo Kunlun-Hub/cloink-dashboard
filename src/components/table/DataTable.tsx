@@ -143,6 +143,11 @@ interface DataTableProps<TData, TValue> {
   getStartedCard?: React.ReactNode;
   placeholders?: TData[];
   renderExpandedRow?: (row: TData) => React.ReactNode;
+  renderExpandButton?: (
+    expanded: boolean,
+    controls: string,
+    toggle: () => void,
+  ) => React.ReactNode;
   renderRow?: (row: TData, children: React.ReactNode) => React.ReactNode;
   minimal?: boolean;
   className?: string;
@@ -207,6 +212,7 @@ export function DataTable<TData, TValue>({
   onRowClick,
   getStartedCard,
   renderExpandedRow,
+  renderExpandButton,
   renderRow,
   minimal,
   className,
@@ -555,8 +561,31 @@ export function DataTable<TData, TValue>({
                           )}
                           data-state={row.getIsSelected() && "selected"}
                           data-accordion={isExpanded ? "opened" : "closed"}
+                          aria-expanded={
+                            expandedRow && !renderExpandButton
+                              ? isExpanded
+                              : undefined
+                          }
+                          aria-controls={
+                            expandedRow && !renderExpandButton
+                              ? `${rowId}-expanded-row`
+                              : undefined
+                          }
+                          tabIndex={
+                            expandedRow && !renderExpandButton ? 0 : undefined
+                          }
+                          onKeyDown={(event) => {
+                            if (!expandedRow || renderExpandButton) return;
+                            if (event.key !== "Enter" && event.key !== " ") return;
+                            event.preventDefault();
+                            setAccordion((prev) =>
+                              prev?.includes(rowId)
+                                ? prev.filter((item) => item !== rowId)
+                                : [...(prev ?? []), rowId],
+                            );
+                          }}
                           onClick={(e) => {
-                            if (expandedRow) {
+                            if (expandedRow && !renderExpandButton) {
                               e.preventDefault();
                               e.stopPropagation();
                               setAccordion((prev) => {
@@ -585,10 +614,24 @@ export function DataTable<TData, TValue>({
                                 }
                               ></div>
                               <div className={"relative z-[1]"}>
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext(),
-                                )}
+                                {cell.id.endsWith("_expand") &&
+                                  renderExpandButton
+                                  ? renderExpandButton(
+                                      !!isExpanded,
+                                      `${rowId}-expanded-row`,
+                                      () =>
+                                        setAccordion((prev) =>
+                                          prev?.includes(rowId)
+                                            ? prev.filter(
+                                                (item) => item !== rowId,
+                                              )
+                                            : [...(prev ?? []), rowId],
+                                        ),
+                                    )
+                                  : flexRender(
+                                      cell.column.columnDef.cell,
+                                      cell.getContext(),
+                                    )}
                               </div>
                             </TableCellComponent>
                           ))}
@@ -596,6 +639,7 @@ export function DataTable<TData, TValue>({
 
                         {expandedRow && isExpanded && (
                           <TableRowComponent
+                            id={`${rowId}-expanded-row`}
                             data-row-id={row.id + "-expanded-row"}
                             minimal={minimal}
                             className={cn(
