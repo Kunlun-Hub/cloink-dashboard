@@ -11,6 +11,11 @@ export interface Account {
       network_traffic_logs_enabled: boolean;
       network_traffic_packet_counter_enabled: boolean;
       network_traffic_logs_groups: string[];
+      branding_logo_data_url?: string;
+      branding_logo_dark_data_url?: string;
+      branding_icon_data_url?: string;
+      branding_tab_title?: string;
+      branding_primary_color?: string;
     };
     peer_login_expiration_enabled: boolean;
     peer_expose_enabled?: boolean;

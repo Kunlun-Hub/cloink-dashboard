@@ -20,6 +20,7 @@ import DialogProvider from "@/contexts/DialogProvider";
 import ErrorBoundaryProvider from "@/contexts/ErrorBoundary";
 import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
 import { NavigationEvents } from "@/contexts/NavigationEvents";
+import PublicBrandingProvider from "@/modules/account/PublicBrandingProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -54,15 +55,17 @@ export default function AppLayout({
             <AnalyticsProvider>
               <DialogProvider>
                 <ThemeProvider>
-                  <ErrorBoundaryProvider>
-                    <InstanceSetupProvider>
-                      <OIDCProvider>
-                        <TooltipProvider delayDuration={0}>
-                          {children}
-                        </TooltipProvider>
-                      </OIDCProvider>
-                    </InstanceSetupProvider>
-                  </ErrorBoundaryProvider>
+                  <PublicBrandingProvider>
+                    <ErrorBoundaryProvider>
+                      <InstanceSetupProvider>
+                        <OIDCProvider>
+                          <TooltipProvider delayDuration={0}>
+                            {children}
+                          </TooltipProvider>
+                        </OIDCProvider>
+                      </InstanceSetupProvider>
+                    </ErrorBoundaryProvider>
+                  </PublicBrandingProvider>
                 </ThemeProvider>
               </DialogProvider>
               <Toaster

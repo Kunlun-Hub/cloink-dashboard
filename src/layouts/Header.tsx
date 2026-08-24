@@ -14,6 +14,13 @@ import { MSPTransferAccountModal } from "@/cloud/msp/MSPTransferAccountModal";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import {
+  getAccountBrandingDarkLogoDataURL,
+  getAccountBrandingIconDataURL,
+  getAccountBrandingLogoDataURL,
+  getEffectiveBrandingTitle,
+} from "@/modules/account/accountBranding";
+import { useAccount } from "@/modules/account/useAccount";
 import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
 
 export const headerHeight = 65;
@@ -23,6 +30,11 @@ export default function NavbarWithDropdown() {
   const { toggleMobileNav } = useApplicationContext();
   const { bannerHeight } = useAnnouncement();
   const { isRestricted } = usePermissions();
+  const account = useAccount();
+  const brandingLogoDataURL = getAccountBrandingLogoDataURL(account);
+  const brandingDarkLogoDataURL = getAccountBrandingDarkLogoDataURL(account);
+  const brandingIconDataURL = getAccountBrandingIconDataURL(account);
+  const brandingTitle = getEffectiveBrandingTitle(account);
 
   return (
     <>
@@ -61,7 +73,12 @@ export default function NavbarWithDropdown() {
                 "cursor-pointer hover:opacity-70 transition-all mr-auto"
               }
             >
-              <NetBirdLogo />
+              <NetBirdLogo
+                customLogoSrc={brandingLogoDataURL}
+                customDarkLogoSrc={brandingDarkLogoDataURL}
+                customIconSrc={brandingIconDataURL}
+                alt={`${brandingTitle} Logo`}
+              />
             </button>
             <ToggleCollapsableNavigationButton />
           </div>

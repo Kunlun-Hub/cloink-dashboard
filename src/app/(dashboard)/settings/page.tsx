@@ -13,6 +13,7 @@ import {
   MonitorSmartphoneIcon,
   NetworkIcon,
   PackageIcon,
+  PaintbrushIcon,
   ShieldIcon,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -28,6 +29,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import AuthenticationTab from "@/modules/settings/AuthenticationTab";
+import BrandingSettingsTab from "@/modules/settings/BrandingSettingsTab";
 import ClientSettingsTab from "@/modules/settings/ClientSettingsTab";
 import DangerZoneTab from "@/modules/settings/DangerZoneTab";
 import EmailSettingsTab from "@/modules/settings/EmailSettingsTab";
@@ -121,6 +123,13 @@ export default function NetBirdSettings() {
                 <ChartNoAxesCombined size={14} />
                 {t("settings.metrics")}
               </VerticalTabs.Trigger>
+              <VerticalTabs.Trigger
+                value="branding"
+                data-testid="settings-tab-branding"
+              >
+                <PaintbrushIcon size={14} />
+                {t("settings.branding")}
+              </VerticalTabs.Trigger>
               <VerticalTabs.Trigger value="email">
                 <MailIcon size={14} />
                 {t("settings.email")}
@@ -150,6 +159,7 @@ export default function NetBirdSettings() {
             {account && <NetworkSettingsTab account={account} />}
             {account && <ClientSettingsTab account={account} />}
             {account && <MetricsTab account={account} />}
+            {account && <BrandingSettingsTab account={account} />}
             {account && permission.settings.read && <EmailSettingsTab />}
             {account &&
               permission.settings.read &&
