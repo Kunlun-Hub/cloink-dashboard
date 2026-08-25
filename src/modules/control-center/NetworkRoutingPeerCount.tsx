@@ -5,12 +5,14 @@ import * as React from "react";
 import { useMemo } from "react";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import { Network } from "@/interfaces/Network";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   network: Network;
 };
 
 export const NetworkRoutingPeerCount = ({ network }: Props) => {
+  const { t } = useI18n();
   const router = useRouter();
   const routerCount = network?.routing_peers_count ?? 0;
 
@@ -32,7 +34,7 @@ export const NetworkRoutingPeerCount = ({ network }: Props) => {
         size={8}
         className={cn("shrink-0 block", routingPeerStatusColor)}
       />
-      {routerCount} Routing Peer(s)
+      {t("common.routingPeerCount", { count: routerCount })}
     </Button>
   );
 };

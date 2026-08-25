@@ -31,6 +31,7 @@ import { uniqBy } from "lodash";
 import { useSWRConfig } from "swr";
 import SetupKeysIcon from "@/assets/icons/SetupKeysIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
@@ -43,11 +44,17 @@ import SetupKeyModal from "@/modules/setup-keys/SetupKeyModal";
 import SetupKeyNameCell from "@/modules/setup-keys/SetupKeyNameCell";
 import SetupKeyUsageCell from "@/modules/setup-keys/SetupKeyUsageCell";
 
-export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
+export const getSetupKeysTableColumns = (
+  t: (key: string, params?: Record<string, unknown>) => string,
+): ColumnDef<SetupKey>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name & Key</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("table.nameAndKey")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => (
@@ -68,7 +75,9 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
   {
     accessorKey: "usage_limit",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Usage</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>{t("table.usage")}</DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <SetupKeyUsageCell
@@ -86,11 +95,18 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
   {
     accessorKey: "last_used",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last used</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("table.lastUsed")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "datetime",
     cell: ({ row }) => (
-      <LastTimeRow date={row.original.last_used} text={"Last used on"} />
+      <LastTimeRow
+        date={row.original.last_used}
+        text={t("setupKeys.lastUsedOn")}
+      />
     ),
   },
   {
@@ -107,7 +123,9 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
     accessorFn: (item) => item.auto_groups?.length,
     id: "groups",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>{t("table.groups")}</DataTableHeader>
+      );
     },
     cell: ({ row }) => <SetupKeyGroupsCell setupKey={row.original} />,
   },
@@ -115,7 +133,11 @@ export const SetupKeysTableColumns: ColumnDef<SetupKey>[] = [
   {
     accessorKey: "expires",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Expires</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("table.expires")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       let expires = dayjs(row.original.expires);
@@ -154,6 +176,9 @@ export default function SetupKeysTable({
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { permission } = usePermissions();
+  const { t } = useI18n();
+
+  const columns = useMemo(() => getSetupKeysTableColumns(t), [t]);
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -193,27 +218,31 @@ export default function SetupKeysTable({
   // re-route it through the consolidated filter UI.
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Valid", dotClass: "bg-green-500" },
-      { value: false, label: "Expired", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("filters.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("filters.valid"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("filters.expired"),
+        dotClass: "bg-nb-gray-700",
+      },
     ],
-    [],
+    [t],
   );
 
   const usageOptions = useMemo<RadioOption<string | undefined>[]>(
     () => [
-      { value: undefined, label: "All" },
-      { value: "one-off", label: "One-off" },
-      { value: "reusable", label: "Reusable" },
+      { value: undefined, label: t("filters.all") },
+      { value: "one-off", label: t("setupKeys.oneOff") },
+      { value: "reusable", label: t("setupKeys.reusable") },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "valid",
-        label: "Status",
+        label: t("common.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -227,7 +256,7 @@ export default function SetupKeysTable({
       },
       {
         id: "type",
-        label: "Usage",
+        label: t("table.usage"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as string | undefined}
@@ -241,7 +270,7 @@ export default function SetupKeysTable({
       },
       {
         id: "group_names",
-        label: "Groups",
+        label: t("table.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -253,7 +282,7 @@ export default function SetupKeysTable({
         formatChip: (v) => formatGroupsChip(v as string[] | undefined),
       },
     ],
-    [statusOptions, usageOptions, tableGroups],
+    [t, statusOptions, usageOptions, tableGroups],
   );
 
   return (
@@ -269,14 +298,14 @@ export default function SetupKeysTable({
         inset={false}
         minimal={isGroupPage}
         keepStateInLocalStorage={!isGroupPage}
-        text={"Setup Keys"}
+        text={t("setupKeys.title")}
         sorting={sorting}
         setSorting={setSorting}
         initialPageSize={25}
         showResetFilterButton={false}
-        columns={SetupKeysTableColumns}
+        columns={columns}
         data={setupKeys}
-        searchPlaceholder={"Search by name, type or group..."}
+        searchPlaceholder={t("setupKeys.searchPlaceholder")}
         columnVisibility={{
           valid: false,
           group_strings: false,
@@ -291,10 +320,8 @@ export default function SetupKeysTable({
             <NoResults
               icon={<SetupKeysIcon className={"fill-nb-gray-200"} size={20} />}
               className={"py-4"}
-              title={"This group is not used within any setup keys yet"}
-              description={
-                "Assign this group when creating a new setup key to see them listed here."
-              }
+              title={t("setupKeys.groupEmptyTitle")}
+              description={t("setupKeys.groupEmptyDescription")}
             >
               <Button
                 variant={"primary"}
@@ -303,7 +330,7 @@ export default function SetupKeysTable({
                 disabled={!permission.setup_keys.create}
               >
                 <PlusCircle size={16} />
-                Create Key
+                {t("setupKeys.createKey")}
               </Button>
             </NoResults>
           ) : (
@@ -317,10 +344,8 @@ export default function SetupKeysTable({
                   size={"large"}
                 />
               }
-              title={"Create Setup Key"}
-              description={
-                "Add a setup key to register new machines in your network. The key links machines to your account during initial setup."
-              }
+              title={t("setupKeys.createTitle")}
+              description={t("setupKeys.emptyDescription")}
               button={
                 <Button
                   variant={"primary"}
@@ -330,19 +355,19 @@ export default function SetupKeysTable({
                   data-testid="open-create-setup-key"
                 >
                   <PlusCircle size={16} />
-                  Create Key
+                  {t("setupKeys.createKey")}
                 </Button>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("setupKeys.learnMorePrefix")}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
                     }
                     target={"_blank"}
                   >
-                    Setup Keys
+                    {t("setupKeys.learnMoreLink")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>
@@ -361,7 +386,7 @@ export default function SetupKeysTable({
                 data-testid="open-create-setup-key"
               >
                 <PlusCircle size={16} />
-                Create Key
+                {t("setupKeys.createKey")}
               </Button>
             )}
           </>

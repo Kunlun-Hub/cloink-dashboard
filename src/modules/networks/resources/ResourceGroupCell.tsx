@@ -8,11 +8,13 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   resource?: NetworkResource;
 };
 export const ResourceGroupCell = ({ resource }: Props) => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   const { network, openResourceGroupModal } = useNetworksContext();
@@ -45,7 +47,7 @@ export const ResourceGroupCell = ({ resource }: Props) => {
           disabled={!permission.networks.update}
         >
           <IconCirclePlus size={14} />
-          Add
+          {t("actions.add")}
         </Badge>
       )}
     </button>

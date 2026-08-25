@@ -29,6 +29,7 @@ import ShellIcon from "@/assets/icons/ShellIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import useOperatingSystem from "@/hooks/useOperatingSystem";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { SetupKey } from "@/interfaces/SetupKey";
 import AndroidTab from "@/modules/setup-netbird-modal/AndroidTab";
@@ -113,6 +114,7 @@ export function SetupModalContent({
   const [isFirstRun] = useLocalStorage<boolean>("netbird-first-run", true);
   const pathname = usePathname();
   const isInstallPage = pathname === "/install";
+  const { t } = useI18n();
 
   // Server flow generates its own setup key when the caller hasn't
   // supplied one. The generated value lives here so the OS tabs and
@@ -145,8 +147,8 @@ export function SetupModalContent({
           content={
             <>
               A setup key is a one-time, pre-authentication token used to
-              enroll an unattended machine with NetBird. Pass it to{" "}
-              <code>netbird up</code> via <code>--setup-key</code> and the
+              enroll an unattended machine with Cloink. Pass it to{" "}
+              <code>cloink up</code> via <code>--setup-key</code> and the
               peer registers without an interactive login.
             </>
           }
@@ -181,13 +183,14 @@ export function SetupModalContent({
     }
 
     return effectiveSetupKey
-      ? "Install NetBird with Setup Key"
-      : "Install NetBird";
+      ? t("setupModal.installWithSetupKey")
+      : t("setupModal.installNetBird");
   }, [
     isFirstRun,
     isInstallPage,
     effectiveSetupKey,
     title,
+    t,
     user?.given_name,
   ]);
 
@@ -210,8 +213,8 @@ export function SetupModalContent({
             )}
           >
             {isUserDevice === false || effectiveSetupKey
-              ? "To get started, install and run NetBird with the setup key as a parameter."
-              : "To get started, install NetBird and log in with your email account."}
+              ? t("setupModal.installWithSetupKeyDescription")
+              : t("setupModal.installDescription")}
           </Paragraph>
         </div>
       )}
@@ -377,7 +380,7 @@ type NetBirdUpCommandProps = {
   continuation?: string;
 };
 
-// NetBirdUpCommand renders `netbird up` inside a <Code> block. When
+// NetBirdUpCommand renders `cloink up` inside a <Code> block. When
 // extra flags are present it splits across multiple lines with the
 // shell's line-continuation character (purely visual) so long commands
 // stay readable; the clipboard always gets the single-line form.
@@ -471,13 +474,14 @@ type SetupKeyGeneratorProps = {
 // SetupKeyGenerator renders the inline banner that lets the operator
 // create a one-off setup key without leaving the install modal. The
 // resulting key is lifted to the parent so the OS tabs can splice it
-// into the `netbird up --setup-key=...` command.
+// into the `cloink up --setup-key=...` command.
 function SetupKeyGenerator({
   generatedKey,
   onGenerated,
 }: SetupKeyGeneratorProps) {
   const setupKeyRequest = useApiCall<SetupKey>("/setup-keys", true);
   const [isGenerating, setIsGenerating] = useState(false);
+  const { t } = useI18n();
 
   const generate = () => {
     setIsGenerating(true);
@@ -502,9 +506,9 @@ function SetupKeyGenerator({
       .finally(() => setIsGenerating(false));
 
     notify({
-      title: "Setup Key Created",
-      description: "A one-off setup key was generated for this install.",
-      loadingMessage: "Generating setup key...",
+      title: t("setupModal.setupKeyCreated"),
+      description: t("setupModal.setupKeyCreatedDescription"),
+      loadingMessage: t("setupModal.generatingSetupKey"),
       promise: request,
     });
   };
@@ -514,8 +518,8 @@ function SetupKeyGenerator({
     try {
       await navigator.clipboard.writeText(generatedKey.key);
       notify({
-        title: "Setup Key Copied",
-        description: "Successfully copied to clipboard.",
+        title: t("setupModal.setupKeyCopied"),
+        description: t("setupModal.setupKeyCopiedDescription"),
       });
     } catch {}
   };

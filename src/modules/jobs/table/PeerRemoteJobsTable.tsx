@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import DataTableRefreshButton from "@/components/table/DataTableRefreshButton";
 import { DataTableRowsPerPage } from "@/components/table/DataTableRowsPerPage";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Job } from "@/interfaces/Job";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import LastTimeRow from "@/modules/common-table-rows/LastTimeRow";
@@ -24,40 +25,45 @@ type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
-const PeerRemoteJobsColumns: ColumnDef<Job>[] = [
+const createPeerRemoteJobsColumns = (
+  t: (key: string) => string,
+): ColumnDef<Job>[] => [
   {
     accessorKey: "Type",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Type</DataTableHeader>
+      <DataTableHeader column={column}>{t("jobs.type")}</DataTableHeader>
     ),
     cell: ({ row }) => <JobTypeCell job={row.original} />,
   },
   {
     accessorKey: "CreatedAt",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Created</DataTableHeader>
+      <DataTableHeader column={column}>{t("jobs.created")}</DataTableHeader>
     ),
     sortingFn: "datetime",
     cell: ({ row }) => (
-      <LastTimeRow date={row.original.created_at} text="Created at" />
+      <LastTimeRow date={row.original.created_at} text={t("jobs.createdAt")} />
     ),
   },
   {
     accessorKey: "Status",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Status</DataTableHeader>
+      <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>
     ),
     cell: ({ row }) => <JobStatusCell job={row.original} />,
   },
   {
     accessorKey: "CompletedAt",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Completed</DataTableHeader>
+      <DataTableHeader column={column}>{t("jobs.completed")}</DataTableHeader>
     ),
     sortingFn: "datetime",
     cell: ({ row }) =>
       row.original.completed_at ? (
-        <LastTimeRow date={row.original.completed_at} text="Completed at" />
+        <LastTimeRow
+          date={row.original.completed_at}
+          text={t("jobs.completedAt")}
+        />
       ) : (
         <EmptyRow />
       ),
@@ -65,7 +71,7 @@ const PeerRemoteJobsColumns: ColumnDef<Job>[] = [
   {
     accessorKey: "Parameters",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Parameters</DataTableHeader>
+      <DataTableHeader column={column}>{t("jobs.parameters")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <JobParametersCell parameters={row.original.workload.parameters} />
@@ -74,7 +80,7 @@ const PeerRemoteJobsColumns: ColumnDef<Job>[] = [
   {
     id: "ResultOrReason",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Output</DataTableHeader>
+      <DataTableHeader column={column}>{t("jobs.output")}</DataTableHeader>
     ),
     cell: ({ row }) => <JobOutputCell job={row.original} />,
   },
@@ -87,6 +93,8 @@ export default function PeerRemoteJobsTable({
   peerID,
 }: Props) {
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
+  const PeerRemoteJobsColumns = createPeerRemoteJobsColumns(t);
 
   const [sorting, setSorting] = useState<SortingState>([
     { id: "CreatedAt", desc: true },
@@ -109,17 +117,17 @@ export default function PeerRemoteJobsTable({
       showSearchAndFilters={true}
       inset={false}
       tableClassName="mt-0"
-      text="Jobs"
+      text={t("jobs.title")}
       columns={PeerRemoteJobsColumns}
       keepStateInLocalStorage={false}
       data={jobs}
-      searchPlaceholder="Search by type, status, or parameters..."
+      searchPlaceholder={t("jobs.searchPlaceholder")}
       isLoading={isLoading}
       getStartedCard={
         <NoResults
           className="py-4"
-          title="This peer has no remote jobs"
-          description="Create a debug bundle or trigger other remote jobs to see them listed here."
+          title={t("jobs.emptyTitle")}
+          description={t("jobs.emptyDescription")}
           icon={<ClipboardList size={20} className="text-nb-gray-300" />}
         />
       }

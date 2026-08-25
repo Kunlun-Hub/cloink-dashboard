@@ -13,6 +13,7 @@ import Steps from "@components/Steps";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 import { Mark } from "@components/ui/Mark";
 import { cn } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 import { ExternalLinkIcon, GlobeIcon, Repeat } from "lucide-react";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import React, { useState } from "react";
@@ -37,6 +38,7 @@ export default function OidcSetupModal({
   discoveryPlaceholder,
 }: Readonly<Props>) {
   const { createOrUpdateConnection, mutate } = useEnterpriseConnections();
+  const { t } = useI18n();
   const [step, setStep] = useState(0);
   const maxSteps = 1;
 
@@ -52,9 +54,9 @@ export default function OidcSetupModal({
 
   const connect = () => {
     notify({
-      title: "Okta SSO Integration",
-      description: "Okta SSO was successfully connected",
-      loadingMessage: "Connecting Okta SSO...",
+      title: t("sso.oidc.notifyTitle", { name }),
+      description: t("sso.oidc.notifyConnected", { name }),
+      loadingMessage: t("sso.oidc.notifyConnecting", { name }),
       promise: createOrUpdateConnection({
         discovery_url: discoveryUrl,
         client_id: clientId,
@@ -70,16 +72,16 @@ export default function OidcSetupModal({
         );
         if (!oktaConnection) {
           notify({
-            title: "Okta SSO Integration",
-            description: "Failed to connect Okta SSO",
+            title: t("sso.oidc.notifyTitle", { name }),
+            description: t("sso.oidc.notifyFailed", { name }),
           });
           return;
         }
         const domain = oktaConnection.domains?.[0] || undefined;
         if (!domain) {
           notify({
-            title: "Okta SSO Integration",
-            description: "Failed to connect Okta SSO",
+            title: t("sso.oidc.notifyTitle", { name }),
+            description: t("sso.oidc.notifyFailed", { name }),
           });
           return;
         }
@@ -117,21 +119,19 @@ export default function OidcSetupModal({
 
           <IntegrationModalHeader
             image={logo}
-            title={`Connect NetBird with ${name}`}
-            description={`Use ${name} as a Single Sign-On provider to authenticate users. Follow the steps below to get started.`}
+            title={t("sso.oidc.connectTitle", { name })}
+            description={t("sso.oidc.connectDescription", { name })}
           />
 
           <div className={"px-8 py-3 flex flex-col gap-0 mt-2"}>
             <Steps>
               <Steps.Step step={1}>
                 <p className={"font-normal"}>
-                  {
-                    "Obtaining the Client ID and Secret differs across providers. Please check your provider's documentation."
-                  }
+                  {t("sso.oidc.step1Description")}
                 </p>
                 <Input
                   customPrefix={
-                    <span className={"min-w-[90px]"}>Client ID</span>
+                    <span className={"min-w-[90px]"}>{t("sso.oidc.clientId")}</span>
                   }
                   placeholder={"0obflxtwxoVQcur0z3f3"}
                   value={clientId}
@@ -139,7 +139,7 @@ export default function OidcSetupModal({
                 />
                 <Input
                   customPrefix={
-                    <span className={"min-w-[90px]"}>Client Secret</span>
+                    <span className={"min-w-[90px]"}>{t("sso.oidc.clientSecret")}</span>
                   }
                   placeholder={
                     "jfgbU1Wu3XWAKhGUF4d-PX54DSm3pAQCyNtpxp7Nu8Ij22stSz8_6KnWbO4nQBIb"
@@ -152,8 +152,9 @@ export default function OidcSetupModal({
               {name.toLowerCase() !== "jumpcloud" && (
                 <Steps.Step step={2}>
                   <p className={"font-normal"}>
-                    Please provide the <Mark>OpenID Connect Discovery</Mark>{" "}
-                    endpoint. It should be publicly accessible and SSL secured.
+                    {t("sso.oidc.step2DescriptionPrefix")}{" "}
+                    <Mark>{t("sso.oidc.step2Discovery")}</Mark>{" "}
+                    {t("sso.oidc.step2DescriptionSuffix")}
                   </p>
                   <Input
                     customPrefix={<GlobeIcon size={16} />}
@@ -172,9 +173,9 @@ export default function OidcSetupModal({
                 line={false}
               >
                 <p className={"font-normal"}>
-                  Enter your
-                  <Mark>Primary E-Mail Domain</Mark> which will later be used to
-                  log in to NetBird.
+                  {t("sso.oidc.step3DescriptionPrefix")}{" "}
+                  <Mark>{t("sso.oidc.primaryEmailDomain")}</Mark>{" "}
+                  {t("sso.oidc.step3DescriptionSuffix")}
                 </p>
                 <Input
                   customPrefix={<GlobeIcon size={16} />}
@@ -188,26 +189,26 @@ export default function OidcSetupModal({
           <ModalFooter className={"items-center"}>
             <div className={"w-full"}>
               <Paragraph className={"text-sm mt-auto"}>
-                Learn more about
+                {t("sso.oidc.learnMorePrefix")}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
                   }
                   target={"_blank"}
                 >
-                  {name} Integration
+                  {t("sso.oidc.integrationLink", { name })}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Paragraph>
             </div>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
 
               <Button variant={"primary"}>
                 <Repeat size={16} />
-                Connect
+                {t("sso.oidc.connectButton")}
               </Button>
             </div>
           </ModalFooter>

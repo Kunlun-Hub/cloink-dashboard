@@ -5,12 +5,14 @@ import { Input } from "@components/Input";
 import * as React from "react";
 import { Job } from "@/interfaces/Job";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   job: Job;
 };
 
 export const JobOutputCell = ({ job }: Props) => {
+  const { t } = useI18n();
   if (job.status === "succeeded" && job.workload.result) {
     return (
       <div className="flex flex-col gap-1 items-start justify-center pb-1">
@@ -22,14 +24,14 @@ export const JobOutputCell = ({ job }: Props) => {
             <br />
             <span className="text-nb-gray-200 truncate">
               <CopyToClipboardText
-                message={"Upload key has been copied to your clipboard"}
+                message={t("jobs.outputCopied")}
                 alwaysShowIcon={true}
               >
                 <span className={"font-mono truncate"}>
                   {typeof value === "boolean"
                     ? value
-                      ? "Yes"
-                      : "No"
+                      ? t("common.yes")
+                      : t("common.no")
                     : String(value)}
                 </span>
               </CopyToClipboardText>

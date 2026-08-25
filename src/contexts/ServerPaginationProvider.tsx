@@ -15,6 +15,7 @@ import { Pagination } from "@/interfaces/Pagination";
 
 type ServerPaginationContextValue<T = unknown> = {
   data?: T;
+  error?: unknown;
   isLoading: boolean;
   isFetching: boolean;
   mutate: () => Promise<unknown>;
@@ -31,6 +32,7 @@ type ServerPaginationContextValue<T = unknown> = {
   onGlobalFilterChange: (value: string) => void;
   setFilter: (key: string, value: string | undefined) => void;
   getFilter: (key: string) => string | undefined;
+  queryParams: URLSearchParams;
   setSort: (name: string, direction: "asc" | "desc") => void;
   hasActiveFilters: boolean;
   resetFilters: () => void;
@@ -53,6 +55,7 @@ type ProviderProps = {
   // When false the underlying request is suppressed (e.g. while a feature lock
   // resolves). Defaults to true so existing consumers are unaffected.
   enabled?: boolean;
+  ignoreError?: boolean;
   children: React.ReactNode;
 };
 
@@ -61,6 +64,7 @@ export default function ServerPaginationProvider({
   defaultPageSize = 50,
   defaultFilters,
   enabled = true,
+  ignoreError = false,
   children,
 }: Readonly<ProviderProps>) {
   const { mutate: swrMutate } = useSWRConfig();
@@ -94,9 +98,10 @@ export default function ServerPaginationProvider({
 
   const {
     data: response,
+    error,
     isLoading,
     isValidating,
-  } = useFetchApi<Pagination<unknown>>(apiUrl, false, true, enabled);
+  } = useFetchApi<Pagination<unknown>>(apiUrl, ignoreError, true, enabled);
 
   const hasLoadedOnce = useRef(false);
   const previousResponse = useRef<Pagination<unknown> | undefined>(undefined);
@@ -151,6 +156,11 @@ export default function ServerPaginationProvider({
 
   const getFilter = useCallback((key: string) => filters[key], [filters]);
 
+  const queryParams = useMemo(
+    () => new URLSearchParams(apiUrl.split("?")[1] ?? ""),
+    [apiUrl],
+  );
+
   const setSort = useCallback((name: string, direction: "asc" | "desc") => {
     setFilters((prev) => ({
       ...prev,
@@ -179,11 +189,13 @@ export default function ServerPaginationProvider({
   const value = useMemo<ServerPaginationContextValue>(
     () => ({
       data: activeResponse?.data,
+      error,
       isLoading: isLoading && !hasLoadedOnce.current,
       isFetching: isValidating,
       mutate,
       setFilter,
       getFilter,
+      queryParams,
       setSort,
       hasActiveFilters,
       resetFilters,
@@ -203,11 +215,13 @@ export default function ServerPaginationProvider({
     [
       activeResponse?.data,
       activeResponse?.total_records,
+      error,
       isLoading,
       isValidating,
       mutate,
       setFilter,
       getFilter,
+      queryParams,
       setSort,
       hasActiveFilters,
       resetFilters,

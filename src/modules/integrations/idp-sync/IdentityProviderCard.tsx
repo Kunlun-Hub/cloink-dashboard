@@ -10,6 +10,7 @@ import genericLogo from "@/assets/integrations/generic-scim.png";
 import googleLogo from "@/assets/integrations/google-workspace.png";
 import jumpcloudLogo from "@/assets/integrations/jumpcloud.png";
 import oktaLogo from "@/assets/integrations/okta.png";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 
 type IDP = "azure" | "google" | "okta" | "jumpcloud" | "generic" | "entraScim";
@@ -32,6 +33,7 @@ export const IdentityProviderCard = () => {
     isGenericEnabled,
     isEntraEnabled,
   } = useIntegrations();
+  const { t } = useI18n();
   const enabled = !!isAnyIntegrationEnabled;
   const router = useRouter();
 
@@ -69,7 +71,7 @@ export const IdentityProviderCard = () => {
             {enabled && idpLogo && (
               <Image
                 src={idpLogo as StaticImageData}
-                alt={"Identity Provider"}
+                alt={t("idpSync.identityProvider")}
                 className={"rounded-[4px]"}
               />
             )}
@@ -79,7 +81,7 @@ export const IdentityProviderCard = () => {
           <div className={""}>
             <div className={"flex items-center gap-3 justify-between"}>
               <div className={"font-medium text-sm flex gap-2 items-center"}>
-                Identity Provider Sync
+                {t("idpSync.identityProviderSync")}
               </div>
               <div
                 className={cn(
@@ -88,12 +90,12 @@ export const IdentityProviderCard = () => {
                 )}
               >
                 <IconCircleFilled size={8} />
-                {enabled ? "Enabled" : "Disabled"}
+                {enabled ? t("common.enabled") : t("common.disabled")}
               </div>
             </div>
 
             <p className={"text-xs font-light !text-nb-gray-300 "}>
-              Sync users and groups from Okta, Microsoft or Google IdP
+              {t("idpSync.cardDescription")}
             </p>
           </div>
         </div>

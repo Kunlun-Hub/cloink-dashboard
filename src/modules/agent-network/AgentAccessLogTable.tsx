@@ -73,6 +73,7 @@ import AgentAccessLogExpandedRow from "@/modules/agent-network/AgentAccessLogExp
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { generateColorFromUser } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   headingTarget?: HTMLHeadingElement | null;
@@ -93,6 +94,7 @@ export default function AgentAccessLogTable({
   grouped = false,
   onGroupedChange,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { providers } = useAIProviders();
   const { users } = useUsers();
   const { peers } = usePeers();
@@ -190,7 +192,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.timestamp,
         header: ({ column }) => (
           <DataTableHeader column={column} name="timestamp">
-            Time
+            {t("agentAccessLog.column.time")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <TimeCell timestamp={row.original.timestamp} />,
@@ -203,7 +205,7 @@ export default function AgentAccessLogTable({
           `${row.user} ${principalSearchById.get(row.userId) ?? ""}`.trim(),
         header: ({ column }) => (
           <DataTableHeader column={column} name="user">
-            User / Agent
+            {t("agentAccessLog.column.userAgent")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <UserCell entry={row.original} />,
@@ -213,7 +215,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => (row.userGroups ?? []).join(" "),
         header: ({ column }) => (
           <DataTableHeader column={column} name="group">
-            Auth Group
+            {t("agentAccessLog.column.authGroup")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -232,7 +234,7 @@ export default function AgentAccessLogTable({
         },
         header: ({ column }) => (
           <DataTableHeader column={column} name="provider" sorting={false}>
-            Provider
+            {t("agentAccessLog.column.provider")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -247,7 +249,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.inputTokens + row.outputTokens,
         header: ({ column }) => (
           <DataTableHeader column={column} sorting={false}>
-            Tokens
+            {t("agentAccessLog.column.tokens")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <TokensCell entry={row.original} />,
@@ -257,7 +259,7 @@ export default function AgentAccessLogTable({
         accessorKey: "costUsd",
         header: ({ column }) => (
           <DataTableHeader column={column} name="cost">
-            Cost
+            {t("agentAccessLog.column.cost")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -276,7 +278,7 @@ export default function AgentAccessLogTable({
         accessorKey: "status",
         header: ({ column }) => (
           <DataTableHeader column={column} name="status">
-            Status
+            {t("common.status")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -297,7 +299,7 @@ export default function AgentAccessLogTable({
         accessorKey: "denyReason",
         header: ({ column }) => (
           <DataTableHeader column={column} name="reason">
-            Reason
+            {t("agentAccessLog.column.reason")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <ReasonCell entry={row.original} />,
@@ -331,7 +333,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.endedAt,
         header: ({ column }) => (
           <DataTableHeader column={column} name="timestamp">
-            Activity
+            {t("agentAccessLog.column.activity")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <SessionActivityCell session={row.original} />,
@@ -343,7 +345,7 @@ export default function AgentAccessLogTable({
           `${row.user} ${principalSearchById.get(row.userId) ?? ""}`.trim(),
         header: ({ column }) => (
           <DataTableHeader column={column} name="user_id">
-            User / Agent
+            {t("agentAccessLog.column.userAgent")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -362,7 +364,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => (row.userGroups ?? []).join(" "),
         header: ({ column }) => (
           <DataTableHeader column={column} name="group" sorting={false}>
-            Auth Group
+            {t("agentAccessLog.column.authGroup")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -374,7 +376,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.models.join(" "),
         header: ({ column }) => (
           <DataTableHeader column={column} sorting={false}>
-            Provider
+            {t("agentAccessLog.column.provider")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -389,7 +391,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.requestCount,
         header: ({ column }) => (
           <DataTableHeader column={column} name="request_count">
-            Requests
+            {t("agentAccessLog.column.requests")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <SessionRequestsCell session={row.original} />,
@@ -399,7 +401,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.totalTokens,
         header: ({ column }) => (
           <DataTableHeader column={column} name="total_tokens">
-            Tokens
+            {t("agentAccessLog.column.tokens")}
           </DataTableHeader>
         ),
         // Reuse the flat per-request Tokens cell (input/output arrows) so the
@@ -422,7 +424,7 @@ export default function AgentAccessLogTable({
         accessorKey: "costUsd",
         header: ({ column }) => (
           <DataTableHeader column={column} name="cost_usd">
-            Cost
+            {t("agentAccessLog.column.cost")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -441,7 +443,7 @@ export default function AgentAccessLogTable({
         accessorKey: "decision",
         header: ({ column }) => (
           <DataTableHeader column={column} name="decision">
-            Reason
+            {t("agentAccessLog.column.reason")}
           </DataTableHeader>
         ),
         // Same Reason cell as the flat view (deny reason, or the authorising
@@ -515,7 +517,7 @@ export default function AgentAccessLogTable({
         // Backed by the real "timestamp" column so the shared filter adapter can
         // read/write its value; maps to the start_date/end_date query params.
         id: "timestamp",
-        label: "Date",
+        label: t("agentAccessLog.filter.date"),
         renderPicker: (p) => (
           <div className={"p-1"}>
             <DatePickerWithRange
@@ -538,11 +540,11 @@ export default function AgentAccessLogTable({
             />
           </div>
         ),
-        formatChip: (v) => formatDateChip(v as DateRange | undefined),
+        formatChip: (v) => formatDateChip(v as DateRange | undefined, t),
       },
       {
         id: "user",
-        label: "User",
+        label: t("agentAccessLog.filter.user"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -564,7 +566,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "group",
-        label: "Group",
+        label: t("common.group"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -583,7 +585,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "provider",
-        label: "Provider",
+        label: t("agentAccessLog.filter.provider"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -604,7 +606,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "model",
-        label: "Model",
+        label: t("agentAccessLog.filter.model"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -621,7 +623,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "path",
-        label: "Path",
+        label: t("agentAccessLog.filter.path"),
         renderPicker: (p) => (
           <TextInputPicker
             value={p.value as string | undefined}
@@ -631,7 +633,7 @@ export default function AgentAccessLogTable({
               setFilter("path", trimmed ? trimmed : undefined);
             }}
             close={p.close}
-            placeholder={"e.g. /v1/chat/completions"}
+            placeholder={t("agentAccessLog.pathPlaceholder")}
           />
         ),
         formatChip: (v) => formatTextChip(v as string | undefined),
@@ -715,8 +717,8 @@ export default function AgentAccessLogTable({
           <AgentAccessLogExpandedRow entry={row as AIAccessLogEntry} />
         )
       }
-      searchPlaceholder={"Search by user, agent, model, prompt…"}
-      text={grouped ? "Sessions" : "Requests"}
+      searchPlaceholder={t("agentAccessLog.searchPlaceholder")}
+      text={grouped ? t("agentAccessLog.sessions") : t("agentAccessLog.requests")}
       uniqueKey={
         grouped
           ? "agent-network-access-log-sessions"
@@ -733,15 +735,13 @@ export default function AgentAccessLogTable({
               size={"large"}
             />
           }
-          title={"No Access Log Entries Yet"}
-          description={
-            "No agent-network requests detected yet. This may be because no AI providers are connected, policies don’t allow traffic to them, log collection is disabled, or no traffic has occurred."
-          }
+          title={t("agentAccessLog.emptyTitle")}
+          description={t("agentAccessLog.emptyDescription")}
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                Agent Network
+                {t("agentAccessLog.agentNetwork")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -762,7 +762,7 @@ export default function AgentAccessLogTable({
               variant={grouped ? "secondary" : "tertiary"}
               onClick={() => onGroupedChange?.(false)}
             >
-              Requests
+              {t("agentAccessLog.requests")}
             </ButtonGroup.Button>
             <ButtonGroup.Button
               // Drop the left border so it doesn't stack with the first
@@ -771,7 +771,7 @@ export default function AgentAccessLogTable({
               variant={grouped ? "tertiary" : "secondary"}
               onClick={() => onGroupedChange?.(true)}
             >
-              Sessions
+              {t("agentAccessLog.sessions")}
             </ButtonGroup.Button>
           </ButtonGroup>
           <DataTableRefreshButton
@@ -808,6 +808,7 @@ function TimeCell({ timestamp }: { timestamp: string }) {
 // requests a clickable reference to the policy that authorised it — linking
 // to the Policies view pre-filtered to that policy.
 function ReasonCell({ entry }: { entry: AIAccessLogEntry }) {
+  const { t } = useI18n();
   const { policies } = useAIProviders();
 
   if (entry.decision === "deny") {
@@ -832,7 +833,7 @@ function ReasonCell({ entry }: { entry: AIAccessLogEntry }) {
 
   return (
     <div className={"px-3 py-2"}>
-      <FullTooltip content={"This policy allowed the request"}>
+      <FullTooltip content={t("agentAccessLog.policyAllowed")}>
         <Link
           href={`/agent-network/policies?search=${encodeURIComponent(
             policy.name,
@@ -865,6 +866,7 @@ function StatusCell({ entry }: { entry: AIAccessLogEntry }) {
 }
 
 function GroupCell({ groupNames }: { groupNames: string[] }) {
+  const { t } = useI18n();
   const { groups: realGroups } = useGroups();
   if (groupNames.length === 0) return <EmptyRow />;
   // Match real groups by name when available; otherwise synthesise a
@@ -878,8 +880,8 @@ function GroupCell({ groupNames }: { groupNames: string[] }) {
     <div className={"px-2 py-1.5"}>
       <MultipleGroups
         groups={groups}
-        label={"User Groups"}
-        description={"Groups the user belonged to at the time of the request."}
+        label={t("agentAccessLog.userGroupsLabel")}
+        description={t("agentAccessLog.userGroupsDescription")}
         countOnly
       />
     </div>
@@ -894,6 +896,7 @@ function UserCell({ entry }: { entry: AIAccessLogEntry }) {
   // with their real display name. Fall back to entry.user (the
   // display identity the proxy already resolved — user.email or
   // peer.name) and finally to the raw id.
+  const { t } = useI18n();
   const { users } = useUsers();
   const { peers } = usePeers();
 
@@ -927,7 +930,7 @@ function UserCell({ entry }: { entry: AIAccessLogEntry }) {
     };
   } else if (peer) {
     displayName = peer.name || entry.user || entry.userId;
-    displaySub = "Agent";
+    displaySub = t("agentAccessLog.agent");
     identityForColor = {
       id: peer.id ?? entry.userId,
       name: displayName,
@@ -1001,6 +1004,7 @@ function ProviderCell({
 // session's per-request rows: one line per token bucket plus a total. Buckets
 // default to 0 so it renders for denied requests that carry partial counts.
 function TokenBreakdown({ entry }: { entry: AIAccessLogEntry }) {
+  const { t } = useI18n();
   const cacheRead = entry.cachedInputTokens ?? 0;
   const cacheWrite = entry.cacheCreationTokens ?? 0;
   // Anthropic-shape cache buckets are additive to input tokens, so they count toward the total.
@@ -1015,21 +1019,21 @@ function TokenBreakdown({ entry }: { entry: AIAccessLogEntry }) {
         <span className={"font-medium"}>
           {(entry.inputTokens ?? 0).toLocaleString()}
         </span>
-        <span className={"text-nb-gray-400"}>input</span>
+        <span className={"text-nb-gray-400"}>{t("agentAccessLog.tokenInput")}</span>
       </div>
       <div className={"flex items-center gap-2 whitespace-nowrap"}>
         <span className={"font-medium"}>
           {(entry.outputTokens ?? 0).toLocaleString()}
         </span>
-        <span className={"text-nb-gray-400"}>output</span>
+        <span className={"text-nb-gray-400"}>{t("agentAccessLog.tokenOutput")}</span>
       </div>
       <div className={"flex items-center gap-2 whitespace-nowrap"}>
         <span className={"font-medium"}>{cacheRead.toLocaleString()}</span>
-        <span className={"text-nb-gray-400"}>cache read</span>
+        <span className={"text-nb-gray-400"}>{t("agentAccessLog.cacheRead")}</span>
       </div>
       <div className={"flex items-center gap-2 whitespace-nowrap"}>
         <span className={"font-medium"}>{cacheWrite.toLocaleString()}</span>
-        <span className={"text-nb-gray-400"}>cache write</span>
+        <span className={"text-nb-gray-400"}>{t("agentAccessLog.cacheWrite")}</span>
       </div>
       <div
         className={
@@ -1039,13 +1043,14 @@ function TokenBreakdown({ entry }: { entry: AIAccessLogEntry }) {
         <span className={"font-medium text-nb-gray-200"}>
           {total.toLocaleString()}
         </span>
-        <span>total</span>
+        <span>{t("agentAccessLog.total")}</span>
       </div>
     </div>
   );
 }
 
 function TokensCell({ entry }: { entry: AIAccessLogEntry }) {
+  const { t } = useI18n();
   // Cache-only requests carry no input/output but real cache read/write tokens,
   // so weigh all four buckets — matching TokenBreakdown's total.
   if (
@@ -1063,12 +1068,12 @@ function TokensCell({ entry }: { entry: AIAccessLogEntry }) {
       >
         <div className={"flex gap-2 items-center whitespace-nowrap"}>
           <ArrowUpIcon size={15} className={"text-sky-400"} />
-          <span className={"sr-only"}>Input:</span>
+          <span className={"sr-only"}>{t("agentAccessLog.inputLabel")}</span>
           {(entry.inputTokens ?? 0).toLocaleString()}
         </div>
         <div className={"flex gap-2 items-center whitespace-nowrap"}>
           <ArrowDownIcon size={15} className={"text-netbird"} />
-          <span className={"sr-only"}>Output:</span>
+          <span className={"sr-only"}>{t("agentAccessLog.outputLabel")}</span>
           {(entry.outputTokens ?? 0).toLocaleString()}
         </div>
       </div>
@@ -1120,6 +1125,7 @@ function CostBreakdown({
   cacheCreationCostUsd,
   outputCostUsd,
 }: CostFields) {
+  const { t } = useI18n();
   const cache = cacheCostUsd ?? 0;
   const hasBreakdown =
     inputCostUsd !== undefined || outputCostUsd !== undefined;
@@ -1132,15 +1138,15 @@ function CostBreakdown({
           {/* All four buckets, including zeros: a zero cache-read line is
               information (the request missed the cache), and a fixed set of
               rows keeps the hover comparable between requests. */}
-          <CostRow amount={inputCostUsd ?? 0} label={"input"} />
-          <CostRow amount={outputCostUsd ?? 0} label={"output"} />
-          <CostRow amount={cacheRead} label={"cache read"} />
-          <CostRow amount={cacheWrite} label={"cache write"} />
+          <CostRow amount={inputCostUsd ?? 0} label={t("agentAccessLog.tokenInput")} />
+          <CostRow amount={outputCostUsd ?? 0} label={t("agentAccessLog.tokenOutput")} />
+          <CostRow amount={cacheRead} label={t("agentAccessLog.cacheRead")} />
+          <CostRow amount={cacheWrite} label={t("agentAccessLog.cacheWrite")} />
         </>
       ) : (
         <>
-          <CostRow amount={costUsd - cache} label={"input + output"} />
-          <CostRow amount={cache} label={"cache"} />
+          <CostRow amount={costUsd - cache} label={t("agentAccessLog.inputOutput")} />
+          <CostRow amount={cache} label={t("agentAccessLog.cache")} />
         </>
       )}
       <div
@@ -1151,7 +1157,7 @@ function CostBreakdown({
         <span className={"font-medium text-nb-gray-200"}>
           ${costUsd.toFixed(4)}
         </span>
-        <span className={"font-sans"}>total</span>
+        <span className={"font-sans"}>{t("agentAccessLog.total")}</span>
       </div>
     </div>
   );
@@ -1234,6 +1240,7 @@ function SessionProviderCell({
   session: AIAccessLogSession;
   resolveProvider: ResolveProviderFn;
 }) {
+  const { t } = useI18n();
   const items = useMemo(() => {
     const seen = new Map<string, { logoId: AIProviderId; name: string }>();
     session.entries.forEach((e) => {
@@ -1273,7 +1280,7 @@ function SessionProviderCell({
                 "text-[11px] text-nb-gray-400 font-mono truncate cursor-default underline decoration-dashed decoration-nb-gray-600 underline-offset-2"
               }
             >
-              {session.models.length} models
+              {t("agentAccessLog.modelsCount", { count: session.models.length })}
             </code>
           </FullTooltip>
         ) : (
@@ -1311,6 +1318,7 @@ function formatSessionSpan(ms: number): string {
 // SessionRequestsCell shows the request count and how long the session ran
 // (e.g. "15 · over 1h 26m").
 function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
+  const { t } = useI18n();
   const span = formatSessionSpan(
     dayjs(session.endedAt).diff(dayjs(session.startedAt)),
   );
@@ -1320,7 +1328,7 @@ function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
         {session.requestCount.toLocaleString()}
       </span>
       {span && (
-        <span className={"text-nb-gray-500 text-[11px]"}>over {span}</span>
+        <span className={"text-nb-gray-500 text-[11px]"}>{t("agentAccessLog.overDuration", { duration: span })}</span>
       )}
     </div>
   );
@@ -1332,6 +1340,7 @@ function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
 // omitted (constant across a session); the model is shown in full, and the
 // status carries the request duration plus a reason when it failed.
 function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<string[]>([]);
   const toggle = (id: string) =>
     setOpen((prev) =>
@@ -1345,8 +1354,9 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
           "text-[11px] font-medium uppercase tracking-wide text-nb-gray-400 mb-1.5"
         }
       >
-        {session.requestCount} request{session.requestCount === 1 ? "" : "s"} in
-        this session
+        {session.requestCount === 1
+          ? t("agentAccessLog.requestInSession")
+          : t("agentAccessLog.requestsInSession", { count: session.requestCount })}
       </div>
       <div
         className={
@@ -1423,7 +1433,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-[11px] text-red-300 truncate max-w-[180px] shrink-0"
                     }
                   >
-                    {formatDenyReason(entry.denyReason) || "Failed"}
+                    {formatDenyReason(entry.denyReason) || t("agentAccessLog.failed")}
                   </span>
                 )}
                 <div className={"flex-1"} />
@@ -1443,7 +1453,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-xs text-nb-gray-400 font-mono whitespace-nowrap tabular-nums w-[110px] text-right shrink-0"
                     }
                   >
-                    {total.toLocaleString()} tokens
+                    {total.toLocaleString()} {t("agentAccessLog.tokensUnit")}
                   </span>
                 </FullTooltip>
                 <FullTooltip

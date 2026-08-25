@@ -13,8 +13,10 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import PageContainer from "@/layouts/PageContainer";
 import AgentPoliciesTable from "@/modules/agent-network/AgentPoliciesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function AgentNetworkPoliciesPage() {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
@@ -25,24 +27,23 @@ export default function AgentNetworkPoliciesPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/providers"}
-            label={"Agent Network"}
+            label={t("agentNetwork.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/policies"}
-            label={"Policies"}
+            label={t("nav.policies")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Policies</h1>
+        <h1 ref={headingRef}>{t("nav.policies")}</h1>
         <Paragraph>
-          Bind IdP groups to providers: Engineering gets Claude, Finance
-          doesn&apos;t. Enforce token limits, budgets, and guardrails.
+          {t("agentNetwork.policiesDescription")}
         </Paragraph>
       </div>
 
       <RestrictedAccess
-        page={"Policies"}
+        page={t("nav.policies")}
         hasAccess={permission?.services?.read}
       >
         <AIProvidersProvider>

@@ -5,7 +5,7 @@ import {
 import { TrafficEventProtocol } from "@/cloud/traffic-events/interfaces/TrafficEventProtocol";
 
 export interface TrafficEvent {
-  id: string; //  removed?
+  id: string;
   flow_id: string;
   reporter_id: string;
   source: TrafficEventMachine;

@@ -4,6 +4,7 @@ import { ShieldCheckIcon, ShieldXIcon } from "lucide-react";
 import * as React from "react";
 import { NetworkResource } from "@/interfaces/Network";
 import type { Peer } from "@/interfaces/Peer";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Intent } from "@/modules/onboarding/Onboarding";
 
 type Props = {
@@ -23,6 +24,7 @@ export const OnboardingDevices = ({
   firstRoutingPeer,
   enabled = false,
 }: Props) => {
+  const { t } = useI18n();
   return intent === Intent.P2P ? (
     <div
       className={cn(
@@ -59,8 +61,8 @@ export const OnboardingDevices = ({
         <WaitingForDevice
           text={
             !firstDevice
-              ? "Waiting for your first device to connect"
-              : "Waiting for your second device to connect"
+              ? t("onboarding.waitingForFirstDevice")
+              : t("onboarding.waitingForSecondDevice")
           }
         />
       )}
@@ -74,7 +76,9 @@ export const OnboardingDevices = ({
       )}
     >
       {firstRoutingPeer && resource && (
-        <span className={"text-xs text-nb-gray-500"}>Network</span>
+        <span className={"text-xs text-nb-gray-500"}>
+          {t("onboarding.networkLabel")}
+        </span>
       )}
 
       <div
@@ -118,8 +122,8 @@ export const OnboardingDevices = ({
           <WaitingForDevice
             text={
               !firstRoutingPeer
-                ? "Waiting for your routing peer to connect"
-                : "Waiting for your own device to connect"
+                ? t("onboarding.waitingForRoutingPeer")
+                : t("onboarding.waitingForOwnDevice")
             }
           />
         )}
@@ -141,11 +145,8 @@ export const OnboardingDevices = ({
   );
 };
 
-export const WaitingForDevice = ({
-  text = "Waiting for your first device to connect",
-}: {
-  text: string;
-}) => {
+export const WaitingForDevice = ({ text }: { text?: string }) => {
+  const { t } = useI18n();
   return (
     <div className={"flex flex-col items-center justify-center mt-3"}>
       <div className="relative h-10 w-10 mt-4">
@@ -154,7 +155,9 @@ export const WaitingForDevice = ({
         </div>
         <div className="absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-netbird z-10" />
       </div>
-      <div className="text-sm font-light animate-slow-pulse mt-6">{text}</div>
+      <div className="text-sm font-light animate-slow-pulse mt-6">
+        {text ?? t("onboarding.waitingForFirstDevice")}
+      </div>
     </div>
   );
 };

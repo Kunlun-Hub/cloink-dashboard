@@ -10,6 +10,7 @@ import { MoreVertical, PowerIcon, SquarePenIcon, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DNSZone } from "@/interfaces/DNS";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
 
@@ -21,6 +22,7 @@ export const DNSZonesActionCell = ({ zone }: Props) => {
   const { permission } = usePermissions();
   const { openZoneModal, deleteZone, updateZone } = useDNSZones();
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   return (
     <div className={"flex justify-end pr-4"}>
@@ -48,7 +50,7 @@ export const DNSZonesActionCell = ({ zone }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <SquarePenIcon size={14} className={"shrink-0"} />
-              Edit
+              {t("common.edit")}
             </div>
           </DropdownMenuItem>
 
@@ -62,7 +64,7 @@ export const DNSZonesActionCell = ({ zone }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {zone.enabled ? "Disable" : "Enable"}
+              {zone.enabled ? t("common.disable") : t("common.enable")}
             </div>
           </DropdownMenuItem>
 
@@ -76,7 +78,7 @@ export const DNSZonesActionCell = ({ zone }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

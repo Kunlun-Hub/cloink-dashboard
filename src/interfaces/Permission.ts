@@ -18,6 +18,7 @@ export interface Permissions {
     pats: Permission;
 
     events: Permission;
+    network_traffic: Permission;
 
     settings: Permission;
     accounts: Permission;
@@ -35,6 +36,7 @@ export interface Permissions {
     proxy_configuration: Permission;
 
     services: Permission;
+    version_releases: Permission;
   };
 }
 

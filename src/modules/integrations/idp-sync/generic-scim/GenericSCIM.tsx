@@ -16,6 +16,7 @@ import {
   IdentityProviderLog,
   ScimIntegration,
 } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import GenericSCIMConfiguration from "@/modules/integrations/idp-sync/generic-scim/GenericSCIMConfiguration";
 import GenericSCIMSetup from "@/modules/integrations/idp-sync/generic-scim/GenericSCIMSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
@@ -35,7 +36,7 @@ export interface GenericSCIMProps {
 
 export const GenericSCIM = ({
   name = "Generic SCIM",
-  description = "Provide your own custom SCIM provider to sync users and groups.",
+  description,
   url = {
     title: "docs.netbird.io",
     href: "https://docs.netbird.io/how-to/idp-sync#supported-identity-providers",
@@ -46,6 +47,7 @@ export const GenericSCIM = ({
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const {
     isAnyIntegrationEnabled,
@@ -68,8 +70,10 @@ export const GenericSCIM = ({
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: `${name} Integration`,
-      description: `${name} was successfully ${state ? "enabled" : "disabled"}`,
+      title: t("idpSync.integrationTitle", { provider: name }),
+      description: state
+        ? t("integrations.enabledDescription", { name })
+        : t("integrations.disabledDescription", { name }),
       promise: scimRequest
         .put(
           {
@@ -81,7 +85,7 @@ export const GenericSCIM = ({
           mutate("/integrations/scim-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("idpSync.updatingIntegration"),
     });
   };
 
@@ -91,7 +95,7 @@ export const GenericSCIM = ({
     <>
       <IntegrationCard
         name={name}
-        description={description}
+        description={description ?? t("genericScim.description")}
         url={url}
         image={image}
         data={integration}
@@ -111,7 +115,7 @@ export const GenericSCIM = ({
             onClick={() => setSetupModal(true)}
           >
             <Repeat size={13} />
-            Connect {name}
+            {t("idpSync.connect")} {name}
           </Button>
         }
       >
@@ -163,6 +167,7 @@ const ConfigurationButton = ({
   image,
   provider,
 }: ConfigurationProps) => {
+  const { t } = useI18n();
   const { data: logs } = useFetchApi<IdentityProviderLog[]>(
     `/integrations/scim-idp/${config.id}/logs`,
   );
@@ -170,9 +175,11 @@ const ConfigurationButton = ({
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
-  }, [logs]);
+    if (isEmpty(logs)) return t("integrations.notSynced");
+    return t("integrations.synced", {
+      time: dayjs().to(logs?.[0]?.timestamp),
+    });
+  }, [logs, t]);
 
   return (
     <>

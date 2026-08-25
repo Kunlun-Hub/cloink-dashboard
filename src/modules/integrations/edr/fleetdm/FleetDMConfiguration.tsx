@@ -30,6 +30,7 @@ import {
 import React, { useMemo, useReducer, useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/fleetdm.png";
+import { useI18n } from "@/i18n/I18nProvider";
 import FullTooltip from "@/components/FullTooltip";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
 import { useDialog } from "@/contexts/DialogProvider";
@@ -79,6 +80,7 @@ export function ConfigurationContent({
   onSuccess,
   config,
 }: Readonly<ModalProps>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
 
@@ -108,23 +110,23 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("idpSync.deleteIntegrationTitle"),
+      description: t("idpSync.deleteIntegrationDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully deleted`,
+      title: t("fleetdm.notifyTitle"),
+      description: t("fleetdm.notifyDeleted"),
       promise: integrationRequest.del({}).then(() => {
         mutate("/integrations/edr/fleetdm");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("idpSync.deletingIntegration"),
     });
   };
 
@@ -132,8 +134,8 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully updated`,
+      title: t("fleetdm.notifyTitle"),
+      description: t("fleetdm.notifyUpdated"),
       promise: integrationRequest
         .put({
           api_token: secretPlaceholder === apiToken ? undefined : apiToken,
@@ -147,17 +149,17 @@ export function ConfigurationContent({
           mutate("/integrations/edr/fleetdm");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("idpSync.updatingIntegration"),
     });
   };
 
   const urlError = useMemo(() => {
     if (apiUrl === "") return "";
     if (!validator.isValidUrl(apiUrl)) {
-      return "Please enter a valid url, e.g., https://fleet.example.com";
+      return t("fleetdm.urlError");
     }
     return "";
-  }, [apiUrl]);
+  }, [apiUrl, t]);
 
   const { hasChanges } = useHasChanges([
     apiToken,
@@ -179,10 +181,8 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"FleetDM Configuration"}
-        description={
-          "Restrict network access to IT-managed devices based on FleetDM compliance policies."
-        }
+        title={t("fleetdm.configTitle")}
+        description={t("fleetdm.configDescription")}
       />
 
       <Tabs
@@ -198,7 +198,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t("fleetdm.tabPeerApproval")}
           </TabsTrigger>
           <TabsTrigger value={"compliance"}>
             <ShieldCheckIcon
@@ -207,7 +207,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Compliance
+            {t("fleetdm.tabCompliance")}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -216,7 +216,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("idpSync.settings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -225,7 +225,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("idpSync.dangerZone")}
           </TabsTrigger>
         </TabsList>
 
@@ -234,11 +234,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={14} />
-                Groups
+                {t("fleetdm.groupsLabel")}
               </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Select groups you want to apply the FleetDM integration to
+              {t("fleetdm.groupsHelp")}
             </HelpText>
 
             <PeerGroupSelector
@@ -252,11 +252,10 @@ export function ConfigurationContent({
         <TabsContent value={"compliance"} className={"px-8"}>
           <div className={""}>
             <Label>
-              <div className={"flex gap-2 items-center"}>Requirements</div>
+              <div className={"flex gap-2 items-center"}>{t("fleetdm.requirementsLabel")}</div>
             </Label>
             <HelpText className={"mt-2"}>
-              Set the specific requirements that devices must meet to be
-              considered compliant.
+              {t("fleetdm.requirementsHelp")}
             </HelpText>
 
             <FleetDMMatchSettings
@@ -272,23 +271,19 @@ export function ConfigurationContent({
               <Label>
                 <div className={"flex gap-2 items-center"}>
                   <RefreshCcw size={14} />
-                  Sync Window
+                  {t("fleetdm.syncWindowLabel")}
                 </div>
               </Label>
               <FullTooltip
                 interactive={false}
                 content={
                   <div className={"max-w-xs text-xs"}>
-                    Example: This property is set to 24 hours. Jane&apos;s
-                    laptop hasn&apos;t synced with FleetDM for 27 hours. Even
-                    though it&apos;s marked as Compliant in FleetDM, it will
-                    still be blocked from network access
+                    {t("fleetdm.syncWindowTooltip")}
                   </div>
                 }
               >
                 <HelpText className={"max-w-sm mt-1"}>
-                  Devices not synced with FleetDM in this time won&apos;t have
-                  network access.
+                  {t("fleetdm.syncWindowHelp")}
                   <IconInfoCircle
                     size={14}
                     className={"relative inline ml-1 -top-[1px]"}
@@ -305,7 +300,7 @@ export function ConfigurationContent({
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("fleetdm.hoursSuffix")}
             />
           </div>
 
@@ -317,7 +312,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <GlobeIcon size={16} />
-                  Server URL
+                  {t("fleetdm.serverUrlLabel")}
                 </div>
               }
               placeholder={"https://fleet.example.com"}
@@ -333,10 +328,10 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  API Token
+                  {t("fleetdm.apiTokenLabel")}
                 </div>
               }
-              placeholder={"Enter your FleetDM API token"}
+              placeholder={t("fleetdm.apiTokenPlaceholder")}
               value={apiToken}
               onFocus={(e) => {
                 if (e.target.value == secretPlaceholder) {
@@ -358,13 +353,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={14} />
-                Delete Integration
+                {t("idpSync.deleteIntegrationLabel")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to enforce
-              compliance policies from FleetDM. If you delete the integration
-              you will need to reconfigure it again.
+              {t("fleetdm.deleteHelp")}
             </HelpText>
           </div>
           <Button
@@ -373,7 +366,7 @@ export function ConfigurationContent({
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("idpSync.deleteIntegrationLabel")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -382,12 +375,12 @@ export function ConfigurationContent({
       <ModalFooter className={"items-center gap-4"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink
               href={"https://fleetdm.com/docs/rest-api/rest-api"}
               target={"_blank"}
             >
-              FleetDM Integration
+              {t("fleetdm.learnMoreLink")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -395,7 +388,7 @@ export function ConfigurationContent({
         <div className={"flex gap-4"}>
           <ModalClose asChild={true}>
             <Button variant={"secondary"} className={"w-full"}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           </ModalClose>
 
@@ -405,7 +398,7 @@ export function ConfigurationContent({
             disabled={!canSave}
             onClick={updateIntegration}
           >
-            Save Changes
+            {t("common.saveChanges")}
           </Button>
         </div>
       </ModalFooter>

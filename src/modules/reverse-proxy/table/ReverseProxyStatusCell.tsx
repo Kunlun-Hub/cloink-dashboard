@@ -11,6 +11,7 @@ import InlineLink from "@components/InlineLink";
 import { CircleAlert, Loader2 } from "lucide-react";
 import * as React from "react";
 import { useRef } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   serviceId: string;
@@ -34,6 +35,7 @@ export default function ReverseProxyStatusCell({
   compact,
   readyFallback,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const dataRef = useRef<ReverseProxy | undefined>(undefined);
 
   const isActive =
@@ -75,14 +77,15 @@ export default function ReverseProxyStatusCell({
           <FullTooltip
             content={
               <div className={"text-xs max-w-xs"}>
-                Something went wrong while setting up this service. See our{" "}
+                {t("reverseProxy.statusGenericError")}{" "}
+                {t("reverseProxy.statusSeeDocsPrefix")}{" "}
                 <InlineLink
                   href={REVERSE_PROXY_TROUBLESHOOTING_DOCS_LINK}
                   target={"_blank"}
                 >
-                  Troubleshooting Docs
+                  {t("reverseProxy.statusTroubleshootingDocs")}
                 </InlineLink>{" "}
-                for more details.
+                {t("reverseProxy.statusSeeDocsSuffix")}
               </div>
             }
             align={"center"}
@@ -91,12 +94,12 @@ export default function ReverseProxyStatusCell({
             <div className={"flex"}>
               {compact ? (
                 <span className={"text-red-400 cursor-help truncate"}>
-                  Error
+                  {t("reverseProxy.statusError")}
                 </span>
               ) : (
                 <Badge variant={"red"}>
                   <CircleAlert size={11} />
-                  Error
+                  {t("reverseProxy.statusError")}
                 </Badge>
               )}
             </div>
@@ -110,14 +113,15 @@ export default function ReverseProxyStatusCell({
           <FullTooltip
             content={
               <div className={"text-xs max-w-xs"}>
-                The tunnel to the target peer could not be established. See our{" "}
+                {t("reverseProxy.statusTunnelError")}{" "}
+                {t("reverseProxy.statusSeeDocsPrefix")}{" "}
                 <InlineLink
                   href={REVERSE_PROXY_TROUBLESHOOTING_DOCS_LINK}
                   target={"_blank"}
                 >
-                  Troubleshooting Docs
+                  {t("reverseProxy.statusTroubleshootingDocs")}
                 </InlineLink>{" "}
-                for more details.
+                {t("reverseProxy.statusSeeDocsSuffix")}
               </div>
             }
             align={"center"}
@@ -126,12 +130,12 @@ export default function ReverseProxyStatusCell({
             <div className={"flex"}>
               {compact ? (
                 <span className={"text-red-400 cursor-help truncate"}>
-                  Tunnel not created
+                  {t("reverseProxy.statusTunnelNotCreated")}
                 </span>
               ) : (
                 <Badge variant={"red"}>
                   <CircleAlert size={11} />
-                  Tunnel not created
+                  {t("reverseProxy.statusTunnelNotCreated")}
                 </Badge>
               )}
             </div>
@@ -155,12 +159,12 @@ export default function ReverseProxyStatusCell({
             className={"inline-flex items-center gap-1.5 text-yellow-400 truncate"}
           >
             <Loader2 size={11} className={"animate-spin shrink-0"} />
-            Issuing certificate...
+            {t("reverseProxy.statusIssuingCertificate")}
           </span>
         ) : (
           <Badge variant={"yellow"}>
             <Loader2 size={12} className={"animate-spin"} />
-            Issuing certificate...
+            {t("reverseProxy.statusIssuingCertificate")}
           </Badge>
         )}
       </div>
@@ -171,6 +175,7 @@ export default function ReverseProxyStatusCell({
 }
 
 const SettingUpService = ({ compact }: { compact?: boolean }) => {
+  const { t } = useI18n();
   return (
     <div className={"flex"} data-status-cell>
       {compact ? (
@@ -178,12 +183,12 @@ const SettingUpService = ({ compact }: { compact?: boolean }) => {
           className={"inline-flex items-center gap-1.5 text-yellow-400 truncate"}
         >
           <Loader2 size={11} className={"animate-spin shrink-0"} />
-          Setting up service...
+          {t("reverseProxy.statusSettingUpService")}
         </span>
       ) : (
         <Badge variant={"yellow"}>
           <Loader2 size={14} className={"animate-spin"} />
-          Setting up service...
+          {t("reverseProxy.statusSettingUpService")}
         </Badge>
       )}
     </div>

@@ -11,6 +11,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import EDRTab from "@/modules/integrations/edr/EDRTab";
@@ -25,6 +26,7 @@ export default function Integrations() {
   const [tab, setTab] = useState(currentTab || "identity-provider");
   const account = useAccount();
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   return (
     <PageContainer>
@@ -32,27 +34,27 @@ export default function Integrations() {
         <VerticalTabs.List>
           <VerticalTabs.Trigger value="identity-provider">
             <FingerprintIcon size={14} />
-            Identity Provider Sync
+            {t("idpSync.title")}
           </VerticalTabs.Trigger>
 
           {isNetBirdCloud() && (
             <VerticalTabs.Trigger value="sso">
               <KeyRoundIcon size={14} />
-              Single Sign-On
+              {t("sso.title")}
             </VerticalTabs.Trigger>
           )}
 
           <VerticalTabs.Trigger value="event-streaming">
             <FileText size={14} />
-            Event Streaming
+            {t("eventStreaming.title")}
           </VerticalTabs.Trigger>
           <VerticalTabs.Trigger value="edr">
             <ShieldCheckIcon size={15} />
-            MDM & EDR
+            {t("edr.title")}
           </VerticalTabs.Trigger>
         </VerticalTabs.List>
         <RestrictedAccess
-          page={"Integrations"}
+          page={t("nav.integrations")}
           hasAccess={
             permission?.edr?.read ||
             permission?.idp?.read ||

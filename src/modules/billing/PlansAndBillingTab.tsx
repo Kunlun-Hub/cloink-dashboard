@@ -13,6 +13,7 @@ import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useBilling } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Plan } from "@/interfaces/Plan";
 import { PlanTier } from "@/interfaces/Subscription";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
@@ -34,6 +35,7 @@ export const PlansAndBillingTab = () => {
 
 export const PlansAndBillingTabTrigger = () => {
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const { isAccountWithMSPParent } = useMSP();
   if (isAccountWithMSPParent) return;
@@ -47,7 +49,7 @@ export const PlansAndBillingTabTrigger = () => {
       data-testid="settings-tab-plans-and-billing"
     >
       <CreditCardIcon size={14} />
-      Plans & Billing
+      {t("billing.plansAndBilling")}
     </VerticalTabs.Trigger>
   );
 };
@@ -71,6 +73,8 @@ const PlansAndBillingTabContent = () => {
     stats,
     isAWS,
   } = useBilling();
+
+  const { t } = useI18n();
 
   const teamAndBusinessPlans = React.useMemo(() => {
     const filteredPlans = plans?.filter(
@@ -148,19 +152,19 @@ const PlansAndBillingTabContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=plans-and-billing"}
-            label={"Plans & Billing"}
+            label={t("billing.plansAndBilling")}
             icon={<CreditCardIcon size={14} />}
             active
           />
         </Breadcrumbs>
 
         <div className={"flex items-center justify-between max-w-4xl mb-4"}>
-          <h1>Plans & Billing</h1>
+          <h1>{t("billing.plansAndBilling")}</h1>
         </div>
 
         {isTrialAvailable && (
@@ -205,24 +209,23 @@ const PlansAndBillingTabContent = () => {
         <div className={"max-w-3xl"}>
           <h2>
             {subscription?.active
-              ? "Update your NetBird Plan"
-              : "Upgrade your NetBird Plan"}
+              ? t("billing.updateNetBirdPlan")
+              : t("billing.upgradeNetBirdPlan")}
           </h2>
 
           <Paragraph>
-            Increase your user and peer limit by upgrading your plan.
+            {t("billing.increaseLimitDescription")}
           </Paragraph>
           <Paragraph>
-            With our flexible pricing, you are only billed for active users and
-            active peers.
+            {t("billing.flexiblePricingDescription")}
           </Paragraph>
           <Paragraph>
-            Find out which{" "}
+            {t("billing.findOutWhich")}{" "}
             <InlineLink href={"https://netbird.io/pricing"} target={"_blank"}>
-              Pricing Plan
+              {t("billing.pricingPlan")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
-            suits you the best by visiting our website.
+            {t("billing.suitsYouBest")}
           </Paragraph>
 
           <div

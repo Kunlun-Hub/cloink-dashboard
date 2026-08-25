@@ -3,6 +3,7 @@ import { cn } from "@utils/helpers";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import React from "react";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -18,19 +19,22 @@ type Props = {
 export default function Code({
   children,
   codeToCopy,
-  message = "Code has been copied to clipboard",
+  message,
   onClick,
   className,
   showCopyIcon = true,
   dark = false,
   small = false,
 }: Props) {
+  const { t } = useI18n();
   const [wrapper, copyToClipboard, copied] = useCopyToClipboard(
     codeToCopy ? codeToCopy : undefined,
   );
 
   const handleCopy = () => {
-    copyToClipboard(message).then(() => onClick && onClick());
+    copyToClipboard(message ?? t("common.codeCopied")).then(
+      () => onClick && onClick(),
+    );
   };
 
   return (

@@ -2,6 +2,7 @@ export interface NameserverGroup {
   id?: string;
   name: string;
   description: string;
+  descriptionKey?: string;
   primary: boolean;
   domains: string[];
   nameservers: Nameserver[];
@@ -17,6 +18,9 @@ export interface Nameserver {
   id?: string;
 }
 
+// i18n keys for preset descriptions (used by consuming components for display):
+//   Google: "nameservers.template.googleDescription"
+//   Cloudflare: "nameservers.template.cloudflareDescription"
 export const NameserverPresets: Record<string, NameserverGroup> = {
   Default: {
     name: "",
@@ -38,6 +42,7 @@ export const NameserverPresets: Record<string, NameserverGroup> = {
   Google: {
     name: "Google DNS",
     description: "Google DNS Servers",
+    descriptionKey: "nameserver.googleDnsServers",
     primary: true,
     domains: [],
     nameservers: [
@@ -61,6 +66,7 @@ export const NameserverPresets: Record<string, NameserverGroup> = {
   Cloudflare: {
     name: "Cloudflare DNS",
     description: "Cloudflare DNS Servers",
+    descriptionKey: "nameserver.cloudflareDnsServers",
     primary: true,
     domains: [],
     nameservers: [
@@ -84,6 +90,7 @@ export const NameserverPresets: Record<string, NameserverGroup> = {
   Quad9: {
     name: "Quad9 DNS",
     description: "Quad9 DNS Servers",
+    descriptionKey: "nameserver.quad9DnsServers",
     primary: true,
     domains: [],
     nameservers: [

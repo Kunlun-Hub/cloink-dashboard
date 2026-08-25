@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Suspense, useMemo } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { usePortalElement } from "@hooks/usePortalElement";
 import SkeletonTable, {
   SkeletonTableHeader,
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export const UserPeersSection = ({ user }: Props) => {
+  const { t } = useI18n();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
 
@@ -36,8 +38,8 @@ export const UserPeersSection = ({ user }: Props) => {
       <div className={"max-w-6xl"}>
         <div className={"flex justify-between items-center mb-5"}>
           <div>
-            <h2 ref={headingRef}>Peers</h2>
-            <Paragraph>View all peers registered by this user.</Paragraph>
+            <h2 ref={headingRef}>{t("users.peersTitle")}</h2>
+            <Paragraph>{t("users.peersDescription")}</Paragraph>
           </div>
         </div>
 

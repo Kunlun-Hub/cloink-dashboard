@@ -30,8 +30,10 @@ import ReverseProxyDestinationCell from "@/modules/reverse-proxy/table/ReversePr
 import ReverseProxyNameCell from "@/modules/reverse-proxy/table/ReverseProxyNameCell";
 import ReverseProxyFlatTargetActionCell from "@/modules/reverse-proxy/targets/flat/ReverseProxyFlatTargetActionCell";
 import { ReverseProxyTargetDevice } from "@/modules/reverse-proxy/targets/ReverseProxyTargetDevice";
+import { useI18n } from "@/i18n/I18nProvider";
 
-const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
+function getFlatTargetsColumns(t: (key: string) => string): ColumnDef<ReverseProxyFlatTarget>[] {
+  return [
   {
     id: "target_id",
     accessorKey: "target_id",
@@ -41,7 +43,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
     id: "domain",
     accessorFn: (row) => row.proxy.domain,
     header: ({ column }) => (
-      <DataTableHeader column={column}>URL</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.url")}</DataTableHeader>
     ),
     sortingFn: "text",
     cell: ({ row }) => {
@@ -78,7 +80,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     accessorKey: "host",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Destination</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.destination")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <div data-proxy-id={row.original.proxy.id}>
@@ -93,7 +95,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     accessorKey: "target_type",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Resource</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.resource")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <div data-proxy-id={row.original.proxy.id}>
@@ -108,7 +110,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     id: "auth_and_access",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Auth &amp; Access</DataTableHeader>
+      <DataTableHeader column={column}>{t("reverseProxy.authAndAccess")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <div
@@ -140,6 +142,7 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
     },
   },
 ];
+}
 
 type Props = {
   targets: ReverseProxyFlatTarget[];
@@ -159,6 +162,8 @@ export const ReverseProxyFlatTargetsTable = ({
   const [sorting, setSorting] = useState<SortingState>([
     { id: "domain", desc: false },
   ]);
+  const { t } = useI18n();
+  const FlatTargetsTableColumns = getFlatTargetsColumns(t);
   const { permission } = usePermissions();
   const { openModal } = useReverseProxies();
   const params = useSearchParams();
@@ -174,18 +179,18 @@ export const ReverseProxyFlatTargetsTable = ({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("common.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("common.active"), dotClass: "bg-green-500" },
+      { value: false, label: t("common.inactive"), dotClass: "bg-nb-gray-700" },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -198,7 +203,7 @@ export const ReverseProxyFlatTargetsTable = ({
           formatRadioChip(v as boolean | undefined, statusOptions),
       },
     ],
-    [statusOptions],
+    [statusOptions, t],
   );
 
   return (
@@ -210,7 +215,7 @@ export const ReverseProxyFlatTargetsTable = ({
       minimal={true}
       showSearchAndFilters={true}
       tableClassName="mt-0"
-      text="Service"
+      text={t("reverseProxy.tabService")}
       sorting={sorting}
       setSorting={setSorting}
       columns={FlatTargetsTableColumns}
@@ -218,7 +223,7 @@ export const ReverseProxyFlatTargetsTable = ({
       keepStateInLocalStorage={false}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder="Search by URL, destination, or target..."
+      searchPlaceholder={t("reverseProxy.searchTargetsPlaceholder")}
       initialFilters={
         resourceId ? [{ id: "target_id", value: resourceId }] : undefined
       }
@@ -251,7 +256,7 @@ export const ReverseProxyFlatTargetsTable = ({
           disabled={!permission?.services?.create}
         >
           <PlusCircle size={16} />
-          Add
+          {t("actions.add")}
         </Button>
       )}
     >

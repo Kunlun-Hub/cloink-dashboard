@@ -15,12 +15,14 @@ import { REVERSE_PROXY_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
 import { Callout } from "@components/Callout";
 import { isNetBirdCloud } from "@utils/netbird";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const ReverseProxyTable = lazy(
   () => import("@/modules/reverse-proxy/table/ReverseProxyTable"),
 );
 
 export default function ReverseProxyServicesPage() {
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   const { ref: headingRef, portalTarget } =
@@ -32,40 +34,37 @@ export default function ReverseProxyServicesPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Reverse Proxy"}
+            label={t("reverseProxy.title")}
             icon={<ReverseProxyIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Services"}
+            label={t("nav.services")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Services</h1>
+        <h1 ref={headingRef}>{t("reverseProxy.servicesTitle")}</h1>
         <Paragraph>
-          Expose services securely through NetBird&apos;s reverse proxy.{" "}
+          {t("reverseProxy.servicesDescription")}{" "}
           <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
         {isNetBirdCloud() ? (
           <Callout className={"max-w-xl mt-5"} variant={"info"}>
-            NetBird&apos;s Reverse Proxy is currently in beta and available at
-            no cost during this period. Features, functionality, and pricing are
-            subject to change upon release.
+            {t("reverseProxy.betaHosted")}
           </Callout>
         ) : (
           <Callout className={"max-w-xl mt-5"} variant={"info"}>
-            NetBird&apos;s Reverse Proxy is currently in beta. <br /> Features
-            and functionality are subject to change upon release.
+            {t("reverseProxy.betaSelfHosted")}
           </Callout>
         )}
       </div>
 
       <RestrictedAccess
-        page={"Services"}
+        page={t("nav.services")}
         hasAccess={permission?.services?.read}
       >
         <ReverseProxiesProvider>

@@ -250,30 +250,38 @@ export type AIAccessLogSession = {
   entries: AIAccessLogEntry[];
 };
 
-// Short labels for the proxy's llm_policy.reason deny codes. Keyed by the bare
+// i18n keys for the proxy's llm_policy.reason deny codes. Keyed by the bare
 // reason (the prefix is stripped before lookup) so both forms the proxy emits
 // resolve — bare ("model_not_routable") and prefixed deny codes
 // ("llm_policy.token_cap_exceeded", "llm_account.budget_cap_exceeded").
-const DENY_REASON_LABELS: Record<string, string> = {
-  model_not_routable: "Model not available",
-  no_authorised_provider: "No authorized provider",
-  model_blocked: "Model not allowed",
-  cap_exceeded: "Limit exceeded",
-  token_cap_exceeded: "Token limit exceeded",
-  budget_cap_exceeded: "Budget limit exceeded",
+const DENY_REASON_KEYS: Record<string, string> = {
+  model_not_routable: "aiProvider.denyReason.modelNotAvailable",
+  no_authorised_provider: "aiProvider.denyReason.noAuthorizedProvider",
+  model_blocked: "aiProvider.denyReason.modelNotAllowed",
+  cap_exceeded: "aiProvider.denyReason.limitExceeded",
+  token_cap_exceeded: "aiProvider.denyReason.tokenLimitExceeded",
+  budget_cap_exceeded: "aiProvider.denyReason.budgetLimitExceeded",
 };
 
 // formatDenyReason turns a proxy llm_policy.reason value into short, concise
-// human text. Account-scoped caps (llm_account.*) are prefixed with "Account".
-// Unknown codes fall back to a humanised version of the raw value.
-export function formatDenyReason(reason: string | undefined): string {
+// human text. When a `t` function is provided, labels are translated via
+// i18n keys. Account-scoped caps (llm_account.*) are prefixed with the
+// translated "Account" prefix. Unknown codes fall back to a humanised
+// version of the raw value.
+export function formatDenyReason(
+  reason: string | undefined,
+  t?: (key: string) => string,
+): string {
   if (!reason) return "";
   const isAccount = reason.startsWith("llm_account.");
   const bare = reason.replace(/^llm_(policy|account)\./, "");
+  const key = DENY_REASON_KEYS[bare];
   const base =
-    DENY_REASON_LABELS[bare] ??
+    (t && key ? t(key) : undefined) ??
     bare.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
-  return isAccount ? `Account ${base.toLowerCase()}` : base;
+  if (!isAccount) return base;
+  const prefix = t ? t("aiProvider.denyReason.accountPrefix") : "Account";
+  return `${prefix} ${base.toLowerCase()}`;
 }
 
 export const MOCK_GROUPS = [

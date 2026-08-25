@@ -8,7 +8,6 @@ import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
-import { SmallBadge } from "@components/ui/SmallBadge";
 import {
   Select,
   SelectContent,
@@ -17,12 +16,14 @@ import {
   SelectValue,
 } from "@components/Select";
 import Separator from "@components/Separator";
+import { SmallBadge } from "@components/ui/SmallBadge";
 import { useExpirationState } from "@hooks/useExpirationState";
 import { convertToSeconds } from "@hooks/useTimeFormatter";
 import * as Tabs from "@radix-ui/react-tabs";
 import { IconDevicesCheck } from "@tabler/icons-react";
 import { useApiCall } from "@utils/api";
 import { cn } from "@utils/helpers";
+import { isNetBirdCloud } from "@utils/netbird";
 import {
   CalendarClock,
   ExternalLinkIcon,
@@ -36,11 +37,12 @@ import { useSWRConfig } from "swr";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { AccountMFASettings } from "@/cloud/mfa/AccountMFASettings";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import { useHasChanges } from "@/hooks/useHasChanges";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
-import { isNetBirdCloud } from "@utils/netbird";
 
 type Props = {
   account: Account;
@@ -48,8 +50,18 @@ type Props = {
 
 export default function AuthenticationTab({ account }: Readonly<Props>) {
   const { permission } = usePermissions();
+  const { t } = useI18n();
+  const { providers } = useEmbeddedIdentityProviders();
 
   const { mutate } = useSWRConfig();
+
+  const hasWeChatWorkProvider = !!providers?.some(
+    (provider) => provider.type === "wechatwork",
+  );
+  const localAuthDisabled = account.settings.local_auth_disabled === true;
+  const [loginMethod, setLoginMethod] = useState<
+    "all" | "email" | "wechatwork"
+  >(() => account.settings.login_method || "all");
 
   // Check if any mdm & edr integration is enabled
   const { isAnyIntegrationEnabled, activeIntegrationName } = useIntegrations();
@@ -118,6 +130,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
   const saveRequest = useApiCall<Account>("/accounts/" + account.id);
 
   const { hasChanges, updateRef } = useHasChanges([
+    loginMethod,
     peerApproval,
     userApprovalRequired,
     loginExpiration,
@@ -133,13 +146,14 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
     const expiration = convertToSeconds(expiresIn, expireInterval);
 
     notify({
-      title: "Save Authentication Settings",
-      description: "Authentication settings successfully saved.",
+      title: t("authenticationTab.saveTitle"),
+      description: t("authenticationTab.saveDescription"),
       promise: saveRequest
         .put({
           id: account.id,
           settings: {
             ...account.settings,
+            login_method: loginMethod,
             peer_login_expiration_enabled: loginExpiration,
             peer_login_expiration: loginExpiration ? expiration : 86400,
             peer_inactivity_expiration_enabled: loginExpiration
@@ -159,6 +173,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
         .then(() => {
           mutate("/accounts");
           updateRef([
+            loginMethod,
             peerApproval,
             userApprovalRequired,
             loginExpiration,
@@ -170,7 +185,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
             isLocalMFAEnabled,
           ]);
         }),
-      loadingMessage: "Saving the authentication settings...",
+      loadingMessage: t("authenticationTab.saving"),
     });
   };
 
@@ -192,19 +207,19 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
         </Breadcrumbs>
         <div className={"flex items-start justify-between"}>
           <div>
-            <h1>Authentication</h1>
+            <h1>{t("settings.authentication")}</h1>
             <Paragraph>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/enforce-periodic-user-authentication"
                 }
                 target={"_blank"}
               >
-                Authentication
+                {t("settings.authentication")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
-              or{" "}
+              {t("common.or")}{" "}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/multi-factor-authentication"
@@ -223,7 +238,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
             onClick={saveChanges}
             data-testid={"save-authentication-settings"}
           >
-            Save Changes
+            {t("common.saveChanges")}
           </Button>
         </div>
 
@@ -231,6 +246,52 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
           className={"flex flex-col gap-6 w-full mt-8 mb-3"}
           data-auth-setting={"toggles"}
         >
+          {account.settings.embedded_idp_enabled && (
+            <div className={"flex flex-col gap-3"}>
+              <div>
+                <Label>{t("authenticationTab.loginMethodLabel")}</Label>
+                <HelpText>{t("authenticationTab.loginMethodHelp")}</HelpText>
+              </div>
+              <Select
+                value={loginMethod}
+                onValueChange={(value: "all" | "email" | "wechatwork") =>
+                  setLoginMethod(value)
+                }
+                disabled={!permission.settings.update}
+              >
+                <SelectTrigger data-cy={"account-login-method-select"}>
+                  <SelectValue
+                    placeholder={t("authenticationTab.loginMethodPlaceholder")}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    {t("authenticationTab.loginMethodAll")}
+                  </SelectItem>
+                  <SelectItem value="email" disabled={localAuthDisabled}>
+                    {t("authenticationTab.loginMethodEmail")}
+                  </SelectItem>
+                  <SelectItem
+                    value="wechatwork"
+                    disabled={!hasWeChatWorkProvider}
+                  >
+                    {t("authenticationTab.loginMethodWeChatWork")}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              {localAuthDisabled && (
+                <HelpText>
+                  {t("authenticationTab.loginMethodEmailDisabled")}
+                </HelpText>
+              )}
+              {!hasWeChatWorkProvider && (
+                <HelpText>
+                  {t("authenticationTab.loginMethodWeChatWorkDisabled")}
+                </HelpText>
+              )}
+            </div>
+          )}
+
           <FullTooltip
             content={
               <div className={"text-xs max-w-sm"}>
@@ -254,13 +315,19 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
                   label={
                     <>
                       <IconDevicesCheck size={15} />
-                      Peer Approval
+                      {t("authenticationTab.peerApprovalLabel")}
                     </>
                   }
                   disabled={
                     isAnyIntegrationEnabled || !permission.settings.update
                   }
-                  helpText={"Require peers to be approved by an administrator."}
+                  helpText={
+                    <>
+                      {t("authenticationTab.peerApprovalHelpLine1")}
+                      <br />
+                      {t("authenticationTab.peerApprovalHelpLine2")}
+                    </>
+                  }
                 />
               </LockedFeatureBadge>
             </div>
@@ -274,13 +341,13 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
               label={
                 <>
                   <ShieldUserIcon size={15} />
-                  User Approval Required
+                  {t("authenticationTab.userApprovalLabel")}
                 </>
               }
               helpText={
                 <>
-                  Require manual approval for new users joining via <br />
-                  domain matching. Users will be blocked until approved.
+                  {t("authenticationTab.userApprovalHelpLine1")} <br />
+                  {t("authenticationTab.userApprovalHelpLine2")}
                 </>
               }
               disabled={!permission.settings.update}
@@ -297,9 +364,9 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
                 label={
                   <>
                     <KeyRound size={15} />
-                    Enable Local MFA
+                    {t("authenticationTab.localMfaLabel")}
                     <SmallBadge
-                      text={"Beta"}
+                      text={t("common.beta")}
                       variant={"sky"}
                       className={"text-[9px] leading-none py-[3px] px-[5px]"}
                       textClassName={"top-0"}
@@ -308,9 +375,9 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
                 }
                 helpText={
                   <>
-                    Require multi-factor authentication for users
+                    {t("authenticationTab.localMfaHelpLine1")}
                     <br />
-                    authenticating with local credentials.
+                    {t("authenticationTab.localMfaHelpLine2")}
                   </>
                 }
                 disabled={!permission.settings.update}
@@ -332,13 +399,13 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
               label={
                 <>
                   <TimerResetIcon size={15} />
-                  Peer Session Expiration
+                  {t("authenticationTab.peerSessionLabel")}
                 </>
               }
               helpText={
                 <>
-                  Request periodic re-authentication of peers <br />
-                  registered with SSO.
+                  {t("authenticationTab.peerSessionHelpLine1")} <br />
+                  {t("authenticationTab.peerSessionHelpLine2")}
                 </>
               }
               disabled={!permission.settings.update}
@@ -354,10 +421,9 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
             >
               <div className={cn("flex justify-between gap-10 mt-2")}>
                 <div className={"w-full"}>
-                  <Label>Session Expiration</Label>
+                  <Label>{t("authenticationTab.sessionExpiration")}</Label>
                   <HelpText>
-                    Time after which every peer added with SSO login will
-                    require re-authentication.
+                    {t("authenticationTab.sessionExpirationHelp")}
                   </HelpText>
                 </div>
                 <div className={"w-full flex gap-3"}>
@@ -388,7 +454,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
                           className={"text-nb-gray-300"}
                         />
                         <SelectValue
-                          placeholder="Select interval..."
+                          placeholder={t("authenticationTab.selectInterval")}
                           data-testid={"peer-login-expiration-select-value"}
                         />
                       </div>
@@ -396,8 +462,8 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
                     <SelectContent
                       data-testid={"peer-login-expiration-select-content"}
                     >
-                      <SelectItem value="days">Days</SelectItem>
-                      <SelectItem value="hours">Hours</SelectItem>
+                      <SelectItem value="days">{t("authenticationTab.days")}</SelectItem>
+                      <SelectItem value="hours">{t("authenticationTab.hours")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -407,12 +473,11 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
                 value={peerInactivityExpirationEnabled}
                 onChange={setPeerInactivityExpirationEnabled}
                 data-testid={"peer-inactivity-expiration"}
-                label={<>Require login after disconnect</>}
+                label={<>{t("authenticationTab.requireLoginAfterDisconnect")}</>}
                 disabled={!permission.settings.update}
                 helpText={
                   <>
-                    Enable to require authentication after users disconnect from
-                    management for 10 minutes.
+                    {t("authenticationTab.requireLoginAfterDisconnectHelp")}
                   </>
                 }
               />

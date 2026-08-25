@@ -1,6 +1,7 @@
 import { cn } from "@utils/helpers";
 import * as React from "react";
 import { useMemo } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import { Policy } from "@/interfaces/Policy";
 import { FirewallGptMessage } from "@/modules/firewall-gpt/FirewallGptMessage";
@@ -9,6 +10,7 @@ type Props = {
   policy: Policy;
 };
 export const FirewallGptResponseMessage = ({ policy }: Props) => {
+  const { t } = useI18n();
   const rule = useMemo(() => {
     try {
       return policy.rules[0];
@@ -79,7 +81,7 @@ export const FirewallGptResponseMessage = ({ policy }: Props) => {
            * Policy Name & Direction
            */
           {
-            msg: "I will create the ",
+            msg: t("firewallGpt.iWillCreate"),
             children: <HighlightedText>{policy.name}</HighlightedText>,
           },
           {

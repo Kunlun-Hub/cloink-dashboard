@@ -7,6 +7,7 @@ import React from "react";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
 import { Peer } from "@/interfaces/Peer";
 import { PeerAddressTooltipContent } from "@/modules/peers/PeerAddressTooltipContent";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   peer: Peer;
@@ -24,6 +25,7 @@ function shortDnsLabel(label: string | undefined | null): string {
 }
 
 export default function PeerAddressCell({ peer }: Props) {
+  const { t } = useI18n();
   const shortLabel = shortDnsLabel(peer.dns_label);
   return (
     <FullTooltip
@@ -56,13 +58,13 @@ export default function PeerAddressCell({ peer }: Props) {
         </div>
         <div className="flex flex-col gap-0 dark:text-neutral-300 text-neutral-500 font-light truncate">
           <CopyToClipboardText
-            message={"DNS label has been copied to your clipboard"}
+            message={t("peerAddress.dnsLabelCopied")}
             textToCopy={peer.dns_label}
           >
             <span className={"font-normal truncate"}>{shortLabel}</span>
           </CopyToClipboardText>
           <CopyToClipboardText
-            message={"IP address has been copied to your clipboard"}
+            message={t("peerAddress.ipCopied")}
           >
             <span
               className={"dark:text-nb-gray-400 font-mono font-thin text-xs"}

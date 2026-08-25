@@ -20,6 +20,7 @@ import { AlarmClock, CopyIcon, MailIcon, User2 } from "lucide-react";
 import Image from "next/image";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
+import { useI18n } from "@/i18n/I18nProvider";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
 import Avatar1 from "@/assets/avatars/009.jpg";
 import Avatar2 from "@/assets/avatars/030.jpg";
@@ -38,14 +39,12 @@ type Props = {
   groups?: Group[];
 };
 
-const passwordCopyMessage = "Password was copied to your clipboard!";
-const inviteLinkCopyMessage = "Invite link was copied to your clipboard!";
-
 type SuccessData =
   | { type: "password"; user: User }
   | { type: "invite"; invite: UserInvite };
 
 export default function UserInviteModal({ children, groups }: Readonly<Props>) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [successData, setSuccessData] = useState<SuccessData | null>(null);
@@ -91,8 +90,8 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
   const handleCopyAndClose = () => {
     const message =
       successData?.type === "password"
-        ? passwordCopyMessage
-        : inviteLinkCopyMessage;
+        ? t("invite.passwordCopied")
+        : t("invite.linkCopied");
     copyToClipboard(message).then(() => {
       setSuccessData(null);
       setSuccessModal(false);
@@ -133,14 +132,12 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
             <div className={"flex flex-col items-center justify-center gap-3"}>
               <div>
                 <h2 className={"text-2xl text-center mb-2"}>
-                  {isPasswordSuccess && "User created successfully!"}
-                  {isInviteSuccess && "Invite link created!"}
+                  {isPasswordSuccess && t("invite.userCreatedSuccess")}
+                  {isInviteSuccess && t("invite.linkCreatedSuccess")}
                 </h2>
                 <Paragraph className={"mt-0 text-sm text-center"}>
-                  {isPasswordSuccess &&
-                    "This password will not be shown again, so be sure to copy it and store in a secure location."}
-                  {isInviteSuccess &&
-                    "Share this link with the user. They will be able to set their own password."}
+                  {isPasswordSuccess && t("invite.passwordDescription")}
+                  {isInviteSuccess && t("invite.linkDescription")}
                 </Paragraph>
               </div>
             </div>
@@ -149,7 +146,7 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
           <div className={"px-8 pb-6"}>
             <Code
               message={
-                isPasswordSuccess ? passwordCopyMessage : inviteLinkCopyMessage
+                isPasswordSuccess ? t("invite.passwordCopied") : t("invite.linkCopied")
               }
               codeToCopy={getCopyValue()}
             >
@@ -166,7 +163,7 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
               <Paragraph
                 className={"mt-3 text-xs text-nb-gray-400 text-center"}
               >
-                Expires on{" "}
+                {t("invite.expiresOn")}{" "}
                 {new Date(successData.invite.expires_at).toLocaleString()}
               </Paragraph>
             )}
@@ -178,7 +175,7 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
               onClick={handleCopyAndClose}
             >
               <CopyIcon size={14} />
-              Copy & Close
+              {t("invite.copyAndClose")}
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -198,6 +195,7 @@ export function UserInviteModalContent({
   onInviteCreated,
   groups = [],
 }: Readonly<ModalProps>) {
+  const { t } = useI18n();
   const userRequest = useApiCall<User>("/users");
   const inviteRequest = useApiCall<UserInvite>("/users/invites");
   const { mutate } = useSWRConfig();
@@ -218,8 +216,8 @@ export function UserInviteModalContent({
     const groups = await saveGroups();
     const groupIds = groups.map((group) => group.id) as string[];
     notify({
-      title: "Create User",
-      description: `Creating user account for ${name}...`,
+      title: t("invite.creatingUserTitle"),
+      description: t("invite.creatingUserDescription", { name }),
       promise: userRequest
         .post({
           name,
@@ -232,7 +230,7 @@ export function UserInviteModalContent({
           mutate("/users?service_user=false");
           onUserCreated && onUserCreated(user);
         }),
-      loadingMessage: "Creating user...",
+      loadingMessage: t("invite.creatingUserLoading"),
     });
   };
 
@@ -240,8 +238,8 @@ export function UserInviteModalContent({
     const groups = await saveGroups();
     const groupIds = groups.map((group) => group.id) as string[];
     notify({
-      title: "Create Invite",
-      description: `Creating invite link for ${name}...`,
+      title: t("invite.creatingInviteTitle"),
+      description: t("invite.creatingInviteDescription", { name }),
       promise: inviteRequest
         .post({
           name,
@@ -254,7 +252,7 @@ export function UserInviteModalContent({
           mutate("/users?service_user=false");
           onInviteCreated && onInviteCreated(invite);
         }),
-      loadingMessage: "Creating invite...",
+      loadingMessage: t("invite.creatingInviteLoading"),
     });
   };
 
@@ -279,22 +277,22 @@ export function UserInviteModalContent({
   }, [name, isValidEmail]);
 
   const getTitle = () => {
-    if (isCloud) return "Invite User";
-    return mode === "create" ? "Create User" : "Invite User";
+    if (isCloud) return t("invite.inviteUserTitle");
+    return mode === "create" ? t("invite.createUserTitle") : t("invite.inviteUserTitle");
   };
 
   const getDescription = () => {
     if (isCloud)
-      return "Invite a user to your network and set their permissions.";
+      return t("invite.cloudDescription");
     if (mode === "create") {
-      return "Create a NetBird user account with email and password.";
+      return t("invite.createDescription");
     }
-    return "Generate an invite link that the user can use to set their own password.";
+    return t("invite.inviteDescription");
   };
 
   const getButtonText = () => {
-    if (isCloud) return "Send Invitation";
-    return mode === "create" ? "Create User" : "Create Invite Link";
+    if (isCloud) return t("invite.sendInvitation");
+    return mode === "create" ? t("invite.createUserTitle") : t("invite.createInviteLink");
   };
 
   const getButtonIcon = () => {
@@ -343,11 +341,11 @@ export function UserInviteModalContent({
             <SegmentedTabs.List className="rounded-lg border">
               <SegmentedTabs.Trigger value="invite">
                 <IconLink size={16} />
-                Invite User
+                {t("invite.tabInvite")}
               </SegmentedTabs.Trigger>
               <SegmentedTabs.Trigger value="create">
                 <IconUserPlus size={16} />
-                Create User
+                {t("invite.tabCreate")}
               </SegmentedTabs.Trigger>
             </SegmentedTabs.List>
           </SegmentedTabs>
@@ -360,7 +358,7 @@ export function UserInviteModalContent({
                 <User2 size={16} className={"text-nb-gray-300"} />
               </div>
             }
-            placeholder={"John Doe"}
+            placeholder={t("invite.namePlaceholder")}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -384,12 +382,12 @@ export function UserInviteModalContent({
           {!isCloud && mode === "invite" && (
             <div className={"flex justify-between mt-3"}>
               <div>
-                <Label>Expires in</Label>
-                <HelpText>Days until the invite expires.</HelpText>
+                <Label>{t("invite.expiresIn")}</Label>
+                <HelpText>{t("invite.expiresHelp")}</HelpText>
               </div>
               <Input
                 maxWidthClass={"max-w-[200px]"}
-                placeholder={"3"}
+                placeholder={t("invite.expiresPlaceholder")}
                 min={1}
                 value={expiresIn}
                 type={"number"}
@@ -397,16 +395,16 @@ export function UserInviteModalContent({
                 customPrefix={
                   <AlarmClock size={16} className={"text-nb-gray-300"} />
                 }
-                customSuffix={"Day(s)"}
+                customSuffix={t("invite.days")}
               />
             </div>
           )}
         </div>
 
         <div className={"mb-4"}>
-          <Label>Auto-assigned groups</Label>
+          <Label>{t("invite.autoGroups")}</Label>
           <HelpText>
-            Groups will be assigned to peers added by this user.
+            {t("invite.autoGroupsHelp")}
           </HelpText>
           <PeerGroupSelector
             onChange={setSelectedGroups}

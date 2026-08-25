@@ -1,5 +1,11 @@
 import Breadcrumbs from "@components/Breadcrumbs";
 import Button from "@components/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@components/DropdownMenu";
 import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
 import SquareIcon from "@components/SquareIcon";
@@ -9,8 +15,8 @@ import DataTableRefreshButton from "@components/table/DataTableRefreshButton";
 import { DataTableRowsPerPage } from "@components/table/DataTableRowsPerPage";
 import GetStartedTest from "@components/ui/GetStartedTest";
 import * as Tabs from "@radix-ui/react-tabs";
-import useFetchApi, { useApiCall } from "@utils/api";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
+import useFetchApi, { useApiCall } from "@utils/api";
 import {
   FingerprintIcon,
   KeyRound,
@@ -21,23 +27,18 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
+import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   getSSOIdentityProviderLabelByType,
   SSOIdentityProvider,
   SSOIdentityProviderType,
 } from "@/interfaces/IdentityProvider";
 import IdentityProviderModal from "@/modules/settings/IdentityProviderModal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@components/DropdownMenu";
-import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 
 export const idpTypeLabels: Record<SSOIdentityProviderType, string> = {
   oidc: "OIDC",
@@ -50,6 +51,7 @@ export const idpTypeLabels: Record<SSOIdentityProviderType, string> = {
   authentik: "Authentik",
   keycloak: "Keycloak",
   adfs: "Microsoft AD FS",
+  wechatwork: "WeCom",
 };
 
 type ActionCellProps = {
@@ -60,6 +62,7 @@ type ActionCellProps = {
 function ActionCell({ provider, onEdit }: ActionCellProps) {
   const { confirm } = useDialog();
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const deleteRequest = useApiCall<SSOIdentityProvider>(
     "/identity-providers/" + provider.id,
   );
@@ -67,23 +70,22 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${provider.name}'?`,
-      description:
-        "Are you sure you want to delete this identity provider? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("identityProviders.deleteConfirmTitle", { name: provider.name }),
+      description: t("identityProviders.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Delete Identity Provider",
-      description: "Identity provider was deleted successfully.",
+      title: t("identityProviders.deleteTitle"),
+      description: t("identityProviders.deletedDescription"),
       promise: deleteRequest.del().then(() => {
         mutate("/identity-providers");
       }),
-      loadingMessage: "Deleting identity provider...",
+      loadingMessage: t("identityProviders.deleting"),
     });
   };
 
@@ -101,7 +103,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
             disabled={!permission.identity_providers.update}
           >
             <PencilIcon size={14} className="mr-2" />
-            Edit
+            {t("common.edit")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={handleDelete}
@@ -109,7 +111,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
             className="text-red-500 focus:text-red-500"
           >
             <Trash2 size={14} className="mr-2" />
-            Delete
+            {t("common.delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -119,6 +121,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
 
 export default function IdentityProvidersTab() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { data: providers, isLoading } = useFetchApi<SSOIdentityProvider[]>(
     "/identity-providers",
@@ -153,7 +156,7 @@ export default function IdentityProvidersTab() {
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Name</DataTableHeader>
+        <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>
       ),
       sortingFn: "text",
       cell: ({ row }) => (
@@ -168,11 +171,13 @@ export default function IdentityProvidersTab() {
     {
       accessorKey: "type",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Type</DataTableHeader>
+        <DataTableHeader column={column}>{t("identityProviders.type")}</DataTableHeader>
       ),
       cell: ({ row }) => (
         <span className="text-nb-gray-400">
-          {getSSOIdentityProviderLabelByType(row.original.type)}
+          {row.original.type === "wechatwork"
+            ? t("identityProviders.wechatwork")
+            : getSSOIdentityProviderLabelByType(row.original.type)}
         </span>
       ),
     },
@@ -192,22 +197,21 @@ export default function IdentityProvidersTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("settings.title")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=identity-providers"}
-            label={"Identity Providers"}
+            label={t("settings.identityProviders")}
             icon={<FingerprintIcon size={14} />}
             active
           />
         </Breadcrumbs>
         <div className={"flex items-start justify-between"}>
           <div>
-            <h1>Identity Providers</h1>
+            <h1>{t("settings.identityProviders")}</h1>
             <Paragraph>
-              Configure identity providers for user authentication in your
-              network.
+              {t("identityProviders.description")}
             </Paragraph>
           </div>
         </div>
@@ -222,13 +226,13 @@ export default function IdentityProvidersTab() {
 
       <DataTable
         isLoading={isLoading}
-        text={"Identity Providers"}
+        text={t("settings.identityProviders")}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={providers}
         onRowClick={(row) => handleEdit(row.original)}
-        searchPlaceholder={"Search by name or type..."}
+        searchPlaceholder={t("identityProviders.searchPlaceholder")}
         getStartedCard={
           <GetStartedTest
             icon={
@@ -238,10 +242,8 @@ export default function IdentityProvidersTab() {
                 size={"large"}
               />
             }
-            title={"Add Identity Provider"}
-            description={
-              "Configure an identity provider to enable SSO authentication for your users."
-            }
+            title={t("identityProviders.emptyTitle")}
+            description={t("identityProviders.emptyDescription")}
             button={
               <Button
                 variant={"primary"}
@@ -249,7 +251,7 @@ export default function IdentityProvidersTab() {
                 disabled={!permission.identity_providers.create}
               >
                 <PlusCircle size={16} />
-                Add Identity Provider
+                {t("identityProviders.add")}
               </Button>
             }
           />
@@ -264,7 +266,7 @@ export default function IdentityProvidersTab() {
                 disabled={!permission.identity_providers.create}
               >
                 <PlusCircle size={16} />
-                Add Identity Provider
+                {t("identityProviders.add")}
               </Button>
             )}
           </>

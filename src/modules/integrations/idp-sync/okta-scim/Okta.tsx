@@ -18,6 +18,7 @@ import {
   IdentityProviderLog,
   OktaIntegration,
 } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import OktaConfiguration from "@/modules/integrations/idp-sync/okta-scim/OktaConfiguration";
 import OktaSetup from "@/modules/integrations/idp-sync/okta-scim/OktaSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
@@ -31,6 +32,7 @@ export const Okta = () => {
     useEnterpriseConnections();
   const router = useRouter();
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const {
     okta: integration,
@@ -53,8 +55,10 @@ export const Okta = () => {
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: "Okta Integration",
-      description: `Okta was successfully ${state ? "enabled" : "disabled"}`,
+      title: t("okta.scimNotifyTitle"),
+      description: state
+        ? t("okta.enabledDescription")
+        : t("okta.disabledDescription"),
       promise: oktaRequest
         .put(
           {
@@ -66,7 +70,7 @@ export const Okta = () => {
           mutate("/integrations/okta-scim-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("idpSync.updatingIntegration"),
     });
   };
 
@@ -80,7 +84,7 @@ export const Okta = () => {
     <>
       <IntegrationCard
         name="Okta"
-        description="Okta is a platform to provision and manage user accounts in cloud-based applications."
+        description={t("okta.description")}
         url={{
           title: "okta.com",
           href: "https://www.okta.com/",
@@ -101,14 +105,13 @@ export const Okta = () => {
               onClick={() => setSetupModal(true)}
             >
               <Repeat size={13} />
-              Connect Okta
+              {t("okta.connect")}
             </Button>
           ) : (
             <FullTooltip
               content={
                 <div className={"text-xs max-w-xs"}>
-                  Please setup Okta SSO from the Single-Sign-On tab to enable
-                  user and group sync.
+                  {t("okta.ssoRequiredTooltip")}
                 </div>
               }
             >
@@ -118,7 +121,7 @@ export const Okta = () => {
                 className={"w-full items-center"}
                 onClick={() => switchTab("sso")}
               >
-                Okta SSO Required
+                {t("okta.ssoRequired")}
                 <IconInfoCircle size={14} />
               </Button>
             </FullTooltip>
@@ -144,6 +147,7 @@ type ConfigurationProps = {
   config: OktaIntegration;
 };
 const ConfigurationButton = ({ config }: ConfigurationProps) => {
+  const { t } = useI18n();
   const { data: logs } = useFetchApi<IdentityProviderLog[]>(
     `/integrations/okta-scim-idp/${config.id}/logs`,
   );
@@ -151,9 +155,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
-  }, [logs]);
+    if (isEmpty(logs)) return t("integrations.notSynced");
+    return t("integrations.synced", {
+      time: dayjs().to(logs?.[0]?.timestamp),
+    });
+  }, [logs, t]);
 
   return (
     <>

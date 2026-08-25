@@ -2,6 +2,7 @@ import useCopyToClipboard from "@hooks/useCopyToClipboard";
 import { cn } from "@utils/helpers";
 import { Copy } from "lucide-react";
 import React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type CardTableProps = {
   children: React.ReactNode;
@@ -98,6 +99,7 @@ function CardTableCell({
   className,
 }: CardTableCellProps) {
   const [, copyToClipBoard] = useCopyToClipboard(copyText ?? "");
+  const { t } = useI18n();
   return (
     <td
       className={cn("px-4 py-3", className)}
@@ -110,7 +112,7 @@ function CardTableCell({
         )}
         onClick={() =>
           copy &&
-          copyToClipBoard(`${copyText} has been copied to clipboard.`)
+          copyToClipBoard(t("common.copiedToClipboardWithName", { name: copyText ?? "" }))
         }
       >
         {children}

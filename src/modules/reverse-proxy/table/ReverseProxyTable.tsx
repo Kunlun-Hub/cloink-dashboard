@@ -26,6 +26,8 @@ import { ExternalLinkIcon, PlusCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
+import { useI18n } from "@/i18n/I18nProvider";
+import { MessageKey } from "@/i18n/messages";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
@@ -43,11 +45,14 @@ import ReverseProxyTargetsCell from "@/modules/reverse-proxy/table/ReverseProxyT
 import ReverseProxyTargetsTable from "@/modules/reverse-proxy/targets/ReverseProxyTargetsTable";
 import { ReverseProxyTypeCell } from "@/modules/reverse-proxy/table/ReverseProxyTypeCell";
 
-const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
+function getReverseProxyColumns(
+  t: (key: MessageKey, values?: Record<string, string | number>) => string,
+): ColumnDef<ReverseProxy>[] {
+  return [
   {
     accessorKey: "domain",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("reverseProxy.domain")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <ReverseProxyNameCell reverseProxy={row.original} />,
@@ -55,7 +60,7 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
   {
     accessorKey: "mode",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("reverseProxy.type")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <ReverseProxyTypeCell reverseProxy={row.original} />,
@@ -68,14 +73,14 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
   {
     accessorKey: "targets",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Target(s)</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("reverseProxy.targets")}</DataTableHeader>;
     },
     cell: ({ row }) => <ReverseProxyTargetsCell reverseProxy={row.original} />,
   },
   {
     id: "auth_and_access",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Auth &amp; Access</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("reverseProxy.authAndAccess")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <div className={"flex items-center gap-2"}>
@@ -102,16 +107,19 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
     },
   },
 ];
+}
 
 type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
 export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const { permission } = usePermissions();
   const { reverseProxies, isLoading, openModal } = useReverseProxies();
+  const ReverseProxyColumns = getReverseProxyColumns(t);
 
   const [sorting, setSorting] = useLocalStorage<SortingState>(
     "netbird-table-sort" + path,
@@ -125,28 +133,28 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("common.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("common.active"), dotClass: "bg-green-500" },
+      { value: false, label: t("common.inactive"), dotClass: "bg-nb-gray-700" },
     ],
-    [],
+    [t],
   );
 
   const typeOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "http", label: "HTTP" },
+      { value: "http", label: t("reverseProxy.http") },
       { value: "tcp", label: "TCP" },
       { value: "udp", label: "UDP" },
       { value: "tls", label: "TLS" },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -160,7 +168,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
       },
       {
         id: "mode",
-        label: "Type",
+        label: t("reverseProxy.type"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -173,7 +181,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
           formatCheckboxChip(v as string[] | undefined, typeOptions, "types"),
       },
     ],
-    [statusOptions, typeOptions],
+    [statusOptions, typeOptions, t],
   );
 
   return (
@@ -181,7 +189,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
       headingTarget={headingTarget}
       isLoading={isLoading}
       inset={false}
-      text={"Reverse Proxy"}
+      text={t("reverseProxy.tableTitle")}
       sorting={sorting}
       setSorting={setSorting}
       columns={ReverseProxyColumns}
@@ -189,7 +197,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
       useRowId={true}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder={"Search by URL, domain, or target..."}
+      searchPlaceholder={t("reverseProxy.searchPlaceholder")}
       rowClassName={(row) => (row.original.enabled ? "" : "opacity-50")}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
@@ -218,10 +226,8 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
               size={"large"}
             />
           }
-          title={"Create Services"}
-          description={
-            "Expose your internal services securely through NetBird's reverse proxy with automatic TLS and optional authentication to protect your services."
-          }
+          title={t("reverseProxy.emptyTitle")}
+          description={t("reverseProxy.emptyDescription")}
           button={
             <Button
               variant={"primary"}
@@ -230,14 +236,14 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
               data-testid={"add-service"}
             >
               <PlusCircle size={16} />
-              Add Service
+              {t("reverseProxy.addService")}
             </Button>
           }
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMoreAbout")}{" "}
               <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-                Services
+                {t("reverseProxy.servicesTitle")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -255,7 +261,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
               data-testid={"add-service"}
             >
               <PlusCircle size={16} />
-              Add Service
+              {t("reverseProxy.addService")}
             </Button>
           )}
         </>

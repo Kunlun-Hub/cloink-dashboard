@@ -20,6 +20,7 @@ import {
 import ModalHeader from "@/components/modal/ModalHeader";
 import { notify } from "@/components/Notification";
 import Separator from "@/components/Separator";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Workload } from "@/interfaces/Job";
 import { useApiCall } from "@/utils/api";
 
@@ -31,6 +32,7 @@ type Props = {
 export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
   const jobRequest = useApiCall<Workload>(`/peers/${peerID}/jobs`, true);
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
 
   const [bundleForTimeEnabled, setBundleForTimeEnabled] = useState(false);
   const [bundleForTime, setBundleForTime] = useState<string>("");
@@ -55,9 +57,9 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
 
   const createDebugJob = async () => {
     notify({
-      title: "Create Debug Job",
-      description: "Debug job triggered successfully.",
-      loadingMessage: "Creating job...",
+      title: t("debugJob.notifyTitle"),
+      description: t("debugJob.notifySuccess"),
+      loadingMessage: t("debugJob.creating"),
       promise: jobRequest
         .post({
           workload: {
@@ -83,8 +85,8 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
     <ModalContent maxWidthClass="max-w-xl">
       <ModalHeader
         icon={<BugPlay size={20} />}
-        title="Debug Bundle"
-        description="Generate a debug bundle on this peer with logs and diagnostics. Useful for troubleshooting without CLI access."
+        title={t("debugJob.title")}
+        description={t("debugJob.description")}
         color="netbird"
       />
 
@@ -93,10 +95,9 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
         {/* Log File Count */}
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
-            <Label>Log File Count</Label>
+            <Label>{t("debugJob.logFileCount")}</Label>
             <HelpText>
-              Sets the limit for how many individual log files will be included
-              in the debug bundle.
+              {t("debugJob.logFileCountHelp")}
             </HelpText>
           </div>
 
@@ -109,7 +110,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             onChange={(e) => setLogFileCount(e.target.value)}
             maxWidthClass="w-[220px]"
             customPrefix={<FileText size={16} className="text-nb-gray-300" />}
-            customSuffix="File(s)"
+            customSuffix={t("debugJob.files")}
           />
         </div>
         {/* Bundle Duration */}
@@ -127,19 +128,18 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             label={
               <>
                 <AlarmClock size={15} />
-                Enable Bundle Duration
+                {t("debugJob.enableBundleDuration")}
               </>
             }
-            helpText="When enabled, allows you to specify a time period for log collection before generating the debug bundle."
+            helpText={t("debugJob.enableBundleDurationHelp")}
           />
 
           {bundleForTimeEnabled && (
             <div className="flex justify-between gap-6 mt-6 mb-3">
               <div className={"max-w-[300px]"}>
-                <Label>Duration</Label>
+                <Label>{t("debugJob.duration")}</Label>
                 <HelpText>
-                  Time period for which logs should be collected before creating
-                  the debug bundle.
+                  {t("debugJob.durationHelp")}
                 </HelpText>
               </div>
 
@@ -154,7 +154,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
                 customPrefix={
                   <AlarmClock size={16} className="text-nb-gray-300" />
                 }
-                customSuffix="Minute(s)"
+                customSuffix={t("debugJob.minutes")}
               />
             </div>
           )}
@@ -167,17 +167,17 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
           label={
             <>
               <Shield size={15} />
-              Anonymize Log Data
+              {t("debugJob.anonymizeLogData")}
             </>
           }
-          helpText="Remove sensitive information (IP addresses, domains etc.) before creating the debug bundle."
+          helpText={t("debugJob.anonymizeLogDataHelp")}
         />
       </div>
 
       <ModalFooter className="items-center">
         <div className="flex gap-3 w-full justify-end">
           <ModalClose asChild>
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary">{t("common.cancel")}</Button>
           </ModalClose>
           <Button
             variant="primary"
@@ -185,7 +185,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             onClick={createDebugJob}
           >
             <PlusCircle size={16} />
-            Create Debug Bundle
+            {t("debugJob.createDebugBundle")}
           </Button>
         </div>
       </ModalFooter>

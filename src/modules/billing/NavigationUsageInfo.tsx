@@ -11,6 +11,7 @@ import { useAnalytics } from "@/contexts/AnalyticsProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { useBilling } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { PlanIcon } from "@/modules/billing/PlanIcon";
 import { TrialNavigationInfoCard } from "@/modules/billing/trial/TrialNavigationInfoCard";
 
@@ -52,6 +53,7 @@ const NavigationUsageInfoContent = () => {
   const router = useRouter();
   const { permission } = usePermissions();
   const { trackEvent } = useAnalytics();
+  const { t } = useI18n();
 
   if (isLoading)
     return <Skeleton height={164} className={"rounded-lg opacity-60"} />;
@@ -95,13 +97,15 @@ const NavigationUsageInfoContent = () => {
                   {stats?.active_users}
                 </span>
                 {isFreePlan ? (
-                  <span className={"text-nb-gray-300"}> of 5 Users</span>
+                  <span className={"text-nb-gray-300"}>
+                    {t("billing.ofUsers", { count: 5 })}
+                  </span>
                 ) : (
                   <span className={"text-nb-gray-300"}>
                     {" "}
                     {stats?.active_peers && stats.active_peers > 1
-                      ? "Users"
-                      : "User"}
+                      ? t("billing.users")
+                      : t("billing.user")}
                   </span>
                 )}
               </div>
@@ -113,7 +117,9 @@ const NavigationUsageInfoContent = () => {
                 <span className={"font-medium text-white"}>
                   {stats?.active_peers}
                 </span>
-                <span className={"text-nb-gray-300"}> of {maxPeers} Peers</span>
+                <span className={"text-nb-gray-300"}>
+                  {t("billing.ofPeers", { count: maxPeers })}
+                </span>
               </div>
             </div>
           </div>
@@ -146,8 +152,8 @@ const NavigationUsageInfoContent = () => {
               >
                 <IconInfoCircle size={12} className={"font-medium"} />
                 {usagePercentage >= 100
-                  ? "Usage limit reached"
-                  : "Approaching usage limit"}
+                  ? t("billing.usageLimitReached")
+                  : t("billing.approachingUsageLimit")}
               </div>
             )}
           </div>
@@ -168,7 +174,7 @@ const NavigationUsageInfoContent = () => {
                   router.push("/settings?tab=plans-and-billing");
                 }}
               >
-                {isFreePlan ? "Upgrade Plan" : "Plans & Billing"}
+                {isFreePlan ? t("billing.upgradePlan") : t("billing.plansAndBilling")}
               </Button>
             </div>
           )}

@@ -36,6 +36,7 @@ import { GoogleWorkspaceIntegration } from "@/interfaces/IdentityProvider";
 import googleAssignServiceAccount from "@/modules/integrations/idp-sync/google-workspace/images/google-assign-service-account.png";
 import googleEditServiceAccount from "@/modules/integrations/idp-sync/google-workspace/images/google-edit-service-account.png";
 import googlePrivilegesReview from "@/modules/integrations/idp-sync/google-workspace/images/google-privileges-review.png";
+import { useI18n } from "@/i18n/I18nProvider";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
@@ -71,6 +72,7 @@ type ModalProps = {
 };
 
 export function SetupContent({ onSuccess }: ModalProps) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const googleRequest = useApiCall<GoogleWorkspaceIntegration>(
     "/integrations/google-idp",
@@ -102,8 +104,10 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
   const connect = async () => {
     notify({
-      title: "Google Workspace Integration",
-      description: `Google Workspace was successfully connected to NetBird.`,
+      title: t("idpSync.integrationTitle", { provider: "Google Workspace" }),
+      description: t("idpSync.integrationConnected", {
+        provider: "Google Workspace",
+      }),
       promise: googleRequest
         .post({
           service_account_key: btoa(serviceAccountKey), // Encode client secret to base64
@@ -120,7 +124,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
           mutate("/integrations/google-idp");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -155,10 +159,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with Google Workspace"}
-        description={
-          "Start syncing your users and groups from Google Workspace to NetBird. Follow the steps below to get started."
-        }
+        title={t("googleWorkspace.connectTitle")}
+        description={t("googleWorkspace.connectDescription")}
       />
 
       {step === -1 && (
@@ -182,21 +184,19 @@ export function SetupContent({ onSuccess }: ModalProps) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t("googleWorkspace.accountPrefix")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Google Workspace user account
+              {t("googleWorkspace.accountType")}
             </span>{" "}
-            with the following{" "}
+            {t("googleWorkspace.accountMiddle")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("googleWorkspace.accountPermissionWord")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your workspace administrator to grant them to you."
-            }
+            {t("googleWorkspace.accountSuffix")}
           </p>
           <div
             className={
@@ -209,7 +209,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create Google Workspace applications
+              {t("googleWorkspace.permCreate")}
             </div>
             <div
               className={
@@ -217,7 +217,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage Google Workspace applications
+              {t("googleWorkspace.permManage")}
             </div>
           </div>
         </div>
@@ -227,24 +227,26 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Folder size={20} />
-            Create NetBird project
+            {t("googleWorkspace.step1Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Create a new <Mark copy>NetBird</Mark> project in the{" "}
+                {t("googleWorkspace.step1Line1Prefix")}{" "}
+                <Mark copy>NetBird</Mark>{" "}
+                {t("googleWorkspace.step1Line1Suffix")}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://console.cloud.google.com/"}
                 >
-                  Google Cloud Console
+                  {t("googleWorkspace.step1Console")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Enable the{" "}
+                {t("googleWorkspace.step1Line2Prefix")}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
@@ -252,10 +254,11 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://console.cloud.google.com/apis/library/admin.googleapis.com"
                   }
                 >
-                  Admin SDK API
+                  {t("googleWorkspace.step1Api")}
                 </InlineLink>{" "}
-                for the
-                <Mark>NetBird</Mark> project
+                {t("googleWorkspace.step1Line2Middle")}{" "}
+                <Mark>NetBird</Mark>
+                {t("googleWorkspace.step1Line2Suffix")}
               </p>
             </Steps.Step>
           </Steps>
@@ -266,30 +269,32 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <UserCircle size={20} />
-            Create a service account
+            {t("googleWorkspace.step2Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("googleWorkspace.step2Line1Prefix")}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://console.cloud.google.com/apis/credentials"}
                 >
-                  API Credentials
+                  {t("googleWorkspace.step2Credentials")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>CREATE CREDENTIALS</Mark> at the top and select{" "}
-                <Mark>Service account</Mark>
+                {t("googleWorkspace.step2Line2Prefix")}{" "}
+                <Mark>{t("integrations.createCredentials")}</Mark>{" "}
+                {t("googleWorkspace.step2Line2Middle")}{" "}
+                <Mark>{t("integrations.serviceAccount")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Fill in the form with the following values and click{" "}
+                {t("googleWorkspace.step2Line3Prefix")}{" "}
                 <Mark>DONE</Mark>
               </p>
             </Steps.Step>
@@ -298,11 +303,11 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <MinimalList
             data={[
               {
-                label: "Service account name",
+                label: t("googleWorkspace.serviceAccountName"),
                 value: "NetBird",
               },
               {
-                label: "Service account ID",
+                label: t("googleWorkspace.serviceAccountId"),
                 value: "netbird",
               },
             ]}
@@ -314,12 +319,12 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Mail size={20} />
-            Get your service account email
+            {t("googleWorkspace.step3Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("googleWorkspace.step2Line1Prefix")}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
@@ -327,20 +332,20 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://console.cloud.google.com/iam-admin/serviceaccounts"
                   }
                 >
-                  Service Accounts
+                  {t("googleWorkspace.step3ServiceAccounts")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>NetBird</Mark> to edit the service account. Copy the
-                service account email address.
+                {t("googleWorkspace.step3Line2Prefix")} <Mark>NetBird</Mark>{" "}
+                {t("googleWorkspace.step3Line2Middle")}
               </p>
               <Lightbox image={googleEditServiceAccount} />
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Enter your service account email address
+                {t("googleWorkspace.step3Line3")}
               </p>
             </Steps.Step>
           </Steps>
@@ -365,34 +370,35 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={20} />
-            Create service account key
+            {t("googleWorkspace.step4Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                On the same page, now click the <Mark>Keys</Mark> tab, open the{" "}
-                <Mark>Add key</Mark> dropdown and select{" "}
-                <Mark>Create new key</Mark>
+                {t("googleWorkspace.step4Line1Prefix")} <Mark>{t("googleWorkspace.step4KeysTab")}</Mark>{" "}
+                {t("googleWorkspace.step4Line1Middle")}{" "}
+                <Mark>{t("googleWorkspace.step4AddKey")}</Mark>{" "}
+                {t("googleWorkspace.step4Line1Suffix")}{" "}
+                <Mark>{t("googleWorkspace.step4CreateNewKey")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Select <Mark>JSON</Mark> as the key type and click{" "}
-                <Mark>Create</Mark>
+                {t("googleWorkspace.step4Line2Prefix")} <Mark>{t("googleWorkspace.step4Json")}</Mark>{" "}
+                {t("googleWorkspace.step4Line2Middle")}{" "}
+                <Mark>{t("googleWorkspace.step4Create")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Most browsers immediately download the new key and save it in a
-                download folder on your computer. Read how to manage and secure
-                your service keys{" "}
+                {t("googleWorkspace.step4Line3Prefix")}{" "}
                 <InlineLink
                   href={
                     "https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys#temp-locations"
                   }
                   target={"_blank"}
                 >
-                  here
+                  {t("googleWorkspace.step4Line3Link")}
                 </InlineLink>
                 .
               </p>
@@ -427,42 +433,43 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderCog2 size={20} />
-            Create admin role
+            {t("googleWorkspace.step5Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("googleWorkspace.step2Line1Prefix")}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://admin.google.com/ac/home"}
                 >
-                  Admin Console
+                  {t("googleWorkspace.step5AdminConsole")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Select <Mark>Account</Mark> on the left menu and then click{" "}
-                <Mark>Admin Roles</Mark>
+                {t("googleWorkspace.step5Line2Prefix")} <Mark>{t("googleWorkspace.step5Account")}</Mark>{" "}
+                {t("googleWorkspace.step5Line2Middle")}{" "}
+                <Mark>{t("googleWorkspace.step5AdminRoles")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Create new role</Mark> and fill in the form with the
-                following values
+                {t("googleWorkspace.step5Line3Prefix")} <Mark>{t("googleWorkspace.step5CreateNewRole")}</Mark>{" "}
+                {t("googleWorkspace.step5Line3Suffix")}
               </p>
             </Steps.Step>
           </Steps>
           <MinimalList
             data={[
               {
-                label: "Name",
+                label: t("googleWorkspace.roleName"),
                 value: "User and Group Management ReadOnly",
               },
               {
-                label: "Description",
+                label: t("googleWorkspace.roleDescription"),
                 value: "User and Group Management ReadOnly",
               },
             ]}
@@ -474,33 +481,33 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Shield size={20} />
-            Add role privileges
+            {t("googleWorkspace.step6Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Scroll down to <Mark>Admin API privileges</Mark> and add the
-                following privileges to the role
+                {t("googleWorkspace.step6Line1Prefix")}{" "}
+                <Mark>{t("googleWorkspace.step6AdminApiPrivileges")}</Mark>{" "}
+                {t("googleWorkspace.step6Line1Suffix")}
               </p>
               <MinimalList
                 className={"mt-2 mb-0"}
                 data={[
                   {
-                    label: "Users",
-                    value: "Read",
+                    label: t("googleWorkspace.privilegeUsers"),
+                    value: t("googleWorkspace.privilegeRead"),
                   },
                   {
-                    label: "Groups",
-                    value: "Read",
+                    label: t("googleWorkspace.privilegeGroups"),
+                    value: t("googleWorkspace.privilegeRead"),
                   },
                 ]}
               />
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Verify preview of assigned Admin API privileges to ensure that
-                everything is properly configured, and then click{" "}
-                <Mark>CREATE ROLE</Mark>
+                {t("googleWorkspace.step6Line2Prefix")}{" "}
+                <Mark>{t("integrations.createRole")}</Mark>
               </p>
               <Lightbox image={googlePrivilegesReview} />
             </Steps.Step>
@@ -512,23 +519,27 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <MailPlus size={20} />
-            Assign service account
+            {t("googleWorkspace.step7Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>Assign service accounts</Mark>
+                {t("googleWorkspace.step7Line1Prefix")}{" "}
+                <Mark>{t("googleWorkspace.step7AssignServiceAccounts")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Enter your <Mark>E-Mail</Mark> and then click <Mark>ADD</Mark>
+                {t("googleWorkspace.step7Line2Prefix")}{" "}
+                <Mark>{t("googleWorkspace.step7Email")}</Mark>{" "}
+                {t("googleWorkspace.step7Line2Suffix")}{" "}
+                <Mark>ADD</Mark>
               </p>
               <MinimalList
                 className={"mt-2 mb-0"}
                 data={[
                   {
-                    label: "E-Mail",
+                    label: t("googleWorkspace.step7EmailLabel"),
                     value: serviceAccountMail,
                   },
                 ]}
@@ -536,7 +547,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>ASSIGN ROLE</Mark>
+                {t("googleWorkspace.step7Line3Prefix")}{" "}
+                <Mark>{t("integrations.assignRole")}</Mark>
               </p>
               <Lightbox image={googleAssignServiceAccount} />
             </Steps.Step>
@@ -548,12 +560,12 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Enter Customer ID
+            {t("googleWorkspace.step8Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Navigate to{" "}
+                {t("googleWorkspace.step2Line1Prefix")}{" "}
                 <InlineLink
                   target={"_blank"}
                   className={"inline"}
@@ -561,13 +573,15 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://admin.google.com/ac/accountsettings/profile?hl=en_US"
                   }
                 >
-                  Account Settings
+                  {t("googleWorkspace.step8AccountSettings")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Take note of the <Mark>Customer ID</Mark> and enter it below
+                {t("googleWorkspace.step8Line2Prefix")}{" "}
+                <Mark>{t("googleWorkspace.step8CustomerId")}</Mark>{" "}
+                {t("googleWorkspace.step8Line2Suffix")}
               </p>
             </Steps.Step>
           </Steps>
@@ -578,7 +592,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Customer ID
+                  {t("googleWorkspace.customerIdLabel")}
                 </div>
               }
               placeholder={"C03f4c3po"}
@@ -593,7 +607,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={20} />
-            Groups to be synchronized
+            {t("idpSync.groupsToSync")}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -612,7 +626,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <UserCircle size={18} />
-            Users to be synchronized
+            {t("idpSync.usersToSync")}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -621,8 +635,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </div>
 
             <GroupPrefixInput
-              addText={"Add user group filter"}
-              text={"User group starts with..."}
+              addText={t("idpSync.addUserGroupFilter")}
+              text={t("idpSync.userGroupStartsWith")}
               value={userGroupPrefixes}
               onChange={setUserGroupPrefixes}
             />
@@ -638,7 +652,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step + 1)}
             disabled={!connectorId || connectorId === ""}
           >
-            Continue
+            {t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -649,7 +663,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -659,7 +673,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -671,7 +685,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("idpSync.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -683,8 +697,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("googleWorkspace.estimatedTime")}</span>
           </div>
         </div>
       )}

@@ -14,6 +14,7 @@ import {
 import { getTrafficEventTypeText } from "@/cloud/traffic-events/TrafficEventsTable";
 import { stripZeroPort } from "@/cloud/traffic-events/utils/parseAddress";
 import { usePeers } from "@/contexts/PeersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   event: TrafficEvent;
@@ -25,16 +26,19 @@ const isResource = (m: TrafficEventMachine) => {
   return m.type !== TrafficEventMachineType.PEER;
 };
 
-const getNamePrefix = (m: TrafficEventMachine) => {
+const getNamePrefix = (
+  m: TrafficEventMachine,
+  t: (key: string) => string,
+) => {
   switch (m.type) {
     case TrafficEventMachineType.PEER:
-      return "Peer ";
+      return t("trafficEvents.peerPrefix");
     case TrafficEventMachineType.ROUTE:
-      return "Route ";
+      return t("trafficEvents.routePrefix");
     case TrafficEventMachineType.UNKNOWN:
       return "";
     default:
-      return "Resource ";
+      return t("trafficEvents.resourcePrefix");
   }
 };
 
@@ -44,11 +48,12 @@ export const TrafficEventDescription = ({
   showCaret = false,
 }: Props) => {
   const { peers } = usePeers();
+  const { t } = useI18n();
 
   const routerName = useMemo(() => {
     const reporter = peers?.find((peer) => peer.id === event.reporter_id);
-    return reporter ? <Mark>{reporter.name}</Mark> : <Mark>Unknown</Mark>;
-  }, [event.reporter_id, peers]);
+    return reporter ? <Mark>{reporter.name}</Mark> : <Mark>{t("common.unknown")}</Mark>;
+  }, [event.reporter_id, peers, t]);
 
   const timestamp = event.events?.find((e) => e.type === type)?.timestamp;
 
@@ -76,13 +81,13 @@ export const TrafficEventDescription = ({
     const destinationAddress = stripZeroPort(event.destination.address);
     const sourceName = (
       <>
-        {getNamePrefix(event.source)}
+        {getNamePrefix(event.source, t)}{" "}
         <Mark>{event.source.name || sourceAddress}</Mark>
       </>
     );
     const destinationName = (
       <>
-        {getNamePrefix(event.destination)}
+        {getNamePrefix(event.destination, t)}{" "}
         <Mark>{event.destination.name || destinationAddress}</Mark>
       </>
     );
@@ -99,25 +104,32 @@ export const TrafficEventDescription = ({
       destinationName,
       type,
     };
-  }, [event]);
+  }, [event, t]);
 
   const aggregatedMessage = () => {
     const { starts, ends, drops } = getTrafficEventCounts(event);
     const connections = (n: number) =>
-      `${n.toLocaleString()} ${n === 1 ? "connection" : "connections"}`;
+      n === 1
+        ? t("trafficEvents.connection", { count: n.toLocaleString() })
+        : t("trafficEvents.connections", { count: n.toLocaleString() });
 
     const joinClauses = (clauses: string[]) =>
       clauses.map((clause, index) => (
         <React.Fragment key={clause}>
-          {index > 0 && (index === clauses.length - 1 ? " and " : ", ")}
+          {index > 0 &&
+            (index === clauses.length - 1
+              ? t("trafficEvents.and")
+              : t("trafficEvents.comma"))}
           {clause}
         </React.Fragment>
       ));
 
-    const startVerb = info.isInbound ? "accepted" : "started";
+    const startVerb = info.isInbound
+      ? t("trafficEvents.accepted")
+      : t("trafficEvents.started");
     const initiated = [
       starts > 0 && `${startVerb} ${connections(starts)}`,
-      ends > 0 && `ended ${connections(ends)}`,
+      ends > 0 && `${t("trafficEvents.ended")} ${connections(ends)}`,
     ].filter(Boolean) as string[];
 
     const sentences: React.ReactNode[] = [];
@@ -125,12 +137,13 @@ export const TrafficEventDescription = ({
       sentences.push(
         info.isInbound ? (
           <>
-            {info.destinationName} {joinClauses(initiated)} from{" "}
-            {info.sourceName}
+            {info.destinationName} {joinClauses(initiated)}{" "}
+            {t("trafficEvents.from")} {info.sourceName}
           </>
         ) : (
           <>
-            {info.sourceName} {joinClauses(initiated)} to {info.destinationName}
+            {info.sourceName} {joinClauses(initiated)} {t("trafficEvents.to")}{" "}
+            {info.destinationName}
           </>
         ),
       );
@@ -138,8 +151,11 @@ export const TrafficEventDescription = ({
     if (drops > 0) {
       sentences.push(
         <>
-          {info.sourceName} got blocked {drops.toLocaleString()}{" "}
-          {drops === 1 ? "time" : "times"} trying to connect to{" "}
+          {info.sourceName}
+          {t("trafficEvents.gotBlocked")}
+          {drops.toLocaleString()}{" "}
+          {drops === 1 ? t("trafficEvents.time") : t("trafficEvents.times")}
+          {t("trafficEvents.tryingToConnectTo")}
           {info.destinationName}
         </>,
       );
@@ -171,7 +187,8 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          {info.sourceName} requested connection to {info.destinationName}
+          {info.sourceName} {t("trafficEvents.requestedConnectionTo")}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -184,7 +201,8 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          {info.sourceName} stopped connection to {info.destinationName}
+          {info.sourceName} {t("trafficEvents.stoppedConnectionTo")}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -200,8 +218,9 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} received connection to{" "}
-          {info.destinationName} from {info.sourceName}
+          {t("trafficEvents.routingPeer")} {routerName}{" "}
+          {t("trafficEvents.receivedConnectionTo")} {info.destinationName}{" "}
+          {t("trafficEvents.from")} {info.sourceName}
         </>
       );
     }
@@ -214,8 +233,9 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} started routing to {info.destinationName}{" "}
-          from {info.sourceName}
+          {t("trafficEvents.routingPeer")} {routerName}{" "}
+          {t("trafficEvents.startedRoutingTo")} {info.destinationName}{" "}
+          {t("trafficEvents.from")} {info.sourceName}
         </>
       );
     }
@@ -228,8 +248,9 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} stopped routing to {info.destinationName}{" "}
-          from {info.sourceName}
+          {t("trafficEvents.routingPeer")} {routerName}{" "}
+          {t("trafficEvents.stoppedRoutingTo")} {info.destinationName}{" "}
+          {t("trafficEvents.from")} {info.sourceName}
         </>
       );
     }
@@ -242,8 +263,9 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} stopped connection to {info.destinationName}{" "}
-          from {info.sourceName}
+          {t("trafficEvents.routingPeer")} {routerName}{" "}
+          {t("trafficEvents.stoppedConnectionTo")} {info.destinationName}{" "}
+          {t("trafficEvents.from")} {info.sourceName}
         </>
       );
     }
@@ -254,7 +276,12 @@ export const TrafficEventDescription = ({
       info.isBlocked &&
       info.isOutbound
     ) {
-      return <>Connection to {info.destinationName} was blocked</>;
+      return (
+        <>
+          {t("trafficEvents.connectionTo")} {info.destinationName}{" "}
+          {t("trafficEvents.wasBlocked")}
+        </>
+      );
     }
 
     if (
@@ -265,7 +292,8 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} blocked connection to {info.destinationName}
+          {t("trafficEvents.routingPeer")} {routerName}{" "}
+          {t("trafficEvents.blockedConnectionTo")} {info.destinationName}
         </>
       );
     }
@@ -276,7 +304,8 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isOutbound && info.isStarted) {
       return (
         <>
-          {info.sourceName} requested P2P connection to {info.destinationName}
+          {info.sourceName} {t("trafficEvents.requestedP2PConnectionTo")}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -284,7 +313,8 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isInbound && info.isStarted) {
       return (
         <>
-          {info.destinationName} received P2P connection from {info.sourceName}
+          {info.destinationName} {t("trafficEvents.receivedP2PConnectionFrom")}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -292,7 +322,8 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isOutbound && info.isStopped) {
       return (
         <>
-          {info.sourceName} stopped P2P connection to {info.destinationName}
+          {info.sourceName} {t("trafficEvents.stoppedP2PConnectionTo")}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -300,7 +331,8 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isInbound && info.isStopped) {
       return (
         <>
-          {info.destinationName} stopped P2P connection from {info.sourceName}
+          {info.destinationName} {t("trafficEvents.stoppedP2PConnectionFrom")}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -308,7 +340,8 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isOutbound && info.isBlocked) {
       return (
         <>
-          {info.sourceName} blocked P2P connection to {info.destinationName}
+          {info.sourceName} {t("trafficEvents.blockedP2PConnectionTo")}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -316,14 +349,17 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isInbound && info.isBlocked) {
       return (
         <>
-          {info.destinationName} blocked P2P connection from {info.sourceName}
+          {info.destinationName} {t("trafficEvents.blockedP2PConnectionFrom")}{" "}
+          {info.sourceName}
         </>
       );
     }
 
     // Fallback to generic message
     return (
-      <>{getTrafficEventTypeText(info.type, info.isP2P, event.direction)}</>
+      <>
+        {getTrafficEventTypeText(t, info.type, info.isP2P, event.direction)}
+      </>
     );
   };
 

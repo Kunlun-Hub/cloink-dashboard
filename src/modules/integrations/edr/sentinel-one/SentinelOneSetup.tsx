@@ -41,6 +41,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { isValidSentinelOneApiUrl, matchAttributesReducer } from "@/modules/integrations/edr/sentinel-one/SentinelOne";
 import { SentinelOneMatchSettings } from "@/modules/integrations/edr/sentinel-one/SentinelOneMatchSettings";
 import SentinelOneUrlInput from "@/modules/integrations/edr/sentinel-one/SentinelOneUrlInput";
+import { useI18n } from "@/i18n/I18nProvider";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 
 type Props = {
@@ -76,6 +77,7 @@ type ModalProps = {
 
 export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const sentinelOneRequest = useApiCall<SentinelOneIntegration>(
     "/integrations/edr/sentinelone",
   );
@@ -129,8 +131,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
     const savedGroups = await saveGroups();
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully connected to NetBird.`,
+      title: t("edr.sentinelOne.notifyTitle"),
+      description: t("edr.sentinelOne.setup.connectedDescription"),
       promise: sentinelOneRequest
         .post({
           api_token: apiToken,
@@ -144,7 +146,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           mutate("/integrations/edr/sentinelone");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -204,10 +206,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with SentinelOne"}
-        description={
-          "Restrict network access to devices managed by SentinelOne based on their security posture."
-        }
+        title={t("edr.sentinelOne.setup.title")}
+        description={t("edr.sentinelOne.setup.description")}
       />
 
       {step == 0 && (
@@ -222,21 +222,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t("edr.sentinelOne.setup.permissionsEnsure")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              SentinelOne account
+              {t("edr.sentinelOne.setup.permissionsAccount")}
             </span>{" "}
-            with the following{" "}
+            {t("edr.sentinelOne.setup.permissionsWith")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("edr.sentinelOne.setup.permissionsLabel")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your administrator to grant them to you."
-            }
+            {t("edr.sentinelOne.setup.permissionsHelp")}
           </p>
           <div
             className={
@@ -249,7 +247,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create API Tokens
+              {t("edr.sentinelOne.setup.createApiTokens")}
             </div>
             <div
               className={
@@ -257,7 +255,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage API Tokens
+              {t("edr.sentinelOne.setup.manageApiTokens")}
             </div>
           </div>
         </div>
@@ -267,18 +265,17 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={18} />
-            Get your SentinelOne Console URL
+            {t("edr.sentinelOne.setup.getUrlTitle")}
           </p>
 
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to your SentinelOne Management Console.</p>
+              <p>{t("edr.sentinelOne.setup.getUrlStep1")}</p>
             </Steps.Step>
 
             <Steps.Step step={2} line={false}>
               <p>
-                Copy your SentinelOne console URL from the browser&apos;s
-                address bar and enter it here.
+                {t("edr.sentinelOne.setup.getUrlStep2")}
               </p>
             </Steps.Step>
           </Steps>
@@ -293,42 +290,39 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Create a SentinelOne API Token
+            {t("edr.sentinelOne.setup.createTokenTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Navigate to{" "}
+                {t("edr.sentinelOne.setup.createTokenStep1Navigate")}{" "}
                 {sentinelOneServiceUsersUrl ? (
                   <InlineLink
                     href={sentinelOneServiceUsersUrl}
                     target={"_blank"}
                   >
-                    Settings » Users » Service Users
+                    {t("edr.sentinelOne.setup.createTokenStep1Path")}
                     <ExternalLinkIcon size={14} className={"ml-1"} />
                   </InlineLink>
                 ) : (
-                  <Mark>Settings » Users » Service Users</Mark>
+                  <Mark>{t("edr.sentinelOne.setup.createTokenStep1Path")}</Mark>
                 )}
               </p>
             </Steps.Step>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>Create Service User</Mark>
+                {t("edr.sentinelOne.setup.createTokenStep2Click")} <Mark>{t("edr.sentinelOne.setup.createTokenStep2Mark")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Enter <Mark copy>NetBird Integration</Mark> as the name, a
-                optional description and select your preferred expiration date.
-                Click <Mark>Next</Mark>
+                {t("edr.sentinelOne.setup.createTokenStep3Enter")} <Mark copy>{t("edr.sentinelOne.setup.createTokenStep3Name")}</Mark> {t("edr.sentinelOne.setup.createTokenStep3Desc")} <Mark>{t("edr.sentinelOne.setup.createTokenStep3Next")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Select your Site and set the Scope to <Mark>Viewer</Mark>
-                <br /> Click <Mark>Create User</Mark>, copy your API Token and
-                enter it below.
+                {t("edr.sentinelOne.setup.createTokenStep4Select")} <Mark>{t("edr.sentinelOne.setup.createTokenStep4Viewer")}</Mark>
+                <br /> {t("edr.sentinelOne.setup.createTokenStep4Click")} <Mark>{t("edr.sentinelOne.setup.createTokenStep4Create")}</Mark>{t("edr.sentinelOne.setup.createTokenStep4Copy")}
               </p>
             </Steps.Step>
           </Steps>
@@ -356,11 +350,11 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={16} />
-            Peer Approval
+            {t("edr.sentinelOne.setup.peerApprovalTitle")}
           </p>
 
           <HelpText className={"max-w-lg mt-2"}>
-            Select groups you want to apply the SentinelOne integration to
+            {t("edr.sentinelOne.setup.peerApprovalHelp")}
           </HelpText>
 
           <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -371,11 +365,10 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <ShieldCheckIcon size={16} />
-            Compliance Requirements
+            {t("edr.sentinelOne.setup.complianceTitle")}
           </p>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Set the specific requirements that devices must meet to be
-            considered compliant.
+            {t("edr.sentinelOne.setup.complianceDesc")}
           </p>
 
           <SentinelOneMatchSettings
@@ -389,23 +382,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <RefreshCcw size={16} />
-            SentinelOne Sync Window
+            {t("edr.sentinelOne.setup.syncWindowTitle")}
           </p>
           <div className={"mt-2 flex flex-row gap-3"}>
             <FullTooltip
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with SentinelOne for 27 hours. Even though
-                  it&apos;s marked as Compliant in SentinelOne, it will still be
-                  blocked from network access.
+                  {t("edr.sentinelOne.setup.syncWindowTooltip")}
                 </div>
               }
             >
               <HelpText className={"max-w-lg"}>
-                Devices not synced with SentinelOne in this time won&apos;t have
-                network access.
+                {t("edr.sentinelOne.setup.syncWindowHelp")}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -420,7 +409,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("edr.sentinelOne.hoursSuffix")}
             />
           </div>
         </div>
@@ -434,7 +423,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -444,7 +433,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -456,7 +445,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("idpSync.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -468,8 +457,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("edr.sentinelOne.setup.estimatedTime")}</span>
           </div>
         </div>
       )}

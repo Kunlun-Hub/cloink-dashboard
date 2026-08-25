@@ -15,11 +15,13 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
 import { Policy } from "@/interfaces/Policy";
 import PageContainer from "@/layouts/PageContainer";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const AccessControlTable = lazy(
   () => import("@/modules/access-control/table/AccessControlTable"),
 );
 export default function AccessControlPage() {
+  const { t } = useI18n();
   const { permission } = usePermissions();
 
   const { data: policies, isLoading } = useFetchApi<Policy[]>("/policies");
@@ -34,26 +36,25 @@ export default function AccessControlPage() {
           <Breadcrumbs>
             <Breadcrumbs.Item
               href={"/access-control"}
-              label={"Access Control"}
+              label={t("nav.accessControl")}
               icon={<AccessControlIcon size={14} />}
             />
           </Breadcrumbs>
-          <h1 ref={headingRef}>Access Control Policies</h1>
+          <h1 ref={headingRef}>{t("accessControl.policiesTitle")}</h1>
           <Paragraph>
-            Policies connect users and agents to your network resources,
-            controlling what each identity can reach.{" "}
+            {t("accessControl.pageDescription")}{" "}
             <InlineLink
               href={"https://docs.netbird.io/how-to/manage-network-access"}
               target={"_blank"}
             >
-              Learn more
+              {t("common.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
 
         <RestrictedAccess
-          page={"Access Control"}
+          page={t("nav.accessControl")}
           hasAccess={permission.policies.read}
         >
           <PoliciesProvider>

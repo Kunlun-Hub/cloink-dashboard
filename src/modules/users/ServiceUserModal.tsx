@@ -19,6 +19,7 @@ import { useApiCall } from "@utils/api";
 import { ExternalLinkIcon, PlusCircle, User2 } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Role, User } from "@/interfaces/User";
 import { UserRoleSelector } from "@/modules/users/UserRoleSelector";
 
@@ -42,6 +43,7 @@ type ModalProps = {
 };
 
 export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
+  const { t } = useI18n();
   const userRequest = useApiCall<User>("/users");
   const { mutate } = useSWRConfig();
   const [name, setName] = useState("");
@@ -49,8 +51,8 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
 
   const create = async () => {
     notify({
-      title: "Service user created",
-      description: `${name} was successfully created.`,
+      title: t("serviceUser.created"),
+      description: t("serviceUser.createdDescription", { name }),
       promise: userRequest
         .post({
           name,
@@ -62,7 +64,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
           onSuccess && onSuccess();
           mutate("/users?service_user=true");
         }),
-      loadingMessage: "Creating service user...",
+      loadingMessage: t("serviceUser.creating"),
     });
   };
 
@@ -92,7 +94,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
                   <User2 size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"John Doe"}
+              placeholder={t("common.personNamePlaceholder")}
               value={name}
               data-testid={"service-user-name"}
               onChange={(e) => setName(e.target.value)}
@@ -123,7 +125,7 @@ export function ServiceUserModalContent({ onSuccess }: Readonly<ModalProps>) {
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
 
           <Button

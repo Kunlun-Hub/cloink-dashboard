@@ -1,25 +1,31 @@
 import { getOperatingSystem } from "@hooks/useOperatingSystem";
+import loadConfig from "@utils/config";
 import dayjs from "dayjs";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { NetbirdRelease } from "@/interfaces/Version";
 
 const LATEST_RELEASE_CHECK_INTERVAL_IN_MINUTES = 10;
 
+/**
+ * Resolve the latest client release. An explicit `releasesUrl` (external feed,
+ * e.g. a GitHub releases API endpoint) takes priority when configured;
+ * otherwise the self-hosted Settings → Version Releases catalog is queried via
+ * the unauthenticated /api/version-releases/public endpoint.
+ */
 export const getLatestNetbirdRelease = async (
   release?: NetbirdRelease,
   releasesUrl?: string,
 ): Promise<NetbirdRelease | undefined> => {
-  if (!releasesUrl) return undefined;
-
   const runFetch =
     release === undefined ||
     release.last_checked === undefined ||
     dayjs(release.last_checked).isBefore(
       dayjs().subtract(LATEST_RELEASE_CHECK_INTERVAL_IN_MINUTES, "minute"),
     );
+  if (!runFetch) return release;
 
-  if (runFetch) {
-    try {
+  try {
+    if (releasesUrl) {
       const response = await fetch(releasesUrl);
       if (!response.ok) return undefined;
       const data = (await response.json()) as any;
@@ -28,14 +34,60 @@ export const getLatestNetbirdRelease = async (
         last_checked: new Date(),
         url: (data.html_url || data.url) as string,
       } as NetbirdRelease;
-    } catch (e) {
-      console.warn(e);
-      return undefined;
     }
-  } else {
-    return release;
+
+    const config = loadConfig();
+    const response = await fetch(
+      `${config.apiOrigin}/api/version-releases/public?channel=stable&latest=true`,
+    );
+    if (!response.ok) return undefined;
+    const releases = (await response.json()) as Array<{
+      version?: string;
+      downloadUrl?: string;
+      isLatest?: boolean;
+    }>;
+    const data = releases.find((item) => item?.isLatest) ?? releases[0];
+    if (!data?.version) return undefined;
+    return {
+      latest_version: data.version,
+      last_checked: new Date(),
+      url: data.downloadUrl
+        ? new URL(data.downloadUrl, `${config.apiOrigin}/`).toString()
+        : `${
+            typeof window === "undefined" ? "" : window.location.origin
+          }/install`,
+    } as NetbirdRelease;
+  } catch (e) {
+    console.warn(e);
+    return undefined;
   }
 };
+
+/**
+ * Split a version string into its numeric release components.
+ *
+ * Handles every shape NetBird components report: an optional "v" prefix, semver
+ * build metadata ("0.77.0+enterprise.1" on enterprise management builds), a CI
+ * build suffix ("0.76.3-31256681241"), and pre-release labels ("0.60.0-rc.1").
+ * Everything after the release itself is dropped — build metadata carries no
+ * precedence in semver, and a pre-release of X.Y.Z is treated as X.Y.Z so a
+ * feature gate keyed on a release also holds for its release candidates.
+ *
+ * Splitting on "." alone (the previous behaviour) left the suffix inside a
+ * component, so "0.77.0+enterprise.1" parsed as [0, 77, 0, 1] — smuggling the
+ * build number in as a fourth release component. That ranked today's tags
+ * correctly only by coincidence; dropping the suffix removes the guesswork.
+ */
+const releaseParts = (version: string): number[] =>
+  version
+    .trim()
+    .replace(/^v/i, "")
+    .split(/[-+]/, 1)[0]
+    .split(".")
+    .map((part) => {
+      const parsed = parseInt(part, 10);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    });
 
 /**
  * Compare semantic versions.
@@ -45,12 +97,8 @@ export const compareVersions = (
   version: string,
   minVersion: string,
 ): boolean => {
-  const parseVersion = (v: string): number[] => {
-    return v.replace(/^v/, "").split(".").map(Number);
-  };
-
-  const vParts = parseVersion(version);
-  const minParts = parseVersion(minVersion);
+  const vParts = releaseParts(version);
+  const minParts = releaseParts(minVersion);
 
   for (let i = 0; i < Math.max(vParts.length, minParts.length); i++) {
     const vPart = vParts[i] || 0;
@@ -61,6 +109,32 @@ export const compareVersions = (
   }
 
   return true;
+};
+
+/**
+ * Returns true when `latest` is a strictly newer release than `current` — i.e.
+ * an update is available. Only release components decide: an enterprise build
+ * ("0.77.0+enterprise.1") is up to date against the "0.77.0" it was built from,
+ * matching how the management server evaluates it server-side.
+ *
+ * "development" builds never report an update, in either position.
+ */
+export const isNewerVersion = (current: string, latest: string): boolean => {
+  if (!current || !latest) return false;
+  if (current === "development" || latest === "development") return false;
+
+  const currentParts = releaseParts(current);
+  const latestParts = releaseParts(latest);
+
+  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
+    const currentPart = currentParts[i] || 0;
+    const latestPart = latestParts[i] || 0;
+
+    if (latestPart > currentPart) return true;
+    if (latestPart < currentPart) return false;
+  }
+
+  return false;
 };
 
 /**

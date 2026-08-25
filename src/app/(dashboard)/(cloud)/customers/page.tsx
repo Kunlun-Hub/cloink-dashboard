@@ -16,6 +16,7 @@ import { DistributorCustomer } from "@/cloud/distributor/interfaces/Distributor"
 import PageContainer from "@/layouts/PageContainer";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function CustomersPage() {
   const { isDistributorInfoLoading } = useDistributor();
@@ -24,6 +25,7 @@ export default function CustomersPage() {
 }
 
 const CustomersPageContent = () => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { data: customers, isLoading } = useFetchApi<DistributorCustomer[]>(
     "/integrations/msp/reseller/msps",
@@ -37,21 +39,21 @@ const CustomersPageContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/customers"}
-            label={"Customers"}
+            label={t("customers.title")}
             icon={<MSPIcon size={15} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Customers</h1>
+        <h1 ref={headingRef}>{t("customers.title")}</h1>
         <Paragraph>
-          Use this view to manage customer accounts and their plans.
+          {t("customers.description")}
         </Paragraph>
         <Paragraph>
           <DistributorDocsLink />
-          in our documentation.
+          {t("customers.docsSuffix")}
         </Paragraph>
       </div>
       <RestrictedAccess
-        page={"Customers"}
+        page={t("customers.title")}
         hasAccess={permission.tenants.create}
       >
         <Suspense fallback={<SkeletonTable />}>

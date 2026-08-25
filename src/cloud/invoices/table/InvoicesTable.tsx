@@ -14,6 +14,7 @@ import InvoicesActionCell from "@/cloud/invoices/table/InvoicesActionCell";
 import InvoicesPeriodCell from "@/cloud/invoices/table/InvoicesPeriodCell";
 import InvoicesTypeCell from "@/cloud/invoices/table/InvoicesTypeCell";
 import { Invoice } from "@/cloud/msp/interfaces/Invoice";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   invoices?: Invoice[];
@@ -21,37 +22,39 @@ type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
-const InvoicesColumns: ColumnDef<Invoice>[] = [
-  {
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Date</DataTableHeader>;
-    },
-    accessorKey: "period_start",
-    cell: ({ row }) => <InvoicesPeriodCell invoice={row.original} />,
-  },
-  {
-    accessorKey: "period_end",
-  },
-  {
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
-    },
-    accessorKey: "type",
-    cell: ({ row }) => <InvoicesTypeCell invoice={row.original} />,
-  },
-  {
-    accessorKey: "id",
-    header: () => null,
-    sortingFn: "text",
-    cell: ({ row }) => <InvoicesActionCell invoice={row.original} />,
-  },
-];
-
 export default function InvoicesTable({
   invoices,
   isLoading,
   headingTarget,
 }: Readonly<Props>) {
+  const { t } = useI18n();
+
+  const InvoicesColumns: ColumnDef<Invoice>[] = [
+    {
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.date")}</DataTableHeader>;
+      },
+      accessorKey: "period_start",
+      cell: ({ row }) => <InvoicesPeriodCell invoice={row.original} />,
+    },
+    {
+      accessorKey: "period_end",
+    },
+    {
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.type")}</DataTableHeader>;
+      },
+      accessorKey: "type",
+      cell: ({ row }) => <InvoicesTypeCell invoice={row.original} />,
+    },
+    {
+      accessorKey: "id",
+      header: () => null,
+      sortingFn: "text",
+      cell: ({ row }) => <InvoicesActionCell invoice={row.original} />,
+    },
+  ];
+
   const { isActive: isDistributor } = useDistributor();
   const apiRequestPath = isDistributor
     ? "/integrations/msp/reseller/invoices"
@@ -83,7 +86,7 @@ export default function InvoicesTable({
       columns={InvoicesColumns}
       keepStateInLocalStorage={false}
       data={invoices}
-      searchPlaceholder={"Search by invoice number or date..."}
+      searchPlaceholder={t("common.searchByInvoiceNumberOrDatePlaceholder")}
       isLoading={isLoading}
       getStartedCard={
         <NoResults

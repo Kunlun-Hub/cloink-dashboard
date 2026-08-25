@@ -25,6 +25,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   isResourceTargetType,
   useReverseProxies,
@@ -46,91 +47,6 @@ type Props = {
   isGroupPage?: boolean;
 };
 
-const NetworkResourceColumns: ColumnDef<NetworkResource>[] = [
-  {
-    id: "id",
-    accessorKey: "id",
-    filterFn: "exactMatch",
-  },
-  {
-    id: "name",
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Resource</DataTableHeader>;
-    },
-    cell: ({ row }) => {
-      return <ResourceNameCell resource={row.original} />;
-    },
-  },
-  {
-    id: "description",
-    accessorKey: "description",
-    accessorFn: (resource) =>
-      removeAllSpaces(resource?.description || "").toLowerCase(),
-  },
-  {
-    id: "address",
-    accessorKey: "address",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
-    },
-    cell: ({ row }) => {
-      return <ResourceAddressCell resource={row.original} />;
-    },
-  },
-  {
-    id: "enabled",
-    accessorKey: "enabled",
-  },
-  {
-    id: "groups",
-    accessorFn: (resource) => {
-      let groups = (resource?.groups ?? []) as Group[];
-      return groups.map((group) => group.name).join(", ");
-    },
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
-    },
-    cell: ({ row }) => {
-      return <ResourceGroupCell resource={row.original} />;
-    },
-  },
-  {
-    id: "group_names",
-    accessorFn: (resource) => {
-      const groups = (resource?.groups ?? []) as Group[];
-      return groups.map((g) => g.name).filter((n): n is string => !!n);
-    },
-    filterFn: "arrIncludesSome",
-  },
-  {
-    id: "policies",
-    accessorKey: "id",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Policies</DataTableHeader>;
-    },
-    cell: ({ row }) => {
-      return <ResourcePolicyCell resource={row.original} />;
-    },
-  },
-  {
-    id: "expose_service",
-    accessorKey: "id",
-    header: "",
-    cell: ({ row }) => {
-      return <ResourceExposeServiceCell resource={row.original} />;
-    },
-  },
-  {
-    id: "actions",
-    accessorKey: "id",
-    header: "",
-    cell: ({ row }) => {
-      return <ResourceActionCell resource={row.original} />;
-    },
-  },
-];
-
 export default function ResourcesTable({
   resources,
   isLoading,
@@ -138,6 +54,7 @@ export default function ResourcesTable({
   isGroupPage,
 }: Readonly<Props>) {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const params = useSearchParams();
   const resourceId = params.get("resource") ?? undefined;
 
@@ -150,6 +67,110 @@ export default function ResourcesTable({
   const { openResourceModal, network } = useNetworksContext();
   const router = useRouter();
   const { reverseProxies } = useReverseProxies();
+
+  const NetworkResourceColumns = useMemo<ColumnDef<NetworkResource>[]>(
+    () => [
+      {
+        id: "id",
+        accessorKey: "id",
+        filterFn: "exactMatch",
+      },
+      {
+        id: "name",
+        accessorKey: "name",
+        header: ({ column }) => {
+          return (
+            <DataTableHeader column={column}>
+              {t("resourcesTable.resource")}
+            </DataTableHeader>
+          );
+        },
+        cell: ({ row }) => {
+          return <ResourceNameCell resource={row.original} />;
+        },
+      },
+      {
+        id: "description",
+        accessorKey: "description",
+        accessorFn: (resource) =>
+          removeAllSpaces(resource?.description || "").toLowerCase(),
+      },
+      {
+        id: "address",
+        accessorKey: "address",
+        header: ({ column }) => {
+          return (
+            <DataTableHeader column={column}>
+              {t("resourcesTable.address")}
+            </DataTableHeader>
+          );
+        },
+        cell: ({ row }) => {
+          return <ResourceAddressCell resource={row.original} />;
+        },
+      },
+      {
+        id: "enabled",
+        accessorKey: "enabled",
+      },
+      {
+        id: "groups",
+        accessorFn: (resource) => {
+          let groups = (resource?.groups ?? []) as Group[];
+          return groups.map((group) => group.name).join(", ");
+        },
+        header: ({ column }) => {
+          return (
+            <DataTableHeader column={column}>
+              {t("table.groups")}
+            </DataTableHeader>
+          );
+        },
+        cell: ({ row }) => {
+          return <ResourceGroupCell resource={row.original} />;
+        },
+      },
+      {
+        id: "group_names",
+        accessorFn: (resource) => {
+          const groups = (resource?.groups ?? []) as Group[];
+          return groups.map((g) => g.name).filter((n): n is string => !!n);
+        },
+        filterFn: "arrIncludesSome",
+      },
+      {
+        id: "policies",
+        accessorKey: "id",
+        header: ({ column }) => {
+          return (
+            <DataTableHeader column={column}>
+              {t("resourcesTable.policies")}
+            </DataTableHeader>
+          );
+        },
+        cell: ({ row }) => {
+          return <ResourcePolicyCell resource={row.original} />;
+        },
+      },
+      {
+        id: "expose_service",
+        accessorKey: "id",
+        header: "",
+        cell: ({ row }) => {
+          return <ResourceExposeServiceCell resource={row.original} />;
+        },
+      },
+      {
+        id: "actions",
+        accessorKey: "id",
+        header: "",
+        cell: ({ row }) => {
+          return <ResourceActionCell resource={row.original} />;
+        },
+      },
+    ],
+    [t],
+  );
 
   const exposedResourceIds = useMemo(() => {
     const ids = new Set<string>();
@@ -192,27 +213,31 @@ export default function ResourcesTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("filters.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("common.active"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("resourcesTable.inactive"),
+        dotClass: "bg-nb-gray-700",
+      },
     ],
-    [],
+    [t],
   );
 
   const exposedOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All" },
-      { value: true, label: "Exposed" },
-      { value: false, label: "Not Exposed" },
+      { value: undefined, label: t("filters.all") },
+      { value: true, label: t("resourcesTable.exposed") },
+      { value: false, label: t("resourcesTable.notExposed") },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("resourcesTable.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -226,7 +251,7 @@ export default function ResourcesTable({
       },
       {
         id: "group_names",
-        label: "Groups",
+        label: t("table.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -239,7 +264,7 @@ export default function ResourcesTable({
       },
       {
         id: "exposed",
-        label: "Service",
+        label: t("resourcesTable.service"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -252,7 +277,7 @@ export default function ResourcesTable({
           formatRadioChip(v as boolean | undefined, exposedOptions),
       },
     ],
-    [statusOptions, exposedOptions, tableGroups],
+    [t, statusOptions, exposedOptions, tableGroups],
   );
 
   const removeResourceParam = React.useCallback(() => {
@@ -273,7 +298,7 @@ export default function ResourcesTable({
       showSearchAndFilters={true}
       inset={false}
       tableClassName={"mt-0"}
-      text={"Resources"}
+      text={t("resourcesTable.resources")}
       columns={columns}
       keepStateInLocalStorage={false}
       initialPageSize={25}
@@ -287,20 +312,20 @@ export default function ResourcesTable({
         <TableFilterChips table={table} filters={filterDefs} />
       )}
       data={resources}
-      searchPlaceholder={"Search by name, address or group..."}
+      searchPlaceholder={t("resourcesTable.searchPlaceholder")}
       isLoading={isLoading}
       getStartedCard={
         <NoResults
           className={"py-4"}
           title={
             isGroupPage
-              ? "This group has no assigned resources"
-              : "This network has no resources"
+              ? t("resourcesTable.emptyGroupTitle")
+              : t("resourcesTable.emptyNetworkTitle")
           }
           description={
             isGroupPage
-              ? "Assign this group to your resources inside your networks to see them listed here."
-              : "Add resources to this network to control what peers can access. Resources can be anything from a single IP, a subnet, or a domain."
+              ? t("resourcesTable.emptyGroupDescription")
+              : t("resourcesTable.emptyNetworkDescription")
           }
           icon={<Layers3Icon size={20} className={"text-nb-gray-400"} />}
         >
@@ -311,7 +336,7 @@ export default function ResourcesTable({
                 className={"mt-4"}
                 onClick={() => router.push("/networks")}
               >
-                Go to Networks
+                {t("resourcesTable.goToNetworks")}
                 <ArrowUpRightIcon size={16} />
               </Button>
             </>
@@ -338,7 +363,7 @@ export default function ResourcesTable({
                 data-testid={"add-resource"}
               >
                 <PlusCircle size={16} />
-                Add
+                {t("common.add")}
               </Button>
             )
           : undefined

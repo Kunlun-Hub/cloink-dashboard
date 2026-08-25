@@ -11,6 +11,7 @@ import { orderBy, trim } from "lodash";
 import { MonitorSmartphoneIcon, SearchIcon } from "lucide-react";
 import * as React from "react";
 import { useRef } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 
 // GroupsPicker — multi-select search list of group names. The value
@@ -24,6 +25,7 @@ type Props = {
 };
 
 export function GroupsPicker({ value, onChange, groups }: Props) {
+  const { t } = useI18n();
   const searchRef = useRef<HTMLInputElement>(null);
   const selected = value ?? [];
 
@@ -54,7 +56,7 @@ export function GroupsPicker({ value, onChange, groups }: Props) {
               "dark:placeholder:text-nb-gray-400 font-light placeholder:text-neutral-500 pl-9",
             )}
             ref={searchRef}
-            placeholder={"Search group..."}
+            placeholder={t("common.searchGroupPlaceholder")}
           />
           <div
             className={

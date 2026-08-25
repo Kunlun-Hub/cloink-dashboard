@@ -2,6 +2,7 @@ import { notify } from "@components/Notification";
 import { useApiCall } from "@utils/api";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
+import { useI18n } from "@/i18n/I18nProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
@@ -13,6 +14,7 @@ type Props = {
 export default function SetupKeyGroupsCell({ setupKey }: Readonly<Props>) {
   const [modal, setModal] = useState(false);
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const request = useApiCall<SetupKey>("/setup-keys/" + setupKey.id);
   const { mutate } = useSWRConfig();
   const handleSave = async (promises: Promise<Group>[]) => {
@@ -20,7 +22,7 @@ export default function SetupKeyGroupsCell({ setupKey }: Readonly<Props>) {
 
     notify({
       title: setupKey?.name || "Setup Key",
-      description: "Groups of the setup key were successfully saved",
+      description: t("setupKey.groupsSaved"),
       promise: request
         .put({
           name: setupKey?.name || "Setup Key",
@@ -37,7 +39,7 @@ export default function SetupKeyGroupsCell({ setupKey }: Readonly<Props>) {
           mutate("/setup-keys");
           mutate("/groups");
         }),
-      loadingMessage: "Saving the groups of the setup key...",
+      loadingMessage: t("setupKey.savingGroups"),
     });
   };
 

@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@components/DropdownMenu";
+import { CheckIcon, GlobeIcon } from "lucide-react";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -9,6 +17,66 @@ import {
 } from "@/components/Select";
 import { useI18n } from "./I18nProvider";
 import { Locale, locales } from "./messages";
+
+const languageMessageKeys = {
+  en: "common.language.en",
+  "zh-CN": "common.language.zh-CN",
+} as const;
+
+/**
+ * Language control for the account menu. Keeping this next to the existing
+ * settings selector makes both entry points use the same locale state and
+ * translations if another compact layout needs one in the future.
+ */
+export function LanguageMenuItem({
+  onLocaleChange,
+}: {
+  onLocaleChange?: () => void;
+}) {
+  const { locale, setLocale, t } = useI18n();
+
+  return (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger
+        className="gap-3"
+        aria-label={t("common.language")}
+      >
+        <GlobeIcon size={14} aria-hidden="true" />
+        <span>{t("common.language")}</span>
+      </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent className="w-40">
+          {locales.map((code) => {
+            const selected = locale === code;
+
+            return (
+              <DropdownMenuItem
+                key={code}
+                role="menuitemradio"
+                aria-checked={selected}
+                closeOnSelect
+                onSelect={() => {
+                  setLocale(code);
+                  onLocaleChange?.();
+                }}
+                className="gap-2"
+              >
+                <span>{t(languageMessageKeys[code])}</span>
+                {selected && (
+                  <CheckIcon
+                    size={14}
+                    className="ml-auto"
+                    aria-label={t("common.selected")}
+                  />
+                )}
+              </DropdownMenuItem>
+            );
+          })}
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
+  );
+}
 
 export function LanguageSelector() {
   const { locale, setLocale, t } = useI18n();
@@ -26,11 +94,7 @@ export function LanguageSelector() {
         <SelectContent>
           {locales.map((code) => (
             <SelectItem key={code} value={code}>
-              {t(
-                `common.language.${code}` as
-                  | "common.language.en"
-                  | "common.language.zh-CN",
-              )}
+              {t(languageMessageKeys[code])}
             </SelectItem>
           ))}
         </SelectContent>

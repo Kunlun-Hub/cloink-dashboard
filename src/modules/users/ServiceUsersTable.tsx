@@ -29,6 +29,8 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
+import { MessageKey } from "@/i18n/messages";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { User } from "@/interfaces/User";
 import ServiceUserModal from "@/modules/users/ServiceUserModal";
@@ -37,49 +39,53 @@ import UserActionCell from "@/modules/users/table-cells/UserActionCell";
 import UserRoleCell from "@/modules/users/table-cells/UserRoleCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 
-export const ServiceUsersTableColumns: ColumnDef<User>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+export function createServiceUsersTableColumns(
+  t: (key: MessageKey, values?: Record<string, string | number>) => string,
+): ColumnDef<User>[] {
+  return [
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <ServiceUserNameCell user={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <ServiceUserNameCell user={row.original} />,
-  },
-  {
-    accessorKey: "is_current",
-    sortingFn: "basic",
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+    {
+      accessorKey: "is_current",
+      sortingFn: "basic",
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserRoleCell user={row.original} />,
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+    {
+      accessorKey: "role",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("table.role")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserRoleCell user={row.original} />,
     },
-    sortingFn: "text",
-    cell: ({ row }) => <UserStatusCell user={row.original} />,
-  },
-  {
-    id: "role_filter",
-    accessorFn: (u) => [u?.role],
-    filterFn: "arrIncludesSome",
-  },
-  {
-    accessorKey: "id",
-    header: "",
-    sortingFn: "text",
-    cell: ({ row }) => (
-      <UserActionCell user={row.original} serviceUser={true} />
-    ),
-  },
-];
+    {
+      accessorKey: "status",
+      header: ({ column }) => {
+        return <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>;
+      },
+      sortingFn: "text",
+      cell: ({ row }) => <UserStatusCell user={row.original} />,
+    },
+    {
+      id: "role_filter",
+      accessorFn: (u) => [u?.role],
+      filterFn: "arrIncludesSome",
+    },
+    {
+      accessorKey: "id",
+      header: "",
+      sortingFn: "text",
+      cell: ({ row }) => (
+        <UserActionCell user={row.original} serviceUser={true} />
+      ),
+    },
+  ];
+}
 
 type Props = {
   users?: User[];
@@ -97,6 +103,54 @@ export default function ServiceUsersTable({
   const router = useRouter();
   const path = usePathname();
   const { permission } = usePermissions();
+  const { t } = useI18n();
+
+  const translatedColumns: ColumnDef<User>[] = useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({ column }) => {
+          return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
+        },
+        sortingFn: "text",
+        cell: ({ row }) => <ServiceUserNameCell user={row.original} />,
+      },
+      {
+        accessorKey: "is_current",
+        sortingFn: "basic",
+      },
+      {
+        accessorKey: "role",
+        header: ({ column }) => {
+          return <DataTableHeader column={column}>{t("table.role")}</DataTableHeader>;
+        },
+        sortingFn: "text",
+        cell: ({ row }) => <UserRoleCell user={row.original} />,
+      },
+      {
+        accessorKey: "status",
+        header: ({ column }) => {
+          return <DataTableHeader column={column}>{t("common.status")}</DataTableHeader>;
+        },
+        sortingFn: "text",
+        cell: ({ row }) => <UserStatusCell user={row.original} />,
+      },
+      {
+        id: "role_filter",
+        accessorFn: (u) => [u?.role],
+        filterFn: "arrIncludesSome",
+      },
+      {
+        accessorKey: "id",
+        header: "",
+        sortingFn: "text",
+        cell: ({ row }) => (
+          <UserActionCell user={row.original} serviceUser={true} />
+        ),
+      },
+    ],
+    [t],
+  );
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -115,29 +169,29 @@ export default function ServiceUsersTable({
 
   const statusOptions = useMemo<RadioOption<string | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: "active", label: "Active", dotClass: "bg-green-500" },
-      { value: "blocked", label: "Blocked", dotClass: "bg-red-500" },
+      { value: undefined, label: t("filters.all"), dotClass: "bg-nb-gray-500" },
+      { value: "active", label: t("users.status.active"), dotClass: "bg-green-500" },
+      { value: "blocked", label: t("users.status.blocked"), dotClass: "bg-red-500" },
     ],
-    [],
+    [t],
   );
 
   const roleOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "admin", label: "Admin" },
-      { value: "user", label: "User" },
-      { value: "network_admin", label: "Network Admin" },
-      { value: "billing_admin", label: "Billing Admin" },
-      { value: "auditor", label: "Auditor" },
+      { value: "admin", label: t("userRoles.admin") },
+      { value: "user", label: t("userRoles.user") },
+      { value: "network_admin", label: t("userRoles.networkAdmin") },
+      { value: "billing_admin", label: t("userRoles.billingAdmin") },
+      { value: "auditor", label: t("userRoles.auditor") },
     ],
-    [],
+    [t],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("common.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as string | undefined}
@@ -151,7 +205,7 @@ export default function ServiceUsersTable({
       },
       {
         id: "role_filter",
-        label: "Role",
+        label: t("table.role"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -164,17 +218,17 @@ export default function ServiceUsersTable({
           formatCheckboxChip(v as string[] | undefined, roleOptions, "roles"),
       },
     ],
-    [statusOptions, roleOptions],
+    [t, statusOptions, roleOptions],
   );
 
   return (
     <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"Service Users"}
+      text={t("serviceUsers.title")}
       sorting={sorting}
       setSorting={setSorting}
-      columns={ServiceUsersTableColumns}
+      columns={translatedColumns}
       data={users}
       onRowClick={(row) => {
         router.push(`/team/user?id=${row.original.id}&service_user=true`);
@@ -189,7 +243,7 @@ export default function ServiceUsersTable({
         is_current: false,
         role_filter: false,
       }}
-      searchPlaceholder={"Search by name or role..."}
+      searchPlaceholder={t("serviceUsers.searchPlaceholder")}
       getStartedCard={
         <GetStartedTest
           icon={
@@ -199,10 +253,8 @@ export default function ServiceUsersTable({
               size={"large"}
             />
           }
-          title={"Create Service User"}
-          description={
-            "It looks like you don't have any service users. Get started by creating a service user."
-          }
+          title={t("serviceUsers.createTitle")}
+          description={t("serviceUsers.emptyDescription")}
           button={
             <div className={"flex flex-col"}>
               <div>
@@ -214,7 +266,7 @@ export default function ServiceUsersTable({
                     disabled={!permission.users.create}
                   >
                     <PlusCircle size={16} />
-                    Create Service User
+                    {t("serviceUsers.createTitle")}
                   </Button>
                 </ServiceUserModal>
               </div>
@@ -222,14 +274,14 @@ export default function ServiceUsersTable({
           }
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/access-netbird-public-api"
                 }
                 target={"_blank"}
               >
-                Service Users
+                {t("serviceUsers.title")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -247,7 +299,7 @@ export default function ServiceUsersTable({
                 disabled={!permission.users.create}
               >
                 <PlusCircle size={16} />
-                Create Service User
+                {t("serviceUsers.createTitle")}
               </Button>
             </ServiceUserModal>
           )}

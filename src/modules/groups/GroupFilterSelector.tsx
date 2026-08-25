@@ -18,6 +18,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface MultiSelectProps {
   values: string[];
@@ -33,6 +34,7 @@ export function GroupFilterSelector({
   popoverWidth = 400,
   groups,
 }: MultiSelectProps) {
+  const { t } = useI18n();
   const searchRef = React.useRef<HTMLInputElement>(null);
   const [inputRef, { width }] = useElementSize<HTMLButtonElement>();
   const [search, setSearch] = useState("");
@@ -66,9 +68,9 @@ export function GroupFilterSelector({
           <FolderGit2 size={16} className={"shrink-0"} />
           <div className={"w-full flex justify-between"}>
             {values.length > 0 ? (
-              <div>{values.length} Group(s)</div>
+              <div>{t("groups.groupCount", { count: values.length })}</div>
             ) : (
-              "All Groups"
+              t("groups.allGroups")
             )}
             <div className={"pl-2"}>
               <ChevronsUpDown size={18} className={"shrink-0"} />
@@ -107,7 +109,7 @@ export function GroupFilterSelector({
                 ref={searchRef}
                 value={search}
                 onValueChange={setSearch}
-                placeholder={"Search group..."}
+                placeholder={t("groups.searchGroup")}
               />
               <div
                 className={
@@ -173,7 +175,7 @@ export function GroupFilterSelector({
                                 }
                               >
                                 <MonitorSmartphoneIcon size={13} />
-                                {item.peers_count} Peer(s)
+                                {item.peers_count} {t("groups.count.peers")}
                               </div>
                             </div>
                           </div>

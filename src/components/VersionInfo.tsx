@@ -1,13 +1,15 @@
 "use client";
 
 import FullTooltip from "@components/FullTooltip";
+import useFetchApi from "@utils/api";
 import { cn } from "@utils/helpers";
+import { isNetBirdCloud } from "@utils/netbird";
+import { isNewerVersion } from "@utils/version";
 import { ArrowUpCircle } from "lucide-react";
 import * as React from "react";
 import Skeleton from "react-loading-skeleton";
-import useFetchApi from "@utils/api";
-import { isNetBirdCloud } from "@utils/netbird";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { VersionInfo as VersionInfoType } from "@/interfaces/Instance";
 
 function formatVersion(version: string): string {
@@ -17,36 +19,14 @@ function formatVersion(version: string): string {
   return version;
 }
 
-// Self-hosted builds can carry a numeric build suffix (e.g. "0.76.3-31256681241")
-// that overflows the sidebar. Show the semver only and keep the rest for the
+// Builds can carry a suffix that overflows the sidebar: semver build metadata
+// ("0.77.0+enterprise.1" on enterprise builds) or a numeric CI build number
+// ("0.76.3-31256681241"). Show the release only and keep the full string for the
 // tooltip. Pre-release labels like "-rc.1" are left intact so they stay visible.
 function formatShortVersion(version: string): string {
-  return formatVersion(version).replace(/^(v?\d+(?:\.\d+)*)-\d+$/, "$1");
-}
-
-function compareVersions(current: string, latest: string): boolean {
-  // Returns true if latest is newer than current
-  if (!current || !latest) return false;
-  if (current === "development") return false;
-
-  // Strip "v" prefix if present
-  const normalizedCurrent = current.replace(/^v/, "");
-  const normalizedLatest = latest.replace(/^v/, "");
-
-  const currentParts = normalizedCurrent
-    .split(".")
-    .map((p) => parseInt(p, 10) || 0);
-  const latestParts = normalizedLatest
-    .split(".")
-    .map((p) => parseInt(p, 10) || 0);
-
-  for (let i = 0; i < Math.max(currentParts.length, latestParts.length); i++) {
-    const c = currentParts[i] || 0;
-    const l = latestParts[i] || 0;
-    if (l > c) return true;
-    if (l < c) return false;
-  }
-  return false;
+  return formatVersion(version)
+    .replace(/\+.*$/, "")
+    .replace(/^(v?\d+(?:\.\d+)*)-\d+$/, "$1");
 }
 
 export const NavigationVersionInfo = () => {
@@ -70,6 +50,7 @@ export const NavigationVersionInfo = () => {
 };
 
 const NavigationVersionInfoContent = () => {
+  const { t } = useI18n();
   const { data: versionInfo, isLoading } = useFetchApi<VersionInfoType>(
     "/instance/version",
     true, // ignore errors
@@ -84,12 +65,18 @@ const NavigationVersionInfoContent = () => {
 
   if (!versionInfo) return null;
 
-  // Compare versions to detect updates (returns false for "development" versions)
-  const managementUpdateAvailable = compareVersions(
-    versionInfo.management_current_version,
-    versionInfo.management_available_version,
-  );
-  const dashboardUpdateAvailable = compareVersions(
+  // Prefer the server's verdict: it knows the release channel the installation
+  // runs on and compares with a full semver implementation. Fall back to a local
+  // comparison for management servers that don't report the flag yet.
+  const managementUpdateAvailable =
+    versionInfo.management_update_available ??
+    isNewerVersion(
+      versionInfo.management_current_version,
+      versionInfo.management_available_version,
+    );
+  // The dashboard's installed version is baked in at build time and the server
+  // never sees it, so this one is always compared here.
+  const dashboardUpdateAvailable = isNewerVersion(
     dashboardVersion,
     versionInfo.dashboard_available_version,
   );
@@ -107,11 +94,11 @@ const NavigationVersionInfoContent = () => {
           content={
             <div className="text-xs flex flex-col gap-1">
               <span>
-                Installed:{" "}
+                {t("versionInfo.installed")}{" "}
                 {formatVersion(versionInfo.management_current_version)}
               </span>
               <span>
-                Latest: {formatVersion(versionInfo.management_available_version)}
+                {t("versionInfo.latestLabel")} {formatVersion(versionInfo.management_available_version)}
               </span>
             </div>
           }
@@ -119,7 +106,7 @@ const NavigationVersionInfoContent = () => {
           className="w-full"
         >
           <div className="flex items-center justify-between w-full cursor-default">
-            <span>Management</span>
+            <span>{t("versionInfo.management")}</span>
             <span className="text-nb-gray-300 font-medium">
               {formatShortVersion(versionInfo.management_current_version)}
             </span>
@@ -128,9 +115,9 @@ const NavigationVersionInfoContent = () => {
         <FullTooltip
           content={
             <div className="text-xs flex flex-col gap-1">
-              <span>Installed: {formatVersion(dashboardVersion)}</span>
+              <span>{t("versionInfo.installed")} {formatVersion(dashboardVersion)}</span>
               <span>
-                Latest: {formatVersion(versionInfo.dashboard_available_version)}
+                {t("versionInfo.latestLabel")} {formatVersion(versionInfo.dashboard_available_version)}
               </span>
             </div>
           }
@@ -138,7 +125,7 @@ const NavigationVersionInfoContent = () => {
           className="w-full"
         >
           <div className="flex items-center justify-between w-full cursor-default">
-            <span>Dashboard</span>
+            <span>{t("versionInfo.dashboard")}</span>
             <span className="text-nb-gray-300 font-medium">
               {formatShortVersion(dashboardVersion)}
             </span>
@@ -154,7 +141,7 @@ const NavigationVersionInfoContent = () => {
           className="flex items-center justify-center gap-1.5 text-white font-medium bg-netbird hover:bg-netbird-500 transition-colors rounded-md py-1.5 px-2 mt-1"
         >
           <ArrowUpCircle size={12} />
-          <span>Update available</span>
+          <span>{t("versionInfo.updateAvailableLabel")}</span>
         </a>
       )}
     </div>

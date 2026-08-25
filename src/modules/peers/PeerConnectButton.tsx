@@ -12,8 +12,10 @@ import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { RDPButton } from "@/modules/remote-access/rdp/RDPButton";
 import { SSHButton } from "@/modules/remote-access/ssh/SSHButton";
 import { cn } from "@utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export const PeerConnectButton = () => {
+  const { t } = useI18n();
   const { peer } = usePeer();
   const isConnected = peer.connected;
   const os = getOperatingSystem(peer?.os);
@@ -50,7 +52,7 @@ export const PeerConnectButton = () => {
     <FullTooltip
       content={
         <div className={"max-w-[200px] text-xs"}>
-          Connecting via SSH or RDP is only available when the peer is online.
+          {t("peerConnect.offlineHelp")}
         </div>
       }
     >
@@ -60,6 +62,7 @@ export const PeerConnectButton = () => {
 };
 
 const ConnectButton = ({ disabled }: { disabled?: boolean }) => {
+  const { t } = useI18n();
   return (
     <button
       className={cn(
@@ -73,7 +76,7 @@ const ConnectButton = ({ disabled }: { disabled?: boolean }) => {
         e.preventDefault();
       }}
     >
-      Connect
+      {t("peers.connect")}
       <IconChevronDown size={14} />
     </button>
   );

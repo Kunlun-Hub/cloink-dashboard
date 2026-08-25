@@ -3,12 +3,14 @@ import React, { useMemo } from "react";
 import { mutate } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Policy } from "@/interfaces/Policy";
 
 type Props = {
   policy: Policy;
 };
 export default function AccessControlActiveCell({ policy }: Readonly<Props>) {
+  const { t } = useI18n();
   const { updatePolicy, serializeRules } = usePolicies();
   const { permission } = usePermissions();
 
@@ -24,8 +26,8 @@ export default function AccessControlActiveCell({ policy }: Readonly<Props>) {
         mutate("/policies");
       },
       enabled
-        ? "The rule was successfully enabled"
-        : "The rule was successfully disabled",
+        ? t("accessControl.ruleEnabled")
+        : t("accessControl.ruleDisabled"),
     );
   };
 

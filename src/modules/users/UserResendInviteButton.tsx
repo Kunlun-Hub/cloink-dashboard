@@ -6,6 +6,7 @@ import { Loader2, MailIcon } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
 
 type Props = {
@@ -15,32 +16,21 @@ export const UserResendInviteButton = ({ user }: Props) => {
   const userRequest = useApiCall<User>("/users", true);
   const [isLoading, setIsLoading] = useState(false);
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const inviteUser = async () => {
     setIsLoading(true);
     notify({
-      title: "Resend Invite",
-      description: `The invitation is being sent to ${user.email}`,
+      title: t("userInvites.resendTitle"),
+      description: t("userInvites.resendDescription", {
+        email: user.email ?? "",
+      }),
       promise: userRequest
         .post("", `/${user.id}/invite`)
         .finally(() => setIsLoading(false)),
-      loadingMessage: "Sending invitation...",
+      loadingMessage: t("userInvites.sending"),
     });
   };
-
-  const LoadingMessage = () => (
-    <>
-      <Loader2 size={14} className={"animate-spin block"} />
-      Sending...
-    </>
-  );
-
-  const DefaultMessage = () => (
-    <>
-      <MailIcon size={13} />
-      Resend
-    </>
-  );
 
   return (
     user.status == "invited" && (
@@ -51,7 +41,17 @@ export const UserResendInviteButton = ({ user }: Props) => {
         onClick={inviteUser}
         className={cn("!px-3", isLoading && "animate-pulse")}
       >
-        {isLoading ? <LoadingMessage /> : <DefaultMessage />}
+        {isLoading ? (
+          <>
+            <Loader2 size={14} className={"animate-spin block"} />
+            {t("userInvites.sending")}
+          </>
+        ) : (
+          <>
+            <MailIcon size={13} />
+            {t("userInvites.resend")}
+          </>
+        )}
       </Button>
     )
   );

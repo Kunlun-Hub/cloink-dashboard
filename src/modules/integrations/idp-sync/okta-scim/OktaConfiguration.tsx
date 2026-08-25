@@ -28,6 +28,7 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/okta.png";
 import { useDialog } from "@/contexts/DialogProvider";
 import { OktaIntegration } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { GroupPrefixInput } from "@/modules/integrations/idp-sync/GroupPrefixInput";
@@ -70,6 +71,7 @@ type ModalProps = {
 };
 
 export function ConfigurationContent({ onSuccess, config }: ModalProps) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
 
@@ -101,54 +103,55 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
   const regenerateAuthToken = async () => {
     const choice = await confirm({
-      title: `Regenerate Auth Token?`,
-      description:
-        "Are you sure you want to regenerate the auth token? You will need to update the token in your Okta configuration.",
-      confirmText: "Regenerate",
-      cancelText: "Cancel",
+      title: t("idpSync.regenerateAuthTokenTitle"),
+      description: t("idpSync.regenerateAuthTokenDescription", {
+        provider: "Okta",
+      }),
+      confirmText: t("idpSync.regenerate"),
+      cancelText: t("common.cancel"),
       type: "default",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Okta Integration",
-      description: `Auth token for Okta was successfully regenerated`,
+      title: t("idpSync.integrationTitle", { provider: "Okta" }),
+      description: t("idpSync.authTokenRegenerated", { provider: "Okta" }),
       promise: oktaRequest.post({}, `/${config.id}/token`).then((r) => {
         mutate("/integrations/okta-scim-idp");
         setAuthToken(r.auth_token);
         updateRef([r.auth_token, groupPrefixes, userGroupPrefixes]);
       }),
-      loadingMessage: "Updating your auth token...",
+      loadingMessage: t("idpSync.updatingAuthToken"),
     });
   };
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("idpSync.deleteIntegrationTitle"),
+      description: t("idpSync.deleteIntegrationDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Okta Integration",
-      description: `Okta was successfully deleted`,
+      title: t("idpSync.integrationTitle", { provider: "Okta" }),
+      description: t("idpSync.integrationDeleted", { provider: "Okta" }),
       promise: oktaRequest.del({}, `/${config.id}`).then(() => {
         mutate("/integrations/okta-scim-idp");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("idpSync.deletingIntegration"),
     });
   };
 
   const updateIntegration = async () => {
     notify({
-      title: "Okta Integration",
-      description: `Okta was successfully updated`,
+      title: t("idpSync.integrationTitle", { provider: "Okta" }),
+      description: t("idpSync.integrationUpdated", { provider: "Okta" }),
       promise: oktaRequest
         .put(
           {
@@ -166,7 +169,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           mutate("/integrations/okta-scim-idp");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("idpSync.updatingIntegration"),
     });
   };
 
@@ -181,8 +184,8 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Okta Configuration"}
-        description={"Sync your users and groups from Okta to NetBird."}
+        title={t("okta.configurationTitle")}
+        description={t("okta.configurationDescription")}
       />
 
       <Tabs
@@ -198,7 +201,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("idpSync.settings")}
           </TabsTrigger>
           <TabsTrigger value={"group-sync"}>
             <FolderGit2
@@ -207,7 +210,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Group Sync
+            {t("idpSync.groupSync")}
           </TabsTrigger>
           <TabsTrigger value={"user-sync"}>
             <UserCircle
@@ -216,7 +219,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            User Sync
+            {t("idpSync.userSync")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -225,7 +228,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("idpSync.dangerZone")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={"settings"} className={"px-8 text-sm"}>
@@ -234,11 +237,11 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               <Card.List>
                 <Card.ListItem
                   copy={!authToken.includes("*")}
-                  copyText={"Auth token"}
+                  copyText={t("idpSync.authTokenCopy")}
                   label={
                     <>
                       <KeyRound size={16} />
-                      Auth Token
+                      {t("idpSync.authToken")}
                     </>
                   }
                   value={authToken}
@@ -247,7 +250,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             </Card>
             <Button variant={"secondary"} onClick={regenerateAuthToken}>
               <RefreshCcw size={16} />
-              Regenerate Auth Token
+              {t("idpSync.regenerateAuthToken")}
             </Button>
             <EmbeddedIdentityProviderSelect
               value={connectorId}
@@ -262,7 +265,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={16} />
-                Synchronize Groups
+                {t("idpSync.synchronizeGroups")}
               </div>
             </Label>
             <GroupPrefixHelpText />
@@ -275,14 +278,14 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <UserCircle size={16} />
-                Synchronize Users
+                {t("idpSync.synchronizeUsers")}
               </div>
             </Label>
             <GroupPrefixHelpText type={"user-groups"} />
           </div>
           <GroupPrefixInput
-            addText={"Add user group filter"}
-            text={"User group starts with..."}
+            addText={t("idpSync.addUserGroupFilter")}
+            text={t("idpSync.userGroupStartsWith")}
             value={userGroupPrefixes}
             onChange={setUserGroupPrefixes}
           />
@@ -293,14 +296,11 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={16} />
-                Delete Integration
+                {t("idpSync.deleteIntegrationLabel")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t("idpSync.deleteIntegrationHelp")}
             </HelpText>
           </div>
           <Button
@@ -309,7 +309,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("idpSync.deleteIntegrationLabel")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -318,7 +318,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
       <ModalFooter className={"items-center gap-4"}>
         <ModalClose asChild={true}>
           <Button variant={"secondary"} className={"w-full"}>
-            Cancel
+            {t("common.cancel")}
           </Button>
         </ModalClose>
 
@@ -328,7 +328,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           disabled={!hasChanges}
           onClick={updateIntegration}
         >
-          Save
+          {t("common.save")}
         </Button>
       </ModalFooter>
     </ModalContent>

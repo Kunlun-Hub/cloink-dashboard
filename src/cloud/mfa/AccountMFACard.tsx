@@ -8,10 +8,12 @@ import * as React from "react";
 import { useMemo } from "react";
 import { AccountMFA } from "@/cloud/mfa/AccountMFASettings";
 import { isNetBirdCloud } from "@utils/netbird";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const config = loadConfig();
 
 export const AccountMfaCard = () => {
+  const { t } = useI18n();
   const { data: accountMfa } = useFetchApi<AccountMFA>(
     "/service/mfa",
     true,
@@ -35,7 +37,7 @@ export const AccountMfaCard = () => {
           "border cursor-pointer border-nb-gray-900/50 bg-nb-gray-900/30 hover:bg-nb-gray-900/50 py-3 pl-3 pr-5 rounded-lg transition-all min-w-[432px] max-w-[440px]",
           "text-left",
         )}
-        aria-label={"Multi-Factor Authentication (MFA)"}
+        aria-label={t("mfa.title")}
         onClick={() => router.push("/settings?tab=authentication")}
       >
         <div className={"inline-flex gap-4 w-full"}>
@@ -51,7 +53,7 @@ export const AccountMfaCard = () => {
               <div
                 className={"font-medium text-sm flex gap-2 items-center mr-3"}
               >
-                Multi-Factor Authentication (MFA)
+                {t("mfa.title")}
               </div>
               <div
                 className={cn(
@@ -60,12 +62,12 @@ export const AccountMfaCard = () => {
                 )}
               >
                 <IconCircleFilled size={8} />
-                {enabled ? "Enabled" : "Disabled"}
+                {enabled ? t("common.enabled") : t("common.disabled")}
               </div>
             </div>
 
             <p className={"text-xs font-light !text-nb-gray-300 "}>
-              Enable NetBird MFA if not configured in your IdP
+              {t("mfa.enableIfNotInIdp")}
             </p>
           </div>
         </div>

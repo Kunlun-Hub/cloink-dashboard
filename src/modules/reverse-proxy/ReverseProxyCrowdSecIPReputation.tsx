@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { Label } from "@components/Label";
 import HelpText from "@components/HelpText";
 import {
@@ -14,6 +14,7 @@ import { HelpTooltip } from "@components/HelpTooltip";
 import { CrowdSecMode } from "@/interfaces/ReverseProxy";
 import Image from "next/image";
 import CrowdSecIconImage from "@/assets/integrations/crowdsec.png";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   value: CrowdSecMode;
@@ -26,30 +27,33 @@ type CrowdSecOption = {
   icon: ReactNode;
 };
 
-const CROWDSEC_OPTIONS: Record<CrowdSecMode, CrowdSecOption> = {
-  [CrowdSecMode.OFF]: {
-    label: "Disabled",
-    icon: <PowerOffIcon size={14} />,
-  },
-  [CrowdSecMode.ENFORCE]: {
-    label: "Enforce",
-    description:
-      "Blocked IPs are denied immediately. If the bouncer is not yet synced, connections are denied (fail-closed).",
-    icon: <ShieldCheckIcon size={14} />,
-  },
-  [CrowdSecMode.OBSERVE]: {
-    label: "Observe",
-    description:
-      "Blocked IPs are logged but not denied. Use this to evaluate CrowdSec before enforcing.",
-    icon: <EyeIcon size={14} />,
-  },
-};
-
 export const ReverseProxyCrowdSecIPReputation = ({
   value,
   onChange,
 }: Props) => {
-  const selected = CROWDSEC_OPTIONS[value];
+  const { t } = useI18n();
+
+  const crowdsecOptions = useMemo<Record<CrowdSecMode, CrowdSecOption>>(
+    () => ({
+      [CrowdSecMode.OFF]: {
+        label: t("common.disabled"),
+        icon: <PowerOffIcon size={14} />,
+      },
+      [CrowdSecMode.ENFORCE]: {
+        label: t("reverseProxy.crowdsecEnforce"),
+        description: t("reverseProxy.crowdsecEnforceDescription"),
+        icon: <ShieldCheckIcon size={14} />,
+      },
+      [CrowdSecMode.OBSERVE]: {
+        label: t("reverseProxy.crowdsecObserve"),
+        description: t("reverseProxy.crowdsecObserveDescription"),
+        icon: <EyeIcon size={14} />,
+      },
+    }),
+    [t],
+  );
+
+  const selected = crowdsecOptions[value];
 
   return (
     <div className="flex items-center gap-0 justify-between mb-6">
@@ -66,12 +70,13 @@ export const ReverseProxyCrowdSecIPReputation = ({
           />
         </div>
         <div>
-          <Label>CrowdSec IP Reputation</Label>
+          <Label>{t("reverseProxy.crowdsecTitle")}</Label>
           <HelpText>
-            Detect malicious IPs with CrowdSec.{" "}
-            <b className={"text-white"}>Enforce</b> to block them or{" "}
-            <b className={"text-white"}>Observe</b> to only log without
-            blocking.
+            {t("reverseProxy.crowdsecDescriptionPrefix")}{" "}
+            <b className={"text-white"}>{t("reverseProxy.crowdsecEnforce")}</b>{" "}
+            {t("reverseProxy.crowdsecDescriptionMiddle")}{" "}
+            <b className={"text-white"}>{t("reverseProxy.crowdsecObserve")}</b>{" "}
+            {t("reverseProxy.crowdsecDescriptionSuffix")}
           </HelpText>
         </div>
       </div>
@@ -84,7 +89,7 @@ export const ReverseProxyCrowdSecIPReputation = ({
           </div>
         </SelectTrigger>
         <SelectContent>
-          {Object.entries(CROWDSEC_OPTIONS).map(([mode, config]) => (
+          {Object.entries(crowdsecOptions).map(([mode, config]) => (
             <SelectItem
               key={mode}
               value={mode}

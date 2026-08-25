@@ -24,6 +24,7 @@ import {
   RDPCredentials,
 } from "@/modules/remote-access/rdp/useRemoteDesktop";
 import { IconLoader2 } from "@tabler/icons-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -40,6 +41,7 @@ export const RDPCredentialsModal = ({
   error,
   loading,
 }: Props) => {
+  const { t } = useI18n();
   const defaultUsername =
     getOperatingSystem(peer?.os) === OperatingSystem.WINDOWS
       ? "Administrator"
@@ -50,14 +52,14 @@ export const RDPCredentialsModal = ({
   const [port, setPort] = useState("3389");
 
   const userNameError = useMemo(() => {
-    if (username?.length === 0) return "Username cannot be empty";
+    if (username?.length === 0) return t("rdp.usernameEmptyError");
   }, [username]);
 
   const portError = useMemo(() => {
     const portNumber = Number(port);
     const isValid =
       Number.isInteger(portNumber) && portNumber > 0 && portNumber <= 65535;
-    if (!isValid) return "Port must be a number between 1 and 65535";
+    if (!isValid) return t("rdp.portRangeError");
   }, [port]);
 
   const hasAnyError = useMemo(() => {
@@ -111,7 +113,7 @@ export const RDPCredentialsModal = ({
         <ModalHeader
           icon={<MonitorIcon className={"text-netbird"} size={18} />}
           title={peer.name}
-          description={`Connect to ${peer.ip} via RDP`}
+          description={t("rdp.description").replace("{ip}", peer.ip)}
           color={"netbird"}
         />
         <Separator />
@@ -130,20 +132,19 @@ export const RDPCredentialsModal = ({
                   "flex items-center gap-2 text-red-800 font-medium mb-1"
                 }
               >
-                Error
+                {t("rdp.error")}
               </div>
               <p className={"text-sm text-red-700"}>{error}</p>
             </div>
           )}
           <div>
-            <Label>Username & Password</Label>
+            <Label>{t("rdp.usernameAndPassword")}</Label>
             <HelpText>
-              Enter the credentials required to authenticate with the remote
-              host. For domain accounts, use DOMAIN\username or username@domain format.
+              {t("rdp.usernameAndPasswordHelp")}
             </HelpText>
             <div className={"flex flex-col gap-2 w-full"}>
               <Input
-                placeholder={"Administrator or DOMAIN\\username"}
+                placeholder={t("rdp.administratorOrDomainPlaceholder")}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -158,7 +159,7 @@ export const RDPCredentialsModal = ({
               />
               <Input
                 value={password}
-                placeholder={"Enter password"}
+                placeholder={t("rdp.enterPasswordPlaceholder")}
                 type={"password"}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -174,9 +175,9 @@ export const RDPCredentialsModal = ({
             </div>
           </div>
           <div>
-            <Label>Port</Label>
+            <Label>{t("rdp.port")}</Label>
             <HelpText>
-              Specify the RDP port for your remote connection.
+              {t("rdp.portHelp")}
             </HelpText>
             <Input
               maxWidthClass={""}
@@ -203,7 +204,7 @@ export const RDPCredentialsModal = ({
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink href={RDP_DOCS_LINK} target={"_blank"}>
                 RDP
                 <ExternalLinkIcon size={12} />
@@ -218,7 +219,7 @@ export const RDPCredentialsModal = ({
               onClick={handleConnect}
             >
               {loading && <IconLoader2 size={16} className={"animate-spin"} />}
-              Connect
+              {t("rdp.connect")}
             </Button>
           </div>
         </ModalFooter>

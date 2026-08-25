@@ -23,24 +23,25 @@ import {
 } from "@/interfaces/Subscription";
 import { LimitsReachedModal } from "@/modules/billing/LimitsReachedModal";
 import { TrialSuccessModal } from "@/modules/billing/trial/TrialSuccessModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
 };
 
-export const usageLimitInfo: Announcement = {
-  tag: "Notice",
-  text: "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.",
+export const getUsageLimitInfo = (t: (key: string) => string): Announcement => ({
+  tag: t("billing.notice"),
+  text: t("billing.usageLimitsReached"),
   link: "/settings?tab=plans-and-billing",
-  linkText: "Go to Plans & Billing",
+  linkText: t("billing.goToPlansBilling"),
   variant: "default", // "default" or "important"
   isExternal: false,
   closeable: false,
   isCloudOnly: true,
-};
+});
 
-export const trialExpiresInfo: Announcement = {
-  tag: "Trial",
+export const getTrialExpiresInfo = (t: (key: string) => string): Announcement => ({
+  tag: t("billing.trial"),
   text: "Your trial is ending soon. Need more time? Contact us to extend your trial.",
   variant: "default", // "default" or "important"
   link: "mailto:support@netbird.io",
@@ -48,7 +49,7 @@ export const trialExpiresInfo: Announcement = {
   isExternal: false,
   closeable: false,
   isCloudOnly: true,
-};
+});
 
 export function resolveActiveCurrency(subscription?: Subscription): Currency {
   return subscription?.active && subscription?.currency
@@ -110,6 +111,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
   const { confirm } = useDialog();
   const { trackEvent } = useAnalytics();
   const { setAnnouncements } = useAnnouncement();
+  const { t } = useI18n();
   const freeUsers = 0;
 
   const redirectUrl = useMemo(() => {
@@ -251,9 +253,9 @@ function BillingContextProvider({ children }: Readonly<Props>) {
           mutate("/integrations/billing/subscription");
         });
         notify({
-          title: "NetBird Subscription",
-          description: `Successfully subscribed to the ${plan.name} plan`,
-          loadingMessage: "Subscribing to NetBird via AWS Marketplace...",
+          title: t("billing.notifyTitle"),
+          description: t("billing.awsSubscribed", { name: plan.name }),
+          loadingMessage: t("billing.awsSubscribing"),
           promise: promise,
         });
         return promise;
@@ -280,17 +282,22 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     if (!priceID) return Promise.reject();
     const downgrade = isDowngrade(plan);
     const choice = await confirm({
-      title: `${downgrade ? "Downgrade" : "Upgrade"} to ${plan.name}?`,
+      title: t("billing.upgradeDowngradeTitle", {
+        action: downgrade ? t("billing.downgrade") : t("billing.upgrade"),
+        name: plan.name,
+      }),
       description: (
         <div className={"flex flex-col gap-2 text-sm text-nb-gray-300 mt-1"}>
           <div>
-            The transition to your new plan will take effect immediately.
-            Charges for the new plan will be incurred from this point forward.
+            {t("billing.planTransitionDescription")}
+          </div>
+          <div>
+            {t("billing.planTransitionCharges")}
           </div>
         </div>
       ),
-      confirmText: downgrade ? "Downgrade" : "Upgrade",
-      cancelText: "Cancel",
+      confirmText: downgrade ? t("billing.downgrade") : t("billing.upgrade"),
+      cancelText: t("common.cancel"),
       type: "default",
     });
     if (!choice) return;
@@ -312,10 +319,10 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     });
 
     notify({
-      title: "Update Subscription",
-      description: "Your subscription has been successfully updated.",
+      title: t("billing.updateSubscription"),
+      description: t("billing.subscriptionUpdated"),
       promise: promise,
-      loadingMessage: "Updating your subscription...",
+      loadingMessage: t("billing.updatingSubscription"),
     });
 
     return promise;
@@ -423,7 +430,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     if (isTrial && trialDaysRemaining <= 3) {
       setAnnouncements((prev) => {
         const prevAnnouncements = prev || [];
-        const hash = md5(trialExpiresInfo.text).toString();
+        const hash = md5(getTrialExpiresInfo(t).text).toString();
         return prevAnnouncements.map((a) => {
           if (a.hash === hash) {
             return { ...a, isOpen: true };
@@ -432,14 +439,14 @@ function BillingContextProvider({ children }: Readonly<Props>) {
         });
       });
     }
-  }, [isTrial, setAnnouncements, isLoading, trialDaysRemaining]);
+  }, [isTrial, setAnnouncements, isLoading, trialDaysRemaining, t]);
 
   useEffect(() => {
     if (isLoading) return;
     if (usagePercentage > 100 && isFreePlan && !isTrial) {
       setAnnouncements((prev) => {
         const prevAnnouncements = prev || [];
-        const usageInfoHash = md5(usageLimitInfo.text).toString();
+        const usageInfoHash = md5(getUsageLimitInfo(t).text).toString();
         return prevAnnouncements.map((a) => {
           if (a.hash === usageInfoHash) {
             return { ...a, isOpen: true };
@@ -448,7 +455,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
         });
       });
     }
-  }, [isFreePlan, usagePercentage, setAnnouncements, isLoading, isTrial]);
+  }, [isFreePlan, usagePercentage, setAnnouncements, isLoading, isTrial, t]);
 
   return (
     <BillingContext.Provider

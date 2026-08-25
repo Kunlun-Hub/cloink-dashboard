@@ -10,15 +10,16 @@ import RouteAutoApplyCell from "@/modules/routes/RouteAutoApplyCell";
 import RouteDistributionGroupsCell from "@/modules/routes/RouteDistributionGroupsCell";
 import RouteMetricCell from "@/modules/routes/RouteMetricCell";
 import RoutePeerCell from "@/modules/routes/RoutePeerCell";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   row: GroupedRoute;
 };
-export const RouteTableColumns: ColumnDef<Route>[] = [
+export const createRouteTableColumns = (t: (key: any, ...args: any[]) => string): ColumnDef<Route>[] => [
   {
     accessorKey: "network_id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <RoutePeerCell route={row.original} />,
@@ -43,7 +44,7 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
   {
     accessorKey: "metric",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Metric</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("networkRouting.metric")}</DataTableHeader>;
     },
     cell: ({ row }) => <RouteMetricCell metric={row.original.metric} />,
     sortingFn: "alphanumeric",
@@ -58,7 +59,7 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     accessorFn: (r) => r.groups?.length,
     header: ({ column }) => {
       return (
-        <DataTableHeader column={column}>Distribution Groups</DataTableHeader>
+        <DataTableHeader column={column}>{t("routeModal.distributionGroups")}</DataTableHeader>
       );
     },
     cell: ({ row }) => <RouteDistributionGroupsCell route={row.original} />,
@@ -68,7 +69,7 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     accessorFn: (r) => r?.access_control_groups?.length,
     header: ({ column }) => {
       return (
-        <DataTableHeader column={column}>Access Control Groups</DataTableHeader>
+        <DataTableHeader column={column}>{t("routeModal.accessControlGroups")}</DataTableHeader>
       );
     },
     cell: ({ row }) => <RouteAccessControlGroups route={row.original} />,
@@ -77,7 +78,7 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     id: "skipAutoApply",
     accessorKey: "skip_auto_apply",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Auto Apply</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("routeTable.autoApply")}</DataTableHeader>;
     },
     cell: ({ row }) => <RouteAutoApplyCell route={row.original} />,
     sortingFn: "basic",
@@ -97,6 +98,8 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
 
 export default function RouteTable({ row }: Props) {
   const { groups } = useGroups();
+  const { t } = useI18n();
+  const columns = useMemo(() => createRouteTableColumns(t), [t]);
 
   // Default sorting state of the table
   const [sorting, setSorting] = useState<SortingState>([
@@ -144,7 +147,7 @@ export default function RouteTable({ row }: Props) {
         showSearchAndFilters={false}
         className={"bg-nb-gray-960 py-2"}
         inset={true}
-        text={"Network Routes"}
+        text={t("networkRoutesPage.title")}
         manualPagination={true}
         sorting={sorting}
         columnVisibility={{
@@ -158,7 +161,7 @@ export default function RouteTable({ row }: Props) {
         }}
         rowClassName={(row) => (row.original.enabled ? "" : "opacity-50")}
         setSorting={setSorting}
-        columns={RouteTableColumns}
+        columns={columns}
         data={data}
       />
     </>

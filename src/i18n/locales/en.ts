@@ -10,7 +10,9 @@ const en = {
   "common.no": "No",
   "common.cancel": "Cancel",
   "common.later": "Later",
+  "common.or": "or",
   "common.learnMore": "Learn more",
+  "common.learnMoreAbout": "Learn more about",
   "common.group": "Group",
   "common.unknown": "Unknown",
   "common.username": "Username",
@@ -22,9 +24,14 @@ const en = {
   "common.copiedToClipboard": "Copied to clipboard",
   "common.close": "Close",
   "common.delete": "Delete",
+  "common.edit": "Edit",
   "common.disabled": "Disabled",
+  "common.enabled": "Enabled",
   "common.active": "Active",
+  "common.inactive": "Inactive",
   "common.status": "Status",
+  "common.settings": "Settings",
+  "common.confirmChanges": "Confirm Changes",
   "common.save": "Save",
   "common.saveChanges": "Save Changes",
   "common.enable": "Enable",
@@ -103,6 +110,80 @@ const en = {
   "nav.auditEvents": "Audit Events",
   "nav.networkLogs": "Network Logs",
   "nav.dnsLogs": "DNS Logs",
+  "nav.relays": "Relays",
+  "relays.title": "Relays",
+  "relays.description":
+    "Monitor the relay nodes distributed to clients, their reachability, and the number of clients currently registered on each node.",
+  "relays.name": "Name",
+  "relays.id": "Relay ID",
+  "relays.observedId": "Observed ID",
+  "relays.address": "Relay Address",
+  "relays.priority": "Priority",
+  "relays.priorityHelp": "Higher values are selected first.",
+  "relays.editPriority": "Edit priority",
+  "relays.priorityInvalid": "Priority must be a positive integer.",
+  "relays.priorityUpdateTitle": "Relay Priority",
+  "relays.priorityUpdating": "Updating relay priority...",
+  "relays.priorityUpdated":
+    "Relay priority was updated and sent to online clients.",
+  "relays.connectedClients": "Current Connections",
+  "relays.publicIp": "Public IP",
+  "relays.details": "Relay Details",
+  "relays.lastChecked": "Last Checked",
+  "relays.searchPlaceholder": "Search by relay address or status...",
+  "relays.online": "Online",
+  "relays.offline": "Offline",
+  "relays.emptyTitle": "No relays configured",
+  "relays.emptyDescription":
+    "Configure relay addresses in the management server to improve connectivity for restrictive networks.",
+  "relays.deployButton": "Deploy Relay",
+  "relays.applyButton": "Apply Config",
+  "relays.applyTitle": "Global Relay Config",
+  "relays.applyLoading": "Sending relay config to all clients...",
+  "relays.applyReady": "Relay config was sent to online clients.",
+  "relays.deployTitle": "Deploy Relay",
+  "relays.deployDescription":
+    "Generate a TLS-enabled Docker command for a relay that registers itself with this management server.",
+  "relays.relayIdLabel": "Relay ID",
+  "relays.relayIdHelp":
+    "Use a stable ID to distinguish servers that share the same DNS name.",
+  "relays.relayNameLabel": "Remark",
+  "relays.relayNameHelp": "Optional display name shown in the relay list.",
+  "relays.relayNamePlaceholder": "Hong Kong 01",
+  "relays.domainLabel": "Relay Domain",
+  "relays.domainHelp": "The public domain or IP clients can reach.",
+  "relays.portLabel": "Relay Port",
+  "relays.portHelp":
+    "TLS relay port. Use 443 unless you have a specific port plan.",
+  "relays.imageTagLabel": "Image Tag",
+  "relays.imageTagHelp": "Docker image tag to deploy.",
+  "relays.stunPortsLabel": "STUN Ports",
+  "relays.stunPortsHelp":
+    "Comma-separated UDP ports published for embedded STUN.",
+  "relays.certificateRequirement":
+    "Before running this command, create ./certs in the deployment directory and place the relay domain certificate as fullchain.pem and privkey.key. Relay deployment always uses rels/TLS.",
+  "relays.managementUrlLabel": "Management URL",
+  "relays.managementUrlHelp":
+    "Automatically detected from the current dashboard address.",
+  "relays.installCommand": "Install Command",
+  "relays.installCommandHelp":
+    "Expand to choose Docker or Docker Compose deployment.",
+  "relays.dockerMode": "Docker",
+  "relays.composeMode": "Docker Compose",
+  "relays.downloadCompose": "Download Compose",
+  "relays.composeWriteCommand": "Write compose file with EOF",
+  "relays.composeFile": "docker-compose.yml",
+  "relays.generatingToken": "Generating relay setup token...",
+  "relays.tokenReady":
+    "Setup token is ready. Copy the command and run it on the relay server.",
+  "relays.tokenExpiresAt": "expires",
+  "relays.tokenNotReady": "Setup token has not been generated yet.",
+  "relays.tokenError": "Failed to generate relay setup token.",
+  "relays.delete": "Delete relay",
+  "relays.deleteConfirm":
+    "Delete this relay registration record? If the relay container is still running, it will register again on the next heartbeat.",
+  "relays.staticRelayCannotDelete":
+    "Static configured relays cannot be deleted here.",
   "nav.settings": "Settings",
   "nav.integrations": "Integrations",
   "nav.documentation": "Documentation",
@@ -291,13 +372,203 @@ const en = {
   "settings.networks": "Networks",
   "settings.clients": "Clients",
   "settings.metrics": "Metrics",
+  "settings.email": "Email",
+  "settings.branding": "Branding",
+  "brandingSettings.logo": "Logo",
+  "brandingSettings.logoHelp": "Shown in the dashboard header.",
+  "brandingSettings.darkLogo": "Dark Mode Logo",
+  "brandingSettings.darkLogoHelp":
+    "Used in the dashboard header when dark mode is active.",
+  "brandingSettings.icon": "Icon & Favicon",
+  "brandingSettings.iconHelp":
+    "Used for compact header space and the browser tab icon.",
+  "brandingSettings.logoPreview": "Logo preview",
+  "brandingSettings.iconPreview": "Icon preview",
+  "brandingSettings.uploadLogo": "Upload Logo",
+  "brandingSettings.removeLogo": "Remove Logo",
+  "brandingSettings.uploadIcon": "Upload Icon",
+  "brandingSettings.removeIcon": "Remove Icon",
+  "brandingSettings.reset": "Reset",
+  "brandingSettings.tabTitle": "Browser Tab Title",
+  "brandingSettings.tabTitleHelp": "Used as the brand name in browser tabs.",
+  "brandingSettings.tabTitleLengthError":
+    "Title must be {count} characters or fewer.",
+  "brandingSettings.logoTypeError": "Upload a PNG, JPG, WebP, or SVG file.",
+  "brandingSettings.logoSizeError": "Logo must be {size} KB or smaller.",
+  "brandingSettings.logoReadError": "Could not read that logo file.",
+  "brandingSettings.primaryColor": "Primary Color",
+  "brandingSettings.primaryColorHelp":
+    "Used for primary buttons, selected states, and brand highlights.",
+  "brandingSettings.primaryColorError": "Use a 6-digit hex color.",
+  "brandingSettings.notifyTitle": "Branding",
+  "brandingSettings.updatedDescription": "Branding settings were updated.",
+  "brandingSettings.updating": "Updating branding settings...",
+  "settings.versionReleases": "Version releases",
+  "emailSettings.title": "Email notifications",
+  "emailSettings.description":
+    "Configure SMTP and invitation/approval email templates.",
+  "emailSettings.notificationsTitle": "Email notification settings",
+  "emailSettings.updatedDescription": "SMTP and email templates were updated.",
+  "emailSettings.saving": "Saving email notification settings",
+  "emailSettings.testTitle": "Test email",
+  "emailSettings.testSent": "Test email sent.",
+  "emailSettings.sendingTest": "Sending test email",
+  "emailSettings.previewTitle": "Template preview",
+  "emailSettings.previewRendered": "Template rendered.",
+  "emailSettings.rendering": "Rendering template",
+  "emailSettings.enable": "Enable email notifications",
+  "emailSettings.enableHelp":
+    "When enabled, invitations, user creation, and approval events send email.",
+  "emailSettings.smtpSection": "SMTP configuration",
+  "emailSettings.host": "SMTP host",
+  "emailSettings.hostPlaceholder": "smtp.example.com",
+  "emailSettings.port": "Port",
+  "emailSettings.encryption": "Encryption",
+  "emailSettings.encryptionNone": "None",
+  "emailSettings.username": "Username",
+  "emailSettings.password": "Password",
+  "emailSettings.passwordConfigured": "Configured; leave blank to keep",
+  "emailSettings.passwordPlaceholder": "SMTP password",
+  "emailSettings.clearAfterSave": "Password will be cleared after saving",
+  "emailSettings.clearPassword": "Clear saved password",
+  "emailSettings.fromName": "From name",
+  "emailSettings.fromEmail": "From email",
+  "emailSettings.replyTo": "Reply-To",
+  "emailSettings.skipTls": "Skip TLS certificate verification",
+  "emailSettings.skipTlsHelp":
+    "Only for self-signed or test SMTP services. Not recommended in production.",
+  "emailSettings.adminRecipients": "Administrator recipients",
+  "emailSettings.adminRecipientsHelp":
+    "One email per line. If empty, approval alerts go to account administrators.",
+  "emailSettings.testRecipient": "Test recipient",
+  "emailSettings.sendTest": "Send test",
+  "emailSettings.saveBeforeAction":
+    "Save your changes before sending a test email or previewing a template.",
+  "emailSettings.templatesSection": "Email templates",
+  "emailSettings.restoreDefault": "Restore default",
+  "emailSettings.subject": "Subject",
+  "emailSettings.htmlBody": "HTML body",
+  "emailSettings.textBody": "Text body",
+  "emailSettings.variables":
+    "Available variables: {{.account.name}}, {{.dashboard.url}}, {{.user.email}}, {{.invite.url}}, {{.approval.url}}, {{.device.name}}.",
+  "emailSettings.preview": "Preview template",
+  "emailSettings.previewHtml": "HTML preview",
+  "emailSettings.previewText": "Plain-text preview",
+  "emailSettings.templateInviteUser": "Invite user",
+  "emailSettings.templateCreateUser": "User created",
+  "emailSettings.templateInviteAccepted": "Invite accepted",
+  "emailSettings.templateUserPendingApproval": "User pending approval",
+  "emailSettings.templateDevicePendingApproval": "Device pending approval",
+  "emailSettings.defaultInviteSubject":
+    "You are invited to join {{.account.name}}",
+  "emailSettings.defaultInviteHtml":
+    '<p>{{.invite.created_by_name}} invited you to join {{.account.name}}.</p><p><a href="{{.invite.url}}">Accept invitation</a></p><p>The invitation expires at {{.invite.expires_at}}.</p>',
+  "emailSettings.defaultInviteText":
+    "{{.invite.created_by_name}} invited you to join {{.account.name}}.\n\nAccept invitation: {{.invite.url}}\n\nThe invitation expires at {{.invite.expires_at}}.",
+  "emailSettings.defaultCreateUserSubject": "Your Cloink account was created",
+  "emailSettings.defaultCreateUserHtml":
+    '<p>Your Cloink account was created.</p><p>Account: {{.user.email}}</p><p><a href="{{.dashboard.url}}">Open dashboard</a></p>',
+  "emailSettings.defaultCreateUserText":
+    "Your Cloink account was created.\n\nAccount: {{.user.email}}\nDashboard: {{.dashboard.url}}",
+  "emailSettings.defaultInviteAcceptedSubject":
+    "{{.user.email}} accepted the invitation",
+  "emailSettings.defaultInviteAcceptedHtml":
+    "<p>{{.user.name}} ({{.user.email}}) accepted the invitation and completed registration.</p><p>Time: {{.time}}</p>",
+  "emailSettings.defaultInviteAcceptedText":
+    "{{.user.name}} ({{.user.email}}) accepted the invitation and completed registration.\n\nTime: {{.time}}",
+  "emailSettings.defaultUserPendingApprovalSubject":
+    "A new user is waiting for approval",
+  "emailSettings.defaultUserPendingApprovalHtml":
+    '<p>A new user is waiting for approval.</p><p>User: {{.user.name}} ({{.user.email}})</p><p><a href="{{.approval.url}}">Open approvals</a></p>',
+  "emailSettings.defaultUserPendingApprovalText":
+    "A new user is waiting for approval.\n\nUser: {{.user.name}} ({{.user.email}})\nApprovals: {{.approval.url}}",
+  "emailSettings.defaultDevicePendingApprovalSubject":
+    "A new device is waiting for approval",
+  "emailSettings.defaultDevicePendingApprovalHtml":
+    '<p>A new device is waiting for approval.</p><p>Device: {{.device.name}}</p><p>User: {{.device.user_email}}</p><p><a href="{{.approval.url}}">Open approvals</a></p>',
+  "emailSettings.defaultDevicePendingApprovalText":
+    "A new device is waiting for approval.\n\nDevice: {{.device.name}}\nUser: {{.device.user_email}}\nApprovals: {{.approval.url}}",
+  "emailSettings.previewSampleUserName": "Alex User",
+  "emailSettings.previewSampleInviterName": "Admin",
+  "emailSettings.previewSampleTime": "2026-06-12 18:00:00 UTC",
   "settings.language": "Language",
   "settings.dangerZone": "Danger zone",
+  "versionReleases.title": "Version releases",
+  "versionReleases.description":
+    "Publish signed installers and make them available to Cloink clients.",
+  "versionReleases.version": "Version",
+  "versionReleases.versionHelp": "Use a semantic version such as 0.77.0.",
+  "versionReleases.platform": "Platform",
+  "versionReleases.platformMacos": "macOS",
+  "versionReleases.platformWindows": "Windows",
+  "versionReleases.platformLinux": "Linux",
+  "versionReleases.platformAndroid": "Android",
+  "versionReleases.architecture": "Architecture",
+  "versionReleases.architectureAmd64": "Intel / AMD64",
+  "versionReleases.architectureArm64": "ARM64",
+  "versionReleases.architectureArmv7": "ARMv7",
+  "versionReleases.architectureUniversal": "Universal",
+  "versionReleases.channel": "Channel",
+  "versionReleases.channelHelp":
+    "Lowercase letters, numbers, dots, underscores and hyphens only.",
+  "versionReleases.downloadUrl": "Download URL",
+  "versionReleases.downloadUrlHelp":
+    "Use an HTTPS URL or upload an installer below.",
+  "versionReleases.uploadArtifact": "Installer file",
+  "versionReleases.uploadHelp":
+    "Uploaded files are stored by the management server and their SHA256 is calculated automatically.",
+  "versionReleases.chooseFile": "Choose an installer file",
+  "versionReleases.uploading": "Uploading installer...",
+  "versionReleases.sha256Help":
+    "Required for a release that is marked as latest.",
+  "versionReleases.sha256Placeholder":
+    "64-character lowercase hexadecimal checksum",
+  "versionReleases.signature": "Signature JSON",
+  "versionReleases.signatureHelp":
+    "A latest release must include JSON with signature and key_id fields.",
+  "versionReleases.descriptionLabel": "Description",
+  "versionReleases.descriptionPlaceholder": "Release notes or changes",
+  "versionReleases.latest": "Latest release",
+  "versionReleases.latestHelp":
+    "Only one latest release is kept per platform, architecture and channel.",
+  "versionReleases.publishedAt": "Published",
+  "versionReleases.notAvailable": "Not available",
+  "versionReleases.download": "Download",
+  "versionReleases.actions": "Release actions",
+  "versionReleases.searchPlaceholder":
+    "Search versions, platforms or channels...",
+  "versionReleases.emptyTitle": "No version releases",
+  "versionReleases.emptyDescription": "Publish your first Cloink installer.",
+  "versionReleases.add": "Add release",
+  "versionReleases.addTitle": "Add version release",
+  "versionReleases.editTitle": "Edit version release",
+  "versionReleases.modalDescription":
+    "Configure the installer metadata and optional signature.",
+  "versionReleases.createTitle": "Create version release",
+  "versionReleases.updateTitle": "Update version release",
+  "versionReleases.creating": "Creating release...",
+  "versionReleases.updating": "Updating release...",
+  "versionReleases.created": "Version release was created.",
+  "versionReleases.updated": "Version release was updated.",
+  "versionReleases.deleteTitle": "Delete version {version}?",
+  "versionReleases.deleteDescription":
+    "This removes the release metadata and any installer uploaded with it.",
+  "versionReleases.deleting": "Deleting release...",
+  "versionReleases.deleted": "Version release was deleted.",
   "accessControl.title": "Access Control",
   "accessControl.policiesTitle": "Access Control Policies",
   "accessControl.description":
     "Create rules to manage access in your network and define what peers can connect.",
   "dns.title": "DNS",
+  "dns.zonesPage": "DNS Zones",
+  "dns.nameserversPage": "Nameservers",
+  "dns.settingsPage": "DNS Settings",
+  "dns.settingsDescription": "Manage your account's DNS settings.",
+  "dns.settingsSavedDescription": "Settings saved successfully.",
+  "dns.savingSettings": "Saving the settings...",
+  "dns.disableManagementLabel": "Disable DNS management for these groups",
+  "dns.disableManagementHelp":
+    "Peers in these groups will require manual domain name resolution",
   "nameservers.title": "Nameservers",
   "nameservers.description":
     "Add nameservers for domain name resolution in your NetBird network.",
@@ -341,6 +612,7 @@ const en = {
   "nameservers.searchDomainsHelp":
     "E.g., 'peer.example.com' will be accessible with 'peer'",
   "nameservers.dnsName": "DNS Name",
+  "nameservers.name": "Name",
   "nameservers.dnsNameHelp": "Enter a name for this nameserver.",
   "nameservers.namePlaceholder": "e.g., Public DNS",
   "nameservers.descriptionLabel": "Description (optional)",
@@ -350,6 +622,8 @@ const en = {
     "e.g., Berlin office resolver for remote developers",
   "nameservers.nameLengthError": "Name should be less than 40 characters",
   "nameservers.validIpError": "Please enter a valid IP, e.g., 192.168.1.0",
+  "nameservers.ip": "IP",
+  "nameservers.port": "Port",
   "nameservers.ipPlaceholder": "e.g., 172.16.0.0",
   "nameservers.updateSuccessDescription":
     "Nameserver was updated successfully.",
@@ -358,6 +632,10 @@ const en = {
     "Nameserver was created successfully.",
   "nameservers.creating": "Creating your nameserver...",
   "nameservers.enabled": "Enabled",
+  "nameservers.toggleEnabledDescription":
+    "Nameserver was successfully enabled.",
+  "nameservers.toggleDisabledDescription":
+    "Nameserver was successfully disabled.",
   "nameservers.matchDomains": "Match Domains",
   "nameservers.nameservers": "Nameservers",
   "nameservers.distributionGroups": "Distribution Groups",
@@ -368,6 +646,18 @@ const en = {
   "nameservers.deleteConfirmTitle": "Delete '{name}'?",
   "nameservers.deleteConfirmDescription":
     "Are you sure you want to delete this nameserver? This action cannot be undone.",
+  "nameservers.template.googleTitle": "Google DNS",
+  "nameservers.template.googleDescription":
+    "A free, global DNS resolution service by Google that implements a number of security, performance, and compliance improvements.",
+  "nameservers.template.cloudflareTitle": "Cloudflare DNS",
+  "nameservers.template.cloudflareDescription":
+    "Enterprise-grade DNS service that offers the fastest response time, unparalleled redundancy, and advanced security with built-in DDoS mitigation and DNSSEC.",
+  "nameservers.template.quad9Title": "Quad9 DNS",
+  "nameservers.template.quad9Description":
+    "The Quad9 DNS service is operated by the Swiss-based Quad9 Foundation, whose mission is to provide a safer and more robust Internet for everyone.",
+  "nameservers.template.customTitle": "Custom DNS",
+  "nameservers.template.customDescription":
+    "Use custom nameservers to resolve domains in your network. You can either use a public DNS or your own nameservers.",
   "zones.title": "Zones",
   "zones.pageTitle": "DNS Zones",
   "zones.description":
@@ -411,6 +701,7 @@ const en = {
   "zones.updating": "Updating DNS Zone...",
   "zones.deletedDescription": "DNS Zone was deleted successfully.",
   "zones.deleting": "Deleting DNS Zone...",
+  "zones.deleteSuccessTitle": "DNS Zone '{domain}'",
   "zones.deleteConfirmTitle": "Delete zone '{domain}'?",
   "zones.deleteConfirmDescription":
     "Are you sure you want to delete this zone? This action cannot be undone.",
@@ -451,11 +742,16 @@ const en = {
     "Please enter a valid IPv6 address, e.g. 2001:0db8:85a3::8a2e:0370:7334",
   "zones.targetDomain": "Target Domain",
   "zones.targetDomainPlaceholder": "e.g., example.com or intra.example.com",
+  "zones.content": "Content",
   "zones.cnameError":
     "Please enter a valid domain, e.g. example.com or server.example.com",
   "zones.ttl": "TTL (Time to Live)",
   "zones.selectTtl": "Select TTL...",
   "zones.recordsLearnMore": "DNS Records",
+  "zones.status": "Status",
+  "zones.all": "All",
+  "zones.active": "Active",
+  "zones.inactive": "Inactive",
   "zones.time.sec": "{count} Sec.",
   "zones.time.min.one": "1 Min.",
   "zones.time.min.other": "{count} Min.",
@@ -570,6 +866,14 @@ const en = {
     "Please enter a valid IP address, e.g., 85.203.15.42",
   "reverseProxy.validCidrBlock":
     "Please enter a valid CIDR block, e.g., 74.125.0.0/16",
+  "reverseProxy.accessControlValidIpAddress":
+    "Please enter a valid IP address, e.g., 85.203.15.42 or 2001:db8::1",
+  "reverseProxy.accessControlValidCidrBlock":
+    "Please enter a valid CIDR block, e.g., 74.125.0.0/16 or 2001:db8::/64",
+  "reverseProxy.accessControlIpPlaceholder":
+    "e.g., 85.203.15.42 or 2001:db8::1",
+  "reverseProxy.accessControlCidrPlaceholder":
+    "e.g., 74.125.0.0/16 or 2001:db8::/64",
   "reverseProxy.removeRule": "Remove rule",
   "reverseProxy.addRule": "Add Rule",
   "reverseProxy.searchTargetsPlaceholder":
@@ -636,7 +940,9 @@ const en = {
   "reverseProxy.clusterOfflineSelfHosted":
     "Cluster {clusterName} is offline. Make sure the proxy server is running and connected to the right management address.",
   "reverseProxy.searchDomains": "Search domains...",
+  "reverseProxy.accountBadge": "Account",
   "reverseProxy.freeBadge": "Free",
+  "reverseProxy.sharedBadge": "Shared",
   "reverseProxy.clusterBadge": "Cluster",
   "reverseProxy.customBadge": "Custom",
   "reverseProxy.customDomainsTitle": "Domains",
@@ -840,6 +1146,196 @@ const en = {
     "Need to fine-tune the proxy? See all available",
   "reverseProxy.environmentVariables": "environment variables",
   "reverseProxy.finishSetup": "Finish Setup",
+  "reverseProxy.clusterSetupTitle": "Setup Cluster",
+  "reverseProxy.clusterSetupDescription":
+    "Setup a proxy cluster on infra you own",
+  "reverseProxy.clusterDomainHelp":
+    "Enter a domain name that will be used for your cluster.",
+  "reverseProxy.deploymentMethod": "Deployment Method",
+  "reverseProxy.deployDescriptionDigitalOcean":
+    "Launch a droplet to run the proxy.",
+  "reverseProxy.deployDescriptionAws":
+    "Launch a dedicated AWS server to run the proxy.",
+  "reverseProxy.deployDescriptionCloud":
+    "Launch a cloud server to run the proxy.",
+  "reverseProxy.deployDescriptionKubernetes":
+    "Apply this manifest to start the proxy.",
+  "reverseProxy.deployDescriptionDefault":
+    "Run on your machine to start the proxy.",
+  "reverseProxy.dnsRecords": "DNS Records",
+  "reverseProxy.deploy": "Deploy",
+  "reverseProxy.dnsType": "Type",
+  "reverseProxy.dnsName": "Name",
+  "reverseProxy.dnsContent": "Content",
+  "reverseProxy.deployTitleDocker": "Run with Docker",
+  "reverseProxy.deployTitleCompose": "Run with Docker Compose",
+  "reverseProxy.deployTitleKubernetes": "Deploy on Kubernetes",
+  "reverseProxy.deployTitleHetzner": "Deploy on Hetzner Cloud",
+  "reverseProxy.deployTitleDigitalOcean": "Deploy on DigitalOcean",
+  "reverseProxy.deployTitleAws": "Deploy on AWS",
+  "reverseProxy.proxyClusterLearnMore": "Proxy Cluster",
+  "reverseProxy.proxyRegistered":
+    "Proxy registered with NetBird and connected.",
+  "reverseProxy.waitingForRegistration":
+    "Waiting for the proxy to register with NetBird...",
+  "reverseProxy.resourceCreated": "{resourceLabel} {name} was created",
+  "reverseProxy.resourceCreatedWithIp":
+    "{resourceLabel} {name} was created with {ipType} {ip} and is still bootstrapping. Meanwhile, add the DNS records below.",
+  "reverseProxy.staticIp": "static IP",
+  "reverseProxy.ip": "IP",
+  "reverseProxy.createDnsRecords": "Create DNS Records",
+  "reverseProxy.createDnsRecordsHelp":
+    "Point these records at the new {resource}. The proxy gets its certificate once they resolve.",
+  "reverseProxy.hetznerApiToken": "Hetzner API Token",
+  "reverseProxy.hetznerTokenTooltip":
+    "The token goes straight from your browser to Hetzner and never touches NetBird's servers, and you can delete it once setup succeeds.",
+  "reverseProxy.howToCreateToken": "How to create a token",
+  "reverseProxy.hetznerTokenHelp":
+    "Create a read & write API token. It is never stored by NetBird.",
+  "reverseProxy.hetznerTokenPlaceholder":
+    "Paste your Hetzner Cloud API token here",
+  "reverseProxy.hetznerCatalogError": "Could not load Hetzner options: {error}",
+  "reverseProxy.location": "Location",
+  "reverseProxy.serverType": "Server Type",
+  "reverseProxy.sshKey": "SSH Key",
+  "reverseProxy.noSshKeysFound":
+    "No SSH keys found in this Hetzner project. Add one in the Hetzner Console first if you need SSH access to the server.",
+  "reverseProxy.staticIpLabel": "Static IP",
+  "reverseProxy.hetznerStaticIpHelp":
+    "Keep the server's IP when the server is deleted or rebuilt, so the DNS records stay valid. Hetzner bills unassigned IPs.",
+  "reverseProxy.loadingLocations":
+    "Loading available locations and server types...",
+  "reverseProxy.enterTokenToLoad":
+    "Enter your API token to load the available locations and server types.",
+  "reverseProxy.preparingProxyToken": "Preparing proxy token...",
+  "reverseProxy.deployServer": "Deploy Server",
+  "reverseProxy.hetznerDeployment": "Hetzner Deployment",
+  "reverseProxy.hetznerDeployFailed": "Failed to create the Hetzner server",
+  "reverseProxy.creatingHetznerServer": "Creating Hetzner server...",
+  "reverseProxy.server": "Server",
+  "reverseProxy.digitalOceanApiToken": "DigitalOcean API Token",
+  "reverseProxy.digitalOceanTokenTooltip":
+    "For the tightest scope, grant full access to {tag}, {droplet}, and {reservedIp} only. The token goes straight from your browser to DigitalOcean and never touches NetBird's servers, and you can delete it once setup succeeds.",
+  "reverseProxy.digitalOceanTokenHelp":
+    "Create a token with write access. It is never stored by NetBird.",
+  "reverseProxy.digitalOceanTokenPlaceholder":
+    "Paste your DigitalOcean API token here",
+  "reverseProxy.region": "Region",
+  "reverseProxy.dropletSize": "Droplet Size",
+  "reverseProxy.digitalOceanStaticIpHelp":
+    "Reserve a static IP so DNS records remain valid after rebuilds. Free of charge while assigned to a Droplet.",
+  "reverseProxy.deployDroplet": "Deploy Droplet",
+  "reverseProxy.digitalOceanDeployment": "DigitalOcean Deployment",
+  "reverseProxy.digitalOceanDeployFailed":
+    "Failed to create the DigitalOcean droplet",
+  "reverseProxy.creatingDroplet": "Creating DigitalOcean droplet...",
+  "reverseProxy.droplet": "Droplet",
+  "reverseProxy.dropletIpProvisioning":
+    "and is provisioning. Waiting for its public IP...",
+  "reverseProxy.dropletIpTimeout":
+    "but waiting for its public IP timed out - find the IP in the DigitalOcean control panel.",
+  "reverseProxy.dropletRootPassword": "Droplet Root Password",
+  "reverseProxy.dropletRootPasswordHelp":
+    "Use it with the Droplet Web Console. Copy it now - it is not stored anywhere.",
+  "reverseProxy.proxyAccessToken": "Proxy Access Token",
+  "reverseProxy.proxyAccessTokenHelp":
+    "Copy this token for AWS stack creation. It is excluded from outputs and logs.",
+  "reverseProxy.launchStackAws": "Launch Stack in AWS Console",
+  "reverseProxy.awsConsoleHelp":
+    "The AWS Console opens with a prefilled form. Paste the token, create the stack, then point your DNS records to the PublicIP output.",
+  "reverseProxy.ipPendingNote": "{resourceLabel} {name} was created {note}",
+  "reverseProxy.httpHeadersTitle": "HTTP Headers",
+  "reverseProxy.httpHeadersDescription":
+    "Require specific HTTP headers to access this service.",
+  "reverseProxy.addHeaderButton": "Add Header",
+  "reverseProxy.headersMatchGrantAccess":
+    "Any request matching one of these headers will grant access.",
+  "reverseProxy.headersMatchedStripped":
+    "Matched headers are stripped before reaching your backend.",
+  "reverseProxy.addHeadersButton": "Add Headers",
+  "reverseProxy.headerLabel": "Header {index}",
+  "reverseProxy.headerLabelWithSuffix": "Header {index} - {header}",
+  "reverseProxy.removeHeaderButton": "Remove",
+  "reverseProxy.basicAuth": "Basic Auth",
+  "reverseProxy.bearerToken": "Bearer Token",
+  "reverseProxy.customHeader": "Custom Header",
+  "reverseProxy.usernamePlaceholder": "Username",
+  "reverseProxy.passwordPlaceholder": "Password",
+  "reverseProxy.headerNameLabel": "Name",
+  "reverseProxy.headerValueLabel": "Value",
+  "reverseProxy.netBirdOnlyAccess": "NetBird-Only Access",
+  "reverseProxy.netBirdOnlyDescription":
+    "Reachable only from connected peers in the selected NetBird groups.",
+  "reverseProxy.netBirdOnlyRequiresCluster":
+    "NetBird-Only Access requires a proxy cluster with at least one connected embedded proxy ({code}). The selected cluster doesn't have one. Connect an embedded proxy to this cluster to enable this option.",
+  "reverseProxy.directUpstreamClusterRequired":
+    "Direct Upstream is only configurable on clusters with at least one connected embedded proxy ({code}). The selected cluster doesn't have one.",
+  "reverseProxy.directUpstreamLabel": "Direct Upstream",
+  "reverseProxy.directUpstreamClusterHelp":
+    "Required and locked on for proxy-cluster targets: the cluster has no WireGuard endpoint to fall back to.",
+  "reverseProxy.directUpstreamHelp":
+    "Dial the upstream target from the proxy host instead of through the WireGuard tunnel. Turn on when the upstream is reachable without a WireGuard connection.",
+  "reverseProxy.privateServiceCallout":
+    "This service is accessible via NetBird only. An allow rule for the NetBird network range is applied by default. Any rules you add here are layered on top.",
+  "reverseProxy.noAccessGroupsWarning":
+    "NetBird-only is on but no access groups are set. Open it on the Authentication tab and pick at least one group.",
+  "reverseProxy.oneGroup": "1 Group",
+  "reverseProxy.oneHeader": "1 Header",
+  "reverseProxy.headerCount": "{count} Headers",
+  "reverseProxy.authNotSupportedL4":
+    "Auth methods are not supported for TCP/UDP and TLS passthrough services as they operate at the network layer.",
+  "reverseProxy.configureAuth": "Configure authentication",
+  "reverseProxy.eventsTitle": "Proxy Events",
+  "reverseProxy.eventsTime": "Time",
+  "reverseProxy.eventsLocationIp": "Location / IP",
+  "reverseProxy.eventsRequest": "Request",
+  "reverseProxy.eventsStatus": "Status",
+  "reverseProxy.eventsBytes": "Bytes",
+  "reverseProxy.eventsUser": "User",
+  "reverseProxy.eventsStatusAll": "All",
+  "reverseProxy.eventsStatusSuccess": "Success",
+  "reverseProxy.eventsStatusFailed": "Failed",
+  "reverseProxy.eventsMethodAll": "All",
+  "reverseProxy.eventsFilterStatus": "Status",
+  "reverseProxy.eventsFilterMethod": "Method",
+  "reverseProxy.eventsFilterUser": "User",
+  "reverseProxy.eventsFilterLocationIp": "Location / IP",
+  "reverseProxy.eventsLocationIpPlaceholder": "e.g. 10.0.0.5 or Berlin",
+  "reverseProxy.eventsSearchPlaceholder": "Search by IP, host, path, user...",
+  "reverseProxy.eventsEmptyTitle": "No Proxy Events Yet",
+  "reverseProxy.eventsEmptyDescription":
+    "No proxy traffic yet. Events appear here once your reverse proxy services start serving requests.",
+  "reverseProxy.eventsLearnMore": "Proxy Events",
+  "reverseProxy.authMethodPinCode": "PIN Code",
+  "reverseProxy.authMethodHttpHeaders": "HTTP Headers",
+  "reverseProxy.authMethodCrowdSecBan": "CrowdSec Ban",
+  "reverseProxy.authMethodCrowdSecCaptcha": "CrowdSec Captcha",
+  "reverseProxy.authMethodCrowdSecThrottle": "CrowdSec Throttle",
+  "reverseProxy.authMethodCrowdSecUnavailable": "CrowdSec Unavailable",
+  "reverseProxy.authTooltipPrefix": "Auth:",
+  "reverseProxy.authHoverPassword": "Password",
+  "reverseProxy.authHoverPinCode": "PIN Code",
+  "reverseProxy.authHoverSso": "SSO (Single Sign On)",
+  "reverseProxy.authHoverHttpHeaders": "HTTP Headers",
+  "reverseProxy.authHoverNetBirdOnly": "NetBird-Only Access",
+  "reverseProxy.crowdSecEnforce": "Enforce",
+  "reverseProxy.crowdSecObserve": "Observe",
+  "reverseProxy.learnMoreAbout": "Learn more about",
+  "clustersTable.cluster": "Cluster",
+  "clustersTable.connectedProxies": "Connected Proxies",
+  "clustersTable.features": "Features",
+  "clustersTable.online": "Online",
+  "clustersTable.offline": "Offline",
+  "clustersTable.shared": "Shared",
+  "clustersTable.selfHosted": "Self-Hosted",
+  "clustersTable.status": "Status",
+  "clustersTable.type": "Type",
+  "clustersTable.title": "Clusters",
+  "clustersTable.searchPlaceholder": "Search by cluster domain...",
+  "clustersTable.emptyTitle": "No clusters available",
+  "clustersTable.emptyDescription":
+    "Set up a cluster to route traffic through your own infrastructure.",
+  "clustersTable.setupSelfHostedCluster": "Setup Self-Hosted Cluster",
   "networks.title": "Networks",
   "networks.description":
     "Networks allow you to access internal resources in LANs and VPCs without installing NetBird on every machine.",
@@ -875,7 +1371,33 @@ const en = {
     "Peers will be able to access your network resources once you add them.",
   "networks.addResource": "Add Resource",
   "networks.addPolicy": "Add Policy",
+  "networkResources.addressDescription":
+    "Enter a single IP address, CIDR block or domain name",
+  "networkResources.descriptionLabel": "Description",
+  "networkResources.groupPolicyBoldSuffix": "Access Control",
+  "networkResources.policySingular": "Policy",
+  "networkResources.policyPlural": "Policies",
+  "networkResources.learnMoreAbout": "Learn more about",
+  "networkResources.statusEnabled": "enabled",
+  "networkResources.statusDisabled": "disabled",
+  "networkResources.expose": "Expose",
+  "networkResources.copiedToClipboard":
+    "{address} has been copied to your clipboard",
+  "networkResources.accessControlPoliciesLabel": "Access Control Policies",
+  "networkResources.accessControlPoliciesHelp":
+    "Define which source groups are allowed to access this resource. You can also restrict access to specific protocols and ports. Without policies access to this resource will not be possible.",
+  "networkResources.columnSourceGroups": "Source Groups",
+  "networkResources.columnProtocolPorts": "Protocol & Ports",
+  "networkResources.tabContentDescription":
+    "Add resources to this network to control what peers can access.",
+  "networkResources.accessPolicySuffix": "Access Policie(s)",
+  "networkResources.defaultPolicyName": "{name} Access",
+  "networkResources.deprecationTooltip":
+    "Network Routes will be deprecated and replaced with Networks.",
   "table.name": "Name",
+  "table.date": "Date",
+  "table.inUse": "In Use",
+  "table.models": "Models",
   "table.selectAll": "Select all",
   "table.selectRow": "Select row",
   "table.address": "Address",
@@ -973,6 +1495,9 @@ const en = {
   "setupKeys.ephemeralDescription":
     "Peers that are offline for over 10 minutes will be removed automatically.",
   "setupKeys.usageLimitText": "of {limit} Peers",
+  "setupKeys.createKey": "Create Key",
+  "setupKeys.learnMorePrefix": "Learn more about",
+  "setupKeys.learnMoreLink": "Setup Keys",
   "invite.passwordCopied": "Password was copied to your clipboard!",
   "invite.linkCopied": "Invite link was copied to your clipboard!",
   "invite.userCreatedSuccess": "User created successfully!",
@@ -1132,6 +1657,7 @@ const en = {
   "onboarding.createSetupKeyDescription":
     "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
   "onboarding.dialogTitle": "Onboarding",
+  "onboarding.agentNetworkDialogTitle": "Agent Network Onboarding",
   "onboarding.getStartedWithNetBird": "Get started with NetBird",
   "onboarding.netbirdFlexibility":
     "NetBird provides the flexibility of both a peer-to-peer overlay network and a remote network access solution. Choose what fits your needs, you can always combine both.",
@@ -1151,13 +1677,13 @@ const en = {
   "onboarding.welcome": "Welcome to NetBird!",
   "onboarding.welcomeWithName": "Welcome to NetBird, {name}!",
   "onboarding.shareDetails":
-    "Share a few details about your use case to help us get started.",
+    "Share a few details about your use case to help us get you started smoothly.",
   "onboarding.business": "Business",
   "onboarding.personal": "Personal",
   "onboarding.companySizeQuestion":
     "How many people at your company will use NetBird?",
   "onboarding.howHeardAboutNetBird": "How did you hear about NetBird?",
-  "onboarding.selectOption": "Select an option...",
+  "onboarding.selectOption": "Please select an option...",
   "onboarding.howPlanToUseNetBird": "How do you plan to use NetBird?",
   "onboarding.selectMultipleUseCases": "Select one or more use cases.",
   "onboarding.zeroTrustSecurity": "Zero Trust Security",
@@ -1170,9 +1696,9 @@ const en = {
   "onboarding.homeRemoteAccess": "Home Remote Access",
   "onboarding.fileAccess": "File Access",
   "onboarding.gaming": "Gaming",
-  "onboarding.otherPleaseSpecify": "Other, please specify",
-  "onboarding.businessOtherPlaceholder": "Tell us about your business use case",
-  "onboarding.personalOtherPlaceholder": "Tell us about your personal use case",
+  "onboarding.otherPleaseSpecify": "Other (Please specify)",
+  "onboarding.businessOtherPlaceholder": "e.g. DNS Management, File Access",
+  "onboarding.personalOtherPlaceholder": "e.g. DNS Management, IoT",
   "onboarding.anySubdomainOf": "(any subdomain of {address})",
   "onboarding.resourceIpInYourSubnet": "(resource IP in your subnet)",
   "onboarding.networkLabel": "Network",
@@ -1260,6 +1786,9 @@ const en = {
   "userActions.deleteConfirmDescription":
     "Deleting this user will remove their devices and remove dashboard access. This action cannot be undone.",
   "userActions.approve": "Approve",
+  "userActions.block": "Block",
+  "userActions.unblock": "Unblock",
+  "userActions.ariaLabel": "User actions",
   "userBlock.confirmTitle": "Block '{name}'?",
   "userBlock.confirmDescription":
     "This action will immediately revoke the user's access and disconnect all of their active peers.",
@@ -1269,6 +1798,58 @@ const en = {
   "userBlock.unblockedDescription": "{name} was successfully unblocked.",
   "userBlock.blocking": "Blocking the user...",
   "userBlock.unblocking": "Unblocking the user...",
+  "distributorTransfer.grantAccessTitle": "Grant access to distributor?",
+  "distributorTransfer.grantAccessDescription":
+    "Are you sure you want to grant access? This action cannot be undone.",
+  "distributorTransfer.grantingAccess": "Granting access to distributor",
+  "distributorTransfer.accessGranted": "Access has been successfully granted.",
+  "distributorTransfer.grantingAccessLoading": "Granting access...",
+  "distributorTransfer.accessDenied": "Access request denied",
+  "distributorTransfer.accessDeniedDescription":
+    "You have denied the distributor access request.",
+  "distributorTransfer.decliningAccess": "Declining access...",
+  "distributorTransfer.requestingAccessTitle":
+    "A distributor is requesting access to your account",
+  "distributorTransfer.requestingAccessDescription":
+    "Granting access allows the distributor to manage billing and subscription for your account.",
+  "distributorTransfer.grantAccess": "Grant Access",
+  "distributorTransfer.deny": "Deny",
+  "mspTransfer.grantingAccessTitle": "Granting access to {domain}",
+  "mspTransfer.accessDeniedDescription": "You have denied the access request.",
+  "mspTransfer.requestingAccessTitle":
+    "{ownerPrefix}{name} is requesting access to your account",
+  "mspTransfer.requestingAccessDescription":
+    "A Managed Service Provider (MSP) is requesting access to manage your account and all of its associated resources.",
+  "mspTransfer.reviewRequest":
+    "Please review the request carefully before proceeding. Granting them access will allow them to:",
+  "mspTransfer.permissionSettings":
+    "Manage your account, settings and configurations",
+  "mspTransfer.permissionDevices":
+    "Manage all devices and associated resources",
+  "mspTransfer.permissionUsers": "Manage all users, groups and permissions",
+  "mfa.netbirdMfa": "NetBird MFA",
+  "mfa.tooltipDescription":
+    "NetBird MFA is primarily intended for users who log in with email and password. You may not need NetBird MFA if your SSO provider (e.g., Google, Microsoft) already has MFA enabled.",
+  "mfa.notEnrolled": "Not Enrolled",
+  "mfa.activate": "Activate",
+  "mfa.resetTitle": "Reset Multi-factor Authentication?",
+  "mfa.resetDescription":
+    "Are you sure you want to reset the current MFA methods for this user? The user will be prompted to set up MFA again on their next login.",
+  "mfa.resetNotifyTitle": "Multi-factor authentication (MFA)",
+  "mfa.resetSuccessDescription": "MFA settings have been reset",
+  "mfa.resettingLoading": "Resetting MFA for user...",
+  "mfa.resetButton": "Reset MFA",
+  "userBlock.fallbackName": "User",
+  "postureCheck.disableTitle": "Disable this check?",
+  "postureCheck.disableDescription":
+    "Are you sure you want to disable this check? All settings of this check will be lost.",
+  "fileUpload.pleaseUploadJson": "Please upload a JSON file",
+  "fileUpload.googleWorkspaceTitle": "Google Workspace",
+  "fileUpload.uploadSuccessDescription":
+    "You successfully uploaded your service account key",
+  "fileUpload.uploadPrompt": "Upload your service account key (.json)",
+  "fileUpload.clickToUpload": "Click to upload",
+  "fileUpload.orDragAndDrop": "or drag and drop your file here",
   "userGroups.label": "User Groups",
   "userGroups.description":
     "Access granted to these groups applies to this user's devices.",
@@ -1373,6 +1954,11 @@ const en = {
     "Enable multiple subdomain labels when enrolling peers (e.g., host.dev.example.com).",
   "setupKey.autoGroupsHelp":
     "These groups will be automatically assigned to peers enrolled with this key",
+  "setupKey.autoGroupsLabel": "Auto-assigned groups",
+  "setupKey.learnMorePrefix": "Learn more about",
+  "setupKey.learnMoreLink": "Setup Keys",
+  "setupKey.cancel": "Cancel",
+  "setupKey.createButton": "Create Setup Key",
   "table.active": "Active",
   "table.sources": "Sources",
   "table.direction": "Direction",
@@ -1384,10 +1970,13 @@ const en = {
   "table.protocol": "Protocol",
   "table.ports": "Ports",
   "table.rowsPerPage": "rows per page",
+  "table.checks": "Checks",
   "versionInfo.latest": "Latest",
   "versionInfo.management": "Management",
   "versionInfo.dashboard": "Dashboard",
   "versionInfo.updateAvailable": "Update available",
+  "linuxTab.addRepository": "Add our repository",
+  "linuxTab.installNetBird": "Install NetBird",
   "groupDetails.title": "Group Information",
   "groupDetails.notFound":
     "The group you are attempting to access cannot be found. It may have been deleted, or you may not have permission to view it. Please verify the URL or return to the dashboard.",
@@ -1417,6 +2006,11 @@ const en = {
   "instanceSetup.alreadyCompleted":
     "Setup has already been completed. Redirecting to login...",
   "instanceSetup.validationError": "Validation error. Please check your input.",
+  "instanceSetup.confirmPasswordRequired": "Please confirm your password",
+  "instanceSetup.passwordsDoNotMatch": "Passwords do not match",
+  "instanceSetup.emailPlaceholder": "admin@example.com",
+  "instanceSetup.confirmPasswordLabel": "Confirm Password",
+  "instanceSetup.confirmPasswordPlaceholder": "Re-enter your password",
   "activity.auditEventsTitle": "Audit Events",
   "activity.auditEventsDescription":
     "Here you can see all the audit activity events.",
@@ -1425,6 +2019,8 @@ const en = {
   "activity.allEventTypes": "All Event Types",
   "activity.dateTimeFormat": "MMM D, YYYY [at] h:mm:s A",
   "activity.external": "External",
+  "activity.searchUserPlaceholder": "Search user...",
+  "activity.systemUser": "System User",
   "activity.from": "from",
   "activity.setupkey": "Setup-Key",
   "activity.withKey": "with key",
@@ -1568,6 +2164,40 @@ const en = {
   "activity.identityProviderCreate": "was created",
   "activity.identityProviderUpdate": "was updated",
   "activity.identityProviderDelete": "was deleted",
+  "activity.policy": "Policy",
+  "activity.group": "Group",
+  "activity.route": "Route",
+  "activity.role": "Role",
+  "activity.nameserver": "Nameserver",
+  "activity.service": "Service",
+  "activity.customer": "Customer",
+  "activity.accessToken": "Access token",
+  "activity.withThe": "with the",
+  "activity.ofPeer": "of peer",
+  "activity.loginOfPeer": "Login of the peer",
+  "activity.loginExpirationOfPeer": "Login expiration of peer",
+  "activity.forUser": "for user",
+  "activity.inCluster": "in cluster",
+  "activity.withDomain": "with domain",
+  "activity.dueTo": "due to",
+  "activity.integration": "integration",
+  "activity.serviceCreatedWithAuth": "was created with authentication",
+  "activity.serviceUpdatedWithAuth": "was updated with authentication",
+  "activity.serviceWasDeleted": "was deleted",
+  "activity.exposedByPeer": "exposed by peer",
+  "activity.customerWasCreated": "was created",
+  "activity.customerWasDeleted": "was deleted",
+  "activity.customerWasUnlinked": "was unlinked",
+  "activity.customerWasUpdated": "was updated",
+  "activity.inviteRequestedForCustomer": "Invite requested for customer",
+  "activity.inviteAcceptedByCustomer": "Invite accepted by customer",
+  "activity.inviteDeclinedByCustomer": "Invite declined by customer",
+  "activity.distributorActivated": "Distributor account was activated",
+  "activity.complianceBypassedFor": "compliance bypassed for",
+  "activity.complianceBypassRevokedFor": "compliance bypass revoked for",
+  "activity.originalNonCompliantReason": "(original non-compliant reason:",
+  "activity.withNetBirdIp": "with the NetBird IP",
+  "activity.setupKeySuffix": "setup key",
   "proxyEvents.title": "Access Logs",
   "proxyEvents.description":
     "View access logs for your reverse proxy services, including allowed and denied requests.",
@@ -1677,7 +2307,7 @@ const en = {
   "routeModal.createPolicy": "Create Policy",
   "routeModal.later": "Later",
   "routeModal.validCidrError":
-    "Please enter a valid CIDR, e.g., 192.168.1.0/24",
+    "Please enter a valid IP or CIDR, e.g., 192.168.1.1, 192.168.1.0/24 or 2001:db8::/64",
   "routeModal.networkIdentifierError":
     "Network Identifier must be less than 40 characters",
   "routeModal.metricError": "Metric must be between 1 and 9999",
@@ -1696,8 +2326,9 @@ const en = {
   "routeModal.routeTypeHelp":
     "Select your route type to add either a network range or a list of domains.",
   "routeModal.networkRange": "Network Range",
-  "routeModal.networkRangeHelp": "Add a private IPv4 address range",
-  "routeModal.networkRangePlaceholder": "e.g., 172.16.0.0/16",
+  "routeModal.networkRangeHelp": "Add a private IPv4 or IPv6 address or range",
+  "routeModal.networkRangePlaceholder":
+    "e.g., 172.16.0.1, 172.16.0.0/16, 2001:db8::1 or 2001:db8::/64",
   "routeModal.domains": "Domains",
   "routeModal.domainsHelp":
     "Add domains that dynamically resolve to one or more IPv4 addresses. A maximum of 32 domains can be added.",
@@ -1793,6 +2424,79 @@ const en = {
   "remoteAccess.connectionFailed": "Connection failed",
   "remoteAccess.goClientNotReady": "Go client not ready",
   "remoteAccess.netbirdClientNotReady": "NetBird client not ready",
+  "remoteAccess.wasmInitializationFailed": "WASM initialization failed",
+  "remoteAccess.rdpErrorWrongPassword": "Incorrect username or password.",
+  "remoteAccess.rdpErrorLogonFailure":
+    "Login failed. Check your username and password.",
+  "remoteAccess.rdpErrorAccessDenied": "The remote host denied access.",
+  "remoteAccess.rdpErrorRDCleanPath":
+    "Could not establish the RDP connection to the host.",
+  "remoteAccess.rdpErrorProxyConnect": "Could not reach the remote host.",
+  "remoteAccess.rdpErrorNegotiationFailure":
+    "RDP negotiation failed. The host may not support the required security protocol.",
+  "remoteAccess.rdpErrorConnectionFailedWsa":
+    "Connection failed: {description} (WSA {code})",
+  "remoteAccess.rdpErrorConnectionFailedHttp": "Connection failed: HTTP {code}",
+  "remoteAccess.rdpSessionError": "RDP session error: {reason}",
+  "remoteAccess.ironrdpModuleNotLoaded": "IronRDP module not loaded",
+  "remoteAccess.rdpProxySupportRequired":
+    "NetBird client with RDP proxy support is required",
+  "remoteAccess.wsaInterruptedSystemCall": "interrupted system call",
+  "remoteAccess.wsaBadFileDescriptor": "bad file descriptor",
+  "remoteAccess.wsaPermissionDenied": "permission denied",
+  "remoteAccess.wsaBadAddress": "bad address",
+  "remoteAccess.wsaInvalidArgument": "invalid argument",
+  "remoteAccess.wsaTooManyOpenFiles": "too many open files",
+  "remoteAccess.wsaResourceTemporarilyUnavailable":
+    "resource temporarily unavailable",
+  "remoteAccess.wsaOperationNowInProgress": "operation now in progress",
+  "remoteAccess.wsaOperationAlreadyInProgress": "operation already in progress",
+  "remoteAccess.wsaSocketOperationOnNonsocket": "socket operation on nonsocket",
+  "remoteAccess.wsaDestinationAddressRequired": "destination address required",
+  "remoteAccess.wsaMessageTooLong": "message too long",
+  "remoteAccess.wsaProtocolWrongTypeForSocket":
+    "protocol wrong type for socket",
+  "remoteAccess.wsaBadProtocolOption": "bad protocol option",
+  "remoteAccess.wsaProtocolNotSupported": "protocol not supported",
+  "remoteAccess.wsaSocketTypeNotSupported": "socket type not supported",
+  "remoteAccess.wsaOperationNotSupported": "operation not supported",
+  "remoteAccess.wsaProtocolFamilyNotSupported": "protocol family not supported",
+  "remoteAccess.wsaAddressFamilyNotSupported":
+    "address family not supported by protocol family",
+  "remoteAccess.wsaAddressAlreadyInUse": "address already in use",
+  "remoteAccess.wsaCannotAssignRequestedAddress":
+    "cannot assign requested address",
+  "remoteAccess.wsaNetworkIsDown": "network is down",
+  "remoteAccess.wsaNetworkIsUnreachable": "network is unreachable",
+  "remoteAccess.wsaNetworkDroppedConnectionOnReset":
+    "network dropped connection on reset",
+  "remoteAccess.wsaSoftwareCausedConnectionAbort":
+    "software caused connection abort",
+  "remoteAccess.wsaConnectionResetByPeer": "connection reset by peer",
+  "remoteAccess.wsaNoBufferSpaceAvailable": "no buffer space available",
+  "remoteAccess.wsaSocketIsAlreadyConnected": "socket is already connected",
+  "remoteAccess.wsaSocketIsNotConnected": "socket is not connected",
+  "remoteAccess.wsaCannotSendAfterSocketShutdown":
+    "cannot send after socket shutdown",
+  "remoteAccess.wsaConnectionTimedOut": "connection timed out",
+  "remoteAccess.wsaConnectionRefused": "connection refused",
+  "remoteAccess.wsaHostIsDown": "host is down",
+  "remoteAccess.wsaNoRouteToHost": "no route to host",
+  "remoteAccess.wsaTooManyProcesses": "too many processes",
+  "remoteAccess.wsaNetworkSubsystemUnavailable":
+    "network subsystem is unavailable",
+  "remoteAccess.wsaWinsockVersionNotSupported": "Winsock version not supported",
+  "remoteAccess.wsaWSAStartupNotPerformed":
+    "successful WSAStartup not yet performed",
+  "remoteAccess.wsaGracefulShutdownInProgress": "graceful shutdown in progress",
+  "remoteAccess.wsaClassTypeNotFound": "class type not found",
+  "remoteAccess.wsaHostNotFound": "host not found",
+  "remoteAccess.wsaNonauthoritativeHostNotFound":
+    "nonauthoritative host not found",
+  "remoteAccess.wsaNonrecoverableError": "this is a nonrecoverable error",
+  "remoteAccess.wsaValidNameNoDataRecord":
+    "valid name, no data record of requested type",
+  "remoteAccess.wsaUnknownError": "unknown error",
   "routeModal.distributionGroups": "Distribution Groups",
   "routeModal.distributionGroupsPeerHelp":
     "Route all internet traffic through this peer for the following groups",
@@ -1820,6 +2524,12 @@ const en = {
   "routeModal.autoApplyRouteHelp":
     "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
   "routeModal.metricHelp": "A lower metric indicates higher priority routes.",
+  "routeModal.exitNodePeerName": "Exit Node ({name})",
+  "routeModal.metric": "Metric",
+  "routeModal.learnMoreAbout": "Learn more about",
+  "routeModal.exitNodesLink": "Exit Nodes",
+  "routeModal.networkRoutesLink": "Network Routes",
+  "routeModal.addRoute": "Add Route",
   "minimalPeers.searchPlaceholder":
     "Search peers by name, IP, OS, or version...",
   "minimalPeers.emptyTitle": "No peers found",
@@ -1856,6 +2566,37 @@ const en = {
     "High availability is currently",
   "networkDetails.highAvailabilityActivePrefix": "High availability is",
   "networkDetails.highAvailabilitySuffix": "for this network.",
+  "peers.pageDescription":
+    "User devices and headless machines, such as servers and autonomous agents, connected to your network.",
+  "networkDetails.resourcesTab": "Resources",
+  "networkDetails.resourceTab": "Resource",
+  "networkDetails.routingPeersTab": "Routing Peers",
+  "networkDetails.routingPeerTab": "Routing Peer",
+  "networkDetails.servicesTab": "Services",
+  "networkDetails.serviceTab": "Service",
+  "networkDetails.goToPoliciesLink": "Go to Policies",
+  "networks.pageDescription":
+    "Access internal resources in LANs and VPCs without installing NetBird on every machine.",
+  "accessControl.pageDescription":
+    "Policies connect users and agents to your network resources, controlling what each identity can reach.",
+  "groups.pageDescription":
+    "Organize peers, users and resources into groups to manage access.",
+  "groupDetails.usersTab": "Users",
+  "groupDetails.userTab": "User",
+  "groupDetails.peersTab": "Peers",
+  "groupDetails.peerTab": "Peer",
+  "groupDetails.policiesTab": "Policies",
+  "groupDetails.policyTab": "Policy",
+  "groupDetails.resourcesTab": "Resources",
+  "groupDetails.resourceTab": "Resource",
+  "groupDetails.networkRoutesTab": "Network Routes",
+  "groupDetails.networkRouteTab": "Network Route",
+  "groupDetails.nameserversTab": "Nameservers",
+  "groupDetails.nameserverTab": "Nameserver",
+  "groupDetails.zonesTab": "Zones",
+  "groupDetails.zoneTab": "Zone",
+  "groupDetails.setupKeysTab": "Setup Keys",
+  "groupDetails.setupKeyTab": "Setup Key",
   "networkDetails.active": "Active",
   "networkDetails.inactive": "Inactive",
   "networkDetails.highAvailabilityLocked": "Locked",
@@ -2149,26 +2890,29 @@ const en = {
   "onboarding.usersGroupName": "Users",
   "onboarding.routingPeersGroupName": "Routing Peers",
   "onboarding.resourceIpDescription":
-    "Enter a single IPv4 address of your resource",
+    "Enter a single IPv4 or IPv6 address of your resource",
   "onboarding.resourceSubnetDescription": "Enter a CIDR range of your network",
   "onboarding.resourceDomainInputDescription":
     "Enter a domain name of your resource",
-  "onboarding.resourceIpPlaceholder": "e.g., 192.168.31.45",
-  "onboarding.resourceSubnetPlaceholder": "e.g., 192.168.1.0/24",
+  "onboarding.resourceIpPlaceholder": "e.g., 192.168.31.45 or 2001:db8::1",
+  "onboarding.resourceSubnetPlaceholder":
+    "e.g., 192.168.1.0/24 or 2001:db8::/64",
   "onboarding.resourceDomainPlaceholder":
     "e.g., service.internal or *.services.internal",
   "onboarding.addResourceTitle": "Add your first resource",
   "onboarding.addResourceDescription":
     "Resources are your subnets, services, or machines inside your network. Pick the type you want to connect to.",
   "onboarding.singleIpAddress": "Single IP Address",
-  "onboarding.singleIpDescription": "IPv4 address like 192.168.31.45",
+  "onboarding.singleIpDescription": "IPv4 or IPv6 address like 192.168.31.45",
   "onboarding.entireSubnet": "Entire Subnet",
-  "onboarding.entireSubnetDescription": "CIDR range like 192.168.0.0/24",
+  "onboarding.entireSubnetDescription":
+    "CIDR range like 192.168.0.0/24 or 2001:db8::/64",
   "onboarding.domain": "Domain",
   "onboarding.domainDescription":
     "A domain like service.internal or a wildcard like *.services.internal",
   "onboarding.resourceAddressLabel": "What is the address of your resource?",
   "onboarding.createResource": "Create Resource",
+  "onboarding.goBack": "Go Back",
   "onboarding.setupKeyCreated": "Setup Key Created",
   "onboarding.setupKeyCopied": "Setup Key Copied",
   "onboarding.copiedToClipboard": "Successfully copied to clipboard.",
@@ -2443,6 +3187,9 @@ const en = {
   "authenticationTab.loginMethodEmail": "Email only",
   "authenticationTab.loginMethodEmailDisabled":
     "Email login is disabled for this instance, so this option is unavailable.",
+  "authenticationTab.loginMethodWeChatWork": "WeCom only",
+  "authenticationTab.loginMethodWeChatWorkDisabled":
+    "No WeCom identity provider is configured, so this option is unavailable.",
   "authenticationTab.localMfaLabel": "Enable Local MFA",
   "authenticationTab.localMfaHelpLine1":
     "Require multi-factor authentication for users",
@@ -2455,6 +3202,7 @@ const en = {
   "identityProviders.type": "Type",
   "identityProviders.description":
     "Configure identity providers for user authentication in your network.",
+  "identityProviders.wechatwork": "WeCom",
   "identityProviders.searchPlaceholder": "Search by name or type...",
   "identityProviders.emptyTitle": "Add Identity Provider",
   "identityProviders.emptyDescription":
@@ -2488,6 +3236,7 @@ const en = {
   "identityProviderModal.name": "Name",
   "identityProviderModal.nameHelp": "A friendly name to identify this provider",
   "identityProviderModal.namePlaceholder": "e.g., Corporate SSO",
+  "identityProviderModal.wechatworkName": "WeCom",
   "identityProviderModal.issuerUrl": "Issuer URL",
   "identityProviderModal.issuerUrlHelp":
     "The OIDC issuer URL for this provider",
@@ -2502,10 +3251,22 @@ const en = {
     "Leave empty to keep the existing secret, or enter a new one",
   "identityProviderModal.clientSecretPlaceholder": "Enter client secret",
   "identityProviderModal.clientSecretMaskedPlaceholder": "••••••••",
+  "identityProviderModal.wechatworkCorpId": "Corp ID",
+  "identityProviderModal.wechatworkCorpIdHelp":
+    "Enter the Corp ID of your WeCom organization.",
+  "identityProviderModal.wechatworkCorpIdPlaceholder": "Enter WeCom Corp ID",
   "identityProviderModal.agentId": "Agent ID",
   "identityProviderModal.agentIdHelp":
     "Enter the Agent ID of your WeCom application. The official login component uses this value to initialize the sign-in panel.",
   "identityProviderModal.agentIdPlaceholder": "Enter WeCom Agent ID",
+  "identityProviderModal.wechatworkSecret": "Secret",
+  "identityProviderModal.wechatworkSecretHelp":
+    "Enter the secret of your WeCom self-built application.",
+  "identityProviderModal.wechatworkSecretKeepExisting":
+    "Leave empty to keep the existing WeCom application secret.",
+  "identityProviderModal.wechatworkSecretPlaceholder": "Enter WeCom app secret",
+  "identityProviderModal.wechatworkSecretKeepPlaceholder":
+    "Leave empty to keep the existing secret",
   "identityProviderModal.redirectUrl": "Redirect / Callback URL",
   "identityProviderModal.redirectUrlHelp":
     "Copy this URL to your identity provider configuration",
@@ -2517,6 +3278,10 @@ const en = {
   "identityProviderModal.logoutCopied":
     "Logout URL was copied to your clipboard!",
   "identityProviderModal.addProvider": "Add Provider",
+  "identityProviderModal.endpointUrlsHelp":
+    "Add these to your identity provider configuration",
+  "identityProviderModal.logoutHelp":
+    "Not all identity providers support logout.",
   "networkResources.addModalTitle": "Add Resource",
   "networkResources.editModalTitle": "Edit Resource",
   "networkResources.addModalDescription": "Add new resource to '{network}'",
@@ -2601,6 +3366,25 @@ const en = {
   "networkRoutingPeers.masqueradeWarningPrefix": "Group ",
   "networkRoutingPeers.masqueradeWarningSuffix":
     " contains at least one non-Linux peer. Disabled Masquerade will have no effect on non-Linux routing peers.",
+  "networkRoutingPeers.masquerade": "Masquerade",
+  "networkRoutingPeers.learnMoreAbout": "Learn more about",
+  "networkRoutingPeers.peer": "Peer",
+  "networkRoutingPeers.searchPlaceholder": "Search by peer name, group name...",
+  "networkRoutingPeers.emptyTitle": "This network has no routing peers",
+  "networkRoutingPeers.emptyDescription":
+    "Add routing peers to this network to access resources inside this network.",
+  "networkRoutingPeers.actionAriaLabel": "Routing peer actions",
+  "networkRoutingPeers.cell.haInactivePrefix": "High availability is currently",
+  "networkRoutingPeers.cell.haActivePrefix": "High availability is",
+  "networkRoutingPeers.cell.haForNetwork": "for this network.",
+  "networkRoutingPeers.cell.inactive": "inactive",
+  "networkRoutingPeers.cell.active": "active",
+  "networkRoutingPeers.cell.addMorePeers":
+    "You can add more routing peers to increase the availability of this network.",
+  "networkRoutingPeers.cell.addPeersHint":
+    "Go ahead and add more routing peers or groups with routing peers to enable high availability for this network.",
+  "networkRoutingPeers.cell.peerLabel": "Peer(s)",
+  "networkRoutingPeers.cell.addAriaLabel": "Add routing peer",
   "networkResources.groupsPlaceholder": "Add or select resource group(s)...",
   "networkResources.groupsUpdateTitle": "Update Resource",
   "networkResources.groupsUpdateDescription": "'{name}' groups updated",
@@ -2698,6 +3482,19 @@ const en = {
   "clientSettings.enableLazyConnections": "Enable Lazy Connections",
   "clientSettings.enableLazyConnectionsHelp":
     "Allow to establish connections between peers only when required. This requires NetBird client v0.45 or higher. Changes will only take effect after restarting the clients.",
+  "clientSettings.agentNetwork": "Agent Network",
+  "clientSettings.agentNetworkHelp":
+    "Focus the dashboard on the Agent Network surface and hide sections that are not relevant for it, such as Networks, DNS and Reverse Proxy.",
+  "clientSettings.agentNetworkFocusedView": "Agent Network focused view",
+  "clientSettings.agentNetworkFocusedViewHelp":
+    "When enabled, the dashboard shows only the Agent Network related sections. Disable it to bring back the full dashboard.",
+  "clientSettings.agentNetworkNotifyTitle": "Agent Network Focused View",
+  "clientSettings.agentNetworkEnabled":
+    "Agent Network focused view successfully enabled.",
+  "clientSettings.agentNetworkDisabled":
+    "Agent Network focused view successfully disabled.",
+  "clientSettings.agentNetworkUpdating":
+    "Updating Agent Network focused view setting...",
   "networkSettings.dnsWildcardTitle": "DNS Wildcard Routing",
   "networkSettings.dnsWildcardEnabled":
     "DNS Wildcard Routing successfully enabled.",
@@ -2857,6 +3654,8 @@ const en = {
   "postureChecks.minimumRequiredVersionHelp":
     "Only peers with the minimum specified NetBird client version will have access to the network.",
   "postureChecks.versionPlaceholder": "e.g., 0.25.0",
+  "postureChecks.versionError":
+    "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1",
   "postureChecks.clientVersionCheck": "Client Version Check",
   "postureChecks.geoLocationTitle": "Country & Region",
   "postureChecks.geoLocationDescription":
@@ -2925,8 +3724,10 @@ const en = {
   "setupModal.there": "there",
   "setupModal.welcomeTitle": "Hello {name}!",
   "setupModal.welcomeSubtitle": "It's time to add your first device.",
-  "setupModal.installWithSetupKey": "Install NetBird with Setup Key",
-  "setupModal.installNetBird": "Install NetBird",
+  "setupModal.installWithSetupKey": "Install Cloink with Setup Key",
+  "setupModal.installNetBird": "Install Cloink",
+  "setupModal.installDescription":
+    "To get started, install Cloink and log in with your email account.",
   "setupModal.setupKeyDescription":
     "To get started, install and run NetBird with the setup key as a parameter.",
   "setupModal.defaultDescription":
@@ -2963,7 +3764,7 @@ const en = {
   "setupModal.macosStep1": "Download and run macOS Installer",
   "setupModal.openTerminalRunNetBird": "Open Terminal and run NetBird",
   "setupModal.installManuallyTerminal": "Install manually with Terminal",
-  "setupModal.runNetBird": "Run NetBird",
+  "setupModal.runNetBird": "Run Cloink",
   "setupModal.andLogInBrowser": "and log in the browser",
   "setupModal.installManuallyHomebrew": "Install manually with HomeBrew",
   "setupModal.downloadInstallHomebrew": "Download and install HomeBrew",
@@ -3066,6 +3867,40 @@ const en = {
   "accessControl.ruleDescription": "Rule Description (Optional)",
   "accessControl.ruleDescriptionPlaceholder": "Rule description",
   "accessControl.rules": "Policy Rules",
+  "accessControl.nameOfRule": "Name of the Rule",
+  "accessControl.nameHelp": "Set an easily identifiable name for your policy.",
+  "accessControl.namePlaceholder": "e.g., Devs to Servers",
+  "accessControl.descriptionLabel": "Description (optional)",
+  "accessControl.descriptionHelp":
+    "Write a short description to add more context to this policy.",
+  "accessControl.descriptionPlaceholder":
+    "e.g., Devs are allowed to access servers and servers are allowed to access Devs.",
+  "accessControl.addPolicy": "Add Policy",
+  "accessControl.accessControls": "Access Controls",
+  "accessControl.name": "Name",
+  "accessControl.sources": "Sources",
+  "accessControl.direction": "Direction",
+  "accessControl.destinations": "Destinations",
+  "accessControl.protoPorts": "Proto & Ports",
+  "accessControl.enabled": "Enabled",
+  "accessControl.with": "With",
+  "accessControl.without": "Without",
+  "accessControl.bidirectional": "Bidirectional",
+  "accessControl.oneWay": "One-way",
+  "accessControl.port": "Port",
+  "accessControl.portPlaceholder": "e.g. 443",
+  "accessControl.postureChecks": "Posture Checks",
+  "accessControl.searchPlaceholder": "Search by name and description...",
+  "accessControl.groupNotUsedTitle":
+    "This group is not used within any policies yet",
+  "accessControl.groupNotUsedDescription":
+    "Assign this group as either a source or destination inside a policy to see them listed here.",
+  "accessControl.createNewPolicy": "Create New Policy",
+  "accessControl.noPoliciesDescription":
+    "It looks like you don't have any policies yet. Policies can allow connections by specific protocol and ports.",
+  "accessControl.temporaryPoliciesTooltip":
+    "Show temporary policies created by the NetBird browser client. These policies are ephemeral and will be deleted automatically after a short period of time.",
+  "accessControl.portsCount": "{count} Ports",
   "groups.actionRenameDisabledIntegration":
     "This group name is managed by an integration and cannot be renamed.",
   "groups.actionRenameDisabledJwt": "This JWT group cannot be renamed.",
@@ -3082,6 +3917,21 @@ const en = {
   "policies.updating": "Updating policy...",
   "policies.deletedDescription": "The policy was successfully deleted.",
   "policies.deleting": "Deleting policy...",
+  "policies.notifyTitle": "Access Control Policy {{name}}",
+  "billing.notifyTitle": "NetBird Subscription",
+  "billing.awsSubscribed": "Successfully subscribed to the {{name}} plan",
+  "billing.awsSubscribing": "Subscribing to NetBird via AWS Marketplace...",
+  "billing.upgradeDowngradeTitle": "{{action}} to {{name}}?",
+  "billing.upgrade": "Upgrade",
+  "billing.downgrade": "Downgrade",
+  "billing.planTransitionDescription":
+    "The transition to your new plan will take effect immediately.",
+  "billing.planTransitionCharges":
+    "Charges for the new plan will be incurred from this point forward.",
+  "billing.updateSubscription": "Update Subscription",
+  "billing.subscriptionUpdated":
+    "Your subscription has been successfully updated.",
+  "billing.updatingSubscription": "Updating your subscription...",
   "notification.genericError": "Something went wrong...",
   "peerGroupSelector.addOrSelectGroups": "Add or select group(s)...",
   "peerGroupSelector.searchGroups":
@@ -3273,9 +4123,97 @@ const en = {
   "routes.updating": "Updating route...",
   "routes.createdDescription": "The network route was successfully created",
   "routes.creating": "Creating route...",
+  "routes.deleteNotifyTitle": "Delete Route {networkId}",
+  "routes.deletedDescription": "Route was successfully removed",
+  "routes.deleting": "Deleting the route...",
+  "routes.deleteConfirmTitle": "Delete '{name}'?",
+  "routes.deleteConfirmDescription":
+    "Are you sure you want to delete this route? This action cannot be undone.",
+  "routes.ariaLabel": "Route actions",
+  "routes.toggledEnabled": "The network route was successfully enabled",
+  "routes.toggledDisabled": "The network route was successfully disabled",
+  "routes.createPolicyPrompt.title":
+    "Do you want to create a new access control policy for the route '{networkId}'?",
+  "routes.createPolicyPrompt.description":
+    "You have one or more access control groups added to this route. These groups allow you to limit access to this route by using them in access policies.",
+  "routes.createPolicyPrompt.confirmText": "Create Policy",
+  "routes.exitNodeDefaultName": "Exit Node",
+  "routes.exitNodeWithName": "Exit Node ({name})",
+  "routes.cidrError":
+    "Please enter a valid IP or CIDR, e.g., 192.168.1.1, 192.168.1.0/24 or 2001:db8::/64",
+  "routes.networkIdentifierLengthError":
+    "Network Identifier must be less than 40 characters",
+  "routes.metricError": "Metric must be between 1 and 9999",
+  "routes.setUpExitNode": "Set Up Exit Node",
+  "routes.addExitNode": "Add Exit Node",
+  "routes.createRoute": "Create New Route",
+  "routes.routeAllTrafficThroughPeer":
+    "Route all traffic through the peer '{name}'",
+  "routes.routeAllInternetTraffic": "Route all internet traffic through a peer",
+  "routes.accessLansAndVpc": "Access LANs and VPC by adding a network route.",
+  "routes.tabRoute": "Route",
+  "routes.tabGroups": "Groups",
+  "routes.tabNameDescription": "Name & Description",
+  "routes.tabAdditionalSettings": "Additional Settings",
+  "routes.routeType": "Route Type",
+  "routes.routeTypeHelp":
+    "Select your route type to add either a network range or a list of domains.",
+  "routes.networkRange": "Network Range",
+  "routes.networkRangeHelp": "Add a private IPv4 or IPv6 address or range",
+  "routes.networkRangePlaceholder":
+    "e.g., 172.16.0.1, 172.16.0.0/16, 2001:db8::1 or 2001:db8::/64",
+  "routes.domains": "Domains",
+  "routes.domainsHelp":
+    "Add domains that dynamically resolve to one or more IPv4 addresses. A maximum of 32 domains can be added.",
+  "routes.addDomain": "Add Domain",
+  "routes.keepRoutesTooltip":
+    "DNS records for load-balanced systems often change. Keeping resolved addresses ensures ongoing connections to active resources remain uninterrupted.",
+  "routes.keepRoutes": "Keep Routes",
+  "routes.keepRoutesHelp":
+    "Retain previously resolved routes after IP address updates to maintain stable connections.",
+  "routes.routingPeer": "Routing Peer",
+  "routes.peerGroup": "Peer Group",
+  "routes.routingPeerHelp":
+    "Assign a single peer as a routing peer for the network route.",
+  "routes.routingPeerExitNodeHelp":
+    "Assign a single peer as a routing peer for the exit node.",
+  "routes.peerGroupHelp":
+    "Assign a peer group with machines to be used as routing peers.",
+  "routes.peerGroupExitNodeHelp":
+    "Assign a peer group with machines to be used as exit nodes.",
+  "routes.distributionGroups": "Distribution Groups",
+  "routes.distributionGroupsExitNodePeerHelp":
+    "Route all internet traffic through this peer for the following groups",
+  "routes.distributionGroupsExitNodeHelp":
+    "Route all internet traffic through the peer(s) for the following groups",
+  "routes.distributionGroupsRouteHelp":
+    "Advertise this route to peers that belong to the following groups",
+  "routes.accessControlGroups": "Access Control Groups (optional)",
+  "routes.accessControlGroupsHelp":
+    "These groups allow you to limit access to this route. Simply use these groups as a destination when creating access policies.",
+  "routes.networkIdentifier": "Network Identifier",
+  "routes.networkIdentifierHelp":
+    "Add a unique network identifier that is assigned to each device.",
+  "routes.networkIdentifierPlaceholder": "e.g., aws-eu-central-1-vpc",
+  "routes.descriptionLabel": "Description (optional)",
+  "routes.descriptionHelp":
+    "Write a short description to add more context to this route.",
+  "routes.descriptionPlaceholder":
+    "e.g., Route to access all devices in the AWS VPC, located in Frankfurt.",
+  "routes.enableRoute": "Enable Route",
+  "routes.enableRouteHelp": "Use this switch to enable or disable the route.",
+  "routes.autoApplyRoute": "Auto Apply Route",
+  "routes.autoApplyRouteHelp":
+    "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+  "routes.metric": "Metric",
+  "routes.metricHelp": "A lower metric indicates higher priority routes.",
+  "routes.exitNodesLearnMore": "Exit Nodes",
+  "routes.networkRoutesLearnMore": "Network Routes",
+  "routes.addRoute": "Add Route",
   "accessControl.createdTitle": "Create Access Control Policy",
   "accessControl.createdDescription": "Policy was created successfully.",
   "accessControl.creating": "Creating your policy...",
+  "accessControl.policySaved": "The policy was successfully saved",
   "globalSearch.networksHeading": "Networks ({count})",
   "globalSearch.resourcesHeading": "Resources ({count})",
   "globalSearch.resourceCount": "{count} Resource(s)",
@@ -3289,10 +4227,25 @@ const en = {
   "globalSearch.open": "Open",
   "globalSearch.close": "Close",
   "setupKeys.revokeSelectedKeys": "Revoke {count} Key(s)",
+  "setupKeys.actionsMenuAriaLabel": "Open actions menu",
   "nameservers.updateToggleDescription":
     "Nameserver was successfully {status}.",
   "networkRoutes.deprecationInfo":
     "Network Routes will be deprecated and replaced with Networks.",
+  "networkRoutes.title": "Network Routes",
+  "networkRoutes.searchPlaceholder":
+    "Search by network, range, name or groups...",
+  "networkRoutes.emptyGroupTitle":
+    "This group is not used within any network routes yet",
+  "networkRoutes.emptyGroupDescription":
+    "Assign this group when creating a new route to see them listed here.",
+  "networkRoutes.addRoute": "Add Route",
+  "networkRoutes.emptyTitle": "Create New Route",
+  "networkRoutes.emptyDescription":
+    "It looks like you don't have any routes. Access LANs and VPC by adding a network route.",
+  "networkRoutes.learnMoreLink": "Network Routes",
+  "networkRoutes.columnNetwork": "Network",
+  "networkRoutes.columnHighAvailability": "High Availability",
   "networkResources.exposeService": "Expose Service",
   "networkResources.singleIp": "Single IP",
   "networkResources.ipRange": "IP Range",
@@ -3319,6 +4272,16 @@ const en = {
   "routeGroup.addPeer": "Add Peer",
   "groups.usedInPrefix": "Group",
   "groups.usedInMiddle": "is used in",
+  "groups.savingChanges": "Saving changes",
+  "groups.groupSaved": "{name} was successfully saved.",
+  "groups.group": "Group",
+  "groups.updatingGroup": "Updating group...",
+  "groups.viewAssignedPeers": "View assigned peers for this group",
+  "groups.manageAssignedPeers": "Manage assigned peers for this group",
+  "groups.noPeersToAssign": "You don't have any peers to assign",
+  "groups.noPeersToAssignDescription":
+    "In order to assign peers to this group you need to have at least one peer that is not already part of this group.",
+  "groups.peersSelected": "Peer(s) selected",
   "peerActionCell.sessionExpirationDisabled": "Session expiration is disabled",
   "peerActionCell.sessionExpirationEnabled": "Session expiration is enabled",
   "peerActionCell.sessionExpirationDescriptionDisabled":
@@ -3367,6 +4330,3321 @@ const en = {
   "table.ttl": "TTL",
   "dns.records": "DNS Records",
   "networkResources.saveGroups": "Save Groups",
+  "common.add": "Add",
+  "resourcesTable.resource": "Resource",
+  "resourcesTable.policies": "Policies",
+  "resourcesTable.status": "Status",
+  "resourcesTable.service": "Service",
+  "resourcesTable.resources": "Resources",
+  "resourcesTable.inactive": "Inactive",
+  "networksTable.network": "Network",
+  "networksTable.resources": "Resources",
+  "networksTable.policies": "Policies",
+  "networksTable.statusFilter": "Status",
+  "networksTable.createTitle": "Create New Network",
+  "networksTable.learnMorePrefix": "Learn more about",
+  "networksTable.learnMoreLink": "Networks",
+  "networksModal.learnMorePrefix": "Learn more about",
+  "networksModal.learnMoreLink": "Networks",
+  "resourceActionCell.updateResource": "Update Resource",
+  "networkActionCell.rename": "Rename",
+  "networkProvider.thisPolicyUsedByMultiple":
+    "This policy is used by multiple resources",
+  "networkProvider.editOrDeletePolicy": "{action} policy '{name}'?",
+  "networkProvider.addRoutingPeer": "Add Routing Peer",
+  "peerAddress.netBirdIpv6": "NetBird IPv6",
+  "peerAddress.ipCopied": "IP address has been copied to your clipboard",
+  "peerMultiSelect.bypassComplianceTitle":
+    "Bypass compliance for {count} {peerWord}?",
+  "peerMultiSelect.bypassComplianceDescription":
+    "This will override compliance checks and grant network access to these peers. The bypass will be automatically removed if devices become compliant.",
+  "peerMultiSelect.bypassCompliance": "Bypass Compliance",
+  "peerMultiSelect.bypassComplianceNotifyTitle": "Bypass Compliance",
+  "peerMultiSelect.bypassComplianceNotifyDescription":
+    "Compliance was successfully bypassed for selected peers",
+  "peerMultiSelect.bypassingCompliance":
+    "Bypassing compliance for selected peers...",
+  "peerMultiSelect.revokeBypassTitle":
+    "Revoke compliance bypass for {count} {peerWord}?",
+  "peerMultiSelect.revokeBypassDescription":
+    "These peers will return to normal compliance validation. If they are non-compliant, they will lose network access.",
+  "peerMultiSelect.revoke": "Revoke",
+  "peerMultiSelect.revokeBypassNotifyTitle": "Revoke Compliance Bypass",
+  "peerMultiSelect.revokeBypassNotifyDescription":
+    "Compliance bypass was successfully revoked",
+  "peerMultiSelect.revokingBypass": "Revoking compliance bypass...",
+  "peerMultiSelect.bypassComplianceTooltip": "Bypass Compliance ({count})",
+  "peerMultiSelect.revokeBypassTooltip": "Revoke Compliance Bypass ({count})",
+  "peerMultiSelect.assignGroupsTooltip": "Assign Groups",
+  "peerMultiSelect.deleteAllTooltip": "Delete All",
+  "peerMultiSelect.cancelTooltip": "Cancel",
+  "peers.users": "Users",
+  "peers.nonCompliantTooltip":
+    "Peers that failed compliance checks and need attention",
+  "peers.pendingApprovalsTooltip": "Peers waiting for administrator approval",
+  "peers.nonCompliant": "Non-Compliant",
+  "peers.bypassedTooltip":
+    "Peers with compliance checks bypassed by an administrator",
+  "peers.bypassed": "Bypassed",
+  "peers.justNow": "just now",
+  "peers.connect": "Connect",
+  "peerActionCell.viewDetails": "View Details",
+  "peerActionCell.bypassTitle": "Bypass compliance for '{name}'?",
+  "peerActionCell.bypassDescription":
+    "This will override the compliance check and allow this peer to connect. The bypass will be automatically removed if the device becomes compliant.",
+  "peerActionCell.bypassCompliance": "Bypass Compliance",
+  "peerActionCell.bypassedTitle": "Compliance bypassed for {name}",
+  "peerActionCell.bypassedDescription":
+    "This peer can now connect to other peers.",
+  "peerActionCell.bypassing": "Bypassing compliance...",
+  "peerActionCell.revokeBypassTitle": "Revoke compliance bypass for '{name}'?",
+  "peerActionCell.revokeBypassDescription":
+    "This peer will be subject to normal compliance validation. If still non-compliant, it will lose network access.",
+  "peerActionCell.revoke": "Revoke",
+  "peerActionCell.revokeBypassNotifyTitle": "Compliance bypass revoked",
+  "peerActionCell.revokeBypassNotifyDescription":
+    "Peer {name} is now subject to normal compliance validation.",
+  "peerActionCell.revoking": "Revoking compliance bypass...",
+  "peerActionCell.bypassTooltip":
+    "Bypass {integration} compliance check and allow this peer to connect. The bypass is automatically removed when the device becomes compliant.",
+  "peerActionCell.revokeBypass": "Revoke Bypass",
+
+  // ── IdP Sync – shared ──────────────────────────────────────────────
+  "idpSync.settingUpIntegration": "Setting up integration...",
+  "idpSync.estimatedSetupTime": "Estimated setup time:",
+  "idpSync.requiredPermissions": "Required Permissions",
+  "idpSync.groupsToSync": "Groups to be synchronized",
+  "idpSync.usersToSync": "Users to be synchronized",
+  "idpSync.addUserGroupFilter": "Add user group filter",
+  "idpSync.userGroupStartsWith": "User group starts with...",
+  "idpSync.connect": "Connect",
+  "idpSync.getStarted": "Get Started",
+  "idpSync.finishSetup": "Finish Setup",
+  "idpSync.settings": "Settings",
+  "idpSync.groupSync": "Group Sync",
+  "idpSync.userSync": "User Sync",
+  "idpSync.dangerZone": "Danger Zone",
+  "idpSync.authToken": "Auth Token",
+  "idpSync.authTokenCopy": "Auth token",
+  "idpSync.regenerateAuthToken": "Regenerate Auth Token",
+  "idpSync.regenerateAuthTokenTitle": "Regenerate Auth Token?",
+  "idpSync.regenerateAuthTokenDescription":
+    "Are you sure you want to regenerate the auth token? You will need to update the token in your {provider} configuration.",
+  "idpSync.regenerate": "Regenerate",
+  "idpSync.deleteIntegrationLabel": "Delete Integration",
+  "idpSync.deleteIntegrationTitle": "Delete integration?",
+  "idpSync.deleteIntegrationDescription":
+    "Are you sure you want to delete this integration?",
+  "idpSync.deleteIntegrationHelp":
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+  "idpSync.integrationDeleted": "{provider} was successfully deleted",
+  "idpSync.integrationUpdated": "{provider} was successfully updated",
+  "idpSync.integrationConnected":
+    "{provider} was successfully connected to NetBird.",
+  "idpSync.integrationSetUp": "{provider} was successfully set up",
+  "idpSync.deletingIntegration": "Deleting integration...",
+  "idpSync.updatingIntegration": "Updating integration...",
+  "idpSync.updatingAuthToken": "Updating your auth token...",
+  "idpSync.authTokenRegenerated":
+    "Auth token for {provider} was successfully regenerated",
+  "idpSync.synchronizeGroups": "Synchronize Groups",
+  "idpSync.synchronizeUsers": "Synchronize Users",
+  "idpSync.configuration": "{provider} Configuration",
+  "idpSync.configurationDescription":
+    "Sync your users and groups from {provider} to NetBird.",
+  "idpSync.integrationTitle": "{provider} Integration",
+  "idpSync.groupPrefixHelpUsersPrefix": "By default,",
+  "idpSync.groupPrefixHelpUsersAll": "All Users",
+  "idpSync.groupPrefixHelpUsersSuffix":
+    "will be synchronized from your IdP to NetBird.",
+  "idpSync.groupPrefixHelpUsersFilter":
+    "If you want to synchronize only users that belong to a specific group, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
+  "idpSync.groupPrefixHelpGroupsPrefix": "By default,",
+  "idpSync.groupPrefixHelpGroupsAll": "All Groups",
+  "idpSync.groupPrefixHelpGroupsSuffix":
+    "will be synchronized from your IdP to NetBird.",
+  "idpSync.groupPrefixHelpGroupsFilter":
+    "If you want to synchronize only groups that start with a specific prefix, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
+
+  // ── Google Workspace setup ─────────────────────────────────────────
+  "googleWorkspace.connectTitle": "Connect NetBird with Google Workspace",
+  "googleWorkspace.connectDescription":
+    "Start syncing your users and groups from Google Workspace to NetBird. Follow the steps below to get started.",
+  "googleWorkspace.estimatedTime": "10-20 Minutes",
+  "googleWorkspace.accountPrefix": "Ensure that you have an",
+  "googleWorkspace.accountType": "Google Workspace user account",
+  "googleWorkspace.accountMiddle": "with the following",
+  "googleWorkspace.accountPermissionWord": "permissions",
+  "googleWorkspace.accountSuffix":
+    "If you don't have the required permissions, ask your workspace administrator to grant them to you.",
+  "googleWorkspace.permCreate": "Create Google Workspace applications",
+  "googleWorkspace.permManage": "Manage Google Workspace applications",
+  "googleWorkspace.step1Title": "Create NetBird project",
+  "googleWorkspace.step1Line1Prefix": "Create a new",
+  "googleWorkspace.step1Line1Suffix": "project in the",
+  "googleWorkspace.step1Console": "Google Cloud Console",
+  "googleWorkspace.step1Line2Prefix": "Enable the",
+  "googleWorkspace.step1Api": "Admin SDK API",
+  "googleWorkspace.step1Line2Middle": "for the",
+  "googleWorkspace.step1Line2Suffix": "project",
+  "googleWorkspace.step2Title": "Create a service account",
+  "googleWorkspace.step2Line1Prefix": "Navigate to",
+  "googleWorkspace.step2Credentials": "API Credentials",
+  "googleWorkspace.step2Line2Prefix": "Click",
+  "googleWorkspace.step2Line2Middle": "at the top and select",
+  "googleWorkspace.step2Line3Prefix":
+    "Fill in the form with the following values and click",
+  "googleWorkspace.serviceAccountName": "Service account name",
+  "googleWorkspace.serviceAccountId": "Service account ID",
+  "googleWorkspace.step3Title": "Get your service account email",
+  "googleWorkspace.step3ServiceAccounts": "Service Accounts",
+  "googleWorkspace.step3Line2Prefix": "Click",
+  "googleWorkspace.step3Line2Middle":
+    "to edit the service account. Copy the service account email address.",
+  "googleWorkspace.step3Line3": "Enter your service account email address",
+  "googleWorkspace.step4Title": "Create service account key",
+  "googleWorkspace.step4Line1Prefix": "On the same page, now click the",
+  "googleWorkspace.step4KeysTab": "Keys",
+  "googleWorkspace.step4Line1Middle": "tab, open the",
+  "googleWorkspace.step4AddKey": "Add key",
+  "googleWorkspace.step4Line1Suffix": "dropdown and select",
+  "googleWorkspace.step4CreateNewKey": "Create new key",
+  "googleWorkspace.step4Line2Prefix": "Select",
+  "googleWorkspace.step4Json": "JSON",
+  "googleWorkspace.step4Line2Middle": "as the key type and click",
+  "googleWorkspace.step4Create": "Create",
+  "googleWorkspace.step4Line3Prefix":
+    "Most browsers immediately download the new key and save it in a download folder on your computer. Read how to manage and secure your service keys",
+  "googleWorkspace.step4Line3Link": "here",
+  "googleWorkspace.step5Title": "Create admin role",
+  "googleWorkspace.step5AdminConsole": "Admin Console",
+  "googleWorkspace.step5Line2Prefix": "Select",
+  "googleWorkspace.step5Account": "Account",
+  "googleWorkspace.step5Line2Middle": "on the left menu and then click",
+  "googleWorkspace.step5AdminRoles": "Admin Roles",
+  "googleWorkspace.step5Line3Prefix": "Click",
+  "googleWorkspace.step5CreateNewRole": "Create new role",
+  "googleWorkspace.step5Line3Suffix":
+    "and fill in the form with the following values",
+  "googleWorkspace.roleName": "Name",
+  "googleWorkspace.roleDescription": "Description",
+  "googleWorkspace.step6Title": "Add role privileges",
+  "googleWorkspace.step6Line1Prefix": "Scroll down to",
+  "googleWorkspace.step6AdminApiPrivileges": "Admin API privileges",
+  "googleWorkspace.step6Line1Suffix":
+    "and add the following privileges to the role",
+  "googleWorkspace.privilegeUsers": "Users",
+  "googleWorkspace.privilegeRead": "Read",
+  "googleWorkspace.privilegeGroups": "Groups",
+  "googleWorkspace.step6Line2Prefix":
+    "Verify preview of assigned Admin API privileges to ensure that everything is properly configured, and then click",
+  "googleWorkspace.step7Title": "Assign service account",
+  "googleWorkspace.step7Line1Prefix": "Click",
+  "googleWorkspace.step7AssignServiceAccounts": "Assign service accounts",
+  "googleWorkspace.step7Line2Prefix": "Enter your",
+  "googleWorkspace.step7Email": "E-Mail",
+  "googleWorkspace.step7Line2Suffix": "and then click",
+  "googleWorkspace.step7EmailLabel": "E-Mail",
+  "googleWorkspace.step7Line3Prefix": "Click",
+  "googleWorkspace.step8Title": "Enter Customer ID",
+  "googleWorkspace.step8AccountSettings": "Account Settings",
+  "googleWorkspace.step8Line2Prefix": "Take note of the",
+  "googleWorkspace.step8CustomerId": "Customer ID",
+  "googleWorkspace.step8Line2Suffix": "and enter it below",
+  "googleWorkspace.customerIdLabel": "Customer ID",
+
+  // ── JumpCloud setup ────────────────────────────────────────────────
+  "jumpcloud.connectTitle": "Connect NetBird with Jumpcloud",
+  "jumpcloud.connectDescription":
+    "Start syncing your users and groups from Jumpcloud to NetBird. Follow the steps below to get started.",
+  "jumpcloud.estimatedTime": "5-15 Minutes",
+  "jumpcloud.accountType": "Jumpcloud user account",
+  "jumpcloud.accountRolesWord": "roles",
+  "jumpcloud.accountSuffix":
+    "These roles have the required permissions to configure SSO applications and manage SCIM provisioning.",
+  "jumpcloud.roleAdmin": "Administrator (minimum required)",
+  "jumpcloud.roleAdminBilling": "Administrator with Billing",
+  "jumpcloud.ssoRequiredPrefix":
+    "Jumpcloud SSO needs to be enabled before you can enable IdP sync.",
+  "jumpcloud.howToEnableSso": "How to enable Jumpcloud SSO",
+  "jumpcloud.step3Title": "Configure SCIM Application",
+  "jumpcloud.step3Line1Prefix": "Navigate to your",
+  "jumpcloud.step3Console": "Jumpcloud admin console",
+  "jumpcloud.step3Line2Prefix": "Go to",
+  "jumpcloud.step3SsoApps": "SSO Applications",
+  "jumpcloud.step3Line2Middle": "and select your",
+  "jumpcloud.step3Line2AppSuffix": "application, and then select",
+  "jumpcloud.step3IdentityMgmt": "Identity Management",
+  "jumpcloud.step3Line2TabSuffix": "tab.",
+  "jumpcloud.step3Line3Prefix": "In the",
+  "jumpcloud.step3CredDetails": "Credentials Details",
+  "jumpcloud.step3Line3Suffix": "enter the following details.",
+  "jumpcloud.apiType": "API Type",
+  "jumpcloud.scimVersion": "SCIM Version",
+  "jumpcloud.baseUrl": "Base URL",
+  "jumpcloud.tokenKey": "Token Key",
+  "jumpcloud.testUserEmail": "Test User Email",
+  "jumpcloud.testUserEmailValue": "unused email e.g. test@yourdomain.com",
+  "jumpcloud.step3Line4Prefix": "After that click",
+  "jumpcloud.step3TestConnection": "Test Connection",
+  "jumpcloud.step3Line4Middle":
+    "to verify the SCIM connection. If the connection is successful click",
+  "jumpcloud.step3Activate": "Activate",
+  "jumpcloud.step3Line4Suffix": "to enable SCIM provisioning.",
+
+  // ── JumpCloud / Okta configuration (shared via idpSync) ────────────
+  "jumpcloud.configurationTitle": "Jumpcloud Configuration",
+  "jumpcloud.configurationDescription":
+    "Sync your users and groups from Jumpcloud to NetBird.",
+  "okta.configurationTitle": "Okta Configuration",
+  "okta.configurationDescription":
+    "Sync your users and groups from Okta to NetBird.",
+
+  // ── Okta SSO setup ─────────────────────────────────────────────────
+  "okta.notifyTitle": "Okta SSO Integration",
+  "okta.notifyConnected": "Okta SSO was successfully connected",
+  "okta.notifyConnecting": "Connecting Okta SSO...",
+  "okta.notifyFailed": "Failed to connect Okta SSO",
+  "okta.connectTitle": "Connect NetBird with Okta SSO",
+  "okta.connectDescription":
+    "Use Okta as a Single Sign-On provider to authenticate users. Follow the steps below to get started.",
+  "okta.accountType": "Okta user account",
+  "okta.accountSuffix":
+    "If you don't have the required permissions, ask your Okta administrator to grant them to you.",
+  "okta.permAdd": "Add Okta applications",
+  "okta.permConfigure": "Configure Okta applications",
+  "okta.step1Title": "Install NetBird application for Okta",
+  "okta.step1Navigate": "Navigate to",
+  "okta.step1Link": "Okta Integration Network",
+  "okta.step2Click": "Click",
+  "okta.step2AndThen": "and then",
+  "okta.step3Title": "Enter your Okta details",
+  "okta.step3ClickOn": "Click on the",
+  "okta.step3TabSuffix": "tab and enter your client credentials",
+  "okta.clientId": "Client ID",
+  "okta.clientSecret": "Client Secret",
+  "okta.step4Prefix": "Under your user profile, enter your",
+  "okta.step4Domain": "Okta account domain",
+  "okta.step5Prefix": "Enter your",
+  "okta.step5Domain": "Primary E-Mail Domain",
+  "okta.step5Suffix": "which will later be used to log in to NetBird.",
+  "okta.step3AssignPrefix": "After installing the application go to the",
+  "okta.step3AssignTab": "Assignments",
+  "okta.step3AssignMiddle": "tab, select the",
+  "okta.step3AssignMark": "Assign",
+  "okta.step3AssignSuffix": "and click",
+  "okta.step3AssignClick": "Assign to People",
+  "okta.step3AssignFinal": "and assign your user to the application",
+
+  // ── Generic HTTP event streaming ───────────────────────────────────
+  "genericHttp.notifyTitle": "Generic HTTP Integration",
+  "genericHttp.notifyConnected": "HTTP Integration was successfully connected.",
+  "genericHttp.notifyConnecting": "Setting up HTTP integration...",
+  "genericHttp.notifyUpdated": "HTTP Integration was updated successfully.",
+  "genericHttp.notifyUpdating": "Updating HTTP integration...",
+  "genericHttp.notifyDeleted": "Generic HTTP was successfully deleted",
+  "genericHttp.notifyDeleting": "Deleting integration...",
+  "genericHttp.deleteConfirmTitle": "Delete Generic HTTP Integration?",
+  "genericHttp.deleteConfirmDescription":
+    "Are you sure you want to delete this integration? You will need to start the setup process again.",
+  "genericHttp.configTitle": "Generic HTTP Configuration",
+  "genericHttp.connectTitle": "Connect NetBird with Generic HTTP",
+  "genericHttp.descriptionPrefix":
+    "Start streaming your NetBird audit & traffic events to a Generic HTTP endpoint.",
+  "genericHttp.descriptionSuffix": "Follow the steps to get started.",
+  "genericHttp.tabGeneral": "General",
+  "genericHttp.tabHeaders": "Headers",
+  "genericHttp.tabBodyTemplate": "Body Template",
+  "genericHttp.tabDangerZone": "Danger Zone",
+  "genericHttp.urlHelpText":
+    "Full HTTP(S) URL where events will be sent later via a POST request.",
+  "genericHttp.customBodyLabel": "Custom Body Template (optional)",
+  "genericHttp.customBodyHelp":
+    "Customize the request body template for your events. Build your own in plain text or JSON format.",
+  "genericHttp.bodyTemplateHelp":
+    "There are various variables available to structure the body template. Please refer to the documentation for more details on how to use them.",
+  "genericHttp.bodyTemplateVarsLink": "Body Template Variables",
+  "genericHttp.deleteLabel": "Delete Integration",
+  "genericHttp.deleteHelp":
+    "Deleting this integration will remove the ability to stream events. If you delete the integration you will need to reconfigure it again to enable event streaming.",
+  "genericHttp.deleteButton": "Delete Integration",
+  "genericHttp.learnMoreLink": "Generic HTTP Streaming",
+
+  // ── FleetDM EDR configuration ──────────────────────────────────────
+  "fleetdm.notifyTitle": "FleetDM Integration",
+  "fleetdm.notifyDeleted": "FleetDM was successfully deleted",
+  "fleetdm.notifyUpdated": "FleetDM was successfully updated",
+  "fleetdm.urlError":
+    "Please enter a valid url, e.g., https://fleet.example.com",
+  "fleetdm.configTitle": "FleetDM Configuration",
+  "fleetdm.configDescription":
+    "Restrict network access to IT-managed devices based on FleetDM compliance policies.",
+  "fleetdm.tabPeerApproval": "Peer Approval",
+  "fleetdm.tabCompliance": "Compliance",
+  "fleetdm.groupsLabel": "Groups",
+  "fleetdm.groupsHelp":
+    "Select groups you want to apply the FleetDM integration to",
+  "fleetdm.requirementsLabel": "Requirements",
+  "fleetdm.requirementsHelp":
+    "Set the specific requirements that devices must meet to be considered compliant.",
+  "fleetdm.syncWindowLabel": "Sync Window",
+  "fleetdm.syncWindowTooltip":
+    "Example: This property is set to 24 hours. Jane's laptop hasn't synced with FleetDM for 27 hours. Even though it's marked as Compliant in FleetDM, it will still be blocked from network access",
+  "fleetdm.syncWindowHelp":
+    "Devices not synced with FleetDM in this time won't have network access.",
+  "fleetdm.hoursSuffix": "Hours",
+  "fleetdm.serverUrlLabel": "Server URL",
+  "fleetdm.apiTokenLabel": "API Token",
+  "fleetdm.apiTokenPlaceholder": "Enter your FleetDM API token",
+  "fleetdm.deleteHelp":
+    "Deleting this integration will remove the ability to enforce compliance policies from FleetDM. If you delete the integration you will need to reconfigure it again.",
+  "fleetdm.learnMoreLink": "FleetDM Integration",
+
+  // ── Generic SCIM setup ─────────────────────────────────────────────
+  "genericScim.notifyTitle": "{name} Integration",
+  "genericScim.connectTitle": "Connect NetBird with {name}",
+  "genericScim.connectDescription":
+    "Start syncing your users and groups from {name} to NetBird. Follow the steps below to get started.",
+  "genericScim.scimConfigHelpPrefix":
+    "SCIM configuration varies by identity provider. Please refer to our",
+  "genericScim.scimConfigHelpLink": "IdP Documentation",
+  "genericScim.scimConfigHelpSuffix": "for provider-specific setup guides.",
+  "genericScim.contactSupportPrefix":
+    "If your identity provider is not listed in our documentation contact us at",
+  "genericScim.ssoRequiredPrefix":
+    "Single-Sign-On needs to be enabled and active before you can enable IdP sync.",
+  "genericScim.howToEnableSso": "How to enable SSO",
+  "genericScim.credentialsTitle": "SCIM Credentials",
+  "genericScim.credName": "Name",
+  "genericScim.credApiType": "API Type",
+  "genericScim.credApiTypeValue": "SCIM API",
+  "genericScim.credScimVersion": "SCIM Version",
+  "genericScim.credScimVersionValue": "SCIM 2.0",
+  "genericScim.credBaseUrl": "Base URL",
+  "genericScim.credToken": "Token",
+  "genericScim.authTokenRegenerated": "Auth token was successfully regenerated",
+
+  // ── SSO – OIDC setup modal ─────────────────────────────────────────
+  "sso.oidc.notifyTitle": "{name} SSO Integration",
+  "sso.oidc.notifyConnected": "{name} SSO was successfully connected",
+  "sso.oidc.notifyConnecting": "Connecting {name} SSO...",
+  "sso.oidc.notifyFailed": "Failed to connect {name} SSO",
+  "sso.oidc.connectTitle": "Connect NetBird with {name}",
+  "sso.oidc.connectDescription":
+    "Use {name} as a Single Sign-On provider to authenticate users. Follow the steps below to get started.",
+  "sso.oidc.step1Description":
+    "Obtaining the Client ID and Secret differs across providers. Please check your provider's documentation.",
+  "sso.oidc.clientId": "Client ID",
+  "sso.oidc.clientSecret": "Client Secret",
+  "sso.oidc.step2DescriptionPrefix": "Please provide the",
+  "sso.oidc.step2Discovery": "OpenID Connect Discovery",
+  "sso.oidc.step2DescriptionSuffix":
+    "endpoint. It should be publicly accessible and SSL secured.",
+  "sso.oidc.step3DescriptionPrefix": "Enter your",
+  "sso.oidc.primaryEmailDomain": "Primary E-Mail Domain",
+  "sso.oidc.step3DescriptionSuffix":
+    "which will later be used to log in to NetBird.",
+  "sso.oidc.learnMorePrefix": "Learn more about",
+  "sso.oidc.integrationLink": "{name} Integration",
+  "sso.oidc.connectButton": "Connect",
+
+  // ── SSO – Domain verification ──────────────────────────────────────
+  "sso.domain.removeTitle": "Remove Domain?",
+  "sso.domain.removeDescription":
+    "Are you sure you want to remove this domain?",
+  "sso.domain.notifyTitle": "SSO Domains",
+  "sso.domain.removed": "{name} has been removed",
+  "sso.domain.removing": "Removing domain...",
+  "sso.domain.verify": "Verify",
+  "sso.domain.ownershipVerified": "Ownership Verified",
+  "sso.domain.verificationFailed": "Verification Failed",
+  "sso.domain.pendingVerification": "Pending Verification",
+
+  // ── EDR – SentinelOne ──────────────────────────────────────────────
+  "edr.sentinelOne.disableTitle": "Disable SentinelOne?",
+  "edr.sentinelOne.disableDescription":
+    "Are you sure you want to disable the SentinelOne integration?",
+  "edr.sentinelOne.notifyTitle": "SentinelOne Integration",
+  "edr.sentinelOne.notifyEnabled": "SentinelOne was successfully enabled",
+  "edr.sentinelOne.notifyDisabled": "SentinelOne was successfully disabled",
+  "edr.sentinelOne.notifyDeleted": "SentinelOne was successfully deleted",
+  "edr.sentinelOne.notifyUpdated": "SentinelOne was successfully updated",
+  "edr.sentinelOne.updating": "Updating integration...",
+  "edr.sentinelOne.deleting": "Deleting integration...",
+  "edr.sentinelOne.cardDescription":
+    "AI-powered endpoint protection platform for real-time threat detection and automated response.",
+  "edr.sentinelOne.notSynced": "Not synchronized",
+  "edr.sentinelOne.synced": "Synced {time}",
+  "edr.sentinelOne.settings": "Settings",
+  "edr.sentinelOne.configTitle": "SentinelOne Configuration",
+  "edr.sentinelOne.configDescription":
+    "Restrict network access to IT-managed devices marked Compliant in SentinelOne.",
+  "edr.sentinelOne.tabPeerApproval": "Peer Approval",
+  "edr.sentinelOne.tabCompliance": "Compliance",
+  "edr.sentinelOne.groupsLabel": "Groups",
+  "edr.sentinelOne.groupsHelp":
+    "Select groups you want to apply the SentinelOne integration to",
+  "edr.sentinelOne.requirementsLabel": "Requirements",
+  "edr.sentinelOne.requirementsHelp":
+    "Set the specific requirements that devices must meet to be considered compliant.",
+  "edr.sentinelOne.syncWindowLabel": "Sync Window",
+  "edr.sentinelOne.syncWindowTooltip":
+    "Example: This property is set to 24 hours. Jane's laptop hasn't synced with SentinelOne for 27 hours. Even though it's marked as Compliant in SentinelOne, it will still be blocked from network access",
+  "edr.sentinelOne.syncWindowHelp":
+    "Devices not synced with SentinelOne in this time won't have network access.",
+  "edr.sentinelOne.hoursSuffix": "Hours",
+  "edr.sentinelOne.consoleUrlLabel": "Console URL",
+  "edr.sentinelOne.apiTokenLabel": "API Token",
+  "edr.sentinelOne.deleteIntegrationLabel": "Delete Integration",
+  "edr.sentinelOne.learnMoreLink": "SentinelOne Integration",
+
+  // ── Intune setup ──────────────────────────────────────────────────────
+  "edr.intune.notifyTitle": "Intune Integration",
+  "edr.intune.notifyConnected": "Intune was successfully connected to NetBird.",
+  "edr.intune.notifyDeleted": "Intune was successfully deleted",
+  "edr.intune.notifyUpdated": "Intune was successfully updated",
+  "edr.intune.notifyEnabled": "Intune was successfully enabled",
+  "edr.intune.notifyDisabled": "Intune was successfully disabled",
+  "edr.intune.settingUp": "Setting up integration...",
+  "edr.intune.deleting": "Deleting integration...",
+  "edr.intune.updating": "Updating integration...",
+  "edr.intune.setupTitle": "Connect NetBird with Intune",
+  "edr.intune.setupDescription":
+    "Restrict network access to IT-managed devices marked Compliant in Intune. Follow the steps below to get started.",
+  "edr.intune.requiredPermissions": "Required Permissions",
+  "edr.intune.requiredPermissionsDesc":
+    "Ensure that you have an Azure AD user account with the following permissions. If you don't have the required permissions, ask your Azure AD administrator to grant them to you.",
+  "edr.intune.permCreate": "Create Azure AD applications",
+  "edr.intune.permManage": "Manage Azure AD applications",
+  "edr.intune.step1Title": "Create and configure Azure AD application",
+  "edr.intune.step1Navigate": "Navigate to",
+  "edr.intune.step1Link": "Azure Active Directory",
+  "edr.intune.step2Click": "Click",
+  "edr.intune.step2InLeftMenu": "in the left menu then click on the",
+  "edr.intune.step2Suffix": "button to create a new application.",
+  "edr.intune.step3Prefix":
+    "Fill in the form with the following values and click",
+  "edr.intune.listName": "Name",
+  "edr.intune.listAccountTypes": "Account Types",
+  "edr.intune.listAccountTypesValue":
+    "Accounts in this organizational directory only (Default Directory only - Single tenant)",
+  "edr.intune.apiPermTitle": "Add API permissions",
+  "edr.intune.apiPermStep1": "on the left side menu",
+  "edr.intune.apiPermStep2Prefix": "then",
+  "edr.intune.apiPermStep2Middle": "and then on the",
+  "edr.intune.apiPermStep2Suffix": "tab.",
+  "edr.intune.apiPermStep3InPrefix": "In",
+  "edr.intune.apiPermStep3Select": "select",
+  "edr.intune.apiPermStep3And": "and click",
+  "edr.intune.apiPermStep4Prefix": "Click",
+  "edr.intune.apiPermStep4Middle": "and click",
+  "edr.intune.genSecretTitle": "Generate client secret",
+  "edr.intune.genSecretNavigate": "Navigate to",
+  "edr.intune.genSecretNavSuffix": "on left side menu",
+  "edr.intune.genSecretClick": "Click on",
+  "edr.intune.genSecretAddPrefix": "Add",
+  "edr.intune.genSecretAddSuffix": "as the description and click",
+  "edr.intune.genSecretCopyPrefix": "Copy the",
+  "edr.intune.genSecretCopySuffix": "and paste it here",
+  "edr.intune.enterIdsTitle": "Enter Application ID and Directory ID",
+  "edr.intune.enterIdsNavigate": "Navigate to",
+  "edr.intune.enterIdsLink": "All applications",
+  "edr.intune.enterIdsSelectPrefix": "Select",
+  "edr.intune.enterIdsSelectSuffix":
+    "application in overview page and enter your",
+  "edr.intune.enterIdsAnd": "and",
+  "edr.intune.applicationIdLabel": "Application (client) ID",
+  "edr.intune.directoryIdLabel": "Directory (tenant) ID",
+  "edr.intune.clientSecretLabel": "Client Secret",
+  "edr.intune.peerApprovalTitle": "Peer Approval",
+  "edr.intune.peerApprovalHelp":
+    "Select groups you want to apply the Intune integration to",
+  "edr.intune.syncWindowTitle": "Intune Sync Window",
+  "edr.intune.syncWindowTooltip":
+    "Example: This property is set to 24 hours. Jane's laptop hasn't synced with Intune for 27 hours. Even though it's marked as Compliant in Intune, it will still be blocked from network access",
+  "edr.intune.syncWindowHelp":
+    "Devices not synced with Intune in this time won't have network access.",
+  "edr.intune.hoursSuffix": "Hours",
+  "edr.intune.configTitle": "Intune Configuration",
+  "edr.intune.configDescription":
+    "Restrict network access to IT-managed devices marked Compliant in Intune.",
+  "edr.intune.tabPeerApproval": "Peer Approval",
+  "edr.intune.tabSyncWindow": "Intune Sync Window",
+  "edr.intune.tabSettings": "Settings",
+  "edr.intune.tabDangerZone": "Danger Zone",
+  "edr.intune.deleteIntegrationLabel": "Delete Integration",
+  "edr.intune.deleteIntegrationHelp":
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+  "edr.intune.deleteConfirmTitle": "Delete integration?",
+  "edr.intune.deleteConfirmDescription":
+    "Are you sure you want to delete this integration?",
+  "edr.intune.disableConfirmTitle": "Disable Huntress?",
+  "edr.intune.disableConfirmDescription":
+    "Are you sure you want to disable the Huntress integration?",
+  "edr.intune.cardDescription":
+    "EDR with comprehensive, enterprise-grade protection, continuously backed by 24/7 AI-assisted SOC.",
+  "edr.intune.estimatedSetupTime": "Estimated setup time:",
+  "edr.intune.setupTimeValue": "10-20 Minutes",
+  "edr.intune.getStarted": "Get Started",
+  "edr.intune.connect": "Connect",
+
+  // ── Huntress ──────────────────────────────────────────────────────────
+  "edr.huntress.notifyTitle": "Huntress Integration",
+  "edr.huntress.notifyEnabled": "Huntress was successfully enabled",
+  "edr.huntress.notifyDisabled": "Huntress was successfully disabled",
+  "edr.huntress.notifyDeleted": "Huntress was successfully deleted",
+  "edr.huntress.notifyUpdated": "Huntress was successfully updated",
+  "edr.huntress.updating": "Updating integration...",
+  "edr.huntress.deleting": "Deleting integration...",
+  "edr.huntress.disableTitle": "Disable Huntress?",
+  "edr.huntress.disableDescription":
+    "Are you sure you want to disable the Huntress integration?",
+  "edr.huntress.cardDescription":
+    "EDR with comprehensive, enterprise-grade protection, continuously backed by 24/7 AI-assisted SOC.",
+  "edr.huntress.setupTitle": "Connect NetBird with Huntress",
+  "edr.huntress.setupDescription":
+    "Restrict network access to devices protected by Huntress. Follow the steps below to get started.",
+  "edr.huntress.step1Title": "Enter API credentials",
+  "edr.huntress.step1Description":
+    "Log in to your Huntress account and navigate to the API section to generate your credentials.",
+  "edr.huntress.apiKeyLabel": "API Key",
+  "edr.huntress.apiKeyHelp": "Enter your Huntress API key",
+  "edr.huntress.orgIdLabel": "Organization ID",
+  "edr.huntress.orgIdHelp": "Enter your Huntress Organization ID",
+  "edr.huntress.peerApprovalTitle": "Peer Approval",
+  "edr.huntress.peerApprovalHelp":
+    "Select groups you want to apply the Huntress integration to",
+  "edr.huntress.configTitle": "Huntress Configuration",
+  "edr.huntress.configDescription":
+    "Restrict network access to devices protected by Huntress.",
+  "edr.huntress.complianceTitle": "Compliance",
+  "edr.huntress.hoursSuffix": "Hours",
+  "edr.huntress.deleteConfirmTitle": "Delete integration?",
+  "edr.huntress.deleteConfirmDescription":
+    "Are you sure you want to delete this integration?",
+  "edr.huntress.notSynced": "Not synchronized",
+  "edr.huntress.synced": "Synced {time}",
+
+  // ── Azure AD / Entra ID setup ──────────────────────────────────────
+  "azureAd.notifyTitle": "Entra ID Integration",
+  "azureAd.connectTitle": "Connect NetBird with Entra ID (API)",
+  "azureAd.connectDescription":
+    "Start syncing your users and groups from Entra ID to NetBird. Follow the steps below to get started.",
+  "azureAd.accountType": "Azure AD user account",
+  "azureAd.accountSuffix":
+    "If you don't have the required permissions, ask your Azure AD administrator to grant them to you.",
+  "azureAd.permCreate": "Create Azure AD applications",
+  "azureAd.permManage": "Manage Azure AD applications",
+  "azureAd.step1Title": "Create and configure Azure AD application",
+  "azureAd.step1Navigate": "Navigate to",
+  "azureAd.step1Link": "Azure Active Directory",
+  "azureAd.step2Click": "Click",
+  "azureAd.step2InLeftMenu": "in the left menu then click on the",
+  "azureAd.step2Suffix": "button to create a new application.",
+  "azureAd.step3Prefix": "Fill in the form with the following values and click",
+  "azureAd.listName": "Name",
+  "azureAd.listAccountTypes": "Account Types",
+  "azureAd.listAccountTypesValue":
+    "Accounts in this organizational directory only (Default Directory only - Single tenant)",
+  "azureAd.listRedirectType": "Redirect Type",
+  "azureAd.listRedirectTypeValue": "Single-page application (SPA)",
+  "azureAd.listRedirectUri": "Redirect URI",
+  "azureAd.apiPermTitle": "Add API permissions",
+  "azureAd.apiPermStep1": "on the left side menu",
+  "azureAd.apiPermStep2Prefix": "then",
+  "azureAd.apiPermStep2Middle": "and then on the",
+  "azureAd.apiPermStep2Suffix": "tab.",
+  "azureAd.apiPermStep3InPrefix": "In",
+  "azureAd.apiPermStep3Select": "select",
+  "azureAd.apiPermStep3And": "and",
+  "azureAd.apiPermStep3Click": "and click",
+  "azureAd.apiPermStep4Prefix": "Click",
+  "azureAd.apiPermStep4Middle": "and click",
+  "azureAd.genSecretTitle": "Generate client secret",
+  "azureAd.genSecretNavigate": "Navigate to",
+  "azureAd.genSecretNavSuffix": "on left side menu",
+  "azureAd.genSecretClick": "Click on",
+  "azureAd.genSecretAddPrefix": "Add",
+  "azureAd.genSecretAddMiddle": "as the description and click",
+  "azureAd.genSecretCopyPrefix": "Copy the",
+  "azureAd.genSecretValue": "Value",
+  "azureAd.genSecretCopySuffix": "and paste it here",
+  "azureAd.appIdsTitle": "Enter Application ID and Directory ID",
+  "azureAd.appIdsLink": "All applications",
+  "azureAd.appIdsSelectPrefix": "Select",
+  "azureAd.appIdsSelectMiddle": "application in overview page and enter your",
+  "azureAd.appIdsSelectAnd": "and",
+  "azureAd.appClientId": "Application (client) ID",
+  "azureAd.directoryTenantId": "Directory (tenant) ID",
+  "azureAd.estimatedTime": "10-20 Minutes",
+
+  // ── Google Workspace configuration ─────────────────────────────────
+  "googleWorkspaceConfig.notifyTitle": "Google Workspace Integration",
+  "googleWorkspaceConfig.notifyDeleted":
+    "Google Workspace was successfully deleted",
+  "googleWorkspaceConfig.notifyUpdated":
+    "Google Workspace was successfully updated",
+  "googleWorkspaceConfig.configTitle": "Google Workspace Configuration",
+  "googleWorkspaceConfig.configDescription":
+    "Sync your users and groups from Google Workspace.",
+  "googleWorkspaceConfig.customerIdLabel": "Customer ID",
+  "googleWorkspaceConfig.serviceAccountKeyLabel": "Service Account Key",
+  "googleWorkspaceConfig.syncIntervalLabel": "Sync Interval",
+  "googleWorkspaceConfig.syncIntervalHelp":
+    "The interval in seconds when the synchronization should happen.",
+  "googleWorkspaceConfig.secondsSuffix": "Seconds",
+
+  // ── Agent Network / AI Provider ──────────────────────────────────
+  // Notifications (AIProvidersProvider)
+  "aiProvider.notify.providerConnected.title": "AI provider connected",
+  "aiProvider.notify.providerConnected.description":
+    "{name} is now available on your agent network endpoint.",
+  "aiProvider.notify.providerConnectFailed.title": "Failed to connect provider",
+  "aiProvider.notify.providerUpdated.title": "Provider updated",
+  "aiProvider.notify.settingsSaved": "Settings saved.",
+  "aiProvider.notify.providerUpdateFailed.title": "Failed to update provider",
+  "aiProvider.notify.providerRemoved.title": "Provider removed",
+  "aiProvider.notify.providerRemoved.description":
+    "Endpoint will be torn down on next mapping update.",
+  "aiProvider.notify.providerRemoveFailed.title": "Failed to remove provider",
+  "aiProvider.notify.policyCreated.title": "Policy created",
+  "aiProvider.notify.policyCreated.description": "{name} is now active.",
+  "aiProvider.notify.policyCreateFailed.title": "Failed to create policy",
+  "aiProvider.notify.policyUpdated.title": "Policy updated",
+  "aiProvider.notify.policyUpdateFailed.title": "Failed to update policy",
+  "aiProvider.notify.policyRemoved.title": "Policy removed",
+  "aiProvider.notify.policyRemoved.description": "Policy deleted.",
+  "aiProvider.notify.policyRemoveFailed.title": "Failed to remove policy",
+  "aiProvider.notify.guardrailCreated.title": "Guardrail created",
+  "aiProvider.notify.guardrail_created.description":
+    "{name} can now be attached to policies.",
+  "aiProvider.notify.guardrailCreateFailed.title": "Failed to create guardrail",
+  "aiProvider.notify.guardrailUpdated.title": "Guardrail updated",
+  "aiProvider.notify.guardrailUpdateFailed.title": "Failed to update guardrail",
+  "aiProvider.notify.guardrailRemoved.title": "Guardrail removed",
+  "aiProvider.notify.guardrailRemoved.description":
+    "Existing policies still reference this guardrail until you detach it.",
+  "aiProvider.notify.guardrailRemoveFailed.title": "Failed to remove guardrail",
+  "aiProvider.notify.budgetRuleCreated.title": "Global limit created",
+  "aiProvider.notify.budgetRuleCreated.description": "{name} is now active.",
+  "aiProvider.notify.budgetRuleCreateFailed.title":
+    "Failed to create global limit",
+  "aiProvider.notify.budgetRuleUpdated.title": "Global limit updated",
+  "aiProvider.notify.budgetRuleUpdateFailed.title":
+    "Failed to update global limit",
+  "aiProvider.notify.budgetRuleRemoved.title": "Global limit removed",
+  "aiProvider.notify.budgetRuleRemoved.description": "Global limit deleted.",
+  "aiProvider.notify.budgetRuleRemoveFailed.title":
+    "Failed to remove global limit",
+  "aiProvider.notify.bootstrapFailed.title":
+    "Failed to set up the agent network endpoint",
+  "aiProvider.notify.accountControlsUpdateFailed.title":
+    "Failed to update account controls",
+  "aiProvider.notify.accountControlsNotBootstrapped":
+    "Agent Network has not been set up yet.",
+  "aiProvider.notify.accountControlsUpdated.title": "Account controls updated",
+  // Modal – header / tabs / footer
+  "aiProvider.modal.editTitle": "Edit Provider",
+  "aiProvider.modal.connectTitle": "Connect Provider",
+  "aiProvider.modal.editDescription": "Update this provider's configuration.",
+  "aiProvider.modal.connectDescription":
+    "Connect an AI model provider or gateway to your Agent Network.",
+  "aiProvider.modal.tabProvider": "Provider",
+  "aiProvider.modal.tabModels": "Models",
+  "aiProvider.modal.tabMappings": "Mappings",
+  "aiProvider.modal.noClustersAvailablePrefix":
+    "No active proxy clusters are available. Connect at least one proxy under",
+  "aiProvider.modal.noClustersAvailableSuffix": "before adding a provider.",
+  // Modal – Provider tab form fields
+  "aiProvider.modal.providerLabel": "Provider",
+  "aiProvider.modal.providerHelpText":
+    "API provider to expose through NetBird.",
+  "aiProvider.modal.searchProviders": "Search providers...",
+  "aiProvider.modal.selectProvider": "Select provider...",
+  "aiProvider.modal.upstreamUrlLabel": "Upstream URL",
+  "aiProvider.modal.upstreamUrlHelp.bifrost":
+    "Your Bifrost host. Optionally append a path like /openai for OpenAI-shaped apps or /anthropic for the native Anthropic Messages API so the prefix is built into the endpoint and your apps don't need to include it on every call.",
+  "aiProvider.modal.upstreamUrlHelp.cloudflare_ai_gateway":
+    "Your Cloudflare AI Gateway URL including the upstream provider slug (/openai, /anthropic, /workers-ai, …) so the proxy can dispatch to the correct parser. The /compat universal endpoint also works for OpenAI-shaped apps that route to multiple upstreams via the model prefix.",
+  "aiProvider.modal.upstreamUrlHelp.vercel_ai_gateway":
+    "Vercel AI Gateway uses a fixed endpoint; only the API key varies by operator. Apps choose the upstream provider with the model prefix, e.g. openai/gpt-5.4 or anthropic/claude-opus-4.6.",
+  "aiProvider.modal.upstreamUrlHelp.openrouter":
+    "OpenRouter uses a fixed endpoint, openrouter.ai/api/v1; apps choose the upstream provider via the model prefix, e.g. anthropic/claude-* or openai/gpt-*.",
+  "aiProvider.modal.upstreamUrlHelp.vllm":
+    "Your local vLLM server's OpenAI-compatible base URL.",
+  "aiProvider.modal.upstreamUrlHelp.default":
+    "Where NetBird forwards the traffic.",
+  "aiProvider.modal.upstreamUrlPlaceholder.bifrost":
+    "https://your-bifrost-host/openai",
+  "aiProvider.modal.upstreamUrlPlaceholder.cloudflare_ai_gateway":
+    "https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/openai",
+  "aiProvider.modal.upstreamUrlPlaceholder.vercel_ai_gateway":
+    "https://ai-gateway.vercel.sh",
+  "aiProvider.modal.upstreamUrlPlaceholder.vertex_ai_api":
+    "https://aiplatform.googleapis.com",
+  "aiProvider.modal.upstreamUrlPlaceholder.openrouter":
+    "https://openrouter.ai/api/v1",
+  "aiProvider.modal.upstreamUrlPlaceholder.litellm_proxy":
+    "https://your-litellm-host",
+  "aiProvider.modal.upstreamUrlPlaceholder.portkey": "https://api.portkey.ai",
+  "aiProvider.modal.upstreamUrlPlaceholder.vllm": "https://your-vllm-host:8000",
+  "aiProvider.modal.upstreamUrlPlaceholder.kimi_api": "https://api.moonshot.ai",
+  "aiProvider.modal.upstreamUrlPlaceholder.custom": "https://your-llm-host",
+  "aiProvider.modal.upstreamUrlPlaceholder.default": "https://api.openai.com",
+  "aiProvider.modal.kimiUpstreamUrlTooltip":
+    "Moonshot AI's international platform endpoint. Keep the bare host. Moonshot serves both API shapes with the same key: the path an agent calls rides through to Moonshot, so its base URL picks the shape (Claude Code appends /anthropic; Kimi CLI and OpenAI shaped callers use the bare endpoint). Mainland China accounts use api.moonshot.cn instead.",
+  "aiProvider.modal.skipTlsLabel": "Skip TLS Verification",
+  "aiProvider.modal.skipTlsHelp":
+    "Disable upstream TLS certificate validation.",
+  "aiProvider.modal.skipTlsTooltip":
+    "Skips certificate validation on requests to this provider. Useful for quick testing against endpoints with self-signed certificates. For production we recommend mounting trusted certificates on your proxy instances instead.",
+  "aiProvider.modal.jsonKeyLabel": "Service account JSON key",
+  "aiProvider.modal.jsonKeyTooltipPrefix":
+    "Upload the Vertex AI service account JSON key. NetBird base64-encodes it and prefixes it with",
+  "aiProvider.modal.jsonKeyTooltipSuffix":
+    "before injecting it on every upstream request, so agents never see the key.",
+  "aiProvider.modal.jsonKeyHelp": "Upload the service account JSON key file.",
+  "aiProvider.modal.replaceJsonKey": "Replace JSON key",
+  "aiProvider.modal.uploadJsonKey": "Upload JSON key",
+  "aiProvider.modal.keyAlreadyStored": "A key is already stored",
+  "aiProvider.modal.noFileSelected": "No file selected",
+  "aiProvider.modal.apiKeyLabel": "Provider API key",
+  "aiProvider.modal.apiKeyTooltipPrefix": "NetBird injects it as",
+  "aiProvider.modal.apiKeyTooltipSuffix":
+    "on every upstream request, so agents never see the key.",
+  "aiProvider.modal.apiKeyHelp": "The API key issued by the provider.",
+  "aiProvider.modal.apiKeyPlaceholder": "Paste your API key",
+  "aiProvider.modal.displayNameLabel": "Display name",
+  "aiProvider.modal.displayNameHelp": "Shown in the Agent Network table.",
+  "aiProvider.modal.displayNamePlaceholder": "e.g. OpenAI",
+  // Extra header UI (catalog-declared extra headers)
+  "aiProvider.modal.extraHeader.portkeyConfig.label": "Portkey Config ID",
+  "aiProvider.modal.extraHeader.portkeyConfig.helpText":
+    "Saved Portkey config (pc-...).",
+  "aiProvider.modal.extraHeader.portkeyConfig.tooltip":
+    "Encapsulates upstream provider + virtual key on Portkey's hosted side. Stamped on every request as x-portkey-config: <id>. Leave blank if your callers author @org/model in the request body instead.",
+  "aiProvider.modal.extraHeader.portkeyConfig.placeholder": "pc-...",
+  "aiProvider.modal.extraHeader.httpReferer.label": "App URL",
+  "aiProvider.modal.extraHeader.httpReferer.helpText":
+    "Your app's URL — OpenRouter's primary app identifier.",
+  "aiProvider.modal.extraHeader.httpReferer.tooltip":
+    "Stamped on every request as HTTP-Referer. OpenRouter creates a per-app page from this URL and uses it as the primary identifier in their public rankings and per-app analytics. Leave blank to skip; requests still flow but won't attribute to any app on OpenRouter's side.",
+  "aiProvider.modal.extraHeader.httpReferer.placeholder":
+    "https://your-app.example",
+  "aiProvider.modal.extraHeader.openrouterTitle.label": "App display name",
+  "aiProvider.modal.extraHeader.openrouterTitle.helpText":
+    "Human-readable app name shown in OpenRouter's rankings.",
+  "aiProvider.modal.extraHeader.openrouterTitle.tooltip":
+    "Stamped on every request as X-OpenRouter-Title. Sets the display name of your app in OpenRouter's public rankings and analytics. Requires HTTP-Referer to be set too — without it, X-OpenRouter-Title is ignored.",
+  "aiProvider.modal.extraHeader.openrouterTitle.placeholder": "Your App Name",
+  // Modal – Mappings tab (shared)
+  "aiProvider.modal.forwardIdentityMetadata": "Forward Identity Metadata",
+  "aiProvider.modal.identityMappingsLabel": "Identity Mappings",
+  "aiProvider.modal.identityHeadersLabel": "Identity Headers",
+  "aiProvider.modal.identityMetadataLabel": "Identity Metadata",
+  "aiProvider.modal.identityAttributionLabel": "Identity Attribution",
+  "aiProvider.modal.userEmail": "User Email",
+  "aiProvider.modal.groups": "Groups",
+  "aiProvider.modal.groupsCsv": "Groups (CSV)",
+  // LiteLLM mappings
+  "aiProvider.modal.litellm.mappingsHelpPrefix": "Groups are written into",
+  "aiProvider.modal.litellm.mappingsHelpInfix":
+    "in the JSON body so LiteLLM can enforce tag budgets and rate limits. The user identity is sent in the",
+  "aiProvider.modal.litellm.mappingsHelpHeader":
+    "header. The proxy strips any client-supplied value first, so an app can't spoof identity. The configured API key must be a LiteLLM virtual key with",
+  "aiProvider.modal.litellm.mappingsHelpSuffix":
+    ", or LiteLLM silently drops these tags.",
+  "aiProvider.modal.litellm.stampHelp":
+    "Stamp the identity mappings below onto LiteLLM requests.",
+  // Bifrost mappings
+  "aiProvider.modal.bifrost.headersHelp":
+    "Pick which wire headers carry the caller's identity on every upstream request. The proxy strips any client-supplied value first, so an app can't spoof identity. Leave a field empty to disable stamping for that dimension. The defaults shown as placeholders use the",
+  "aiProvider.modal.bifrost.headersHelpFamily":
+    "family (Prometheus / OTEL — requires a matching declaration in your gateway's",
+  "aiProvider.modal.bifrost.headersHelpConfig": "config). Switch to",
+  "aiProvider.modal.bifrost.headersHelpLogMetadata":
+    "to use Bifrost's always-on log-metadata path instead — no gateway-side config needed there.",
+  "aiProvider.modal.bifrost.userIdentityHeaderLabel": "User identity header",
+  "aiProvider.modal.bifrost.userIdentityHeaderHelp":
+    "Wire header name receiving the caller's user email (or peer name when unlinked). Leave empty to skip.",
+  "aiProvider.modal.bifrost.groupsHeaderLabel": "Groups header",
+  "aiProvider.modal.bifrost.groupsHeaderHelp":
+    "Wire header name receiving the caller's NetBird groups as a comma-separated list. Leave empty to skip.",
+  // Cloudflare JSON metadata mappings
+  "aiProvider.modal.cloudflare.metadataHelpPrefix":
+    "NetBird stamps a JSON object onto the",
+  "aiProvider.modal.cloudflare.metadataHelpInfix":
+    "header with the caller's identity so the gateway's logs and analytics key off the real user, not whichever app process happens to hold the API token. Pick the JSON key names that match your existing log filters; leave a field empty to omit that key from the JSON. The proxy strips any client-supplied value first, so an app can't spoof identity.",
+  "aiProvider.modal.cloudflare.userIdentityKeyLabel": "User identity key",
+  "aiProvider.modal.cloudflare.userIdentityKeyHelp":
+    "JSON key receiving the caller's user email (or peer name when unlinked). Leave empty to skip.",
+  "aiProvider.modal.cloudflare.groupsKeyLabel": "Groups key",
+  "aiProvider.modal.cloudflare.groupsKeyHelp":
+    "JSON key receiving the caller's NetBird groups as a comma-separated string. Leave empty to skip.",
+  // Portkey mappings
+  "aiProvider.modal.portkey.metadataHelpPrefix": "NetBird stamps the",
+  "aiProvider.modal.portkey.metadataHelpSuffix":
+    "header with a JSON object so Portkey's analytics and budgets key off the real caller. The proxy strips any client-supplied value first, so an app can't spoof identity. Per Portkey's 128-character cap each value is truncated when needed. The mapping is fixed in this release.",
+  // Bedrock mappings
+  "aiProvider.modal.bedrock.stampHelp":
+    "Stamp the identity metadata below onto Bedrock requests.",
+  "aiProvider.modal.bedrock.metadataHelpPrefix":
+    "NetBird stamps the caller's identity into the",
+  "aiProvider.modal.bedrock.metadataHelpSuffix":
+    "header, so you can break Bedrock spend down by user and group. Client-supplied values are stripped and sanitized.",
+  // Vercel mappings
+  "aiProvider.modal.vercel.headersHelpPrefix":
+    "NetBird stamps the user identity and group list onto",
+  "aiProvider.modal.vercel.headersHelpAnd": "and",
+  "aiProvider.modal.vercel.headersHelpInfix":
+    "on every upstream request. Vercel groups its Custom Reporting API by these dimensions (",
+  "aiProvider.modal.vercel.headersHelpSuffix":
+    "). Header names are fixed by Vercel's API contract — renaming would silently disable attribution. The proxy strips any client-supplied value first.",
+  "aiProvider.modal.vercel.caveatsBold": "Caveats:",
+  "aiProvider.modal.vercel.caveats":
+    "Vercel caps tags at 10 per request (each 1–64 chars) and the user value at 256 chars. Members of more than 10 groups will see Vercel reject the request with HTTP 400 — re-scope group memberships if you hit it. Vercel charges $0.075 per 1,000 unique user/tag values written; budget accordingly for high-cardinality use cases.",
+  // OpenRouter mappings
+  "aiProvider.modal.openrouter.attributionHelpPrefix":
+    "NetBird stamps the caller's user identity onto the request body's",
+  "aiProvider.modal.openrouter.attributionHelpSuffix":
+    "field — that's the OpenAI-standard field OpenRouter consults for per-user analytics. The proxy overwrites any client-supplied value first, so an app can't spoof identity.",
+  "aiProvider.modal.openrouter.noGroupsBold": "No groups dimension.",
+  "aiProvider.modal.openrouter.noGroups":
+    "OpenRouter does not document a per-request tag, label, or team field — only per-user identity. NetBird's group memberships are not propagated to OpenRouter; if you need per-group attribution, query NetBird's own access log instead of OpenRouter's analytics.",
+  "aiProvider.modal.openrouter.appBrandingBold": "App branding",
+  "aiProvider.modal.openrouter.appBranding":
+    "(HTTP-Referer + X-OpenRouter-Title) is set per-provider on the Provider tab, not per-request. Operators who fill those in get their app surfaced on OpenRouter's public rankings and per-app analytics.",
+  // Modal – Models tab
+  "aiProvider.modal.modelsLabel": "Models",
+  "aiProvider.modal.modelsHelp":
+    "Models exposed through this endpoint, with the per-1k input/output prices used for cost tracking. Empty = all catalog models allowed at catalog prices. Cache rates left empty fall back to NetBird's defaults for the model; 0 bills cached tokens at the input rate.",
+  "aiProvider.modal.addMore": "Add More",
+  "aiProvider.modal.learnMoreAbout": "Learn more about",
+  "aiProvider.modal.agentNetworkProviders": "Agent Network Providers",
+  "aiProvider.modal.connectProvider": "Connect Provider",
+  // Model row editor
+  "aiProvider.modal.modelLabel": "Model",
+  "aiProvider.modal.selectModel": "Select a model...",
+  "aiProvider.modal.customModel": "Custom model…",
+  "aiProvider.modal.inputPer1k": "Input $/1k",
+  "aiProvider.modal.outputPer1k": "Output $/1k",
+  "aiProvider.modal.cachePricing": "Cache pricing",
+  "aiProvider.modal.cacheCustom": "· custom",
+  "aiProvider.modal.cacheDefault": "· default",
+  "aiProvider.modal.cachedInputPer1k": "Cached input $/1k",
+  "aiProvider.modal.cacheReadPer1k": "Cache read $/1k",
+  "aiProvider.modal.cacheWritePer1k": "Cache write $/1k",
+  "aiProvider.modal.defaultPlaceholder": "default",
+  "aiProvider.modal.pickFromCatalog": "Pick from catalog instead",
+  // Provider option groups
+  "aiProvider.modal.groupGateways": "AI Gateways",
+  "aiProvider.modal.groupProviders": "AI Providers",
+  "aiProvider.modal.groupOther": "Other",
+  // Deny reasons (mockData.ts)
+  "aiProvider.denyReason.modelNotAvailable": "Model not available",
+  "aiProvider.denyReason.noAuthorizedProvider": "No authorized provider",
+  "aiProvider.denyReason.modelNotAllowed": "Model not allowed",
+  "aiProvider.denyReason.limitExceeded": "Limit exceeded",
+  "aiProvider.denyReason.tokenLimitExceeded": "Token limit exceeded",
+  "aiProvider.denyReason.budgetLimitExceeded": "Budget limit exceeded",
+  "aiProvider.denyReason.accountPrefix": "Account",
+  // FirewallGPT – Loader messages
+  "firewallGpt.loader.identifyNodes.loading":
+    "Identifying and gathering nodes associated with your account to tailor the access control rules precisely for your network",
+  "firewallGpt.loader.identifyNodes.success": "Nodes successfully identified",
+  "firewallGpt.loader.findGroups.loading":
+    "Finding and analyzing the best groups for your rules by examining existing groups on each machine and creating new ones as needed",
+  "firewallGpt.loader.findGroups.success": "Groups successfully identified",
+  "firewallGpt.loader.postureChecks.loading":
+    "Verifying and setting up device posture checks to ensure compliance with your access control rules",
+  "firewallGpt.loader.postureChecks.success":
+    "Posture checks successfully identified",
+  "firewallGpt.loader.gettingReady.loading":
+    "Getting things ready... We're configuring your settings and preparing your environment. Thank you for your patience!",
+  "firewallGpt.loader.gettingReady.success": "Settings successfully prepared",
+  "firewallGpt.loader.almostThere.loading":
+    "Almost there... Your access control policy is now loading, and we're performing final checks to ensure everything is perfect!",
+  "firewallGpt.loader.almostThere.success": "Access control policy loaded",
+  "firewallGpt.loader.takingLonger.loading":
+    "This is taking longer than usual, but we are on it! Finalizing the details and ensuring a smooth start. We appreciate your patience and understanding!",
+  // FirewallGPT – Example cards
+  "firewallGpt.exampleCards.sshAccess.title": "SSH Access for Developers",
+  "firewallGpt.exampleCards.sshAccess.description":
+    "Connect developers on Windows and Macs from Germany to production servers via SSH",
+  "firewallGpt.exampleCards.rdpAccess.title": "RDP Access for IT Support",
+  "firewallGpt.exampleCards.rdpAccess.description":
+    "Connect IT Support users to staff workstations via RDP",
+  "firewallGpt.exampleCards.databaseAccess.title": "Database Access for Admins",
+  "firewallGpt.exampleCards.databaseAccess.description":
+    "Allow access for IT Admins to production PostgreSQL databases",
+  "firewallGpt.exampleCards.cloudAccess.title": "Cloud to On-Prem Access",
+  "firewallGpt.exampleCards.cloudAccess.description":
+    "Connect web servers running in the cloud to on premises databases",
+  "agentAccessLog.column.time": "Time",
+  "agentAccessLog.column.userAgent": "User / Agent",
+  "agentAccessLog.column.authGroup": "Auth Group",
+  "agentAccessLog.column.provider": "Provider",
+  "agentAccessLog.column.tokens": "Tokens",
+  "agentAccessLog.column.cost": "Cost",
+  "agentAccessLog.column.reason": "Reason",
+  "agentAccessLog.column.activity": "Activity",
+  "agentAccessLog.column.requests": "Requests",
+  "agentAccessLog.filter.date": "Date",
+  "agentAccessLog.filter.user": "User",
+  "agentAccessLog.filter.provider": "Provider",
+  "agentAccessLog.filter.model": "Model",
+  "agentAccessLog.filter.path": "Path",
+  "agentAccessLog.pathPlaceholder": "e.g. /v1/chat/completions",
+  "agentAccessLog.searchPlaceholder": "Search by user, agent, model, prompt…",
+  "agentAccessLog.requests": "Requests",
+  "agentAccessLog.sessions": "Sessions",
+  "agentAccessLog.emptyTitle": "No Access Log Entries Yet",
+  "agentAccessLog.emptyDescription":
+    "No agent-network requests detected yet. This may be because no AI providers are connected, policies don't allow traffic to them, log collection is disabled, or no traffic has occurred.",
+  "agentAccessLog.agentNetwork": "Agent Network",
+  "agentAccessLog.userGroupsLabel": "User Groups",
+  "agentAccessLog.userGroupsDescription":
+    "Groups the user belonged to at the time of the request.",
+  "agentAccessLog.agent": "Agent",
+  "agentAccessLog.policyAllowed": "This policy allowed the request",
+  "agentAccessLog.tokenInput": "input",
+  "agentAccessLog.tokenOutput": "output",
+  "agentAccessLog.cacheRead": "cache read",
+  "agentAccessLog.cacheWrite": "cache write",
+  "agentAccessLog.total": "total",
+  "agentAccessLog.inputLabel": "Input:",
+  "agentAccessLog.outputLabel": "Output:",
+  "agentAccessLog.inputOutput": "input + output",
+  "agentAccessLog.cache": "cache",
+  "agentAccessLog.modelsCount": "{count} models",
+  "agentAccessLog.overDuration": "over {duration}",
+  "agentAccessLog.requestsInSession": "{count} requests in this session",
+  "agentAccessLog.requestInSession": "1 request in this session",
+  "agentAccessLog.failed": "Failed",
+  "agentAccessLog.tokensUnit": "tokens",
+  "agentPolicies.column.groups": "Groups",
+  "agentPolicies.column.provider": "Provider",
+  "agentPolicies.column.limits": "Limits",
+  "agentPolicies.filter.groups": "Groups",
+  "agentPolicies.filter.providers": "Providers",
+  "agentPolicies.searchPlaceholder": "Search by name or description...",
+  "agentPolicies.policies": "Policies",
+  "agentPolicies.emptyTitle": "Create your first policy",
+  "agentPolicies.emptyDescription":
+    "Policies connect user and agent groups to AI providers, with optional token and budget limits and guardrails for model access and prompt capture.",
+  "agentPolicies.addPolicy": "Add Policy",
+  "agentPolicies.agentNetwork": "Agent Network",
+  "agentPolicies.sourceGroups": "Source Groups",
+  "agentPolicies.sourceGroupsDescription":
+    "Members of these groups are allowed to call the destination providers.",
+  "agentPolicies.addLimit": "Add Limit",
+  "agentPolicies.tokenLimit": "Token Limit",
+  "agentPolicies.groupCap": "Group:",
+  "agentPolicies.individualCap": "Individual:",
+  "agentPolicies.resetsEvery": "Resets every {window}",
+  "agentPolicies.budgetLimit": "Budget Limit",
+  "agentPolicies.editPolicy": "Edit Policy",
+  "agentPolicies.deleteConfirmTitle": "Delete '{name}'?",
+  "agentPolicies.deleteConfirmDescription":
+    "Are you sure you want to delete this policy? This action cannot be undone.",
+  "agentPolicies.minute": "{count} minute",
+  "agentPolicies.minutes": "{count} minutes",
+  "agentPolicies.hour": "{count} hour",
+  "agentPolicies.hours": "{count} hours",
+  "agentPolicies.day": "{count} day",
+  "agentPolicies.days": "{count} days",
+  "agentPolicies.dayHours": "{days}d {hours}h",
+  "postureChecks.columnName": "Name",
+  "postureChecks.columnPolicies": "Policies",
+  "postureChecks.tableText": "Posture Check",
+  "settings.dangerZoneTitle": "Danger Zone",
+  "settings.deleteAccountTitle": "Delete NetBird account",
+  "settings.deleteAccountDescription":
+    "Before proceeding to delete your Netbird account, please be aware that this action is irreversible. Once your account is deleted, you will permanently lose access to all associated data, including your peers, users, groups, policies, and routes.",
+  "settings.deleteAccountButton": "Delete Account",
+  "settings.deleteAccountConfirmDescription":
+    "Are you sure you want to delete your NetBird account? This action cannot be undone.",
+  "settings.deleteAccountSuccessDescription":
+    "NetBird account was successfully deleted.",
+  "settings.deleteAccountLoadingMessage": "Deleting the account...",
+  "agentConnect.title": "Configure Your Agent",
+  "agentConnect.description":
+    "Point your agent at the NetBird endpoint as its base URL. No provider API key is needed on the client. NetBird authorizes the request against your policies and injects the upstream key.",
+  "agentConnect.addToConfig": "Add to {path}:",
+  "agentConnect.runInShell": "Run in your shell:",
+  "agentConnect.shellMode": "Shell",
+  "agentConnect.jsonMode": "JSON",
+  "agentConnect.kimiPairsDescription":
+    "Pairs with a Kimi provider keeping the default upstream URL {url}. The {suffix} suffix in the base URL rides through the endpoint to Moonshot, which serves the Anthropic Messages API under that path.",
+  "agentConnect.kimiCliPairsDescription":
+    "Pairs with a Kimi provider keeping the default upstream URL {url}. For the OpenAI shape instead, use {typeValue} with {baseUrlValue}.",
+  "agentNetwork.accountWide": "Account-wide",
+  "agentNetwork.targetGroups": "Target Groups",
+  "agentNetwork.targetGroupsDescription":
+    "This limit applies to members of these groups.",
+  "agentNetwork.targetUsers": "Target Users",
+  "agentNetwork.tokenLimit": "Token Limit",
+  "agentNetwork.budgetLimit": "Budget Limit",
+  "agentNetwork.group": "Group",
+  "agentNetwork.individual": "Individual",
+  "agentNetwork.resetsEvery": "Resets every",
+  "agentNetwork.tokenCap": "Token Cap",
+  "agentNetwork.budgetCap": "Budget Cap",
+  "agentNetwork.updated": "Updated",
+  "agentNetwork.editRule": "Edit Rule",
+  "agentNetwork.deleteRuleTitle": "Delete '{name}'?",
+  "agentNetwork.deleteRuleDescription":
+    "Are you sure you want to delete this global limit? This action cannot be undone.",
+  "agentNetwork.globalLimits": "Global Limits",
+  "agentNetwork.searchGlobalLimits": "Search global limits by name...",
+  "agentNetwork.setGlobalLimit": "Set a Global Limit",
+  "agentNetwork.globalLimitsDescription":
+    "Global limits cap token usage and spend across every policy. Apply a limit account-wide, or scope it to specific groups or users.",
+  "agentNetwork.addGlobalLimit": "Add Global Limit",
+  "agentNetwork.agentNetwork": "Agent Network",
+  "agentNetwork.request": "Request",
+  "agentNetwork.sessionId": "Session ID",
+  "agentNetwork.sessionIdTooltip":
+    "The provider-side session this request belongs to. A single user can make several separate calls that the provider groups under the same session id.",
+  "agentNetwork.reason": "Reason",
+  "agentNetwork.requestDeniedWithReason": "Request denied: {reason}",
+  "agentNetwork.requestDeniedByPolicy": "Request denied by policy.",
+  "agentNetwork.prompt": "Prompt",
+  "agentNetwork.completion": "Completion",
+  "agentNetwork.noResponseCaptured": "No response captured.",
+  "agentNetwork.promptAndResponse": "Prompt & Response",
+  "agentNetwork.noPromptOrResponseCaptured":
+    "No prompt or response captured for this request — only metadata is recorded for non-completion calls (e.g. listing models) or when prompt collection is off.",
+  "agentNetwork.metadata": "Metadata",
+  "agentNetwork.policiesDescription":
+    "Bind IdP groups to providers: Engineering gets Claude, Finance doesn't. Enforce token limits, budgets, and guardrails.",
+  "agentNetwork.apiBaseUrl": "API Base URL",
+  "agentNetwork.apiBaseUrlTooltip1":
+    "Use this URL as the base URL when configuring your AI agents or LLM SDK clients (e.g. OpenAI's",
+  "agentNetwork.apiBaseUrlTooltip2": ", Anthropic's",
+  "agentNetwork.apiBaseUrlTooltip3":
+    ", or any HTTP client). Calls hit NetBird first, get authorised by your policies, and only then reach the upstream provider.",
+  "agentNetwork.copyEndpoint": "Copy endpoint",
+  "agentNetwork.copy": "Copy",
+  "agentNetwork.agentConfig": "Agent Config",
+  "agentNetwork.connectFirstProvider":
+    "Connect your first provider to set up your agent network endpoint.",
+  "agentNetwork.providersDescription1":
+    "Connect AI providers and gateways like LiteLLM, OpenAI, and Anthropic through one keyless endpoint, accessible only via NetBird's tunnel.",
+  "agentNetwork.logCollection": "Log Collection",
+  "agentNetwork.enableLogCollection": "Enable Log Collection",
+  "agentNetwork.enableLogCollectionHelp":
+    "Persist access log entries for every agent-network request.",
+  "agentNetwork.retentionPeriod": "Retention Period",
+  "agentNetwork.retentionPeriodHelp":
+    "How long access logs are kept before they're deleted. Usage history is kept separately.",
+  "agentNetwork.selectRetention": "Select retention...",
+  "agentNetwork.enablePromptCollection": "Enable Prompt Collection",
+  "agentNetwork.enablePromptCollectionHelp":
+    "Capture prompt and completion bodies. A policy guardrail must also be enabled.",
+  "agentNetwork.retention.7days": "7 days",
+  "agentNetwork.retention.14days": "14 days",
+  "agentNetwork.retention.30days": "30 days",
+  "agentNetwork.retention.60days": "60 days",
+  "agentNetwork.retention.90days": "90 days",
+  "agentNetwork.retention.indefinite": "Indefinite",
+  "agentNetwork.updateGlobalLimit": "Update Global Limit",
+  "agentNetwork.createGlobalLimit": "Create Global Limit",
+  "agentNetwork.globalLimitModalDescription":
+    "Account-level token and budget caps. Apply account-wide or scope to specific groups or users.",
+  "agentNetwork.tabRule": "Rule",
+  "agentNetwork.tabLimits": "Limits",
+  "agentNetwork.nameOfGlobalLimit": "Name of the Global Limit",
+  "agentNetwork.nameOfGlobalLimitHelp":
+    "Set an easily identifiable name for this limit.",
+  "agentNetwork.nameOfGlobalLimitPlaceholder": "e.g. Account-wide monthly cap",
+  "agentNetwork.targetGroupsTooltip":
+    "Restrict this rule to members of the selected groups. Leave empty (and no users) to apply account-wide.",
+  "agentNetwork.all": "All",
+  "agentNetwork.selectTargetGroups": "Select target group(s)...",
+  "agentNetwork.targetUsersTooltip":
+    "Restrict this rule to specific users. Leave empty (and no groups) to apply account-wide.",
+  "agentNetwork.accountWideNote": "With no targets selected, this rule applies",
+  "agentNetwork.accountWideHighlight": "account-wide",
+  "agentNetwork.accountWideNoteSuffix":
+    "— every agent-network request is counted against its caps.",
+  "agentNetwork.saveGlobalLimit": "Save Global Limit",
+  "agentNetwork.addGlobalLimitButton": "Add Global Limit",
+  "agentNetwork.selectUsers": "Select user(s)...",
+  "agentNetwork.searchUsers": "Search users...",
+  "agentNetwork.noUsersMatch": "No users match.",
+  "agentNetwork.updateGuardrail": "Update Guardrail",
+  "agentNetwork.createGuardrail": "Create Guardrail",
+  "agentNetwork.guardrailModalDescription":
+    "Define a reusable set of LLM guardrails to attach to one or more policies.",
+  "agentNetwork.tabChecks": "Checks",
+  "agentNetwork.tabNameAndDescription": "Name & Description",
+  "agentNetwork.nameOfGuardrail": "Name of the Guardrail",
+  "agentNetwork.nameOfGuardrailHelp":
+    "Set an easily identifiable name for this guardrail set.",
+  "agentNetwork.nameOfGuardrailPlaceholder": "e.g., Strict — Production",
+  "agentNetwork.descriptionOptional": "Description (optional)",
+  "agentNetwork.descriptionOfGuardrailHelp":
+    "Write a short description to add more context to this guardrail.",
+  "agentNetwork.descriptionOfGuardrailPlaceholder":
+    "e.g., Tight model allowlist, PII redaction, hard monthly budget.",
+  "agentNetwork.createGuardrailButton": "Create Guardrail",
+  "agentNetwork.modelAllowlist": "Model Allowlist",
+  "agentNetwork.modelAllowlistDescription":
+    "Block requests for models not on the allowlist.",
+  "agentNetwork.noModelsOnSelectedProviders":
+    "The selected providers don't expose any models yet. Add models to a destination provider first — the allowlist is restricted to what those providers expose.",
+  "agentNetwork.noModelsOnAnyProvider":
+    "No models configured on any provider yet. Add models to a provider first — the allowlist is restricted to what the providers actually expose.",
+  "agentNetwork.promptCapture": "Prompt Capture",
+  "agentNetwork.promptCaptureDescription":
+    "Redact PII before storing the prompt body.",
+  "agentNetwork.promptCaptureDetails":
+    "NetBird redacts emails, SSN-shaped, phone-shaped, and credit-card patterns before storing the prompt body. Enabling this guardrail adds strict redaction on top of the proxy's built-in token redaction.",
+  "agentNetwork.limitSingular": "Limit",
+  "agentNetwork.limitPlural": "Limits",
+  "agentNetwork.limitsTabDescription":
+    "Token and budget caps applied directly to this policy.",
+  "agentNetwork.addTokenLimit": "Add Token Limit",
+  "agentNetwork.addBudgetLimit": "Add Budget Limit",
+  "agentNetwork.limitRowGroup": "Group",
+  "agentNetwork.limitRowIndividual": "Individual",
+  "agentNetwork.limitRowResetsEvery": "resets every",
+  "agentNetwork.editLimit": "Edit Limit",
+  "agentNetwork.detach": "Detach",
+  "agentNetwork.noLimitsYet": "You haven't added any limits yet",
+  "agentNetwork.noLimitsDescription":
+    "Add token or budget caps that apply directly to this policy.",
+  "agentNetwork.tokenLimitModalDescription":
+    "Cap total tokens per group and per individual user over a rolling window.",
+  "agentNetwork.budgetLimitModalDescription":
+    "Cap USD spend per group and per individual user over a rolling window.",
+  "agentNetwork.groupCap": "Group Cap",
+  "agentNetwork.groupCapTooltip":
+    "Caps the group's total consumption within the window. Once reached, every member is blocked until the window resets, regardless of individual usage.",
+  "agentNetwork.groupCapHelp": "Group total within the window.",
+  "agentNetwork.uncappedPlaceholder": "0 = uncapped",
+  "agentNetwork.individualCap": "Individual Cap",
+  "agentNetwork.individualCapTooltip":
+    "Caps each member's own consumption within the window. A user that hits this cap is blocked even when the group still has headroom.",
+  "agentNetwork.individualCapHelp": "Per-user limit within the window.",
+  "agentNetwork.resetWindow": "Reset Window",
+  "agentNetwork.resetWindowHelp":
+    "How often the cap counters reset. Minimum 1 minute.",
+  "agentNetwork.minutes": "Minutes",
+  "agentNetwork.hours": "Hours",
+  "agentNetwork.daysUnit": "Days",
+  "agentNetwork.updateAgentPolicy": "Update Agent Policy",
+  "agentNetwork.createAgentPolicy": "Create Agent Policy",
+  "agentNetwork.agentPolicyDescription":
+    "Govern which groups can call which AI providers and under what guardrails.",
+  "agentNetwork.tabPolicy": "Policy",
+  "agentNetwork.tabGuardrails": "Guardrails",
+  "agentNetwork.source": "Source",
+  "agentNetwork.sourceTooltip":
+    "Group of users this policy authorises to call the destination providers. One group per policy in this release.",
+  "agentNetwork.legacyMultipleSourceGroupsPrefix":
+    "This policy was created with multiple source groups. Only the first group is kept on save —",
+  "agentNetwork.legacyMultipleSourceGroupsSuffix":
+    "will be retained, the others removed.",
+  "agentNetwork.provider": "Provider",
+  "agentNetwork.providerTooltip":
+    "AI providers the source is allowed to reach.",
+  "agentNetwork.nameOfPolicy": "Name of the Policy",
+  "agentNetwork.nameOfPolicyHelp":
+    "Set an easily identifiable name for your policy.",
+  "agentNetwork.nameOfPolicyPlaceholder": "e.g. Engineering → OpenAI",
+  "agentNetwork.descriptionOfPolicyHelp":
+    "Write a short description to add more context to this policy.",
+  "agentNetwork.descriptionOfPolicyPlaceholder":
+    "e.g., Engineers can call OpenAI under production guardrails.",
+  "agentNetwork.addPolicy": "Add Policy",
+  "agentNetwork.selectSourceGroups": "Select source group(s)...",
+  "agentNetwork.selectProviders": "Select provider(s)...",
+  "agentNetwork.noProvidersConnected": "No providers connected yet.",
+  "userRoles.transferOwnershipDescription1": "This action will transfer the",
+  "userRoles.transferOwnershipDescription2": "role to",
+  "userRoles.transferOwnershipDescription3": "and leave you with the",
+  "userRoles.transferOwnershipDescription4":
+    "role. This action can only be undone if the new owner transfers the role back to you.",
+  "userStatus.disabled": "Disabled",
+  "userStatus.pending": "Pending",
+  "userStatus.blocked": "Blocked",
+  "userStatus.invited": "Invited",
+  "userStatus.active": "Active",
+  "userStatus.localAuthDisabledTooltip1":
+    "Local authentication is disabled. This user can no longer log in. Use your IdP for authentication.",
+  "userStatus.invitedTooltip":
+    "This user was invited but has not accepted the invitation yet. Use the Resend button to send another invitation email.",
+  "userStatus.pendingApprovalTooltip1":
+    "This user needs admin approval before joining your organization. To disable approvals, turn off",
+  "userStatus.userApprovalRequired": "'User Approval Required'",
+  "userStatus.pendingApprovalTooltip2": "in",
+  "networkSettings.title": "Network Settings",
+  "networkSettings.networks": "Networks",
+  "networkSettings.routingPeerDnsResolution": "Routing Peer DNS Resolution",
+  "networkSettings.routingPeerDnsEnabled":
+    "Routing Peer DNS Resolution successfully enabled.",
+  "networkSettings.routingPeerDnsDisabled":
+    "Routing Peer DNS Resolution successfully disabled.",
+  "networkSettings.updatingRoutingPeerDns":
+    "Updating routing peer DNS resolution setting...",
+  "networkSettings.updatedSuccessfully":
+    "Network settings successfully updated.",
+  "networkSettings.invalidDomain":
+    "Please enter a valid domain, e.g. example.com or intra.example.com",
+  "networkSettings.networkRangeEmpty": "Network range cannot be empty",
+  "networkSettings.invalidIpv4Cidr":
+    "Please enter a valid IPv4 CIDR range, e.g. 100.64.0.0/16 or 192.168.1.0/24",
+  "networkSettings.invalidIpv6Cidr":
+    "Please enter a valid IPv6 CIDR range, e.g. fd00:1234::/64",
+  "networkSettings.invalidPrefixLength":
+    "Prefix length must be between /48 and /112",
+  "networkSettings.selectIpv6Groups": "Select groups to enable IPv6...",
+  "networkSettings.enableRoutingPeerDns": "Enable Routing Peer DNS Resolution",
+  "networkSettings.routingPeerDnsHelp":
+    "Resolves DNS for routed domains on the routing peer instead of on the client. Requires NetBird client v0.35 or higher. Changes will only take effect after restarting the clients.",
+  "filters.filter": "Filter",
+  "filters.filtersCount": "Filter(s)",
+  "refresh.cooldownMessage": "You can refresh it again in 5 seconds",
+  "refresh.refresh": "Refresh",
+  "fileUpload.wrongFileType": "You uploaded the wrong file type",
+  "radioCard.optionsAriaLabel": "Options",
+  "peerGroupSelector.searchCluster": "Search cluster...",
+  "peerGroupSelector.policy": "Policy",
+  "peerGroupSelector.policies": "Policies",
+  "common.never": "Never",
+  "users.systemUser": "System User",
+  "team.userInformation": "User Information",
+  "team.serviceUsersPage": "Service Users",
+  "team.usersPage": "Users",
+  "userDetails.accessTokens": "Access Tokens",
+  "userDetails.lastLogin": "Last login",
+  "nav.trafficEvents": "Traffic Events",
+  "events.activityPage": "Activity",
+  "events.trafficEventsPage": "Traffic Events",
+  "auditEvents.description":
+    "Audit configuration changes, access policy updates, and peer registration and login events across your network.",
+  "trafficEvents.description":
+    "Traffic events is an experimental feature. Functionality and behavior may evolve, including changes to how data is collected or reported.",
+  "trafficEvents.inDocumentation": "in our documentation.",
+  "agentOverview.byDay": "by day",
+  "agentOverview.inputOutputDesc": "Input and output tokens per day.",
+  "agentOverview.estimatedSpendDesc": "Estimated spend per day.",
+  "agentOverview.tokens": "Tokens",
+  "agentOverview.cost": "Cost",
+  "agentOverview.inputTokens": "Input Tokens",
+  "agentOverview.outputTokens": "Output Tokens",
+  "agentOverview.totalTokens": "Total Tokens",
+  "agentOverview.days": "Days",
+  "agentOverview.noUsageTitle": "No usage recorded yet",
+  "agentOverview.noUsageDescription":
+    "Daily token and cost totals appear here as agents send requests through the providers you've connected.",
+  "agentOverview.agentNetwork": "Agent Network",
+  "agentOverview.noUsageRange": "No usage in the selected range",
+  "agentOverview.date": "Date",
+  "groupResources.searchPlaceholder": "Search by name, address or group...",
+  "groupResources.emptyTitle": "This group has no assigned resources",
+  "groupResources.emptyDescription":
+    "Assign this group to your resources inside your networks to see them listed here.",
+  "groupResources.goToNetworks": "Go to Networks",
+  "setupNetbirdModal.installOnMacOS": "Install on macOS",
+  "setupNetbirdModal.downloadAndRunInstaller":
+    "Download and run macOS Installer",
+  "setupNetbirdModal.downloadNetBird": "Download NetBird",
+  "setupNetbirdModal.managementUrlInstructions":
+    'Click on "Settings" then "Advanced Settings" from the NetBird icon in your system tray and enter the following "Management URL"',
+  "setupNetbirdModal.openTerminalAndRun": "Open Terminal and run NetBird",
+  "setupNetbirdModal.clickConnect":
+    'Click on "Connect" from the NetBird icon in your system tray',
+  "setupNetbirdModal.signUpEmail": "Sign up using your email address",
+  "setupNetbirdModal.installManuallyTerminal": "Install manually with Terminal",
+  "setupNetbirdModal.runNetBird": "Run NetBird",
+  "setupNetbirdModal.andLogInBrowser": "and log in the browser",
+  "setupNetbirdModal.installManuallyHomebrew": "Install manually with HomeBrew",
+  "setupNetbirdModal.downloadInstallHomebrew": "Download and install HomeBrew",
+  "setupNetbirdModal.homebrewInstallationGuide": "HomeBrew Installation Guide",
+  "setupNetbirdModal.startNetBirdDaemon": "Start NetBird daemon",
+  "rdpCertificate.title": "RDP Certificate Verification",
+  "rdpCertificate.serverPresenting":
+    "The server <strong>{hostname}</strong> is presenting a certificate:",
+  "rdpCertificate.subject": "Subject:",
+  "rdpCertificate.issuer": "Issuer:",
+  "rdpCertificate.serial": "Serial:",
+  "rdpCertificate.sha256": "SHA-256:",
+  "rdpCertificate.trustQuestion": "Do you trust this certificate?",
+  "rdpCertificate.remember": "Remember this certificate for future connections",
+  "rdpCertificate.reject": "Reject",
+  "rdpCertificate.accept": "Accept",
+  "rdpCertificate.unableToParse": "Unable to parse",
+  "rdpCertificate.changedTitle": "⚠️ Certificate has changed!",
+  "rdpCertificate.previousFingerprint": "Previous fingerprint:",
+  "domainVerification.domain": "Domain",
+  "domainVerification.lastCheck": "Last Check",
+  "domainVerification.lastCheckedOn": "Last checked on",
+  "domainVerification.domains": "Domains",
+  "minimalPeers.noAccessiblePeersTitle": "This peer has no accessible peers",
+  "minimalPeers.noAccessiblePeersDescription":
+    "Add more peers to your network or check your access control policies.",
+  "onboarding.agent.welcome.title": "Welcome to Agent Network",
+  "onboarding.agent.welcome.description":
+    "Agent Network is the access-control layer for AI agents. Route LLM requests through one keyless endpoint and give agents scoped access to internal resources, all enforced by your policies.",
+  "onboarding.agent.welcome.getStarted": "Get Started",
+  "onboarding.agent.welcome.keylessTitle": "Keyless access over the tunnel",
+  "onboarding.agent.welcome.keylessDescription":
+    "Agents access LLM providers and internal resources through encrypted WireGuard tunnel, without exposing API keys on the client.",
+  "onboarding.agent.welcome.policyTitle": "Policy-controlled access",
+  "onboarding.agent.welcome.policyDescription":
+    "Every request is authorized against your policies before it reaches a provider, with optional token and budget limits and guardrails.",
+  "onboarding.agent.welcome.usageTitle": "Per-identity usage & logs",
+  "onboarding.agent.welcome.usageDescription":
+    "See who called which model, how many tokens it cost, and whether it was allowed. All attributed to the real caller.",
+  "onboarding.agent.device.title": "Connect your device",
+  "onboarding.agent.device.description":
+    "Agent Network endpoints are private and reachable only over the NetBird overlay. Install the client and sign in to join the network with keyless, encrypted access.",
+  "onboarding.agent.device.connected":
+    "Your device is connected to the network.",
+  "onboarding.agent.device.waiting": "Waiting for your device to connect…",
+  "onboarding.agent.provider.title": "Connect a provider",
+  "onboarding.agent.provider.description":
+    "A provider is an upstream LLM service NetBird routes to, such as OpenAI, Anthropic, or an AI gateway. NetBird stores the API key securely and returns a tunnel-only endpoint.",
+  "onboarding.agent.provider.connectButton": "Connect Provider",
+  "onboarding.agent.provider.connectedSingular": "Provider connected.",
+  "onboarding.agent.provider.connectedPlural": "{count} providers connected.",
+  "onboarding.agent.provider.endpointReady":
+    "Your agent network endpoint is ready.",
+  "onboarding.agent.provider.apiBaseUrl": "API Base URL",
+  "onboarding.agent.provider.endpointCopied": "Endpoint copied to clipboard",
+  "onboarding.agent.provider.copyEndpoint": "Copy endpoint",
+  "onboarding.agent.provider.copy": "Copy",
+  "onboarding.agent.policy.title": "Create a policy",
+  "onboarding.agent.policy.description":
+    "By default Agent Network denies every request. Policies connect source groups, your users or agents, to providers, with optional token and budget limits and guardrails.",
+  "onboarding.agent.policy.createdSingular": "Policy created.",
+  "onboarding.agent.policy.createdPlural": "{count} policies created.",
+  "onboarding.agent.policy.authorized":
+    "Authorized agents can now reach the provider.",
+  "onboarding.agent.policy.addButton": "Add Policy",
+  "onboarding.agent.configure.title": "Configure your agent",
+  "onboarding.agent.configure.description":
+    "Point your agent to the NetBird base URL. No client API key is needed, NetBird authorizes each request and injects the upstream key server side.",
+  "onboarding.agent.configure.noProvider":
+    "Connect a provider to generate your endpoint, then your agent config appears here.",
+  "trafficEventSetting.experimental": "Experimental",
+  "trafficEventSetting.experimentalDescription":
+    "Traffic events is an experimental feature. Functionality and behavior may evolve, including changes to how data is collected or reported. Traffic events data retention is limited to 48 hours and capped at a maximum of 50,000 events.",
+  "trafficEventSetting.enableTrafficEvents": "Enable Traffic Events",
+  "trafficEventSetting.enableTrafficEventsHelp":
+    "Enable traffic events for all peers. This requires NetBird client v0.39 or higher.",
+  "trafficEventSetting.enableTrafficReporting":
+    "Enable Traffic Reporting (Kernel)",
+  "trafficEventSetting.enableTrafficReportingHelp":
+    "Traffic reporting is always enabled in userspace, and this setting only applies to kernel. If enabled, network packets and their size will be counted and reported.",
+  "trafficEventSetting.limitToGroups": "Limit To Specific Groups",
+  "trafficEventSetting.limitToGroupsHelp":
+    "Select peer groups for which traffic events will be logged. If no group is selected, logging applies to all peers.",
+  "trafficEventSetting.saveGroups": "Save Groups",
+  "trafficEventSetting.searchPlaceholder":
+    "Select groups to log traffic events for...",
+  "trafficEventSetting.notifyTitle": "Traffic Events",
+  "trafficEventSetting.enabledSuccess": "Traffic events successfully enabled.",
+  "trafficEventSetting.disabledSuccess":
+    "Traffic events successfully disabled.",
+  "trafficEventSetting.updating": "Updating traffic events setting...",
+  "trafficEventSetting.reportingNotifyTitle": "Traffic Reporting",
+  "trafficEventSetting.reportingEnabledSuccess":
+    "Traffic reporting successfully enabled.",
+  "trafficEventSetting.reportingDisabledSuccess":
+    "Traffic reporting successfully disabled.",
+  "trafficEventSetting.updatingReporting":
+    "Updating traffic reporting setting...",
+  "trafficEventSetting.confirmTitle": "Enable Traffic Reporting (Kernel)?",
+  "trafficEventSetting.confirmDescription":
+    "Note: Enabling this setting will lead to a higher CPU usage than usual on the NetBird client.",
+  "trafficEventSetting.groupsNotifyTitle": "Traffic Events Groups",
+  "trafficEventSetting.groupsUpdatedSuccess":
+    "Traffic events groups successfully updated.",
+  "trafficEventSetting.updatingGroups": "Updating traffic events groups...",
+  "webhook.endpointUrl": "Endpoint URL",
+  "webhook.enterEndpointUrl": "Enter your Endpoint URL",
+  "webhook.urlHelpText":
+    "Full HTTP(S) URL where events will be sent via a POST request.",
+  "webhook.authentication": "Authentication",
+  "webhook.authenticationHelp":
+    "Select your preferred authentication method for the endpoint.",
+  "accessToken.createTitle": "Create Access Token",
+  "accessToken.createDescription":
+    "Use this token to access NetBird's public API",
+  "accessToken.nameHelp": "Set an easily identifiable name for your token",
+  "accessToken.namePlaceholder": "e.g., Infra token",
+  "accessToken.expiresIn": "Expires in",
+  "accessToken.expiresInHelp": "Should be between 1 and 365 days.",
+  "accessToken.days": "Day(s)",
+  "accessToken.createToken": "Create Token",
+  "accessToken.successTitle": "Access token created successfully!",
+  "accessToken.successDescription":
+    "This token will not be shown again, so be sure to copy it and store in a secure location.",
+  "accessToken.copyToClipboard": "Copy to clipboard",
+  "accessToken.creatingTitle": "Creating access token",
+  "accessToken.creatingSuccess": "{name} was created successfully",
+  "accessToken.creating": "Creating access token...",
+  "accessToken.copyMessage": "Access token was copied to your clipboard!",
+  "accessToken.creationFailed": "Setup key could not be created...",
+  "accessToken.accessTokens": "Access Tokens",
+  "crowdStrike.scoreThreshold": "Score Threshold",
+  "crowdStrike.scoreThresholdHelp":
+    "If the peer's ZTA score is below the threshold, the peer will be rejected. The score should be between 1 and 100.",
+  "eventStreaming.title": "Event Streaming",
+  "eventStreaming.description":
+    "Event Streaming allows you to stream NetBirds audit & traffic events to different third-party services.",
+  "azureAd.configurationTitle": "Entra ID (API) Configuration",
+  "azureAd.configurationDescription":
+    "Sync your users and groups from Entra ID to NetBird.",
+  "azureAd.settings": "Settings",
+  "azureAd.groupSync": "Group Sync",
+  "azureAd.userSync": "User Sync",
+  "azureAd.applicationClientId": "Application (client) ID",
+  "azureAd.clientSecret": "Client Secret",
+  "azureAd.syncInterval": "Sync Interval",
+  "azureAd.syncIntervalHelp":
+    "The interval in seconds when the synchronization should happen.",
+  "azureAd.seconds": "Seconds",
+  "azureAd.synchronizeGroups": "Synchronize Groups",
+  "azureAd.synchronizeUsers": "Synchronize Users",
+  "azureAd.addUserGroupFilter": "Add user group filter",
+  "azureAd.userGroupStartsWith": "User group starts with...",
+  "azureAd.deleteIntegration": "Delete Integration",
+  "azureAd.deleteIntegrationHelp":
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+  "azureAd.deleteConfirmTitle": "Delete integration?",
+  "azureAd.deleteConfirmDescription":
+    "Are you sure you want to delete this integration?",
+  "azureAd.deletedSuccess": "Entra ID (API) was successfully deleted",
+  "azureAd.updatedSuccess": "Entra ID (API) was successfully updated",
+  "azureAd.deleting": "Deleting integration...",
+  "azureAd.updating": "Updating integration...",
+  "idp.identityProvider": "Identity Provider",
+  "idp.identityProviderHelp":
+    "Select your identity provider connector for this integration.",
+  "idp.connectorCannotBeChangedLine1":
+    "The identity provider connector cannot be changed afterwards.",
+  "idp.connectorCannotBeChangedLine2":
+    "If you want to change the connector, please delete this integration and set it up again with a different connector.",
+  "idp.selectProvider": "Select your identity provider...",
+  "idp.noCompatibleProvidersPrefix":
+    "No compatible identity providers found. Please go to",
+  "idp.noCompatibleProvidersLink": "Settings › Identity Providers",
+  "idp.noCompatibleProvidersSuffix": "to set one up.",
+  "idpSync.title": "Identity Provider Sync",
+  "idpSync.description":
+    "Configure your preferred Identity Provider (IdP) to synchronize your users and groups to NetBird.",
+  "idpSync.featureText": "Identity Provider (IdP) Sync",
+  "idpSync.calloutPrefix": "Looking to enable a custom IdP like Keycloak?",
+  "idpSync.calloutContact": "Please contact us at",
+  "debugJob.title": "Debug Bundle",
+  "debugJob.description":
+    "Generate a debug bundle on this peer with logs and diagnostics. Useful for troubleshooting without CLI access.",
+  "debugJob.logFileCount": "Log File Count",
+  "debugJob.logFileCountHelp":
+    "Sets the limit for how many individual log files will be included in the debug bundle.",
+  "debugJob.files": "File(s)",
+  "debugJob.enableBundleDuration": "Enable Bundle Duration",
+  "debugJob.enableBundleDurationHelp":
+    "When enabled, allows you to specify a time period for log collection before generating the debug bundle.",
+  "debugJob.duration": "Duration",
+  "debugJob.durationHelp":
+    "Time period for which logs should be collected before creating the debug bundle.",
+  "debugJob.minutes": "Minute(s)",
+  "debugJob.anonymizeLogData": "Anonymize Log Data",
+  "debugJob.anonymizeLogDataHelp":
+    "Remove sensitive information (IP addresses, domains etc.) before creating the debug bundle.",
+  "debugJob.createDebugBundle": "Create Debug Bundle",
+  "debugJob.notifyTitle": "Create Debug Job",
+  "debugJob.notifySuccess": "Debug job triggered successfully.",
+  "debugJob.creating": "Creating job...",
+  "peerSSH.access": "SSH Access",
+  "peerSSH.accessHelp":
+    "Enable the SSH server on this peer to access the machine via an secure shell.",
+  "peerSSH.setupHelpText":
+    "Set up SSH and create an explicit access control policy defining which users can access specific local usernames of this machine via SSH.",
+  "peerSSH.createPolicy": "Create SSH Policy",
+  "peerSSH.enableAccess": "Enable SSH Access",
+  "peerSSH.disableConfirmTitle": "Disable SSH Access?",
+  "peerSSH.disableConfirmDescription":
+    "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
+  "peerSSH.permissionDenied":
+    "You don't have the required permissions to update this setting.",
+  "rdp.usernameAndPassword": "Username & Password",
+  "rdp.usernameAndPasswordHelp":
+    "Enter the credentials required to authenticate with the remote host. For domain accounts, use DOMAIN\\username or username@domain format.",
+  "rdp.port": "Port",
+  "rdp.portHelp": "Specify the RDP port for your remote connection.",
+  "rdp.connect": "Connect",
+  "rdp.error": "Error",
+  "rdp.usernameEmptyError": "Username cannot be empty",
+  "rdp.portRangeError": "Port must be a number between 1 and 65535",
+  "rdp.description": "Connect to {ip} via RDP",
+  "routeAddRoutingPeer.networkIdentifier": "Network Identifier",
+  "routeAddRoutingPeer.networkIdentifierHelp":
+    "Network name and CIDR that you are adding the route to.",
+  "routeAddRoutingPeer.routingPeer": "Routing Peer",
+  "routeAddRoutingPeer.routingPeerHelp":
+    "Assign a single peer as a routing peer for the network route.",
+  "routeAddRoutingPeer.distributionGroups": "Distribution Groups",
+  "routeAddRoutingPeer.distributionGroupsHelp":
+    "Advertise this route to peers that belong to the following groups",
+  "routeAddRoutingPeer.accessControlGroups": "Access Control Groups (optional)",
+  "routeAddRoutingPeer.accessControlGroupsHelp":
+    "These groups offer a more granular control of internal services in your network. They can be used in access control policies to limit and control access of this route.",
+  "routeAddRoutingPeer.networkRoutes": "Network Routes",
+  "routeUpdate.route": "Route",
+  "routeUpdate.routingPeer": "Routing Peer",
+  "routeUpdate.routingPeerHelp":
+    "Assign a single peer as a routing peer for the network route.",
+  "routeUpdate.routingPeerExitNodeHelp":
+    "Assign a single peer as a routing peer for the exit node.",
+  "routeUpdate.peerGroup": "Peer Group",
+  "routeUpdate.peerGroupHelp":
+    "Assign a peer group with machines to be used as routing peers.",
+  "routeUpdate.peerGroupExitNodeHelp":
+    "Assign a peer group with machines to be used as exit nodes.",
+  "routeUpdate.distributionGroups": "Distribution Groups",
+  "routeUpdate.distributionGroupsHelp":
+    "Advertise this route to peers that belong to the following groups",
+  "routeUpdate.accessControlGroups": "Access Control Groups (optional)",
+  "routeUpdate.descriptionLabel": "Description (optional)",
+  "routeUpdate.descriptionHelp":
+    "Write a short description to add more context to this route.",
+  "routeUpdate.descriptionPlaceholder":
+    "e.g., Route to access all devices in the AWS VPC, located in Frankfurt.",
+  "routeUpdate.enableRoute": "Enable Route",
+  "routeUpdate.enableRouteHelp":
+    "Use this switch to enable or disable the route.",
+  "routeUpdate.autoApplyRoute": "Auto Apply Route",
+  "routeUpdate.autoApplyRouteHelp":
+    "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+  "routeUpdate.metric": "Metric",
+  "routeUpdate.metricError": "Metric must be between 1 and 9999",
+  "routeUpdate.networkRoutes": "Network Routes",
+  "metricsTab.description":
+    "Help us improve NetBird by sharing performance metrics such as connection timing, sync duration, and login latency.",
+  "metricsTab.shareMetrics": "Share performance metrics",
+  "metricsTab.shareMetricsHelp":
+    "When enabled, clients will periodically send performance data to help us identify and fix issues.",
+  "metricsTab.notifyTitle": "Metrics",
+  "metricsTab.enabledSuccess": "Metrics push successfully enabled.",
+  "metricsTab.disabledSuccess": "Metrics push successfully disabled.",
+  "metricsTab.updating": "Updating metrics setting...",
+  "metricsTab.clientMetrics": "Client Metrics",
+  "metricsTab.documentationPrefix": "Learn more about",
+  "metricsTab.documentationSuffix": "in our documentation.",
+  "permissionsTab.saveSuccess": "Permissions were updated successfully.",
+  "customers.title": "Customers",
+  "customers.description":
+    "Use this view to manage customer accounts and their plans.",
+  "customers.docsSuffix": "in our documentation.",
+  "tenants.title": "Tenants",
+  "tenants.description":
+    "A list of all tenants and their subscription details. Use this view to manage accounts, plans and permissions.",
+  "tenants.docsSuffix": "in our documentation.",
+  "clusters.pageDescription":
+    "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure.",
+  "invoices.title": "Invoices",
+  "invoices.description": "View and export all your available invoices",
+  "distributorCustomers.editTitle": "Edit Customer",
+  "distributorCustomers.addTitle": "Add Customer",
+  "distributorCustomers.addDescription":
+    "Add a new customer account to your distributor organization.",
+  "distributorCustomers.tabGeneral": "General",
+  "distributorCustomers.tabPlan": "Plan",
+  "distributorCustomers.companyLabel": "Company",
+  "distributorCustomers.companyHelp":
+    "Enter the name of your customers company.",
+  "distributorCustomers.domainLabel": "Domain",
+  "distributorCustomers.domainHelp":
+    "The domain associated with this customer account.",
+  "distributorCustomers.customerIdLabel": "Customer ID (optional)",
+  "distributorCustomers.customerIdHelp":
+    "An optional identifier to easier map customers to your internal systems.",
+  "distributorCustomers.validDomainError":
+    "Please enter a valid domain, e.g. netbird.io",
+  "distributorCustomers.addNotifyTitle": "Add {domain} customer",
+  "distributorCustomers.addNotifyDescription":
+    "The customer account has been created successfully.",
+  "distributorCustomers.addNotifyLoading": "Creating customer account...",
+  "distributorCustomers.updateNotifyTitle": "Update {name}",
+  "distributorCustomers.updateNotifyDescription":
+    "The customer has been updated successfully.",
+  "distributorCustomers.updateNotifyLoading": "Updating customer...",
+  "distributorCustomers.pricingAndPlans": "Pricing & Plans",
+  "distributorCustomers.addCustomerButton": "Add Customer",
+  "mspTenants.editTitle": "Update Tenant",
+  "mspTenants.addTitle": "Add Tenant",
+  "mspTenants.addDescription": "Add a new tenant account to your organization.",
+  "mspTenants.tabGeneral": "General",
+  "mspTenants.tabPermissions": "Permissions",
+  "mspTenants.nameLabel": "Name",
+  "mspTenants.nameHelp": "Set an easily recognizable name for the tenant.",
+  "mspTenants.domainLabel": "Domain",
+  "mspTenants.domainHelpNew": "Enter the primary domain of the tenant.",
+  "mspTenants.domainHelpExisting": "Primary domain of the tenant.",
+  "mspTenants.ownershipVerified": "Ownership Verified",
+  "mspTenants.pendingVerification": "Pending Verification",
+  "mspTenants.verifyDomain": "Verify Domain",
+  "mspTenants.validDomainError": "Please enter a valid domain, e.g. netbird.io",
+  "mspTenants.addNotifyTitle": "Add {domain} account",
+  "mspTenants.addNotifyDescription":
+    "The tenant account has been created successfully.",
+  "mspTenants.updateNotifyTitle": "Update {domain} account",
+  "mspTenants.updateNotifyDescription":
+    "The tenant account has been updated successfully.",
+  "mspTenants.pricingAndPlans": "Pricing & Plans",
+  "mspTenants.addAccountButton": "Add Account",
+  "mspUnlink.title": "Unlink Tenant",
+  "mspUnlink.newOwnerLabel": "New Owner",
+  "mspUnlink.newOwnerHelp":
+    "In order to unlink this tenant, you need to assign a new owner.",
+  "mspUnlink.newOwnerPlaceholder": "Select a new owner...",
+  "mspUnlink.warningText":
+    "After unlinking, the existing subscription for this tenant will be canceled, and the new owner will need to set up their own billing information.",
+  "mspUnlink.learnMoreLink": "Unlinking Tenants",
+  "mspUnlink.unlinkButton": "Unlink",
+  "notifications.title": "Notifications",
+  "notifications.description":
+    "Choose how to be notified when important events occur in your account.",
+  "notifications.channelsLink": "Notification Channels",
+  "notifications.docsSuffix": "in our documentation.",
+  "notifications.emailTitle": "Email",
+  "notifications.emailChannelLabel": "Enable Email Channel",
+  "notifications.emailChannelHelp":
+    "Enable or disable all email notifications for your account",
+  "notifications.emailAddressesLabel": "Email Addresses",
+  "notifications.emailAddressesHelp":
+    "Add one or more email addresses that should receive notifications",
+  "notifications.emailNotifyTitle": "Email Notifications",
+  "notifications.emailAddSuccess": "{email} has been successfully added",
+  "notifications.emailAddLoading": "Adding {email}...",
+  "notifications.emailRemoveSuccess": "{email} has been successfully removed",
+  "notifications.emailRemoveLoading": "Removing {email}...",
+  "notifications.slackTitle": "Slack",
+  "notifications.slackNotConnected": "Not Connected",
+  "notifications.slackConnect": "Connect",
+  "notifications.slackDisconnect": "Disconnect",
+  "notifications.slackNotifyTitle": "Slack Notifications",
+  "notifications.slackSaveNew": "Slack has been successfully connected.",
+  "notifications.slackSaveUpdated":
+    "Slack configuration has been successfully updated.",
+  "notifications.slackConnecting": "Connecting Slack...",
+  "notifications.slackUpdating": "Updating Slack...",
+  "notifications.slackDisconnectTitle": "Disconnect Slack",
+  "notifications.slackDisconnectDescription":
+    "Are you sure you want to disconnect Slack? You will no longer receive notifications in your Slack channel.",
+  "notifications.slackDisconnectConfirm": "Disconnect",
+  "notifications.slackDisconnected":
+    "Slack has been successfully disconnected.",
+  "notifications.slackDisconnecting": "Disconnecting Slack...",
+  "notifications.webhookTitle": "Webhook",
+  "notifications.webhookNotConnected": "Not Connected",
+  "notifications.webhookConnect": "Connect",
+  "notifications.webhookNotifyTitle": "Webhook Notifications",
+  "notifications.webhookSaveNew": "Webhook has been successfully connected.",
+  "notifications.webhookSaveUpdated":
+    "Webhook configuration has been successfully updated.",
+  "notifications.webhookConnecting": "Connecting webhook...",
+  "notifications.webhookUpdating": "Updating webhook...",
+  "notifications.webhookDeleteTitle": "Delete Webhook Connection",
+  "notifications.webhookDeleteDescription":
+    "Are you sure you want to delete this webhook connection? This action cannot be undone.",
+  "notifications.webhookDeleteConfirm": "Delete",
+  "notifications.webhookDeleted":
+    "Webhook connection has been successfully deleted.",
+  "notifications.webhookDeleting": "Deleting webhook...",
+  "oktaSetup.connectTitle": "Connect NetBird with Okta",
+  "oktaSetup.connectDescription":
+    "Start syncing your users and groups from Okta to NetBird. Follow the steps below to get started.",
+  "oktaSetup.requiredPermissions": "Required Permissions",
+  "oktaSetup.accountPrefix": "Ensure that you have an",
+  "oktaSetup.accountType": "Okta user account",
+  "oktaSetup.permissionsWord": "permissions",
+  "oktaSetup.accountSuffix":
+    "If you don't have the required permissions, ask your Okta administrator to grant them to you.",
+  "oktaSetup.permAdd": "Add Okta applications",
+  "oktaSetup.permConfigure": "Configure Okta applications",
+  "oktaSetup.configureSsoTitle": "Configure SSO in Okta",
+  "oktaSetup.configureSsoStep1": "Access the Okta dashboard and navigate to",
+  "oktaSetup.configureSsoStep1Suffix": ", selecting the previously installed",
+  "oktaSetup.configureSsoStep2": "Go to",
+  "oktaSetup.configureSsoStep2Suffix": "and select",
+  "oktaSetup.configureSsoStep3Prefix": "In the",
+  "oktaSetup.configureSsoStep3Middle": "section, change the",
+  "oktaSetup.configureSsoStep3To": "to",
+  "oktaSetup.configureSsoStep3AndSelect": "and select",
+  "oktaSetup.enableScimTitle": "Enable Okta SCIM in NetBird",
+  "oktaSetup.enableScimStep1": "From the Okta dashboard, navigate to",
+  "oktaSetup.enableScimStep1AndSelect": "and select the",
+  "oktaSetup.enableScimStep2Prefix": "Under the",
+  "oktaSetup.enableScimStep2Tab": "tab, choose",
+  "oktaSetup.enableScimStep2Then": ", then select",
+  "oktaSetup.enableScimStep3Prefix": "Opt to",
+  "oktaSetup.enableScimStep3Middle": "and insert this token into the",
+  "oktaSetup.enableScimStep3Field": "field",
+  "oktaSetup.enableScimStep4Prefix": "Click",
+  "oktaSetup.enableScimStep4Middle":
+    "to verify the SCIM connection, then select",
+  "oktaSetup.configureScimTitle": "Configure SCIM provisioning to NetBird",
+  "oktaSetup.configureScimStep1Prefix": "Go to the",
+  "oktaSetup.configureScimStep1AndClick": "and click",
+  "oktaSetup.configureScimStep2Prefix": "Enable",
+  "oktaSetup.configureScimStep2Middle": "and",
+  "oktaSetup.configureScimStep2And": "and",
+  "oktaSetup.configureScimStep2Suffix": "and click",
+  "oktaSetup.syncUsersTitle": "Sync Users to NetBird",
+  "oktaSetup.syncUsersStep1Prefix": "Go to the",
+  "oktaSetup.syncUsersStep1Tab": "tab, select the",
+  "oktaSetup.syncUsersStep1AndClick": "and click",
+  "oktaSetup.syncUsersStep2Prefix":
+    "Select the groups you want to provision, and then select",
+  "oktaSetup.syncUsersStep2AndClick": "and click",
+  "oktaSetup.syncUsersStep3Prefix": "Select",
+  "oktaSetup.syncUsersStep3Suffix":
+    "after you have finished assigning groups. At this point, all members of the groups assigned to the application will be synced to NetBird.",
+  "oktaSetup.syncGroupsTitle": "Sync Groups to NetBird",
+  "oktaSetup.syncGroupsStep1Prefix": "Go to the",
+  "oktaSetup.syncGroupsStep1Tab": "tab, select",
+  "oktaSetup.syncGroupsStep1AndClick": "and click",
+  "oktaSetup.syncGroupsStep2Prefix": "Search groups to push and then click",
+  "oktaSetup.syncGroupsStep2Suffix":
+    ". The selected groups will then be synced to NetBird.",
+  "oktaSetup.estimatedTime": "5-15 Minutes",
+  "oktaSetup.ssoConnectTitle": "Connect NetBird with Okta",
+  "oktaSetup.ssoConnectDescription":
+    "Start syncing your users and groups from Okta to NetBird. Follow the steps below to get started.",
+  "oktaSetup.installAppTitle": "Install NetBird application for Okta",
+  "oktaSetup.installAppStep1": "Navigate to",
+  "oktaSetup.installAppStep2Prefix": "Click",
+  "oktaSetup.installAppStep2AndThen": "and then",
+  "oktaSetup.installAppStep3Prefix":
+    "After installing the application go to the",
+  "oktaSetup.installAppStep3Tab": "tab, select the",
+  "oktaSetup.installAppStep3AndClick": "and click",
+  "oktaSetup.installAppStep3Suffix": "and assign your user to the application",
+  "oktaSetup.shareDetailsTitle": "Share your Okta details with NetBird",
+  "oktaSetup.shareDetailsStep1Prefix": "Click on the",
+  "oktaSetup.shareDetailsStep1Tab": "tab and take note",
+  "oktaSetup.shareDetailsStep1Of": "of the",
+  "oktaSetup.shareDetailsStep2Prefix":
+    "Under your user profile, take note of your",
+  "oktaSetup.shareDetailsStep3Prefix": "Share your",
+  "oktaSetup.shareDetailsStep3And": "and your",
+  "oktaSetup.shareDetailsStep3With": "with the NetBird team",
+  "oktaSetup.shareDetailsStep4Prefix":
+    "Once the NetBird team has enabled the authentication for your account you will receive an email. After that you can visit",
+  "oktaSetup.shareDetailsStep4Middle":
+    "and authenticate using your Okta's credentials",
+  "oktaSetup.shareDetailsTipPrefix": "You can use",
+  "oktaSetup.shareDetailsTipMiddle":
+    "or any other secure sharing tool to share your Okta details with the NetBird team. If you need help, please contact us at",
+  "oktaSetup.ssoEstimatedTime": "5 Minutes",
+  "azureAd.genSecretStepTitle": "Generate client secret",
+  "azureAd.appIdsStepTitle": "Enter Application ID and Directory ID",
+  "azureAd.groupsToSyncTitle": "Groups to be synchronized",
+  "azureAd.usersToSyncTitle": "Users to be synchronized",
+  "firehose.connectTitle": "Connect NetBird with Amazon Data Firehose",
+  "firehose.connectDescription":
+    "Start streaming your NetBird audit & traffic events to Amazon Data Firehose. Follow the steps below to get started.",
+  "firehose.selectRegionTitle": "Select your Amazon Data Firehose region",
+  "firehose.selectRegionHelp":
+    "To identify which region you are on please check out the",
+  "firehose.dashboardLink": "Amazon Data Firehose Dashboard.",
+  "firehose.createStreamTitle": "Create your Firehose Stream",
+  "firehose.navigateDashboard":
+    "Navigate to the Amazon Data Firehose Stream Dashboard",
+  "firehose.dashboardButton": "Amazon Data Firehose Stream Dashboard",
+  "firehose.clickCreatePrefix": "Click",
+  "firehose.clickCreateSuffix": "at the top right corner",
+  "firehose.asSourcePrefix": "As",
+  "firehose.asSourceSelect": "select",
+  "firehose.asDestinationPrefix": "As",
+  "firehose.asDestinationSuffix":
+    "select the AWS service you want to push the events to",
+  "firehose.giveNamePrefix": "Give it a descriptive name like",
+  "firehose.andClick": "and click",
+  "firehose.streamNameTooltip":
+    "You can transform and convert the event messages to fit your needs.",
+  "firehose.enterStreamName": "Enter your Firehose stream name",
+  "firehose.createIamTitle": "Create IAM credential",
+  "firehose.navigateIamDashboard": "Navigate to the Amazon IAM Dashboard",
+  "firehose.iamDashboardButton": "Amazon IAM Dashboard",
+  "firehose.createIamUserPrefix": "Create an IAM User (for details see the",
+  "firehose.createIamUserSuffix": ")",
+  "firehose.amazonDocs": "Amazon Docs",
+  "firehose.createPolicyPrefix": "Create and assign a policy with",
+  "firehose.createPolicyMiddle": "and",
+  "firehose.createPolicySuffix":
+    "to the user and scope it to the created stream",
+  "firehose.securityCredentialsPrefix": "Select the user and go to the",
+  "firehose.securityCredentialsTab": "tab and select",
+  "firehose.enterAccessKey": "Enter your Access-Key",
+  "firehose.enterSecretKey": "Enter your Secret-Key",
+  "firehose.notifyTitle": "Amazon Data Firehose Integration",
+  "firehose.notifyDescription":
+    "Amazon Data Firehose was successfully connected to NetBird.",
+  "s3.connectTitle": "Connect NetBird with Amazon S3",
+  "s3.connectDescription":
+    "Start streaming your NetBird audit & traffic events to Amazon S3. Follow the steps below to get started.",
+  "s3.selectRegionTitle": "Select your Amazon S3 region",
+  "s3.selectRegionHelp":
+    "To identify which region you are on please check out the",
+  "s3.dashboardLink": "Amazon S3 Dashboard.",
+  "s3.createBucketTitle": "Create your S3 Bucket",
+  "s3.navigateDashboard": "Navigate to the Amazon S3 Dashboard",
+  "s3.dashboardButton": "Amazon S3 Dashboard",
+  "s3.clickCreatePrefix": "Click",
+  "s3.clickCreateSuffix": "at the top right corner",
+  "s3.giveNamePrefix": "Give it a descriptive name like",
+  "s3.andClick": "and click",
+  "s3.enterBucketName": "Enter your S3 Bucket name",
+  "s3.createIamTitle": "Create IAM credential",
+  "s3.navigateIamDashboard": "Navigate to the Amazon IAM Dashboard",
+  "s3.iamDashboardButton": "Amazon IAM Dashboard",
+  "s3.createIamUserPrefix": "Create an IAM User (for details see the",
+  "s3.createIamUserSuffix": ")",
+  "s3.amazonDocs": "Amazon Docs",
+  "s3.createPolicyPrefix": "Create and assign a policy with",
+  "s3.createPolicyMiddle": "and",
+  "s3.createPolicySuffix": "to the user and scope it to the created bucket",
+  "s3.securityCredentialsPrefix": "Select the user and go to the",
+  "s3.securityCredentialsTab": "tab and select",
+  "s3.enterAccessKey": "Enter your Access-Key",
+  "s3.enterSecretKey": "Enter your Secret-Key",
+  "s3.notifyTitle": "Amazon S3 Integration",
+  "s3.notifyDescription": "Amazon S3 was successfully connected to NetBird.",
+  "datadog.connectTitle": "Connect NetBird with Datadog",
+  "datadog.connectDescription":
+    "Start streaming your NetBird audit & traffic events to Datadog. Follow the steps below to get started.",
+  "datadog.selectRegionTitle": "Select your Datadog region",
+  "datadog.selectRegionHelp":
+    "To identify which region you are on please check out the",
+  "datadog.docsLink": "Datadog Documentation.",
+  "datadog.getApiKeyTitle": "Get your Datadog API Key",
+  "datadog.navigateApiKeys": "Navigate to Datadogs API Keys page",
+  "datadog.apiKeysButton": "API Keys",
+  "datadog.clickNewKeyPrefix": "Click",
+  "datadog.clickNewKeySuffix": "at the top",
+  "datadog.giveNamePrefix": "Give it a descriptive name like",
+  "datadog.andClick": "and click",
+  "datadog.apiKeyTooltip":
+    "When creating a new Datadog API key, it could take up to 5 minutes for the key to be available for use.",
+  "datadog.enterApiKey": "Enter your API-Key",
+  "datadog.notifyTitle": "Datadog Integration",
+  "datadog.notifyDescription": "Datadog was successfully connected to NetBird.",
+  "crowdStrike.connectTitle": "Connect NetBird with CrowdStrike",
+  "crowdStrike.connectDescription":
+    "Restrict network access only to devices managed by the company's IT department",
+  "crowdStrike.setup.selectRegionTitle": "Select your CrowdStrike region",
+  "crowdStrike.setup.selectRegionHelp":
+    "To identify which region you are on check your CrowdStrike dashboard url.",
+  "crowdStrike.setup.apiCredentialsTitle": "Get your API Credentials",
+  "crowdStrike.setup.navigateApiClients":
+    "Navigate to the CrowdStrike's API Clients & Keys page",
+  "crowdStrike.setup.apiClientsButton": "API Clients & Keys",
+  "crowdStrike.setup.clientIdLabel": "Client ID",
+  "crowdStrike.setup.secretLabel": "Secret",
+  "crowdStrike.setup.peerApprovalTitle": "Peer Approval",
+  "crowdStrike.setup.peerApprovalHelp":
+    "Only peers that meet the ZTA score threshold will be allowed to connect.",
+  "crowdStrike.setup.estimatedTime": "5-10 Minutes",
+  "crowdStrike.setup.notifyTitle": "CrowdStrike Integration",
+  "crowdStrike.setup.notifyDescription":
+    "CrowdStrike was successfully connected to NetBird.",
+  "trafficEvents.time": "Time",
+  "trafficEvents.event": "Event",
+  "trafficEvents.source": "Source",
+  "trafficEvents.protocolPort": "Protocol & Port",
+  "trafficEvents.destination": "Destination",
+  "trafficEvents.traffic": "Traffic",
+  "trafficEvents.router": "Router",
+  "trafficEvents.searchPlaceholder": "Search by ip, port, peer or resource...",
+  "trafficEvents.title": "Traffic Events",
+  "trafficEvents.getStartedTitle": "Traffic Events",
+  "trafficEvents.getStartedDescription":
+    "Traffic Events help you understand the network activity in your organization. You can see which machines are connecting to each other, and what kind of traffic is flowing between them.",
+  "trafficEvents.enableButton": "Enable Traffic Events",
+  "trafficEvents.emptyTitle": "No traffic events yet",
+  "trafficEvents.emptyDescription":
+    "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity.",
+  "trafficEvents.windowStart": "Window start",
+  "trafficEvents.user": "User",
+  "trafficEvents.unknownUser": "Unknown user",
+  "trafficEvents.reporter": "Reporter",
+  "trafficEvents.details": "Details",
+  "trafficEvents.expandDetails": "Expand persisted details",
+  "trafficEvents.collapseDetails": "Collapse persisted details",
+  "trafficEvents.eventCounts": "Observed events",
+  "trafficEvents.eventCountsValue": "{starts} start · {ends} end · {drops} drop",
+  "trafficEvents.integrity": "Integrity",
+  "trafficEvents.integrityUnknown": "Unknown",
+  "trafficEvents.integrityUnknownDescription":
+    "Collection completeness telemetry is not available for this window.",
+  "trafficEvents.detailsLoading": "Loading persisted details...",
+  "trafficEvents.detailsError": "Persisted details could not be loaded.",
+  "trafficEvents.detailsEmpty": "No persisted details were found for this group.",
+  "trafficEvents.retry": "Retry",
+  "notificationSlack.connectTitle": "Connect NetBird with Slack",
+  "notificationSlack.connectDescription":
+    "Receive NetBird notification events directly in your Slack channel via an Incoming Webhook.",
+  "notificationSlack.createAppTitle": "Create a Slack App",
+  "notificationSlack.createAppStep1Prefix": "Open",
+  "notificationSlack.createAppStep1Link": "Slack App Management",
+  "notificationSlack.createAppStep1Middle": "click",
+  "notificationSlack.createAppStep1AndChoose": "and choose",
+  "notificationSlack.createAppStep2Prefix": "Set the app name to",
+  "notificationSlack.createAppStep2Middle":
+    "and select your workspace. After that click",
+  "notificationSlack.configureWebhookTitle": "Configure Incoming Webhook",
+  "notificationSlack.configureWebhookStep1Prefix": "In the app settings, go to",
+  "notificationSlack.configureWebhookStep1Middle": "and toggle",
+  "notificationSlack.configureWebhookStep1To": "to",
+  "notificationSlack.configureWebhookStep2Prefix": "Click",
+  "notificationSlack.configureWebhookStep2Middle":
+    "and select the channel where you want to receive notifications and confirm with",
+  "notificationSlack.configureWebhookStep3Prefix": "Copy the generated",
+  "notificationSlack.configureWebhookStep3Suffix": "and paste it below.",
+  "notificationSlack.urlError":
+    "Please enter a valid url, e.g., https://hooks.slack.com/services/...",
+  "msp.tenant": "Tenant",
+  "msp.plan": "Plan",
+  "msp.users": "Users",
+  "msp.peers": "Peers",
+  "msp.estCostMonth": "Est. Cost / Month",
+  "msp.estCostTooltip":
+    "The estimated price is calculated based on the number of active users and active peers.",
+  "msp.permissionGroups": "Permission Groups",
+  "msp.searchPlaceholder": "Search by name, email or group...",
+  "msp.addTenant": "Add Tenant",
+  "msp.addNewTenant": "Add New Tenant",
+  "msp.addNewTenantDescription":
+    "It looks like you don't have any tenants yet. Add a new tenant to get started.",
+  "msp.invoices": "Invoices",
+  "msp.managingTenants": "Managing Tenants",
+  "distributor.customer": "Customer",
+  "distributor.customerId": "Customer ID",
+  "distributor.customerIdCopied": "Customer ID copied to clipboard",
+  "distributor.plan": "Plan",
+  "distributor.tenants": "Tenants",
+  "distributor.searchPlaceholder": "Search by name, domain or id...",
+  "distributor.addCustomer": "Add Customer",
+  "distributor.addNewCustomer": "Add New Customer",
+  "distributor.addNewCustomerDescription":
+    "It looks like you don't have any customers yet. Add a new customer to get started.",
+  "distributor.invoices": "Invoices",
+  "customDomainsTable.domain": "Domain",
+  "customDomainsTable.status": "Status",
+  "customDomainsTable.cluster": "Cluster",
+  "peerRoutesTable.name": "Name",
+  "peerRoutesTable.network": "Network",
+  "peerRoutesTable.distributionGroups": "Distribution Groups",
+  "peerRoutesTable.active": "Active",
+  "groupUsersTable.name": "Name",
+  "groupUsersTable.role": "Role",
+  "groupUsersTable.status": "Status",
+  "groupUsersTable.blockUser": "Block User",
+  "groupUsersTable.lastLogin": "Last Login",
+  "versionInfo.installed": "Installed:",
+  "versionInfo.latestLabel": "Latest:",
+  "versionInfo.updateAvailableLabel": "Update available",
+  "windowsTab.installOnWindows": "Install on Windows",
+  "windowsTab.downloadInstaller": "Download and run Windows Installer",
+  "linuxTab.installWithCli": "One-click command-line installation",
+  "linuxTab.installManually": "Manual installation (universal)",
+  "linuxTab.oneClickDescription":
+    "Select a published Cloink version for this Linux architecture, then run the command below.",
+  "linuxTab.selectRelease": "Select version and architecture",
+  "linuxTab.noPublishedRelease": "No Linux release published",
+  "linuxTab.publishReleaseFirst":
+    "Publish a Linux tar.gz artifact in Settings > Version releases first.",
+  "linuxTab.latest": "Latest",
+  "linuxTab.runCloink": "Run Cloink",
+  "linuxTab.chooseAndDownload": "Select and download Cloink",
+  "linuxTab.extractAndInstall": "Extract and install",
+  "linuxTab.extractArchive": "Extract the published archive",
+  "linuxTab.installBinaries": "Install the Cloink binaries",
+  "linuxTab.installService": "Install and start the Cloink service",
+  "trafficEvents.postureCheckPassed": "Posture Check {name} passed",
+  "trafficEvents.accessControlPolicyPassed":
+    "Access Control Policy {name} passed",
+  "common.dialog": "Dialog",
+
+  // ── Okta SSO Settings modal ─────────────────────────────────────────
+  "okta.modalTitle": "Okta SSO Configuration",
+  "okta.modalDescription":
+    "Use Okta as a Single Sign-On provider to authenticate users.",
+  "okta.tabDomains": "Domains",
+  "okta.tabConfiguration": "Configuration",
+  "okta.tabDangerZone": "Danger Zone",
+  "okta.oktaDomainLabel": "Okta Domain",
+  "okta.clientIdLabel": "Client ID",
+  "okta.clientSecretLabel": "Client Secret",
+  "okta.addDomainButton": "Add Domain",
+  "okta.deleteConfirmTitle": "Delete Integration?",
+  "okta.deleteConfirmDescription":
+    "Are you sure you want to delete this integration? This action cannot be undone.",
+  "okta.deleteIntegrationLabel": "Delete Integration",
+  "okta.deleteIntegrationHelp":
+    "Deleting this integration will remove the ability to use Okta as an SSO provider. If you delete the integration you will need to reconfigure it again to enable the Single Sign-On.",
+  "okta.deletedDescription": "Okta was successfully deleted",
+  "okta.deleting": "Deleting integration...",
+  "okta.domainsNotifyTitle": "Okta Domains",
+  "okta.domainAdded": "{domain} has been added",
+  "okta.addingDomain": "Adding domain...",
+
+  // ── CrowdStrike Configuration modal ─────────────────────────────────
+  "crowdStrike.notifyTitle": "CrowdStrike Integration",
+  "crowdStrike.configHeaderDescription":
+    "Restrict network access only to devices managed by the company's IT department",
+  "crowdStrike.tabPeerApproval": "Peer Approval",
+  "crowdStrike.tabSettings": "Settings",
+  "crowdStrike.tabDangerZone": "Danger Zone",
+  "crowdStrike.regionLabel": "Region",
+  "crowdStrike.groupsHelp":
+    "Select groups you want to apply the CrowdStrike integration to",
+  "crowdStrike.credentialsLabel": "CrowdStrike Credentials",
+  "crowdStrike.clientIdLabel": "Client ID",
+  "crowdStrike.secretLabel": "Secret",
+  "crowdStrike.deleteConfirmTitle": "Delete integration?",
+  "crowdStrike.deleteConfirmDescription":
+    "Are you sure you want to delete this integration?",
+  "crowdStrike.deleteIntegrationLabel": "Delete Integration",
+  "crowdStrike.deleteIntegrationHelp":
+    "Deleting this integration will remove the current configuration. If you delete the integration you will need to reconfigure it again.",
+  "crowdStrike.deletedDescription":
+    "CrowdStrike Integration was successfully deleted",
+  "crowdStrike.deleting": "Deleting integration...",
+  "crowdStrike.updatedDescription":
+    "CrowdStrike Integration was successfully updated",
+  "crowdStrike.updating": "Updating integration...",
+  "crowdStrike.disableTitle": "Disable CrowdStrike?",
+  "crowdStrike.disableDescription":
+    "Are you sure you want to disable the CrowdStrike integration?",
+  "crowdStrike.enabledDescription": "CrowdStrike was successfully enabled",
+  "crowdStrike.disabledDescription": "CrowdStrike was successfully disabled",
+  "crowdStrike.cardDescription":
+    "CrowdStrike is a cloud-native platform for protecting endpoints, cloud workloads, identities and data.",
+
+  // ── Datadog event streaming ─────────────────────────────────────────
+  "datadog.disconnectTitle": "Disconnect Datadog?",
+  "datadog.disconnectDescription":
+    "Disconnecting deletes the current configuration. You will need to start the setup process again.",
+  "datadog.disconnectedDescription": "Datadog was successfully disconnected",
+  "datadog.disconnecting": "Disconnecting integration...",
+  "datadog.cardDescription":
+    "Datadog is a monitoring service for cloud-scale applications.",
+
+  // ── Firehose event streaming ────────────────────────────────────────
+  "firehose.disconnectTitle": "Disconnect Amazon Data Firehose?",
+  "firehose.disconnectDescription":
+    "Disconnecting deletes the current configuration. You will need to start the setup process again.",
+  "firehose.disconnectedDescription":
+    "Amazon Data Firehose was successfully disconnected",
+  "firehose.disconnecting": "Disconnecting integration...",
+  "firehose.cardDescription":
+    "Firehose delivers real-time data streaming to destinations such as Amazon S3, Amazon Redshift & more.",
+
+  // ── S3 event streaming ──────────────────────────────────────────────
+  "s3.disconnectTitle": "Disconnect S3?",
+  "s3.disconnectDescription":
+    "Disconnecting deletes the current configuration. You will need to start the setup process again.",
+  "s3.disconnectedDescription": "S3 was successfully disconnected",
+  "s3.disconnecting": "Disconnecting integration...",
+  "s3.cardDescription": "Amazon S3 is a scalable storage in the cloud.",
+
+  // ── Intune EDR card ─────────────────────────────────────────────────
+  "intune.disableTitle": "Disable Intune?",
+  "intune.disableDescription":
+    "Are you sure you want to disable the Intune integration?",
+  "intune.enabledDescription": "Intune was successfully enabled",
+  "intune.disabledDescription": "Intune was successfully disabled",
+  "intune.updating": "Updating integration...",
+  "intune.cardDescription":
+    "Microsoft Intune is a cloud-based unified endpoint management for your organization.",
+
+  // ── FleetDM EDR card ────────────────────────────────────────────────
+  "fleetdm.disableTitle": "Disable FleetDM?",
+  "fleetdm.disableDescription":
+    "Are you sure you want to disable the FleetDM integration?",
+  "fleetdm.enabledDescription": "FleetDM was successfully enabled",
+  "fleetdm.disabledDescription": "FleetDM was successfully disabled",
+  "fleetdm.updating": "Updating integration...",
+  "fleetdm.cardDescription":
+    "Open-source device management platform for macOS, Windows, and Linux with osquery-based compliance policies.",
+  "fleetdm.notSynced": "Not synchronized",
+  "fleetdm.synced": "Synced {time}",
+
+  // ── Google Workspace IdP sync card ──────────────────────────────────
+  "googleWorkspace.enabledDescription":
+    "Google Workspace was successfully enabled",
+  "googleWorkspace.disabledDescription":
+    "Google Workspace was successfully disabled",
+  "googleWorkspace.updating": "Updating integration...",
+  "googleWorkspace.syncedDescription":
+    "Google Workspace was successfully synced",
+  "googleWorkspace.syncing": "Syncing integration...",
+  "googleWorkspace.cardDescription":
+    "A flexible, innovative solution for people and organizations to achieve more.",
+  "googleWorkspace.notSynced": "Not synchronized",
+  "googleWorkspace.synced": "Synced {time}",
+  "googleWorkspace.forceSyncTooltip":
+    "Force synchronization of users and groups",
+  "routeGroups.deleteNetworkTitle": "Delete Network {name}",
+  "routeGroups.deleteNetworkConfirmTitle": "Delete network '{name}'?",
+  "routeGroups.deletedDescription": "Network was successfully removed",
+  "routeGroups.deleting": "Deleting the network...",
+  "routeGroups.deleteConfirmDescription":
+    "Are you sure you want to delete this network? All routes inside this network will be deleted. This action cannot be undone.",
+  "agentProviders.enableToggle": "{action}",
+  "agentProviders.inUseTooltip":
+    "This provider is referenced by {count} policies and cannot be deleted. Detach it from the policy first.",
+  "agentProviders.deleteConfirmDescription":
+    "Are you sure you want to delete this provider? The reverse-proxy service that fronts it will also be removed. This action cannot be undone.",
+  "activity.initiator": "Initiator",
+  "activity.learnMoreInOur": "Learn more in our",
+  "activity.searchTablePlaceholder":
+    "Search by audit name, user, peer, meta...",
+  "addPeerDropdown.userDevice": "User Device",
+  "agentConnect.optionAnthropicApi": "Anthropic API",
+  "agentConnect.optionBedrock": "Bedrock",
+  "agentConnect.optionKimiMoonshot": "Kimi (Moonshot AI)",
+  "agentConnect.optionVertexAi": "Vertex AI",
+  "agentConnect.tabClaudeCode": "Claude Code",
+  "agentConnect.tabCodex": "Codex",
+  "agentConnect.tabCurl": "cURL",
+  "agentConnect.tabKimiCli": "Kimi CLI",
+  "agentConnect.tabOpenAiSdk": "OpenAI SDK",
+  "agentNetwork.attach": "Attach",
+  "agentNetwork.browseGuardrails": "Browse Guardrails",
+  "agentNetwork.browseGuardrailsDescription":
+    "Pick one or more existing guardrails to attach.",
+  "agentNetwork.clustersTabDescriptionAgent":
+    "Proxy clusters route your agents' traffic to AI providers and run on your own infrastructure. Add multiple clusters to scale your environment.",
+  "agentNetwork.clustersTabDescriptionProxy":
+    "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure.",
+  "agentNetwork.editGuardrail": "Edit Guardrail",
+  "agentNetwork.globalLimitsTabDescription":
+    "Account-wide caps on token usage and spend, applied across every policy. Scope a limit to specific groups or users, or leave it account-wide.",
+  "agentNetwork.guardrailPlural": "Guardrails",
+  "agentNetwork.guardrailSingular": "Guardrail",
+  "agentNetwork.guardrailsHelp":
+    "Guardrails enforce model allowlists and prompt capture per request.",
+  "agentNetwork.modelAllowlistCount": "Model allowlist · {count} model(s)",
+  "agentNetwork.newGuardrail": "New Guardrail",
+  "agentNetwork.noGuardrailsDescription":
+    "Add guardrails to enforce model allowlists and prompt capture per request.",
+  "agentNetwork.noGuardrailsTitle": "You haven't added any guardrails yet",
+  "agentNetwork.noMoreGuardrailsAvailable":
+    "No more guardrails available — all defined guardrails are already attached.",
+  "agentNetwork.promptCapturePiiRedaction": "Prompt capture · PII redaction",
+  "agentNetwork.usagePageDescription":
+    "Per-request audit with real caller identity, cost attribution, and budget controls.",
+  "agentProviders.allModels": "All models",
+  "agentProviders.emptyDescription":
+    "Route OpenAI, Anthropic, and other LLM APIs through NetBird to enforce access control, track token spend, and capture prompts.",
+  "agentProviders.modelsConfigured": "{count} configured",
+  "agentProviders.searchPlaceholder": "Search by name...",
+  "aws.changePlanLater": "You can always change your plan later.",
+  "aws.continueToDashboard": "Continue to Dashboard",
+  "aws.existingSubscription":
+    "It seems you already have an active subscription with us. In order to use AWS as a billing provider, please contact our support team.",
+  "aws.flexiblePricing":
+    "With our flexible pricing, you are only billed for active users and active peers through your AWS account.",
+  "aws.thanksForRegistering": "Thanks for registering via",
+  "billing.activateTrialDescription":
+    "Activate your 14-day trial to access NetBird's full set of features & integrations. After the trial, you will return to your {plan} plan unless you choose to upgrade.",
+  "billing.approachingUsageLimit": "Approaching usage limit",
+  "billing.continueWith": "Continue with",
+  "billing.continueWithTrial": "Continue with Trial",
+  "billing.currentPlan": "Current Plan",
+  "billing.downgradeTo": "Downgrade to",
+  "billing.exploreNetBird": "Explore NetBird",
+  "billing.findOutWhich": "Find out which",
+  "billing.flexiblePricingDescription":
+    "With our flexible pricing, you are only billed for active users and active peers.",
+  "billing.freePlan": "Free",
+  "billing.freeTrial": "Free Trial",
+  "billing.getLicense": "Get a License",
+  "billing.getSupport": "Get Support",
+  "billing.goToPlansAndBilling": "Go to Plans & Billing",
+  "billing.haventDecided": "Haven't decided for a plan yet?",
+  "billing.increaseLimitDescription":
+    "Increase your user and peer limit by upgrading your plan.",
+  "billing.limitReachedDescription":
+    "It looks like you've hit the limit of your current subscription.",
+  "billing.limitReachedTitle": "Subscription Limit Reached",
+  "billing.lockedFeature.availableOnBusiness": "Available on Business",
+  "billing.lockedFeature.availableOnBusinessPlan":
+    "{feature} {verb} available on the Business plan. ",
+  "billing.lockedFeature.availableOnTeam": "Available on Team",
+  "billing.lockedFeature.availableOnTeamOrHigher":
+    "{feature} {verb} available on the Team plan or higher. ",
+  "billing.lockedFeature.availableSelfHostedBusiness":
+    "{feature} {verb} available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Business plan. ",
+  "billing.lockedFeature.availableSelfHostedTeam":
+    "{feature} {verb} available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Team plan or higher. ",
+  "billing.lockedFeature.availableWithEnterprise":
+    "Available with an Enterprise license",
+  "billing.lockedFeature.contactAdminPrefix":
+    "Contact your account administrator",
+  "billing.lockedFeature.contactAdminSuffix": "to upgrade the plan.",
+  "billing.lockedFeature.contactAdminUpgrade":
+    "Contact your account administrator to upgrade the plan.",
+  "billing.lockedFeature.onlyOwnerOrAdmin":
+    "Only the owner or an admin can upgrade the plan.",
+  "billing.lockedFeature.thisFeature": "This feature",
+  "billing.lockedFeature.upgradeOrStartTrial":
+    "Upgrade or start a 14-day free trial to access this feature.",
+  "billing.lockedFeature.upgradeYourCurrentPlan":
+    "Upgrade your current plan to access this feature.",
+  "billing.lockedFeature.upgradeYourTenantsPlan":
+    "Upgrade your tenants plan to access this feature.",
+  "billing.machinesIncluded": "100 machines + 10 per user",
+  "billing.managePlan": "Manage Plan",
+  "billing.noCreditCardRequired": "No credit card required",
+  "billing.ofPeers": " of {count} Peers",
+  "billing.ofUsers": " of {count} Users",
+  "billing.onlyOwnerOrAdminStartTrial":
+    "Only the owner or an administrator can start a free trial.",
+  "billing.onlyOwnerOrAdminUpgrade":
+    "Only the owner or an administrator can upgrade the plan.",
+  "billing.peer": " Peer",
+  "billing.peers": " Peers",
+  "billing.perMonth": " per month",
+  "billing.perUserMonth": "per user / month",
+  "billing.planRecentlyUpdated":
+    "Your plan was recently updated. Please wait for 48 hours from the last update to change your plan again.",
+  "billing.planSuccessDescription":
+    "Your subscription has been successfully activated. You have now full access to all NetBird features of your selected plan.",
+  "billing.planSuccessTitle": "Thank you for subscribing to NetBird! 🎉",
+  "billing.plansAndBilling": "Plans & Billing",
+  "billing.pricingPlan": "Pricing Plan",
+  "billing.startFreeTrial": "Start 14-Day Free Trial",
+  "billing.subscribeTo": "Subscribe to",
+  "billing.suitsYouBest": "suits you the best by visiting our website.",
+  "billing.trialAccessDescription":
+    "You currently have access to NetBird's full set of features & integrations.",
+  "billing.trialAfterDescription":
+    "After the trial, you will return to your {plan} plan unless you choose to upgrade.",
+  "billing.trialEndsIn": "Trial ends in {count} days",
+  "billing.trialExploreDescription":
+    "Explore the dashboard, our integrations and all the features. Some of the key features you can try:",
+  "billing.trialFeatureDeviceApprovals":
+    "Enable device approvals for added control",
+  "billing.trialFeatureIdpSync":
+    "Configure IdP sync for user & group provisioning",
+  "billing.trialFeaturePostureChecks":
+    "Set up your first device posture checks",
+  "billing.trialStartedNextTwoWeeks": "for the next two weeks",
+  "billing.trialStartedTitle": "Your 14-Day Trial has started!",
+  "billing.trialStartedWelcome":
+    "Welcome aboard! You have now access to NetBird's full set of features & integrations",
+  "billing.trialTeamPlanNote":
+    "Your Team plan remains active during this trial.",
+  "billing.tryAllFeatures": "Try all of NetBird's features for free",
+  "billing.unlimitedUsers": "Unlimited Users",
+  "billing.updateNetBirdPlan": "Update your NetBird Plan",
+  "billing.upgradeNetBirdPlan": "Upgrade your NetBird Plan",
+  "billing.upgradeNow": "Upgrade Now",
+  "billing.upgradePlan": "Upgrade Plan",
+  "billing.upgradeTo": "Upgrade to",
+  "billing.usageLimitReached": "Usage limit reached",
+  "billing.user": "User",
+  "billing.users": "Users",
+  "billing.visitAwsMarketplace": "Visit AWS Marketplace",
+  "billing.whatsNext": "What's next?",
+  "common.block": "Block",
+  "common.confirm": "Confirm",
+  "common.disconnect": "Disconnect",
+  "common.getSupport": "Get Support",
+  "common.minutes": "Minutes",
+  "common.name": "Name",
+  "common.notSet": "Not set",
+  "common.requestAccess": "Request Access",
+  "crowdStrike.setup.step2And": "and",
+  "crowdStrike.setup.step2AndEnter": "and enter",
+  "crowdStrike.setup.step2AsClientName": "as the client name and select",
+  "crowdStrike.setup.step2AsScope": "as the scope",
+  "crowdStrike.setup.step2Click": "Click",
+  "crowdStrike.setup.step3AndEnterCredentials": "and enter your credentials",
+  "crowdStrike.setup.step3Click": "Click",
+  "crowdStrike.ztaScoreError": "Score should be between 1 and 100",
+  "crowdStrike.ztaScoreLink": "ZTA score",
+  "crowdStrike.ztaToggleHelpPrefix": "The",
+  "crowdStrike.ztaToggleHelpSuffix":
+    "is a parameter that allows you to set the minimum ZTA score for the peer to be approved",
+  "crowdStrike.ztaToggleLabel": "Use Zero Trust Assessment Score",
+  "distributor.accountExistsCallout":
+    "The account owner must log in to the dashboard to accept or decline your request. Please inform them after you have requested access.",
+  "distributor.accountExistsLine1": "This NetBird account already",
+  "distributor.accountExistsLine2": "exists in our system",
+  "distributor.accountExistsManagePrefix": "To manage the account",
+  "distributor.accountExistsManageSuffix":
+    ", you must first request access from the account owner.",
+  "distributor.invitationTooltip":
+    "The customer account owner must log in to the dashboard to accept or decline your invitation.",
+  "distributor.netBirdPlanFor": "NetBird Plan for {name}",
+  "distributor.pendingInvitation": "Pending invitation",
+  "distributor.selectPlanForCustomer":
+    "Select the plan that best fits your customer's needs.",
+  "distributor.unlink": "Unlink",
+  "distributor.unlinkCustomerDescription":
+    "Unlinking this customer will remove it from your distributor account. The account will continue to exist independently.",
+  "distributor.unlinkCustomerTitle": "Unlink '{name}'?",
+  "edr.description":
+    "Endpoint Detection and Response (EDR) and Mobile Device Management (MDM) integrations allow you to restrict network access only to devices managed by the IT department.",
+  "edr.huntress.apiSecretLabel": "API Secret",
+  "edr.huntress.defenderPolicyCompliance": "Defender Policy Compliance",
+  "edr.huntress.defenderPolicyComplianceHelp":
+    "Defender configuration should match your organization's security policy requirements",
+  "edr.huntress.firewall": "Firewall",
+  "edr.huntress.firewallHelpPrefix": "Device has an active firewall with",
+  "edr.huntress.firewallHelpSuffix": "all required profiles enabled",
+  "edr.huntress.groupsLabel": "Groups",
+  "edr.huntress.managedDefender": "Managed Microsoft Defender",
+  "edr.huntress.managedDefenderHelp":
+    "Defender is enabled, up-to-date, scanned recently, and no conflicting antivirus detected",
+  "edr.huntress.requirementsLabel": "Requirements",
+  "edr.huntress.setup.complianceDesc":
+    "Set the specific requirements that devices must meet to be considered compliant. Learn more in the",
+  "edr.huntress.setup.complianceDescSuffix": "about the different statuses.",
+  "edr.huntress.setup.complianceDocLink": "Huntress Documentation",
+  "edr.huntress.setup.complianceTitle": "Compliance Requirements",
+  "edr.huntress.setup.connectedDescription":
+    "Huntress was successfully connected to NetBird.",
+  "edr.huntress.setup.createApiKeys": "Create API Keys",
+  "edr.huntress.setup.getCredentialsStep1Console":
+    "Huntress Management Console",
+  "edr.huntress.setup.getCredentialsStep1Mark": "API Credentials",
+  "edr.huntress.setup.getCredentialsStep1Navigate": "Navigate to your",
+  "edr.huntress.setup.getCredentialsStep1Then":
+    "then open the menu at the top right and click",
+  "edr.huntress.setup.getCredentialsStep2Add": "+ Add",
+  "edr.huntress.setup.getCredentialsStep2Desc": "as the description",
+  "edr.huntress.setup.getCredentialsStep2Then": "then select your user and add",
+  "edr.huntress.setup.getCredentialsStep2Under":
+    "Under User API Credentials click",
+  "edr.huntress.setup.getCredentialsStep3": "Enter your API Credentials",
+  "edr.huntress.setup.getCredentialsTitle": "Get Huntress API Credentials",
+  "edr.huntress.setup.manageApiKeys": "Manage API Keys",
+  "edr.huntress.setup.permissionsAccount": "Huntress account",
+  "edr.huntress.setup.permissionsEnsure": "Ensure that you have an",
+  "edr.huntress.setup.permissionsHelp":
+    "If you don't have the required permissions, ask your administrator to grant them to you.",
+  "edr.huntress.setup.permissionsLabel": "permissions",
+  "edr.huntress.setup.permissionsWith": "with the following",
+  "edr.huntress.setup.syncWindowHelp":
+    "Devices not synced with Huntress in this time won't have network access.",
+  "edr.huntress.setup.syncWindowTitle": "Huntress Sync Window",
+  "edr.huntress.setup.syncWindowTooltip":
+    "Example: This property is set to 24 hours. Jane's laptop hasn't synced with Huntress for 27 hours. Even though it's marked as Compliant in Huntress, it will still be blocked from network access.",
+  "edr.huntress.syncWindowLabel": "Sync Window",
+  "edr.sentinelOne.activeStatus": "Active Status",
+  "edr.sentinelOne.activeStatusHelp":
+    "SentinelOne agent must be active and reporting.",
+  "edr.sentinelOne.allowedActiveThreats": "Allowed Active Threats",
+  "edr.sentinelOne.allowedActiveThreatsHelp":
+    "Maximum allowed number of active threats on a device.",
+  "edr.sentinelOne.blockInfectedDevices": "Block Infected Devices",
+  "edr.sentinelOne.blockInfectedDevicesHelp":
+    "Prevent access for devices with active infections.",
+  "edr.sentinelOne.diskEncryption": "Disk Encryption",
+  "edr.sentinelOne.diskEncryptionHelp":
+    "Devices must have disk encryption enabled.",
+  "edr.sentinelOne.firewall": "Firewall",
+  "edr.sentinelOne.firewallHelp": "Devices must have their firewall enabled.",
+  "edr.sentinelOne.latestAgentVersion": "Latest Agent Version",
+  "edr.sentinelOne.latestAgentVersionHelp":
+    "SentinelOne agent should be running on the latest version.",
+  "edr.sentinelOne.networkConnectivity": "Network Connectivity",
+  "edr.sentinelOne.networkConnectivityHelp":
+    "Require active network connection to SentinelOne.",
+  "edr.sentinelOne.setup.complianceDesc":
+    "Set the specific requirements that devices must meet to be considered compliant.",
+  "edr.sentinelOne.setup.complianceTitle": "Compliance Requirements",
+  "edr.sentinelOne.setup.connectedDescription":
+    "SentinelOne was successfully connected to NetBird.",
+  "edr.sentinelOne.setup.createApiTokens": "Create API Tokens",
+  "edr.sentinelOne.setup.createTokenStep1Navigate": "Navigate to",
+  "edr.sentinelOne.setup.createTokenStep1Path":
+    "Settings » Users » Service Users",
+  "edr.sentinelOne.setup.createTokenStep2Click": "Click",
+  "edr.sentinelOne.setup.createTokenStep2Mark": "Create Service User",
+  "edr.sentinelOne.setup.createTokenStep3Desc":
+    "as the name, a optional description and select your preferred expiration date.",
+  "edr.sentinelOne.setup.createTokenStep3Enter": "Enter",
+  "edr.sentinelOne.setup.createTokenStep3Name": "NetBird Integration",
+  "edr.sentinelOne.setup.createTokenStep3Next": "Next",
+  "edr.sentinelOne.setup.createTokenStep4Click": "Click",
+  "edr.sentinelOne.setup.createTokenStep4Copy":
+    ", copy your API Token and enter it below.",
+  "edr.sentinelOne.setup.createTokenStep4Create": "Create User",
+  "edr.sentinelOne.setup.createTokenStep4Select":
+    "Select your Site and set the Scope to",
+  "edr.sentinelOne.setup.createTokenStep4Viewer": "Viewer",
+  "edr.sentinelOne.setup.createTokenTitle": "Create a SentinelOne API Token",
+  "edr.sentinelOne.setup.description":
+    "Restrict network access to devices managed by SentinelOne based on their security posture.",
+  "edr.sentinelOne.setup.estimatedTime": "10-20 Minutes",
+  "edr.sentinelOne.setup.getUrlStep1":
+    "Navigate to your SentinelOne Management Console.",
+  "edr.sentinelOne.setup.getUrlStep2":
+    "Copy your SentinelOne console URL from the browser's address bar and enter it here.",
+  "edr.sentinelOne.setup.getUrlTitle": "Get your SentinelOne Console URL",
+  "edr.sentinelOne.setup.manageApiTokens": "Manage API Tokens",
+  "edr.sentinelOne.setup.peerApprovalHelp":
+    "Select groups you want to apply the SentinelOne integration to",
+  "edr.sentinelOne.setup.peerApprovalTitle": "Peer Approval",
+  "edr.sentinelOne.setup.permissionsAccount": "SentinelOne account",
+  "edr.sentinelOne.setup.permissionsEnsure": "Ensure that you have an",
+  "edr.sentinelOne.setup.permissionsHelp":
+    "If you don't have the required permissions, ask your administrator to grant them to you.",
+  "edr.sentinelOne.setup.permissionsLabel": "permissions",
+  "edr.sentinelOne.setup.permissionsWith": "with the following",
+  "edr.sentinelOne.setup.syncWindowHelp":
+    "Devices not synced with SentinelOne in this time won't have network access.",
+  "edr.sentinelOne.setup.syncWindowTitle": "SentinelOne Sync Window",
+  "edr.sentinelOne.setup.syncWindowTooltip":
+    "Example: This property is set to 24 hours. Jane's laptop hasn't synced with SentinelOne for 27 hours. Even though it's marked as Compliant in SentinelOne, it will still be blocked from network access.",
+  "edr.sentinelOne.setup.title": "Connect NetBird with SentinelOne",
+  "edr.sentinelOne.threatsSuffix": "Threats",
+  "edr.title": "MDM & EDR",
+  "entraScim.authMethod": "Authentication Method",
+  "entraScim.authMethodValue": "Bearer authentication",
+  "entraScim.secretToken": "Secret token",
+  "entraScim.step1Step1Link": "Azure Portal",
+  "entraScim.step1Step1Prefix": "Navigate to",
+  "entraScim.step1Step2Desc":
+    "Go to Azure Active Directory then Enterprise applications",
+  "entraScim.step1Step3Desc":
+    "Click + New application to create a new enterprise application and then click + Create your own application",
+  "entraScim.step1Step4Desc":
+    "Enter NetBird SCIM as the name and select Integrate any other application you don't find in the gallery (Non-gallery)",
+  "entraScim.step1Step5Desc": "Click Create",
+  "entraScim.step1Title": "Configure SCIM in Microsoft Entra ID",
+  "entraScim.step2CalloutPrefix":
+    "The '?aadOptscim062020' flag appended to the Tenant URL is required to ensure Microsoft Entra ID sends SCIM 2.0 compliant requests.",
+  "entraScim.step2Step1Desc":
+    "Once the application is created, click Manage, then click Provisioning. Under the Create configuration section, click Connect your application",
+  "entraScim.step2Step2Desc": "Fill in the form with the following details",
+  "entraScim.step2Step3Desc":
+    "After that click Test Connection to verify the SCIM connection. If the connection is successful click Create to save the configuration.",
+  "entraScim.step2Title": "Enable Provisioning",
+  "entraScim.step3Step1Desc":
+    "Navigate to the Attribute mapping section and select the Groups tab",
+  "entraScim.step3Step2Desc":
+    "In the attribute mappings list, locate the externalId row and click Delete",
+  "entraScim.step3Step3Desc":
+    "Click Save to apply the updated group attribute mapping configuration",
+  "entraScim.step3Title": "Group Attribute Mapping",
+  "entraScim.step4Step1Desc":
+    "Navigate to the Attribute mapping section and select the Users tab",
+  "entraScim.step4Step2Desc":
+    "In the attribute mappings list, remove all attribute mappings except for the following:",
+  "entraScim.step4Step3Desc":
+    "In the attribute mappings list, locate the externalId row and click Edit. Change the Source attribute from mailNickname to objectId and click Ok to save the change",
+  "entraScim.step4Step4Desc":
+    "Click Save to apply the final attribute mapping configuration",
+  "entraScim.step4Title": "User Attribute Mapping",
+  "entraScim.step5Step1Desc":
+    "Navigate to your NetBird enterprise application and click on Users and groups in the left menu",
+  "entraScim.step5Step2Desc":
+    "Click + Add user/group and select the users and groups you want to synchronize to NetBird",
+  "entraScim.step5Step3Desc": "Click Assign to save the assignments",
+  "entraScim.step5Title": "Assign Users and Groups",
+  "entraScim.step6Step1Desc":
+    "After assigning users and groups, navigate back to the provisioning configuration, click Overview, then click the Start provisioning button to enable automatic synchronization",
+  "entraScim.step6Step2Desc":
+    "The first sync will begin shortly after provisioning is started. Click Finish Setup below to finalize this setup.",
+  "entraScim.step6Title": "Start provisioning",
+  "entraScim.tenantUrl": "Tenant URL",
+  "eventStreaming.cardDescription":
+    "Stream your activity events to third-party services.",
+  "firewallGpt.accessForm.companySizeLabel":
+    "How many people in your company will use NetBird?",
+  "firewallGpt.accessForm.description":
+    "Smart Firewall translates natural language prompts into network policies. You can describe your access needs in plain language, and AI will handle the rest. If you're interested in early access, please fill out the form below.",
+  "firewallGpt.accessForm.messageLabel":
+    "Why and how are you planning to use our Smart Firewall?",
+  "firewallGpt.accessForm.messagePlaceholder":
+    "We need to set up secure access to our staging servers. I'd like to use Smart Firewall to quickly create and manage...",
+  "firewallGpt.accessForm.submit": "Request Early Access",
+  "firewallGpt.accessForm.title": "Want to try Smart Firewall?",
+  "firewallGpt.accessFormSuccess.close": "Close Message",
+  "firewallGpt.accessFormSuccess.description":
+    "We'll send you an email once NetBird's Smart Firewall is ready to use in your account.",
+  "firewallGpt.accessFormSuccess.title": "Thank you for signing up!",
+  "firewallGpt.allPorts": "Allow connections through all ports",
+  "firewallGpt.button.lockedDescription":
+    "Smart Firewall uses AI to help you create access policies and is available with a NetBird Enterprise commercial license.",
+  "firewallGpt.creatingPolicy": "Creating policy...",
+  "firewallGpt.header.subtitle":
+    "Effortlessly create access control policies using natural language prompts",
+  "firewallGpt.newChat": "New Chat",
+  "firewallGpt.policyCreated.description":
+    "Policy {name} was successfully created.",
+  "firewallGpt.policyCreated.title": "NetBird's Smart Firewall",
+  "firewallGpt.portPrefix": "Allow connections through port",
+  "firewallGpt.postureCheckFailed": "Posture Check failed to create.",
+  "firewallGpt.reviewNotice":
+    "Please review new groups, assigned peers, policy settings and posture checks before creating the policy",
+  "firewallGpt.smartFirewall": "Smart Firewall",
+  "firewallGpt.successModal.description":
+    "How would you rate your experience with NetBird's Smart Firewall?",
+  "firewallGpt.successModal.title":
+    "Policy '{name}' has been created successfully!",
+  "fleetdm.complianceTitle": "Compliance Requirements",
+  "fleetdm.connectDescription":
+    "Restrict network access to devices managed by FleetDM based on their compliance policies.",
+  "fleetdm.connectTitle": "Connect NetBird with FleetDM",
+  "fleetdm.diskEncryption": "Disk Encryption",
+  "fleetdm.diskEncryptionHelp":
+    "Devices must have disk encryption (FileVault/BitLocker) enabled.",
+  "fleetdm.maxFailingPolicies": "Max Failing Policies",
+  "fleetdm.maxFailingPoliciesHelp":
+    "Maximum number of allowed failing policies on a device.",
+  "fleetdm.maxVulnerableSoftware": "Max Vulnerable Software",
+  "fleetdm.maxVulnerableSoftwareHelp":
+    "Maximum number of allowed vulnerable software on a device.",
+  "fleetdm.notifyConnected": "FleetDM was successfully connected to NetBird.",
+  "fleetdm.onlineStatus": "Online Status",
+  "fleetdm.onlineStatusHelp":
+    "Require the host to be online (recently seen by Fleet).",
+  "fleetdm.permApiOnly": "API-only User or Admin Access",
+  "fleetdm.permReadAccess": "Read Access to Hosts and Policies",
+  "fleetdm.permissionsAccount": "FleetDM account",
+  "fleetdm.permissionsEnsure": "Ensure that you have a",
+  "fleetdm.permissionsHelp":
+    "If you don't have the required permissions, ask your administrator to grant them to you.",
+  "fleetdm.policiesSuffix": "Policies",
+  "fleetdm.requiredPolicyIds": "Required FleetDM Policy IDs",
+  "fleetdm.requiredPolicyIdsHelp":
+    "Comma-separated policy IDs that must pass on the device.",
+  "fleetdm.softwareSuffix": "Software",
+  "fleetdm.step1CopyUrl":
+    "Copy your FleetDM server URL from the browser's address bar and enter it here.",
+  "fleetdm.step1Navigate": "Navigate to your FleetDM Management Console.",
+  "fleetdm.step1Title": "Enter your FleetDM Server URL",
+  "fleetdm.step2ApiOnlyUser": "API-only user",
+  "fleetdm.step2Create": "Create an",
+  "fleetdm.step2Login": "Log in as an admin to your Fleet instance using",
+  "fleetdm.step2Paste": "Once created, paste the received API token below.",
+  "fleetdm.step2Title": "Create a FleetDM API Token",
+  "fleetdm.syncWindowTitle": "FleetDM Sync Window",
+  "genericHttp.cardDescription":
+    "Provide your custom HTTP endpoint to stream audit & traffic events.",
+  "genericHttp.disabledDescription":
+    "HTTP Integration was successfully disabled.",
+  "genericHttp.disabling": "Disabling Generic HTTP Integration...",
+  "genericHttp.enabledDescription":
+    "HTTP Integration was successfully enabled.",
+  "genericHttp.enabling": "Enabling Generic HTTP Integration...",
+  "groups.groups": "Groups",
+  "groups.searchByName": "Search group by name...",
+  "invite.acceptExpiresOn": "Invite expires on {date}",
+  "invoices.downloadAsCsv": "Download as CSV",
+  "invoices.downloadAsPdf": "Download as PDF",
+  "invoices.downloadCsv": "Download Invoice (CSV)",
+  "invoices.downloadPdf": "Download Invoice (PDF)",
+  "invoices.downloadingCsv": "Downloading {id}.csv...",
+  "invoices.gettingInvoice": "Getting invoice for this billing period...",
+  "invoices.redirectingToStripe":
+    "Redirecting to Stripe to download the invoice...",
+  "mfa.appliesToAllUsers": "This setting is global and applies to all users.",
+  "mfa.enableIfNotInIdp": "Enable NetBird MFA if not configured in your IdP.",
+  "mfa.enableMfa": "Enable MFA",
+  "mfa.mayNotNeedPrefix": "Your",
+  "mfa.mayNotNeedSuffix":
+    "may already have MFA enabled. Enabling this setting could result in duplicated MFA checks.",
+  "mfa.mayNotNeedTitle": "You may not need NetBird MFA",
+  "mfa.mfaDisabled": "MFA is now disabled for your account",
+  "mfa.mfaEnabled": "MFA is now enabled for your account",
+  "mfa.rememberBrowser": "Remember Browser for MFA",
+  "mfa.rememberBrowserDisabled": "Option to remember browser is now disabled",
+  "mfa.rememberBrowserEnabled": "Option to remember browser is now enabled",
+  "mfa.rememberBrowserHelp":
+    "When enabled, users will have the option to remember their browser for 30 days.",
+  "mfa.rememberBrowserHelpSuffix":
+    "MFA will not be required for that browser during this period.",
+  "mfa.ssoProvider": "SSO Provider",
+  "mfa.title": "Multi-Factor Authentication (MFA)",
+  "mfa.updatingSettings": "Updating MFA settings...",
+  "msp.accountExistsCallout":
+    "The account owner must log in to the dashboard to accept or decline your request. Please inform them after you have requested access.",
+  "msp.accountExistsLine1": "This NetBird account already",
+  "msp.accountExistsLine2": "exists in our system",
+  "msp.accountExistsManagePrefix": "To manage the account",
+  "msp.accountExistsManageSuffix":
+    ", you must first request access from the account owner.",
+  "msp.accountTrialExpiredDescription":
+    "Your account has reached the end of the free trial period.",
+  "msp.addGroup": "Add Group",
+  "msp.alreadyAccepted": "The invitation has already been accepted",
+  "msp.contactAccountAdmin":
+    "To continue using NetBird, please contact your account administrator",
+  "msp.contactDistributor":
+    "To continue using NetBird, please contact your distributor.",
+  "msp.copyTxtRecordPrefix": "Copy the",
+  "msp.copyTxtRecordSuffix": "below and add it to your DNS configuration for",
+  "msp.decline": "Decline",
+  "msp.deleteTenantDescription":
+    "Deleting this tenant will permanently remove all of its associated data, including its peers, users, groups and everything else. Please be aware that this action is irreversible and cannot be undone.",
+  "msp.deleteTenantTitle": "Delete '{name}'?",
+  "msp.dnsNote":
+    "Note: DNS changes may take some time to apply. If NetBird doesn't find the record immediately, please wait a day and try again.",
+  "msp.goToTenants": "Go to Tenants",
+  "msp.host": "Host",
+  "msp.joinDescription":
+    "You will get access to the NetBird MSP portal where you can manage multiple customers and their networks from a single place.",
+  "msp.joinTitle":
+    "NetBird invites you to join as an Managed Service Provider (MSP)",
+  "msp.mspPortal": "MSP Portal",
+  "msp.netBirdPlanFor": "NetBird Plan for {name}",
+  "msp.noCustomers": "Seems like you don't have any customers.",
+  "msp.noCustomersMatching":
+    "There are no customers matching your search. Try another search term.",
+  "msp.noDnsAccessPrefix":
+    "If you do not have access to your DNS configuration, you can also verify your domain by sending us an email to",
+  "msp.noDnsAccessSuffix":
+    ". The email should be sent from the domain you are trying to verify.",
+  "msp.notifyDescription": "Successfully joined as an Managed Service Provider",
+  "msp.notifyTitle": "NetBird Managed Service Provider",
+  "msp.ownerMustLoginTooltip":
+    "The account owner must log in to the dashboard to accept or decline your request.",
+  "msp.ownerOnlyCallout":
+    "Only the owner of the account can accept this invitation. Please contact the owner of the account to accept the invitation.",
+  "msp.pendingAccessRequest": "Pending access request",
+  "msp.permissionsHelp": "Add user groups to grant them access to this tenant.",
+  "msp.permissionsRequired": "Permissions (required)",
+  "msp.processingInvitation": "Processing your invitation...",
+  "msp.searchByNameOrDomain": "Search by name or domain...",
+  "msp.selectPlanForTenant":
+    "Select the plan that best fits your tenant's needs.",
+  "msp.switchToAccount": "Switch to {name}'s Account",
+  "msp.tenantTrialExpiredDescription":
+    "has reached the end of the free trial period. To continue using NetBird, please upgrade the plan for this tenant.",
+  "msp.the14DayTrialExpired": "The 14-Day Trial has expired!",
+  "msp.thisTenant": "This tenant",
+  "msp.trialExpiredTooltip":
+    "Trial for this tenant has expired. Please upgrade the plan to continue using the tenant.",
+  "msp.txtHost": "TXT Host",
+  "msp.txtRecord": "TXT record",
+  "msp.txtValue": "TXT Value",
+  "msp.verifyDomainOwnership": "Verify Domain Ownership",
+  "msp.your14DayTrialExpired": "Your 14-Day Trial has expired!",
+  "nameservers.active": "Active",
+  "nameservers.all": "All",
+  "nameservers.deleteLoadingMessage": "Deleting the nameserver...",
+  "nameservers.inactive": "Inactive",
+  "nameservers.status": "Status",
+  "networkResources.configurePolicies": "Configure policies",
+  "noPeersGettingStarted.learnMorePrefix": "Learn more in our",
+  "notification.copyRequestId": "Copy request ID",
+  "notification.errorCode": "Code {code}: {message}",
+  "notification.requestId": "Request ID:",
+  "onboarding.agentNetwork.skipPrompt": "Already know how Agent Network works?",
+  "onboarding.defaultPolicyDescription":
+    "Allows connections between all your devices",
+  "onboarding.endDescriptionExtended":
+    "What's next? Check out these guides to get the most out of NetBird. To learn more, explore the dashboard, visit our documentation, or browse our YouTube channel.",
+  "onboarding.videoHowDescriptionExtended":
+    "Learn more about how NetBird works, its architecture, and how it can help you build secure networks.",
+  "peer.approvalRequiredIssueTooltip":
+    "This peer needs admin approval before it can connect. Approve it from the row's actions menu.",
+  "peer.complianceBypassedTooltip":
+    "This peer has compliance bypassed by an administrator. The bypass will be automatically removed when the device becomes compliant.",
+  "peer.notCompliantTooltip":
+    "This peer is not compliant with {name} and cannot connect until compliance is restored or bypassed.",
+  "peer.sessionExpirationToggleDescription":
+    "Enable to require SSO login peers to re-authenticate when their session expires after a certain period of time.",
+  "peer.settingDisabledForSetupKeyPeers":
+    "This setting is disabled for all peers added with an setup-key.",
+  "peerGroupSelector.noClustersPrefix": "No proxy clusters available. Go to",
+  "peerGroupSelector.noClustersSuffix":
+    "to configure one that supports private services.",
+  "peerResourcePicker.noMatchingResults": "No matching results.",
+  "peerResourcePicker.noResourcesAvailable":
+    "No resources available to select.",
+  "peerSSH.clientUpdateWarning":
+    "You have SSH access configured but your client runs on an older NetBird version. Please update your NetBird client to v.0.61.0+ in order to allow SSH connections.",
+  "peerSSH.explicitPolicyWarning":
+    "Your SSH server is enabled, but starting from NetBird v0.61.0, SSH requires an explicit access control policy. Please create an SSH access control policy in order to allow SSH connections.",
+  "plan.business": "Business",
+  "plan.free": "Free",
+  "plan.freeTrial": "Free Trial",
+  "plan.team": "Team",
+  "plan.trialDayLeft": " ({count} day left)",
+  "plan.trialDaysLeft": " ({count} days left)",
+  "plan.trialExpired": "Trial Expired",
+  "plan.trialHasExpired": " (Trial has expired)",
+  "plan.upgradePlan": "Upgrade Plan",
+  "postureChecks.noChecksDescription":
+    "Add various posture checks to further restrict access in your network. E.g., only clients with a specific NetBird client version, operating system or location are allowed to connect.",
+  "postureChecks.removeChecks": "Remove Checks",
+  "reverseProxy.clusterAddressCopied": "{address} has been copied to clipboard",
+  "reverseProxy.customDomainNoClusterSelfHostedVerify":
+    "No proxy clusters are currently connected. Please ensure at least one proxy is running to configure DNS verification.",
+  "reverseProxy.l4SingleTargetHelp":
+    "L4 services (TCP / UDP / TLS) only support a single target.",
+  "reverseProxy.netBirdOnlyModalDescription":
+    "Reachable from peers in selected groups only.",
+  "reverseProxy.proxyClusterHelpSuffix":
+    "forwards inbound traffic to an upstream the proxy reaches without WireGuard. Useful for external APIs and services co-located with the proxy.",
+  "reverseProxy.statusSeeDocsPrefix": "See our",
+  "reverseProxy.statusSeeDocsSuffix": "for more details.",
+  "reverseProxy.statusTroubleshootingDocs": "Troubleshooting Docs",
+  "reverseProxy.targetHelpArticle": "A",
+  "reverseProxy.targetPeerHelpSuffix":
+    "is a machine (e.g., laptop, server, container) running NetBird. Select a peer if your service runs directly on it.",
+  "reverseProxy.targetResourceHelpSuffix":
+    "is a destination (IP, subnet, or domain) that can't run NetBird directly. Resources are part of a network and are reached through a routing peer that forwards traffic to them.",
+  "reverseProxy.targetSelectGeneralHelp":
+    "Choose where the proxy should forward incoming requests.",
+  "reverseProxy.urlCopied": "URL has been copied to your clipboard",
+  "reverseProxy.verdictBan": "Ban",
+  "reverseProxy.verdictCaptcha": "Captcha",
+  "reverseProxy.verdictThrottle": "Throttle",
+  "setupModal.generatingSetupKey": "Generating setup key...",
+  "setupModal.installWithSetupKeyDescription":
+    "To get started, install and run Cloink with the setup key as a parameter.",
+  "setupModal.setupKeyCopied": "Setup Key Copied",
+  "setupModal.setupKeyCopiedDescription": "Successfully copied to clipboard.",
+  "setupModal.setupKeyCreated": "Setup Key Created",
+  "setupModal.setupKeyCreatedDescription":
+    "A one-off setup key was generated for this install.",
+  "sso.title": "Single Sign-On",
+  "table.lastSeen": "Last seen",
+  "userDropdown.plansAndBilling": "Plans & Billing",
+  "zones.deleteLoadingMessage": "Deleting DNS Zone...",
+  "azureAd.description":
+    "Microsoft Entra ID is a cloud-based identity and access management solution.",
+  "azureAd.forceSyncTooltip": "Force synchronization of users and groups",
+  "idpSync.allGroups": "All Groups",
+  "idpSync.allUsers": "All Users",
+  "idpSync.cardDescription":
+    "Sync users and groups from Okta, Microsoft or Google IdP",
+  "idpSync.defaultPrefix": "By default,",
+  "idpSync.groupPrefixHelp":
+    "If you want to synchronize only groups that start with a specific prefix, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
+  "idpSync.groupsSyncSuffix": "will be synchronized from your IdP to NetBird.",
+  "idpSync.identityProvider": "Identity Provider",
+  "idpSync.identityProviderSync": "Identity Provider Sync",
+  "idpSync.userGroupHelp":
+    "If you want to synchronize only users that belong to a specific group, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
+  "idpSync.usersSyncSuffix": "will be synchronized from your IdP to NetBird.",
+  "jumpcloud.connect": "Connect Jumpcloud",
+  "jumpcloud.description":
+    "Jumpcloud is a unified identity, device, and access management platform.",
+  "okta.connect": "Connect Okta",
+  "okta.description":
+    "Okta is a platform to provision and manage user accounts in cloud-based applications.",
+  "okta.ssoRequired": "Okta SSO Required",
+  "okta.ssoRequiredTooltip":
+    "Please setup Okta SSO from the Single-Sign-On tab to enable user and group sync.",
+  "onboarding.addUserDeviceDescription":
+    "Your first resource and routing peer are all set. Now, take your device, install NetBird, and let's get you connected.",
+  "onboarding.addUserDeviceTitle": "Time to add your client device",
+  "onboarding.agentCompanySize": "How many people will use Agent Network?",
+  "onboarding.agentEndDescription":
+    "Run your agent or send a test request with an allowed model. Open Usage & Logs to confirm caller identity, model, tokens, and cost.",
+  "onboarding.agentEndSubtitle": "Your agent network is ready.",
+  "onboarding.agentEndTitle": "You're all set!",
+  "onboarding.agentReferral": "How did you hear about Agent Network?",
+  "onboarding.agentSignupDescription":
+    "Share a few details about your use case to help us get you started smoothly.",
+  "onboarding.agentUseCase": "How do you plan to use Agent Network?",
+  "onboarding.agentUseCaseHelp": "You can also select multiple use cases.",
+  "onboarding.agentWelcome": "Welcome to NetBird!",
+  "onboarding.agentWelcomeName": "Welcome to NetBird, {name}!",
+  "onboarding.firstDeviceDescription":
+    "To access other machines, install NetBird, sign in, and your device joins the network. Every device you add becomes a NetBird peer in your network. It's that simple.",
+  "onboarding.firstDeviceTitle": "Let's get your first device online",
+  "onboarding.goToAccessLogs": "Go to Access Logs",
+  "onboarding.otherUseCasePlaceholder": "e.g. Internal RAG service, MCP tools",
+  "reverseProxy.terminated": "Terminated",
+  "reverseProxy.terminatedTooltip":
+    "This service has been terminated by the NetBird team as it violates the Terms of Service. For questions, please contact",
+  "routes.lowerMetricPriority": "Lower metrics have higher priority.",
+  "search.close": "Close",
+  "search.navigate": "Navigate",
+  "search.networksCount": "Networks ({count})",
+  "search.notFound": "Could not find any results",
+  "search.notFoundDescription":
+    "We couldn't find any results. Please try a different search term.",
+  "search.open": "Open",
+  "search.quickFind": "Quickly find networks and associated resources.",
+  "search.resources": "Resource(s)",
+  "search.resourcesCount": "Resources ({count})",
+  "search.startTyping":
+    "Start typing to search by name, description or address.",
+  "search.title": "Search for Networks and Resources",
+  "setupKeys.allowExtraDnsLabels":
+    "Allow multiple DNS labels in the peer name (e.g.",
+  "sso.description":
+    "Configure your preferred Identity Provider (IdP) to enable Single Sign-On (SSO) for your team.",
+  "sso.failedVerification": "Failed Verification",
+  "sso.idpSyncFeatureText": "Identity Provider (IdP) Sync",
+  "survey.description":
+    "Help us improve by sharing how you discovered NetBird. Your feedback truly helps us grow.",
+  "survey.placeholder": "Please select an option...",
+  "survey.question": "How did you hear about NetBird?",
+  "survey.submit": "Submit & Continue",
+  "survey.title": "We'd love to hear from you",
+  "webhooks.addHeader": "Add Header",
+  "webhooks.basicAuth": "Basic Auth",
+  "webhooks.bearerToken": "Bearer Token",
+  "webhooks.headerConflictEnd": "header.",
+  "webhooks.headerConflictMiddle": "header. This will override the",
+  "webhooks.headerConflictPrefix": "Warning: You have added an",
+  "webhooks.headerConflictSuffix":
+    "authentication from the previous step. Please remove the",
+  "webhooks.httpHeaders": "HTTP Headers (optional)",
+  "webhooks.httpHeadersHelp":
+    "If your endpoint requires additional headers, you can add them here.",
+  "routeGroup.addMorePeersToIncrease":
+    "You can add more peers to increase the availability of this network route.",
+  "routeGroup.addMoreRoutingPeers":
+    "Go ahead and add more routing peers to enable high availability for this network route.",
+  "routeGroup.addPeersToGroupViaPeersPage":
+    "You can add more peers to a group in this route by going to the peers page.",
+  "routeGroup.configureAddPeersToGroup":
+    "To configure, you must add more peers to a group in this route. You can do it in the Peers menu.",
+  "routeGroup.haCurrentlyDisabled": "High availability is currently",
+  "routeGroup.haDisabled": "disabled",
+  "routeGroup.haEnabled": "enabled",
+  "routeGroup.haForThisRoute": "for this route.",
+  "routeGroup.haIs": "High availability is",
+  "trafficEvents.accepted": "accepted",
+  "trafficEvents.and": " and ",
+  "trafficEvents.blockedConnectionTo": "blocked connection to",
+  "trafficEvents.blockedP2PConnectionFrom": "blocked P2P connection from",
+  "trafficEvents.blockedP2PConnectionTo": "blocked P2P connection to",
+  "trafficEvents.comma": ", ",
+  "trafficEvents.connection": "{count} connection",
+  "trafficEvents.connectionBlocked": "blocked",
+  "trafficEvents.connectionStarted": "started",
+  "trafficEvents.connectionStopped": "stopped",
+  "trafficEvents.connectionTo": "Connection to",
+  "trafficEvents.connections": "{count} connections",
+  "trafficEvents.ended": "ended",
+  "trafficEvents.filter": "Filter",
+  "trafficEvents.filterBlocked": "blocked",
+  "trafficEvents.filterInbound": "(inbound)",
+  "trafficEvents.filterOutbound": "(outbound)",
+  "trafficEvents.filterStarted": "started",
+  "trafficEvents.filterStopped": "stopped",
+  "trafficEvents.filterTypeLabel": "Connection {verb} {direction}",
+  "trafficEvents.filters": " Filter(s)",
+  "trafficEvents.from": "from",
+  "trafficEvents.gotBlocked": " got blocked ",
+  "trafficEvents.inbound": "(inbound)",
+  "trafficEvents.noFiltersMatching":
+    "There are no filters matching your search.",
+  "trafficEvents.outbound": "(outbound)",
+  "trafficEvents.p2p": "P2P",
+  "trafficEvents.peerPrefix": "Peer",
+  "trafficEvents.receivedConnectionTo": "received connection to",
+  "trafficEvents.receivedP2PConnectionFrom": "received P2P connection from",
+  "trafficEvents.requestedConnectionTo": "requested connection to",
+  "trafficEvents.requestedP2PConnectionTo": "requested P2P connection to",
+  "trafficEvents.resourcePrefix": "Resource",
+  "trafficEvents.routePrefix": "Route",
+  "trafficEvents.routed": "Routed",
+  "trafficEvents.routingPeer": "Routing peer",
+  "trafficEvents.started": "started",
+  "trafficEvents.startedRoutingTo": "started routing to",
+  "trafficEvents.stoppedConnectionTo": "stopped connection to",
+  "trafficEvents.stoppedP2PConnectionFrom": "stopped P2P connection from",
+  "trafficEvents.stoppedP2PConnectionTo": "stopped P2P connection to",
+  "trafficEvents.stoppedRoutingTo": "stopped routing to",
+  "trafficEvents.times": "times",
+  "trafficEvents.to": "to",
+  "trafficEvents.tryingToConnectTo": " trying to connect to ",
+  "trafficEvents.typeText": "{name} connection {verb} {direction}",
+  "trafficEvents.wasBlocked": "was blocked",
+  "azureAd.apiNotifyTitle": "Entra ID (API) Integration",
+  "azureAd.disabledDescription": "Entra ID (API) was successfully disabled",
+  "azureAd.enabledDescription": "Entra ID (API) was successfully enabled",
+  "azureAd.syncedDescription": "Entra ID (API) was successfully synced",
+  "integrations.notSynced": "Not synchronized",
+  "integrations.synced": "Synced {time}",
+  "integrations.syncing": "Syncing integration...",
+  "jumpcloud.disabledDescription": "Jumpcloud was successfully disabled",
+  "jumpcloud.enabledDescription": "Jumpcloud was successfully enabled",
+  "jumpcloud.notifyTitle": "Jumpcloud Integration",
+  "okta.disabledDescription": "Okta was successfully disabled",
+  "okta.enabledDescription": "Okta was successfully enabled",
+  "okta.scimNotifyTitle": "Okta Integration",
+  "onboarding.anySubdomain": "(any subdomain of {address})",
+  "onboarding.commandCopied": "Command has been copied successfully",
+  "onboarding.explainDefaultPolicyDescription":
+    "With NetBird, you decide who gets access to what. We've already set up an access policy for your devices.",
+  "onboarding.explainDefaultPolicyFlip":
+    "Flip the switch, then try pinging your other device again to see how it affects the connection.",
+  "onboarding.explainPolicyDescription":
+    "NetBird makes it easy for admins to enforce least-privilege access with access control policies. We've already created one for your resource during onboarding.",
+  "onboarding.explainPolicyFlipResource":
+    "Flip the switch, then try pinging your resource again to see how it affects the connection.",
+  "onboarding.explainPolicyTitle": "Set the rules. You're in control",
+  "onboarding.resourceIpInSubnet": "(resource ip in your subnet)",
+  "onboarding.testP2PStep1Middle": "to ping",
+  "onboarding.testP2PStep1Prefix": "Run this command from",
+  "onboarding.testP2PStep1Suffix":
+    ". You should receive a response if the connection is working.",
+  "onboarding.testResourceDescription":
+    "Nice work connecting your client device! Now, let's have a little fun and test if it can reach your resource.",
+  "onboarding.testResourceStep1Prefix":
+    "Open your command line and run this command from",
+  "onboarding.testResourceStep1Suffix": "to ping your resource.",
+  "onboarding.testResourceTitle": "Let's put that connection to the test",
+  "onboarding.testStep2Prefix":
+    "Everything working? Great! You can now continue with the onboarding. If something isn't right, please check our",
+  "onboarding.useCaseAuditLogging": "Audit & access logging for AI",
+  "onboarding.useCaseAutonomousAgent": "Autonomous agent access",
+  "onboarding.useCaseEmployeeLlm": "Employee access to LLMs",
+  "onboarding.useCasePersonalLlm": "Personal access to LLMs",
+  "onboarding.useCaseTokenBudget": "Token & budget limits",
+  "onboarding.useCaseUsageCost": "Usage & cost attribution",
+  "common.codeCopied": "Code has been copied to clipboard",
+  "common.noResults": "Could not find any results",
+  "common.noResultsDescription":
+    "We couldn't find any results. Please try a different search term or change your filters.",
+  "genericScim.description":
+    "Provide your own custom SCIM provider to sync users and groups.",
+  "integrations.disabledDescription": "{name} was successfully disabled",
+  "integrations.enabledDescription": "{name} was successfully enabled",
+  "rdpCertificate.certificateChanged": "⚠️ Certificate has changed!",
+  "reverseProxy.domainVerificationStarted":
+    "Verification for {domain} has started",
+  "reverseProxy.startingDomainVerification": "Starting domain verification...",
+  "setupNetbirdModal.clickChangeServer":
+    'Click on "Change Server" and enter the following "Server"',
+  "setupNetbirdModal.clickConnectButton":
+    'Click on the "Connect" button in the middle of the screen',
+  "setupNetbirdModal.downloadFromAppStore":
+    "Download and install the application on the App Store:",
+  "setupNetbirdModal.downloadFromGooglePlay":
+    "Download and install the application from Google Play Store:",
+  "setupNetbirdModal.downloadNetBirdAppStore":
+    "Download NetBird on the App Store",
+  "setupNetbirdModal.downloadNetBirdGooglePlay":
+    "Download NetBird from Google Play",
+  "setupNetbirdModal.installOnAndroid": "Install on Android",
+  "setupNetbirdModal.installOnIos": "Install on iOS",
+  "table.lastSeenOn": "Last seen on",
+  "table.peersSelected": "Peer(s) selected",
+"notifications.pendingApproval": "Pending Approval",
+  "notifications.peerAdded": "Peer Added",
+  "notifications.routingPeerDisconnected": "Routing Peer Disconnected",
+  "notifications.routingPeerDeleted": "Routing Peer Deleted",
+  "notifications.userPendingApproval": "User Pending Approval",
+  "notifications.userJoined": "User Joined",
+  "notifications.serviceUserCreated": "Service User Created",
+  "notifications.idpSyncTokenExpired": "IdP Sync Token Expired",
+  "notifications.edrSyncTokenExpired": "EDR Sync Token Expired",
+  "notifications.peerNotifications": "Peer Notifications",
+  "notifications.userNotifications": "User Notifications",
+  "notifications.integrationNotifications": "Integration Notifications",
+  "notifications.peerPendingApprovalHelp": "Notify when a peer is waiting for approval to join the network",
+  "notifications.peerAddedHelp": "Notify when a new peer is added to the network",
+  "notifications.routingPeerDisconnectedHelp": "Notify when a routing peer loses its connection",
+  "notifications.routingPeerDeletedHelp": "Notify when a routing peer is deleted from the network",
+  "notifications.userPendingApprovalHelp": "Notify when a user is waiting for approval to join the network",
+  "notifications.userJoinedHelp": "Notify when a new user joins the account",
+  "notifications.serviceUserCreatedHelp": "Notify when a new service user is created",
+  "notifications.idpSyncTokenExpiredHelp": "Notify when the IdP sync token has expired and needs renewal",
+  "notifications.edrSyncTokenExpiredHelp": "Notify when the EDR sync token has expired and needs renewal",
+  "common.requestFailedWithCode": "Request failed with status code {code}",
+  "common.errorPrefix": "Error: {message}",
+  "announcements.huntressIntegration": "Huntress now integrates with NetBird",
+  "nav.customers": "Customers",
+  "nav.tenants": "Tenants",
+  "cloud.agentNetwork": "Agent Network",
+  "common.search": "Search...",
+  "common.allLocations": "All Locations",
+  "user.groupsSaved": "Groups of the user were successfully saved",
+  "user.updatingGroups": "Updating groups...",
+  "setupKey.groupsSaved": "Groups of the setup key were successfully saved",
+  "setupKey.savingGroups": "Saving the groups of the setup key...",
+  "oidc.integration": "OIDC Integration",
+  "oidc.updatedSuccessfully": "Okta was successfully {status}",
+  "oidc.updatingIntegration": "Updating integration...",
+  "oidc.enabled": "enabled",
+  "oidc.disabled": "disabled",
+  "groupPrefix.groupStartsWith": "Group starts with...",
+  "webhook.noAuthentication": "No Authentication",
+  "webhook.basicAuth": "Basic Auth",
+  "webhook.bearerToken": "Bearer Token",
+  "webhook.customAuthentication": "Custom Authentication",
+  "groups.useGroupsToControl": "Use groups to control what this peer can access",
+  "accessControl.icmp": "ICMP",
+  "accessLog.date": "Date",
+  "accessLog.user": "User",
+  "accessLog.group": "Group",
+  "accessLog.provider": "Provider",
+  "accessLog.model": "Model",
+  "onboarding.searchEngines": "Search Engines (Google, Bing etc.)",
+  "onboarding.coworkerOrFriend": "Coworker or Friend",
+  "onboarding.tradeShowOrEvent": "Trade Show or Event",
+  "onboarding.blogs": "Blogs",
+  "onboarding.comparisonSites": "Comparison Sites",
+  "onboarding.slack": "Slack",
+  "onboarding.other": "Other",
+  "onboarding.netbirdYouTubeChannel": "NetBird YouTube Channel",
+  "onboarding.otherYouTubeChannel": "Other YouTube Channel",
+  "onboarding.netbirdSubReddit": "NetBird SubReddit",
+  "onboarding.otherRedditThread": "Other Reddit Thread",
+  "onboarding.github": "GitHub",
+  "reverseProxy.httpsService": "HTTPS Service",
+  "reverseProxy.tlsPassthrough": "TLS Passthrough",
+  "reverseProxy.tcpService": "TCP Service",
+  "reverseProxy.udpService": "UDP Service",
+  "reverseProxy.frankfurtGermany": "Frankfurt, Germany (fra1)",
+  "reverseProxy.amsterdamNetherlands": "Amsterdam, Netherlands (ams3)",
+  "reverseProxy.londonUk": "London, UK (lon1)",
+  "reverseProxy.newYorkUsa": "New York, USA (nyc3)",
+  "reverseProxy.sanFranciscoUsa": "San Francisco, USA (sfo3)",
+  "reverseProxy.torontoCanada": "Toronto, Canada (tor1)",
+  "reverseProxy.singapore": "Singapore (sgp1)",
+  "reverseProxy.bangaloreIndia": "Bangalore, India (blr1)",
+  "reverseProxy.sydneyAustralia": "Sydney, Australia (syd1)",
+  "reverseProxy.basic1vcpu1gb": "Basic - 1 vCPU / 1 GB",
+  "reverseProxy.basic1vcpu2gb": "Basic - 1 vCPU / 2 GB",
+  "reverseProxy.basic2vcpu2gb": "Basic - 2 vCPU / 2 GB",
+  "reverseProxy.basic2vcpu4gb": "Basic - 2 vCPU / 4 GB",
+  "reverseProxy.usEastVirginia": "US East (N. Virginia)",
+  "reverseProxy.usEastOhio": "US East (Ohio)",
+  "reverseProxy.usWestOregon": "US West (Oregon)",
+  "reverseProxy.europeFrankfurt": "Europe (Frankfurt)",
+  "reverseProxy.europeIreland": "Europe (Ireland)",
+  "reverseProxy.europeLondon": "Europe (London)",
+  "reverseProxy.asiaPacificSingapore": "Asia Pacific (Singapore)",
+  "reverseProxy.asiaPacificTokyo": "Asia Pacific (Tokyo)",
+  "reverseProxy.docker": "Docker",
+  "reverseProxy.dockerCompose": "Docker Compose",
+  "reverseProxy.kubernetes": "Kubernetes",
+  "reverseProxy.hetznerCloud": "Hetzner Cloud",
+  "reverseProxy.digitalOcean": "DigitalOcean",
+  "reverseProxy.awsCloudFormation": "AWS CloudFormation",
+  "reverseProxy.crowdSec": "CrowdSec",
+  "reverseProxy.httpMethodPost": "POST",
+  "reverseProxy.httpMethodPatch": "PATCH",
+  "reverseProxy.httpMethodDelete": "DELETE",
+  "reverseProxy.httpMethodHead": "HEAD",
+  "reverseProxy.httpMethodOptions": "OPTIONS",
+  "reverseProxy.http": "HTTP",
+  "settings.starttls": "STARTTLS",
+  "setupNetbirdModal.debianUbuntuApt": "Debian / Ubuntu (APT)",
+  "setupNetbirdModal.fedoraDnf": "Fedora (DNF)",
+  "setupNetbirdModal.rhelAlmaRockyDnf": "RHEL / AlmaLinux / Rocky (DNF)",
+  "setupNetbirdModal.amazonLinuxYum": "Amazon Linux (YUM)",
+  "setupNetbirdModal.arm64": "ARM64",
+  "setupNetbirdModal.arm64Msi": "ARM64 (MSI)",
+  "identityProvider.oidcGeneric": "OIDC (Generic)",
+  "identityProvider.google": "Google",
+  "identityProvider.microsoft": "Microsoft",
+  "identityProvider.microsoftEntra": "Microsoft Entra",
+  "identityProvider.okta": "Okta",
+  "identityProvider.zitadel": "Zitadel",
+  "identityProvider.pocketId": "PocketID",
+  "identityProvider.authentik": "Authentik",
+  "identityProvider.keycloak": "Keycloak",
+  "identityProvider.microsoftAdFs": "Microsoft AD FS",
+  "identityProvider.weCom": "WeCom",
+  "nameserver.googleDnsServers": "Google DNS Servers",
+  "nameserver.cloudflareDnsServers": "Cloudflare DNS Servers",
+  "nameserver.quad9DnsServers": "Quad9 DNS Servers",
+  "postureChecks.windows10": "Windows 10",
+  "postureChecks.windows11": "Windows 11",
+  "postureChecks.osXYosemite": "OS X Yosemite",
+  "postureChecks.osXElCapitan": "OS X El Capitan",
+  "postureChecks.androidOreo": "Android Oreo",
+  "postureChecks.androidPie": "Android Pie",
+  "postureChecks.android10": "Android 10",
+  "postureChecks.android11": "Android 11",
+  "postureChecks.android12": "Android 12",
+  "postureChecks.android13": "Android 13",
+  "postureChecks.android14": "Android 14",
+  "postureChecks.android15": "Android 15",
+  "postureChecks.android16": "Android 16",
+  "notifications.createAnApp": "Create an app",
+  "notifications.fromScratch": "From scratch",
+  "notifications.netbirdNotifications": "NetBird Notifications",
+  "notifications.createApp": "Create App",
+  "notifications.incomingWebhooks": "Incoming Webhooks",
+  "notifications.activateIncomingWebhooks": "Activate Incoming Webhooks",
+  "notifications.addNewWebhook": "Add New Webhook",
+  "notifications.webhookUrl": "Webhook URL",
+  "notifications.webhook": "Webhook",
+  "edr.createApiClient": "Create API client",
+  "edr.create": "Create",
+  "integrations.appRegistrations": "App Registrations",
+  "integrations.register": "Register",
+  "integrations.apiPermissions": "API permissions",
+  "integrations.addAPermission": "Add a permission",
+  "integrations.microsoftGraph": "Microsoft Graph",
+  "integrations.applicationPermissions": "Application permissions",
+  "integrations.selectPermissions": "Select permissions",
+  "integrations.addPermissions": "Add permissions",
+  "integrations.grantAdminConsent": "Grant admin consent for Default Directory",
+  "integrations.createFirehoseStream": "Create Firehose stream",
+  "integrations.source": "Source",
+  "integrations.directPut": "Direct PUT",
+  "integrations.destination": "Destination",
+  "integrations.securityCredentials": "Security Credentials",
+  "integrations.createAccessKey": "Create access key",
+  "integrations.createBucket": "Create bucket",
+  "integrations.netbirdActivityEvents": "NetBird Activity Events",
+  "integrations.createKey": "Create Key",
+  "integrations.userReadAll": "User.Read.All",
+  "integrations.groupReadAll": "Group.Read.All",
+  "integrations.continueWithEntraId": "Continue with Entra ID",
+  "integrations.createCredentials": "CREATE CREDENTIALS",
+  "integrations.serviceAccount": "Service account",
+  "integrations.createRole": "CREATE ROLE",
+  "integrations.assignRole": "ASSIGN ROLE",
+  "integrations.credentialsDetails": "Credentials Details",
+  "integrations.applicationUsernameFormat": "Application username format",
+  "integrations.provisioning": "Provisioning",
+  "integrations.integration": "Integration",
+  "integrations.configureApiIntegration": "Configure API Integration",
+  "integrations.enableApiIntegration": "Enable API integration",
+  "integrations.apiToken": "API Token",
+  "integrations.authorizationBearer": "Authorization (Bearer)",
+  "integrations.testApiCredentials": "Test API Credentials",
+  "integrations.createUsers": "Create Users",
+  "integrations.updateUserAttributes": "Update User Attributes",
+  "integrations.deactivateUsers": "Deactivate Users",
+  "integrations.assignments": "Assignments",
+  "integrations.assign": "Assign",
+  "integrations.assignToGroups": "Assign to Groups",
+  "integrations.saveAndGoBack": "Save and Go Back",
+  "integrations.pushGroups": "Push Groups",
+  "integrations.findGroupsByName": "Find groups by name",
+  "integrations.assignToPeople": "Assign to People",
+  "integrations.clientId": "Client ID",
+  "integrations.clientSecret": "Client secret",
+  "integrations.oktaAccountDomain": "Okta account domain",
+  "integrations.primaryEmailDomain": "Primary email domain",
+  "common.requestSentSuccessfully": "Request has been sent successfully.",
+  "domain.verifiedSuccessfully": "The domain ownership has been verified successfully.",
+  "domain.dnsRecordNotFound": "DNS record not found. Please try again...",
+  "firewallGpt.iWillCreate": "I will create the ",
+  "rdp.connectionFailed": "RDP connection failed",
+  "rdp.websocketConnectionFailed": "Connection failed",
+"billing.notice": "Notice",
+  "billing.trial": "Trial",
+  "billing.usageLimitsReached": "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.",
+  "billing.goToPlansBilling": "Go to Plans & Billing",
+  "tenant.deleting": "Deleting {name}",
+  "tenant.deletedSuccessfully": "Successfully deleted {name} ({domain})",
+  "tenant.deletingInProgress": "Deleting {name}...",
+  "tenant.verificationOf": "Verification of {domain}",
+  "tenant.verifyingDomainOwnership": "Please wait while we verify the domain ownership...",
+  "tenant.requestAccountAccess": "Request Account Access",
+  "tenant.sendingRequest": "Sending request...",
+  "customer.requestAccountAccess": "Request Account Access",
+  "customer.sendingRequest": "Sending request...",
+  "dns.zoneAdded": "DNS Zone was added successfully.",
+  "dns.zoneUpdated": "DNS Zone was updated successfully.",
+  "dns.addingZone": "Adding DNS Zone...",
+  "dns.updatingZone": "Updating DNS Zone...",
+  "route.enabledSuccessfully": "The network route was successfully enabled",
+  "route.disabledSuccessfully": "The network route was successfully disabled",
+  "route.peerAddedSuccessfully": "Peer was successfully added to the route",
+  "integrations.setupSuccessfully": "{name} was successfully set up",
+  "integrations.settingUpIntegration": "Setting up integration...",
+  "common.disableAction": "Disable",
+  "notifications.email": "Email",
+  "notifications.slack": "Slack",
+  "common.enableAction": "Enable",
+  "route.addRoute": "Add Route",
+  "route.createNewRoute": "Create New Route",
+  "route.noRoutesDescription": "It looks like you don't have any routes. Access LANs and VPC by adding a network route.",
+  "trafficEvents.noTrafficEvents": "No Traffic Events",
+  "trafficEvents.trafficEventsDisabled": "Traffic Events Disabled",
+  "trafficEvents.noTrafficEventsDescription": "It looks like you don't have any traffic events. Traffic events will appear here once clients start connecting to your network.",
+  "trafficEvents.trafficEventsDisabledDescription": "It looks like you don't have any traffic events. To start receiving traffic events, you need to enable it in your account settings.",
+  "trafficEvents.connectionEstablished": "Connection successfully established between Peer 1 and Peer 2",
+  "trafficEvents.peerAcceptedConnection": "Peer 2 accepted the connection request",
+  "trafficEvents.peerRequestedConnection": "Peer 1 requested to connect to Peer 2",
+  "trafficEvents.ipCopiedToClipboard": "IP has been copied to clipboard",
+  "common.copiedToClipboardWithName": "{name} has been copied to clipboard.",
+  "reverseProxy.reason": "Reason: ",
+  "peer.disapprovalReason": "Reason: {reason}",
+  "reverseProxy.httpsServiceDescription": "Reverse proxy with path routing and built-in authentication (SSO, PIN, password). Typically used for web applications and APIs.",
+  "reverseProxy.tlsPassthroughDescription": "Passes encrypted TLS traffic straight through to the backend. Typically used for services that manage their own TLS certificates.",
+  "reverseProxy.tcpServiceDescription": "Forwards raw TCP traffic to your backend on a dedicated port. Typically used for databases, custom protocols, or any TCP-based service.",
+  "reverseProxy.udpServiceDescription": "Forwards raw UDP traffic to your backend on a dedicated port. Typically used for real-time services like voice, video, or streaming.",
+  "setupNetbirdModal.debianNote": "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
+  "setupNetbirdModal.fedoraNote": "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
+  "setupNetbirdModal.rhelNote": "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
+  "setupNetbirdModal.opensuseNote": "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
+  "setupNetbirdModal.amazonLinuxNote": "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available.",
+  "datadog.regionEurope": "Europe (EU)",
+  "datadog.regionUs1": "United States (US1)",
+  "datadog.regionUs3": "United States (US3)",
+  "datadog.regionUs5": "United States (US5)",
+  "datadog.regionUs1Fed": "United States (US1-FED)",
+  "datadog.regionAp1": "Japan (AP1)",
+  "crowdstrike.regionEu1": "Europe (EU-1)",
+  "crowdstrike.regionUs1": "United States (US-1)",
+  "crowdstrike.regionUs2": "United States (US-2)",
+  "crowdstrike.regionUsGov1": "United States (US-GOV-1)",
+  "crowdstrike.regionUsGov2": "United States (US-GOV-2)",
+  "agentNetwork.endpointCopied": "Endpoint copied to clipboard",
+  "groupPrefix.addGroupFilter": "Add group filter",
+  "common.searchGroup": "Search group...",
+  "common.selectCountry": "Select country...",
+  "common.searchCountry": "Search country...",
+  "common.selectCity": "Select city (optional)...",
+  "common.searchCity": "Search city...",
+  "common.selectArchitecture": "Select architecture",
+  "common.selectDistribution": "Select distribution",
+  "common.searchUserByNameOrEmail": "Search user by name or email...",
+  "common.searchGroups": "Search groups...",
+  "common.searchEvent": "Search event...",
+  "common.writeYourPrompt": "Write your prompt here...",
+  "common.searchByInvoiceNumberOrDate": "Search by invoice number or date...",
+  "common.administratorOrDomain": "Administrator or DOMAIN\\username",
+  "common.enterPassword": "Enter password",
+  "edr.hostsRead": "Hosts (Read)",
+  "edr.zeroTrustAssessmentRead": "Zero Trust Assessment (Read)",
+  "common.done": "Done",
+"common.searchGroupPlaceholder": "Search group...",
+  "common.selectCountryPlaceholder": "Select country...",
+  "common.searchCountryPlaceholder": "Search country...",
+  "common.selectCityPlaceholder": "Select city (optional)...",
+  "common.searchCityPlaceholder": "Search city...",
+  "common.selectArchitecturePlaceholder": "Select architecture",
+  "common.selectDistributionPlaceholder": "Select distribution",
+  "common.searchUserByNameOrEmailPlaceholder": "Search user by name or email...",
+  "common.searchGroupsPlaceholder": "Search groups...",
+  "common.searchEventPlaceholder": "Search event...",
+  "common.writeYourPromptPlaceholder": "Write your prompt here...",
+  "common.searchByInvoiceNumberOrDatePlaceholder": "Search by invoice number or date...",
+  "rdp.administratorOrDomainPlaceholder": "Administrator or DOMAIN\\username",
+  "rdp.enterPasswordPlaceholder": "Enter password",
+  "common.companyNamePlaceholder": "Acme Inc.",
+  "common.personNamePlaceholder": "John Doe",
+  "notifications.newRegistration": "+ New registration",
+  "notifications.on": "On",
+  "notifications.allow": "Allow",
+  "notifications.certificatesAndSecrets": "Certificates & secrets",
+  "notifications.newClientSecret": "+ New client secret",
+  "notifications.add": "Add",
+  "notifications.value": "Value",
+  "notifications.yes": "Yes",
+  "notifications.channelNameWebhook": "Webhook",
+  "integrations.edit": "Edit",
+  "integrations.email": "Email",
+  "integrations.save": "Save",
 } as const;
 
 export default en;

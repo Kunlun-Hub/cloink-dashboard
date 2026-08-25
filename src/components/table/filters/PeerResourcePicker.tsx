@@ -22,6 +22,7 @@ import * as React from "react";
 import { useState } from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // PeerResourcePicker — single-select endpoint picker with two tabs (Peers /
 // Resources), mirroring the Audit Logs user filter's search list. The value
@@ -98,6 +99,7 @@ function OptionList({
   onSelect: (item: PeerResourceOption) => void;
   emptyText: string;
 }) {
+  const { t } = useI18n();
   const [filteredItems, search, setSearch] = useSearch(
     options,
     searchPredicate,
@@ -114,7 +116,7 @@ function OptionList({
       <DropdownInput
         value={search}
         onChange={setSearch}
-        placeholder={"Search..."}
+        placeholder={t("dropdownInput.searchPlaceholder")}
         hideEnterIcon={true}
       />
 
@@ -126,7 +128,9 @@ function OptionList({
 
       {filteredItems.length === 0 && search !== "" && (
         <div className={"px-10"}>
-          <DropdownInfoText>No matching results.</DropdownInfoText>
+          <DropdownInfoText>
+            {t("peerResourcePicker.noMatchingResults")}
+          </DropdownInfoText>
         </div>
       )}
 
@@ -192,6 +196,7 @@ export function PeerResourcePicker({
   resources,
   users,
 }: Props) {
+  const { t } = useI18n();
   const [tab, setTab] = useState<string>(() => {
     if (value) {
       if (users?.some((u) => u.id === value)) return "users";
@@ -218,7 +223,7 @@ export function PeerResourcePicker({
               className={"flex-1 gap-1.5 px-1.5 text-xs"}
             >
               <UsersIcon size={13} className={"shrink-0"} />
-              Users
+              {t("users.title")}
             </TabsTrigger>
           )}
           <TabsTrigger
@@ -226,14 +231,14 @@ export function PeerResourcePicker({
             className={"flex-1 gap-1.5 px-1.5 text-xs"}
           >
             <PeerIcon size={13} className={"fill-current shrink-0"} />
-            Peers
+            {t("peers.title")}
           </TabsTrigger>
           <TabsTrigger
             value={"resources"}
             className={"flex-1 gap-1.5 px-1.5 text-xs"}
           >
             <Layers3Icon size={13} className={"shrink-0"} />
-            Resources
+            {t("networkDetails.resources")}
           </TabsTrigger>
         </TabsPrimitive.List>
         {users && (
@@ -242,7 +247,7 @@ export function PeerResourcePicker({
               options={users}
               value={value}
               onSelect={handleSelect}
-              emptyText={"No users available to select."}
+              emptyText={t("users.noUsersAvailable")}
             />
           </TabsContent>
         )}
@@ -251,7 +256,7 @@ export function PeerResourcePicker({
             options={peers}
             value={value}
             onSelect={handleSelect}
-            emptyText={"No peers available to select."}
+            emptyText={t("peerSelector.noPeersAvailable")}
           />
         </TabsContent>
         <TabsContent value={"resources"} className={"mt-0 pt-3"}>
@@ -259,7 +264,7 @@ export function PeerResourcePicker({
             options={resources}
             value={value}
             onSelect={handleSelect}
-            emptyText={"No resources available to select."}
+            emptyText={t("peerResourcePicker.noResourcesAvailable")}
           />
         </TabsContent>
       </Tabs>

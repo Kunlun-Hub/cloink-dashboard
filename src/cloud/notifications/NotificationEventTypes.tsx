@@ -6,6 +6,7 @@ import FancyToggleSwitch from "@components/FancyToggleSwitch";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
 import { NotificationEventType } from "@/interfaces/NotificationChannel";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type EventTypeMeta = {
   key: NotificationEventType;
@@ -14,77 +15,77 @@ type EventTypeMeta = {
   group: "peer" | "user" | "integration";
 };
 
-const EVENT_TYPE_METADATA: EventTypeMeta[] = [
+const getEventTypeMetadata = (t: (key: string) => string): EventTypeMeta[] => [
   {
     key: NotificationEventType.PeerPendingApproval,
-    label: "Pending Approval",
-    helpText: "Notify when a peer is waiting for approval to join the network",
+    label: t("notifications.pendingApproval"),
+    helpText: t("notifications.peerPendingApprovalHelp"),
     group: "peer",
   },
   {
     key: NotificationEventType.PeerAdd,
-    label: "Peer Added",
-    helpText: "Notify when a new peer is added to the network",
+    label: t("notifications.peerAdded"),
+    helpText: t("notifications.peerAddedHelp"),
     group: "peer",
   },
   {
     key: NotificationEventType.RoutingPeerDisconnect,
-    label: "Routing Peer Disconnected",
-    helpText: "Notify when a routing peer loses its connection",
+    label: t("notifications.routingPeerDisconnected"),
+    helpText: t("notifications.routingPeerDisconnectedHelp"),
     group: "peer",
   },
   {
     key: NotificationEventType.RoutingPeerDelete,
-    label: "Routing Peer Deleted",
-    helpText: "Notify when a routing peer is deleted from the network",
+    label: t("notifications.routingPeerDeleted"),
+    helpText: t("notifications.routingPeerDeletedHelp"),
     group: "peer",
   },
   {
     key: NotificationEventType.UserPendingApproval,
-    label: "User Pending Approval",
-    helpText: "Notify when a user is waiting for approval to join the network",
+    label: t("notifications.userPendingApproval"),
+    helpText: t("notifications.userPendingApprovalHelp"),
     group: "user",
   },
   {
     key: NotificationEventType.UserJoin,
-    label: "User Joined",
-    helpText: "Notify when a new user joins the account",
+    label: t("notifications.userJoined"),
+    helpText: t("notifications.userJoinedHelp"),
     group: "user",
   },
   {
     key: NotificationEventType.ServiceUserCreate,
-    label: "Service User Created",
-    helpText: "Notify when a new service user is created",
+    label: t("notifications.serviceUserCreated"),
+    helpText: t("notifications.serviceUserCreatedHelp"),
     group: "user",
   },
   {
     key: NotificationEventType.IdpSyncTokenExpire,
-    label: "IdP Sync Token Expired",
-    helpText: "Notify when the IdP sync token has expired and needs renewal",
+    label: t("notifications.idpSyncTokenExpired"),
+    helpText: t("notifications.idpSyncTokenExpiredHelp"),
     group: "integration",
   },
   {
     key: NotificationEventType.EdrSyncTokenExpire,
-    label: "EDR Sync Token Expired",
-    helpText: "Notify when the EDR sync token has expired and needs renewal",
+    label: t("notifications.edrSyncTokenExpired"),
+    helpText: t("notifications.edrSyncTokenExpiredHelp"),
     group: "integration",
   },
 ];
 
-const GROUP_CONFIG = {
+const getGroupConfig = (t: (key: string) => string) => ({
   peer: {
-    label: "Peer Notifications",
+    label: t("notifications.peerNotifications"),
     icon: <PeerIcon size={12} />,
   },
   user: {
-    label: "User Notifications",
+    label: t("notifications.userNotifications"),
     icon: <TeamIcon size={12} />,
   },
   integration: {
-    label: "Integration Notifications",
+    label: t("notifications.integrationNotifications"),
     icon: <IntegrationIcon size={12} />,
   },
-} as const;
+} as const);
 
 const GROUPS: Array<"peer" | "user" | "integration"> = [
   "peer",
@@ -99,11 +100,14 @@ type Props = {
 };
 
 export const NotificationEventTypes = ({ event_types, onToggle, disabled }: Props) => {
+  const { t } = useI18n();
+  const eventTypeMetadata = getEventTypeMetadata(t);
+  const groupConfig = getGroupConfig(t);
   return (
     <>
       {GROUPS.map((group) => {
-        const config = GROUP_CONFIG[group];
-        const types = EVENT_TYPE_METADATA.filter((t) => t.group === group);
+        const config = groupConfig[group];
+        const types = eventTypeMetadata.filter((t) => t.group === group);
         return (
           <div key={group} className={"flex flex-col gap-2 relative w-full"}>
             <Label>

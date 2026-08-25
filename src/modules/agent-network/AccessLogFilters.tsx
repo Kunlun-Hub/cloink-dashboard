@@ -31,15 +31,20 @@ import { DateRange } from "react-day-picker";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
+import type { MessageKey } from "@/i18n/messages";
 
 type FilterRow = Record<string, unknown>;
 
 // formatDateChip renders the active date-range filter as a compact chip body.
 // Quick-range presets (Last 14 Days, Last Month, …) show their label; a custom
 // range shows the compact "from – to" span.
-export function formatDateChip(value: DateRange | undefined): string | null {
+export function formatDateChip(
+  value: DateRange | undefined,
+  t: (key: MessageKey) => string,
+): string | null {
   if (!value?.from && !value?.to) return null;
-  const preset = dateRangePresetLabel(value);
+  const preset = dateRangePresetLabel(value, t);
   if (preset) return preset;
   const from = value?.from ? dayjs(value.from).format("MMM D") : "…";
   const to = value?.to ? dayjs(value.to).format("MMM D") : "…";
@@ -52,6 +57,7 @@ export function formatDateChip(value: DateRange | undefined): string | null {
 // params) plus the Filters button and chips for a standalone bar. The Date
 // filter defaults to the last 14 days; resetting returns to that default.
 export function useAccessLogFilters() {
+  const { t } = useI18n();
   const { providers } = useAIProviders();
   const { users } = useUsers();
   const { groups } = useGroups();
@@ -123,7 +129,7 @@ export function useAccessLogFilters() {
     () => [
       {
         id: "date",
-        label: "Date",
+        label: t("accessLog.date"),
         renderPicker: (p) => (
           <div className={"p-1"}>
             <DatePickerWithRange
@@ -132,11 +138,11 @@ export function useAccessLogFilters() {
             />
           </div>
         ),
-        formatChip: (v) => formatDateChip(v as DateRange | undefined),
+        formatChip: (v) => formatDateChip(v as DateRange | undefined, t),
       },
       {
         id: "user",
-        label: "User",
+        label: t("accessLog.user"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -150,7 +156,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "group",
-        label: "Group",
+        label: t("accessLog.group"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -163,7 +169,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "provider",
-        label: "Provider",
+        label: t("accessLog.provider"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -181,7 +187,7 @@ export function useAccessLogFilters() {
       },
       {
         id: "model",
-        label: "Model",
+        label: t("accessLog.model"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -194,7 +200,7 @@ export function useAccessLogFilters() {
           formatCheckboxChip(v as string[] | undefined, modelOptions, "models"),
       },
     ],
-    [userOptions, groups, providerOptions, modelOptions],
+    [t, userOptions, groups, providerOptions, modelOptions],
   );
 
   const filtersButton = (

@@ -1,4 +1,5 @@
 import { AnnouncementVariant } from "@components/ui/AnnouncementBanner";
+import { useI18n } from "@/i18n/I18nProvider";
 import md5 from "crypto-js/md5";
 import React, {
   createContext,
@@ -8,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
-import { trialExpiresInfo, usageLimitInfo } from "@/contexts/BillingProvider";
+import { getTrialExpiresInfo, getUsageLimitInfo } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { isNetBirdCloud } from "@utils/netbird";
 import loadConfig from "@utils/config";
@@ -18,10 +19,10 @@ const STORAGE_KEY = "netbird-announcements";
 const CACHE_DURATION_MS = 30 * 60 * 1000;
 
 // MSP only
-const initialMSPAnnouncements: Announcement[] = [
+const getInitialMSPAnnouncements = (t: (key: string) => string): Announcement[] => [
   {
     tag: "New",
-    text: "Huntress now integrates with NetBird",
+    text: t("announcements.huntressIntegration"),
     link: "https://docs.netbird.io/manage/access-control/endpoint-detection-and-response/huntress-edr",
     linkText: "Learn more",
     variant: "default",
@@ -141,6 +142,7 @@ const saveClosedAnnouncements = (closedAnnouncements: string[]) => {
 };
 
 export default function AnnouncementProvider({ children }: Readonly<Props>) {
+  const { t } = useI18n();
   const [announcements, setAnnouncements] = useState<AnnouncementInfo[]>();
   const [measuredHeight, setMeasuredHeight] = useState(0);
   const { isRestricted } = usePermissions();
@@ -173,7 +175,7 @@ export default function AnnouncementProvider({ children }: Readonly<Props>) {
 
         // Add MSP announcements if in MSP context
         if (isMSPInTenantContext || isMSPInMSPContext) {
-          const mspAnnouncements = initialMSPAnnouncements
+          const mspAnnouncements = getInitialMSPAnnouncements(t)
             .filter((a) => !a.isCloudOnly || isCloud)
             .map((a) => {
               const hash = md5(a.text).toString();
@@ -187,15 +189,17 @@ export default function AnnouncementProvider({ children }: Readonly<Props>) {
         }
 
         // Add billing announcements (initially closed, opened by BillingProvider)
+        const trialInfo = getTrialExpiresInfo(t);
         allAnnouncements.unshift({
-          ...trialExpiresInfo,
-          hash: md5(trialExpiresInfo.text).toString(),
+          ...trialInfo,
+          hash: md5(trialInfo.text).toString(),
           isOpen: false,
         });
 
+        const usageInfo = getUsageLimitInfo(t);
         allAnnouncements.unshift({
-          ...usageLimitInfo,
-          hash: md5(usageLimitInfo.text).toString(),
+          ...usageInfo,
+          hash: md5(usageInfo.text).toString(),
           isOpen: false,
         });
 

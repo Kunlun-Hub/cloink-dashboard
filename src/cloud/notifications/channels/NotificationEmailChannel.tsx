@@ -27,12 +27,14 @@ import {
 import { useNotifications } from "@/cloud/notifications/NotificationProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   channel: NotificationChannel;
 };
 
 export const NotificationEmailChannel = ({ channel }: Props) => {
+  const { t } = useI18n();
   const { updateChannel, toggleType } = useNotifications();
   const { users } = useUsers();
   const { permission } = usePermissions();
@@ -53,14 +55,14 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
     const trimmed = emailInput.trim();
     if (!trimmed || emails.includes(trimmed)) return;
     notify({
-      title: "Email Notifications",
-      description: `${trimmed} has been successfully added`,
+      title: t("notifications.emailNotifyTitle"),
+      description: t("notifications.emailAddSuccess").replace("{email}", trimmed),
       promise: updateChannel({
         ...channel,
         target: { emails: [...emails, trimmed] },
       }),
-      loadingTitle: "Email Notifications",
-      loadingMessage: `Adding ${trimmed}...`,
+      loadingTitle: t("notifications.emailNotifyTitle"),
+      loadingMessage: t("notifications.emailAddLoading").replace("{email}", trimmed),
     });
     setEmailInput("");
   };
@@ -68,14 +70,14 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
   const handleRemoveEmail = (email: string) => {
     const remaining = emails.filter((e) => e !== email);
     notify({
-      title: "Email Notifications",
-      description: `${email} has been successfully removed`,
+      title: t("notifications.emailNotifyTitle"),
+      description: t("notifications.emailRemoveSuccess").replace("{email}", email),
       promise: updateChannel({
         ...channel,
         target: remaining.length > 0 ? { emails: remaining } : undefined,
       }),
-      loadingTitle: "Email Notifications",
-      loadingMessage: `Removing ${email}...`,
+      loadingTitle: t("notifications.emailNotifyTitle"),
+      loadingMessage: t("notifications.emailRemoveLoading").replace("{email}", email),
     });
   };
 
@@ -88,24 +90,24 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/settings"}
-          label={"Settings"}
+          label={t("settings.title")}
           icon={<SettingsIcon size={13} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications"}
-          label={"Notifications"}
+          label={t("notifications.title")}
           icon={<MessageSquareDot size={14} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications&channel=email"}
-          label={"Email"}
+          label={t("notifications.emailTitle")}
           icon={<MailIcon size={14} />}
           active
         />
       </Breadcrumbs>
       <div className={"flex items-start justify-between"}>
         <div className={"flex gap-3 items-center"}>
-          <h1>Email</h1>
+          <h1>{t("notifications.emailTitle")}</h1>
         </div>
       </div>
       <div className={"flex flex-col gap-8 mt-4"}>
@@ -117,20 +119,18 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
           label={
             <>
               <Power size={15} />
-              Enable Email Channel
+              {t("notifications.emailChannelLabel")}
             </>
           }
-          helpText={
-            "Enable or disable all email notifications for your account"
-          }
+          helpText={t("notifications.emailChannelHelp")}
         />
         <div className={"flex flex-col relative w-full"}>
           <Label>
             <MailIcon size={14} />
-            Email Addresses
+            {t("notifications.emailAddressesLabel")}
           </Label>
           <HelpText>
-            Add one or more email addresses that should receive notifications
+            {t("notifications.emailAddressesHelp")}
           </HelpText>
           <div className={"flex gap-3"}>
             <Input
@@ -155,7 +155,7 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
               data-testid="notification-email-add"
             >
               <PlusCircle size={14} />
-              Add
+              {t("actions.add")}
             </Button>
           </div>
 

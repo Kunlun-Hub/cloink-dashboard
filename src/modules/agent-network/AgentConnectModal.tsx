@@ -3,6 +3,7 @@
 import Code from "@components/Code";
 import { Modal, ModalContent } from "@components/modal/Modal";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import Paragraph from "@components/Paragraph";
 import SmallParagraph from "@components/SmallParagraph";
 import SquareIcon from "@components/SquareIcon";
@@ -32,12 +33,13 @@ function Snippet({
   lines: string[];
   copyText?: string;
 }) {
+  const { t } = useI18n();
   return (
     <div className={"min-w-0"}>
       {caption && <SmallParagraph className={"mb-2"}>{caption}</SmallParagraph>}
       <Code
         codeToCopy={copyText ?? lines.join("\n")}
-        message={"Copied to clipboard"}
+        message={t("common.copiedToClipboard")}
       >
         {lines.map((line, i) => (
           <Code.Line key={i}>{line}</Code.Line>
@@ -73,6 +75,7 @@ export function AgentConnectTabs({
   // would just be a trap.
   providerIds?: string[];
 }) {
+  const { t } = useI18n();
   const baseUrl = `https://${endpoint}`;
   const openaiBase = `${baseUrl}/v1`;
   const hasKimi = providerIds.includes("kimi_api");
@@ -96,11 +99,11 @@ export function AgentConnectTabs({
   return (
     <Tabs key={defaultTab} defaultValue={defaultTab} className={"mt-2"}>
       <TabsList justify={"start"} className={listClassName}>
-        <TabsTrigger value={"claude-code"}>Claude Code</TabsTrigger>
-        <TabsTrigger value={"codex"}>Codex</TabsTrigger>
-        {hasKimi && <TabsTrigger value={"kimi-cli"}>Kimi CLI</TabsTrigger>}
-        <TabsTrigger value={"openai-sdk"}>OpenAI SDK</TabsTrigger>
-        <TabsTrigger value={"curl"}>cURL</TabsTrigger>
+        <TabsTrigger value={"claude-code"}>{t("agentConnect.tabClaudeCode")}</TabsTrigger>
+        <TabsTrigger value={"codex"}>{t("agentConnect.tabCodex")}</TabsTrigger>
+        {hasKimi && <TabsTrigger value={"kimi-cli"}>{t("agentConnect.tabKimiCli")}</TabsTrigger>}
+        <TabsTrigger value={"openai-sdk"}>{t("agentConnect.tabOpenAiSdk")}</TabsTrigger>
+        <TabsTrigger value={"curl"}>{t("agentConnect.tabCurl")}</TabsTrigger>
       </TabsList>
 
       <TabsContent value={"claude-code"}>
@@ -114,11 +117,11 @@ export function AgentConnectTabs({
                 )
               }
               options={[
-                { label: "Anthropic API", value: "anthropic" },
-                { label: "Vertex AI", value: "vertex" },
-                { label: "Bedrock", value: "bedrock" },
+                { label: t("agentConnect.optionAnthropicApi"), value: "anthropic" },
+                { label: t("agentConnect.optionVertexAi"), value: "vertex" },
+                { label: t("agentConnect.optionBedrock"), value: "bedrock" },
                 ...(hasKimi
-                  ? [{ label: "Kimi (Moonshot AI)", value: "kimi" }]
+                  ? [{ label: t("agentConnect.optionKimiMoonshot"), value: "kimi" }]
                   : []),
               ]}
               showValues={false}
@@ -131,8 +134,8 @@ export function AgentConnectTabs({
               <div className={"flex items-center justify-between gap-3 mb-2"}>
                 <SmallParagraph className={"!mb-0"}>
                   {claudeMode === "config"
-                    ? "Add to ~/.claude/settings.json:"
-                    : "Run in your shell:"}
+                    ? t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })
+                    : t("agentConnect.runInShell")}
                 </SmallParagraph>
                 <button
                   type={"button"}
@@ -143,7 +146,7 @@ export function AgentConnectTabs({
                     "shrink-0 mr-2 text-[11px] text-white hover:underline underline-offset-2 cursor-pointer"
                   }
                 >
-                  {claudeMode === "config" ? "Shell" : "JSON"}
+                  {claudeMode === "config" ? t("agentConnect.shellMode") : t("agentConnect.jsonMode")}
                 </button>
               </div>
               <Snippet
@@ -169,7 +172,7 @@ export function AgentConnectTabs({
 
           {claudeProvider === "vertex" && (
             <Snippet
-              caption={"Add to ~/.claude/settings.json:"}
+              caption={t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })}
               lines={[
                 `{`,
                 `  "env": {`,
@@ -186,7 +189,7 @@ export function AgentConnectTabs({
 
           {claudeProvider === "bedrock" && (
             <Snippet
-              caption={"Add to ~/.claude/settings.json:"}
+              caption={t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })}
               lines={[
                 `{`,
                 `  "env": {`,
@@ -205,8 +208,8 @@ export function AgentConnectTabs({
               <div className={"flex items-center justify-between gap-3 mb-2"}>
                 <SmallParagraph className={"!mb-0"}>
                   {claudeMode === "config"
-                    ? "Add to ~/.claude/settings.json:"
-                    : "Run in your shell:"}
+                    ? t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })
+                    : t("agentConnect.runInShell")}
                 </SmallParagraph>
                 <button
                   type={"button"}
@@ -217,7 +220,7 @@ export function AgentConnectTabs({
                     "shrink-0 mr-2 text-[11px] text-white hover:underline underline-offset-2 cursor-pointer"
                   }
                 >
-                  {claudeMode === "config" ? "Shell" : "JSON"}
+                  {claudeMode === "config" ? t("agentConnect.shellMode") : t("agentConnect.jsonMode")}
                 </button>
               </div>
               <Snippet
@@ -261,11 +264,10 @@ export function AgentConnectTabs({
                 }
               />
               <SmallParagraph className={"mt-3"}>
-                Pairs with a Kimi provider keeping the default upstream URL{" "}
-                <code className={"font-mono"}>https://api.moonshot.ai</code>.
-                The <code className={"font-mono"}>/anthropic</code> suffix in
-                the base URL rides through the endpoint to Moonshot, which
-                serves the Anthropic Messages API under that path.
+                {t("agentConnect.kimiPairsDescription", {
+                  url: "https://api.moonshot.ai",
+                  suffix: "/anthropic",
+                })}
               </SmallParagraph>
             </>
           )}
@@ -275,7 +277,7 @@ export function AgentConnectTabs({
       <TabsContent value={"codex"}>
         <div className={contentClassName}>
           <Snippet
-            caption={"Add to ~/.codex/config.toml:"}
+            caption={t("agentConnect.addToConfig", { path: "~/.codex/config.toml" })}
             lines={[
               `model_provider = "netbird"`,
               ``,
@@ -295,7 +297,7 @@ export function AgentConnectTabs({
             // Claude Code, its "anthropic" provider type needs the bare
             // endpoint — no /anthropic prefix in base_url; api_key is a
             // placeholder since NetBird injects the real key server-side.
-            caption={"Add to ~/.kimi/config.toml:"}
+            caption={t("agentConnect.addToConfig", { path: "~/.kimi/config.toml" })}
             lines={[
               `default_model = "kimi-k3"`,
               ``,
@@ -311,11 +313,11 @@ export function AgentConnectTabs({
             ]}
           />
           <SmallParagraph className={"mt-3"}>
-            Pairs with a Kimi provider keeping the default upstream URL{" "}
-            <code className={"font-mono"}>https://api.moonshot.ai</code>. For
-            the OpenAI shape instead, use{" "}
-            <code className={"font-mono"}>type = &quot;openai_legacy&quot;</code>{" "}
-            with <code className={"font-mono"}>base_url = &quot;{openaiBase}&quot;</code>.
+            {t("agentConnect.kimiCliPairsDescription", {
+              url: "https://api.moonshot.ai",
+              typeValue: 'type = "openai_legacy"',
+              baseUrlValue: `base_url = "${openaiBase}"`,
+            })}
           </SmallParagraph>
         </div>
       </TabsContent>
@@ -371,18 +373,17 @@ export default function AgentConnectModal({
   // Rendered inside <AIProvidersProvider> (providers page); the connected
   // provider ids gate which per-tool config variants the tabs offer.
   const { providers } = useAIProviders();
+  const { t } = useI18n();
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-2xl"}>
         <div className={"px-8 pt-5"}>
           <div className={"flex items-center gap-3"}>
             <SquareIcon color={"netbird"} margin={""} icon={<Plug size={16} />} />
-            <h2 className={"text-lg my-0 leading-[1.5]"}>Configure Your Agent</h2>
+            <h2 className={"text-lg my-0 leading-[1.5]"}>{t("agentConnect.title")}</h2>
           </div>
           <Paragraph className={"text-sm mt-3"}>
-            Point your agent at the NetBird endpoint as its base URL. No provider
-            API key is needed on the client. NetBird authorizes the request
-            against your policies and injects the upstream key.
+            {t("agentConnect.description")}
           </Paragraph>
         </div>
 

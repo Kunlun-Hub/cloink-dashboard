@@ -6,6 +6,7 @@ import { CreditCardIcon } from "lucide-react";
 import * as React from "react";
 import { useCustomerPlan } from "@/cloud/distributor/hooks/useCustomerPlan";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -42,6 +43,7 @@ const DistributorSubscriptionModalContent = ({
   accountId,
   setOpen,
 }: ContentProps) => {
+  const { t } = useI18n();
   const {
     plans,
     isLoading,
@@ -62,8 +64,8 @@ const DistributorSubscriptionModalContent = ({
     >
       <ModalHeader
         icon={<CreditCardIcon size={18} />}
-        title={`NetBird Plan for ${name}`}
-        description={`Select the plan that best fits your customer's needs.`}
+        title={t("distributor.netBirdPlanFor", { name })}
+        description={t("distributor.selectPlanForCustomer")}
         color={"netbird"}
       />
       <div className={"px-8 pb-1"}>
@@ -87,18 +89,18 @@ const DistributorSubscriptionModalContent = ({
                 onClick={() => subscribe(plan).finally(() => setOpen(false))}
                 key={plan.name}
                 buttonText={{
-                  upgrade: "Continue with",
-                  downgrade: "Downgrade to",
+                  upgrade: t("billing.continueWith"),
+                  downgrade: t("billing.downgradeTo"),
                 }}
               />
             ))}
         </div>
         <div className={"pt-6 flex items-center justify-center"}>
           <Paragraph className={"inline text-sm"}>
-            Haven&apos;t decided for a plan yet?{" "}
+            {t("billing.haventDecided")}{" "}
             <ModalClose asChild={true}>
               <InlineButtonLink variant={"white"}>
-                Continue with Trial
+                {t("billing.continueWithTrial")}
               </InlineButtonLink>
             </ModalClose>
           </Paragraph>

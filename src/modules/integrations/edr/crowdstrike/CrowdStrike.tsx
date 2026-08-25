@@ -15,6 +15,7 @@ import CrowdStrikeConfiguration from "@/modules/integrations/edr/crowdstrike/Cro
 import CrowdStrikeSetup from "@/modules/integrations/edr/crowdstrike/CrowdStrikeSetup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { useIntegrations } from "../useIntegrations";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   account: Account;
@@ -23,6 +24,7 @@ type Props = {
 export const CrowdStrike = ({ account }: Props) => {
   const { permission } = usePermissions();
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const [setupModal, setSetupModal] = useState(false);
 
   const {
@@ -49,11 +51,10 @@ export const CrowdStrike = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable CrowdStrike?`,
-          description:
-            "Are you sure you want to disable the CrowdStrike integration?",
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("crowdStrike.disableTitle"),
+          description: t("crowdStrike.disableDescription"),
+          confirmText: t("common.disableAction"),
+          cancelText: t("common.cancel"),
           type: "warning",
         })
       : true;
@@ -65,10 +66,10 @@ export const CrowdStrike = ({ account }: Props) => {
       ) || [];
 
     notify({
-      title: "CrowdStrike Integration",
-      description: `CrowdStrike was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("crowdStrike.notifyTitle"),
+      description: isCurrentlyEnabled
+        ? t("crowdStrike.disabledDescription")
+        : t("crowdStrike.enabledDescription"),
       promise: integrationRequest
         .put({
           ...integration,
@@ -80,7 +81,7 @@ export const CrowdStrike = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/falcon");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("crowdStrike.updating"),
     });
   };
 
@@ -90,7 +91,7 @@ export const CrowdStrike = ({ account }: Props) => {
     <>
       <IntegrationCard
         name="CrowdStrike"
-        description="CrowdStrike is a cloud-native platform for protecting endpoints, cloud workloads, identities and data."
+        description={t("crowdStrike.cardDescription")}
         url={{
           title: "crowdstrike.com",
           href: "https://www.crowdstrike.com/",

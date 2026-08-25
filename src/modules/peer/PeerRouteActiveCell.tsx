@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useRoutes } from "@/contexts/RoutesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Route } from "@/interfaces/Route";
 
 type Props = {
@@ -13,6 +14,7 @@ export default function PeerRouteActiveCell({ route }: Props) {
   const { updateRoute } = useRoutes();
   const { mutate } = useSWRConfig();
   const { groups } = useGroups();
+  const { t } = useI18n();
 
   const peerGroup = useMemo(() => {
     if (!groups) return undefined;
@@ -30,8 +32,8 @@ export default function PeerRouteActiveCell({ route }: Props) {
         mutate("/routes");
       },
       enabled
-        ? "The network route was successfully enabled"
-        : "The network route was successfully disabled",
+        ? t("route.enabledSuccessfully")
+        : t("route.disabledSuccessfully"),
     );
   };
 

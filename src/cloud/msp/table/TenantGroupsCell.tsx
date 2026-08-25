@@ -18,6 +18,7 @@ import {
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 import { UserRoles } from "@/modules/users/UserRoleSelector";
 
@@ -25,6 +26,7 @@ type Props = {
   tenant: Tenant;
 };
 export const TenantGroupsCell = ({ tenant }: Props) => {
+  const { t } = useI18n();
   const { groups } = useGroups();
   const { openEditTenantModal } = useTenants();
   const isPending = tenant.status === TenantStatus.Pending;
@@ -51,7 +53,7 @@ export const TenantGroupsCell = ({ tenant }: Props) => {
         className={"max-h-[38px]"}
       >
         <IconCirclePlus size={14} />
-        Add Groups
+        {t("groupsRow.addGroups")}
       </Button>
     );
 
@@ -142,6 +144,7 @@ const MultipleGroupsWithUser = ({
 
 const GroupWithUserItem = ({ group }: { group: TenantGroup }) => {
   const { users } = useUsers();
+  const { t } = useI18n();
   const usersOfGroup =
     users?.filter((user) => user.auto_groups.includes(group.id as string)) ||
     [];
@@ -163,7 +166,7 @@ const GroupWithUserItem = ({ group }: { group: TenantGroup }) => {
             }
           >
             <selectedRole.icon size={14} width={14} className={"shrink-0"} />
-            {selectedRole?.name}
+            {t(selectedRole.nameKey)}
           </div>
         </div>
       )}
@@ -172,6 +175,7 @@ const GroupWithUserItem = ({ group }: { group: TenantGroup }) => {
 };
 
 const GroupSuffix = () => {
+  const { t } = useI18n();
   const oneOrTwo = Math.random() > 0.5 ? 1 : 2;
   const selectedRole = UserRoles[oneOrTwo];
   return (
@@ -188,7 +192,7 @@ const GroupSuffix = () => {
         )}
       >
         <selectedRole.icon size={12} width={12} className={"shrink-0"} />
-        {selectedRole?.name}
+        {t(selectedRole.nameKey)}
       </div>
     </div>
   );

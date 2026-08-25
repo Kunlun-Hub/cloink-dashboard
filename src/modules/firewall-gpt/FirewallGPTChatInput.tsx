@@ -2,6 +2,7 @@ import { Textarea } from "@components/Textarea";
 import useAutosizeTextArea from "@hooks/useAutosizeTextArea";
 import cn from "classnames";
 import { Loader2, SendHorizonal } from "lucide-react"; // Adjust the import as necessary
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   forwardRef,
   useEffect,
@@ -19,6 +20,7 @@ const FirewallGPTChatInput = forwardRef<
   HTMLTextAreaElement,
   FirewallGPTChatInputProps
 >(({ onSend, isLoading }, ref) => {
+  const { t } = useI18n();
   const [value, setValue] = useState("");
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -59,7 +61,7 @@ const FirewallGPTChatInput = forwardRef<
         ref={textAreaRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder={"Write your prompt here..."}
+        placeholder={t("common.writeYourPromptPlaceholder")}
         rows={1}
         className={"pr-14 group"}
         variant={"darker"}

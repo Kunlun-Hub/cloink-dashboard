@@ -21,6 +21,7 @@ import {
 import React, { useState } from "react";
 import integrationImage from "@/assets/integrations/okta.png";
 import { DomainValidationStatus } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { EstimatedSetupTime } from "@/modules/integrations/EstimatedSetupTime";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { DomainVerificationModal } from "@/modules/integrations/sso/DomainVerificationModal";
@@ -32,6 +33,7 @@ type Props = {
 };
 
 export default function OktaSSOSetup({ open, onOpenChange }: Props) {
+  const { t } = useI18n();
   const { createOrUpdateConnection, mutate } = useEnterpriseConnections();
   const [step, setStep] = useState(0);
   const maxSteps = 2;
@@ -51,9 +53,9 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
     if (isLoading) return;
     setIsLoading(true);
     notify({
-      title: "Okta SSO Integration",
-      description: "Okta SSO was successfully connected",
-      loadingMessage: "Connecting Okta SSO...",
+      title: t("okta.notifyTitle"),
+      description: t("okta.notifyConnected"),
+      loadingMessage: t("okta.notifyConnecting"),
       promise: createOrUpdateConnection({
         domain: oktaDomain,
         client_id: clientId,
@@ -70,16 +72,16 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
           );
           if (!oktaConnection) {
             notify({
-              title: "Okta SSO Integration",
-              description: "Failed to connect Okta SSO",
+              title: t("okta.notifyTitle"),
+              description: t("okta.notifyFailed"),
             });
             return;
           }
           const domain = oktaConnection.domains?.[0] || undefined;
           if (!domain) {
             notify({
-              title: "Okta SSO Integration",
-              description: "Failed to connect Okta SSO",
+              title: t("okta.notifyTitle"),
+              description: t("okta.notifyFailed"),
             });
             return;
           }
@@ -134,10 +136,8 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
 
           <IntegrationModalHeader
             image={integrationImage}
-            title={"Connect NetBird with Okta SSO"}
-            description={
-              "Use Okta as a Single Sign-On provider to authenticate users. Follow the steps below to get started."
-            }
+            title={t("okta.connectTitle")}
+            description={t("okta.connectDescription")}
           />
 
           {step == 0 && (
@@ -152,21 +152,19 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 }
               >
                 <Shield size={16} />
-                Required Permissions
+                {t("idpSync.requiredPermissions")}
               </div>
               <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
                 Ensure that you have an{" "}
                 <span className={"text-nb-gray-100 font-semibold"}>
-                  Okta user account
+                  {t("okta.accountType")}
                 </span>{" "}
                 with the following{" "}
                 <span className={"text-nb-gray-100 font-semibold"}>
                   permissions
                 </span>
                 .{" "}
-                {
-                  "If you don't have the required permissions, ask your Okta administrator to grant them to you."
-                }
+                {t("okta.accountSuffix")}
               </p>
               <div
                 className={
@@ -179,7 +177,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                   }
                 >
                   <PlusCircle size={14} className={"text-sky-500"} />
-                  Add Okta applications
+                  {t("okta.permAdd")}
                 </div>
                 <div
                   className={
@@ -187,7 +185,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                   }
                 >
                   <Settings2 size={14} className={"text-sky-500"} />
-                  Configure Okta applications
+                  {t("okta.permConfigure")}
                 </div>
               </div>
             </div>
@@ -197,33 +195,37 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
             <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
               <p className={"font-medium flex gap-3 items-center text-base"}>
                 <Box size={20} />
-                Install NetBird application for Okta
+                {t("okta.step1Title")}
               </p>
               <Steps>
                 <Steps.Step step={1}>
                   <p>
-                    Navigate to{" "}
+                    {t("okta.step1Navigate")}{" "}
                     <InlineLink
                       className={"inline"}
                       target={"_blank"}
                       href={"https://www.okta.com/integrations/netbird"}
                     >
-                      Okta Integration Network
+                      {t("okta.step1Link")}
                     </InlineLink>
                   </p>
                 </Steps.Step>
                 <Steps.Step step={2}>
                   <p className={"font-normal"}>
-                    Click <Mark>+ Add Integration</Mark> and then{" "}
+                    {t("okta.step2Click")} <Mark>+ Add Integration</Mark>{" "}
+                    {t("okta.step2AndThen")}{" "}
                     <Mark>Done</Mark>
                   </p>
                 </Steps.Step>
                 <Steps.Step step={3} line={false}>
                   <p>
-                    After installing the application go to the{" "}
-                    <Mark>Assignments</Mark> tab, select the <Mark>Assign</Mark>{" "}
-                    and click <Mark>Assign to People</Mark> and assign your user
-                    to the application
+                    {t("okta.step3AssignPrefix")}{" "}
+                    <Mark>{t("okta.step3AssignTab")}</Mark>{" "}
+                    {t("okta.step3AssignMiddle")}{" "}
+                    <Mark>{t("okta.step3AssignMark")}</Mark>{" "}
+                    {t("okta.step3AssignSuffix")}{" "}
+                    <Mark>{t("okta.step3AssignClick")}</Mark>{" "}
+                    {t("okta.step3AssignFinal")}
                   </p>
                 </Steps.Step>
               </Steps>
@@ -234,17 +236,17 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
             <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
               <p className={"font-medium flex gap-3 items-center text-base"}>
                 <KeyRoundIcon size={20} />
-                Enter your Okta details
+                {t("okta.step3Title")}
               </p>
               <Steps>
                 <Steps.Step step={1}>
                   <p className={"font-normal"}>
-                    Click on the <Mark>{"Sign On"}</Mark> tab and enter your
-                    client credentials
+                    {t("okta.step3ClickOn")} <Mark>{"Sign On"}</Mark>{" "}
+                    {t("okta.step3TabSuffix")}
                   </p>
                   <Input
                     customPrefix={
-                      <span className={"min-w-[90px]"}>Client ID</span>
+                      <span className={"min-w-[90px]"}>{t("okta.clientId")}</span>
                     }
                     placeholder={"0obflxtwxoVQcur0z3f3"}
                     value={clientId}
@@ -252,7 +254,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                   />
                   <Input
                     customPrefix={
-                      <span className={"min-w-[90px]"}>Client Secret</span>
+                      <span className={"min-w-[90px]"}>{t("okta.clientSecret")}</span>
                     }
                     placeholder={
                       "jfgbU1Wu3XWAKhGUF4d-PX54DSm3pAQCyNtpxp7Nu8Ij22stSz8_6KnWbO4nQBIb"
@@ -263,8 +265,8 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 </Steps.Step>
                 <Steps.Step step={2}>
                   <p className={"font-normal"}>
-                    Under your user profile, enter your{" "}
-                    <Mark>Okta account domain</Mark>
+                    {t("okta.step4Prefix")}{" "}
+                    <Mark>{t("okta.step4Domain")}</Mark>
                   </p>
                   <Input
                     customPrefix={<GlobeIcon size={16} />}
@@ -275,9 +277,9 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 </Steps.Step>
                 <Steps.Step step={3} line={false}>
                   <p className={"font-normal"}>
-                    Enter your
-                    <Mark>Primary E-Mail Domain</Mark> which will later be used
-                    to log in to NetBird.
+                    {t("okta.step5Prefix")}
+                    <Mark>{t("okta.step5Domain")}</Mark>{" "}
+                    {t("okta.step5Suffix")}
                   </p>
                   <Input
                     customPrefix={<GlobeIcon size={16} />}
@@ -298,7 +300,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 onClick={() => setStep(step - 1)}
               >
                 <IconArrowLeft size={16} />
-                Back
+                {t("common.back")}
               </Button>
             )}
             {step >= 0 && step < maxSteps && (
@@ -307,7 +309,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 className={"w-full"}
                 onClick={() => setStep(step + 1)}
               >
-                {step == 0 ? "Get Started" : "Continue"}
+                {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
                 <IconArrowRight size={16} />
               </Button>
             )}
@@ -323,7 +325,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 ) : (
                   <Repeat size={16} />
                 )}
-                Connect
+                {t("idpSync.connect")}
               </Button>
             )}
           </ModalFooter>

@@ -11,6 +11,7 @@ import genericHttpLogo from "@/assets/integrations/generic-http.png";
 import s3Logo from "@/assets/integrations/s3.svg";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useIsLicensed } from "@/hooks/useIsLicensed";
+import { useI18n } from "@/i18n/I18nProvider";
 import { EventStream } from "@/interfaces/EventStream";
 
 type Platform = "datadog" | "s3" | "firehose" | "generic_http";
@@ -23,6 +24,7 @@ const platformImages: { [key in Platform]?: StaticImageData } = {
 
 export const EventStreamingCard = () => {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   // Event Streaming is a licensed feature; the endpoint is not served on
   // open-source deployments, so skip the call there entirely.
   const { isLicensed } = useIsLicensed();
@@ -71,7 +73,7 @@ export const EventStreamingCard = () => {
           <div className={""}>
             <div className={"flex items-center gap-3 justify-between"}>
               <div className={"font-medium text-sm flex gap-2 items-center"}>
-                Event Streaming
+                {t("eventStreaming.title")}
               </div>
               <div
                 className={cn(
@@ -80,12 +82,12 @@ export const EventStreamingCard = () => {
                 )}
               >
                 <IconCircleFilled size={8} />
-                {enabled ? "Enabled" : "Disabled"}
+                {enabled ? t("common.enabled") : t("common.disabled")}
               </div>
             </div>
 
             <p className={"text-xs font-light !text-nb-gray-300 "}>
-              Stream your activity events to third-party services.
+              {t("eventStreaming.cardDescription")}
             </p>
           </div>
         </div>

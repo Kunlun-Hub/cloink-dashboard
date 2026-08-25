@@ -6,6 +6,7 @@ import { GradientFadedBackground } from "@components/ui/GradientFadedBackground"
 import React, { useState } from "react";
 import { Group } from "@/interfaces/Group";
 import { useUsers } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import Badge from "@components/Badge";
 import { CircleUser } from "lucide-react";
 
@@ -27,6 +28,7 @@ export default function AuthSSOModal({
   onRemove,
 }: Readonly<Props>) {
   const { users } = useUsers();
+  const { t } = useI18n();
   const [groups, setGroups] = useState<Group[]>(currentGroups);
   const isEditing = isEnabled;
 
@@ -45,8 +47,8 @@ export default function AuthSSOModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-xl">
         <ModalHeader
-          title="SSO (Single Sign-On)"
-          description="Require users to authenticate via SSO to access this service."
+          title={t("reverseProxy.authSso")}
+          description={t("reverseProxy.authSsoDescription")}
         />
 
         <GradientFadedBackground />
@@ -59,9 +61,9 @@ export default function AuthSSOModal({
               <div className={"flex items-center gap-2"}>
                 <Badge className={"py-[3px]"} variant={"gray-ghost"}>
                   <CircleUser size={12} />
-                  All Users
+                  {t("reverseProxy.allUsers")}
                 </Badge>
-                Select user groups...
+                {t("reverseProxy.selectUserGroups")}
               </div>
             }
             users={users}
@@ -71,14 +73,14 @@ export default function AuthSSOModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-sso" onClick={handleRemove}>
-                  Remove
+                  {t("common.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button variant="primary" onClick={handleSave}>
-                    Save
+                    {t("common.save")}
                   </Button>
                 </div>
               </>
@@ -87,14 +89,14 @@ export default function AuthSSOModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     data-testid="submit-sso"
                   >
-                    Add SSO
+                    {t("reverseProxy.addSso")}
                   </Button>
                 </div>
               </>

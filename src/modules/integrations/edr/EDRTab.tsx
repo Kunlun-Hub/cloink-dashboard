@@ -14,12 +14,14 @@ import { useIntegrations } from "../idp-sync/useIntegrations";
 import { Intune } from "./intune/Intune";
 import { FleetDM } from "@/modules/integrations/edr/fleetdm/FleetDM";
 import { Huntress } from "@/modules/integrations/edr/huntress/Huntress";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   account: Account;
 };
 export default function EDRTab({ account }: Props) {
   useIntegrations();
+  const { t } = useI18n();
 
   return (
     <Tabs.Content value={"edr"}>
@@ -27,22 +29,18 @@ export default function EDRTab({ account }: Props) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Integrations"}
+            label={t("nav.integrations")}
             icon={<IntegrationIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/integrations?tab=edr"}
-            label={"MDM & EDR"}
+            label={t("edr.title")}
             icon={<ShieldCheck size={15} />}
             active
           />
         </Breadcrumbs>
-        <h1>MDM & EDR</h1>
-        <Paragraph className={"max-w-3xl"}>
-          Endpoint Detection and Response (EDR) and Mobile Device Management
-          (MDM) integrations allow you to restrict network access only to
-          devices managed by the IT department.
-        </Paragraph>
+        <h1>{t("edr.title")}</h1>
+        <Paragraph className={"max-w-3xl"}>{t("edr.description")}</Paragraph>
         <Paragraph>
           <InlineLink
             href={
@@ -50,12 +48,12 @@ export default function EDRTab({ account }: Props) {
             }
             target={"_blank"}
           >
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
-        <LockedFeatureInfoCard feature={"EDR"} featureText={"MDM & EDR"} />
+        <LockedFeatureInfoCard feature={"EDR"} featureText={t("edr.title")} />
         <LockedFeatureOverlay feature={"EDR"} opacity={100}>
           <div
             className={

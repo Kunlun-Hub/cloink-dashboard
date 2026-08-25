@@ -11,6 +11,7 @@ import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useAuthService } from "@/cloud/cloud-hooks/useAuthService";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 
 type Props = {
@@ -23,6 +24,7 @@ export default function DangerZoneTab({ account }: Props) {
   const { confirm } = useDialog();
   const deleteRequest = useApiCall<Account>("/accounts/" + account.id);
   const { logout } = useLoggedInUser();
+  const { t } = useI18n();
 
   const deleteAccount = async () => {
     const deletePromise = new Promise<void>((resolve, reject) => {
@@ -45,20 +47,19 @@ export default function DangerZoneTab({ account }: Props) {
     });
 
     notify({
-      title: "Delete NetBird account",
-      description: "NetBird account was successfully deleted.",
+      title: t("settings.deleteAccountTitle"),
+      description: t("settings.deleteAccountSuccessDescription"),
       promise: deletePromise,
-      loadingMessage: "Deleting the account...",
+      loadingMessage: t("settings.deleteAccountLoadingMessage"),
     });
   };
 
   const handleConfirm = async () => {
     const choice = await confirm({
-      title: "Delete NetBird account",
-      description:
-        "Are you sure you want to delete your NetBird account? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("settings.deleteAccountTitle"),
+      description: t("settings.deleteAccountConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -71,17 +72,17 @@ export default function DangerZoneTab({ account }: Props) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("settings.title")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Danger Zone"}
+            label={t("settings.dangerZone")}
             icon={<AlertOctagonIcon size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1>Danger Zone</h1>
+        <h1>{t("settings.dangerZoneTitle")}</h1>
         <div className={"gap-6 mt-6 max-w-lg"}>
           <Card
             className={
@@ -90,17 +91,14 @@ export default function DangerZoneTab({ account }: Props) {
           >
             <div className={"px-8 py-6"}>
               <p className={"text-xl font-medium mb-2 !text-red-50"}>
-                Delete NetBird account
+                {t("settings.deleteAccountTitle")}
               </p>
               <p className={"!text-red-50/80"}>
-                Before proceeding to delete your Netbird account, please be
-                aware that this action is irreversible. Once your account is
-                deleted, you will permanently lose access to all associated
-                data, including your peers, users, groups, policies, and routes.
+                {t("settings.deleteAccountDescription")}
               </p>
               <div className={"mt-6"}>
                 <Button variant={"danger"} onClick={handleConfirm} size={"xs"}>
-                  Delete Account
+                  {t("settings.deleteAccountButton")}
                 </Button>
               </div>
             </div>

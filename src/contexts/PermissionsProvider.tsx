@@ -27,6 +27,7 @@ const MODULE_KEYS: Array<keyof Permissions["modules"]> = [
   "users",
   "pats",
   "events",
+  "network_traffic",
   "settings",
   "accounts",
   "billing",
@@ -39,6 +40,7 @@ const MODULE_KEYS: Array<keyof Permissions["modules"]> = [
   "proxy",
   "proxy_configuration",
   "services",
+  "version_releases",
 ];
 
 const DENIED: Permission = {

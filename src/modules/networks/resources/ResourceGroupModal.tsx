@@ -15,6 +15,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { FolderGit2 } from "lucide-react";
 import Separator from "@components/Separator";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type ResourceGroupModalProps = {
   resource?: NetworkResource;
@@ -55,6 +56,8 @@ const ResourceGroupModalContent = ({
   network,
   onUpdated,
 }: ModalProps) => {
+  const { t } = useI18n();
+
   const update = useApiCall<NetworkResource>(
     `/networks/${network?.id}/resources/${resource?.id}`,
   ).put;
@@ -67,9 +70,11 @@ const ResourceGroupModalContent = ({
   const updateResource = async () => {
     const savedGroups = await saveGroups();
     notify({
-      title: "Update Resource",
-      description: `'${resource?.name}' groups updated`,
-      loadingMessage: "Updating resource groups...",
+      title: t("networkResources.updatedTitle"),
+      description: t("networkResources.groupsUpdateDescription", {
+        name: resource?.name || "",
+      }),
+      loadingMessage: t("networkResources.groupsUpdating"),
       promise: update({
         ...resource,
         groups: savedGroups.map((g) => g.id),
@@ -82,10 +87,8 @@ const ResourceGroupModalContent = ({
   return (
     <ModalContent maxWidthClass={"max-w-2xl"}>
       <ModalHeader
-        title={"Resource Groups"}
-        description={
-          "Add this resource to a group (e.g., Databases, Web Servers) and reference the group in access policies to simplify management."
-        }
+        title={t("networkResources.groupsLabel")}
+        description={t("networkResources.groupsModalDescription")}
         icon={<FolderGit2 size={18} />}
       />
 
@@ -97,7 +100,7 @@ const ResourceGroupModalContent = ({
             onChange={setGroups}
             values={groups}
             showPeerCounter={false}
-            placeholder={"Add or select resource group(s)..."}
+            placeholder={t("networkResources.groupsPlaceholder")}
             policies={policies}
           />
         </div>
@@ -106,11 +109,11 @@ const ResourceGroupModalContent = ({
       <ModalFooter className={"items-center"}>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
 
           <Button variant={"primary"} onClick={updateResource}>
-            Save Groups
+            {t("networkResources.saveGroups")}
           </Button>
         </div>
       </ModalFooter>

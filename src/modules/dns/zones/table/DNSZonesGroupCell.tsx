@@ -2,6 +2,7 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DNSZone } from "@/interfaces/DNS";
 import { Group } from "@/interfaces/Group";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
@@ -17,6 +18,7 @@ export const DNSZonesGroupCell = ({ zone }: Props) => {
   const { updateZone } = useDNSZones();
   const [modal, setModal] = useState(false);
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const allGroups = zone?.distribution_groups
     .map((group) => {
@@ -45,10 +47,8 @@ export const DNSZonesGroupCell = ({ zone }: Props) => {
 
   return (
     <GroupsRow
-      label={"Distribution Groups"}
-      description={
-        "Advertise this zone to peers that belong to the following groups"
-      }
+      label={t("zones.distributionGroups")}
+      description={t("zones.distributionGroupsHelp")}
       groups={groupIDs || []}
       hideAllGroup={false}
       disabled={!permission?.dns?.update}

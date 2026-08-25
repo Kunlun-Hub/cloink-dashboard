@@ -10,6 +10,7 @@ import { ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type NodeProps = Node<
   {
@@ -20,6 +21,7 @@ type NodeProps = Node<
 >;
 
 export const SelectGroupNode = ({ data, id }: NodeProps) => {
+  const { t } = useI18n();
   const { data: groups, isLoading: isGroupsLoading } =
     useFetchApi<Group[]>("/groups");
 
@@ -64,7 +66,7 @@ export const SelectGroupNode = ({ data, id }: NodeProps) => {
         onChange={data.onChange}
         options={groupOptions}
         showSearch={true}
-        searchPlaceholder={"Search groups..."}
+        searchPlaceholder={t("common.searchGroupsPlaceholder")}
         popoverWidth={280}
         className={"!bg-nb-gray-920  !hover:bg-nb-gray-925 !text-nb-gray-300"}
         size={"xs"}

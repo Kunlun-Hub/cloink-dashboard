@@ -10,6 +10,7 @@ import { EyeIcon, MoreVertical, PencilLineIcon, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Network } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 
@@ -18,6 +19,7 @@ type Props = {
 };
 export default function NetworkActionCell({ network }: Readonly<Props>) {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { deleteNetwork, openEditNetworkModal } = useNetworksContext();
   const router = useRouter();
 
@@ -42,7 +44,7 @@ export default function NetworkActionCell({ network }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <EyeIcon size={14} className={"shrink-0"} />
-              View Details
+              {t("actions.viewDetails")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -52,7 +54,7 @@ export default function NetworkActionCell({ network }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <PencilLineIcon size={14} className={"shrink-0"} />
-              Rename
+              {t("networkActionCell.rename")}
             </div>
           </DropdownMenuItem>
 
@@ -65,7 +67,7 @@ export default function NetworkActionCell({ network }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

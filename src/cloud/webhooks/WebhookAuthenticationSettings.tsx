@@ -15,6 +15,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import { WebhookConfig } from "@/cloud/webhooks/useWebhookConfig";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export enum AuthType {
   None = "none",
@@ -23,25 +24,25 @@ export enum AuthType {
   Custom = "custom",
 }
 
-export const authenticationOptions = [
+export const authenticationOptions = (t: (key: string) => string) => [
   {
     value: AuthType.None,
-    label: "No Authentication",
+    label: t("webhook.noAuthentication"),
     icon: () => <CircleOffIcon size={14} />,
   },
   {
     value: AuthType.Basic,
-    label: "Basic Auth",
+    label: t("webhook.basicAuth"),
     icon: () => <CircleUserIcon size={14} />,
   },
   {
     value: AuthType.Bearer,
-    label: "Bearer Token",
+    label: t("webhook.bearerToken"),
     icon: () => <KeyRoundIcon size={14} />,
   },
   {
     value: AuthType.Custom,
-    label: "Custom Authentication",
+    label: t("webhook.customAuthentication"),
     icon: () => <BracesIcon size={14} />,
   },
 ] as SelectOption[];
@@ -54,26 +55,28 @@ type AuthenticationSettingsProps = {
 export const AuthenticationSettings = ({
   value,
   mask,
-}: AuthenticationSettingsProps) => (
+}: AuthenticationSettingsProps) => {
+  const { t } = useI18n();
+  return (
   <>
     <SelectDropdown
       value={value.authenticationType}
       onChange={value.setAuthenticationType}
-      options={authenticationOptions}
+      options={authenticationOptions(t)}
       data-testid="webhook-auth-type"
     />
     {value.authenticationType === AuthType.Basic && (
       <div className={"flex flex-col gap-2 mt-3"}>
         <Input
           customPrefix={<UserIcon size={16} />}
-          placeholder="Username"
+          placeholder={t("common.username")}
           value={value.username}
           onChange={(e) => value.setUsername(e.target.value)}
           data-testid="webhook-basic-username"
         />
         <Input
           customPrefix={<KeyRoundIcon size={16} />}
-          placeholder="Password"
+          placeholder={t("common.password")}
           value={value.password}
           onChange={(e) => value.setPassword(e.target.value)}
           type={mask ? "password" : "text"}
@@ -125,4 +128,5 @@ export const AuthenticationSettings = ({
       </div>
     )}
   </>
-);
+  );
+};

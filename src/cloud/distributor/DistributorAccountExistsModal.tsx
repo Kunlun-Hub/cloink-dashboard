@@ -5,6 +5,7 @@ import { GradientFadedBackground } from "@components/ui/GradientFadedBackground"
 import { GlobeIcon } from "lucide-react";
 import * as React from "react";
 import { DistributorCustomer } from "@/cloud/distributor/interfaces/Distributor";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -21,6 +22,7 @@ export const DistributorAccountExistsModal = ({
   onAccept,
   onCancel,
 }: Props) => {
+  const { t } = useI18n();
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalContent
@@ -42,19 +44,16 @@ export const DistributorAccountExistsModal = ({
             {customer?.domain}
           </div>
           <div className={"text-xl font-medium text-center mb-1"}>
-            This NetBird account already <br />
-            exists in our system
+            {t("distributor.accountExistsLine1")} <br />
+            {t("distributor.accountExistsLine2")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}>
-            To manage the account{" "}
-            <span className="text-white">{customer?.domain}</span>, you must
-            first request access from the account owner.
+            {t("distributor.accountExistsManagePrefix")}{" "}
+            <span className="text-white">{customer?.domain}</span>
+            {t("distributor.accountExistsManageSuffix")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}></div>
-          <Callout>
-            The account owner must log in to the dashboard to accept or decline
-            your request. Please inform them after you have requested access.
-          </Callout>
+          <Callout>{t("distributor.accountExistsCallout")}</Callout>
         </div>
 
         <ModalFooter separator={false} className={"gap-x-2"}>
@@ -64,7 +63,7 @@ export const DistributorAccountExistsModal = ({
             variant={"secondary"}
             onClick={() => onCancel(customer)}
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             autoFocus={true}
@@ -72,7 +71,7 @@ export const DistributorAccountExistsModal = ({
             variant={"primary"}
             onClick={() => onAccept(customer)}
           >
-            Request Access
+            {t("common.requestAccess")}
           </Button>
         </ModalFooter>
       </ModalContent>

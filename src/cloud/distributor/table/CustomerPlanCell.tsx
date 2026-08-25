@@ -10,6 +10,7 @@ import {
   DistributorCustomerStatus,
 } from "@/cloud/distributor/interfaces/Distributor";
 import { PlanTier } from "@/interfaces/Subscription";
+import { useI18n } from "@/i18n/I18nProvider";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export const CustomerPlanCell = ({ customer, onUpgrade }: Props) => {
+  const { t } = useI18n();
   const { currentPlanTier, isLoading, trialDaysRemaining, isTrialExpired } =
     useCustomerPlan({ accountId: customer.id });
 
@@ -32,7 +34,7 @@ export const CustomerPlanCell = ({ customer, onUpgrade }: Props) => {
       <div className={"flex gap-3 items-center"}>
         <Badge variant={"yellow"} className={"h-[32px]"}>
           <CircleAlertIcon size={12} />
-          Trial Expired
+          {t("plan.trialExpired")}
         </Badge>
         {onUpgrade && (
           <Button
@@ -42,7 +44,7 @@ export const CustomerPlanCell = ({ customer, onUpgrade }: Props) => {
             onClick={onUpgrade}
           >
             <CreditCardIcon size={12} />
-            Upgrade Plan
+            {t("plan.upgradePlan")}
           </Button>
         )}
       </div>
@@ -70,14 +72,16 @@ type RemainingTrialDaysProps = {
 };
 
 const RemainingTrialDays = ({ days }: RemainingTrialDaysProps) => {
+  const { t } = useI18n();
   if (days === undefined) return null;
-  if (days === 1) return ` (${days} day left)`;
-  if (days === 0) return ` (Trial has expired)`;
+  if (days === 1) return ` (${t("plan.trialDayLeft", { count: days })})`;
+  if (days === 0) return ` (${t("plan.trialHasExpired")})`;
 
-  return ` (${days} days left)`;
+  return ` (${t("plan.trialDaysLeft", { count: days })})`;
 };
 
 const CurrentPlan = ({ plan }: { plan: PlanTier }) => {
+  const { t } = useI18n();
   return (
     <>
       <span
@@ -89,10 +93,10 @@ const CurrentPlan = ({ plan }: { plan: PlanTier }) => {
           plan == PlanTier.TRIAL && "bg-purple-400",
         )}
       ></span>
-      {plan == PlanTier.BUSINESS && "Business"}
-      {plan == PlanTier.TEAM && "Team"}
-      {plan == PlanTier.FREE && "Free"}
-      {plan == PlanTier.TRIAL && "Free Trial"}
+      {plan == PlanTier.BUSINESS && t("plan.business")}
+      {plan == PlanTier.TEAM && t("plan.team")}
+      {plan == PlanTier.FREE && t("plan.free")}
+      {plan == PlanTier.TRIAL && t("plan.freeTrial")}
     </>
   );
 };

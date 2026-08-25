@@ -18,6 +18,7 @@ import { cn } from "@utils/helpers";
 import { FolderGit2 } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
@@ -43,16 +44,21 @@ export default function GroupsRow({
   onSave,
   modal,
   setModal,
-  label = "Assigned Groups",
-  description = "Use groups to control what this peer can access",
+  label,
+  description,
   peer,
   showAddGroupButton = false,
   hideAllGroup = false,
   disabled = false,
   countOnly = false,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { groups: allGroups } = useGroups();
   const { permission } = usePermissions();
+
+  const resolvedLabel = label || t("groups.assignedGroups");
+  const resolvedDescription =
+    description || t("groups.useGroupsToControlAccess");
 
   // Get the group by the id
   const foundGroups = useMemo(() => {
@@ -75,7 +81,7 @@ export default function GroupsRow({
         {foundGroups?.length == 0 && showAddGroupButton ? (
           <Badge variant={"gray"} useHover={true}>
             <IconCirclePlus size={14} />
-            Add Groups
+            {t("groupsRow.addGroups")}
           </Badge>
         ) : (
           <div
@@ -86,7 +92,7 @@ export default function GroupsRow({
           >
             <MultipleGroups
               groups={foundGroups}
-              label={label}
+              label={resolvedLabel}
               countOnly={countOnly}
             />
             {!disabled && <TransparentEditIconButton />}
@@ -96,8 +102,8 @@ export default function GroupsRow({
       <EditGroupsModal
         groups={foundGroups}
         onSave={onSave}
-        label={label}
-        description={description}
+        label={resolvedLabel}
+        description={resolvedDescription}
         peer={peer}
         hideAllGroup={hideAllGroup}
         disabled={disabled}
@@ -125,6 +131,7 @@ export function EditGroupsModal({
   hideAllGroup = false,
   disabled,
 }: Readonly<EditGroupsModalProps>) {
+  const { t } = useI18n();
   const [selectedGroups, setSelectedGroups, { getAllGroupCalls }] =
     useGroupHelper({
       initial: groups,
@@ -139,7 +146,7 @@ export function EditGroupsModal({
     <ModalContent maxWidthClass={"max-w-xl"}>
       <ModalHeader
         icon={<FolderGit2 size={18} />}
-        title={label || "Assigned Groups"}
+        title={label || t("groups.assignedGroups")}
         description={description}
         color={"blue"}
       />
@@ -160,7 +167,7 @@ export function EditGroupsModal({
       <ModalFooter className={"items-center"}>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
 
           <Button
@@ -169,7 +176,7 @@ export function EditGroupsModal({
             disabled={disabled}
             data-testid="save-groups"
           >
-            Save Groups
+            {t("groupsRow.saveGroups")}
           </Button>
         </div>
       </ModalFooter>

@@ -17,20 +17,25 @@ import {
 } from "@components/table/TableFilters";
 import GetStartedTest from "@components/ui/GetStartedTest";
 import useFetchApi from "@utils/api";
-import type { ColumnDef, SortingState } from "@tanstack/react-table";
+import { cn, formatBytes } from "@utils/helpers";
+import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { ArrowLeftRightIcon, ExternalLinkIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowLeftRightIcon, ArrowUpIcon, ChevronRightIcon, ExternalLinkIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DateRange } from "react-day-picker";
 import {
-  getTrafficEventCounts,
   TrafficEvent,
   TrafficEventDirection,
   TrafficEventType,
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
+import {
+  NetworkTrafficGroup,
+  NetworkTrafficGroupRow,
+} from "@/cloud/traffic-events/interfaces/NetworkTrafficGroup";
 import { TrafficEventsBytesCell } from "@/cloud/traffic-events/table/TrafficEventsBytesCell";
-import { TrafficEventsDetailRow } from "@/cloud/traffic-events/table/TrafficEventsDetailRow";
+import NetworkTrafficGroupDetails from "@/cloud/traffic-events/table/NetworkTrafficGroupDetails";
 import { TrafficEventsMachineCell } from "@/cloud/traffic-events/table/TrafficEventsMachineCell";
 import { TrafficEventsPortCell } from "@/cloud/traffic-events/table/TrafficEventsPortCell";
 import { TrafficEventsReporterCell } from "@/cloud/traffic-events/table/TrafficEventsReporterCell";
@@ -44,31 +49,46 @@ import { useUsers } from "@/contexts/UsersProvider";
 import { NetworkResource } from "@/interfaces/Network";
 
 export const getTrafficEventTypeText = (
-  t: TrafficEventType,
+  t: (key: string, values?: Record<string, unknown>) => string,
+  type: TrafficEventType,
   isP2P: boolean,
   direction: TrafficEventDirection,
 ) => {
-  const name = isP2P ? "P2P" : "Routed";
+  const name = isP2P ? t("trafficEvents.p2p") : t("trafficEvents.routed");
   const isInbound = direction === TrafficEventDirection.INGRESS;
-  const directionText = isInbound ? "(inbound)" : "(outbound)";
+  const directionText = isInbound
+    ? t("trafficEvents.inbound")
+    : t("trafficEvents.outbound");
 
-  switch (t) {
+  switch (type) {
     case TrafficEventType.CONNECTED:
-      return `${name} connection started ${directionText}`;
+      return t("trafficEvents.typeText", {
+        name,
+        verb: t("trafficEvents.connectionStarted"),
+        direction: directionText,
+      });
     case TrafficEventType.BLOCKED:
-      return `${name} connection blocked ${directionText}`;
+      return t("trafficEvents.typeText", {
+        name,
+        verb: t("trafficEvents.connectionBlocked"),
+        direction: directionText,
+      });
     case TrafficEventType.STOPPED:
-      return `${name} connection stopped ${directionText}`;
+      return t("trafficEvents.typeText", {
+        name,
+        verb: t("trafficEvents.connectionStopped"),
+        direction: directionText,
+      });
     default:
-      return "Unknown";
+      return t("common.unknown");
   }
 };
 
-export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
+export const TrafficEventsTableColumns = (t: (...args: any[]) => string): ColumnDef<TrafficEvent>[] => [
   {
     id: "timestamp",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Time</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.time")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <TrafficEventsTimeCell timestamp={row.original.events[0].timestamp} />
@@ -80,28 +100,40 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
   {
     id: "type",
     accessorKey: "type",
-    accessorFn: (t) => {
+    accessorFn: (row) => {
       const isP2P =
-        t.source.id === t.reporter_id || t.destination.id === t.reporter_id;
-      return getTrafficEventTypeText(t.events[0].type, isP2P, t.direction);
+        row.source.id === row.reporter_id ||
+        row.destination.id === row.reporter_id;
+      return getTrafficEventTypeText(
+        t,
+        row.events[0].type,
+        isP2P,
+        row.direction,
+      );
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Event</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.event")}</DataTableHeader>
     ),
     cell: ({ row }) => row.getValue("type"),
   },
   {
     id: "text",
     accessorKey: "type",
-    accessorFn: (t) => {
+    accessorFn: (row) => {
       const isP2P =
-        t.source.id === t.reporter_id || t.destination.id === t.reporter_id;
-      return getTrafficEventTypeText(t.events[0].type, isP2P, t.direction);
+        row.source.id === row.reporter_id ||
+        row.destination.id === row.reporter_id;
+      return getTrafficEventTypeText(
+        t,
+        row.events[0].type,
+        isP2P,
+        row.direction,
+      );
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Event</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.event")}</DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsTextCell event={row.original} />,
     enableGlobalFilter: false,
@@ -110,7 +142,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     id: "source",
     accessorFn: (row) => row.source.address,
     header: ({ column }) => (
-      <DataTableHeader column={column}>Source</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.source")}</DataTableHeader>
     ),
     cell: ({ row }) => (
       <TrafficEventsMachineCell event={row.original} isSource={true} />
@@ -121,7 +153,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorFn: (row) => row.protocol,
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Protocol & Port</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.protocolPort")}</DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsPortCell event={row.original} />,
   },
@@ -144,7 +176,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorFn: (row) => row.destination.address,
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Destination</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.destination")}</DataTableHeader>
     ),
     cell: ({ row }) => {
       return <TrafficEventsMachineCell event={row.original} isSource={false} />;
@@ -156,7 +188,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Traffic</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.traffic")}</DataTableHeader>
     ),
     cell: ({ row }) => {
       return <TrafficEventsBytesCell event={row.original} />;
@@ -168,7 +200,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Traffic</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.traffic")}</DataTableHeader>
     ),
     cell: ({ row }) => {
       return (
@@ -184,7 +216,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Traffic</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.traffic")}</DataTableHeader>
     ),
     cell: ({ row }) => {
       return (
@@ -199,7 +231,7 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     id: "reporter",
     accessorKey: "reporter_id",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Router</DataTableHeader>
+      <DataTableHeader column={column}>{t("trafficEvents.router")}</DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsReporterCell event={row.original} />,
   },
@@ -223,6 +255,7 @@ export default function TrafficEventsTable({
   isSettingEnabled,
 }: Readonly<Props>) {
   const router = useRouter();
+  const { t } = useI18n();
   const { users } = useUsers();
   const { peers } = usePeers();
   // Resources back the Resources tab of the source/destination picker. Errors
@@ -237,20 +270,14 @@ export default function TrafficEventsTable({
     mutate,
     setFilter,
     getFilter,
+    queryParams,
     ...paginationProps
-  } = useServerPagination<TrafficEvent[]>();
+  } = useServerPagination<NetworkTrafficGroup[]>();
 
-  // `data` may resolve to a non-array (e.g. an error body) on locked /
-  // self-hosted deployments; guard so `.map` never throws. Rows are keyed by
-  // flow_id.
-  const events = useMemo(() => {
+  const groups = useMemo<NetworkTrafficGroupRow[] | undefined>(() => {
     if (!Array.isArray(data)) return undefined;
-    return data.map((event) => ({ ...event, id: event.flow_id }));
+    return data.map((group) => ({ ...group, id: group.key }));
   }, [data]);
-
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "timestamp", desc: true },
-  ]);
 
   const userOptions = useMemo<PeerResourceOption[]>(() => {
     const map = new Map<string, PeerResourceOption>();
@@ -329,7 +356,7 @@ export default function TrafficEventsTable({
     () => [
       {
         id: "source_id",
-        label: "Source",
+        label: t("trafficEvents.source"),
         renderPicker: (p) => (
           <PeerResourcePicker
             value={p.value as string | undefined}
@@ -359,7 +386,7 @@ export default function TrafficEventsTable({
       },
       {
         id: "destination_id",
-        label: "Destination",
+        label: t("trafficEvents.destination"),
         renderPicker: (p) => (
           <PeerResourcePicker
             value={p.value as string | undefined}
@@ -386,6 +413,7 @@ export default function TrafficEventsTable({
       sourceChipOptions,
       destinationChipOptions,
       setFilter,
+      t,
     ],
   );
 
@@ -404,25 +432,114 @@ export default function TrafficEventsTable({
     return filters;
   }, [getFilter]);
 
-  // Hidden columns backing the Source / Destination filters. Filtering is
-  // server-side, so these only need to exist for the filter adapter/chips to
-  // read and write their value. Added locally so the shared column export stays
-  // untouched (the peer tab reuses it).
-  const columns = useMemo<ColumnDef<TrafficEvent>[]>(
+  const columns = useMemo<ColumnDef<NetworkTrafficGroupRow>[]>(
     () => [
-      ...TrafficEventsTableColumns,
+      {
+        id: "expand",
+        header: "",
+        cell: () => null,
+        enableGlobalFilter: false,
+      },
+      {
+        id: "window_start",
+        header: t("trafficEvents.windowStart"),
+        cell: ({ row }) => (
+          <TrafficEventsTimeCell timestamp={row.original.window_start} />
+        ),
+      },
+      {
+        id: "user",
+        header: t("trafficEvents.user"),
+        cell: ({ row }) => (
+          <div className="min-w-[160px]">
+            <div className="text-sm text-nb-gray-200">
+              {row.original.user.name ||
+                row.original.user.email ||
+                t("trafficEvents.unknownUser")}
+            </div>
+            {row.original.user.email && (
+              <div className="text-xs text-nb-gray-400">
+                {row.original.user.email}
+              </div>
+            )}
+          </div>
+        ),
+      },
+      {
+        id: "reporter",
+        header: t("trafficEvents.reporter"),
+        cell: ({ row }) => (
+          <span
+            className="block max-w-[180px] truncate text-sm text-nb-gray-300"
+            title={row.original.reporter_id}
+          >
+            {peers?.find((peer) => peer.id === row.original.reporter_id)?.name ??
+              row.original.reporter_id}
+          </span>
+        ),
+      },
+      {
+        id: "details",
+        header: t("trafficEvents.details"),
+        cell: ({ row }) => (
+          <span className="text-sm text-nb-gray-300">
+            {row.original.detail_count}
+          </span>
+        ),
+      },
+      {
+        id: "events",
+        header: t("trafficEvents.eventCounts"),
+        cell: ({ row }) => (
+          <div className="whitespace-nowrap text-xs text-nb-gray-400">
+            {t("trafficEvents.eventCountsValue", {
+              starts: row.original.num_of_starts,
+              ends: row.original.num_of_ends,
+              drops: row.original.num_of_drops,
+            })}
+          </div>
+        ),
+      },
+      {
+        id: "traffic",
+        header: t("trafficEvents.traffic"),
+        cell: ({ row }) => (
+          <div className="flex flex-col gap-1 whitespace-nowrap text-xs font-medium text-nb-gray-300">
+            <span className="flex items-center gap-2">
+              <ArrowDownIcon size={15} className="text-sky-400" />
+              {formatBytes(row.original.rx_bytes)}
+            </span>
+            <span className="flex items-center gap-2">
+              <ArrowUpIcon size={15} className="text-netbird" />
+              {formatBytes(row.original.tx_bytes)}
+            </span>
+          </div>
+        ),
+      },
+      {
+        id: "integrity",
+        header: t("trafficEvents.integrity"),
+        cell: () => (
+          <span
+            className="inline-flex rounded-full border border-nb-gray-700 px-2 py-1 text-xs text-nb-gray-400"
+            title={t("trafficEvents.integrityUnknownDescription")}
+          >
+            {t("trafficEvents.integrityUnknown")}
+          </span>
+        ),
+      },
       {
         id: "source_id",
-        accessorFn: (row) => row.source.id,
+        accessorFn: (row) => row.key,
         enableGlobalFilter: false,
       },
       {
         id: "destination_id",
-        accessorFn: (row) => row.destination.id,
+        accessorFn: (row) => row.key,
         enableGlobalFilter: false,
       },
     ],
-    [],
+    [peers, t],
   );
 
   const getStartedCard = !isSettingEnabled ? (
@@ -434,11 +551,8 @@ export default function TrafficEventsTable({
           size={"large"}
         />
       }
-      title={"Traffic Events"}
-      description={
-        "Traffic Events help you understand the network activity in your organization. " +
-        "You can see which machines are connecting to each other, and what kind of traffic is flowing between them."
-      }
+      title={t("trafficEvents.getStartedTitle")}
+      description={t("trafficEvents.getStartedDescription")}
       button={
         <Button
           variant={"primary"}
@@ -449,9 +563,9 @@ export default function TrafficEventsTable({
       }
       learnMore={
         <>
-          Learn more about
+          {t("common.learnMoreAbout")}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target={"_blank"}>
-            Traffic Events
+            {t("trafficEvents.title")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </>
@@ -466,15 +580,13 @@ export default function TrafficEventsTable({
           size={"large"}
         />
       }
-      title={"No traffic events yet"}
-      description={
-        "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity."
-      }
+      title={t("trafficEvents.emptyTitle")}
+      description={t("trafficEvents.emptyDescription")}
       learnMore={
         <>
-          Learn more about
+          {t("common.learnMoreAbout")}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target={"_blank"}>
-            Traffic Events
+            {t("trafficEvents.title")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </>
@@ -491,38 +603,47 @@ export default function TrafficEventsTable({
     <DataTable
       {...paginationProps}
       serverSidePagination={false}
+      useRowId={true}
       headingTarget={headingTarget}
-      text={"Traffic Events"}
+      text={t("trafficEvents.title")}
       isLoading={isLoading}
       tableCellClassName={"py-2"}
-      sorting={sorting}
-      setSorting={setSorting}
       rowClassName={"data-[accordion=opened]:!border-b-transparent"}
-      renderExpandedRow={(e) => {
-        const { isAggregated } = getTrafficEventCounts(e);
-        if (isAggregated) {
-          if (!e.policy?.id) return undefined;
-          return <TrafficEventsDetailRow event={e} />;
-        }
-        if (e.events.length < 2) return undefined;
-        return <TrafficEventsDetailRow event={e} />;
-      }}
+      renderExpandedRow={(group) => (
+        <NetworkTrafficGroupDetails
+          group={group}
+          filters={queryParams}
+          columns={TrafficEventsTableColumns(t)}
+        />
+      )}
+      renderExpandButton={(expanded, controls, toggle) => (
+        <button
+          type="button"
+          aria-expanded={expanded}
+          aria-controls={controls}
+          aria-label={
+            expanded
+              ? t("trafficEvents.collapseDetails")
+              : t("trafficEvents.expandDetails")
+          }
+          className="rounded p-2 text-nb-gray-400 outline-none hover:bg-nb-gray-900 hover:text-white focus-visible:ring-2 focus-visible:ring-netbird"
+          onClick={(event) => {
+            event.stopPropagation();
+            toggle();
+          }}
+        >
+          <ChevronRightIcon
+            size={16}
+            aria-hidden="true"
+            className={cn("transition-transform", expanded && "rotate-90")}
+          />
+        </button>
+      )}
       columns={columns}
+      columnVisibility={{ source_id: false, destination_id: false }}
       initialFilters={initialColumnFilters}
-      columnVisibility={{
-        user: false,
-        source_port: false,
-        destination_port: false,
-        bytes_inbound: false,
-        bytes_outbound: false,
-        type: false,
-        timestamp: false,
-        policy: false,
-        source_id: false,
-        destination_id: false,
-      }}
-      data={events}
-      searchPlaceholder={"Search by ip, port, peer or resource..."}
+      data={groups}
+      searchPlaceholder={t("trafficEvents.searchPlaceholder")}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
       )}

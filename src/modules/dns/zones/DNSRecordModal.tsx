@@ -31,6 +31,7 @@ import {
   DNSZone,
 } from "@/interfaces/DNS";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children?: React.ReactNode;
@@ -87,6 +88,7 @@ export function DNSRecordModalContent({
   record,
 }: Readonly<ModalProps>) {
   const { addRecord, updateRecord } = useDNSZones();
+  const { t } = useI18n();
 
   const getInitialDomain = () => {
     if (!record) return "";
@@ -107,25 +109,25 @@ export function DNSRecordModalContent({
       allowOnlyTld: true,
     });
     if (!valid) {
-      return "Please enter a valid domain, e.g. example.com or intra.example.com";
+      return t("zones.recordDomainError");
     }
-  }, [domain]);
+  }, [domain, t]);
 
   const ipv4Error = useMemo(() => {
     if (recordValue === "" || type !== "A") return "";
     const valid = Address4.isValid(recordValue);
     if (!valid) {
-      return "Please enter a valid IPv4 address, e.g. 192.168.1.1";
+      return t("zones.ipv4Error");
     }
-  }, [recordValue, type]);
+  }, [recordValue, type, t]);
 
   const ipv6Error = useMemo(() => {
     if (recordValue === "" || type !== "AAAA") return "";
     const valid = Address6.isValid(recordValue);
     if (!valid) {
-      return "Please enter a valid IPv6 address, e.g. 2001:0db8:85a3::8a2e:0370:7334";
+      return t("zones.ipv6Error");
     }
-  }, [recordValue, type]);
+  }, [recordValue, type, t]);
 
   const cnameError = useMemo(() => {
     if (recordValue === "" || type !== "CNAME") return "";
@@ -134,9 +136,9 @@ export function DNSRecordModalContent({
       allowOnlyTld: false,
     });
     if (!valid) {
-      return "Please enter a valid domain, e.g. example.com or server.example.com";
+      return t("zones.cnameError");
     }
-  }, [recordValue, type]);
+  }, [recordValue, type, t]);
 
   const handleAddRecord = async () => {
     const name = domain !== "" ? `${domain}.${zone.domain}` : zone.domain;
@@ -169,11 +171,11 @@ export function DNSRecordModalContent({
   return (
     <ModalContent maxWidthClass={"max-w-xl"}>
       <ModalHeader
-        title={record ? "Update DNS Record" : "Add DNS Record"}
+        title={record ? t("zones.recordModalUpdateTitle") : t("zones.recordModalAddTitle")}
         description={
           record
-            ? `Update record of '${zone.domain}' zone`
-            : `Add new record to the '${zone.domain}' zone`
+            ? t("zones.recordModalUpdateDescription", { zone: zone.domain })
+            : t("zones.recordModalAddDescription", { zone: zone.domain })
         }
         icon={<GlobeIcon size={16} />}
       />
@@ -181,9 +183,9 @@ export function DNSRecordModalContent({
       <div className={"px-8 py-6 flex flex-col gap-6"}>
         <div className={"flex items-center justify-between gap-10"}>
           <div>
-            <Label>Record Type</Label>
+            <Label>{t("zones.recordType")}</Label>
             <HelpText className={"max-w-sm"}>
-              Select the type of record you want to add
+              {t("zones.recordTypeHelp")}
             </HelpText>
           </div>
           <div className={"min-w-[130px]"}>
@@ -198,7 +200,7 @@ export function DNSRecordModalContent({
                 className="w-full pl-4"
                 data-testid={"dns-record-type-select"}
               >
-                <SelectValue placeholder="Select type..." />
+                <SelectValue placeholder={t("zones.selectType")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="A">A</SelectItem>
@@ -209,15 +211,14 @@ export function DNSRecordModalContent({
           </div>
         </div>
         <div className={"w-full mb-3"}>
-          <Label>Hostname</Label>
+          <Label>{t("zones.hostname")}</Label>
           <HelpText>
-            Enter a subdomain, wildcard or leave empty to use the primary
-            domain.
+            {t("zones.hostnameHelp")}
           </HelpText>
           <div className={"flex w-full"}>
             <Input
               autoFocus={true}
-              placeholder={"E.g., dev, * or leave empty for primary domain"}
+              placeholder={t("zones.hostnamePlaceholder")}
               errorTooltip={true}
               errorTooltipPosition={"bottom"}
               error={domainError}
@@ -240,10 +241,10 @@ export function DNSRecordModalContent({
         <div className={"flex gap-4 items-start mb-3"}>
           {type === "A" && (
             <div className={"flex-1"}>
-              <Label>IPv4 Address</Label>
+              <Label>{t("zones.ipv4Address")}</Label>
               <Input
                 className={"mt-1.5 font-mono text-[0.82rem]"}
-                placeholder={"192.168.1.1"}
+                placeholder={t("zones.ipv4Placeholder")}
                 errorTooltip={false}
                 errorTooltipPosition={"top"}
                 error={ipv4Error}
@@ -257,10 +258,10 @@ export function DNSRecordModalContent({
 
           {type === "AAAA" && (
             <div className={"flex-1"}>
-              <Label>IPv6 Address</Label>
+              <Label>{t("zones.ipv6Address")}</Label>
               <Input
                 className={"mt-1.5 font-mono text-[0.82rem]"}
-                placeholder={"2001:0db8:85a3::8a2e:0370:7334"}
+                placeholder={t("zones.ipv6Placeholder")}
                 errorTooltip={false}
                 errorTooltipPosition={"top"}
                 error={ipv6Error}
@@ -274,10 +275,10 @@ export function DNSRecordModalContent({
 
           {type === "CNAME" && (
             <div className={"flex-1"}>
-              <Label>Target Domain</Label>
+              <Label>{t("zones.targetDomain")}</Label>
               <Input
                 className={"mt-1.5"}
-                placeholder={"e.g., example.com or intra.example.com"}
+                placeholder={t("zones.targetDomainPlaceholder")}
                 errorTooltip={false}
                 errorTooltipPosition={"top"}
                 error={cnameError}
@@ -290,7 +291,7 @@ export function DNSRecordModalContent({
           )}
 
           <div className={"min-w-[200px]"}>
-            <Label>TTL (Time to Live)</Label>
+            <Label>{t("zones.ttl")}</Label>
             <div className={"mt-2.5"}>
               <Select value={ttl} onValueChange={(v) => setTtl(v)}>
                 <SelectTrigger
@@ -299,20 +300,20 @@ export function DNSRecordModalContent({
                 >
                   <div className={"flex items-center gap-2"}>
                     <ClockIcon size={14} className={"text-nb-gray-300"} />
-                    <SelectValue placeholder="Select TTL..." />
+                    <SelectValue placeholder={t("zones.selectTtl")} />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="60">{getTTLLabel(60)}</SelectItem>
-                  <SelectItem value="120">{getTTLLabel(120)}</SelectItem>
-                  <SelectItem value="300">{getTTLLabel(300)}</SelectItem>
-                  <SelectItem value="600">{getTTLLabel(600)}</SelectItem>
-                  <SelectItem value="900">{getTTLLabel(900)}</SelectItem>
-                  <SelectItem value="1800">{getTTLLabel(1800)}</SelectItem>
-                  <SelectItem value="3600">{getTTLLabel(3600)}</SelectItem>
-                  <SelectItem value="7200">{getTTLLabel(7200)}</SelectItem>
-                  <SelectItem value="43200">{getTTLLabel(43200)}</SelectItem>
-                  <SelectItem value="86400">{getTTLLabel(86400)}</SelectItem>
+                  <SelectItem value="60">{getTTLLabel(60, t)}</SelectItem>
+                  <SelectItem value="120">{getTTLLabel(120, t)}</SelectItem>
+                  <SelectItem value="300">{getTTLLabel(300, t)}</SelectItem>
+                  <SelectItem value="600">{getTTLLabel(600, t)}</SelectItem>
+                  <SelectItem value="900">{getTTLLabel(900, t)}</SelectItem>
+                  <SelectItem value="1800">{getTTLLabel(1800, t)}</SelectItem>
+                  <SelectItem value="3600">{getTTLLabel(3600, t)}</SelectItem>
+                  <SelectItem value="7200">{getTTLLabel(7200, t)}</SelectItem>
+                  <SelectItem value="43200">{getTTLLabel(43200, t)}</SelectItem>
+                  <SelectItem value="86400">{getTTLLabel(86400, t)}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -323,9 +324,9 @@ export function DNSRecordModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMore")}
             <InlineLink href={DNS_RECORDS_DOCS_LINK} target={"_blank"}>
-              DNS Records
+              {t("zones.recordsLearnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -334,7 +335,7 @@ export function DNSRecordModalContent({
         <div className={"flex gap-3 w-full justify-end"}>
           <>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common.cancel")}</Button>
             </ModalClose>
             <Button
               variant={"primary"}
@@ -342,7 +343,7 @@ export function DNSRecordModalContent({
               disabled={!canUpdateOrCreate}
               data-testid="submit-dns-record"
             >
-              {record ? "Save Changes" : "Add Record"}
+              {record ? t("common.saveChanges") : t("zones.addRecord")}
             </Button>
           </>
         </div>
@@ -351,16 +352,16 @@ export function DNSRecordModalContent({
   );
 }
 
-export const getTTLLabel = (seconds: number): string => {
-  if (seconds < 60) return `${seconds} Sec.`;
+export const getTTLLabel = (seconds: number, t: (key: string, values?: Record<string, string | number>) => string): string => {
+  if (seconds < 60) return t("zones.time.sec", { count: seconds });
   if (seconds < 3600) {
     const minutes = seconds / 60;
-    return minutes === 1 ? "1 Min." : `${minutes} Min.`;
+    return minutes === 1 ? t("zones.time.min.one") : t("zones.time.min.other", { count: minutes });
   }
   if (seconds < 86400) {
     const hours = seconds / 3600;
-    return hours === 1 ? "1 Hour" : `${hours} Hours`;
+    return hours === 1 ? t("zones.time.hour.one") : t("zones.time.hour.other", { count: hours });
   }
   const days = seconds / 86400;
-  return days === 1 ? "1 Day" : `${days} Days`;
+  return days === 1 ? t("zones.time.day.one") : t("zones.time.day.other", { count: days });
 };

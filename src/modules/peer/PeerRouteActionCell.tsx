@@ -14,6 +14,7 @@ import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePeer } from "@/contexts/PeerProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Route } from "@/interfaces/Route";
 
 type Props = {
@@ -25,6 +26,7 @@ export default function PeerRouteActionCell({ route }: Props) {
   const { mutate } = useSWRConfig();
   const { peer } = usePeer();
   const { groups } = useGroups();
+  const { t } = useI18n();
 
   const peerGroup = useMemo(() => {
     if (!groups) return undefined;
@@ -36,22 +38,21 @@ export default function PeerRouteActionCell({ route }: Props) {
 
   const handleRevoke = async () => {
     notify({
-      title: "Delete Route " + route.network_id,
-      description: "Route was successfully removed",
+      title: t("peerRouteActions.deleteTitle", { name: route.network_id }),
+      description: t("peerRouteActions.deleted"),
       promise: routeRequest.del("", `/${route.id}`).then(() => {
         mutate("/routes");
       }),
-      loadingMessage: "Deleting the route...",
+      loadingMessage: t("peerRouteActions.deleting"),
     });
   };
 
   const handleConfirm = async () => {
     const choice = await confirm({
-      title: `Delete peer ${peer.name} from '${route.network_id}' network?`,
-      description:
-        "Are you sure you want to delete the peer from this route? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("peerRouteActions.confirmTitle", { peer: peer.name, network: route.network_id }),
+      description: t("peerRouteActions.confirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -70,16 +71,14 @@ export default function PeerRouteActionCell({ route }: Props) {
               disabled={!!peerGroup}
             >
               <Trash2 size={16} />
-              Delete
+              {t("common.delete")}
             </Button>
           </TooltipTrigger>
           {peerGroup && (
             <TooltipContent>
               <div className={"max-w-xs text-sm"}>
-                <span className={"text-netbird"}>{peer.name}</span> is a part of
-                a group used in a network route. To remove this peer from the
-                network route, you need to disassociate this peer from the group
-                used in this route.
+                {t("peerRouteActions.groupRestrictionPrefix", { peer: peer.name })}{" "}
+                {t("peerRouteActions.groupRestrictionSuffix")}
               </div>
             </TooltipContent>
           )}

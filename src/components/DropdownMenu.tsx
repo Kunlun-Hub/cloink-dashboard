@@ -93,6 +93,8 @@ const DropdownMenuItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean;
     variant?: "default" | "danger";
+    /** Allow Radix to close the menu after selecting this item. */
+    closeOnSelect?: boolean;
     href?: string;
     target?: string;
     rel?: string;
@@ -103,6 +105,7 @@ const DropdownMenuItem = React.forwardRef<
       className,
       inset,
       variant = "default",
+      closeOnSelect = false,
       onClick,
       href,
       target,
@@ -123,6 +126,10 @@ const DropdownMenuItem = React.forwardRef<
         )}
         onClick={(e) => {
           if (href) return;
+          if (closeOnSelect) {
+            onClick && onClick(e);
+            return;
+          }
           e.preventDefault();
           e.stopPropagation();
           onClick && onClick(e);

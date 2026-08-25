@@ -34,14 +34,15 @@ import {
 } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
+import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   SSOIdentityProvider,
   SSOIdentityProviderOptions,
   SSOIdentityProviderRequest,
   SSOIdentityProviderType,
 } from "@/interfaces/IdentityProvider";
-import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 
 const issuerHints: Partial<Record<SSOIdentityProviderType, string>> = {
   keycloak: "https://keycloak.example.com/realms/{REALM}",
@@ -64,6 +65,7 @@ const defaultNames: Record<SSOIdentityProviderType, string> = {
   authentik: "Authentik",
   keycloak: "Keycloak",
   adfs: "Microsoft AD FS",
+  wechatwork: "WeCom",
 };
 
 type Props = {
@@ -72,8 +74,6 @@ type Props = {
   provider?: SSOIdentityProvider | null;
 };
 
-const copyMessage = "Redirect URL was copied to your clipboard!";
-const logoutCopyMessage = "Logout URL was copied to your clipboard!";
 const config = loadConfig();
 const redirectUrl = `${config.apiOrigin}/oauth2/callback`;
 const logoutUrl = `${config.apiOrigin}/oauth2/logout/callback`;
@@ -85,6 +85,7 @@ export default function IdentityProviderModal({
 }: Readonly<Props>) {
   const { mutate } = useSWRConfig();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const isEditing = !!provider;
 
   const createRequest = useApiCall<SSOIdentityProvider>("/identity-providers");
@@ -98,9 +99,12 @@ export default function IdentityProviderModal({
   const [name, setName] = useState(provider?.name ?? "");
   const [issuer, setIssuer] = useState(provider?.issuer ?? "");
   const [clientId, setClientId] = useState(provider?.client_id ?? "");
+  const [agentId, setAgentId] = useState(provider?.agent_id ?? "");
   const [clientSecret, setClientSecret] = useState("");
 
-  const requiresIssuer = type !== "google" && type !== "microsoft";
+  const isWeChatWork = type === "wechatwork";
+  const requiresIssuer =
+    type !== "google" && type !== "microsoft" && !isWeChatWork;
 
   const clientIdChanged = isEditing && trim(clientId) !== provider?.client_id;
 
@@ -108,17 +112,29 @@ export default function IdentityProviderModal({
     const trimmedName = trim(name);
     const trimmedIssuer = trim(issuer);
     const trimmedClientId = trim(clientId);
+    const trimmedAgentId = trim(agentId);
     const trimmedClientSecret = trim(clientSecret);
 
     if (trimmedName.length === 0) return true;
     if (requiresIssuer && trimmedIssuer.length === 0) return true;
     if (trimmedClientId.length === 0) return true;
+    if (isWeChatWork && trimmedAgentId.length === 0) return true;
     // Client secret required for new providers, or when client ID changed during edit
     if ((!isEditing || clientIdChanged) && trimmedClientSecret.length === 0)
       return true;
 
     return false;
-  }, [name, issuer, clientId, clientSecret, isEditing, clientIdChanged, requiresIssuer]);
+  }, [
+    name,
+    issuer,
+    clientId,
+    agentId,
+    clientSecret,
+    isEditing,
+    clientIdChanged,
+    isWeChatWork,
+    requiresIssuer,
+  ]);
 
   const submit = () => {
     const payload: SSOIdentityProviderRequest = {
@@ -126,28 +142,29 @@ export default function IdentityProviderModal({
       name: trim(name),
       issuer: trim(issuer),
       client_id: trim(clientId),
+      agent_id: isWeChatWork ? trim(agentId) : undefined,
       client_secret: trim(clientSecret),
     };
 
     if (isEditing) {
       notify({
-        title: "Update Identity Provider",
-        description: "Identity provider was updated successfully.",
+        title: t("identityProviderModal.updateTitle"),
+        description: t("identityProviderModal.updatedDescription"),
         promise: updateRequest.put(payload).then(() => {
           mutate("/identity-providers");
           onClose();
         }),
-        loadingMessage: "Updating identity provider...",
+        loadingMessage: t("identityProviderModal.updating"),
       });
     } else {
       notify({
-        title: "Create Identity Provider",
-        description: "Identity provider was created successfully.",
+        title: t("identityProviderModal.createTitle"),
+        description: t("identityProviderModal.createdDescription"),
         promise: createRequest.post(payload).then(() => {
           mutate("/identity-providers");
           onClose();
         }),
-        loadingMessage: "Creating identity provider...",
+        loadingMessage: t("identityProviderModal.creating"),
       });
     }
   };
@@ -163,12 +180,14 @@ export default function IdentityProviderModal({
           <ModalHeader
             icon={<FingerprintIcon size={20} />}
             title={
-              isEditing ? "Edit Identity Provider" : "Add Identity Provider"
+              isEditing
+                ? t("identityProviderModal.editModalTitle")
+                : t("identityProviderModal.addModalTitle")
             }
             description={
               isEditing
-                ? "Update the identity provider configuration"
-                : "Configure a new identity provider for authentication"
+                ? t("identityProviderModal.editModalDescription")
+                : t("identityProviderModal.addModalDescription")
             }
             color={"netbird"}
           />
@@ -177,28 +196,36 @@ export default function IdentityProviderModal({
 
           <div className={"px-8 py-6 flex flex-col gap-6"}>
             <div>
-              <Label>Provider Type</Label>
-              <HelpText>Select the type of identity provider</HelpText>
+              <Label>{t("identityProviderModal.providerType")}</Label>
+              <HelpText>{t("identityProviderModal.providerTypeHelp")}</HelpText>
               <Select
                 value={type}
                 onValueChange={(v) => {
                   const newType = v as SSOIdentityProviderType;
                   setType(newType);
                   if (!isEditing) {
-                    setName(defaultNames[newType]);
+                    setName(
+                      newType === "wechatwork"
+                        ? t("identityProviderModal.wechatworkName")
+                        : defaultNames[newType],
+                    );
                   }
                 }}
                 disabled={isEditing}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select provider type..." />
+                  <SelectValue placeholder={t("identityProviderModal.selectProviderType")} />
                 </SelectTrigger>
                 <SelectContent>
                   {SSOIdentityProviderOptions.map((idp) => (
                     <SelectItem key={idp.value} value={idp.value}>
                       <div className="flex items-center gap-2">
                         {idpIcon(idp.value)}
-                        <span>{idp.label}</span>
+                        <span>
+                          {idp.value === "wechatwork"
+                            ? t("identityProviderModal.wechatworkName")
+                            : idp.label}
+                        </span>
                       </div>
                     </SelectItem>
                   ))}
@@ -207,10 +234,10 @@ export default function IdentityProviderModal({
             </div>
 
             <div>
-              <Label>Name</Label>
-              <HelpText>A friendly name to identify this provider</HelpText>
+              <Label>{t("identityProviderModal.name")}</Label>
+              <HelpText>{t("identityProviderModal.nameHelp")}</HelpText>
               <Input
-                placeholder={"e.g., Corporate SSO"}
+                placeholder={t("identityProviderModal.namePlaceholder")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 customPrefix={
@@ -221,8 +248,8 @@ export default function IdentityProviderModal({
 
             {requiresIssuer && (
               <div>
-                <Label>Issuer URL</Label>
-                <HelpText>The OIDC issuer URL for this provider</HelpText>
+                <Label>{t("identityProviderModal.issuerUrl")}</Label>
+                <HelpText>{t("identityProviderModal.issuerUrlHelp")}</HelpText>
                 <Input
                   placeholder={issuerHints[type] ?? "https://login.example.com"}
                   value={issuer}
@@ -235,28 +262,73 @@ export default function IdentityProviderModal({
             )}
 
             <div>
-              <Label>Client ID</Label>
-              <HelpText>The OAuth2 confidential client ID</HelpText>
+              <Label>
+                {isWeChatWork
+                  ? t("identityProviderModal.wechatworkCorpId")
+                  : t("identityProviderModal.clientId")}
+              </Label>
+              <HelpText>
+                {isWeChatWork
+                  ? t("identityProviderModal.wechatworkCorpIdHelp")
+                  : t("identityProviderModal.clientIdHelp")}
+              </HelpText>
               <Input
-                placeholder={"Enter client ID"}
+                placeholder={
+                  isWeChatWork
+                    ? t("identityProviderModal.wechatworkCorpIdPlaceholder")
+                    : t("identityProviderModal.clientIdPlaceholder")
+                }
                 value={clientId}
                 onChange={(e) => setClientId(e.target.value)}
                 customPrefix={<IdCard size={16} className="text-nb-gray-300" />}
               />
             </div>
 
+            {isWeChatWork && (
+              <div>
+                <Label>{t("identityProviderModal.agentId")}</Label>
+                <HelpText>{t("identityProviderModal.agentIdHelp")}</HelpText>
+                <Input
+                  placeholder={t("identityProviderModal.agentIdPlaceholder")}
+                  value={agentId}
+                  onChange={(e) => setAgentId(e.target.value)}
+                  customPrefix={
+                    <IdCard size={16} className="text-nb-gray-300" />
+                  }
+                />
+              </div>
+            )}
+
             <div>
-              <Label>Client Secret</Label>
+              <Label>
+                {isWeChatWork
+                  ? t("identityProviderModal.wechatworkSecret")
+                  : t("identityProviderModal.clientSecret")}
+              </Label>
               <HelpText>
-                {isEditing
+                {isWeChatWork
+                  ? isEditing
+                    ? t("identityProviderModal.wechatworkSecretKeepExisting")
+                    : t("identityProviderModal.wechatworkSecretHelp")
+                  : isEditing
                   ? clientIdChanged
-                    ? "Required when client ID is changed"
-                    : "Leave empty to keep the existing secret, or enter a new one"
-                  : "The OAuth2 client secret"}
+                    ? t("identityProviderModal.clientSecretChangedHelp")
+                    : t("identityProviderModal.clientSecretOptionalHelp")
+                  : t("identityProviderModal.clientSecretHelp")}
               </HelpText>
               <Input
                 type="password"
-                placeholder={isEditing ? "••••••••" : "Enter client secret"}
+                placeholder={
+                  isWeChatWork
+                    ? isEditing
+                      ? t(
+                          "identityProviderModal.wechatworkSecretKeepPlaceholder",
+                        )
+                      : t("identityProviderModal.wechatworkSecretPlaceholder")
+                    : isEditing
+                    ? t("identityProviderModal.clientSecretMaskedPlaceholder")
+                    : t("identityProviderModal.clientSecretPlaceholder")
+                }
                 value={clientSecret}
                 onChange={(e) => setClientSecret(e.target.value)}
                 customPrefix={
@@ -269,33 +341,42 @@ export default function IdentityProviderModal({
 
             <div className={"flex flex-col gap-3"}>
               <div>
-                <Label>Endpoint URLs</Label>
+                <Label>{t("identityProviderModal.endpointUrls")}</Label>
                 <HelpText margin={false}>
-                  Add these to your identity provider configuration
+                  {t("identityProviderModal.endpointUrlsHelp")}
                 </HelpText>
               </div>
 
               <div>
-                <Label className={"text-xs mb-1"}>Redirect / Callback</Label>
-                <Code codeToCopy={redirectUrl} message={copyMessage}>
-                  <Code.Line>{redirectUrl}</Code.Line>
+                <Label className={"text-xs mb-1"}>{t("identityProviderModal.redirectCallback")}</Label>
+                <Code
+                  codeToCopy={
+                    isWeChatWork ? `${redirectUrl}/{connector_id}` : redirectUrl
+                  }
+                  message={t("identityProviderModal.redirectCopied")}
+                >
+                  <Code.Line>
+                    {isWeChatWork
+                      ? `${redirectUrl}/{connector_id}`
+                      : redirectUrl}
+                  </Code.Line>
                 </Code>
               </div>
 
               <div>
-                <Label className={"text-xs mb-1"}>Logout</Label>
-                <Code codeToCopy={logoutUrl} message={logoutCopyMessage}>
+                <Label className={"text-xs mb-1"}>{t("identityProviderModal.logout")}</Label>
+                <Code codeToCopy={logoutUrl} message={t("identityProviderModal.logoutCopied")}>
                   <Code.Line>{logoutUrl}</Code.Line>
                 </Code>
                 <HelpText margin={false} className={"mt-1.5"}>
-                  Not all identity providers support logout.{" "}
+                  {t("identityProviderModal.logoutHelp")}{" "}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/selfhosted/identity-providers"
                     }
                     target={"_blank"}
                   >
-                    Learn more
+                    {t("common.learnMore")}
                   </InlineLink>
                 </HelpText>
               </div>
@@ -305,7 +386,7 @@ export default function IdentityProviderModal({
           <ModalFooter className={"items-center"}>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
 
               <Button
@@ -321,12 +402,12 @@ export default function IdentityProviderModal({
                 {isEditing ? (
                   <>
                     <SaveIcon size={16} />
-                    Save Changes
+                    {t("common.saveChanges")}
                   </>
                 ) : (
                   <>
                     <PlusCircle size={16} />
-                    Add Provider
+                    {t("identityProviderModal.addProvider")}
                   </>
                 )}
               </Button>

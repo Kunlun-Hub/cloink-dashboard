@@ -28,37 +28,40 @@ import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
 import { Group } from "@/interfaces/Group";
 import { isL4Mode, ReverseProxy } from "@/interfaces/ReverseProxy";
 import FullTooltip from "@components/FullTooltip";
+import { useI18n } from "@/i18n/I18nProvider";
 
-const AUTH_METHODS: {
+type AuthMethodDef = {
   key: "password_auth" | "pin_auth" | "bearer_auth";
-  label: string;
-  hoverLabel: string;
+  labelKey: "reverseProxy.authPassword" | "reverseProxy.authPin" | "reverseProxy.authMethodSso";
+  hoverLabelKey: "reverseProxy.authHoverPassword" | "reverseProxy.authHoverPinCode" | "reverseProxy.authHoverSso";
   Icon: LucideIcon;
-}[] = [
+};
+
+const AUTH_METHODS: AuthMethodDef[] = [
   {
     key: "password_auth",
-    label: "Password",
-    hoverLabel: "Password",
+    labelKey: "reverseProxy.authPassword",
+    hoverLabelKey: "reverseProxy.authHoverPassword",
     Icon: RectangleEllipsis,
   },
-  { key: "pin_auth", label: "PIN Code", hoverLabel: "PIN Code", Icon: Binary },
+  { key: "pin_auth", labelKey: "reverseProxy.authPin", hoverLabelKey: "reverseProxy.authHoverPinCode", Icon: Binary },
   {
     key: "bearer_auth",
-    label: "SSO",
-    hoverLabel: "SSO (Single Sign On)",
+    labelKey: "reverseProxy.authMethodSso",
+    hoverLabelKey: "reverseProxy.authHoverSso",
     Icon: Users,
   },
 ];
 
 const HEADER_AUTH_METHOD = {
-  label: "HTTP Headers",
-  hoverLabel: "HTTP Headers",
+  labelKey: "reverseProxy.authHeaders" as const,
+  hoverLabelKey: "reverseProxy.authHoverHttpHeaders" as const,
   Icon: FileCode2Icon,
 };
 
 const NETBIRD_ONLY_METHOD = {
-  label: "NetBird Only",
-  hoverLabel: "NetBird-Only Access",
+  labelKey: "reverseProxy.netBirdOnlyAccess" as const,
+  hoverLabelKey: "reverseProxy.authHoverNetBirdOnly" as const,
   Icon: CircleUser,
 };
 
@@ -69,6 +72,7 @@ type Props = {
 export default function ReverseProxyAuthCell({
   reverseProxy,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { openModal } = useReverseProxies();
   const { groups } = useGroups();
@@ -79,8 +83,7 @@ export default function ReverseProxyAuthCell({
         <FullTooltip
           content={
             <div className={"flex text-xs max-w-[340px]"}>
-              Auth methods are not supported for TCP/UDP and TLS passthrough
-              services as they operate at the network layer.
+              {t("reverseProxy.authNotSupportedL4")}
             </div>
           }
         >
@@ -152,17 +155,17 @@ export default function ReverseProxyAuthCell({
               onClick={(e) => e.stopPropagation()}
             >
                 <div className={"text-xs"}>
-                  {enabled.map(({ key, hoverLabel, Icon }) => (
+                  {enabled.map(({ key, hoverLabelKey, Icon }) => (
                     <ListItem
                       key={key}
                       className={"py-0.5"}
                       icon={<Icon size={14} />}
-                      label={hoverLabel}
+                      label={t(hoverLabelKey)}
                       value={
                         <div className={"text-green-500"}>
                           {key === "bearer_auth" && ssoGroups.length === 0
-                            ? "All Users"
-                            : "Enabled"}
+                            ? t("reverseProxy.allUsers")
+                            : t("common.enable")}
                         </div>
                       }
                     >
@@ -188,10 +191,12 @@ export default function ReverseProxyAuthCell({
                     <ListItem
                       className={"py-0.5"}
                       icon={<FileCode2Icon size={14} />}
-                      label={HEADER_AUTH_METHOD.hoverLabel}
+                      label={t(HEADER_AUTH_METHOD.hoverLabelKey)}
                       value={
                         <div className={"text-green-500"}>
-                          {(auth?.header_auths ?? []).filter((h) => h.enabled).length} Header{(auth?.header_auths ?? []).filter((h) => h.enabled).length !== 1 ? "s" : ""}
+                          {(auth?.header_auths ?? []).filter((h) => h.enabled).length === 1
+                            ? t("reverseProxy.oneHeader")
+                            : t("reverseProxy.headerCount", { count: (auth?.header_auths ?? []).filter((h) => h.enabled).length })}
                         </div>
                       }
                     />
@@ -200,14 +205,14 @@ export default function ReverseProxyAuthCell({
                     <ListItem
                       className={"py-0.5"}
                       icon={<CircleUser size={14} />}
-                      label={NETBIRD_ONLY_METHOD.hoverLabel}
+                      label={t(NETBIRD_ONLY_METHOD.hoverLabelKey)}
                       value={
                         <div className={"text-green-500"}>
                           {accessGroups.length === 0
-                            ? "No groups"
+                            ? t("reverseProxy.noGroups")
                             : accessGroups.length === 1
-                              ? "1 Group"
-                              : `${accessGroups.length} Groups`}
+                              ? t("reverseProxy.oneGroup")
+                              : t("reverseProxy.groupCount", { count: accessGroups.length })}
                         </div>
                       }
                     >
@@ -242,7 +247,7 @@ export default function ReverseProxyAuthCell({
             openModal({ proxy: reverseProxy, initialTab: "auth" });
           }}
           disabled={!permission?.services?.update}
-          aria-label="Configure authentication"
+          aria-label={t("reverseProxy.configureAuth")}
         >
           <Settings size={12} />
         </Button>

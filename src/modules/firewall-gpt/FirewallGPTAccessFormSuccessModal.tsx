@@ -3,6 +3,7 @@ import { Modal, ModalContent } from "@components/modal/Modal";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 import { Sparkles } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const FirewallGPTAccessFormSuccessModal = ({ open, setOpen }: Props) => {
+  const { t } = useI18n();
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalContent showClose={true} maxWidthClass={"max-w-sm"}>
@@ -20,11 +22,13 @@ export const FirewallGPTAccessFormSuccessModal = ({ open, setOpen }: Props) => {
           }
         >
           <Sparkles size={26} className={"text-netbird-500"} />
-          <div className={"text-xl font-medium"}>Thank you for signing up!</div>
+          <div className={"text-xl font-medium"}>
+            {t("firewallGpt.accessFormSuccess.title")}
+          </div>
           <div className={"text-sm text-center mb-2"}>
-            <p
-              className={"!text-nb-gray-300"}
-            >{`We'll send you an email once NetBird's Smart Firewall is ready to use in your account.`}</p>
+            <p className={"!text-nb-gray-300"}>
+              {t("firewallGpt.accessFormSuccess.description")}
+            </p>
           </div>
           <Button
             variant={"secondary"}
@@ -32,7 +36,7 @@ export const FirewallGPTAccessFormSuccessModal = ({ open, setOpen }: Props) => {
             className={"w-full"}
             onClick={() => setOpen(false)}
           >
-            Close Message
+            {t("firewallGpt.accessFormSuccess.close")}
           </Button>
         </div>
       </ModalContent>

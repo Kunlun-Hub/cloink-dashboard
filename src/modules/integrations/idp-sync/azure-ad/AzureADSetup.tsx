@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/entra-id.png";
 import { AzureADIntegration } from "@/interfaces/IdentityProvider";
@@ -61,6 +62,7 @@ type ModalProps = {
 };
 
 export function SetupContent({ onSuccess }: ModalProps) {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const azureRequest = useApiCall<AzureADIntegration>(
     "/integrations/azure-idp",
@@ -91,8 +93,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
   const connect = async () => {
     notify({
-      title: "Entra ID Integration",
-      description: `Entra ID was successfully connected to NetBird.`,
+      title: t("azureAd.notifyTitle"),
+      description: t("idpSync.integrationConnected", { provider: "Entra ID" }),
       promise: azureRequest
         .post({
           client_secret: btoa(clientSecret), // Encode client secret to base64
@@ -110,7 +112,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
           mutate("/integrations/azure-idp");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -145,10 +147,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with Entra ID (API)"}
-        description={
-          "Start syncing your users and groups from Entra ID to NetBird. Follow the steps below to get started."
-        }
+        title={t("azureAd.connectTitle")}
+        description={t("azureAd.connectDescription")}
       />
 
       {step === -1 && (
@@ -172,21 +172,19 @@ export function SetupContent({ onSuccess }: ModalProps) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
             Ensure that you have an{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Azure AD user account
+              {t("azureAd.accountType")}
             </span>{" "}
             with the following{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("oktaSetup.permissionsWord")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your Azure AD administrator to grant them to you."
-            }
+            {t("azureAd.accountSuffix")}
           </p>
           <div
             className={
@@ -199,7 +197,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create Azure AD applications
+              {t("azureAd.permCreate")}
             </div>
             <div
               className={
@@ -207,7 +205,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage Azure AD applications
+              {t("azureAd.permManage")}
             </div>
           </div>
         </div>
@@ -217,12 +215,12 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Create and configure Azure AD application
+            {t("azureAd.step1Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("azureAd.step1Navigate")}{"  "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
@@ -230,21 +228,22 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/Overview"
                   }
                 >
-                  Azure Active Directory
+                  {t("azureAd.step1Link")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>App Registrations</Mark> in the left menu then click
-                on the <Mark>+ New registration</Mark> button to create a new
-                application.
+                {t("azureAd.step2Click")} <Mark>{t("integrations.appRegistrations")}</Mark>{" "}
+                {t("azureAd.step2InLeftMenu")}{" "}
+                <Mark>+ New registration</Mark>{" "}
+                {t("azureAd.step2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Fill in the form with the following values and click{" "}
-                <Mark>Register</Mark>
+                {t("azureAd.step3Prefix")}{" "}
+                <Mark>{t("integrations.register")}</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -252,20 +251,19 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <MinimalList
             data={[
               {
-                label: "Name",
+                label: t("azureAd.listName"),
                 value: "NetBird",
               },
               {
-                label: "Account Types",
-                value:
-                  "Accounts in this organizational directory only (Default Directory only - Single tenant)",
+                label: t("azureAd.listAccountTypes"),
+                value: t("azureAd.listAccountTypesValue"),
               },
               {
-                label: "Redirect Type",
-                value: "Single-page application (SPA)",
+                label: t("azureAd.listRedirectType"),
+                value: t("azureAd.listRedirectTypeValue"),
               },
               {
-                label: "Redirect URI",
+                label: t("azureAd.listRedirectUri"),
                 value: "https://app.netbird.io/silent-auth",
               },
             ]}
@@ -277,32 +275,43 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Shield size={20} />
-            Add API permissions
+            {t("azureAd.apiPermTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>API permissions</Mark> on the left side menu
+                {t("azureAd.step2Click")} <Mark>{t("integrations.apiPermissions")}</Mark>{" "}
+                {t("azureAd.apiPermStep1")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>Add a permission</Mark> then{" "}
-                <Mark>Microsoft Graph</Mark> and then on the{" "}
-                <Mark>Application permissions</Mark> tab.
+                {t("azureAd.step2Click")} <Mark>{t("integrations.addAPermission")}</Mark>{" "}
+                {t("azureAd.apiPermStep2Prefix")}{" "}
+                <Mark>{t("integrations.microsoftGraph")}</Mark>{" "}
+                {t("azureAd.apiPermStep2Middle")}{" "}
+                <Mark>{t("integrations.applicationPermissions")}</Mark>{" "}
+                {t("azureAd.apiPermStep2Suffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                In <Mark>Select permissions</Mark> select{" "}
-                <Mark>User.Read.All</Mark> and <Mark>Group.Read.All</Mark> and
-                click <Mark>Add permissions</Mark>
+                {t("azureAd.apiPermStep3InPrefix")}{" "}
+                <Mark>{t("integrations.selectPermissions")}</Mark>{" "}
+                {t("azureAd.apiPermStep3Select")}{" "}
+                <Mark>{t("integrations.userReadAll")}</Mark>{" "}
+                {t("azureAd.apiPermStep3And")}{" "}
+                <Mark>{t("integrations.groupReadAll")}</Mark>{" "}
+                {t("azureAd.apiPermStep3Click")}{" "}
+                <Mark>{t("integrations.addPermissions")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Grant admin consent for Default Directory</Mark> and
-                click <Mark>Yes</Mark>
+                {t("azureAd.apiPermStep4Prefix")}{" "}
+                <Mark>{t("integrations.grantAdminConsent")}</Mark>{" "}
+                {t("azureAd.apiPermStep4Middle")}{" "}
+                <Mark>Yes</Mark>
               </p>
               <Lightbox image={azureGrantAdmin} />
             </Steps.Step>
@@ -314,7 +323,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={20} />
-            Generate client secret
+            {t("azureAd.genSecretStepTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
@@ -361,7 +370,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Enter Application ID and Directory ID
+            {t("azureAd.appIdsStepTitle")}
           </p>
           <Steps>
             <Steps.Step step={1}>
@@ -393,7 +402,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Application (client) ID
+                  {t("azureAd.appClientId")}
                 </div>
               }
               placeholder={"62d3a656-c87d-4f30-a242-5b6347e29e9f"}
@@ -406,7 +415,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Folder size={16} />
-                  Directory (tenant) ID
+                  {t("azureAd.directoryTenantId")}
                 </div>
               }
               placeholder={"5d60468a-65b7-45eb-a61a-53ecfbcd1ea3"}
@@ -421,7 +430,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={20} />
-            Groups to be synchronized
+            {t("azureAd.groupsToSyncTitle")}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -440,7 +449,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <UserCircle size={18} />
-            Users to be synchronized
+            {t("azureAd.usersToSyncTitle")}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -449,8 +458,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </div>
 
             <GroupPrefixInput
-              addText={"Add user group filter"}
-              text={"User group starts with..."}
+              addText={t("idpSync.addUserGroupFilter")}
+              text={t("idpSync.userGroupStartsWith")}
               value={userGroupPrefixes}
               onChange={setUserGroupPrefixes}
             />
@@ -466,7 +475,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step + 1)}
             disabled={!connectorId || connectorId === ""}
           >
-            Continue
+            {t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -477,7 +486,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -487,7 +496,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -499,7 +508,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("idpSync.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -511,8 +520,8 @@ export function SetupContent({ onSuccess }: ModalProps) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("azureAd.estimatedTime")}</span>
           </div>
         </div>
       )}

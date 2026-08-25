@@ -7,6 +7,7 @@ import { cn } from "@utils/helpers";
 import { AlertCircleIcon, VenetianMask } from "lucide-react";
 import * as React from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { GroupPeer } from "@/interfaces/Group";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
@@ -25,6 +26,7 @@ export const RoutingPeerMasqueradeSwitch = ({
   routingPeerGroupId,
   "data-testid": dataTestId,
 }: Props) => {
+  const { t } = useI18n();
   return (
     <RoutingPeerMasqueradeTooltip show={disabled}>
       <div className={"flex flex-col gap-4"}>
@@ -36,12 +38,10 @@ export const RoutingPeerMasqueradeSwitch = ({
           label={
             <>
               <VenetianMask size={15} />
-              Masquerade
+              {t("networkRoutingPeers.masquerade")}
             </>
           }
-          helpText={
-            "Allow access to your private networks without configuring routes on your local routers or other devices."
-          }
+          helpText={t("networkRoutingPeers.masqueradeHelp")}
         />
         {routingPeerGroupId && !value && (
           <RoutingPeerGroupNonLinuxWarning
@@ -62,11 +62,12 @@ export const RoutingPeerMasqueradeTooltip = ({
   show = false,
   children,
 }: RoutingPeerMasqueradeTooltipProps) => {
+  const { t } = useI18n();
   return (
     <FullTooltip
       content={
         <div className={"text-xs"}>
-          Masquerade needs to be enabled for non-Linux routing peers.
+          {t("networkRoutingPeers.masqueradeTooltip")}
         </div>
       }
       delayDuration={250}
@@ -84,6 +85,7 @@ const RoutingPeerGroupNonLinuxWarning = ({
 }: {
   routingPeerGroupId: string;
 }) => {
+  const { t } = useI18n();
   const { groups } = useGroups();
   const { data: peers } = useFetchApi<Peer[]>("/peers", true);
   const group = groups?.find((g) => g.id === routingPeerGroupId);
@@ -112,10 +114,9 @@ const RoutingPeerGroupNonLinuxWarning = ({
           />
         }
       >
-        Group <span className={"text-netbird font-normal"}>{group?.name}</span>{" "}
-        contains at least one non-Linux peer.
-        <br /> Disabled Masquerade will have no effect on non-Linux routing
-        peers.
+        {t("networkRoutingPeers.masqueradeWarningPrefix")}
+        <span className={"text-netbird font-normal"}>{group?.name}</span>
+        {t("networkRoutingPeers.masqueradeWarningSuffix")}
       </Callout>
     )
   );

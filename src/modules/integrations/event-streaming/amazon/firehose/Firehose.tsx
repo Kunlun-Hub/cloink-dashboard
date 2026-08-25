@@ -11,9 +11,11 @@ import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { EventStream } from "@/interfaces/EventStream";
 import FirehoseSetup from "@/modules/integrations/event-streaming/amazon/firehose/FirehoseSetup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function Firehose() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   // Event Streaming is a licensed feature; skip the call on open-source.
   const { isLicensed } = useIsLicensed();
 
@@ -46,24 +48,23 @@ export default function Firehose() {
     if (!firehoseSettings) return setSetupModal(true);
 
     const choice = await confirm({
-      title: `Disconnect Amazon Data Firehose?`,
-      description:
-        "Disconnecting deletes the current configuration. You will need to start the setup process again.",
-      confirmText: "Disconnect",
-      cancelText: "Cancel",
+      title: t("firehose.disconnectTitle"),
+      description: t("firehose.disconnectDescription"),
+      confirmText: t("common.disconnect"),
+      cancelText: t("common.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     notify({
-      title: "Amazon Data Firehose Integration",
-      description: `Amazon Data Firehose was successfully disconnected`,
+      title: t("firehose.notifyTitle"),
+      description: t("firehose.disconnectedDescription"),
       promise: integrationRequest
         .del({}, "/" + firehoseSettings.id)
         .then(() => {
           mutate("/integrations/event-streaming");
         }),
-      loadingMessage: "Disconnecting integration...",
+      loadingMessage: t("firehose.disconnecting"),
     });
   };
 
@@ -73,7 +74,7 @@ export default function Firehose() {
     <>
       <IntegrationCard
         name="Amazon Data Firehose"
-        description="Firehose delivers real-time data streaming to destinations such as Amazon S3, Amazon Redshift & more."
+        description={t("firehose.cardDescription")}
         url={{
           title: "aws.amazon.com/firehose",
           href: "https://aws.amazon.com/firehose",

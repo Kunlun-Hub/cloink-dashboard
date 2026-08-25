@@ -3,6 +3,7 @@ import useCopyToClipboard from "@hooks/useCopyToClipboard";
 import { cn } from "@utils/helpers";
 import { Copy } from "lucide-react";
 import React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -97,6 +98,7 @@ const CardTextItem = ({
   tooltip = true,
 }: CardTextItemProps) => {
   const [, copyToClipBoard] = useCopyToClipboard(valueToCopy ?? `${value}`);
+  const { t } = useI18n();
   return (
     <div
       className={cn(
@@ -106,7 +108,7 @@ const CardTextItem = ({
       onClick={() =>
         copy &&
         copyToClipBoard(
-          `${copyText ? copyText : label} has been copied to clipboard.`,
+          t("common.copiedToClipboardWithName", { name: copyText ? copyText : `${label}` }),
         )
       }
     >

@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import AIAccessIcon from "@/assets/icons/AgentNetworkIcon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useI18n } from "@/i18n/I18nProvider";
 import { AIProvider } from "@/modules/agent-network/data/mockData";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
@@ -66,23 +67,24 @@ function NameCell({ provider }: { provider: AIProvider }) {
 }
 
 function ModelsCell({ provider }: { provider: AIProvider }) {
+  const { t } = useI18n();
   if (provider.models.length === 0) {
-    return <span className={"text-xs text-nb-gray-400"}>All models</span>;
+    return <span className={"text-xs text-nb-gray-400"}>{t("agentProviders.allModels")}</span>;
   }
   return (
     <span className={"text-xs text-nb-gray-300"}>
-      {provider.models.length} configured
+      {t("agentProviders.modelsConfigured", { count: provider.models.length })}
     </span>
   );
 }
 
-const columns: ColumnDef<AIProvider>[] = [
+const getColumns = (t: (...args: any[]) => string): ColumnDef<AIProvider>[] => [
   {
     id: "name",
     accessorKey: "name",
     sortingFn: "text",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Name</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>
     ),
     cell: ({ row }) => <NameCell provider={row.original} />,
   },
@@ -91,7 +93,7 @@ const columns: ColumnDef<AIProvider>[] = [
     accessorFn: (p) => p.models.length,
     sortingFn: "basic",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Models</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.models")}</DataTableHeader>
     ),
     cell: ({ row }) => <ModelsCell provider={row.original} />,
   },
@@ -111,6 +113,7 @@ export default function AgentProvidersTable({
   headingTarget,
 }: Readonly<Props>) {
   const path = usePathname();
+  const { t } = useI18n();
   const { providers, isLoading } = useAIProviders();
 
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -138,12 +141,12 @@ export default function AgentProvidersTable({
       <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"Providers"}
+      text={t("nav.providers")}
       sorting={sorting}
       setSorting={setSorting}
-      columns={columns}
+      columns={getColumns(t)}
       data={providers}
-      searchPlaceholder={"Search by name..."}
+      searchPlaceholder={t("agentProviders.searchPlaceholder")}
       onRowClick={(row) => {
         setEditingProvider(row.original);
         setEditOpen(true);
@@ -157,10 +160,8 @@ export default function AgentProvidersTable({
               size={"large"}
             />
           }
-          title={"Connect a provider"}
-          description={
-            "Route OpenAI, Anthropic, and other LLM APIs through NetBird to enforce access control, track token spend, and capture prompts."
-          }
+          title={t("onboarding.agent.provider.title")}
+          description={t("agentProviders.emptyDescription")}
           button={
             <div className={"gap-x-4 flex items-center justify-center"}>
               <AddProviderButton />
@@ -168,12 +169,12 @@ export default function AgentProvidersTable({
           }
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network/providers"}
                 target={"_blank"}
               >
-                Agent Network Providers
+                {t("aiProvider.modal.agentNetworkProviders")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -194,11 +195,12 @@ export default function AgentProvidersTable({
 }
 
 const AddProviderButton = () => {
+  const { t } = useI18n();
   const { openWizard } = useAIProviders();
   return (
     <Button variant={"primary"} onClick={openWizard}>
       <PlusCircle size={16} />
-      Connect Provider
+      {t("aiProvider.modal.connectProvider")}
     </Button>
   );
 };

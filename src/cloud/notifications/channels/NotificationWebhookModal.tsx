@@ -15,6 +15,7 @@ import {
   Repeat,
   TextIcon,
 } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   NOTIFICATION_CHANNELS_WEBHOOK_DOCS_LINK,
   NotificationChannel,
@@ -63,6 +64,7 @@ function NotificationWebhookModalContent({
   channel,
   onSave,
 }: Readonly<ModalContentProps>) {
+  const { t } = useI18n();
   const target = channel.target as WebhookTarget | undefined;
 
   const config = useWebhookConfig({
@@ -147,7 +149,7 @@ function NotificationWebhookModalContent({
           {config.isEditing ? (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -163,7 +165,7 @@ function NotificationWebhookModalContent({
               {tab === "general" && (
                 <>
                   <ModalClose asChild={true}>
-                    <Button variant={"secondary"}>Cancel</Button>
+                    <Button variant={"secondary"}>{t("common.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant={"primary"}

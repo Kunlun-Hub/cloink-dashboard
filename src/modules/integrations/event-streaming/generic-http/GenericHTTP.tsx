@@ -12,9 +12,11 @@ import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { EventStream } from "@/interfaces/EventStream";
 import GenericHTTPModal from "@/modules/integrations/event-streaming/generic-http/GenericHTTPModal";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function GenericHTTP() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   // Event Streaming is a licensed feature; skip the call on open-source.
   const { isLicensed } = useIsLicensed();
 
@@ -48,10 +50,10 @@ export default function GenericHTTP() {
     const enabled = !genericHTTPIntegration.enabled;
 
     notify({
-      title: `Generic HTTP Integration`,
-      description: `HTTP Integration was successfully ${
-        enabled ? "enabled" : "disabled"
-      }.`,
+      title: t("genericHttp.notifyTitle"),
+      description: enabled
+        ? t("genericHttp.enabledDescription")
+        : t("genericHttp.disabledDescription"),
       promise: integrationRequest
         .put(
           { config: genericHTTPIntegration.config, enabled },
@@ -60,9 +62,9 @@ export default function GenericHTTP() {
         .then(() => {
           mutate("/integrations/event-streaming");
         }),
-      loadingMessage: `${
-        enabled ? "Enabling" : "Disabling"
-      } Generic HTTP Integration...,`,
+      loadingMessage: enabled
+        ? t("genericHttp.enabling")
+        : t("genericHttp.disabling"),
     });
   };
 
@@ -72,7 +74,7 @@ export default function GenericHTTP() {
     <>
       <IntegrationCard
         name="Generic HTTP"
-        description="Provide your custom HTTP endpoint to stream audit & traffic events."
+        description={t("genericHttp.cardDescription")}
         url={{
           title: "docs.netbird.io",
           href: "https://docs.netbird.io/how-to/stream-activity-to-generic-http",

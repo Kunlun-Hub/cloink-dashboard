@@ -20,6 +20,7 @@ import { OnboardingAgentPolicy } from "@/modules/onboarding/agent-network/Onboar
 import { OnboardingAgentProvider } from "@/modules/onboarding/agent-network/OnboardingAgentProvider";
 import { OnboardingAgentWelcome } from "@/modules/onboarding/agent-network/OnboardingAgentWelcome";
 import { useAgentNetworkFirstRunSetup } from "@/modules/onboarding/agent-network/useAgentNetworkFirstRunSetup";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Step indices for the Agent Network onboarding. Kept as a flat sequence
 // (no intent branching like the regular onboarding) since there's a single
@@ -68,6 +69,7 @@ export const AgentNetworkOnboarding = ({
 
   const { data: peers } = useFetchApi<Peer[]>("/peers");
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const deviceConnected = (peers?.length ?? 0) > 0;
 
   // First-run prep: seed a "Users" source group (with the current user in it)
@@ -114,7 +116,7 @@ export const AgentNetworkOnboarding = ({
         >
           <div data-testid={"agent-network-onboarding"}>
             <VisuallyHidden asChild>
-              <DialogTitle>Agent Network Onboarding</DialogTitle>
+              <DialogTitle>{t("onboarding.agentNetworkDialogTitle")}</DialogTitle>
             </VisuallyHidden>
             <div
               className={
@@ -183,13 +185,13 @@ export const AgentNetworkOnboarding = ({
                       "text-sm text-nb-gray-400 font-light pt-10 text-center px-4"
                     }
                   >
-                    Already know how Agent Network works?
+                    {t("onboarding.agentNetwork.skipPrompt")}
                     <InlineLink
                       href={"#"}
                       className={"!text-nb-gray-200 ml-1"}
                       onClick={() => onSkip(step)}
                     >
-                      Skip to Dashboard
+                      {t("onboarding.skipToDashboard")}
                     </InlineLink>
                   </span>
                 )}

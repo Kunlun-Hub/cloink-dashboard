@@ -32,6 +32,7 @@ import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import GroupRouteProvider from "@/contexts/GroupRouteProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import { GroupedRoute, Route } from "@/interfaces/Route";
 import { AddExitNodeButton } from "@/modules/exit-node/AddExitNodeButton";
@@ -44,11 +45,12 @@ import { RouteAddRoutingPeerProvider } from "@/modules/routes/RouteAddRoutingPee
 import RouteModal from "@/modules/routes/RouteModal";
 import RouteTable from "@/modules/routes/RouteTable";
 
-export const GroupedRouteTableColumns: ColumnDef<GroupedRoute>[] = [
+function getGroupedRouteTableColumns(t: (key: string) => string): ColumnDef<GroupedRoute>[] {
+  return [
   {
     accessorKey: "network_id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <GroupedRouteNameCell groupedRoute={row.original} />,
@@ -93,7 +95,7 @@ export const GroupedRouteTableColumns: ColumnDef<GroupedRoute>[] = [
   {
     accessorKey: "network",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Network</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("networkRoutes.columnNetwork")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <GroupedRouteNetworkRangeCell
@@ -106,7 +108,7 @@ export const GroupedRouteTableColumns: ColumnDef<GroupedRoute>[] = [
     id: "type",
     accessorFn: (row) => row.is_using_route_groups,
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("table.type")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <GroupedRouteTypeCell groupedRoute={row.original} />,
@@ -116,7 +118,7 @@ export const GroupedRouteTableColumns: ColumnDef<GroupedRoute>[] = [
     accessorKey: "high_availability_count",
     header: ({ column }) => {
       return (
-        <DataTableHeader column={column}>High Availability</DataTableHeader>
+        <DataTableHeader column={column}>{t("networkRoutes.columnHighAvailability")}</DataTableHeader>
       );
     },
     cell: ({ row }) => (
@@ -130,6 +132,7 @@ export const GroupedRouteTableColumns: ColumnDef<GroupedRoute>[] = [
     cell: ({ row }) => <GroupedRouteActionCell groupedRoute={row.original} />,
   },
 ];
+}
 
 type Props = {
   isLoading: boolean;
@@ -148,6 +151,7 @@ export default function NetworkRoutesTable({
   isGroupPage = false,
   distributionGroups,
 }: Props) {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { mutate } = useSWRConfig();
   const path = usePathname();
@@ -176,11 +180,11 @@ export default function NetworkRoutesTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Enabled", dotClass: "bg-green-500" },
-      { value: false, label: "Disabled", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("common.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("filters.enabled"), dotClass: "bg-green-500" },
+      { value: false, label: t("common.disabled"), dotClass: "bg-nb-gray-700" },
     ],
-    [],
+    [t],
   );
 
   const tableGroups = useMemo(() => {
@@ -200,7 +204,7 @@ export default function NetworkRoutesTable({
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -214,7 +218,7 @@ export default function NetworkRoutesTable({
       },
       {
         id: "group_names_filter",
-        label: "Groups",
+        label: t("table.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -226,7 +230,7 @@ export default function NetworkRoutesTable({
         formatChip: (v) => formatGroupsChip(v as string[] | undefined),
       },
     ],
-    [statusOptions, tableGroups],
+    [t, statusOptions, tableGroups],
   );
 
   return (
@@ -239,10 +243,10 @@ export default function NetworkRoutesTable({
       <DataTable
         headingTarget={headingTarget}
         isLoading={isLoading}
-        text={"Network Routes"}
+        text={t("networkRoutes.title")}
         sorting={sorting}
         setSorting={setSorting}
-        columns={GroupedRouteTableColumns}
+        columns={getGroupedRouteTableColumns(t)}
         data={groupedRoutes}
         wrapperComponent={isGroupPage ? Card : undefined}
         wrapperProps={isGroupPage ? { className: "mt-6 w-full" } : undefined}
@@ -253,7 +257,7 @@ export default function NetworkRoutesTable({
         keepStateInLocalStorage={!isGroupPage}
         initialPageSize={25}
         showResetFilterButton={false}
-        searchPlaceholder={"Search by network, range, name or groups..."}
+        searchPlaceholder={t("networkRoutes.searchPlaceholder")}
         aboveTable={(table) => (
           <TableFilterChips table={table} filters={filterDefs} />
         )}
@@ -296,7 +300,7 @@ export default function NetworkRoutesTable({
                   disabled={!permission.routes.create}
                 >
                   <PlusCircle size={16} />
-                  Add Route
+                  {t("route.addRoute")}
                 </Button>
               </div>
             </NoResults>
@@ -314,10 +318,8 @@ export default function NetworkRoutesTable({
                   size={"large"}
                 />
               }
-              title={"Create New Route"}
-              description={
-                "It looks like you don't have any routes. Access LANs and VPC by adding a network route."
-              }
+              title={t("route.createNewRoute")}
+              description={t("route.noRoutesDescription")}
               button={
                 <div className={"gap-x-4 flex items-center justify-center"}>
                   <AddExitNodeButton distributionGroups={distributionGroups} />
@@ -329,7 +331,7 @@ export default function NetworkRoutesTable({
                     data-testid="open-add-route"
                   >
                     <PlusCircle size={16} />
-                    Add Route
+                    {t("route.addRoute")}
                   </Button>
                 </div>
               }
@@ -363,7 +365,7 @@ export default function NetworkRoutesTable({
                   data-testid="open-add-route"
                 >
                   <PlusCircle size={16} />
-                  Add Route
+                  {t("route.addRoute")}
                 </Button>
               </div>
             )}

@@ -8,6 +8,7 @@ import {
   NotificationEmailChannel,
 } from "@/interfaces/NotificationChannel";
 import { useNotifications } from "@/cloud/notifications/NotificationProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import SlackIcon from "@/assets/icons/SlackIcon";
 
 type NotificationChannelListItemProps = {
@@ -17,14 +18,13 @@ type NotificationChannelListItemProps = {
   disabled?: boolean;
 };
 
-const channelMeta: Record<
-  NotificationChannelType,
-  { name: string; icon: React.ReactNode }
-> = {
-  [NotificationChannelType.Email]: { name: "Email", icon: <MailIcon size={16} /> },
+const getChannelMeta = (
+  t: (key: string) => string,
+): Record<NotificationChannelType, { name: string; icon: React.ReactNode }> => ({
+  [NotificationChannelType.Email]: { name: t("notifications.email"), icon: <MailIcon size={16} /> },
   [NotificationChannelType.Webhook]: { name: "Webhook", icon: <GlobeIcon size={16} /> },
-  [NotificationChannelType.Slack]: { name: "Slack", icon: <SlackIcon size={16} /> },
-};
+  [NotificationChannelType.Slack]: { name: t("notifications.slack"), icon: <SlackIcon size={16} /> },
+});
 
 const getChannelDescription = (
   type: NotificationChannelType,
@@ -56,10 +56,11 @@ export const NotificationChannelListItem = ({
   disabled,
 }: NotificationChannelListItemProps) => {
   const { createDefaultChannel } = useNotifications();
+  const { t } = useI18n();
   const [isCreating, setIsCreating] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const meta = channelMeta[type];
+  const meta = getChannelMeta(t)[type];
   const active = channel?.enabled ?? false;
   const description = getChannelDescription(type, channel);
 

@@ -44,6 +44,7 @@ import {
 } from "@/cloud/msp/MSPTenantPlanTab";
 import { Role } from "@/interfaces/User";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -77,6 +78,7 @@ const ModalWidth = {
 } as Record<string, string>;
 
 const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { openDomainVerificationModal, verifyDomain, openAccountExistsModal } =
     useTenants();
@@ -102,10 +104,10 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
   const domainInputError = useMemo(() => {
     if (domain === "") return "";
     if (!validator.isValidDomain(domain)) {
-      return "Please enter a valid domain, e.g. netbird.io";
+      return t("mspTenants.validDomainError");
     }
     return "";
-  }, [domain]);
+  }, [domain, t]);
 
   const createTenant = async () => {
     const savedGroups = await saveGroups();
@@ -120,8 +122,8 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
     });
 
     notify({
-      title: `Add ${domain} account`,
-      description: "The tenant account has been created successfully.",
+      title: t("mspTenants.addNotifyTitle").replace("{domain}", domain),
+      description: t("mspTenants.addNotifyDescription"),
       preventSuccessToast: true,
       promise: tenantRequest
         .post({ name, domain, groups: newTenantGroups })
@@ -153,8 +155,8 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
     });
 
     notify({
-      title: `Update ${tenant?.domain} account`,
-      description: "The tenant account has been updated successfully.",
+      title: t("mspTenants.updateNotifyTitle").replace("{domain}", tenant?.domain || ""),
+      description: t("mspTenants.updateNotifyDescription"),
       promise: tenantRequest
         .put({ name, groups: newTenantGroups }, `/${tenant.id}`)
         .then(() => refreshAndClose()),
@@ -176,11 +178,11 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
     <ModalContent maxWidthClass={cn(ModalWidth[tab])}>
       <ModalHeader
         icon={<UserIcon size={18} />}
-        title={tenant ? `Update Tenant` : "Add Tenant"}
+        title={tenant ? t("mspTenants.editTitle") : t("mspTenants.addTitle")}
         description={
           tenant
             ? `${tenant.name} (${tenant.domain})`
-            : "Add a new tenant account to your organization."
+            : t("mspTenants.addDescription")
         }
         color={"netbird"}
       />
@@ -193,7 +195,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            General
+            {t("mspTenants.tabGeneral")}
           </TabsTrigger>
           <TabsTrigger value={"permissions"} disabled={!canContinue}>
             <LockIcon
@@ -202,16 +204,16 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Permissions
+            {t("mspTenants.tabPermissions")}
           </TabsTrigger>
           {tenant && <MSPTenantPlanTabTrigger tenant={tenant} />}
         </TabsList>
         <TabsContent value={"general"} className={"px-8 pb-8"}>
           <div className={"flex flex-col gap-6"}>
             <div className={""}>
-              <Label>Name</Label>
+              <Label>{t("mspTenants.nameLabel")}</Label>
               <HelpText>
-                Set an easily recognizable name for the tenant.
+                {t("mspTenants.nameHelp")}
               </HelpText>
 
               <Input
@@ -220,16 +222,16 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 value={name}
                 data-testid={"name"}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"Acme Inc."}
+                placeholder={t("common.companyNamePlaceholder")}
                 className={"min-w-[270px]"}
               />
             </div>
             <div className={""}>
-              <Label>Domain</Label>
+              <Label>{t("mspTenants.domainLabel")}</Label>
               {!tenant ? (
-                <HelpText>Enter the primary domain of the tenant.</HelpText>
+                <HelpText>{t("mspTenants.domainHelpNew")}</HelpText>
               ) : (
-                <HelpText>Primary domain of the tenant.</HelpText>
+                <HelpText>{t("mspTenants.domainHelpExisting")}</HelpText>
               )}
 
               {tenant ? (
@@ -253,7 +255,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                           isActive ? "bg-green-400" : "bg-yellow-400",
                         )}
                       ></span>
-                      {isActive ? "Ownership Verified" : "Pending Verification"}
+                      {isActive ? t("mspTenants.ownershipVerified") : t("mspTenants.pendingVerification")}
                     </span>
                   </div>
                   <div className={"flex gap-2 items-center"}>
@@ -264,7 +266,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                         onClick={() => verifyDomain(tenant, true)}
                       >
                         <ShieldCheckIcon size={14} />
-                        Verify Domain
+                        {t("mspTenants.verifyDomain")}
                       </Button>
                     )}
                   </div>
@@ -301,12 +303,12 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
           <Paragraph className={"text-sm mt-auto"}>
             {tab === "plan" ? (
               <>
-                Learn more about
+                {t("common.learnMoreAbout")}
                 <InlineLink
                   href={"https://netbird.io/pricing"}
                   target={"_blank"}
                 >
-                  Pricing & Plans
+                  {t("mspTenants.pricingAndPlans")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -319,21 +321,21 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
           {tab === "general" && !tenant && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 disabled={!canContinue}
                 onClick={() => setTab("permissions")}
               >
-                Continue
+                {t("common.continue")}
               </Button>
             </>
           )}
           {tab === "permissions" && !tenant && (
             <>
               <Button variant={"secondary"} onClick={() => setTab("general")}>
-                Back
+                {t("common.back")}
               </Button>
               <Button
                 variant={"primary"}
@@ -341,14 +343,14 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 disabled={!canContinue}
               >
                 <PlusCircle size={16} />
-                Add Account
+                {t("mspTenants.addAccountButton")}
               </Button>
             </>
           )}
           {tenant && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               {tab !== "plan" && (
                 <Button
@@ -356,7 +358,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                   disabled={!hasChanges || !canContinue}
                   onClick={updateTenant}
                 >
-                  Save Changes
+                  {t("common.saveChanges")}
                 </Button>
               )}
             </>

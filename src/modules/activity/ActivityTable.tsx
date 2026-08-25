@@ -23,6 +23,7 @@ import { uniqBy } from "lodash";
 import { ExternalLinkIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DateRange } from "react-day-picker";
 import { useSWRConfig } from "swr";
 import PeerIcon from "@/assets/icons/PeerIcon";
@@ -40,11 +41,12 @@ type Props = {
   headingTarget?: HTMLHeadingElement | null;
 };
 
-const ActivityFeedColumnsTable: ColumnDef<ActivityEvent>[] = [
+function getActivityColumns(t: (key: string) => string): ColumnDef<ActivityEvent>[] {
+  return [
   {
     accessorKey: "activity_code",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Code</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("activity.code")}</DataTableHeader>;
     },
     sortingFn: "text",
     filterFn: "arrIncludesSomeExact",
@@ -81,6 +83,7 @@ const ActivityFeedColumnsTable: ColumnDef<ActivityEvent>[] = [
     filterFn: "exactMatch",
   },
 ];
+}
 
 const defaultFromDate = dayjs().subtract(14, "day").toDate();
 const defaultToDate = dayjs().toDate();
@@ -90,6 +93,8 @@ export default function ActivityTable({
   isLoading,
   headingTarget,
 }: Props) {
+  const { t } = useI18n();
+  const ActivityFeedColumnsTable = getActivityColumns(t);
   const { mutate } = useSWRConfig();
   const path = usePathname();
 
@@ -129,7 +134,7 @@ export default function ActivityTable({
     () => [
       {
         id: "activity_code",
-        label: "Type",
+        label: t("table.type"),
         renderPicker: (p) => (
           <ActivityTypePicker
             value={p.value as string[] | undefined}
@@ -142,7 +147,7 @@ export default function ActivityTable({
       },
       {
         id: "initiator_email",
-        label: "Initiator",
+        label: t("activity.initiator"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -155,7 +160,7 @@ export default function ActivityTable({
           formatUsersChip(v as string | undefined, userOptions),
       },
     ],
-    [events, userOptions],
+    [events, userOptions, t],
   );
 
   return (
@@ -163,7 +168,7 @@ export default function ActivityTable({
       headingTarget={headingTarget}
       paginationClassName={"max-w-[800px]"}
       as={"div"}
-      text={"Audit Events"}
+      text={t("activity.auditEventsTitle")}
       sorting={sorting}
       setSorting={setSorting}
       initialPageSize={25}
@@ -172,7 +177,7 @@ export default function ActivityTable({
       tableClassName={"px-8 pt-4"}
       columns={ActivityFeedColumnsTable}
       data={events}
-      searchPlaceholder={"Search by audit name, user, peer, meta..."}
+      searchPlaceholder={t("activity.searchTablePlaceholder")}
       isLoading={isLoading}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
@@ -192,20 +197,17 @@ export default function ActivityTable({
               size={"large"}
             />
           }
-          title={"Get Started with NetBird"}
-          description={
-            "It looks like you don't have any connected machines.\n" +
-            "Get started by adding one to your network."
-          }
+          title={t("activity.getStartedTitle")}
+          description={t("activity.getStartedDescription")}
           button={<AddPeerButton />}
           learnMore={
             <>
-              Learn more in our{" "}
+              {t("activity.learnMoreInOur")}{" "}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/getting-started"}
                 target={"_blank"}
               >
-                Getting Started Guide
+                {t("noPeersGettingStarted.gettingStartedGuide")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>

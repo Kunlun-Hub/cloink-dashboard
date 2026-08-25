@@ -14,6 +14,7 @@ import { ShieldHalf } from "lucide-react";
 import React, { useState } from "react";
 import { AgentGuardrail } from "@/modules/agent-network/data/mockData";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -29,6 +30,7 @@ export default function AgentGuardrailBrowseModal({
   onSuccess,
 }: Readonly<Props>) {
   const { guardrails } = useAIProviders();
+  const { t } = useI18n();
   const [selected, setSelected] = useState<string[]>([]);
 
   React.useEffect(() => {
@@ -47,15 +49,14 @@ export default function AgentGuardrailBrowseModal({
       <ModalContent maxWidthClass={"max-w-xl"}>
         <ModalHeader
           icon={<ShieldHalf size={19} />}
-          title={"Browse Guardrails"}
-          description={"Pick one or more existing guardrails to attach."}
+          title={t("agentNetwork.browseGuardrails")}
+          description={t("agentNetwork.browseGuardrailsDescription")}
           color={"netbird"}
         />
         <div className={"px-8 pb-2"}>
           {available.length === 0 ? (
             <div className={"text-sm text-nb-gray-300 py-6 text-center"}>
-              No more guardrails available — all defined guardrails are already
-              attached.
+              {t("agentNetwork.noMoreGuardrailsAvailable")}
             </div>
           ) : (
             <div className={"space-y-1.5 max-h-[420px] overflow-y-auto"}>
@@ -73,17 +74,21 @@ export default function AgentGuardrailBrowseModal({
         <ModalFooter className={"items-center"}>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common.cancel")}</Button>
             </ModalClose>
             <Button
               variant={"primary"}
               onClick={() => onSuccess(selected)}
               disabled={selected.length === 0}
             >
-              Attach{" "}
+              {t("agentNetwork.attach")}{" "}
               {selected.length > 0
-                ? `${selected.length} Guardrail${selected.length === 1 ? "" : "s"}`
-                : "Guardrails"}
+                ? `${selected.length} ${
+                    selected.length === 1
+                      ? t("agentNetwork.guardrailSingular")
+                      : t("agentNetwork.guardrailPlural")
+                  }`
+                : t("agentNetwork.guardrailPlural")}
             </Button>
           </div>
         </ModalFooter>

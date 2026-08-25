@@ -11,6 +11,11 @@ export interface Account {
       network_traffic_logs_enabled: boolean;
       network_traffic_packet_counter_enabled: boolean;
       network_traffic_logs_groups: string[];
+      branding_logo_data_url?: string;
+      branding_logo_dark_data_url?: string;
+      branding_icon_data_url?: string;
+      branding_tab_title?: string;
+      branding_primary_color?: string;
     };
     peer_login_expiration_enabled: boolean;
     peer_expose_enabled?: boolean;
@@ -33,6 +38,7 @@ export interface Account {
     metrics_push_enabled?: boolean;
     local_auth_disabled?: boolean;
     local_mfa_enabled?: boolean;
+    login_method?: "all" | "email" | "wechatwork";
     ipv6_enabled_groups?: string[];
     network_range_v6?: string;
     agent_network_only?: boolean;

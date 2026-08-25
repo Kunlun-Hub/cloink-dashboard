@@ -16,6 +16,7 @@ import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { Currency, Plan } from "@/interfaces/Plan";
 import { PlanTier } from "@/interfaces/Subscription";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onSuccess?: () => void;
@@ -32,6 +33,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
     subscribe,
   } = useBilling();
   const { logout } = useLoggedInUser();
+  const { t } = useI18n();
 
   const teamAndBusinessPlans = plans?.filter(
     (plan) =>
@@ -131,7 +133,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                       "text-xl my-0 leading-[1.5] mb-2 text-center w-full"
                     }
                   >
-                    Thanks for registering via{" "}
+                    {t("aws.thanksForRegistering")}{" "}
                     <br className={cn(!hasActiveStripePlan && "hidden")} />
                     AWS Marketplace!
                   </h2>
@@ -142,16 +144,12 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                   >
                     {hasActiveStripePlan ? (
                       <>
-                        It seems you already have an active subscription with
-                        us. In order to use AWS as a billing provider, please
-                        contact our support team.
+                        {t("aws.existingSubscription")}
                       </>
                     ) : (
                       <>
-                        With our flexible pricing, you are only billed for
-                        active users and active peers through your AWS account.
-                        Please choose the plan that fits your needs. <br />
-                        You can always change your plan later.
+                        {t("aws.flexiblePricing")} <br />
+                        {t("aws.changePlanLater")}
                       </>
                     )}
                   </Paragraph>
@@ -174,8 +172,8 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                               currentSubscription={subscription}
                               plan={plan}
                               buttonText={{
-                                upgrade: "Subscribe to",
-                                downgrade: "Downgrade to",
+                                upgrade: t("billing.subscribeTo"),
+                                downgrade: t("billing.downgradeTo"),
                               }}
                               currency={Currency.USD}
                               isSubscribing={isSubscribing}
@@ -195,7 +193,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                       >
                         <Button variant={"primary"} className={"w-full"}>
                           <MailIcon size={15} className={"shrink-0"} />
-                          Get Support
+                          {t("common.getSupport")}
                         </Button>
                       </a>
                       <Button
@@ -203,7 +201,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                         className={"w-full"}
                         onClick={onSuccess}
                       >
-                        Continue to Dashboard
+                        {t("aws.continueToDashboard")}
                       </Button>
                     </div>
                   )}
@@ -219,7 +217,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                   onClick={logout}
                 >
                   <LogOutIcon size={12} />
-                  Logout
+                  {t("auth.logout")}
                 </button>
               )}
             </div>

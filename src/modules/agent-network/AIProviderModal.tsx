@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   ReverseProxyDomain,
   ReverseProxyDomainType,
@@ -63,29 +64,50 @@ type ExtraHeaderUI = {
   tooltip?: React.ReactNode;
   placeholder?: string;
 };
-const EXTRA_HEADER_UI: Record<string, ExtraHeaderUI> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TFn = (key: any, values?: any) => string;
+const buildExtraHeaderUI = (
+  t: TFn,
+): Record<string, ExtraHeaderUI> => ({
   "x-portkey-config": {
-    label: "Portkey Config ID",
-    helpText: "Saved Portkey config (pc-...).",
-    tooltip:
-      "Encapsulates upstream provider + virtual key on Portkey's hosted side. Stamped on every request as x-portkey-config: <id>. Leave blank if your callers author @org/model in the request body instead.",
-    placeholder: "pc-...",
+    label: t("aiProvider.modal.extraHeader.portkeyConfig.label"),
+    helpText: t(
+      "aiProvider.modal.extraHeader.portkeyConfig.helpText",
+    ),
+    tooltip: t(
+      "aiProvider.modal.extraHeader.portkeyConfig.tooltip",
+    ),
+    placeholder: t(
+      "aiProvider.modal.extraHeader.portkeyConfig.placeholder",
+    ),
   },
   "HTTP-Referer": {
-    label: "App URL",
-    helpText: "Your app's URL — OpenRouter's primary app identifier.",
-    tooltip:
-      "Stamped on every request as HTTP-Referer. OpenRouter creates a per-app page from this URL and uses it as the primary identifier in their public rankings and per-app analytics. Leave blank to skip; requests still flow but won't attribute to any app on OpenRouter's side.",
-    placeholder: "https://your-app.example",
+    label: t("aiProvider.modal.extraHeader.httpReferer.label"),
+    helpText: t(
+      "aiProvider.modal.extraHeader.httpReferer.helpText",
+    ),
+    tooltip: t(
+      "aiProvider.modal.extraHeader.httpReferer.tooltip",
+    ),
+    placeholder: t(
+      "aiProvider.modal.extraHeader.httpReferer.placeholder",
+    ),
   },
   "X-OpenRouter-Title": {
-    label: "App display name",
-    helpText: "Human-readable app name shown in OpenRouter's rankings.",
-    tooltip:
-      "Stamped on every request as X-OpenRouter-Title. Sets the display name of your app in OpenRouter's public rankings and analytics. Requires HTTP-Referer to be set too — without it, X-OpenRouter-Title is ignored.",
-    placeholder: "Your App Name",
+    label: t(
+      "aiProvider.modal.extraHeader.openrouterTitle.label",
+    ),
+    helpText: t(
+      "aiProvider.modal.extraHeader.openrouterTitle.helpText",
+    ),
+    tooltip: t(
+      "aiProvider.modal.extraHeader.openrouterTitle.tooltip",
+    ),
+    placeholder: t(
+      "aiProvider.modal.extraHeader.openrouterTitle.placeholder",
+    ),
   },
-};
+});
 // Fallback used when the catalog declares an extra header the
 // dashboard doesn't have copy for yet — keeps the input usable
 // instead of rendering an unlabeled box.
@@ -97,52 +119,50 @@ const fallbackExtraHeaderUI = (name: string): ExtraHeaderUI => ({
 // operator who selects a gateway type sees the path suffix they're
 // expected to include. Generic providers fall back to a shared
 // example.
-function upstreamUrlPlaceholder(providerId: AIProviderId): string {
-  switch (providerId) {
-    case "bifrost":
-      return "https://your-bifrost-host/openai";
-    case "cloudflare_ai_gateway":
-      return "https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/openai";
-    case "vercel_ai_gateway":
-      return "https://ai-gateway.vercel.sh";
-    case "vertex_ai_api":
-      return "https://aiplatform.googleapis.com";
-    case "openrouter":
-      return "https://openrouter.ai/api/v1";
-    case "litellm_proxy":
-      return "https://your-litellm-host";
-    case "portkey":
-      return "https://api.portkey.ai";
-    case "vllm":
-      return "https://your-vllm-host:8000";
-    case "kimi_api":
-      return "https://api.moonshot.ai";
-    case "custom":
-      return "https://your-llm-host";
-    default:
-      return "https://api.openai.com";
-  }
+function upstreamUrlPlaceholder(
+  providerId: AIProviderId,
+  t: TFn,
+): string {
+  const keyMap: Partial<Record<AIProviderId, string>> = {
+    bifrost: "aiProvider.modal.upstreamUrlPlaceholder.bifrost",
+    cloudflare_ai_gateway:
+      "aiProvider.modal.upstreamUrlPlaceholder.cloudflare_ai_gateway",
+    vercel_ai_gateway:
+      "aiProvider.modal.upstreamUrlPlaceholder.vercel_ai_gateway",
+    vertex_ai_api:
+      "aiProvider.modal.upstreamUrlPlaceholder.vertex_ai_api",
+    openrouter:
+      "aiProvider.modal.upstreamUrlPlaceholder.openrouter",
+    litellm_proxy:
+      "aiProvider.modal.upstreamUrlPlaceholder.litellm_proxy",
+    portkey: "aiProvider.modal.upstreamUrlPlaceholder.portkey",
+    vllm: "aiProvider.modal.upstreamUrlPlaceholder.vllm",
+    kimi_api: "aiProvider.modal.upstreamUrlPlaceholder.kimi_api",
+    custom: "aiProvider.modal.upstreamUrlPlaceholder.custom",
+  };
+  const key = keyMap[providerId];
+  return key ? t(key) : t("aiProvider.modal.upstreamUrlPlaceholder.default");
 }
 
 // upstreamUrlHelpText documents the per-provider URL convention.
 // Bifrost in particular needs the integration-path suffix or the
 // gateway returns 404; calling that out at the input keeps operators
 // from pasting a bare hostname.
-function upstreamUrlHelpText(providerId: AIProviderId): string {
-  switch (providerId) {
-    case "bifrost":
-      return "Your Bifrost host. Optionally append a path like /openai for OpenAI-shaped apps or /anthropic for the native Anthropic Messages API so the prefix is built into the endpoint and your apps don't need to include it on every call.";
-    case "cloudflare_ai_gateway":
-      return "Your Cloudflare AI Gateway URL including the upstream provider slug (/openai, /anthropic, /workers-ai, …) so the proxy can dispatch to the correct parser. The /compat universal endpoint also works for OpenAI-shaped apps that route to multiple upstreams via the model prefix.";
-    case "vercel_ai_gateway":
-      return "Vercel AI Gateway uses a fixed endpoint; only the API key varies by operator. Apps choose the upstream provider with the model prefix, e.g. openai/gpt-5.4 or anthropic/claude-opus-4.6.";
-    case "openrouter":
-      return "OpenRouter uses a fixed endpoint, openrouter.ai/api/v1; apps choose the upstream provider via the model prefix, e.g. anthropic/claude-* or openai/gpt-*.";
-    case "vllm":
-      return "Your local vLLM server's OpenAI-compatible base URL.";
-    default:
-      return "Where NetBird forwards the traffic.";
-  }
+function upstreamUrlHelpText(
+  providerId: AIProviderId,
+  t: TFn,
+): string {
+  const keyMap: Partial<Record<AIProviderId, string>> = {
+    bifrost: "aiProvider.modal.upstreamUrlHelp.bifrost",
+    cloudflare_ai_gateway:
+      "aiProvider.modal.upstreamUrlHelp.cloudflare_ai_gateway",
+    vercel_ai_gateway:
+      "aiProvider.modal.upstreamUrlHelp.vercel_ai_gateway",
+    openrouter: "aiProvider.modal.upstreamUrlHelp.openrouter",
+    vllm: "aiProvider.modal.upstreamUrlHelp.vllm",
+  };
+  const key = keyMap[providerId];
+  return key ? t(key) : t("aiProvider.modal.upstreamUrlHelp.default");
 }
 
 type Props = {
@@ -176,6 +196,7 @@ export default function AIProviderModal({
     settings,
     bootstrapAgentNetworkSettings,
   } = useAIProviders();
+  const { t } = useI18n();
   const { data: domains, isLoading: domainsLoading } = useFetchApi<
     ReverseProxyDomain[]
   >("/reverse-proxies/domains");
@@ -493,9 +514,9 @@ export default function AIProviderModal({
       custom: 2,
     };
     const groupLabel: Record<string, string> = {
-      gateway: "AI Gateways",
-      provider: "AI Providers",
-      custom: "Other",
+      gateway: t("aiProvider.modal.groupGateways"),
+      provider: t("aiProvider.modal.groupProviders"),
+      custom: t("aiProvider.modal.groupOther"),
     };
     const sorted = [...catalogList].sort((a, b) => {
       const ra = groupRank[a.kind] ?? 99;
@@ -507,12 +528,12 @@ export default function AIProviderModal({
       value: p.id,
       label: p.name,
       searchValue: `${p.name} ${p.id}`,
-      group: groupLabel[p.kind] ?? "Other",
+      group: groupLabel[p.kind] ?? t("aiProvider.modal.groupOther"),
       icon: ({ size }: { size?: number }) => (
         <AIProviderLogo providerId={p.id as AIProviderId} size={size ?? 16} />
       ),
     }));
-  }, [catalogList]);
+  }, [catalogList, t]);
 
   const updateModel = (idx: number, patch: Partial<ProviderModel>) =>
     setModels((prev) =>
@@ -572,11 +593,15 @@ export default function AIProviderModal({
       <ModalContent maxWidthClass={"max-w-2xl"}>
         <ModalHeader
           icon={<AgentNetworkIcon className={"fill-netbird"} size={18} />}
-          title={isEdit ? "Edit Provider" : "Connect Provider"}
+          title={
+            isEdit
+              ? t("aiProvider.modal.editTitle")
+              : t("aiProvider.modal.connectTitle")
+          }
           description={
             isEdit
-              ? "Update this provider's configuration."
-              : "Connect an AI model provider or gateway to your Agent Network."
+              ? t("aiProvider.modal.editDescription")
+              : t("aiProvider.modal.connectDescription")
           }
           color={"netbird"}
         />
@@ -585,14 +610,14 @@ export default function AIProviderModal({
           <TabsList justify={"start"} className={"px-8"}>
             <TabsTrigger value={"provider"}>
               <Sparkles size={14} />
-              Provider
+              {t("aiProvider.modal.tabProvider")}
             </TabsTrigger>
             <TabsTrigger
               value={"models"}
               disabled={!canContinueFromProvider}
             >
               <Boxes size={14} />
-              Models
+              {t("aiProvider.modal.tabModels")}
             </TabsTrigger>
             {showMappings && (
               <TabsTrigger
@@ -600,7 +625,7 @@ export default function AIProviderModal({
                 disabled={!canContinueFromProvider}
               >
                 <ArrowRightLeft size={14} />
-                Mappings
+                {t("aiProvider.modal.tabMappings")}
               </TabsTrigger>
             )}
           </TabsList>
@@ -617,18 +642,17 @@ export default function AIProviderModal({
                     />
                   }
                 >
-                  No active proxy clusters are available. Connect at least one
-                  proxy under
+                  {t("aiProvider.modal.noClustersAvailablePrefix")}
                   <InlineLink href={"/reverse-proxy/services"}>
-                    {" "}Reverse Proxy
+                    {" "}{t("reverseProxy.title")}
                   </InlineLink>
-                  {" "}before adding a provider.
+                  {" "}{t("aiProvider.modal.noClustersAvailableSuffix")}
                 </Callout>
               )}
 
               <FormRow
-                label={"Provider"}
-                helpText={"API provider to expose through NetBird."}
+                label={t("aiProvider.modal.providerLabel")}
+                helpText={t("aiProvider.modal.providerHelpText")}
               >
                 <SelectDropdown
                   value={providerId}
@@ -679,8 +703,8 @@ export default function AIProviderModal({
                   }}
                   options={providerOptions}
                   showSearch
-                  searchPlaceholder={"Search providers..."}
-                  placeholder={"Select provider..."}
+                  searchPlaceholder={t("aiProvider.modal.searchProviders")}
+                  placeholder={t("aiProvider.modal.selectProvider")}
                 />
               </FormRow>
 
@@ -688,23 +712,23 @@ export default function AIProviderModal({
                 label={
                   providerId === "kimi_api" ? (
                     <>
-                      Upstream URL
+                      {t("aiProvider.modal.upstreamUrlLabel")}
                       <HelpTooltip
-                        content={
-                          "Moonshot AI's international platform endpoint. Keep the bare host. Moonshot serves both API shapes with the same key: the path an agent calls rides through to Moonshot, so its base URL picks the shape (Claude Code appends /anthropic; Kimi CLI and OpenAI shaped callers use the bare endpoint). Mainland China accounts use api.moonshot.cn instead."
-                        }
+                        content={t(
+                          "aiProvider.modal.kimiUpstreamUrlTooltip",
+                        )}
                       />
                     </>
                   ) : (
-                    "Upstream URL"
+                    t("aiProvider.modal.upstreamUrlLabel")
                   )
                 }
-                helpText={upstreamUrlHelpText(providerId)}
+                helpText={upstreamUrlHelpText(providerId, t)}
               >
                 <Input
                   value={upstreamUrl}
                   onChange={(e) => setUpstreamUrl(e.target.value)}
-                  placeholder={upstreamUrlPlaceholder(providerId)}
+                  placeholder={upstreamUrlPlaceholder(providerId, t)}
                 />
               </FormRow>
 
@@ -715,24 +739,20 @@ export default function AIProviderModal({
                   label={
                     <>
                       <ShieldOffIcon size={15} />
-                      Skip TLS Verification
+                      {t("aiProvider.modal.skipTlsLabel")}
                       <span onClick={(e) => e.stopPropagation()}>
                         <HelpTooltip
                           interactive
                           content={
                             <>
-                              Skips certificate validation on requests to this
-                              provider. Useful for quick testing against
-                              endpoints with self-signed certificates. For
-                              production we recommend mounting trusted
-                              certificates on your proxy instances instead.{" "}
+                              {t("aiProvider.modal.skipTlsTooltip")}{" "}
                               <InlineLink
                                 href={
                                   "https://docs.netbird.io/agent-network/providers#skip-tls-verification"
                                 }
                                 target={"_blank"}
                               >
-                                Learn more
+                                {t("common.learnMore")}
                                 <ExternalLinkIcon size={12} />
                               </InlineLink>
                             </>
@@ -741,7 +761,7 @@ export default function AIProviderModal({
                       </span>
                     </>
                   }
-                  helpText={"Disable upstream TLS certificate validation."}
+                  helpText={t("aiProvider.modal.skipTlsHelp")}
                 />
               )}
 
@@ -749,21 +769,19 @@ export default function AIProviderModal({
                 <FormRow
                   label={
                     <>
-                      Service account JSON key
+                      {t("aiProvider.modal.jsonKeyLabel")}
                       <HelpTooltip
                         content={
                           <>
-                            Upload the Vertex AI service account JSON key.
-                            NetBird base64-encodes it and prefixes it with{" "}
+                            {t("aiProvider.modal.jsonKeyTooltipPrefix")}{" "}
                             <code className={"text-nb-gray-200"}>keyfile::</code>{" "}
-                            before injecting it on every upstream request, so
-                            agents never see the key.
+                            {t("aiProvider.modal.jsonKeyTooltipSuffix")}
                           </>
                         }
                       />
                     </>
                   }
-                  helpText={"Upload the service account JSON key file."}
+                  helpText={t("aiProvider.modal.jsonKeyHelp")}
                 >
                   <div className={"flex items-center gap-3"}>
                     <Button
@@ -772,15 +790,15 @@ export default function AIProviderModal({
                     >
                       <UploadIcon size={14} />
                       {keyFileName || (isEdit && apiKey === "••••••••")
-                        ? "Replace JSON key"
-                        : "Upload JSON key"}
+                        ? t("aiProvider.modal.replaceJsonKey")
+                        : t("aiProvider.modal.uploadJsonKey")}
                     </Button>
                     <span className={"text-xs text-nb-gray-300 truncate"}>
                       {keyFileName
                         ? keyFileName
                         : isEdit && apiKey === "••••••••"
-                        ? "A key is already stored"
-                        : "No file selected"}
+                        ? t("aiProvider.modal.keyAlreadyStored")
+                        : t("aiProvider.modal.noFileSelected")}
                     </span>
                     <input
                       ref={keyFileInputRef}
@@ -795,22 +813,21 @@ export default function AIProviderModal({
                 <FormRow
                   label={
                     <>
-                      Provider API key
+                      {t("aiProvider.modal.apiKeyLabel")}
                       <HelpTooltip
                         content={
                           <>
-                            NetBird injects it as{" "}
+                            {t("aiProvider.modal.apiKeyTooltipPrefix")}{" "}
                             <code className={"text-nb-gray-200"}>
                               {catalog?.auth_header_template}
                             </code>{" "}
-                            on every upstream request, so agents never see the
-                            key.
+                            {t("aiProvider.modal.apiKeyTooltipSuffix")}
                           </>
                         }
                       />
                     </>
                   }
-                  helpText={"The API key issued by the provider."}
+                  helpText={t("aiProvider.modal.apiKeyHelp")}
                 >
                   <Input
                     type={"password"}
@@ -823,12 +840,13 @@ export default function AIProviderModal({
                         ? "sk-..."
                         : providerId === "anthropic_api"
                         ? "sk-ant-..."
-                        : "Paste your API key"
+                        : t("aiProvider.modal.apiKeyPlaceholder")
                     }
                   />
                 </FormRow>
               )}
               {(catalog?.extra_headers ?? []).map((h) => {
+                const EXTRA_HEADER_UI = buildExtraHeaderUI(t);
                 const ui = EXTRA_HEADER_UI[h.name] ?? fallbackExtraHeaderUI(h.name);
                 return (
                   <FormRow
@@ -859,13 +877,13 @@ export default function AIProviderModal({
                 );
               })}
                 <FormRow
-                    label={"Display name"}
-                    helpText={"Shown in the Agent Network table."}
+                    label={t("aiProvider.modal.displayNameLabel")}
+                    helpText={t("aiProvider.modal.displayNameHelp")}
                 >
                     <Input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder={"e.g. OpenAI"}
+                        placeholder={t("aiProvider.modal.displayNamePlaceholder")}
                     />
                 </FormRow>
             </div>
@@ -883,18 +901,16 @@ export default function AIProviderModal({
                   label={
                     <>
                       <ArrowRightLeft size={15} />
-                      Forward Identity Metadata
+                      {t("aiProvider.modal.forwardIdentityMetadata")}
                     </>
                   }
-                  helpText={
-                    "Stamp the identity mappings below onto LiteLLM requests."
-                  }
+                  helpText={t("aiProvider.modal.litellm.stampHelp")}
                 />
 
                 <div>
-                  <Label>Identity Mappings</Label>
+                  <Label>{t("aiProvider.modal.identityMappingsLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    Groups are written into{" "}
+                    {t("aiProvider.modal.litellm.mappingsHelpPrefix")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -902,8 +918,7 @@ export default function AIProviderModal({
                     >
                       metadata.tags
                     </code>{" "}
-                    in the JSON body so LiteLLM can enforce tag budgets and rate limits.
-                    The user identity is sent in the{" "}
+                    {t("aiProvider.modal.litellm.mappingsHelpInfix")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -911,10 +926,7 @@ export default function AIProviderModal({
                     >
                       x-litellm-end-user-id
                     </code>{" "}
-                    header. The proxy strips any client-supplied value
-                    first, so an app can&apos;t spoof identity. The
-                    configured API key must be a LiteLLM virtual key
-                    with{" "}
+                    {t("aiProvider.modal.litellm.mappingsHelpHeader")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -922,7 +934,7 @@ export default function AIProviderModal({
                     >
                       metadata.allow_client_tags: true
                     </code>
-                    , or LiteLLM silently drops these tags.
+                    {t("aiProvider.modal.litellm.mappingsHelpSuffix")}
                   </HelpText>
                 </div>
 
@@ -933,11 +945,11 @@ export default function AIProviderModal({
                 >
                   <MappingRow
                     header={"x-litellm-end-user-id (header)"}
-                    sourceLabel={"User Email"}
+                    sourceLabel={t("aiProvider.modal.userEmail")}
                   />
                   <MappingRow
                     header={"metadata.tags (body)"}
-                    sourceLabel={"Groups"}
+                    sourceLabel={t("aiProvider.modal.groups")}
                   />
                 </div>
               </div>
@@ -948,13 +960,9 @@ export default function AIProviderModal({
             <TabsContent value={"mappings"} className={"pb-8"}>
               <div className={"px-8 pt-3 flex-col flex gap-4"}>
                 <div>
-                  <Label>Identity Headers</Label>
+                  <Label>{t("aiProvider.modal.identityHeadersLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    Pick which wire headers carry the caller&apos;s identity
-                    on every upstream request. The proxy strips any
-                    client-supplied value first, so an app can&apos;t spoof
-                    identity. Leave a field empty to disable stamping for that
-                    dimension. The defaults shown as placeholders use the{" "}
+                    {t("aiProvider.modal.bifrost.headersHelp")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -962,8 +970,7 @@ export default function AIProviderModal({
                     >
                       x-bf-dim-*
                     </code>{" "}
-                    family (Prometheus / OTEL — requires a matching
-                    declaration in your gateway&apos;s{" "}
+                    {t("aiProvider.modal.bifrost.headersHelpFamily")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -971,7 +978,7 @@ export default function AIProviderModal({
                     >
                       client.prometheus_labels
                     </code>{" "}
-                    config). Switch to{" "}
+                    {t("aiProvider.modal.bifrost.headersHelpConfig")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -979,14 +986,13 @@ export default function AIProviderModal({
                     >
                       x-bf-lh-*
                     </code>{" "}
-                    to use Bifrost&apos;s always-on log-metadata path
-                    instead — no gateway-side config needed there.
+                    {t("aiProvider.modal.bifrost.headersHelpLogMetadata")}
                   </HelpText>
                 </div>
 
                 <FormRow
-                  label={"User identity header"}
-                  helpText={"Wire header name receiving the caller's user email (or peer name when unlinked). Leave empty to skip."}
+                  label={t("aiProvider.modal.bifrost.userIdentityHeaderLabel")}
+                  helpText={t("aiProvider.modal.bifrost.userIdentityHeaderHelp")}
                 >
                   <Input
                     value={identityHeaderUserId}
@@ -996,8 +1002,8 @@ export default function AIProviderModal({
                 </FormRow>
 
                 <FormRow
-                  label={"Groups header"}
-                  helpText={"Wire header name receiving the caller's NetBird groups as a comma-separated list. Leave empty to skip."}
+                  label={t("aiProvider.modal.bifrost.groupsHeaderLabel")}
+                  helpText={t("aiProvider.modal.bifrost.groupsHeaderHelp")}
                 >
                   <Input
                     value={identityHeaderGroups}
@@ -1013,9 +1019,9 @@ export default function AIProviderModal({
             <TabsContent value={"mappings"} className={"pb-8"}>
               <div className={"px-8 pt-3 flex-col flex gap-4"}>
                 <div>
-                  <Label>Identity Metadata</Label>
+                  <Label>{t("aiProvider.modal.identityMetadataLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    NetBird stamps a JSON object onto the{" "}
+                    {t("aiProvider.modal.cloudflare.metadataHelpPrefix")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -1023,19 +1029,13 @@ export default function AIProviderModal({
                     >
                       {jsonMetadataHeader || "metadata"}
                     </code>{" "}
-                    header with the caller&apos;s identity so the gateway&apos;s
-                    logs and analytics key off the real user, not whichever
-                    app process happens to hold the API token. Pick the JSON
-                    key names that match your existing log filters; leave a
-                    field empty to omit that key from the JSON. The proxy
-                    strips any client-supplied value first, so an app
-                    can&apos;t spoof identity.
+                    {t("aiProvider.modal.cloudflare.metadataHelpInfix")}
                   </HelpText>
                 </div>
 
                 <FormRow
-                  label={"User identity key"}
-                  helpText={"JSON key receiving the caller's user email (or peer name when unlinked). Leave empty to skip."}
+                  label={t("aiProvider.modal.cloudflare.userIdentityKeyLabel")}
+                  helpText={t("aiProvider.modal.cloudflare.userIdentityKeyHelp")}
                 >
                   <Input
                     value={identityHeaderUserId}
@@ -1045,8 +1045,8 @@ export default function AIProviderModal({
                 </FormRow>
 
                 <FormRow
-                  label={"Groups key"}
-                  helpText={"JSON key receiving the caller's NetBird groups as a comma-separated string. Leave empty to skip."}
+                  label={t("aiProvider.modal.cloudflare.groupsKeyLabel")}
+                  helpText={t("aiProvider.modal.cloudflare.groupsKeyHelp")}
                 >
                   <Input
                     value={identityHeaderGroups}
@@ -1062,9 +1062,9 @@ export default function AIProviderModal({
             <TabsContent value={"mappings"} className={"pb-8"}>
               <div className={"px-8 pt-3 flex-col flex gap-4"}>
                 <div>
-                  <Label>Identity Metadata</Label>
+                  <Label>{t("aiProvider.modal.identityMetadataLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    NetBird stamps the{" "}
+                    {t("aiProvider.modal.portkey.metadataHelpPrefix")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -1072,12 +1072,7 @@ export default function AIProviderModal({
                     >
                       x-portkey-metadata
                     </code>{" "}
-                    header with a JSON object so Portkey&apos;s analytics
-                    and budgets key off the real caller. The proxy strips
-                    any client-supplied value first, so an app can&apos;t
-                    spoof identity. Per Portkey&apos;s 128-character cap
-                    each value is truncated when needed. The mapping is
-                    fixed in this release.
+                    {t("aiProvider.modal.portkey.metadataHelpSuffix")}
                   </HelpText>
                 </div>
 
@@ -1086,8 +1081,8 @@ export default function AIProviderModal({
                     "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
                   }
                 >
-                  <MappingRow header={"_user"} sourceLabel={"User Email"} />
-                  <MappingRow header={"groups"} sourceLabel={"Groups"} />
+                  <MappingRow header={"_user"} sourceLabel={t("aiProvider.modal.userEmail")} />
+                  <MappingRow header={"groups"} sourceLabel={t("aiProvider.modal.groups")} />
                 </div>
               </div>
             </TabsContent>
@@ -1105,18 +1100,16 @@ export default function AIProviderModal({
                   label={
                     <>
                       <ArrowRightLeft size={15} />
-                      Forward Identity Metadata
+                      {t("aiProvider.modal.forwardIdentityMetadata")}
                     </>
                   }
-                  helpText={
-                    "Stamp the identity metadata below onto Bedrock requests."
-                  }
+                  helpText={t("aiProvider.modal.bedrock.stampHelp")}
                 />
 
                 <div>
-                  <Label>Identity Metadata</Label>
+                  <Label>{t("aiProvider.modal.identityMetadataLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    NetBird stamps the caller&apos;s identity into the{" "}
+                    {t("aiProvider.modal.bedrock.metadataHelpPrefix")}{" "}
                     <InlineLink
                       href={
                         "https://docs.aws.amazon.com/bedrock/latest/userguide/cost-mgmt-request-metadata.html"
@@ -1131,8 +1124,7 @@ export default function AIProviderModal({
                         X-Amzn-Bedrock-Request-Metadata
                       </code>
                     </InlineLink>{" "}
-                    header, so you can break Bedrock spend down by user and
-                    group. Client-supplied values are stripped and sanitized.
+                    {t("aiProvider.modal.bedrock.metadataHelpSuffix")}
                   </HelpText>
                 </div>
 
@@ -1141,8 +1133,8 @@ export default function AIProviderModal({
                     "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
                   }
                 >
-                  <MappingRow header={"user"} sourceLabel={"User Email"} />
-                  <MappingRow header={"group"} sourceLabel={"Groups"} />
+                  <MappingRow header={"user"} sourceLabel={t("aiProvider.modal.userEmail")} />
+                  <MappingRow header={"group"} sourceLabel={t("aiProvider.modal.groups")} />
                 </div>
               </div>
             </TabsContent>
@@ -1152,9 +1144,9 @@ export default function AIProviderModal({
             <TabsContent value={"mappings"} className={"pb-8"}>
               <div className={"px-8 pt-3 flex-col flex gap-4"}>
                 <div>
-                  <Label>Identity Headers</Label>
+                  <Label>{t("aiProvider.modal.identityHeadersLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    NetBird stamps the user identity and group list onto{" "}
+                    {t("aiProvider.modal.vercel.headersHelpPrefix")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -1162,7 +1154,7 @@ export default function AIProviderModal({
                     >
                       ai-reporting-user
                     </code>{" "}
-                    and{" "}
+                    {t("aiProvider.modal.vercel.headersHelpAnd")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -1170,8 +1162,7 @@ export default function AIProviderModal({
                     >
                       ai-reporting-tags
                     </code>{" "}
-                    on every upstream request. Vercel groups its Custom
-                    Reporting API by these dimensions ({" "}
+                    {t("aiProvider.modal.vercel.headersHelpInfix")}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -1187,9 +1178,7 @@ export default function AIProviderModal({
                     >
                       group_by=tag
                     </code>
-                    ). Header names are fixed by Vercel&apos;s API contract
-                    — renaming would silently disable attribution. The
-                    proxy strips any client-supplied value first.
+                    {t("aiProvider.modal.vercel.headersHelpSuffix")}
                   </HelpText>
                 </div>
 
@@ -1200,21 +1189,17 @@ export default function AIProviderModal({
                 >
                   <MappingRow
                     header={"ai-reporting-user"}
-                    sourceLabel={"User Email"}
+                    sourceLabel={t("aiProvider.modal.userEmail")}
                   />
                   <MappingRow
                     header={"ai-reporting-tags"}
-                    sourceLabel={"Groups (CSV)"}
+                    sourceLabel={t("aiProvider.modal.groupsCsv")}
                   />
                 </div>
 
                 <HelpText className={"mb-0"}>
-                  <strong>Caveats:</strong> Vercel caps tags at 10 per request
-                  (each 1–64 chars) and the user value at 256 chars. Members
-                  of more than 10 groups will see Vercel reject the request
-                  with HTTP 400 — re-scope group memberships if you hit it.
-                  Vercel charges $0.075 per 1,000 unique user/tag values
-                  written; budget accordingly for high-cardinality use cases.
+                  <strong>{t("aiProvider.modal.vercel.caveatsBold")}</strong>{" "}
+                  {t("aiProvider.modal.vercel.caveats")}
                 </HelpText>
               </div>
             </TabsContent>
@@ -1224,10 +1209,9 @@ export default function AIProviderModal({
             <TabsContent value={"mappings"} className={"pb-8"}>
               <div className={"px-8 pt-3 flex-col flex gap-4"}>
                 <div>
-                  <Label>Identity Attribution</Label>
+                  <Label>{t("aiProvider.modal.identityAttributionLabel")}</Label>
                   <HelpText className={"mb-0"}>
-                    NetBird stamps the caller&apos;s user identity onto the
-                    request body&apos;s{" "}
+                    {t("aiProvider.modal.openrouter.attributionHelpPrefix")}{" "}
                     <code
                       className={
                         "text-xs font-mono text-nb-gray-100 bg-nb-gray-900/60 rounded px-1.5 py-0.5"
@@ -1235,10 +1219,7 @@ export default function AIProviderModal({
                     >
                       user
                     </code>{" "}
-                    field — that&apos;s the OpenAI-standard field
-                    OpenRouter consults for per-user analytics. The proxy
-                    overwrites any client-supplied value first, so an app
-                    can&apos;t spoof identity.
+                    {t("aiProvider.modal.openrouter.attributionHelpSuffix")}
                   </HelpText>
                 </div>
 
@@ -1249,23 +1230,17 @@ export default function AIProviderModal({
                 >
                   <MappingRow
                     header={"user (body)"}
-                    sourceLabel={"User Email"}
+                    sourceLabel={t("aiProvider.modal.userEmail")}
                   />
                 </div>
 
                 <HelpText className={"mb-0"}>
-                  <strong>No groups dimension.</strong> OpenRouter does not
-                  document a per-request tag, label, or team field — only
-                  per-user identity. NetBird&apos;s group memberships are
-                  not propagated to OpenRouter; if you need per-group
-                  attribution, query NetBird&apos;s own access log instead
-                  of OpenRouter&apos;s analytics.
+                  <strong>{t("aiProvider.modal.openrouter.noGroupsBold")}</strong>{" "}
+                  {t("aiProvider.modal.openrouter.noGroups")}
                 </HelpText>
                 <HelpText className={"mb-0"}>
-                  <strong>App branding</strong> (HTTP-Referer + X-OpenRouter-Title)
-                  is set per-provider on the Provider tab, not per-request.
-                  Operators who fill those in get their app surfaced on
-                  OpenRouter&apos;s public rankings and per-app analytics.
+                  <strong>{t("aiProvider.modal.openrouter.appBrandingBold")}</strong>{" "}
+                  {t("aiProvider.modal.openrouter.appBranding")}
                 </HelpText>
               </div>
             </TabsContent>
@@ -1274,13 +1249,9 @@ export default function AIProviderModal({
           <TabsContent value={"models"} className={"pb-8"}>
             <div className={"px-8 pt-3 flex-col flex gap-3"}>
               <div>
-                <Label>Models</Label>
+                <Label>{t("aiProvider.modal.modelsLabel")}</Label>
                 <HelpText>
-                  Models exposed through this endpoint, with the per-1k
-                  input/output prices used for cost tracking. Empty = all
-                  catalog models allowed at catalog prices. Cache rates
-                  left empty fall back to NetBird&apos;s defaults for the
-                  model; 0 bills cached tokens at the input rate.
+                  {t("aiProvider.modal.modelsHelp")}
                 </HelpText>
               </div>
 
@@ -1331,7 +1302,7 @@ export default function AIProviderModal({
                 onClick={addModel}
               >
                 <PlusIcon size={14} />
-                Add More
+                {t("aiProvider.modal.addMore")}
               </Button>
             </div>
           </TabsContent>
@@ -1340,12 +1311,12 @@ export default function AIProviderModal({
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("aiProvider.modal.learnMoreAbout")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network/providers"}
                 target={"_blank"}
               >
-                Agent Network Providers
+                {" "}{t("aiProvider.modal.agentNetworkProviders")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
@@ -1355,7 +1326,7 @@ export default function AIProviderModal({
               <>
                 <ModalClose asChild>
                   <Button variant={"secondary"} onClick={handleClose}>
-                    Cancel
+                    {t("common.cancel")}
                   </Button>
                 </ModalClose>
                 <Button
@@ -1363,7 +1334,7 @@ export default function AIProviderModal({
                   onClick={() => setTab("models")}
                   disabled={!canContinueFromProvider}
                 >
-                  Continue
+                  {t("common.continue")}
                 </Button>
               </>
             )}
@@ -1373,7 +1344,7 @@ export default function AIProviderModal({
                   variant={"secondary"}
                   onClick={() => setTab("provider")}
                 >
-                  Back
+                  {t("common.back")}
                 </Button>
                 {showMappings ? (
                   <Button
@@ -1381,7 +1352,7 @@ export default function AIProviderModal({
                     onClick={() => setTab("mappings")}
                     disabled={!canContinueFromProvider}
                   >
-                    Continue
+                    {t("common.continue")}
                   </Button>
                 ) : (
                   <Button
@@ -1390,11 +1361,11 @@ export default function AIProviderModal({
                     disabled={!canContinueFromProvider}
                   >
                     {isEdit ? (
-                      "Save Changes"
+                      t("common.saveChanges")
                     ) : (
                       <>
                         <PlusCircle size={16} />
-                        Connect Provider
+                        {t("aiProvider.modal.connectProvider")}
                       </>
                     )}
                   </Button>
@@ -1407,7 +1378,7 @@ export default function AIProviderModal({
                   variant={"secondary"}
                   onClick={() => setTab("models")}
                 >
-                  Back
+                  {t("common.back")}
                 </Button>
                 <Button
                   variant={"primary"}
@@ -1415,11 +1386,11 @@ export default function AIProviderModal({
                   disabled={!canContinueFromProvider}
                 >
                   {isEdit ? (
-                    "Save Changes"
+                    t("common.saveChanges")
                   ) : (
                     <>
                       <PlusCircle size={16} />
-                      Connect Provider
+                      {t("aiProvider.modal.connectProvider")}
                     </>
                   )}
                 </Button>
@@ -1505,6 +1476,7 @@ function OptionalPriceField({
   value: number | undefined;
   onChange: (n: number | undefined) => void;
 }) {
+  const { t } = useI18n();
   const [str, setStr] = useState(() =>
     value === undefined ? "" : priceToInput(value),
   );
@@ -1525,7 +1497,7 @@ function OptionalPriceField({
         type={"text"}
         inputMode={"decimal"}
         value={str}
-        placeholder={"default"}
+        placeholder={t("aiProvider.modal.defaultPlaceholder")}
         onChange={(e) => {
           setStr(e.target.value);
           onChange(optionalPriceFromInput(e.target.value));
@@ -1564,6 +1536,7 @@ function ModelRowEditor({
   onChangeCacheCreation: (n: number | undefined) => void;
   onRemove: () => void;
 }) {
+  const { t } = useI18n();
   // Editable text for the price fields. We keep the raw string locally so the
   // operator can type intermediate values ("0.", "0,00") without the number
   // round-trip clobbering the cursor. The number is propagated to the parent
@@ -1620,7 +1593,7 @@ function ModelRowEditor({
       (m) => m.id === row.id || !usedIds.has(m.id),
     );
     const opts = visible.map((m) => ({ value: m.id, label: m.label }));
-    opts.push({ value: CUSTOM_MODEL_OPTION, label: "Custom model…" });
+    opts.push({ value: CUSTOM_MODEL_OPTION, label: t("aiProvider.modal.customModel") });
     return opts;
   }, [catalogModels, usedIds, row.id]);
 
@@ -1643,7 +1616,7 @@ function ModelRowEditor({
     >
       <div className={"flex items-end gap-2"}>
         <div className={"flex-1 min-w-0"}>
-          <Label>Model</Label>
+          <Label>{t("aiProvider.modal.modelLabel")}</Label>
           {hasCatalog && !customMode ? (
             <SelectDropdown
               value={row.id}
@@ -1656,7 +1629,7 @@ function ModelRowEditor({
                 onChangeId(v);
               }}
               options={dropdownOptions}
-              placeholder={"Select a model..."}
+              placeholder={t("aiProvider.modal.selectModel")}
             />
           ) : hasCatalog ? (
             <div className={"flex gap-2"}>
@@ -1669,7 +1642,7 @@ function ModelRowEditor({
               <Button
                 variant={"default-outline"}
                 className={"h-[42px] !px-3 shrink-0"}
-                title={"Pick from catalog instead"}
+                title={t("aiProvider.modal.pickFromCatalog")}
                 onClick={() => {
                   setCustomMode(false);
                   onChangeId("");
@@ -1687,7 +1660,7 @@ function ModelRowEditor({
           )}
         </div>
         <div className={"w-[120px] shrink-0"}>
-          <Label>Input $/1k</Label>
+          <Label>{t("aiProvider.modal.inputPer1k")}</Label>
           <Input
             type={"text"}
             inputMode={"decimal"}
@@ -1699,7 +1672,7 @@ function ModelRowEditor({
           />
         </div>
         <div className={"w-[120px] shrink-0"}>
-          <Label>Output $/1k</Label>
+          <Label>{t("aiProvider.modal.outputPer1k")}</Label>
           <Input
             type={"text"}
             inputMode={"decimal"}
@@ -1733,10 +1706,12 @@ function ModelRowEditor({
                 "transition-transform " + (cacheOpen ? "rotate-90" : "")
               }
             />
-            Cache pricing
+            {t("aiProvider.modal.cachePricing")}
             {!cacheOpen && (
               <span className={"text-nb-gray-500"}>
-                {hasCacheValues ? "· custom" : "· default"}
+                {hasCacheValues
+                  ? t("aiProvider.modal.cacheCustom")
+                  : t("aiProvider.modal.cacheDefault")}
               </span>
             )}
           </button>
@@ -1748,7 +1723,7 @@ function ModelRowEditor({
             >
               {showCachedInputRate && (
                 <OptionalPriceField
-                  label={"Cached input $/1k"}
+                  label={t("aiProvider.modal.cachedInputPer1k")}
                   value={row.cachedInputPer1k}
                   onChange={onChangeCachedInput}
                 />
@@ -1756,12 +1731,12 @@ function ModelRowEditor({
               {showCacheBucketRates && (
                 <>
                   <OptionalPriceField
-                    label={"Cache read $/1k"}
+                    label={t("aiProvider.modal.cacheReadPer1k")}
                     value={row.cacheReadPer1k}
                     onChange={onChangeCacheRead}
                   />
                   <OptionalPriceField
-                    label={"Cache write $/1k"}
+                    label={t("aiProvider.modal.cacheWritePer1k")}
                     value={row.cacheCreationPer1k}
                     onChange={onChangeCacheCreation}
                   />

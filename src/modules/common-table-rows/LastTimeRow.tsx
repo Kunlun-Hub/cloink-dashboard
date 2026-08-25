@@ -7,6 +7,7 @@ import {
 import dayjs from "dayjs";
 import { History } from "lucide-react";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   date: Date;
@@ -15,9 +16,11 @@ type Props = {
 };
 export default function LastTimeRow({
   date,
-  text = "Last seen on",
+  text,
   prefix,
 }: Props) {
+  const { t } = useI18n();
+  const resolvedText = text ?? t("table.lastSeenOn");
   const neverUsed = dayjs(date).isBefore(dayjs().subtract(2000, "years"));
 
   return !neverUsed ? (
@@ -38,7 +41,7 @@ export default function LastTimeRow({
         </TooltipTrigger>
         <TooltipContent>
           <div className={"text-neutral-300 flex flex-col gap-1"}>
-            <span className={"text-xs"}>{text}</span>
+            <span className={"text-xs"}>{resolvedText}</span>
             <span className={"text-neutral-200"}>
               {dayjs(date).format("D MMMM, YYYY [at] h:mm A")}
             </span>

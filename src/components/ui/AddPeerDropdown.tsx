@@ -13,6 +13,7 @@ import React, { memo, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Peer } from "@/interfaces/Peer";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // What the operator chose to add. The setup flow only distinguishes user
 // devices (SSO login) from no-user peers (setup key). Autonomous agents are
@@ -24,6 +25,7 @@ type AddMode = "user" | "server" | "agent";
 // table: the operator picks what to add (User Device / Server / Autonomous
 // Agent) and the matching Install NetBird flow opens.
 function AddPeerDropdown() {
+  const { t } = useI18n();
   const { data: peers } = useFetchApi<Peer[]>("/peers");
   const { oidcUser: user } = useOidcUser();
 
@@ -54,19 +56,19 @@ function AddPeerDropdown() {
             data-testid={"add-peer-button"}
           >
             <PlusCircle size={16} />
-            Add Peer
+            {t("peers.addPeer")}
             <ChevronDown size={16} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align={"end"}>
           <DropdownMenuItem onClick={() => openMode("user")}>
-            User Device
+            {t("addPeerDropdown.userDevice")}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => openMode("server")}>
-            Server
+            {t("reverseProxy.server")}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => openMode("agent")}>
-            Agent
+            {t("agentAccessLog.agent")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

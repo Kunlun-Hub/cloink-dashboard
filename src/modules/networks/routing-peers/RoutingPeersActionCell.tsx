@@ -18,6 +18,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { NetworkRouter } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 
@@ -30,6 +31,7 @@ export const RoutingPeersActionCell = ({ router }: Props) => {
     useNetworksContext();
   const { mutate } = useSWRConfig();
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   const update = useApiCall<NetworkRouter>(
     `/networks/${network?.id}/routers/${router?.id}`,
@@ -38,9 +40,11 @@ export const RoutingPeersActionCell = ({ router }: Props) => {
   const toggleEnabled = async () => {
     const nextEnabled = !router.enabled;
     notify({
-      title: "Network Routing Peer",
-      description: `Routing peer is now ${nextEnabled ? "enabled" : "disabled"}`,
-      loadingMessage: "Updating routing peer...",
+      title: t("networkRoutingPeers.notifyTitle"),
+      description: t("networkRoutingPeers.toggleDescription", {
+        status: nextEnabled ? t("common.enable") : t("common.disable"),
+      }),
+      loadingMessage: t("networkRoutingPeers.updating"),
       duration: 1200,
       promise: update({
         ...router,
@@ -68,7 +72,7 @@ export const RoutingPeersActionCell = ({ router }: Props) => {
             disabled={
               !permission.networks.update && !permission.networks.delete
             }
-            aria-label={"Routing peer actions"}
+            aria-label={t("networkRoutingPeers.actionAriaLabel")}
           >
             <MoreVertical size={16} className={"shrink-0"} />
           </Button>
@@ -83,7 +87,7 @@ export const RoutingPeersActionCell = ({ router }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <SquarePenIcon size={14} className={"shrink-0"} />
-              Edit
+              {t("common.edit")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -95,7 +99,7 @@ export const RoutingPeersActionCell = ({ router }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {router.enabled ? "Disable" : "Enable"}
+              {router.enabled ? t("common.disable") : t("common.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -109,7 +113,7 @@ export const RoutingPeersActionCell = ({ router }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Remove
+              {t("common.remove")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

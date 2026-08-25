@@ -2,6 +2,7 @@ import { useApiCall } from "@utils/api";
 import loadConfig from "@utils/config";
 import { getBrowserInfo } from "@utils/helpers";
 import { generateKeypair } from "@utils/wireguard";
+import { useI18n } from "@/i18n/I18nProvider";
 import { trim } from "lodash";
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { IronRDPWASMBridge } from "@/modules/remote-access/rdp/ironrdp-wasm-bridge";
@@ -61,6 +62,7 @@ class NetBirdStore {
 const netBirdStore = new NetBirdStore();
 
 export const useNetBirdClient = () => {
+  const { t } = useI18n();
   const netBirdClient = useRef<any>(null);
   const state = useSyncExternalStore(
     netBirdStore.subscribe,
@@ -84,10 +86,10 @@ export const useNetBirdClient = () => {
       const script = document.createElement("script");
       script.src = WASM_CONFIG.SCRIPT_PATH;
       script.onload = () => resolve();
-      script.onerror = () => reject(new Error("Failed to load WASM runtime"));
+      script.onerror = () => reject(new Error(t("remoteAccess.wasmLoadFailed")));
       document.head.appendChild(script);
     });
-  }, []);
+  }, [t]);
 
   const loadGoClient = useCallback(async (): Promise<void> => {
     if ((window as any).NetBirdClient) return;
@@ -106,18 +108,18 @@ export const useNetBirdClient = () => {
         setTimeout(resolve, WASM_CONFIG.RETRY_DELAY),
       );
     }
-    throw new Error("NetBird WASM failed to initialize in time");
-  }, []);
+    throw new Error(t("remoteAccess.wasmInitTimeout"));
+  }, [t]);
 
   const initIronRDP = useCallback(() => {
     if (rdpComponents.current.bridge) return;
 
     installWebSocketProxy();
     rdpComponents.current = {
-      bridge: new IronRDPWASMBridge(),
+      bridge: new IronRDPWASMBridge(t),
       certificateHandler: RDPCertificateHandler,
     };
-  }, []);
+  }, [t]);
 
   const initialize = useCallback(async (): Promise<WASMStatus> => {
     const currentStatus = netBirdStore.getState().wasmStatus;
@@ -129,7 +131,7 @@ export const useNetBirdClient = () => {
       }
       const finalStatus = netBirdStore.getState().wasmStatus;
       if (finalStatus === WASMStatus.INITIALIZED) return finalStatus;
-      throw new Error("WASM initialization failed");
+      throw new Error(t("remoteAccess.wasmInitializationFailed"));
     }
 
     netBirdStore.setState({ wasmStatus: WASMStatus.INITIALIZING });
@@ -143,11 +145,11 @@ export const useNetBirdClient = () => {
       netBirdStore.setState({
         wasmStatus: WASMStatus.UNINITIALIZED,
         error:
-          error instanceof Error ? error.message : "Failed to initialize WASM",
+          error instanceof Error ? error.message : t("remoteAccess.wasmInitFailed"),
       });
       throw error;
     }
-  }, [loadWASMRuntime, loadGoClient, initIronRDP]);
+  }, [loadWASMRuntime, loadGoClient, initIronRDP, t]);
 
   const initializeIronRDP = useCallback(async (): Promise<boolean> => {
     if (!rdpComponents.current.bridge) return false;
@@ -166,7 +168,7 @@ export const useNetBirdClient = () => {
       if (typeof (window as any).NetBirdClient !== "function") {
         netBirdStore.setState({
           status: NetBirdStatus.DISCONNECTED,
-          error: "NetBirdClient is not available or not a function",
+          error: t("remoteAccess.netbirdClientUnavailable"),
         });
         return false;
       }
@@ -187,18 +189,18 @@ export const useNetBirdClient = () => {
       } catch (error) {
         netBirdStore.setState({
           status: NetBirdStatus.DISCONNECTED,
-          error: error instanceof Error ? error.message : "Connection failed",
+          error: error instanceof Error ? error.message : t("remoteAccess.connectionFailed"),
         });
         console.log(error);
         return false;
       }
     },
-    [initialize],
+    [initialize, t],
   );
 
   const disconnect = useCallback(async (): Promise<void> => {
     if (!netBirdClient.current?.stop) {
-      throw new Error("Go client not ready");
+      throw new Error(t("remoteAccess.goClientNotReady"));
     }
 
     netBirdStore.setState({ status: NetBirdStatus.DISCONNECTED });
@@ -206,16 +208,16 @@ export const useNetBirdClient = () => {
     netBirdClient.current = null;
     delete (window as any).netbird;
     return Promise.resolve();
-  }, []);
+  }, [t]);
 
   const detectSSHServerType = useCallback(
     async (host: string, port: number, timeoutMs: number): Promise<boolean> => {
       if (!netBirdClient.current?.detectSSHServerType) {
-        throw new Error("NetBird client not ready");
+        throw new Error(t("remoteAccess.netbirdClientNotReady"));
       }
       return netBirdClient.current.detectSSHServerType(host, port, timeoutMs);
     },
-    [],
+    [t],
   );
 
   const createSSHConnection = useCallback(
@@ -227,7 +229,7 @@ export const useNetBirdClient = () => {
       ipVersion?: string,
     ): Promise<any> => {
       if (!netBirdClient.current?.createSSHConnection) {
-        throw new Error("Go client not ready");
+        throw new Error(t("remoteAccess.goClientNotReady"));
       }
       return netBirdClient.current.createSSHConnection(
         host,
@@ -237,31 +239,31 @@ export const useNetBirdClient = () => {
         ipVersion,
       );
     },
-    [],
+    [t],
   );
 
   const makeRequest = useCallback(async (url: string): Promise<any> => {
     if (!netBirdClient.current?.makeRequest) {
-      throw new Error("Go client not ready");
+      throw new Error(t("remoteAccess.goClientNotReady"));
     }
     return netBirdClient.current.makeRequest(url);
-  }, []);
+  }, [t]);
 
   const proxyRequest = useCallback(async (request: any): Promise<any> => {
     if (!netBirdClient.current?.proxyRequest) {
-      throw new Error("Go client not ready");
+      throw new Error(t("remoteAccess.goClientNotReady"));
     }
     return netBirdClient.current.proxyRequest(request);
-  }, []);
+  }, [t]);
 
   const setupRDPProxy = useCallback(
     async (hostname: string, port: string): Promise<string> => {
       if (!netBirdClient.current?.setupRDPProxy) {
-        throw new Error("Go client not ready");
+        throw new Error(t("remoteAccess.goClientNotReady"));
       }
       return netBirdClient.current.setupRDPProxy(hostname, port);
     },
-    [],
+    [t],
   );
 
   const connectTemporary = useCallback(

@@ -14,6 +14,7 @@ import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import OidcSetupModal from "@/modules/integrations/sso/oidc/OidcSetupModal";
 import { OktaSsoSettings } from "@/modules/integrations/sso/okta/OktaSSOSettings";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   name: string;
@@ -32,6 +33,7 @@ export const OidcIntegrationCard = ({
   logo,
   discoveryPlaceholder,
 }: Props) => {
+  const { t } = useI18n();
   const [setupModal, setSetupModal] = useState(false);
   const { oktaConnection, isDataLoading, toggleConnection, mutate, error } =
     useEnterpriseConnections();
@@ -39,14 +41,12 @@ export const OidcIntegrationCard = ({
   const handleToggleConnection = () => {
     if (!oktaConnection) return;
     notify({
-      title: "OIDC Integration",
-      description: `Okta was successfully ${
-        oktaConnection?.enabled ? "disabled" : "enabled"
-      }`,
+      title: t("oidc.integration"),
+      description: t("oidc.updatedSuccessfully", { status: oktaConnection?.enabled ? t("oidc.disabled") : t("oidc.enabled") }),
       promise: toggleConnection(oktaConnection.id).then(() => {
         mutate();
       }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("oidc.updatingIntegration"),
     });
   };
 

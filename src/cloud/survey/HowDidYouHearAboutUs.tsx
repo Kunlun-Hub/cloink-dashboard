@@ -12,6 +12,7 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { submitHubspotForm } from "@/cloud/analytics/Hubspot";
 import { HubspotFormField } from "@/contexts/AnalyticsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useAccount } from "@/modules/account/useAccount";
 import { referralSourceOptions } from "@/modules/onboarding/OnboardingSurvey";
@@ -22,6 +23,7 @@ export default function HowDidYouHearAboutUs() {
   const params = useSearchParams();
   const hsId = params?.get("hs_id") ?? "";
   const gaId = params?.get("ga_id") ?? "";
+  const { t } = useI18n();
 
   const [open, setOpen] = useState(false);
   const [isPending, setIsPending] = useLocalStorage(
@@ -104,24 +106,23 @@ export default function HowDidYouHearAboutUs() {
             }
           >
             <h2 className={"text-xl my-0 leading-[1.5] text-center"}>
-              We’d love to hear from you
+              {t("survey.title")}
             </h2>
             <Paragraph
               className={cn("text-sm text-center max-w-[400px] px-4 mt-2")}
             >
-              Help us improve by sharing how you discovered NetBird. Your
-              feedback truly helps us grow.
+              {t("survey.description")}
             </Paragraph>
           </div>
           <div className={"px-8 py-3 flex flex-col mt-5 z-0 gap-6"}>
             <div className={"flex w-full flex-col gap-2"}>
-              <Label>How did you hear about NetBird?</Label>
+              <Label>{t("survey.question")}</Label>
               <SelectDropdown
                 value={referralSource}
                 onChange={setReferralSource}
                 options={randomizedOptions}
                 showValues={false}
-                placeholder={"Please select an option..."}
+                placeholder={t("survey.placeholder")}
                 variant={"dropdown"}
               />
             </div>
@@ -131,7 +132,7 @@ export default function HowDidYouHearAboutUs() {
               className={"w-full"}
               onClick={submitForm}
             >
-              Submit & Continue
+              {t("survey.submit")}
             </Button>
           </div>
         </ModalContent>

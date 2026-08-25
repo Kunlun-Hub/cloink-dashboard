@@ -2,6 +2,33 @@
  * RDP Certificate Handler
  * Handles X.509 certificate validation and user acceptance for RDP connections
  */
+import en from "@/i18n/locales/en";
+import zhCN from "@/i18n/locales/zh-CN";
+
+const locales: Record<string, Record<string, string>> = {
+  en: en as unknown as Record<string, string>,
+  "zh-CN": zhCN as unknown as Record<string, string>,
+};
+
+function getLocale(): string {
+  try {
+    return localStorage.getItem("language") || "en";
+  } catch {
+    return "en";
+  }
+}
+
+function t(key: string, params?: Record<string, string>): string {
+  const locale = getLocale();
+  const dict = locales[locale] || locales["en"];
+  let value = (dict[key] as string) || (en as unknown as Record<string, string>)[key] || String(key);
+  if (params) {
+    for (const [k, v] of Object.entries(params)) {
+      value = value.replace(`{${k}}`, v);
+    }
+  }
+  return value;
+}
 export interface CertificateInfo {
   raw?: Uint8Array;
   fingerprint: string;
@@ -209,8 +236,8 @@ export class RDPCertificateHandler implements CertificateHandler {
       // Add warning about certificate change
       const warningDiv = modal.querySelector(".cert-warning") as HTMLElement;
       warningDiv.innerHTML = `
-        <strong>⚠️ Certificate has changed!</strong><br>
-        <small>Previous fingerprint: ${oldCert.fingerprint.substring(
+        <strong>${t("rdpCertificate.certificateChanged")}</strong><br>
+        <small>${t("rdpCertificate.previousFingerprint")} ${oldCert.fingerprint.substring(
           0,
           32,
         )}...</small>
@@ -270,36 +297,36 @@ export class RDPCertificateHandler implements CertificateHandler {
     modal.innerHTML = `
       <div class="rdp-cert-overlay"></div>
       <div class="rdp-cert-dialog">
-        <h2>RDP Certificate Verification</h2>
+        <h2>${t("rdpCertificate.title")}</h2>
         <div class="cert-warning" style="color: #ff9800; margin-bottom: 15px;"></div>
-        <p>The server <strong>${hostname}</strong> is presenting a certificate:</p>
+        <p>${t("rdpCertificate.serverPresenting", { hostname })}</p>
         <div class="cert-details">
           <table>
-            <tr><td><strong>Subject:</strong></td><td>${
-              certInfo.subject || "Unknown"
+            <tr><td><strong>${t("rdpCertificate.subject")}</strong></td><td>${
+              certInfo.subject || t("common.unknown")
             }</td></tr>
-            <tr><td><strong>Issuer:</strong></td><td>${
-              certInfo.issuer || "Unknown"
+            <tr><td><strong>${t("rdpCertificate.issuer")}</strong></td><td>${
+              certInfo.issuer || t("common.unknown")
             }</td></tr>
             ${
               certInfo.serialNumber
-                ? `<tr><td><strong>Serial:</strong></td><td style="font-family: monospace; font-size: 0.9em;">${certInfo.serialNumber}</td></tr>`
+                ? `<tr><td><strong>${t("rdpCertificate.serial")}</strong></td><td style="font-family: monospace; font-size: 0.9em;">${certInfo.serialNumber}</td></tr>`
                 : ""
             }
-            <tr><td><strong>SHA-256:</strong></td><td style="font-family: monospace; font-size: 0.9em;">
+            <tr><td><strong>${t("rdpCertificate.sha256")}</strong></td><td style="font-family: monospace; font-size: 0.9em;">
               ${certInfo.fingerprint}</td></tr>
           </table>
         </div>
         <div class="cert-question">
-          <p>Do you trust this certificate?</p>
+          <p>${t("rdpCertificate.trustQuestion")}</p>
           <label>
             <input type="checkbox" id="cert-remember" checked>
-            Remember this certificate for future connections
+            ${t("rdpCertificate.remember")}
           </label>
         </div>
         <div class="cert-buttons">
-          <button id="cert-reject" class="cert-btn cert-btn-reject">Reject</button>
-          <button id="cert-accept" class="cert-btn cert-btn-accept">Accept</button>
+          <button id="cert-reject" class="cert-btn cert-btn-reject">${t("rdpCertificate.reject")}</button>
+          <button id="cert-accept" class="cert-btn cert-btn-accept">${t("rdpCertificate.accept")}</button>
         </div>
       </div>
     `;

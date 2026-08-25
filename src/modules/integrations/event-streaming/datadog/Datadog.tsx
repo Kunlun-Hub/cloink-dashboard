@@ -11,9 +11,11 @@ import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { EventStream } from "@/interfaces/EventStream";
 import DatadogSetup from "@/modules/integrations/event-streaming/datadog/DatadogSetup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export default function Datadog() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   // Event Streaming is a licensed feature; skip the call on open-source.
   const { isLicensed } = useIsLicensed();
 
@@ -46,22 +48,21 @@ export default function Datadog() {
     if (!dataDogSettings) return setSetupModal(true);
 
     const choice = await confirm({
-      title: `Disconnect Datadog?`,
-      description:
-        "Disconnecting deletes the current configuration. You will need to start the setup process again.",
-      confirmText: "Disconnect",
-      cancelText: "Cancel",
+      title: t("datadog.disconnectTitle"),
+      description: t("datadog.disconnectDescription"),
+      confirmText: t("common.disconnect"),
+      cancelText: t("common.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     notify({
-      title: "Datadog Integration",
-      description: `Datadog was successfully disconnected`,
+      title: t("datadog.notifyTitle"),
+      description: t("datadog.disconnectedDescription"),
       promise: integrationRequest.del({}, "/" + dataDogSettings.id).then(() => {
         mutate("/integrations/event-streaming");
       }),
-      loadingMessage: "Disconnecting integration...",
+      loadingMessage: t("datadog.disconnecting"),
     });
   };
 
@@ -71,7 +72,7 @@ export default function Datadog() {
     <>
       <IntegrationCard
         name="Datadog"
-        description="Datadog is a monitoring service for cloud-scale applications."
+        description={t("datadog.cardDescription")}
         url={{
           title: "datadoghq.com",
           href: "https://www.datadoghq.com/",

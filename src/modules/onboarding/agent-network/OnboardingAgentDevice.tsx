@@ -4,11 +4,12 @@ import { ArrowRightIcon, CheckCircle2Icon, DownloadIcon, Loader2Icon } from "luc
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { SetupModalContent } from "@/modules/setup-netbird-modal/SetupModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onBack: () => void;
   onNext: () => void;
-  // deviceConnected is true once at least one peer has joined the network.
+  // device_connected is true once at least one peer has joined the network.
   // The parent polls /peers and flips this; we use it to surface the
   // connected state and let the operator continue.
   deviceConnected: boolean;
@@ -23,6 +24,7 @@ export const OnboardingAgentDevice = ({
   onNext,
   deviceConnected,
 }: Props) => {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   // Close the install modal automatically once the device shows up so the
@@ -34,15 +36,13 @@ export const OnboardingAgentDevice = ({
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
-        <h1 className={"text-xl text-center"}>Connect your device</h1>
+        <h1 className={"text-xl text-center"}>{t("onboarding.agent.device.title")}</h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          {`Agent Network endpoints are private and reachable only over the
-          NetBird overlay. Install the client and sign in to join the network
-          with keyless, encrypted access.`}
+          {t("onboarding.agent.device.description")}
         </div>
       </div>
 
@@ -54,13 +54,13 @@ export const OnboardingAgentDevice = ({
         {deviceConnected ? (
           <>
             <CheckCircle2Icon size={16} className={"text-green-500"} />
-            <span>Your device is connected to the network.</span>
+            <span>{t("onboarding.agent.device.connected")}</span>
           </>
         ) : (
           <>
             <Loader2Icon size={16} className={"animate-spin text-nb-gray-300"} />
             <span className={"text-nb-gray-300"}>
-              Waiting for your device to connect…
+              {t("onboarding.agent.device.waiting")}
             </span>
           </>
         )}
@@ -68,24 +68,24 @@ export const OnboardingAgentDevice = ({
 
       <div className={"flex items-center justify-center mt-4 gap-3"}>
         <Button variant={"secondary"} onClick={onBack}>
-          Go Back
+          {t("actions.goBack")}
         </Button>
         {deviceConnected ? (
           <Button variant={"primary"} onClick={onNext}>
-            Continue
+            {t("common.continue")}
             <ArrowRightIcon size={16} />
           </Button>
         ) : (
           <Button variant={"primary"} onClick={() => setOpen(true)}>
             <DownloadIcon size={16} />
-            Install NetBird
+            {t("common.installNetBird")}
           </Button>
         )}
       </div>
 
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent className={"!z-[70]"}>
-          <SetupModalContent title={"Install NetBird"} isUserDevice={true} />
+          <SetupModalContent title={t("common.installNetBird")} isUserDevice={true} />
         </ModalContent>
       </Modal>
     </div>

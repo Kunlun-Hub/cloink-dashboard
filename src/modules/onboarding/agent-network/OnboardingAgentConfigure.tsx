@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "lucide-react";
 import * as React from "react";
 import { AgentConnectTabs } from "@/modules/agent-network/AgentConnectModal";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onBack: () => void;
@@ -13,6 +14,7 @@ type Props = {
 // step. The per-tool snippets (Claude Code, Codex, OpenAI SDK, cURL) are shown
 // inline via AgentConnectTabs, with the endpoint pre-filled.
 export const OnboardingAgentConfigure = ({ onBack, onNext }: Props) => {
+  const { t } = useI18n();
   const { settings, providers } = useAIProviders();
 
   // Open the tab that matches the connected provider: Anthropic and Kimi
@@ -27,15 +29,13 @@ export const OnboardingAgentConfigure = ({ onBack, onNext }: Props) => {
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
-        <h1 className={"text-xl text-center"}>Configure your agent</h1>
+        <h1 className={"text-xl text-center"}>{t("onboarding.agent.configure.title")}</h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          {`Point your agent to the NetBird base URL. No client API key is needed,
-          NetBird authorizes each request and injects the upstream key server
-          side.`}
+          {t("onboarding.agent.configure.description")}
         </div>
       </div>
 
@@ -53,17 +53,16 @@ export const OnboardingAgentConfigure = ({ onBack, onNext }: Props) => {
             "mt-2 text-center text-sm text-nb-gray-400 font-light sm:px-4"
           }
         >
-          Connect a provider to generate your endpoint, then your agent config
-          appears here.
+          {t("onboarding.agent.configure.noProvider")}
         </div>
       )}
 
       <div className={"flex items-center justify-center mt-4 gap-3"}>
         <Button variant={"secondary"} onClick={onBack}>
-          Go Back
+          {t("actions.goBack")}
         </Button>
         <Button variant={"primary"} onClick={onNext}>
-          Continue
+          {t("common.continue")}
           <ArrowRightIcon size={16} />
         </Button>
       </div>

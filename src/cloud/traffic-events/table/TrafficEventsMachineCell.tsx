@@ -26,6 +26,7 @@ import {
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
 import { stripZeroPort } from "@/cloud/traffic-events/utils/parseAddress";
 import { useCountries } from "@/contexts/CountryProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { OSLogo } from "@/modules/peers/PeerOSCell";
 
@@ -41,6 +42,7 @@ export const TrafficEventsMachineCell = ({
   const machine = isSource ? event.source : event.destination;
   const isPeer = machine.type === TrafficEventMachineType.PEER;
   const { isLoading: isGeoDataLoading, getRegionText } = useCountries();
+  const { t } = useI18n();
 
   const redirectToPeer = () => {
     if (!isPeer) return;
@@ -99,7 +101,7 @@ export const TrafficEventsMachineCell = ({
               value={
                 <CopyToClipboardText
                   iconAlignment={"right"}
-                  message={"IP has been copied to your clipboard"}
+                  message={t("trafficEvents.ipCopiedToClipboard")}
                   alwaysShowIcon={true}
                 >
                   {machine.name || "Unknown"}
@@ -132,7 +134,7 @@ export const TrafficEventsMachineCell = ({
                 value={
                   <CopyToClipboardText
                     iconAlignment={"right"}
-                    message={"IP has been copied to your clipboard"}
+                    message={t("trafficEvents.ipCopiedToClipboard")}
                     alwaysShowIcon={true}
                   >
                     {event?.user.name}
@@ -159,11 +161,11 @@ export const TrafficEventsMachineCell = ({
 
           <ListItem
             icon={<MapPin size={14} />}
-            label={isSource ? "Source" : "Destination"}
+            label={isSource ? t("trafficEvents.source") : t("trafficEvents.destination")}
             value={
               <CopyToClipboardText
                 iconAlignment={"right"}
-                message={"IP has been copied to your clipboard"}
+                message={t("trafficEvents.ipCopiedToClipboard")}
                 alwaysShowIcon={true}
               >
                 {stripZeroPort(machine.address ?? "")}

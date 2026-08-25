@@ -14,6 +14,7 @@ import {
   IdentityProviderLog,
   ScimIntegration,
 } from "@/interfaces/IdentityProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import JumpcloudConfiguration from "@/modules/integrations/idp-sync/jumpcloud/JumpcloudConfiguration";
 import JumpcloudSetup from "@/modules/integrations/idp-sync/jumpcloud/JumpcloudSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
@@ -23,6 +24,7 @@ export const Jumpcloud = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);
   const { permission } = usePermissions();
+  const { t } = useI18n();
 
   const {
     jumpcloud: integration,
@@ -43,10 +45,10 @@ export const Jumpcloud = () => {
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: "Jumpcloud Integration",
-      description: `Jumpcloud was successfully ${
-        state ? "enabled" : "disabled"
-      }`,
+      title: t("jumpcloud.notifyTitle"),
+      description: state
+        ? t("jumpcloud.enabledDescription")
+        : t("jumpcloud.disabledDescription"),
       promise: scimRequest
         .put(
           {
@@ -58,7 +60,7 @@ export const Jumpcloud = () => {
           mutate("/integrations/scim-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("idpSync.updatingIntegration"),
     });
   };
 
@@ -68,7 +70,7 @@ export const Jumpcloud = () => {
     <>
       <IntegrationCard
         name="Jumpcloud"
-        description="Jumpcloud is a unified identity, device, and access management platform."
+        description={t("jumpcloud.description")}
         url={{
           title: "jumpcloud.com",
           href: "https://jumpcloud.com/",
@@ -91,7 +93,7 @@ export const Jumpcloud = () => {
             onClick={() => setSetupModal(true)}
           >
             <Repeat size={13} />
-            Connect Jumpcloud
+            {t("jumpcloud.connect")}
           </Button>
         }
       >
@@ -114,6 +116,7 @@ type ConfigurationProps = {
   config: ScimIntegration;
 };
 const ConfigurationButton = ({ config }: ConfigurationProps) => {
+  const { t } = useI18n();
   const { data: logs } = useFetchApi<IdentityProviderLog[]>(
     `/integrations/scim-idp/${config.id}/logs`,
   );
@@ -121,9 +124,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
-  }, [logs]);
+    if (isEmpty(logs)) return t("integrations.notSynced");
+    return t("integrations.synced", {
+      time: dayjs().to(logs?.[0]?.timestamp),
+    });
+  }, [logs, t]);
 
   return (
     <>

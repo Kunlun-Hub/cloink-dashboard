@@ -1,5 +1,6 @@
 import { MessageCirclePlus, Sparkles } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onNewChatClick?: () => void;
@@ -9,6 +10,7 @@ export const FirewallGptHeader = ({
   onNewChatClick,
   showNewChatButton,
 }: Props) => {
+  const { t } = useI18n();
   return (
     <div className={"z-10 relative border-b border-nb-gray-900 pb-1.5"}>
       <div className={"flex justify-between px-5 items-center"}>
@@ -33,18 +35,17 @@ export const FirewallGptHeader = ({
           </div>
           <div className={"flex flex-col"}>
             <h2 className={"text-base my-0 leading-[1.5 text-center]"}>
-              Smart Firewall
+              {t("firewallGpt.smartFirewall")}
               <span
                 className={
                   "bg-nb-blue-800 text-[10px] relative -top-[2px] text-nb-blue-400 uppercase px-[6px] py-[2px] rounded-md ml-2 font-semibold tracking-wider"
                 }
               >
-                Beta
+                {t("common.beta")}
               </span>
             </h2>
             <span className={"text-xs text-nb-gray-400 my-0"}>
-              Effortlessly create access control policies using natural language
-              prompts
+              {t("firewallGpt.header.subtitle")}
             </span>
           </div>
         </div>
@@ -60,6 +61,7 @@ export const FirewallGptHeader = ({
 };
 
 const NewChatButton = ({ onClick }: { onClick?: () => void }) => {
+  const { t } = useI18n();
   return (
     <button
       className={
@@ -68,7 +70,7 @@ const NewChatButton = ({ onClick }: { onClick?: () => void }) => {
       onClick={onClick}
     >
       <MessageCirclePlus size={14} />
-      New Chat
+      {t("firewallGpt.newChat")}
     </button>
   );
 };

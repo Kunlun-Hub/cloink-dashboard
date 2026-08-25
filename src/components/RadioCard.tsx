@@ -1,6 +1,7 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { ReactNode } from "react"; // or replace with clsx or similar
 import { cn } from "@/utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   value: string;
@@ -56,14 +57,15 @@ export const RadioCardGroup = ({
   onValueChange,
   children,
   className,
-  "aria-label": ariaLabel = "Options",
+  "aria-label": ariaLabel,
 }: RadioCardGroupProps) => {
+  const { t } = useI18n();
   return (
     <RadioGroup.Root
       className={cn("flex flex-col gap-2", className)}
       value={value}
       onValueChange={onValueChange}
-      aria-label={ariaLabel}
+      aria-label={ariaLabel ?? t("radioCard.optionsAriaLabel")}
     >
       {children}
     </RadioGroup.Root>

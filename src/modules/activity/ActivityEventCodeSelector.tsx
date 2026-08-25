@@ -11,6 +11,7 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
+import { useI18n } from "@/i18n/I18nProvider";
 import ActivityTypeIcon from "@/modules/activity/ActivityTypeIcon";
 
 interface MultiSelectProps {
@@ -27,6 +28,7 @@ export function ActivityEventCodeSelector({
   popoverWidth = 400,
   events,
 }: MultiSelectProps) {
+  const { t } = useI18n();
   const searchRef = React.useRef<HTMLInputElement>(null);
   const [inputRef, { width }] = useElementSize<HTMLButtonElement>();
   const [search, setSearch] = useState("");
@@ -81,9 +83,9 @@ export function ActivityEventCodeSelector({
           <Layers size={16} className={"shrink-0"} />
           <div className={"w-full flex justify-between"}>
             {values.length > 0 ? (
-              <div>{values.length} Event(s)</div>
+              <div>{values.length} {t("activity.eventCount")}</div>
             ) : (
-              "All Event Types"
+              t("activity.allEventTypes")
             )}
             <div className={"pl-2"}>
               <ChevronsUpDown size={18} className={"shrink-0"} />
@@ -122,7 +124,7 @@ export function ActivityEventCodeSelector({
                 ref={searchRef}
                 value={search}
                 onValueChange={setSearch}
-                placeholder={"Search event..."}
+                placeholder={t("activity.searchPlaceholder")}
               />
               <div
                 className={
@@ -150,7 +152,7 @@ export function ActivityEventCodeSelector({
                           "!text-nb-gray-400 text-xs uppercase font-medium tracking-wider pb-1 pl-2 mb-.5"
                         }
                       >
-                        {group}
+                        {group === "Service User" ? t("activity.serviceUser") : group}
                       </p>
                       <div className={"grid grid-cols-1 pl-1 gap-1"}>
                         {groupItems.map((event: any) => {

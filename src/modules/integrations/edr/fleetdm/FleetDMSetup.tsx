@@ -42,6 +42,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { matchAttributesReducer } from "@/modules/integrations/edr/fleetdm/FleetDM";
 import { FleetDMMatchSettings } from "@/modules/integrations/edr/fleetdm/FleetDMMatchSettings";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
@@ -76,6 +77,7 @@ type ModalProps = {
 
 export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const { mutate } = useSWRConfig();
+  const { t } = useI18n();
   const fleetDMRequest = useApiCall<FleetDMIntegration>(
     "/integrations/edr/fleetdm",
   );
@@ -101,10 +103,10 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const urlError = useMemo(() => {
     if (apiUrl === "") return "";
     if (!validator.isValidUrl(apiUrl)) {
-      return "Please enter a valid url, e.g., https://fleet.example.com";
+      return t("fleetdm.urlError");
     }
     return "";
-  }, [apiUrl]);
+  }, [apiUrl, t]);
 
   const apiTokenEntered = !isEmpty(apiToken);
   const apiUrlEntered = !isEmpty(apiUrl);
@@ -133,8 +135,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
     const savedGroups = await saveGroups();
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully connected to NetBird.`,
+      title: t("fleetdm.notifyTitle"),
+      description: t("fleetdm.notifyConnected"),
       promise: fleetDMRequest
         .post({
           api_token: apiToken,
@@ -148,7 +150,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           mutate("/integrations/edr/fleetdm");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("idpSync.settingUpIntegration"),
     });
   };
 
@@ -191,10 +193,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with FleetDM"}
-        description={
-          "Restrict network access to devices managed by FleetDM based on their compliance policies."
-        }
+        title={t("fleetdm.connectTitle")}
+        description={t("fleetdm.connectDescription")}
       />
 
       {step == 0 && (
@@ -209,21 +209,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have a{" "}
+            {t("fleetdm.permissionsEnsure")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              FleetDM account
+              {t("fleetdm.permissionsAccount")}
             </span>{" "}
-            with the following{" "}
+            {t("googleWorkspace.accountMiddle")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("googleWorkspace.accountPermissionWord")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your administrator to grant them to you."
-            }
+            {t("fleetdm.permissionsHelp")}
           </p>
           <div
             className={
@@ -236,7 +234,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              API-only User or Admin Access
+              {t("fleetdm.permApiOnly")}
             </div>
             <div
               className={
@@ -244,7 +242,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Read Access to Hosts and Policies
+              {t("fleetdm.permReadAccess")}
             </div>
           </div>
         </div>
@@ -254,19 +252,16 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={18} />
-            Enter your FleetDM Server URL
+            {t("fleetdm.step1Title")}
           </p>
 
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to your FleetDM Management Console.</p>
+              <p>{t("fleetdm.step1Navigate")}</p>
             </Steps.Step>
 
             <Steps.Step step={2} line={false}>
-              <p>
-                Copy your FleetDM server URL from the browser&apos;s address bar
-                and enter it here.
-              </p>
+              <p>{t("fleetdm.step1CopyUrl")}</p>
             </Steps.Step>
           </Steps>
 
@@ -293,12 +288,12 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Create a FleetDM API Token
+            {t("fleetdm.step2Title")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Log in as an admin to your Fleet instance using{" "}
+                {t("fleetdm.step2Login")}{" "}
                 <InlineLink
                   href={"https://fleetdm.com/guides/fleetctl"}
                   target={"_blank"}
@@ -310,22 +305,20 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Create an{" "}
+                {t("fleetdm.step2Create")}{" "}
                 <InlineLink
                   href={
                     "https://fleetdm.com/guides/fleetctl#create-api-only-user"
                   }
                   target={"_blank"}
                 >
-                  API-only user
+                  {t("fleetdm.step2ApiOnlyUser")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
-              <p className={"font-normal"}>
-                Once created, paste the received API token below.
-              </p>
+              <p className={"font-normal"}>{t("fleetdm.step2Paste")}</p>
             </Steps.Step>
           </Steps>
 
@@ -352,11 +345,11 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={16} />
-            Peer Approval
+            {t("fleetdm.tabPeerApproval")}
           </p>
 
           <HelpText className={"max-w-lg mt-2"}>
-            Select groups you want to apply the FleetDM integration to
+            {t("fleetdm.groupsHelp")}
           </HelpText>
 
           <PeerGroupSelector
@@ -371,11 +364,10 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <ShieldCheckIcon size={16} />
-            Compliance Requirements
+            {t("fleetdm.complianceTitle")}
           </p>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Set the specific requirements that devices must meet to be
-            considered compliant.
+            {t("fleetdm.requirementsHelp")}
           </p>
 
           <FleetDMMatchSettings
@@ -389,23 +381,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <RefreshCcw size={16} />
-            FleetDM Sync Window
+            {t("fleetdm.syncWindowTitle")}
           </p>
           <div className={"mt-2 flex flex-row gap-3"}>
             <FullTooltip
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with FleetDM for 27 hours. Even though
-                  it&apos;s marked as Compliant in FleetDM, it will still be
-                  blocked from network access.
+                  {t("fleetdm.syncWindowTooltip")}
                 </div>
               }
             >
               <HelpText className={"max-w-lg"}>
-                Devices not synced with FleetDM in this time won&apos;t have
-                network access.
+                {t("fleetdm.syncWindowHelp")}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -420,7 +408,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("fleetdm.hoursSuffix")}
             />
           </div>
         </div>
@@ -434,7 +422,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -444,7 +432,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("idpSync.getStarted") : t("common.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -456,7 +444,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("idpSync.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -468,8 +456,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 5-10 Minutes</span>
+            {t("idpSync.estimatedSetupTime")}
+            <span className={"font-medium"}> {t("crowdStrike.setup.estimatedTime")}</span>
           </div>
         </div>
       )}

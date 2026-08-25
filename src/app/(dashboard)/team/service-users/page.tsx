@@ -12,6 +12,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
 
@@ -21,6 +22,7 @@ const ServiceUsersTable = lazy(
 
 export default function ServiceUsers() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { data: users, isLoading } = useFetchApi<User[]>(
     "/users?service_user=true",
   );
@@ -34,31 +36,30 @@ export default function ServiceUsers() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/team"}
-            label={"Team"}
+            label={t("nav.team")}
             icon={<TeamIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/team/service-users"}
-            label={"Service Users"}
+            label={t("nav.serviceUsers")}
             active
             icon={<IconSettings2 size={17} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Service Users</h1>
+        <h1 ref={headingRef}>{t("serviceUsers.title")}</h1>
         <Paragraph>
-          Use service users to create API tokens and avoid losing automated
-          access.{" "}
+          {t("serviceUsers.description")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/access-netbird-public-api"}
             target={"_blank"}
           >
-            Learn more
+            {t("common.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
       </div>
       <RestrictedAccess
-        page={"Service Users"}
+        page={t("team.serviceUsersPage")}
         hasAccess={permission.users.read}
       >
         <Suspense fallback={<SkeletonTable />}>

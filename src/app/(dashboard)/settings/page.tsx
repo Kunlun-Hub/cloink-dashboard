@@ -9,8 +9,11 @@ import {
   FolderGit2Icon,
   KeyRound,
   LockIcon,
+  MailIcon,
   MonitorSmartphoneIcon,
   NetworkIcon,
+  PackageIcon,
+  PaintbrushIcon,
   ShieldIcon,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -23,18 +26,20 @@ import {
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useI18n } from "@/i18n/I18nProvider";
-import { LanguageSelector } from "@/i18n/LanguageSelector";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import AuthenticationTab from "@/modules/settings/AuthenticationTab";
+import BrandingSettingsTab from "@/modules/settings/BrandingSettingsTab";
 import ClientSettingsTab from "@/modules/settings/ClientSettingsTab";
 import DangerZoneTab from "@/modules/settings/DangerZoneTab";
+import EmailSettingsTab from "@/modules/settings/EmailSettingsTab";
 import GroupsSettings from "@/modules/settings/GroupsSettings";
 import IdentityProvidersTab from "@/modules/settings/IdentityProvidersTab";
 import MetricsTab from "@/modules/settings/MetricsTab";
 import NetworkSettingsTab from "@/modules/settings/NetworkSettingsTab";
 import PermissionsTab from "@/modules/settings/PermissionsTab";
 import SetupKeysTab from "@/modules/settings/SetupKeysTab";
+import VersionReleasesTab from "@/modules/settings/VersionReleasesTab";
 
 export default function NetBirdSettings() {
   const queryParams = useSearchParams();
@@ -54,15 +59,14 @@ export default function NetBirdSettings() {
 
   useEffect(() => {
     if (queryTab) {
+      // Keep deep links (for example /settings?tab=email) in sync with tabs.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTab(queryTab);
     }
   }, [queryTab]);
 
   return (
     <PageContainer>
-      <div className="mb-4 flex justify-end">
-        <LanguageSelector />
-      </div>
       <VerticalTabs value={tab} onChange={setTab}>
         <VerticalTabs.List>
           {permission.settings.read && (
@@ -119,6 +123,23 @@ export default function NetBirdSettings() {
                 <ChartNoAxesCombined size={14} />
                 {t("settings.metrics")}
               </VerticalTabs.Trigger>
+              <VerticalTabs.Trigger
+                value="branding"
+                data-testid="settings-tab-branding"
+              >
+                <PaintbrushIcon size={14} />
+                {t("settings.branding")}
+              </VerticalTabs.Trigger>
+              <VerticalTabs.Trigger value="email">
+                <MailIcon size={14} />
+                {t("settings.email")}
+              </VerticalTabs.Trigger>
+              {permission.version_releases.read && (
+                <VerticalTabs.Trigger value="version-releases">
+                  <PackageIcon size={14} />
+                  {t("settings.versionReleases")}
+                </VerticalTabs.Trigger>
+              )}
             </>
           )}
           <CloudSettingsTabTrigger />
@@ -138,6 +159,11 @@ export default function NetBirdSettings() {
             {account && <NetworkSettingsTab account={account} />}
             {account && <ClientSettingsTab account={account} />}
             {account && <MetricsTab account={account} />}
+            {account && <BrandingSettingsTab account={account} />}
+            {account && permission.settings.read && <EmailSettingsTab />}
+            {account &&
+              permission.settings.read &&
+              permission.version_releases.read && <VersionReleasesTab />}
             {account && <DangerZoneTab account={account} />}
             <CloudSettingsTabContent />
           </div>

@@ -18,6 +18,7 @@ import HuntressConfiguration from "@/modules/integrations/edr/huntress/HuntressC
 import HuntressSetup from "@/modules/integrations/edr/huntress/HuntressSetup";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   account: Account;
@@ -34,6 +35,7 @@ export const Huntress = ({ account }: Props) => {
   const [setupModal, setSetupModal] = useState(false);
   const { permission } = usePermissions();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const {
     huntress: integration,
@@ -56,10 +58,10 @@ export const Huntress = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable Huntress?`,
-          description: `Are you sure you want to disable the Huntress integration?`,
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("edr.huntress.disableTitle"),
+          description: t("edr.huntress.disableDescription"),
+          confirmText: t("common.disable"),
+          cancelText: t("common.cancel"),
           type: "warning",
         })
       : true;
@@ -71,10 +73,10 @@ export const Huntress = ({ account }: Props) => {
       ) || [];
 
     notify({
-      title: "Huntress Integration",
-      description: `Huntress was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("edr.huntress.notifyTitle"),
+      description: isCurrentlyEnabled
+        ? t("edr.huntress.notifyDisabled")
+        : t("edr.huntress.notifyEnabled"),
       promise: integrationRequest
         .put({
           ...integration,
@@ -84,7 +86,7 @@ export const Huntress = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/huntress");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("edr.huntress.updating"),
     });
   };
 
@@ -94,7 +96,7 @@ export const Huntress = ({ account }: Props) => {
     <>
       <IntegrationCard
         name={"Huntress"}
-        description="EDR with comprehensive, enterprise-grade protection, continuously backed by 24/7 AI-assisted SOC."
+        description={t("edr.huntress.cardDescription")}
         url={{
           title: "huntress.com",
           href: "https://huntress.com/",
@@ -128,11 +130,12 @@ type ConfigurationProps = {
 
 const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
+  const { t } = useI18n();
 
   const lastSync = useMemo(() => {
-    if (isEmpty(config?.last_synced_at)) return "Not synchronized";
-    return "Synced " + dayjs().to(config?.last_synced_at);
-  }, [config]);
+    if (isEmpty(config?.last_synced_at)) return t("edr.huntress.notSynced");
+    return t("edr.huntress.synced", { time: dayjs().to(config?.last_synced_at) });
+  }, [config, t]);
 
   return (
     <>
@@ -155,7 +158,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common.settings")}
         </Button>
       </div>
       <HuntressConfiguration

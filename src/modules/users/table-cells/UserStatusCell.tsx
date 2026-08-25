@@ -6,6 +6,7 @@ import { ExternalLinkIcon, HelpCircle } from "lucide-react";
 import React from "react";
 import { User } from "@/interfaces/User";
 import { useAccount } from "@/modules/account/useAccount";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   user: User;
@@ -13,6 +14,7 @@ type Props = {
 
 export default function UserStatusCell({ user }: Readonly<Props>) {
   const account = useAccount();
+  const { t } = useI18n();
   const status = user.status;
   const isPendingApproval = user.pending_approval;
   const isLocalAuthDisabled =
@@ -20,21 +22,21 @@ export default function UserStatusCell({ user }: Readonly<Props>) {
 
   const getStatusDisplay = () => {
     if (isLocalAuthDisabled) {
-      return { text: "Disabled", color: "bg-gray-400" };
+      return { text: t("userStatus.disabled"), color: "bg-gray-400" };
     }
     if (isPendingApproval) {
-      return { text: "Pending", color: "bg-netbird" };
+      return { text: t("userStatus.pending"), color: "bg-netbird" };
     }
     if (status === "blocked") {
-      return { text: "Blocked", color: "bg-red-500" };
+      return { text: t("userStatus.blocked"), color: "bg-red-500" };
     }
     if (status === "invited") {
-      return { text: "Invited", color: "bg-yellow-400" };
+      return { text: t("userStatus.invited"), color: "bg-yellow-400" };
     }
     if (status === "active") {
-      return { text: "Active", color: "bg-green-500" };
+      return { text: t("userStatus.active"), color: "bg-green-500" };
     }
-    return { text: status || "Unknown", color: "bg-gray-400" };
+    return { text: status || t("common.unknown"), color: "bg-gray-400" };
   };
 
   const isInvitedOnCloud = status === "invited" && isNetBirdCloud();
@@ -42,8 +44,7 @@ export default function UserStatusCell({ user }: Readonly<Props>) {
   const tooltipContent = isLocalAuthDisabled ? (
     <div className={"max-w-xs text-xs flex flex-col gap-2"}>
       <div>
-        Local authentication is disabled. This user can no longer log in. Use
-        your IdP for authentication.
+        {t("userStatus.localAuthDisabledTooltip1")}
       </div>
       <div>
         <InlineLink
@@ -52,34 +53,32 @@ export default function UserStatusCell({ user }: Readonly<Props>) {
           }
           target={"_blank"}
         >
-          Learn more <ExternalLinkIcon size={12} />
+          {t("common.learnMore")} <ExternalLinkIcon size={12} />
         </InlineLink>
       </div>
     </div>
   ) : isInvitedOnCloud ? (
     <div className={"max-w-xs text-xs flex flex-col gap-2"}>
       <div>
-        This user was invited but has not accepted the invitation yet. Use the
-        Resend button to send another invitation email.
+        {t("userStatus.invitedTooltip")}
       </div>
     </div>
   ) : (
     <div className={"max-w-xs text-xs flex flex-col gap-2"}>
       <div>
-        This user needs admin approval before joining your organization. To
-        disable approvals, turn off{" "}
+        {t("userStatus.pendingApprovalTooltip1")}{" "}
         <span className={"font-medium text-white"}>
-          {"'User Approval Required'"}
+          {t("userStatus.userApprovalRequired")}
         </span>{" "}
-        in{" "}
-        <InlineLink href={"/settings?tab=authentication"}>Settings</InlineLink>.
+        {t("userStatus.pendingApprovalTooltip2")}{" "}
+        <InlineLink href={"/settings?tab=authentication"}>{t("settings.title")}</InlineLink>.
       </div>
       <div>
         <InlineLink
           href={"https://docs.netbird.io/how-to/approve-users"}
           target={"_blank"}
         >
-          Learn more <ExternalLinkIcon size={12} />
+          {t("common.learnMore")} <ExternalLinkIcon size={12} />
         </InlineLink>
       </div>
     </div>

@@ -25,6 +25,7 @@ import { useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { useAccessLogFilters } from "@/modules/agent-network/AccessLogFilters";
 import {
@@ -123,6 +124,7 @@ function OverviewContent({
   metric: Metric;
   setMetric: (m: Metric) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className={"flex flex-col"}>
       <div className={"p-default py-6"}>
@@ -134,12 +136,12 @@ function OverviewContent({
           <div className={"flex items-start justify-between gap-3"}>
             <div>
               <h3 className={"text-sm font-medium text-nb-gray-100"}>
-                {metric === "tokens" ? "Token usage" : "Cost"} by day
+                {metric === "tokens" ? t("agentOverview.tokens") : t("agentOverview.cost")} {t("agentOverview.byDay")}
               </h3>
               <p className={"text-xs text-nb-gray-400 leading-snug mt-0.5"}>
                 {metric === "tokens"
-                  ? "Input and output tokens per day."
-                  : "Estimated spend per day."}
+                  ? t("agentOverview.inputOutputDesc")
+                  : t("agentOverview.estimatedSpendDesc")}
               </p>
             </div>
             <ButtonGroup>
@@ -148,14 +150,14 @@ function OverviewContent({
                 onClick={() => setMetric("tokens")}
                 className={"!h-[30px] !px-3 !py-0 text-xs"}
               >
-                Tokens
+                {t("agentOverview.tokens")}
               </ButtonGroup.Button>
               <ButtonGroup.Button
                 variant={metric === "cost" ? "tertiary" : "secondary"}
                 onClick={() => setMetric("cost")}
                 className={"!h-[30px] !px-3 !py-0 text-xs"}
               >
-                Cost
+                {t("agentOverview.cost")}
               </ButtonGroup.Button>
             </ButtonGroup>
           </div>
@@ -179,6 +181,7 @@ function OverviewContent({
 // same look as every other table in the app. Only days with activity are
 // listed (zero-filler days exist for the chart's continuous axis).
 function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
+  const { t } = useI18n();
   const rows = useMemo(
     () => daily.filter((d) => d.input + d.output > 0 || d.cost > 0),
     [daily],
@@ -194,7 +197,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "date",
         accessorKey: "key",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Date</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentOverview.date")}</DataTableHeader>
         ),
         cell: ({ row }) => (
           <span className={"text-nb-gray-200 px-3 py-2 whitespace-nowrap"}>
@@ -206,7 +209,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "input",
         accessorKey: "input",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Input Tokens</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentOverview.inputTokens")}</DataTableHeader>
         ),
         cell: ({ row }) => <NumberCell value={row.original.input} />,
       },
@@ -214,7 +217,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "output",
         accessorKey: "output",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Output Tokens</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentOverview.outputTokens")}</DataTableHeader>
         ),
         cell: ({ row }) => <NumberCell value={row.original.output} />,
       },
@@ -223,7 +226,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         accessorFn: (row) =>
           row.input + row.output + row.cacheRead + row.cacheWrite,
         header: ({ column }) => (
-          <DataTableHeader column={column}>Total Tokens</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentOverview.totalTokens")}</DataTableHeader>
         ),
         // Total includes the additive prompt-cache buckets; hover breaks them out.
         cell: ({ row }) => {
@@ -262,7 +265,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "cost",
         accessorKey: "cost",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Cost</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentOverview.cost")}</DataTableHeader>
         ),
         // Mirrors the access log's Cost hover: one row per bucket the provider
         // bills separately when the server sends the split, otherwise the coarse
@@ -334,12 +337,12 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         },
       },
     ],
-    [],
+    [t],
   );
 
   return (
     <DataTable
-      text={"Days"}
+      text={t("agentOverview.days")}
       columns={columns}
       data={rows}
       sorting={sorting}
@@ -358,15 +361,15 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
               size={"large"}
             />
           }
-          title={"No usage recorded yet"}
+          title={t("agentOverview.noUsageTitle")}
           description={
-            "Daily token and cost totals appear here as agents send requests through the providers you've connected."
+            t("agentOverview.noUsageDescription")
           }
           learnMore={
             <>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                Agent Network
+                {t("agentOverview.agentNetwork")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -445,6 +448,7 @@ function ConsumptionByDayChart({
   daily: DayBucket[];
   metric: Metric;
 }) {
+  const { t } = useI18n();
   const labels = daily.map((d) => dayjs(d.key).format("MMM D"));
 
   const data =
@@ -453,13 +457,13 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: "Input tokens",
+              label: t("agentOverview.inputTokens"),
               data: daily.map((d) => d.input),
               backgroundColor: "rgba(99, 102, 241, 0.6)", // indigo-500
               stack: "tokens",
             },
             {
-              label: "Output tokens",
+              label: t("agentOverview.outputTokens"),
               data: daily.map((d) => d.output),
               backgroundColor: "rgba(34, 197, 94, 0.6)", // green-500
               stack: "tokens",
@@ -470,7 +474,7 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: "Cost (USD)",
+              label: t("agentOverview.cost") + " (USD)",
               data: daily.map((d) => d.cost),
               backgroundColor: "rgba(246, 131, 48, 0.65)", // netbird orange
             },
@@ -545,6 +549,7 @@ function ConsumptionByDayChart({
 }
 
 function ChartEmptyState() {
+  const { t } = useI18n();
   return (
     <div
       className={
@@ -552,7 +557,7 @@ function ChartEmptyState() {
       }
     >
       <ActivityIcon size={20} />
-      <span>No usage in the selected range</span>
+      <span>{t("agentOverview.noUsageRange")}</span>
     </div>
   );
 }

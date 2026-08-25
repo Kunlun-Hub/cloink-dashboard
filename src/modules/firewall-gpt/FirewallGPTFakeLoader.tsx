@@ -4,6 +4,7 @@ import { CheckCircle2Icon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useI18n } from "@/i18n/I18nProvider";
 import { FirewallGptAnimatedMessageText } from "@/modules/firewall-gpt/FirewallGPTAnimatedMessageText";
 import {
   AssistantAvatar,
@@ -20,40 +21,34 @@ interface LoadingMessage {
   icon: React.ReactNode;
 }
 
-const loadingMessages: LoadingMessage[] = [
+const createLoadingMessages = (t: (key: string) => string): LoadingMessage[] => [
   {
-    loadingMessage:
-      "Identifying and gathering nodes associated with your account to tailor the access control rules precisely for your network",
-    successMessage: "Nodes successfully identified",
+    loadingMessage: t("firewallGpt.loader.identifyNodes.loading"),
+    successMessage: t("firewallGpt.loader.identifyNodes.success"),
     icon: <CheckCircle2Icon size={16} className={"text-green-400"} />,
   },
   {
-    loadingMessage:
-      "Finding and analyzing the best groups for your rules by examining existing groups on each machine and creating new ones as needed",
-    successMessage: "Groups successfully identified",
+    loadingMessage: t("firewallGpt.loader.findGroups.loading"),
+    successMessage: t("firewallGpt.loader.findGroups.success"),
     icon: <CheckCircle2Icon size={16} className={"text-green-400"} />,
   },
   {
-    loadingMessage:
-      "Verifying and setting up device posture checks to ensure compliance with your access control rules",
-    successMessage: "Posture checks successfully identified",
+    loadingMessage: t("firewallGpt.loader.postureChecks.loading"),
+    successMessage: t("firewallGpt.loader.postureChecks.success"),
     icon: <CheckCircle2Icon size={16} className={"text-green-400"} />,
   },
   {
-    loadingMessage:
-      "Getting things ready... We're configuring your settings and preparing your environment. Thank you for your patience!",
-    successMessage: "Settings successfully prepared",
+    loadingMessage: t("firewallGpt.loader.gettingReady.loading"),
+    successMessage: t("firewallGpt.loader.gettingReady.success"),
     icon: <CheckCircle2Icon size={16} className={"text-green-400"} />,
   },
   {
-    loadingMessage:
-      "Almost there... Your access control policy is now loading, and we're performing final checks to ensure everything is perfect!",
-    successMessage: "Access control policy loaded",
+    loadingMessage: t("firewallGpt.loader.almostThere.loading"),
+    successMessage: t("firewallGpt.loader.almostThere.success"),
     icon: <CheckCircle2Icon size={16} className={"text-green-400"} />,
   },
   {
-    loadingMessage:
-      "This is taking longer than usual, but we are on it! Finalizing the details and ensuring a smooth start. We appreciate your patience and understanding!",
+    loadingMessage: t("firewallGpt.loader.takingLonger.loading"),
     successMessage: "",
     icon: <CheckCircle2Icon size={16} className={"text-green-400"} />,
   },
@@ -62,6 +57,9 @@ const loadingMessages: LoadingMessage[] = [
 const messageDuration = 4000;
 
 export const FirewallGPTFakeLoader = ({ isLoading = true }: Props) => {
+  const { t } = useI18n();
+  const loadingMessages = createLoadingMessages(t);
+
   const [messages, setMessages] = useState<LoadingMessage[]>(() =>
     loadingMessages.slice(0, 1),
   );

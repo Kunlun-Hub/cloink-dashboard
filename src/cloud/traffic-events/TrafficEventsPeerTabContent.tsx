@@ -22,7 +22,8 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DateRange } from "react-day-picker";
 import { useSWRConfig } from "swr";
 import {
@@ -39,6 +40,7 @@ import InlineLink from "@components/InlineLink";
 import { TRAFFIC_EVENTS_DOC_LINK } from "@/cloud/traffic-events/TrafficEventSetting";
 
 export const TrafficEventsPeerTabContent = () => {
+  const { t } = useI18n();
   const account = useAccount();
   const { peer } = usePeer();
   const { mutate } = useSWRConfig();
@@ -188,12 +190,7 @@ export const TrafficEventsPeerTabContent = () => {
     );
   };
 
-  const trafficEvents = useMemo(() => {
-    return events?.data?.map((event) => ({
-      ...event,
-      id: event.flow_id,
-    }));
-  }, [events]);
+  const trafficEvents = events?.data;
 
   return (
     <div className={"pb-10 px-8"}>
@@ -319,6 +316,7 @@ const TrafficEventsPeerDetailTable = ({
 }) => {
   const { mutate } = useSWRConfig();
   const router = useRouter();
+  const { t } = useI18n();
 
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -351,13 +349,13 @@ const TrafficEventsPeerDetailTable = ({
         return <TrafficEventsDetailRow event={e} className={"ml-[11px]"} />;
       }}
       tableClassName={"mt-0"}
-      columns={TrafficEventsTableColumns}
+      columns={TrafficEventsTableColumns(t)}
       keepStateInLocalStorage={false}
       data={events}
       globalFilter={searchQuery}
       onGlobalFilterChange={onSearchChange}
       manualFiltering={true}
-      searchPlaceholder={"Search by ip, port, peer or resource..."}
+      searchPlaceholder={t("trafficEvents.searchPlaceholder")}
       columnVisibility={{
         user: false,
         source: true,
@@ -384,12 +382,12 @@ const TrafficEventsPeerDetailTable = ({
         <NoResults
           className={"py-4"}
           title={
-            isSettingEnabled ? "No Traffic Events" : "Traffic Events Disabled"
+            isSettingEnabled ? t("trafficEvents.noTrafficEvents") : t("trafficEvents.trafficEventsDisabled")
           }
           description={
             isSettingEnabled
-              ? "It looks like you don't have any traffic events. Traffic events will appear here once clients start connecting to your network."
-              : "It looks like you don't have any traffic events. To start receiving traffic events, you need to enable it in your account settings."
+              ? t("trafficEvents.noTrafficEventsDescription")
+              : t("trafficEvents.trafficEventsDisabledDescription")
           }
           icon={<ArrowLeftRightIcon size={20} className={"text-nb-gray-200"} />}
         >

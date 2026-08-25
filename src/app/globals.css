@@ -5,6 +5,18 @@
 :root {
     --toasts-before: 0;
     --lift: 1;
+    --cloink-brand-50: 255 246 237;
+    --cloink-brand-100: 254 236 214;
+    --cloink-brand-150: 255 223 184;
+    --cloink-brand-200: 255 212 166;
+    --cloink-brand-300: 250 182 119;
+    --cloink-brand-400: 246 131 48;
+    --cloink-brand-500: 244 109 27;
+    --cloink-brand-600: 229 83 17;
+    --cloink-brand-700: 190 62 16;
+    --cloink-brand-800: 151 50 21;
+    --cloink-brand-900: 122 43 20;
+    --cloink-brand-950: 66 19 8;
 }
 
 html{
@@ -12,13 +24,13 @@ html{
 }
 
 h1 {
-    @apply text-2xl font-medium text-gray-700 dark:text-nb-gray-100 my-1;
+    @apply text-2xl font-medium text-nb-gray-100 my-1;
 }
 h2 {
-    @apply text-xl font-medium text-gray-700 dark:text-nb-gray-100 my-1;
+    @apply text-xl font-medium text-nb-gray-100 my-1;
 }
 p {
-    @apply font-light tracking-wide text-gray-700 dark:text-zinc-50 text-sm;
+    @apply font-light tracking-wide text-zinc-50 text-sm;
 }
 
 .p-default {

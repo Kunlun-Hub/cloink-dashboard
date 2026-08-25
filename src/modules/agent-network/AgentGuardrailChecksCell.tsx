@@ -4,6 +4,7 @@ import FullTooltip from "@components/FullTooltip";
 import { cn } from "@utils/helpers";
 import { Boxes, ShieldCheckIcon } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { AgentGuardrail } from "@/modules/agent-network/data/mockData";
 
 type Props = {
@@ -17,6 +18,7 @@ export default function AgentGuardrailChecksCell({
   disableHover = false,
   className,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const c = guardrail.checks;
   return (
     <div className={"flex"}>
@@ -32,7 +34,9 @@ export default function AgentGuardrailChecksCell({
             <FullTooltip
               content={
                 <div className={"text-xs"}>
-                  Model allowlist · {c.model_allowlist.models.length} model(s)
+                  {t("agentNetwork.modelAllowlistCount", {
+                    count: c.model_allowlist.models.length,
+                  })}
                 </div>
               }
             >
@@ -50,7 +54,7 @@ export default function AgentGuardrailChecksCell({
             <FullTooltip
               content={
                 <div className={"text-xs"}>
-                  Prompt capture · PII redaction
+                  {t("agentNetwork.promptCapturePiiRedaction")}
                 </div>
               }
             >

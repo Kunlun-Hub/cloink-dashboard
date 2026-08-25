@@ -12,10 +12,12 @@ import React, { useState } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import { usePeer } from "@/contexts/PeerProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import RouteAddRoutingPeerModal from "@/modules/routes/RouteAddRoutingPeerModal";
 import { RouteModalContent } from "@/modules/routes/RouteModal";
 
 export default function AddRouteDropdownButton() {
+  const { t } = useI18n();
   const [modal, setModal] = useState(false);
   const [existingNetworkModal, setExistingNetworkModal] = useState(false);
   const { peer } = usePeer();
@@ -44,7 +46,7 @@ export default function AddRouteDropdownButton() {
           }}
         >
           <Button variant={"primary"}>
-            Add Route
+            {t("routeActions.addRoute")}
             <ChevronDown size={16} />
           </Button>
         </DropdownMenuTrigger>
@@ -61,9 +63,11 @@ export default function AddRouteDropdownButton() {
                 size={"small"}
               />
               <div className={"flex flex-col text-left"}>
-                <div className={"text-left text-white"}>New Network Route</div>
+                <div className={"text-left text-white"}>
+                  {t("routeActions.newNetworkRoute")}
+                </div>
                 <div className={"text-xs"}>
-                  Create a new network route with this peer
+                  {t("routeActions.newNetworkRouteHelp")}
                 </div>
               </div>
             </div>
@@ -83,9 +87,11 @@ export default function AddRouteDropdownButton() {
                 size={"small"}
               />
               <div className={"flex flex-col text-left"}>
-                <div className={"text-left text-white"}>Existing Network</div>
+                <div className={"text-left text-white"}>
+                  {t("routeActions.existingNetwork")}
+                </div>
                 <div className={"text-xs"}>
-                  Add this peer to an existing network
+                  {t("routeActions.existingNetworkHelp")}
                 </div>
               </div>
             </div>

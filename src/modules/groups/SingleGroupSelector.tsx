@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useUsers } from "@/contexts/UsersProvider";
 import { Group } from "@/interfaces/Group";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   trigger?: React.ReactNode;
@@ -34,6 +35,7 @@ export const SingleGroupSelector = ({
   align = "end",
   side = "top",
 }: Props) => {
+  const { t } = useI18n();
   const [inputRef, { width }] = useElementSize<HTMLDivElement>();
   const [open, setOpen] = useState(false);
   const [filteredItems, search, setSearch] = useSearch(
@@ -73,14 +75,14 @@ export const SingleGroupSelector = ({
           <DropdownInput
             value={search}
             onChange={setSearch}
-            placeholder={"Search groups..."}
+            placeholder={t("groups.searchPlaceholder")}
             hideEnterIcon={true}
           />
 
           {values.length == 0 && !search && (
             <div className={"max-w-xs mx-auto px-4"}>
               <DropdownInfoText>
-                {"Seems like you don't have any groups."}
+                {t("groups.notFound")}
               </DropdownInfoText>
             </div>
           )}
@@ -88,8 +90,7 @@ export const SingleGroupSelector = ({
           {filteredItems.length == 0 && search != "" && (
             <div className={"max-w-xs mx-auto px-4"}>
               <DropdownInfoText>
-                There are no groups matching your search. Try another search
-                term.
+                {t("groups.noMatching")}
               </DropdownInfoText>
             </div>
           )}

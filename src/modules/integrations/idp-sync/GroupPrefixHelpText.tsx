@@ -1,27 +1,30 @@
 import HelpText from "@components/HelpText";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   type?: "user-groups" | "groups";
 };
 export const GroupPrefixHelpText = ({ type = "groups" }: Props) => {
+  const { t } = useI18n();
+
   return type === "user-groups" ? (
     <HelpText className={"max-w-lg mt-2"}>
-      By default,{" "}
-      <span className={"text-netbird font-semibold"}>All Users</span> will be
-      synchronized from your IdP to NetBird. <br />
-      If you want to synchronize only users that belong to a specific group, you
-      can add them below. Keep in mind that the prefix matching is
-      case-sensitive.
+      {t("idpSync.defaultPrefix")}{" "}
+      <span className={"text-netbird font-semibold"}>
+        {t("idpSync.allUsers")}
+      </span>{" "}
+      {t("idpSync.usersSyncSuffix")} <br />
+      {t("idpSync.userGroupHelp")}
     </HelpText>
   ) : (
     <HelpText className={"max-w-lg mt-2"}>
-      By default,{" "}
-      <span className={"text-netbird font-semibold"}>All Groups</span> will be
-      synchronized from your IdP to NetBird. <br />
-      If you want to synchronize only groups that start with a specific prefix,
-      you can add them below. Keep in mind that the prefix matching is
-      case-sensitive.
+      {t("idpSync.defaultPrefix")}{" "}
+      <span className={"text-netbird font-semibold"}>
+        {t("idpSync.allGroups")}
+      </span>{" "}
+      {t("idpSync.groupsSyncSuffix")} <br />
+      {t("idpSync.groupPrefixHelp")}
     </HelpText>
   );
 };

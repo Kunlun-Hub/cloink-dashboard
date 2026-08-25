@@ -14,6 +14,7 @@ import GroupsProvider from "@/contexts/GroupsProvider";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import ServerPaginationProvider from "@/contexts/ServerPaginationProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import AgentAccessLogTable from "@/modules/agent-network/AgentAccessLogTable";
 import AgentOverviewPanel from "@/modules/agent-network/AgentOverviewPanel";
@@ -32,6 +33,7 @@ const VALID_TABS = new Set([TAB_USAGE, TAB_ACCESS_LOGS]);
 // tabs is instant — no re-fetch on tab change.
 export default function UsageAndLogsPage() {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -76,24 +78,21 @@ export default function UsageAndLogsPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/providers"}
-            label={"Agent Network"}
+            label={t("nav.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/usage"}
-            label={"Usage & Logs"}
+            label={t("nav.usageLogs")}
             active={true}
           />
         </Breadcrumbs>
-        <h1>Usage & Logs</h1>
-        <Paragraph>
-          Per-request audit with real caller identity, cost attribution, and
-          budget controls.
-        </Paragraph>
+        <h1>{t("nav.usageLogs")}</h1>
+        <Paragraph>{t("agentNetwork.usagePageDescription")}</Paragraph>
       </div>
 
       <RestrictedAccess
-        page={"Usage & Logs"}
+        page={t("nav.usageLogs")}
         hasAccess={permission?.services?.read}
       >
         <GroupsProvider>
@@ -108,11 +107,11 @@ export default function UsageAndLogsPage() {
                 <TabsList justify={"start"} className={"px-8"}>
                   <TabsTrigger value={TAB_USAGE}>
                     <LayoutDashboard size={16} />
-                    Usage
+                    {t("table.usage")}
                   </TabsTrigger>
                   <TabsTrigger value={TAB_ACCESS_LOGS}>
                     <ScrollText size={16} />
-                    Access Logs
+                    {t("nav.accessLogs")}
                   </TabsTrigger>
                 </TabsList>
 

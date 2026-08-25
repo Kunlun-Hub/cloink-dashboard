@@ -11,6 +11,7 @@ import {
   DistributorCustomerStatus,
 } from "@/cloud/distributor/interfaces/Distributor";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -37,6 +38,7 @@ export const CustomersProvider = ({ children }: Props) => {
   const [currentCustomer, setCurrentCustomer] = useState<DistributorCustomer>();
   const [initialTab, setInitialTab] = useState<string>();
   const { confirm } = useDialog();
+  const { t } = useI18n();
 
   const customerRequest = useApiCall<string>(
     `/integrations/msp/reseller/msps`,
@@ -45,11 +47,10 @@ export const CustomersProvider = ({ children }: Props) => {
 
   const unlinkCustomer = async (customer: DistributorCustomer) => {
     const choice = await confirm({
-      title: `Unlink '${customer.name}'?`,
-      description:
-        "Unlinking this customer will remove it from your distributor account. The account will continue to exist independently.",
-      confirmText: "Unlink",
-      cancelText: "Cancel",
+      title: t("distributor.unlinkCustomerTitle", { name: customer.name }),
+      description: t("distributor.unlinkCustomerDescription"),
+      confirmText: t("distributor.unlink"),
+      cancelText: t("common.cancel"),
       type: "danger",
       maxWidthClass: "max-w-[480px]",
     });
@@ -87,7 +88,7 @@ export const CustomersProvider = ({ children }: Props) => {
 
     notify({
       title: `Request Account Access`,
-      description: "Request has been sent successfully.",
+      description: t("common.requestSentSuccessfully"),
       loadingMessage: "Sending request...",
       promise: request,
     });

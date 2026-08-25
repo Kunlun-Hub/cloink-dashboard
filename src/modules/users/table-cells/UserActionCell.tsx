@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
 import { UserResendInviteButton } from "@/modules/users/UserResendInviteButton";
 
@@ -28,65 +29,64 @@ export default function UserActionCell({
 }: Readonly<Props>) {
   const { confirm } = useDialog();
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const userRequest = useApiCall<User>("/users");
   const { mutate } = useSWRConfig();
 
   const deleteUser = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("userActions.userFallback");
     notify({
-      title: `'${name}' deleted`,
-      description: "User was successfully deleted.",
+      title: t("userActions.deletedTitle", { name }),
+      description: t("userActions.deletedDescription"),
       promise: userRequest.del("", `/${user.id}`).then(() => {
         mutate(`/users?service_user=${serviceUser}`);
       }),
-      loadingMessage: "Deleting the user...",
+      loadingMessage: t("userActions.deleting"),
     });
   };
 
   const approveUser = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("userActions.userFallback");
     notify({
-      title: `'${name}' approved`,
-      description: "User was successfully approved.",
+      title: t("userActions.approvedTitle", { name }),
+      description: t("userActions.approvedDescription"),
       promise: userRequest.post({}, `/${user.id}/approve`).then(() => {
         mutate(`/users?service_user=${serviceUser}`);
       }),
-      loadingMessage: "Approving the user...",
+      loadingMessage: t("userActions.approving"),
     });
   };
 
   const rejectUser = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("userActions.userFallback");
     const choice = await confirm({
-      title: `Reject '${name}'?`,
-      description:
-        "Rejecting this user will remove them from the account permanently. This action cannot be undone.",
-      confirmText: "Reject",
-      cancelText: "Cancel",
+      title: t("userActions.rejectConfirmTitle", { name }),
+      description: t("userActions.rejectConfirmDescription"),
+      confirmText: t("userActions.reject"),
+      cancelText: t("common.cancel"),
       type: "danger",
       maxWidthClass: "max-w-md",
     });
     if (!choice) return;
 
     notify({
-      title: `'${name}' rejected`,
-      description: "User was successfully rejected and removed.",
+      title: t("userActions.rejectedTitle", { name }),
+      description: t("userActions.rejectedDescription"),
       promise: userRequest.del("", `/${user.id}/reject`).then(() => {
         mutate(`/users?service_user=${serviceUser}`);
       }),
 
-      loadingMessage: "Rejecting the user...",
+      loadingMessage: t("userActions.rejecting"),
     });
   };
 
   const openDeleteConfirm = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("userActions.userFallback");
     const choice = await confirm({
-      title: `Delete '${name}'?`,
-      description:
-        "Deleting this user will remove their devices and remove dashboard access. This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("userActions.deleteConfirmTitle", { name }),
+      description: t("userActions.deleteConfirmDescription"),
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       maxWidthClass: "max-w-md",
       type: "danger",
     });
@@ -95,25 +95,25 @@ export default function UserActionCell({
   };
 
   const toggleBlocked = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("userActions.userFallback");
     const blocked = !user.is_blocked;
 
     if (blocked) {
       const choice = await confirm({
-        title: `Block '${name}'?`,
-        description:
-          "This action will immediately revoke the user's access and disconnect all of their active peers.",
-        confirmText: "Block",
-        cancelText: "Cancel",
+        title: t("userBlock.confirmTitle", { name }),
+        description: t("userBlock.confirmDescription"),
+        confirmText: t("userActions.block"),
+        cancelText: t("common.cancel"),
         type: "danger",
       });
       if (!choice) return;
     }
 
     notify({
-      title: blocked ? "User blocked" : "User unblocked",
-      description:
-        name + " was successfully " + (blocked ? "blocked." : "unblocked."),
+      title: blocked ? t("userBlock.blockedTitle") : t("userBlock.unblockedTitle"),
+      description: blocked
+        ? t("userBlock.blockedDescription", { name })
+        : t("userBlock.unblockedDescription", { name }),
       promise: userRequest
         .put(
           {
@@ -127,8 +127,8 @@ export default function UserActionCell({
           mutate(`/users?service_user=${serviceUser}`);
         }),
       loadingMessage: blocked
-        ? "Blocking the user..."
-        : "Unblocking the user...",
+        ? t("userBlock.blocking")
+        : t("userBlock.unblocking"),
     });
   };
 
@@ -157,7 +157,7 @@ export default function UserActionCell({
               }}
               data-cy={"approve-user"}
             >
-              Approve
+              {t("userActions.approve")}
             </Button>
             <Button
               variant={"danger-outline"}
@@ -170,7 +170,7 @@ export default function UserActionCell({
               data-cy={"reject-user"}
             >
               <XCircle size={14} />
-              Reject
+              {t("userActions.reject")}
             </Button>
           </>
         )}
@@ -194,7 +194,7 @@ export default function UserActionCell({
           <Button
             variant={"secondary"}
             className={"!px-3"}
-            aria-label={"User actions"}
+            aria-label={t("userActions.ariaLabel")}
             data-testid={"user-actions"}
           >
             <MoreVertical size={16} className={"shrink-0"} />
@@ -218,7 +218,7 @@ export default function UserActionCell({
                   ) : (
                     <Ban size={14} className={"shrink-0"} />
                   )}
-                  {user.is_blocked ? "Unblock" : "Block"}
+                  {user.is_blocked ? t("userActions.unblock") : t("userActions.block")}
                 </div>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -236,7 +236,7 @@ export default function UserActionCell({
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

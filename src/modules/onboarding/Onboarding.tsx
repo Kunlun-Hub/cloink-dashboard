@@ -30,6 +30,7 @@ import { OnboardingExplainDefaultPolicy } from "@/modules/onboarding/p2p/Onboard
 import { OnboardingFirstDevice } from "@/modules/onboarding/p2p/OnboardingFirstDevice";
 import { OnboardingSecondDevice } from "@/modules/onboarding/p2p/OnboardingSecondDevice";
 import { OnboardingTestP2P } from "@/modules/onboarding/p2p/OnboardingTestP2P";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export interface OnboardingState {
   intent: Intent;
@@ -102,6 +103,7 @@ export const Onboarding = ({
   const { data: networks } = useFetchApi<Network[]>("/networks", true, false);
   const { data: policies } = useFetchApi<Policy[]>("/policies", true);
   const router = useRouter();
+  const { t } = useI18n();
 
   const resourceRequest = useApiCall<NetworkResource>("/networks", true);
   const routerRequest = useApiCall<NetworkRouter>("/networks", true);
@@ -206,11 +208,11 @@ export const Onboarding = ({
       return request.then(() => mutate("/policies"));
     } else {
       notify({
-        title: p.name + " Policy",
-        description: `Policy was successfully ${
-          !enabled ? "enabled" : "disabled"
-        }`,
-        loadingMessage: "Updating policy...",
+        title: t("onboarding.policyNamedTitle", { name: p.name }),
+        description: !enabled
+          ? t("onboarding.policyEnabled")
+          : t("onboarding.policyDisabled"),
+        loadingMessage: t("onboarding.policyUpdating"),
         promise: request.then(() => mutate("/policies")),
         duration: 800,
       });
@@ -306,7 +308,7 @@ export const Onboarding = ({
         >
           <div data-testid={"regular-onboarding"}>
             <VisuallyHidden asChild>
-              <DialogTitle>Onboarding</DialogTitle>
+              <DialogTitle>{t("onboarding.dialogTitle")}</DialogTitle>
             </VisuallyHidden>
             <div
               className={cn(
@@ -585,7 +587,7 @@ export const Onboarding = ({
                     "text-sm text-nb-gray-400 font-light pb-10 text-center px-4"
                   }
                 >
-                  Already know how NetBird works?
+                  {t("onboarding.skipPrompt")}
                   <InlineLink
                     href={"#"}
                     className={"!text-nb-gray-200 ml-1"}
@@ -596,7 +598,7 @@ export const Onboarding = ({
                       onSkip(intent, step);
                     }}
                   >
-                    Skip to Dashboard
+                    {t("onboarding.skipToDashboard")}
                   </InlineLink>
                 </span>
               )}

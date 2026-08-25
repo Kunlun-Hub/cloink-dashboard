@@ -4,6 +4,7 @@ import { ScrollArea } from "@components/ScrollArea";
 import { SmallBadge } from "@components/ui/SmallBadge";
 import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
+import { RadioTowerIcon } from "lucide-react";
 import * as React from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
@@ -128,6 +129,13 @@ export default function Navigation({
                 </SidebarItem>
 
                 {!agentNetworkOnly && <NetworkNavigation />}
+
+                <SidebarItem
+                  icon={<RadioTowerIcon size={16} />}
+                  label={t("nav.relays")}
+                  href={"/relays"}
+                  visible={permission.settings.read && !agentNetworkOnly}
+                />
 
                 <SidebarItem
                   icon={<ReverseProxyIcon size={16} />}
@@ -353,7 +361,10 @@ const ActivityNavigationItem = () => {
       label={t("nav.activity")}
       href={"/events"}
       collapsible
-      visible={permission.events.read && !agentNetworkOnly}
+      visible={
+        (permission.events.read || permission.network_traffic.read) &&
+        !agentNetworkOnly
+      }
     >
       <SidebarItem
         label={t("nav.auditEvents")}
@@ -367,7 +378,7 @@ const ActivityNavigationItem = () => {
         isChild
         href={"/events/traffic"}
         exactPathMatch={true}
-        visible={permission.events.read}
+        visible={permission.network_traffic.read}
       />
     </SidebarItem>
   );

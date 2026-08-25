@@ -15,6 +15,7 @@ import { TenantGroup } from "@/cloud/msp/interfaces/Tenant";
 import { useUsers } from "@/contexts/UsersProvider";
 import { Group } from "@/interfaces/Group";
 import { Role } from "@/interfaces/User";
+import { useI18n } from "@/i18n/I18nProvider";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 import { UserRoles, UserRoleSelector } from "@/modules/users/UserRoleSelector";
 
@@ -31,6 +32,7 @@ export const MSPTenantPermissionsTab = ({
   tenantGroups,
   setTenantGroups,
 }: Props) => {
+  const { t } = useI18n();
   const { users } = useUsers();
 
   const handleGroupRemove = (group: Group) => {
@@ -56,10 +58,8 @@ export const MSPTenantPermissionsTab = ({
     <div>
       <div className={"flex gap-4 justify-between w-full items-start"}>
         <div>
-          <Label>Permissions (required)</Label>
-          <HelpText>
-            Add user groups to grant them access to this tenant.
-          </HelpText>
+          <Label>{t("msp.permissionsRequired")}</Label>
+          <HelpText>{t("msp.permissionsHelp")}</HelpText>
         </div>
         <div>
           <PeerGroupSelector
@@ -71,7 +71,7 @@ export const MSPTenantPermissionsTab = ({
                 className={"pl-3"}
               >
                 <PlusIcon size={14} />
-                Add Group
+                {t("msp.addGroup")}
               </Button>
             }
             onChange={onGroupsChange}
@@ -125,6 +125,7 @@ const ListItem = ({
   role = Role.Admin,
 }: ListItemProps) => {
   const { users } = useUsers();
+  const { t } = useI18n();
   const selectedRole = UserRoles.find((r) => r.value === role) || UserRoles[0];
 
   const usersOfGroup =
@@ -160,7 +161,7 @@ const ListItem = ({
               stopPropagation={false}
             >
               <selectedRole.icon size={14} width={14} />
-              {selectedRole?.name}
+              {t(selectedRole.nameKey)}
               <ChevronDownIcon size={14} />
             </Button>
           }
