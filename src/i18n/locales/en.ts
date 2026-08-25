@@ -3726,6 +3726,8 @@ const en = {
   "setupModal.welcomeSubtitle": "It's time to add your first device.",
   "setupModal.installWithSetupKey": "Install Cloink with Setup Key",
   "setupModal.installNetBird": "Install Cloink",
+  "setupModal.installDescription":
+    "To get started, install Cloink and log in with your email account.",
   "setupModal.setupKeyDescription":
     "To get started, install and run NetBird with the setup key as a parameter.",
   "setupModal.defaultDescription":

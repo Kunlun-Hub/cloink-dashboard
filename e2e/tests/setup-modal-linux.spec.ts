@@ -53,6 +53,7 @@ test.describe("Setup modal Linux version releases", () => {
     await mockLinuxReleases(page);
     const modal = await openLinuxInstall(page);
 
+    await expect(modal).toContainText(/Install Cloink|安装 Cloink/);
     await expect(page.getByTestId("linux-release-select")).toContainText(
       "0.77.1",
     );

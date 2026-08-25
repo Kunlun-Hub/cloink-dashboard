@@ -184,7 +184,7 @@ export function SetupModalContent({
 
     return effectiveSetupKey
       ? t("setupModal.installWithSetupKey")
-      : "Install Cloink";
+      : t("setupModal.installNetBird");
   }, [
     isFirstRun,
     isInstallPage,
@@ -214,7 +214,7 @@ export function SetupModalContent({
           >
             {isUserDevice === false || effectiveSetupKey
               ? t("setupModal.installWithSetupKeyDescription")
-              : "To get started, install Cloink and log in with your email account."}
+              : t("setupModal.installDescription")}
           </Paragraph>
         </div>
       )}

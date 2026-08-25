@@ -3443,6 +3443,8 @@ const zhCN = {
   "setupModal.welcomeSubtitle": "现在来添加你的第一台设备吧。",
   "setupModal.installWithSetupKey": "使用注册密钥安装 Cloink",
   "setupModal.installNetBird": "安装 Cloink",
+  "setupModal.installDescription":
+    "开始之前，请先安装 Cloink 并使用你的邮箱账号登录。",
   "setupModal.setupKeyDescription":
     "开始之前，请先安装并运行 NetBird，并将 setup key 作为参数传入。",
   "setupModal.defaultDescription":
