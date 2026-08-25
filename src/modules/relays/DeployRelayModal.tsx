@@ -106,7 +106,7 @@ ${relayNameLine}  -e CL_MANAGEMENT_URL="${managementURL}" \\
   -e NB_ENABLE_STUN="true" \\
   -e NB_STUN_PORTS="${stunPorts || "3478,3479"}" \\
   -e NB_HEALTH_LISTEN_ADDRESS=":9000" \\
-  ohoimager/cloink-relay:${imageTag || "latest"}`;
+  ohoimager/cloink-new-relay:${imageTag || "latest"}`;
   }, [
     domain,
     imageTag,
@@ -132,7 +132,7 @@ ${relayNameLine}  -e CL_MANAGEMENT_URL="${managementURL}" \\
     ].join("\n");
     return `services:
   cloink-relay:
-    image: ohoimager/cloink-relay:${imageTag || "latest"}
+    image: ohoimager/cloink-new-relay:${imageTag || "latest"}
     container_name: cloink-relay
     restart: unless-stopped
     volumes:
