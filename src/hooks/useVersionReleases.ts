@@ -8,7 +8,7 @@ import type {
 } from "@/modules/settings/VersionReleasesTab";
 
 // Public shape served by /api/version-releases/public — only releases that
-// carry a sha256 and signature are listed there, so every entry is installable.
+// carry a sha256 checksum are listed there, so every entry is installable.
 export type PublicVersionRelease = {
   id: string;
   version: string;

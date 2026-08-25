@@ -48,7 +48,6 @@ export interface VersionRelease {
   downloadUrl: string;
   description?: string;
   sha256?: string;
-  signature?: string;
   isLatest?: boolean;
   createdAt: string;
   updatedAt: string;
