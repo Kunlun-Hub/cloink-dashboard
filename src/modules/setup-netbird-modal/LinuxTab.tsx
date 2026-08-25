@@ -4,14 +4,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/Accordion";
-import { Callout } from "@components/Callout";
+import Button from "@components/Button";
 import Code from "@components/Code";
 import { SelectDropdown } from "@components/select/SelectDropdown";
 import Separator from "@components/Separator";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
-import { PackageIcon, TerminalSquareIcon } from "lucide-react";
-import React, { useState } from "react";
+import loadConfig from "@utils/config";
+import { DownloadIcon, PackageIcon, TerminalSquareIcon } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import useVersionReleases, {
+  resolveReleaseDownloadURL,
+} from "@/hooks/useVersionReleases";
 import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
@@ -27,109 +31,7 @@ type Props = {
   hostname?: string;
 };
 
-type Distro = {
-  label: string;
-  labelKey?: string;
-  value: string;
-  /** Commands that register the NetBird package repository. */
-  repository: string[];
-  /** Commands that run before the install lines, after the repository is added. */
-  beforeInstall?: string[];
-  cli: string;
-  /**
-   * Desktop app install lines. Omitted when the distribution cannot run it,
-   * in which case only the CLI is offered.
-   */
-  desktopApp?: string[];
-  note: string;
-  noteKey: string;
-};
-
-const YUM_REPOSITORY = [
-  "sudo tee /etc/yum.repos.d/netbird.repo <<EOF",
-  "[netbird]",
-  "name=netbird",
-  "baseurl=https://pkgs.netbird.io/yum/",
-  "enabled=1",
-  "gpgcheck=1",
-  "gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key",
-  "repo_gpgcheck=1",
-  "EOF",
-];
-
-// The desktop app links GTK 4.10+ and WebKitGTK 6.0, and the released
-// packages do not declare those as dependencies, so each install line names
-// them explicitly. Distributions below that floor get the CLI only.
-const DISTROS: Distro[] = [
-  {
-    label: "Debian / Ubuntu (APT)",
-    labelKey: "setupNetbirdModal.debianUbuntuApt",
-    value: "apt",
-    repository: [
-      "sudo apt-get update",
-      "sudo apt-get install ca-certificates curl gnupg -y",
-      "curl -sSL https://pkgs.netbird.io/debian/public.key | sudo gpg --dearmor --output /usr/share/keyrings/netbird-archive-keyring.gpg",
-      `echo 'deb [signed-by=/usr/share/keyrings/netbird-archive-keyring.gpg] https://pkgs.netbird.io/debian stable main' | sudo tee /etc/apt/sources.list.d/netbird.list`,
-    ],
-    beforeInstall: ["sudo apt-get update"],
-    cli: "sudo apt-get install netbird",
-    desktopApp: [
-      "sudo apt-get install netbird-ui libgtk-4-1 libwebkitgtk-6.0-4 xdg-utils",
-    ],
-    note: "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
-    noteKey: "setupNetbirdModal.debianNote",
-  },
-  {
-    label: "Fedora (DNF)",
-    labelKey: "setupNetbirdModal.fedoraDnf",
-    value: "fedora",
-    repository: YUM_REPOSITORY,
-    cli: "sudo dnf install netbird",
-    desktopApp: ["sudo dnf install netbird-ui gtk4 webkitgtk6.0 xdg-utils"],
-    note: "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
-    noteKey: "setupNetbirdModal.fedoraNote",
-  },
-  {
-    label: "RHEL / AlmaLinux / Rocky (DNF)",
-    labelKey: "setupNetbirdModal.rhelAlmaRockyDnf",
-    value: "rhel",
-    repository: YUM_REPOSITORY,
-    cli: "sudo dnf install netbird",
-    // WebKitGTK 6.0 ships in EPEL rather than the base repositories, so the
-    // desktop app path enables it first. CLI-only users do not need it.
-    desktopApp: [
-      "sudo dnf install epel-release -y",
-      "sudo dnf install netbird-ui gtk4 webkitgtk6.0 xdg-utils",
-    ],
-    note: "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
-    noteKey: "setupNetbirdModal.rhelNote",
-  },
-  {
-    label: "openSUSE (Zypper)",
-    value: "opensuse",
-    // Zypper does not read gpgkey= from a .repo file, so the repository key is
-    // imported by an explicit refresh instead of the YUM_REPOSITORY snippet.
-    repository: [
-      "sudo zypper --non-interactive addrepo -f -g https://pkgs.netbird.io/yum/ netbird",
-      "sudo zypper --gpg-auto-import-keys refresh netbird",
-    ],
-    cli: "sudo zypper install netbird",
-    desktopApp: [
-      "sudo zypper install netbird-ui libgtk-4-1 libwebkitgtk-6_0-4 xdg-utils",
-    ],
-    note: "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
-    noteKey: "setupNetbirdModal.opensuseNote",
-  },
-  {
-    label: "Amazon Linux (YUM)",
-    labelKey: "setupNetbirdModal.amazonLinuxYum",
-    value: "amazon",
-    repository: YUM_REPOSITORY,
-    cli: "sudo yum install netbird",
-    note: "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available.",
-    noteKey: "setupNetbirdModal.amazonLinuxNote",
-  },
-];
+const apiOrigin = loadConfig().apiOrigin.replace(/\/+$/, "");
 
 export default function LinuxTab({
   setupKey,
@@ -139,37 +41,102 @@ export default function LinuxTab({
   hostname,
 }: Readonly<Props>) {
   const { t } = useI18n();
-  const [distroValue, setDistroValue] = useState(DISTROS[0].value);
-  const distro =
-    DISTROS.find((option) => option.value === distroValue) ?? DISTROS[0];
-
+  const releases = useVersionReleases("linux");
+  const [selectedReleaseID, setSelectedReleaseID] = useState("");
   const runStep = setupKeyContent ? 3 : 2;
   const usingSetupKey = !!setupKey || !!setupKeyPlaceholder;
 
-  const hasDesktopApp = !!distro.desktopApp?.length;
-  const installLines = [
-    ...(distro.beforeInstall ?? []),
-    distro.cli,
-    ...(distro.desktopApp ?? []),
-  ];
+  const releaseOptions = useMemo(() => {
+    const architectureLabels: Record<string, string> = {
+      amd64: t("versionReleases.architectureAmd64"),
+      arm64: t("versionReleases.architectureArm64"),
+      armv7: t("versionReleases.architectureArmv7"),
+      universal: t("versionReleases.architectureUniversal"),
+    };
+
+    return releases.map((release) => ({
+      label: `${release.version} / ${
+        architectureLabels[release.architecture] ?? release.architecture
+      }${release.isLatest ? ` (${t("linuxTab.latest")})` : ""}`,
+      value: release.id,
+    }));
+  }, [releases, t]);
+
+  const selectedRelease =
+    releases.find((release) => release.id === selectedReleaseID) ?? releases[0];
+  const effectiveReleaseID = selectedRelease?.id ?? "";
+  const downloadURL = selectedRelease
+    ? resolveReleaseDownloadURL(selectedRelease.downloadUrl)
+    : "";
+  const installScriptURL = apiOrigin ? `${apiOrigin}/install.sh` : "";
+  const oneLineInstallCommand =
+    selectedRelease && installScriptURL
+      ? `curl -fsSL "${installScriptURL}" | sudo bash -s -- --api-url "${apiOrigin}" --version "${selectedRelease.version}" --architecture "${selectedRelease.architecture}"`
+      : "";
+  const manualDownloadCommand = downloadURL
+    ? `curl -fL "${downloadURL}" -o cloink.tar.gz`
+    : "";
+  const manualInstallCommand = `tar -xzf cloink.tar.gz
+CLOINK_BIN="$(find . -type f -name cloink | head -n 1)"
+[ -n "$CLOINK_BIN" ] || { echo "cloink binary not found" >&2; exit 1; }
+CLOINK_DIR="$(dirname "$CLOINK_BIN")"
+sudo cloink service stop 2>/dev/null || true
+sudo cloink service uninstall 2>/dev/null || true
+sudo install -m 0755 "$CLOINK_DIR/cloink" /usr/bin/cloink
+if [ -f "$CLOINK_DIR/cloink-ui" ]; then
+  sudo install -m 0755 "$CLOINK_DIR/cloink-ui" /usr/bin/cloink-ui
+fi
+sudo cloink service install
+sudo cloink service start`;
+
+  const releaseSelector = (testID: string) => (
+    <SelectDropdown
+      value={effectiveReleaseID}
+      className="w-[260px] max-w-full"
+      onChange={setSelectedReleaseID}
+      disabled={releaseOptions.length === 0}
+      placeholder={
+        releaseOptions.length === 0
+          ? t("linuxTab.noPublishedRelease")
+          : t("linuxTab.selectRelease")
+      }
+      options={releaseOptions}
+      data-testid={testID}
+    />
+  );
 
   return (
     <TabsContent value={String(OperatingSystem.LINUX)}>
       <TabsContentPadding>
-        <p className={"font-medium flex gap-3 items-center text-base"}>
+        <p className="flex items-center gap-3 text-base font-medium">
           <TerminalSquareIcon size={16} />
           {t("linuxTab.installWithCli")}
         </p>
         <Steps>
           <Steps.Step step={1}>
-            <Code>curl -fsSL https://pkgs.netbird.io/install.sh | sh</Code>
+            <p className="mb-2 text-sm text-nb-gray-400">
+              {t("linuxTab.oneClickDescription")}
+            </p>
+            <div className="mb-3">
+              {releaseSelector("linux-release-select")}
+            </div>
+            {oneLineInstallCommand ? (
+              <Code codeToCopy={oneLineInstallCommand}>
+                <Code.Line>{oneLineInstallCommand}</Code.Line>
+              </Code>
+            ) : (
+              <p className="text-sm text-nb-gray-500">
+                {t("linuxTab.publishReleaseFirst")}
+              </p>
+            )}
           </Steps.Step>
           {setupKeyContent && (
             <Steps.Step step={2}>{setupKeyContent}</Steps.Step>
           )}
           <Steps.Step step={runStep} line={false}>
             <p>
-              Run NetBird {!usingSetupKey && "and log in the browser"}
+              {t("linuxTab.runCloink")}{" "}
+              {!usingSetupKey && t("setupNetbirdModal.andLogInBrowser")}
               {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
             </p>
             <NetBirdUpCommand
@@ -180,65 +147,97 @@ export default function LinuxTab({
           </Steps.Step>
         </Steps>
       </TabsContentPadding>
+
       <Separator />
+
       <TabsContentPadding>
         <Accordion type="single" collapsible>
-          <AccordionItem value="item-1">
+          <AccordionItem value="manual">
             <AccordionTrigger>
               <PackageIcon size={16} />
               {t("linuxTab.installManually")}
             </AccordionTrigger>
             <AccordionContent>
-              <div className={"mt-1"}>
-                <SelectDropdown
-                  value={distroValue}
-                  className={"w-[280px]"}
-                  onChange={setDistroValue}
-                  placeholder={t("common.selectDistributionPlaceholder")}
-                  options={DISTROS.map(({ label, labelKey, value }) => ({
-                    label: labelKey ? t(labelKey) : label,
-                    value,
-                  }))}
-                  data-testid={"linux-distro-select"}
-                />
-              </div>
               <Steps>
                 <Steps.Step step={1}>
-                  <p>{t("linuxTab.addRepository")}</p>
-                  <Code codeToCopy={distro.repository.join("\n")}>
-                    {distro.repository.map((line) => (
-                      <Code.Line key={line}>{line}</Code.Line>
-                    ))}
-                  </Code>
+                  <p className="mb-2">{t("linuxTab.chooseAndDownload")}</p>
+                  <div className="mt-1 flex flex-wrap items-center gap-4">
+                    {releaseSelector("linux-manual-release-select")}
+                    <Button
+                      variant="primary"
+                      disabled={!downloadURL}
+                      onClick={() =>
+                        window.open(
+                          downloadURL,
+                          "_blank",
+                          "noopener,noreferrer",
+                        )
+                      }
+                    >
+                      <DownloadIcon size={14} />
+                      {t("versionReleases.download")}
+                    </Button>
+                  </div>
+                  {manualDownloadCommand && (
+                    <div className="mt-3">
+                      <Code codeToCopy={manualDownloadCommand}>
+                        <Code.Line>{manualDownloadCommand}</Code.Line>
+                      </Code>
+                    </div>
+                  )}
                 </Steps.Step>
                 <Steps.Step step={2}>
-                  <p>{t("linuxTab.installNetBird")}</p>
-                  <Code codeToCopy={installLines.join("\n")}>
-                    {distro.beforeInstall?.map((line) => (
-                      <Code.Line key={line}>{line}</Code.Line>
-                    ))}
-                    {hasDesktopApp && (
-                      <Code.Comment># for CLI only</Code.Comment>
-                    )}
-                    <Code.Line>{distro.cli}</Code.Line>
-                    {hasDesktopApp && (
-                      <>
-                        <Code.Comment># for the desktop app</Code.Comment>
-                        {distro.desktopApp?.map((line) => (
-                          <Code.Line key={line}>{line}</Code.Line>
-                        ))}
-                      </>
-                    )}
+                  <p>{t("linuxTab.extractAndInstall")}</p>
+                  <Code codeToCopy={manualInstallCommand}>
+                    <Code.Comment>
+                      # {t("linuxTab.extractArchive")}
+                    </Code.Comment>
+                    <Code.Line>tar -xzf cloink.tar.gz</Code.Line>
+                    <Code.Line>
+                      {
+                        'CLOINK_BIN="$(find . -type f -name cloink | head -n 1)"'
+                      }
+                    </Code.Line>
+                    <Code.Line>
+                      {
+                        '[ -n "$CLOINK_BIN" ] || { echo "cloink binary not found" >&2; exit 1; }'
+                      }
+                    </Code.Line>
+                    <Code.Line>
+                      {'CLOINK_DIR="$(dirname "$CLOINK_BIN")"'}
+                    </Code.Line>
+                    <Code.Comment>
+                      # {t("linuxTab.installBinaries")}
+                    </Code.Comment>
+                    <Code.Line>
+                      sudo cloink service stop 2&gt;/dev/null || true
+                    </Code.Line>
+                    <Code.Line>
+                      sudo cloink service uninstall 2&gt;/dev/null || true
+                    </Code.Line>
+                    <Code.Line>
+                      sudo install -m 0755 &quot;$CLOINK_DIR/cloink&quot;
+                      /usr/bin/cloink
+                    </Code.Line>
+                    <Code.Line>
+                      if [ -f &quot;$CLOINK_DIR/cloink-ui&quot; ]; then
+                    </Code.Line>
+                    <Code.Line>
+                      {"  "}sudo install -m 0755
+                      &quot;$CLOINK_DIR/cloink-ui&quot; /usr/bin/cloink-ui
+                    </Code.Line>
+                    <Code.Line>fi</Code.Line>
+                    <Code.Comment>
+                      # {t("linuxTab.installService")}
+                    </Code.Comment>
+                    <Code.Line>sudo cloink service install</Code.Line>
+                    <Code.Line>sudo cloink service start</Code.Line>
                   </Code>
-                  <Callout variant={"info"} className={"mt-1"}>
-                    {t(distro.noteKey)}
-                    {hasDesktopApp &&
-                      " Desktop app packages are available for x86_64 only."}
-                  </Callout>
                 </Steps.Step>
                 <Steps.Step step={3} line={false}>
                   <p>
-                    Run NetBird {!usingSetupKey && "and log in the browser"}
+                    {t("linuxTab.runCloink")}{" "}
+                    {!usingSetupKey && t("setupNetbirdModal.andLogInBrowser")}
                     {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
                   </p>
                   <NetBirdUpCommand

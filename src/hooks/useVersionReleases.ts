@@ -33,10 +33,10 @@ export function resolveReleaseDownloadURL(downloadUrl: string) {
 }
 
 /**
- * Fetch the signed releases published in Settings → Version Releases for a
+ * Fetch releases published in Settings → Version Releases for a
  * platform. The endpoint is unauthenticated so the hook also works on the
  * public /install page. Returns an empty list until data arrives or when the
- * server has no published releases — callers fall back to static links then.
+ * server has no published releases.
  */
 export default function useVersionReleases(platform: PlatformType) {
   const [releases, setReleases] = useState<PublicVersionRelease[]>([]);

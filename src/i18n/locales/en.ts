@@ -6353,8 +6353,21 @@ const en = {
   "versionInfo.updateAvailableLabel": "Update available",
   "windowsTab.installOnWindows": "Install on Windows",
   "windowsTab.downloadInstaller": "Download and run Windows Installer",
-  "linuxTab.installWithCli": "Install with Command-line",
-  "linuxTab.installManually": "Install manually with a package manager",
+  "linuxTab.installWithCli": "One-click command-line installation",
+  "linuxTab.installManually": "Manual installation (universal)",
+  "linuxTab.oneClickDescription":
+    "Select a published Cloink version for this Linux architecture, then run the command below.",
+  "linuxTab.selectRelease": "Select version and architecture",
+  "linuxTab.noPublishedRelease": "No Linux release published",
+  "linuxTab.publishReleaseFirst":
+    "Publish a Linux tar.gz artifact in Settings > Version releases first.",
+  "linuxTab.latest": "Latest",
+  "linuxTab.runCloink": "Run Cloink",
+  "linuxTab.chooseAndDownload": "Select and download Cloink",
+  "linuxTab.extractAndInstall": "Extract and install",
+  "linuxTab.extractArchive": "Extract the published archive",
+  "linuxTab.installBinaries": "Install the Cloink binaries",
+  "linuxTab.installService": "Install and start the Cloink service",
   "trafficEvents.postureCheckPassed": "Posture Check {name} passed",
   "trafficEvents.accessControlPolicyPassed":
     "Access Control Policy {name} passed",
