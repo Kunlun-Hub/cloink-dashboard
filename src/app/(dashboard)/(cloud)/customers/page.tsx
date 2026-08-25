@@ -1,22 +1,20 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
+import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
 import React, { Suspense } from "react";
 import MSPIcon from "@/assets/icons/MSPIcon";
 import { CustomersProvider } from "@/cloud/distributor/contexts/CustomersProvider";
-import DistributorCustomersTable from "@/cloud/distributor/table/DistributorCustomersTable";
-import { DistributorDocsLink } from "@/cloud/distributor/DistributorDocsLink";
 import { useDistributor } from "@/cloud/distributor/contexts/DistributorProvider";
 import { DistributorCustomer } from "@/cloud/distributor/interfaces/Distributor";
-import PageContainer from "@/layouts/PageContainer";
-import { RestrictedAccess } from "@components/ui/RestrictedAccess";
+import DistributorCustomersTable from "@/cloud/distributor/table/DistributorCustomersTable";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
+import PageContainer from "@/layouts/PageContainer";
 
 export default function CustomersPage() {
   const { isDistributorInfoLoading } = useDistributor();
@@ -44,13 +42,6 @@ const CustomersPageContent = () => {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("customers.title")}</h1>
-        <Paragraph>
-          {t("customers.description")}
-        </Paragraph>
-        <Paragraph>
-          <DistributorDocsLink />
-          {t("customers.docsSuffix")}
-        </Paragraph>
       </div>
       <RestrictedAccess
         page={t("customers.title")}

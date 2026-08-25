@@ -1,14 +1,11 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
 import { IconSettings2 } from "@tabler/icons-react";
 import useFetchApi from "@utils/api";
-import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
@@ -47,16 +44,6 @@ export default function ServiceUsers() {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("serviceUsers.title")}</h1>
-        <Paragraph>
-          {t("serviceUsers.description")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/access-netbird-public-api"}
-            target={"_blank"}
-          >
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
       </div>
       <RestrictedAccess
         page={t("team.serviceUsersPage")}

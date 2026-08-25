@@ -18,7 +18,6 @@ export default function GetStartedTest({
   title,
   description,
   button,
-  learnMore,
   showBackground = true,
 }: Props) {
   return (
@@ -67,11 +66,6 @@ export default function GetStartedTest({
                   {button && <div>{button}</div>}
                 </div>
               </div>
-              {learnMore && (
-                <Paragraph className={"text-sm justify-center pb-5 px-8"}>
-                  {learnMore}
-                </Paragraph>
-              )}
             </div>
           </div>
         </div>

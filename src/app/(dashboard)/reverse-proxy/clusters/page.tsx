@@ -1,18 +1,14 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
-import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { REVERSE_PROXY_CLUSTERS_DOCS_LINK } from "@/interfaces/ReverseProxy";
-import PageContainer from "@/layouts/PageContainer";
 import { useI18n } from "@/i18n/I18nProvider";
+import PageContainer from "@/layouts/PageContainer";
 
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
@@ -41,13 +37,6 @@ export default function ReverseProxyClustersPage() {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("clustersTable.title")}</h1>
-        <Paragraph>
-          {t("clusters.pageDescription")}{" "}
-          <InlineLink href={REVERSE_PROXY_CLUSTERS_DOCS_LINK} target={"_blank"}>
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
       </div>
       <RestrictedAccess
         page={t("nav.clusters")}

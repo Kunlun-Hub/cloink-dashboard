@@ -1,19 +1,16 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
-import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import AgentPoliciesTable from "@/modules/agent-network/AgentPoliciesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 
 export default function AgentNetworkPoliciesPage() {
   const { t } = useI18n();
@@ -37,9 +34,6 @@ export default function AgentNetworkPoliciesPage() {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("nav.policies")}</h1>
-        <Paragraph>
-          {t("agentNetwork.policiesDescription")}
-        </Paragraph>
       </div>
 
       <RestrictedAccess

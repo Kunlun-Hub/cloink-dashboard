@@ -2,15 +2,15 @@
 
 import Breadcrumbs from "@components/Breadcrumbs";
 import { HelpTooltip } from "@components/HelpTooltip";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import useCopyToClipboard from "@hooks/useCopyToClipboard";
-import { Copy, ExternalLinkIcon, Globe, Plug } from "lucide-react";
+import { usePortalElement } from "@hooks/usePortalElement";
+import { Copy, Globe, Plug } from "lucide-react";
 import React, { Suspense, useState } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import AgentConnectModal from "@/modules/agent-network/AgentConnectModal";
 import AIProviderModal from "@/modules/agent-network/AIProviderModal";
@@ -18,8 +18,6 @@ import AIProvidersProvider, {
   useAIProviders,
 } from "@/modules/agent-network/AIProvidersProvider";
 import AgentProvidersTable from "@/modules/agent-network/table/AgentProvidersTable";
-import InlineLink from "@components/InlineLink";
-import { useI18n } from "@/i18n/I18nProvider";
 
 function EndpointBadge({ endpoint }: { endpoint: string }) {
   const { t } = useI18n();
@@ -189,16 +187,6 @@ export default function AgentNetworkProvidersPage() {
               />
             </Breadcrumbs>
             <h1 ref={headingRef}>{t("nav.providers")}</h1>
-            <Paragraph>
-              {t("agentNetwork.providersDescription1")}
-              <InlineLink
-                href={"https://docs.netbird.io/agent-network/providers"}
-                target={"_blank"}
-              >
-                {t("common.learnMore")}
-                <ExternalLinkIcon size={12} />
-              </InlineLink>
-            </Paragraph>
             <div className={"mt-4"}>
               <EndpointHeader />
             </div>

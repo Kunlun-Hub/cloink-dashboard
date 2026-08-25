@@ -1,12 +1,9 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
 import { usePortalElement } from "@hooks/usePortalElement";
-import { ExternalLinkIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { lazy, Suspense, useMemo } from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
@@ -121,16 +118,6 @@ function PeersBlockedView() {
     <div className={"flex items-center justify-center flex-col"}>
       <div className={"p-default py-6 max-w-3xl text-center"}>
         <h1>{t("peers.blockedTitle")}</h1>
-        <Paragraph className={"inline"}>
-          {t("peers.blockedDescription")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/getting-started#installation"}
-            target={"_blank"}
-          >
-            {t("peers.installationGuide")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
       </div>
       <div className={"px-3 pt-1 pb-8 max-w-3xl w-full"}>
         <div

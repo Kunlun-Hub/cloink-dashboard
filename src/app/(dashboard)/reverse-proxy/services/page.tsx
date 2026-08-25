@@ -1,21 +1,17 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
+import { Callout } from "@components/Callout";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
-import { ExternalLinkIcon } from "lucide-react";
+import { isNetBirdCloud } from "@utils/netbird";
 import React, { lazy, Suspense } from "react";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import ReverseProxiesProvider from "@/contexts/ReverseProxiesProvider";
-import { REVERSE_PROXY_DOCS_LINK } from "@/interfaces/ReverseProxy";
-import PageContainer from "@/layouts/PageContainer";
-import { Callout } from "@components/Callout";
-import { isNetBirdCloud } from "@utils/netbird";
 import { useI18n } from "@/i18n/I18nProvider";
+import PageContainer from "@/layouts/PageContainer";
 
 const ReverseProxyTable = lazy(
   () => import("@/modules/reverse-proxy/table/ReverseProxyTable"),
@@ -44,14 +40,6 @@ export default function ReverseProxyServicesPage() {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("reverseProxy.servicesTitle")}</h1>
-        <Paragraph>
-          {t("reverseProxy.servicesDescription")}{" "}
-          <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-
         {isNetBirdCloud() ? (
           <Callout className={"max-w-xl mt-5"} variant={"info"}>
             {t("reverseProxy.betaHosted")}

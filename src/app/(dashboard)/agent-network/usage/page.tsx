@@ -1,12 +1,11 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { LayoutDashboard, ScrollText } from "lucide-react";
 import dayjs from "dayjs";
+import { LayoutDashboard, ScrollText } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
@@ -88,7 +87,6 @@ export default function UsageAndLogsPage() {
           />
         </Breadcrumbs>
         <h1>{t("nav.usageLogs")}</h1>
-        <Paragraph>{t("agentNetwork.usagePageDescription")}</Paragraph>
       </div>
 
       <RestrictedAccess
