@@ -1,25 +1,31 @@
 import { getOperatingSystem } from "@hooks/useOperatingSystem";
+import loadConfig from "@utils/config";
 import dayjs from "dayjs";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { NetbirdRelease } from "@/interfaces/Version";
 
 const LATEST_RELEASE_CHECK_INTERVAL_IN_MINUTES = 10;
 
+/**
+ * Resolve the latest client release. An explicit `releasesUrl` (external feed,
+ * e.g. a GitHub releases API endpoint) takes priority when configured;
+ * otherwise the self-hosted Settings → Version Releases catalog is queried via
+ * the unauthenticated /api/version-releases/public endpoint.
+ */
 export const getLatestNetbirdRelease = async (
   release?: NetbirdRelease,
   releasesUrl?: string,
 ): Promise<NetbirdRelease | undefined> => {
-  if (!releasesUrl) return undefined;
-
   const runFetch =
     release === undefined ||
     release.last_checked === undefined ||
     dayjs(release.last_checked).isBefore(
       dayjs().subtract(LATEST_RELEASE_CHECK_INTERVAL_IN_MINUTES, "minute"),
     );
+  if (!runFetch) return release;
 
-  if (runFetch) {
-    try {
+  try {
+    if (releasesUrl) {
       const response = await fetch(releasesUrl);
       if (!response.ok) return undefined;
       const data = (await response.json()) as any;
@@ -28,12 +34,32 @@ export const getLatestNetbirdRelease = async (
         last_checked: new Date(),
         url: (data.html_url || data.url) as string,
       } as NetbirdRelease;
-    } catch (e) {
-      console.warn(e);
-      return undefined;
     }
-  } else {
-    return release;
+
+    const config = loadConfig();
+    const response = await fetch(
+      `${config.apiOrigin}/api/version-releases/public?channel=stable&latest=true`,
+    );
+    if (!response.ok) return undefined;
+    const releases = (await response.json()) as Array<{
+      version?: string;
+      downloadUrl?: string;
+      isLatest?: boolean;
+    }>;
+    const data = releases.find((item) => item?.isLatest) ?? releases[0];
+    if (!data?.version) return undefined;
+    return {
+      latest_version: data.version,
+      last_checked: new Date(),
+      url: data.downloadUrl
+        ? new URL(data.downloadUrl, `${config.apiOrigin}/`).toString()
+        : `${
+            typeof window === "undefined" ? "" : window.location.origin
+          }/install`,
+    } as NetbirdRelease;
+  } catch (e) {
+    console.warn(e);
+    return undefined;
   }
 };
 

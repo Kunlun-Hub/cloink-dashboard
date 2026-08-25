@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import useVersionReleases, {
+  resolveReleaseDownloadURL,
+} from "@/hooks/useVersionReleases";
 import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
@@ -41,6 +44,12 @@ export default function MacOSTab({
   hostname,
 }: Readonly<Props>) {
   const { t } = useI18n();
+  // Signed installers published in Settings → Version Releases take priority;
+  // the static pkgs.netbird.io link remains as a fallback when none exist.
+  const releases = useVersionReleases("macos");
+  const macosUrl = releases.length
+    ? resolveReleaseDownloadURL(releases[0].downloadUrl)
+    : pkgsDownloadUrl("macos/universal");
   // Mirrors WindowsTab: server flow (setupKeyContent present) forces
   // the CLI run branch so the netbird up command stays visible while
   // the operator generates a key.
@@ -62,11 +71,7 @@ export default function MacOSTab({
               {t("setupNetbirdModal.downloadAndRunInstaller")}
             </div>
             <div className={"flex gap-4 mt-1 flex-wrap"}>
-              <Link
-                href={pkgsDownloadUrl("macos/universal")}
-                passHref
-                target={"_blank"}
-              >
+              <Link href={macosUrl} passHref target={"_blank"}>
                 <Button variant={"primary"}>
                   <DownloadIcon size={14} />
                   {t("setupNetbirdModal.downloadNetBird")}
