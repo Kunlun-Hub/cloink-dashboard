@@ -1,4 +1,5 @@
-name: build and push
+name: Build and push Cloink dashboard
+
 on:
   push:
     branches:
@@ -7,6 +8,9 @@ on:
       - "**"
   pull_request:
 
+permissions:
+  contents: read
+
 # Cancel in-progress runs on the same ref (PR or branch) when a new commit
 # arrives, so we don't waste CI building superseded commits.
 concurrency:
@@ -14,8 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  DOCKERHUB_IMAGE: netbirdio/dashboard
-  GHCR_IMAGE: ghcr.io/netbirdio/dashboard-cloud
+  DOCKERHUB_IMAGE: ohoimager/cloink-new-dashboard
 
 jobs:
   build_n_push:
@@ -23,14 +26,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: setup-node
+      - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - run: echo '{}' > .local-config.json
 
@@ -41,7 +44,7 @@ jobs:
           repository: netbirdio/IronRDP
           tag: v0.0.2
           fileName: "*.ts"
-          out-file-path: 'public/ironrdp-pkg'
+          out-file-path: "public/ironrdp-pkg"
 
       - name: Download IronRDP release JS files
         uses: robinraju/release-downloader@v1.7
@@ -50,7 +53,7 @@ jobs:
           repository: netbirdio/IronRDP
           tag: v0.0.2
           fileName: "*.js"
-          out-file-path: 'public/ironrdp-pkg'
+          out-file-path: "public/ironrdp-pkg"
 
       - name: Download IronRDP release WASM file
         uses: robinraju/release-downloader@v1.7
@@ -59,7 +62,7 @@ jobs:
           repository: netbirdio/IronRDP
           tag: v0.0.2
           fileName: "ironrdp_web_bg.wasm"
-          out-file-path: 'public/ironrdp-pkg'
+          out-file-path: "public/ironrdp-pkg"
 
       - name: Get version from tag
         id: version
@@ -74,53 +77,43 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_DASHBOARD_VERSION: ${{ steps.version.outputs.version }}
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      -
-        name: Docker meta
+      - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: |
-            ${{ env.DOCKERHUB_IMAGE }}
-            ${{ env.GHCR_IMAGE }}
+          images: ${{ env.DOCKERHUB_IMAGE }}
           flavor: |
             latest=false
           tags: |
-            type=schedule
-            type=ref,event=branch
+            type=raw,value=test,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=tag
-            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/') }}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=ref,event=pr
             type=sha
 
       - name: Log in to Docker Hub
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.NB_DOCKER_USER }}
-          password: ${{ secrets.NB_DOCKER_TOKEN }}
-
-      - name: Log in to the GitHub Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: docker/Dockerfile
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           platforms: linux/amd64,linux/arm64,linux/arm
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - run: |
+      - name: Summarize pushed tags
+        if: github.event_name != 'pull_request'
+        run: |
           echo '### Pushed tags' >> $GITHUB_STEP_SUMMARY
           echo '${{ steps.meta.outputs.tags }}' >> $GITHUB_STEP_SUMMARY
