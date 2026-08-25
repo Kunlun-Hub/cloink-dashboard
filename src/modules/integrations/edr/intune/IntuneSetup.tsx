@@ -253,7 +253,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             data={[
               {
                 label: t("edr.intune.listName"),
-                value: "NetBird",
+                value: "Cloink",
               },
               {
                 label: t("edr.intune.listAccountTypes"),
@@ -325,7 +325,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                {t("edr.intune.genSecretAddPrefix")} <Mark copy>NetBird</Mark>{" "}
+                {t("edr.intune.genSecretAddPrefix")} <Mark copy>Cloink</Mark>{" "}
                 {t("edr.intune.genSecretAddSuffix")} <Mark>Add</Mark>
               </p>
             </Steps.Step>
@@ -376,7 +376,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                {t("edr.intune.enterIdsSelectPrefix")} <Mark>NetBird</Mark>{" "}
+                {t("edr.intune.enterIdsSelectPrefix")} <Mark>Cloink</Mark>{" "}
                 {t("edr.intune.enterIdsSelectSuffix")} <Mark>Application (client) ID</Mark>{" "}
                 {t("edr.intune.enterIdsAnd")} <Mark>Directory (tenant) ID</Mark>
               </p>

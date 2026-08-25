@@ -25,10 +25,10 @@ import {
   UserCircle,
 } from "lucide-react";
 import React, { useState } from "react";
-import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
-import { useI18n } from "@/i18n/I18nProvider";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/entra-id.png";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import { AzureADIntegration } from "@/interfaces/IdentityProvider";
 import azureGrantAdmin from "@/modules/integrations/idp-sync/azure-ad/images/azure-grant-admin-conset.png";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
@@ -252,7 +252,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             data={[
               {
                 label: t("azureAd.listName"),
-                value: "NetBird",
+                value: "Cloink",
               },
               {
                 label: t("azureAd.listAccountTypes"),
@@ -339,7 +339,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Add <Mark copy>NetBird</Mark> as the description and click{" "}
+                Add <Mark copy>Cloink</Mark> as the description and click{" "}
                 <Mark>Add</Mark>
               </p>
             </Steps.Step>
@@ -389,7 +389,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Select <Mark>NetBird</Mark> application in overview page and
+                Select <Mark>Cloink</Mark> application in overview page and
                 enter your <Mark>Application (client) ID</Mark> and{" "}
                 <Mark>Directory (tenant) ID</Mark>
               </p>

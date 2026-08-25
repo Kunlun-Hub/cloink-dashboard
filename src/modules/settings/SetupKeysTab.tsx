@@ -1,16 +1,14 @@
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import * as Tabs from "@radix-ui/react-tabs";
 import useFetchApi from "@utils/api";
-import { ExternalLinkIcon, KeyRound } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import React, { lazy, Suspense, useMemo } from "react";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
 
@@ -44,7 +42,7 @@ export default function SetupKeysTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("settings.title")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
@@ -55,21 +53,9 @@ export default function SetupKeysTab() {
           />
         </Breadcrumbs>
         <h1>{t("setupKeys.title")}</h1>
-        <Paragraph>
-          {t("setupKeys.description")}{" "}
-          <InlineLink
-            href={
-              "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
-            }
-            target={"_blank"}
-          >
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
       </div>
       <RestrictedAccess
-        page={"Setup Keys"}
+        page={t("settings.setupKeys")}
         hasAccess={permission.setup_keys.read}
       >
         <Suspense fallback={<SkeletonTable />}>

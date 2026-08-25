@@ -2,16 +2,16 @@ import {
   SelectDropdown,
   SelectOption,
 } from "@components/select/SelectDropdown";
+import TextWithTooltip from "@components/ui/TextWithTooltip";
+import TruncatedText from "@components/ui/TruncatedText";
 import useFetchApi from "@utils/api";
 import { cn, generateColorFromUser } from "@utils/helpers";
 import { Handle, type Node, Position } from "@xyflow/react";
 import { sortBy } from "lodash";
 import { ChevronsUpDown, Cog } from "lucide-react";
 import * as React from "react";
-import { User } from "@/interfaces/User";
-import TruncatedText from "@components/ui/TruncatedText";
-import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { useI18n } from "@/i18n/I18nProvider";
+import { User } from "@/interfaces/User";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 
 type UserNodeProps = Node<
@@ -59,7 +59,7 @@ export const SelectUserNode = ({ data, id }: UserNodeProps) => {
                       }
                     >
                       <TextWithTooltip
-                        text={user?.email || "NetBird"}
+                        text={user.email === "NetBird" ? "Cloink" : user.email}
                         maxChars={20}
                       />
                     </span>

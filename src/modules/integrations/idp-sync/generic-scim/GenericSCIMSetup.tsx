@@ -17,17 +17,17 @@ import {
   UserCircle,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
-import { useI18n } from "@/i18n/I18nProvider";
 import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/generic-scim.png";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   IdentityProvider,
   ScimIntegration,
 } from "@/interfaces/IdentityProvider";
-import { GenericSCIMProps } from "@/modules/integrations/idp-sync/generic-scim/GenericSCIM";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
+import { GenericSCIMProps } from "@/modules/integrations/idp-sync/generic-scim/GenericSCIM";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { GroupPrefixInput } from "@/modules/integrations/idp-sync/GroupPrefixInput";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
@@ -309,7 +309,7 @@ export function SetupContent({
             data={[
               {
                 label: t("genericScim.credName"),
-                value: "NetBird",
+                value: "Cloink",
               },
               {
                 label: t("genericScim.credApiType"),

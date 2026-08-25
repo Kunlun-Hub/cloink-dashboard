@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
 import { notify } from "@components/Notification";
-import Paragraph from "@components/Paragraph";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
@@ -210,9 +209,6 @@ export default function IdentityProvidersTab() {
         <div className={"flex items-start justify-between"}>
           <div>
             <h1>{t("settings.identityProviders")}</h1>
-            <Paragraph>
-              {t("identityProviders.description")}
-            </Paragraph>
           </div>
         </div>
       </div>

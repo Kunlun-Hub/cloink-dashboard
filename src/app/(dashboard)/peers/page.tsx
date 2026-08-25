@@ -15,10 +15,10 @@ import { useBypassedPeers } from "@/cloud/edr/useBypass";
 import PeersProvider, { usePeers } from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
 import type { PeersTableKind } from "@/modules/peers/PeersTable";
 import { SetupModalContent } from "@/modules/setup-netbird-modal/SetupModal";
-import { useI18n } from "@/i18n/I18nProvider";
 
 const PeersTable = lazy(() => import("@/modules/peers/PeersTable"));
 
@@ -101,16 +101,6 @@ function PeersView() {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("peers.title")}</h1>
-        <Paragraph>
-            {t("peers.pageDescription")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/add-machines-to-your-network"}
-            target={"_blank"}
-          >
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
       </div>
       <Suspense fallback={<SkeletonTable />}>
         <PeersTable

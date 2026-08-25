@@ -2,15 +2,15 @@
 
 import Code from "@components/Code";
 import { Modal, ModalContent } from "@components/modal/Modal";
-import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 import Paragraph from "@components/Paragraph";
+import { SelectDropdown } from "@components/select/SelectDropdown";
 import SmallParagraph from "@components/SmallParagraph";
 import SquareIcon from "@components/SquareIcon";
-import { SelectDropdown } from "@components/select/SelectDropdown";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { Plug } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
+import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 
 type Props = {
   open: boolean;
@@ -279,10 +279,10 @@ export function AgentConnectTabs({
           <Snippet
             caption={t("agentConnect.addToConfig", { path: "~/.codex/config.toml" })}
             lines={[
-              `model_provider = "netbird"`,
+              `model_provider = "cloink"`,
               ``,
-              `[model_providers.netbird]`,
-              `name = "NetBird"`,
+              `[model_providers.cloink]`,
+              `name = "Cloink"`,
               `base_url = "${openaiBase}"`,
               `wire_api = "responses"`,
             ]}
@@ -301,13 +301,13 @@ export function AgentConnectTabs({
             lines={[
               `default_model = "kimi-k3"`,
               ``,
-              `[providers.netbird]`,
+              `[providers.cloink]`,
               `type = "anthropic"`,
               `base_url = "${baseUrl}"`,
               `api_key = "-"`,
               ``,
               `[models.kimi-k3]`,
-              `provider = "netbird"`,
+              `provider = "cloink"`,
               `model = "kimi-k3"`,
               `max_context_size = 1000000`,
             ]}
@@ -335,7 +335,7 @@ export function AgentConnectTabs({
               ``,
               `client.chat.completions.create(`,
               `    model="gpt-5.5",`,
-              `    messages=[{"role": "user", "content": "What is NetBird Agent Network?"}],`,
+              `    messages=[{"role": "user", "content": "What is Cloink Agent Network?"}],`,
               `)`,
             ]}
           />
@@ -353,11 +353,11 @@ export function AgentConnectTabs({
               `  -d '{`,
               `    "model": "gpt-5.5",`,
               `    "messages": [`,
-              `      { "role": "user", "content": "What is NetBird Agent Network?" }`,
+              `      { "role": "user", "content": "What is Cloink Agent Network?" }`,
               `    ]`,
               `  }'`,
             ]}
-            copyText={`curl ${openaiBase}/chat/completions -H "Content-Type: application/json" -d '{"model":"gpt-5.5","messages":[{"role":"user","content":"What is NetBird Agent Network?"}]}'`}
+            copyText={`curl ${openaiBase}/chat/completions -H "Content-Type: application/json" -d '{"model":"gpt-5.5","messages":[{"role":"user","content":"What is Cloink Agent Network?"}]}'`}
           />
         </div>
       </TabsContent>

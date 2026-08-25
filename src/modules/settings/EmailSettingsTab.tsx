@@ -364,11 +364,6 @@ export default function EmailSettingsTab() {
         <div className={"flex items-start justify-between gap-4"}>
           <div>
             <h1>{t("emailSettings.title")}</h1>
-            <p
-              className={"text-sm text-neutral-500 dark:text-nb-gray-400 mt-2"}
-            >
-              {t("emailSettings.description")}
-            </p>
           </div>
           <Button
             variant={"primary"}

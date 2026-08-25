@@ -146,7 +146,7 @@ export default function NetBirdSettings() {
           <DangerZoneTabTrigger />
         </VerticalTabs.List>
         <RestrictedAccess
-          page={"Settings"}
+          page={t("settings.title")}
           hasAccess={permission?.billing?.read || permission?.settings?.read}
         >
           <div className={"border-l border-nb-gray-930 w-full"}>

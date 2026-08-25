@@ -4,7 +4,7 @@ import { ArrowRightLeft } from "lucide-react";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import * as React from "react";
-import netBirdLogo from "@/assets/netbird.svg";
+import { BrandedLogoMark } from "@/assets/icons/BrandedLogo";
 
 type Props = {
   image: StaticImport | string;
@@ -24,11 +24,7 @@ export const IntegrationModalHeader = ({
             "h-12 w-12 flex items-center justify-center rounded-md bg-nb-gray-900/70 p-2 border border-nb-gray-900/70"
           }
         >
-          <Image
-            src={netBirdLogo}
-            alt={"NetBird"}
-            className={"rounded-[4px]"}
-          />
+          <BrandedLogoMark size={32} />
         </div>
         <div>
           <ArrowRightLeft size={24} className={"text-netbird"} />

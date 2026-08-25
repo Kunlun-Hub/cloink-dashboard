@@ -20,7 +20,7 @@ const en = {
   "common.value": "Value",
   "common.savingChanges": "Saving Changes",
   "common.thisPage": "this page",
-  "common.installNetBird": "Install NetBird",
+  "common.installNetBird": "Install Cloink",
   "common.copiedToClipboard": "Copied to clipboard",
   "common.close": "Close",
   "common.delete": "Delete",
@@ -227,14 +227,14 @@ const en = {
   "overview.refreshInterval.15m": "15m",
   "help.title": "Help and Support",
   "help.troubleshooting": "Troubleshooting",
-  "help.forum": "NetBird Forum",
-  "help.slack": "NetBird Slack",
+  "help.forum": "Cloink Forum",
+  "help.slack": "Cloink Slack",
   "help.feedback": "Feedback",
   "errorPage.blockedTitle": "User Account Blocked",
   "errorPage.pendingTitle": "User Approval Pending",
   "errorPage.defaultTitle": "Access Error",
   "errorPage.blockedDescription":
-    "Your access has been blocked by the NetBird account administrator, possibly due to new user approval requirements or security policies. Please contact your administrator to regain access.",
+    "Your access has been blocked by the Cloink account administrator, possibly due to new user approval requirements or security policies. Please contact your administrator to regain access.",
   "errorPage.pendingDescription":
     "Your account is pending approval from an administrator. Please wait for approval before accessing the dashboard.",
   "errorPage.defaultDescription":
@@ -296,7 +296,7 @@ const en = {
     "A list of all machines and devices connected to your private network. Use this view to manage peers.",
   "peers.blockedTitle": "Add new device to your network",
   "peers.blockedDescription":
-    "To get started, install NetBird and log in using your email account. After that you should be connected.",
+    "To get started, install Cloink and log in using your email account. After that you should be connected.",
   "peers.addPeer": "Add Peer",
   "peers.installationGuide": "Installation Guide",
   "peers.userDevices": "User Devices",
@@ -304,13 +304,13 @@ const en = {
     "Laptops, phones and other personal devices with a user behind them, typically added when the user signs in with SSO.",
   "peers.userDevicesBlockedTitle": "Add new device to your network",
   "peers.userDevicesBlockedDescription":
-    "To get started, install NetBird and log in using your email account. After that you should be connected.",
+    "To get started, install Cloink and log in using your email account. After that you should be connected.",
   "peers.servers": "Servers",
   "peers.serversDescription":
     "Servers, VMs, autonomous agents and other unattended machines with no user behind them, typically enrolled with a setup key.",
   "peers.serversBlockedTitle": "Add new server to your network",
   "peers.serversBlockedDescription":
-    "To get started, install NetBird on the server and enroll it using a setup key.",
+    "To get started, install Cloink on the server and enroll it using a setup key.",
   "peers.pendingApprovalTitle": "Pending Device Approvals",
   "peers.pendingApprovals": "Pending Approvals",
   "peers.pendingApprovalSearchPlaceholder":
@@ -571,7 +571,7 @@ const en = {
     "Peers in these groups will require manual domain name resolution",
   "nameservers.title": "Nameservers",
   "nameservers.description":
-    "Add nameservers for domain name resolution in your NetBird network.",
+    "Add nameservers for domain name resolution in your Cloink network.",
   "nameservers.tableTitle": "Nameservers",
   "nameserverTemplate.google": "Google DNS",
   "nameserverTemplate.googleDesc":
@@ -763,12 +763,12 @@ const en = {
   "reverseProxy.accessLogs": "Access Logs",
   "reverseProxy.servicesTitle": "Services",
   "reverseProxy.servicesDescription":
-    "Expose services securely through NetBird's reverse proxy.",
+    "Expose services securely through Cloink's reverse proxy.",
   "reverseProxy.tableTitle": "Reverse Proxy",
   "reverseProxy.searchPlaceholder": "Search by URL, domain, or target...",
   "reverseProxy.emptyTitle": "Create Services",
   "reverseProxy.emptyDescription":
-    "Expose your internal services securely through NetBird's reverse proxy with automatic TLS and optional authentication to protect your services.",
+    "Expose your internal services securely through Cloink's reverse proxy with automatic TLS and optional authentication to protect your services.",
   "reverseProxy.addService": "Add Service",
   "reverseProxy.domain": "Domain",
   "reverseProxy.type": "Type",
@@ -803,7 +803,7 @@ const en = {
   "reverseProxy.modalL4Description":
     "Forward traffic directly to your backend service.",
   "reverseProxy.modalHttpDescription":
-    "Expose services securely through NetBird's reverse proxy.",
+    "Expose services securely through Cloink's reverse proxy.",
   "reverseProxy.tabService": "Service",
   "reverseProxy.tabAuthentication": "Authentication",
   "reverseProxy.tabAccessControl": "Access Control",
@@ -935,7 +935,7 @@ const en = {
   "reverseProxy.subdomainOptionalPlaceholder": "myapp (optional)",
   "reverseProxy.clusterOfflineHostedPrefix":
     "Cluster {clusterName} is offline. Please try again in a few minutes. If the issue persists, check",
-  "reverseProxy.netbirdStatus": "NetBird Status",
+  "reverseProxy.netbirdStatus": "Cloink Status",
   "reverseProxy.clusterOfflineHostedMiddle": "or reach out to",
   "reverseProxy.clusterOfflineSelfHosted":
     "Cluster {clusterName} is offline. Make sure the proxy server is running and connected to the right management address.",
@@ -949,14 +949,14 @@ const en = {
   "reverseProxy.customDomainsSearch": "Search by domain...",
   "reverseProxy.customDomainsEmptyTitle": "Add Custom Domains",
   "reverseProxy.customDomainsEmptyDescription":
-    "Use your own domains with NetBird's reverse proxy. To get started, add a CNAME record that points to a cluster and verify domain ownership.",
+    "Use your own domains with Cloink's reverse proxy. To get started, add a CNAME record that points to a cluster and verify domain ownership.",
   "reverseProxy.addDomain": "Add Domain",
   "reverseProxy.customDomainsLearnMore": "Custom Domains",
   "reverseProxy.pending": "Pending",
   "reverseProxy.pendingVerification": "Pending Verification",
   "reverseProxy.verifyDomain": "Verify Domain",
   "reverseProxy.pendingVerificationHelp":
-    "DNS changes may take some time to propagate. If NetBird does not find the record immediately, please wait up to 24 hours and try again.",
+    "DNS changes may take some time to propagate. If Cloink does not find the record immediately, please wait up to 24 hours and try again.",
   "reverseProxy.customDomainSelectorAdd": "Add Custom Domain",
   "reverseProxy.customDomainModalTitle": "Add Custom Domain",
   "reverseProxy.customDomainModalDescription":
@@ -1010,7 +1010,7 @@ const en = {
   "reverseProxy.preservePathDisabledMiddle": "is forwarded as",
   "reverseProxy.preservePathEnabledPrefix": "When enabled, a request to e.g.,",
   "reverseProxy.preservePathEnabledMiddle": "is forwarded as",
-  "reverseProxy.installNetBird": "Install NetBird",
+  "reverseProxy.installNetBird": "Install Cloink",
   "reverseProxy.networks": "Networks",
   "reverseProxy.headerInvalidName":
     "Invalid characters in header name. Please use another one.",
@@ -1038,11 +1038,11 @@ const en = {
   "reverseProxy.targetPeerLabel": "Peer",
   "reverseProxy.targetResourceLabel": "Resource",
   "reverseProxy.targetPeerHelp":
-    "A peer is a machine (e.g., laptop, server, container) running NetBird. Select a peer if your service runs directly on it.",
+    "A peer is a machine (e.g., laptop, server, container) running Cloink. Select a peer if your service runs directly on it.",
   "reverseProxy.targetPeerInstall": "If you don't have a peer yet, you can",
   "reverseProxy.targetPeerOrResourceConnector": "or",
   "reverseProxy.targetResourceHelp":
-    "A resource is a destination (IP, subnet, or domain) that can't run NetBird directly. Resources are part of a network and are reached through a routing peer that forwards traffic to them.",
+    "A resource is a destination (IP, subnet, or domain) that can't run Cloink directly. Resources are part of a network and are reached through a routing peer that forwards traffic to them.",
   "reverseProxy.targetResourceCreate": "If you don't have resources yet, go to",
   "reverseProxy.targetCreateSome": "to create some.",
   "reverseProxy.targetSelectResourceHelp":
@@ -1089,9 +1089,9 @@ const en = {
   "reverseProxy.selectUserGroups": "Select user groups...",
   "reverseProxy.addSso": "Add SSO",
   "reverseProxy.betaHosted":
-    "NetBird's Reverse Proxy is currently in beta and available at no cost during this period. Features, functionality, and pricing are subject to change upon release.",
+    "Cloink's Reverse Proxy is currently in beta and available at no cost during this period. Features, functionality, and pricing are subject to change upon release.",
   "reverseProxy.betaSelfHosted":
-    "NetBird's Reverse Proxy is currently in beta. Features and functionality are subject to change upon release.",
+    "Cloink's Reverse Proxy is currently in beta. Features and functionality are subject to change upon release.",
   "reverseProxy.selfHostedProxies": "Self-Hosted Proxies",
   "reverseProxy.selfHostedDescription":
     "Set up self-hosted proxies on your own infrastructure for full control over traffic and geographic location.",
@@ -1140,7 +1140,7 @@ const en = {
   "reverseProxy.runProxyWithKubernetesHelp":
     "Apply the following manifest to your cluster to start the proxy.",
   "reverseProxy.selfHostedRoutingWarning":
-    "For self-hosted deployments, make sure the proxy service routes are configured on your NetBird management server before starting the proxy.",
+    "For self-hosted deployments, make sure the proxy service routes are configured on your Cloink management server before starting the proxy.",
   "reverseProxy.requiredRoutingEndpoints": "Required routing endpoints",
   "reverseProxy.envReferenceHelp":
     "Need to fine-tune the proxy? See all available",
@@ -1175,9 +1175,9 @@ const en = {
   "reverseProxy.deployTitleAws": "Deploy on AWS",
   "reverseProxy.proxyClusterLearnMore": "Proxy Cluster",
   "reverseProxy.proxyRegistered":
-    "Proxy registered with NetBird and connected.",
+    "Proxy registered with Cloink and connected.",
   "reverseProxy.waitingForRegistration":
-    "Waiting for the proxy to register with NetBird...",
+    "Waiting for the proxy to register with Cloink...",
   "reverseProxy.resourceCreated": "{resourceLabel} {name} was created",
   "reverseProxy.resourceCreatedWithIp":
     "{resourceLabel} {name} was created with {ipType} {ip} and is still bootstrapping. Meanwhile, add the DNS records below.",
@@ -1188,10 +1188,10 @@ const en = {
     "Point these records at the new {resource}. The proxy gets its certificate once they resolve.",
   "reverseProxy.hetznerApiToken": "Hetzner API Token",
   "reverseProxy.hetznerTokenTooltip":
-    "The token goes straight from your browser to Hetzner and never touches NetBird's servers, and you can delete it once setup succeeds.",
+    "The token goes straight from your browser to Hetzner and never touches Cloink's servers, and you can delete it once setup succeeds.",
   "reverseProxy.howToCreateToken": "How to create a token",
   "reverseProxy.hetznerTokenHelp":
-    "Create a read & write API token. It is never stored by NetBird.",
+    "Create a read & write API token. It is never stored by Cloink.",
   "reverseProxy.hetznerTokenPlaceholder":
     "Paste your Hetzner Cloud API token here",
   "reverseProxy.hetznerCatalogError": "Could not load Hetzner options: {error}",
@@ -1215,9 +1215,9 @@ const en = {
   "reverseProxy.server": "Server",
   "reverseProxy.digitalOceanApiToken": "DigitalOcean API Token",
   "reverseProxy.digitalOceanTokenTooltip":
-    "For the tightest scope, grant full access to {tag}, {droplet}, and {reservedIp} only. The token goes straight from your browser to DigitalOcean and never touches NetBird's servers, and you can delete it once setup succeeds.",
+    "For the tightest scope, grant full access to {tag}, {droplet}, and {reservedIp} only. The token goes straight from your browser to DigitalOcean and never touches Cloink's servers, and you can delete it once setup succeeds.",
   "reverseProxy.digitalOceanTokenHelp":
-    "Create a token with write access. It is never stored by NetBird.",
+    "Create a token with write access. It is never stored by Cloink.",
   "reverseProxy.digitalOceanTokenPlaceholder":
     "Paste your DigitalOcean API token here",
   "reverseProxy.region": "Region",
@@ -1263,11 +1263,11 @@ const en = {
   "reverseProxy.passwordPlaceholder": "Password",
   "reverseProxy.headerNameLabel": "Name",
   "reverseProxy.headerValueLabel": "Value",
-  "reverseProxy.netBirdOnlyAccess": "NetBird-Only Access",
+  "reverseProxy.netBirdOnlyAccess": "Cloink-Only Access",
   "reverseProxy.netBirdOnlyDescription":
-    "Reachable only from connected peers in the selected NetBird groups.",
+    "Reachable only from connected peers in the selected Cloink groups.",
   "reverseProxy.netBirdOnlyRequiresCluster":
-    "NetBird-Only Access requires a proxy cluster with at least one connected embedded proxy ({code}). The selected cluster doesn't have one. Connect an embedded proxy to this cluster to enable this option.",
+    "Cloink-Only Access requires a proxy cluster with at least one connected embedded proxy ({code}). The selected cluster doesn't have one. Connect an embedded proxy to this cluster to enable this option.",
   "reverseProxy.directUpstreamClusterRequired":
     "Direct Upstream is only configurable on clusters with at least one connected embedded proxy ({code}). The selected cluster doesn't have one.",
   "reverseProxy.directUpstreamLabel": "Direct Upstream",
@@ -1276,9 +1276,9 @@ const en = {
   "reverseProxy.directUpstreamHelp":
     "Dial the upstream target from the proxy host instead of through the WireGuard tunnel. Turn on when the upstream is reachable without a WireGuard connection.",
   "reverseProxy.privateServiceCallout":
-    "This service is accessible via NetBird only. An allow rule for the NetBird network range is applied by default. Any rules you add here are layered on top.",
+    "This service is accessible via Cloink only. An allow rule for the Cloink network range is applied by default. Any rules you add here are layered on top.",
   "reverseProxy.noAccessGroupsWarning":
-    "NetBird-only is on but no access groups are set. Open it on the Authentication tab and pick at least one group.",
+    "Cloink-only is on but no access groups are set. Open it on the Authentication tab and pick at least one group.",
   "reverseProxy.oneGroup": "1 Group",
   "reverseProxy.oneHeader": "1 Header",
   "reverseProxy.headerCount": "{count} Headers",
@@ -1317,7 +1317,7 @@ const en = {
   "reverseProxy.authHoverPinCode": "PIN Code",
   "reverseProxy.authHoverSso": "SSO (Single Sign On)",
   "reverseProxy.authHoverHttpHeaders": "HTTP Headers",
-  "reverseProxy.authHoverNetBirdOnly": "NetBird-Only Access",
+  "reverseProxy.authHoverNetBirdOnly": "Cloink-Only Access",
   "reverseProxy.crowdSecEnforce": "Enforce",
   "reverseProxy.crowdSecObserve": "Observe",
   "reverseProxy.learnMoreAbout": "Learn more about",
@@ -1338,7 +1338,7 @@ const en = {
   "clustersTable.setupSelfHostedCluster": "Setup Self-Hosted Cluster",
   "networks.title": "Networks",
   "networks.description":
-    "Networks allow you to access internal resources in LANs and VPCs without installing NetBird on every machine.",
+    "Networks allow you to access internal resources in LANs and VPCs without installing Cloink on every machine.",
   "networks.policyLabel": "policy",
   "networks.defaultPolicyName": "{name} Policy",
   "networks.multiPolicyTitle": "This policy is used by multiple resources",
@@ -1432,7 +1432,7 @@ const en = {
   "users.peersDescription": "View all peers registered by this user.",
   "users.noRegisteredPeersTitle": "This user has no registered peers",
   "users.noRegisteredPeersDescription":
-    "Install NetBird and sign in as this user to register peers.",
+    "Install Cloink and sign in as this user to register peers.",
   "users.allUsers": "All Users",
   "users.status.disabled": "Disabled",
   "users.status.pendingApproval": "Pending Approval",
@@ -1525,7 +1525,7 @@ const en = {
   "invite.expiredTitle": "Invite Expired",
   "invite.expiredDescription":
     "This invite link has expired. Please contact your administrator to receive a new invitation.",
-  "invite.welcomeTitle": "Welcome to NetBird",
+  "invite.welcomeTitle": "Welcome to Cloink",
   "auth.accountLinkedSuccessfully":
     "Your account has been linked successfully. Please log in again to complete the setup.",
   "auth.somethingWentWrong": "Oops, something went wrong",
@@ -1594,10 +1594,10 @@ const en = {
   "invite.passwordRuleSpecial": "One special character (!@#$%^&*)",
   "invite.acceptExpiresOnFormat": "D MMMM, YYYY [at] h:mm A",
   "invite.copyAndClose": "Copy & Close",
-  "onboarding.installNetBird": "Install NetBird",
+  "onboarding.installNetBird": "Install Cloink",
   "onboarding.addClientDevice": "Time to add your client device",
   "onboarding.addClientDeviceDescription":
-    "Your first resource and routing peer are all set. Now, take your device, install NetBird, and let's get you connected.",
+    "Your first resource and routing peer are all set. Now, take your device, install Cloink, and let's get you connected.",
   "onboarding.testConnection": "Let's put that connection to the test",
   "onboarding.testConnectionDescription":
     "Nice work connecting your client device! Now, let's have a little fun and test if it can reach your resource.",
@@ -1612,11 +1612,11 @@ const en = {
   "onboarding.itWorksContinue": "It works! - Continue",
   "onboarding.rulesTitle": "Set the rules. You're in control",
   "onboarding.networkPolicyDescription":
-    "NetBird makes it easy for admins to enforce least-privilege access with access control policies. We've already created one for your resource during onboarding.",
+    "Cloink makes it easy for admins to enforce least-privilege access with access control policies. We've already created one for your resource during onboarding.",
   "onboarding.networkPolicyToggleHint":
     "Flip the switch, then try pinging your resource again to see how it affects the connection.",
   "onboarding.p2pPolicyDescription":
-    "With NetBird, you decide who gets access to what. We've already set up an access policy for your devices.",
+    "With Cloink, you decide who gets access to what. We've already set up an access policy for your devices.",
   "onboarding.p2pPolicyToggleHint":
     "Flip the switch, then try pinging your other device again to see how it affects the connection.",
   "onboarding.continue": "Continue",
@@ -1640,10 +1640,10 @@ const en = {
     "Allows users to access routing peers",
   "onboarding.getFirstDeviceOnline": "Let's get your first device online",
   "onboarding.getFirstDeviceOnlineDescription":
-    "To access other machines, install NetBird, sign in, and your device joins the network. Every device you add becomes a NetBird peer in your network. It's that simple.",
+    "To access other machines, install Cloink, sign in, and your device joins the network. Every device you add becomes a Cloink peer in your network. It's that simple.",
   "onboarding.bringSecondDevice": "Time to bring in your second device",
   "onboarding.eachDeviceGetsPrivateIP":
-    "Each device (a.k.a. peer) in your NetBird network gets its own private IP and name to communicate securely in the network.",
+    "Each device (a.k.a. peer) in your Cloink network gets its own private IP and name to communicate securely in the network.",
   "onboarding.shareLinkToCompleteSetup":
     "To complete the setup, just share this link or email it to yourself to set up your next device with ease.",
   "onboarding.installationLinkCopied": "Installation link successfully copied",
@@ -1652,39 +1652,39 @@ const en = {
     "Use the headless setup to register a peer without a browser or user interaction.",
   "onboarding.installWithSetupKey": "Install with a setup key",
   "onboarding.installNetBirdOnAnotherDevice":
-    "Install NetBird on another device using this link.",
+    "Install Cloink on another device using this link.",
   "onboarding.createSetupKey": "Create a Setup Key?",
   "onboarding.createSetupKeyDescription":
-    "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
+    "If you continue, a one-off setup key will be automatically created and you will be able to install Cloink.",
   "onboarding.dialogTitle": "Onboarding",
   "onboarding.agentNetworkDialogTitle": "Agent Network Onboarding",
-  "onboarding.getStartedWithNetBird": "Get started with NetBird",
+  "onboarding.getStartedWithNetBird": "Get started with Cloink",
   "onboarding.netbirdFlexibility":
-    "NetBird provides the flexibility of both a peer-to-peer overlay network and a remote network access solution. Choose what fits your needs, you can always combine both.",
+    "Cloink provides the flexibility of both a peer-to-peer overlay network and a remote network access solution. Choose what fits your needs, you can always combine both.",
   "onboarding.peerToPeerNetwork": "Peer-to-Peer Network",
   "onboarding.p2pBusinessDescription":
-    "Install NetBird on two or more devices to create secure, direct WireGuard connections, like laptop to server or server to database. Add at least two machines to get started.",
+    "Install Cloink on two or more devices to create secure, direct WireGuard connections, like laptop to server or server to database. Add at least two machines to get started.",
   "onboarding.p2pHomelabDescription":
-    "Install NetBird on two or more devices in your homelab, such as your laptop, NAS, or Raspberry Pi, to create secure, direct WireGuard connections.",
+    "Install Cloink on two or more devices in your homelab, such as your laptop, NAS, or Raspberry Pi, to create secure, direct WireGuard connections.",
   "onboarding.remoteNetworkAccess": "Remote Network Access",
   "onboarding.remoteAccessBusinessDescription":
-    "Enable employee remote access to VMs, Kubernetes clusters, and cloud or on-prem resources without installing NetBird on every machine.",
+    "Enable employee remote access to VMs, Kubernetes clusters, and cloud or on-prem resources without installing Cloink on every machine.",
   "onboarding.remoteAccessHomelabDescription":
-    "Securely access your homelab remotely from anywhere without installing NetBird on every device.",
+    "Securely access your homelab remotely from anywhere without installing Cloink on every device.",
   "onboarding.recommended": "Recommended",
   "onboarding.recommendedBasedOnChoices":
     "Based on your previous choices, we recommend starting with {title}. You can always combine both options later.",
-  "onboarding.welcome": "Welcome to NetBird!",
-  "onboarding.welcomeWithName": "Welcome to NetBird, {name}!",
+  "onboarding.welcome": "Welcome to Cloink!",
+  "onboarding.welcomeWithName": "Welcome to Cloink, {name}!",
   "onboarding.shareDetails":
     "Share a few details about your use case to help us get you started smoothly.",
   "onboarding.business": "Business",
   "onboarding.personal": "Personal",
   "onboarding.companySizeQuestion":
-    "How many people at your company will use NetBird?",
-  "onboarding.howHeardAboutNetBird": "How did you hear about NetBird?",
+    "How many people at your company will use Cloink?",
+  "onboarding.howHeardAboutNetBird": "How did you hear about Cloink?",
   "onboarding.selectOption": "Please select an option...",
-  "onboarding.howPlanToUseNetBird": "How do you plan to use NetBird?",
+  "onboarding.howPlanToUseNetBird": "How do you plan to use Cloink?",
   "onboarding.selectMultipleUseCases": "Select one or more use cases.",
   "onboarding.zeroTrustSecurity": "Zero Trust Security",
   "onboarding.employeeRemoteAccess": "Employee Remote Access",
@@ -1709,7 +1709,7 @@ const en = {
   "onboarding.waitingForRoutingPeer":
     "Waiting for your routing peer to connect",
   "onboarding.waitingForOwnDevice": "Waiting for your own device to connect",
-  "onboarding.skipPrompt": "Already know how NetBird works?",
+  "onboarding.skipPrompt": "Already know how Cloink works?",
   "onboarding.skipToDashboard": "Skip to Dashboard",
   "onboarding.referralSource.Search Engines (Google, Bing etc.)":
     "Search Engines (Google, Bing etc.)",
@@ -1720,9 +1720,9 @@ const en = {
   "onboarding.referralSource.Slack": "Slack",
   "onboarding.referralSource.Other": "Other",
   "onboarding.referralSource.NetBird YouTube Channel":
-    "NetBird YouTube Channel",
+    "Cloink YouTube Channel",
   "onboarding.referralSource.Other YouTube Channel": "Other YouTube Channel",
-  "onboarding.referralSource.NetBird SubReddit": "NetBird SubReddit",
+  "onboarding.referralSource.NetBird SubReddit": "Cloink SubReddit",
   "onboarding.referralSource.Other Reddit Thread": "Other Reddit Thread",
   "onboarding.referralSource.GitHub": "GitHub",
   "invite.createUserTitle": "Create User",
@@ -1730,7 +1730,7 @@ const en = {
   "invite.cloudDescription":
     "Invite a user to your network and set their permissions.",
   "invite.createDescription":
-    "Create a NetBird user account with email and password.",
+    "Create a Cloink user account with email and password.",
   "invite.inviteDescription":
     "Generate an invite link that the user can use to set their own password.",
   "invite.sendInvitation": "Send Invitation",
@@ -1827,9 +1827,9 @@ const en = {
   "mspTransfer.permissionDevices":
     "Manage all devices and associated resources",
   "mspTransfer.permissionUsers": "Manage all users, groups and permissions",
-  "mfa.netbirdMfa": "NetBird MFA",
+  "mfa.netbirdMfa": "Cloink MFA",
   "mfa.tooltipDescription":
-    "NetBird MFA is primarily intended for users who log in with email and password. You may not need NetBird MFA if your SSO provider (e.g., Google, Microsoft) already has MFA enabled.",
+    "Cloink MFA is primarily intended for users who log in with email and password. You may not need Cloink MFA if your SSO provider (e.g., Google, Microsoft) already has MFA enabled.",
   "mfa.notEnrolled": "Not Enrolled",
   "mfa.activate": "Activate",
   "mfa.resetTitle": "Reset Multi-factor Authentication?",
@@ -1925,7 +1925,7 @@ const en = {
     "This key will not be shown again, so be sure to copy it and store in a secure location.",
   "setupKey.creationFailed": "Setup key could not be created...",
   "actions.close": "Close",
-  "setupKey.installNetBird": "Install NetBird",
+  "setupKey.installNetBird": "Install Cloink",
   "setupKey.creatingTitle": "Create Setup Key",
   "setupKey.creatingDescription":
     "Setup key created successfully. You can now enroll peers with your new key.",
@@ -1976,12 +1976,12 @@ const en = {
   "versionInfo.dashboard": "Dashboard",
   "versionInfo.updateAvailable": "Update available",
   "linuxTab.addRepository": "Add our repository",
-  "linuxTab.installNetBird": "Install NetBird",
+  "linuxTab.installNetBird": "Install Cloink",
   "groupDetails.title": "Group Information",
   "groupDetails.notFound":
     "The group you are attempting to access cannot be found. It may have been deleted, or you may not have permission to view it. Please verify the URL or return to the dashboard.",
   "analytics.googleTagManager": "Google Tag Manager",
-  "instanceSetup.welcomeTitle": "Welcome to NetBird",
+  "instanceSetup.welcomeTitle": "Welcome to Cloink",
   "instanceSetup.welcomeDescription":
     "Create the first admin account to get started",
   "instanceSetup.accountCreated": "Account Created!",
@@ -1995,7 +1995,7 @@ const en = {
   "instanceSetup.createAdminAccount": "Create Admin Account",
   "instanceSetup.creatingAccount": "Creating Account...",
   "instanceSetup.oneTimeSetup":
-    "This is a one-time setup for your NetBird instance.",
+    "This is a one-time setup for your Cloink instance.",
   "instanceSetup.nameRequired": "Name is required",
   "instanceSetup.emailRequired": "Email is required",
   "instanceSetup.invalidEmail": "Please enter a valid email address",
@@ -2025,7 +2025,7 @@ const en = {
   "activity.setupkey": "Setup-Key",
   "activity.withKey": "with key",
   "activity.peer": "Peer",
-  "activity.wasAddedWithNetBirdIp": "was added with the NetBird IP",
+  "activity.wasAddedWithNetBirdIp": "was added with the Cloink IP",
   "activity.usingSetupKey": "using the setup key",
   "activity.domainS": "domain(s)",
   "activity.range": "range",
@@ -2055,10 +2055,10 @@ const en = {
   "activity.ownerRoleTransferred": "Owner role was transferred",
   "activity.activityCode": "Activity Code",
   "activity.meta": "Meta",
-  "activity.getStartedTitle": "Get Started with NetBird",
+  "activity.getStartedTitle": "Get Started with Cloink",
   "activity.getStartedDescription":
     "It looks like you don't have any connected machines.\nGet started by adding one to your network.",
-  "activity.netbirdUser": "NetBird",
+  "activity.netbirdUser": "Cloink",
   "activity.setupkeyRevoke": "was revoked",
   "activity.setupkeyDelete": "was deleted",
   "activity.setupkeyAdd": "was created",
@@ -2072,9 +2072,9 @@ const en = {
   "activity.routeUpdate": "was updated",
   "activity.routeAdd": "was created",
   "activity.userPeerDelete": "was deleted",
-  "activity.userPeerAdd": "was added with the NetBird IP",
+  "activity.userPeerAdd": "was added with the Cloink IP",
   "activity.userPeerUpdate": "was updated",
-  "activity.userJoin": "joined NetBird",
+  "activity.userJoin": "joined Cloink",
   "activity.userInvite": "was invited.",
   "activity.userCreate": "was created by",
   "activity.userGroupAdd": "was added to user",
@@ -2092,8 +2092,8 @@ const en = {
   "activity.userInviteLinkDelete": "Invite link was deleted for",
   "activity.serviceUserCreate": "was created",
   "activity.serviceUserDelete": "was deleted",
-  "activity.peerGroupDelete": "was removed from the peer with the NetBird IP",
-  "activity.peerGroupAdd": "was added to the peer with the NetBird IP",
+  "activity.peerGroupDelete": "was removed from the peer with the Cloink IP",
+  "activity.peerGroupAdd": "was added to the peer with the Cloink IP",
   "activity.peerLoginExpire": "is expired",
   "activity.peerSshDisable": "was disabled",
   "activity.peerSshEnable": "was enabled",
@@ -2108,7 +2108,7 @@ const en = {
   "activity.peerApproveAccount": "at",
   "activity.peerApproveTime": "time",
   "activity.peerIpUpdate": "IP address was updated from",
-  "activity.peerUserAdd": "was added with the NetBird IP",
+  "activity.peerUserAdd": "was added with the Cloink IP",
   "activity.groupAdd": "was created",
   "activity.groupDelete": "was deleted",
   "activity.groupUpdate": "was renamed to",
@@ -2196,7 +2196,7 @@ const en = {
   "activity.complianceBypassedFor": "compliance bypassed for",
   "activity.complianceBypassRevokedFor": "compliance bypass revoked for",
   "activity.originalNonCompliantReason": "(original non-compliant reason:",
-  "activity.withNetBirdIp": "with the NetBird IP",
+  "activity.withNetBirdIp": "with the Cloink IP",
   "activity.setupKeySuffix": "setup key",
   "proxyEvents.title": "Access Logs",
   "proxyEvents.description":
@@ -2407,23 +2407,23 @@ const en = {
   "remoteAccess.noAccessToken": "No access token available.",
   "remoteAccess.sshConnectionFailed":
     "SSH connection failed. Check the console for details.",
-  "remoteAccess.netbirdConnectionError": "NetBird Connection Error",
+  "remoteAccess.netbirdConnectionError": "Cloink Connection Error",
   "remoteAccess.rdpConnectionError": "RDP Connection Error",
   "remoteAccess.rdpGenericError": "RDP connection failed",
   "remoteAccess.rdpError": "RDP Error",
-  "remoteAccess.netbirdClientError": "NetBird Client Error",
+  "remoteAccess.netbirdClientError": "Cloink Client Error",
   "remoteAccess.canvasUnavailable": "Canvas not available for RDP rendering",
   "remoteAccess.ironrdpUnavailable":
     "IronRDP components not available from client",
   "remoteAccess.ironrdpInitFailed": "Failed to initialize IronRDP",
   "remoteAccess.wasmLoadFailed": "Failed to load WASM runtime",
-  "remoteAccess.wasmInitTimeout": "NetBird WASM failed to initialize in time",
+  "remoteAccess.wasmInitTimeout": "Cloink WASM failed to initialize in time",
   "remoteAccess.wasmInitFailed": "Failed to initialize WASM",
   "remoteAccess.netbirdClientUnavailable":
-    "NetBirdClient is not available or not a function",
+    "CloinkClient is not available or not a function",
   "remoteAccess.connectionFailed": "Connection failed",
   "remoteAccess.goClientNotReady": "Go client not ready",
-  "remoteAccess.netbirdClientNotReady": "NetBird client not ready",
+  "remoteAccess.netbirdClientNotReady": "Cloink client not ready",
   "remoteAccess.wasmInitializationFailed": "WASM initialization failed",
   "remoteAccess.rdpErrorWrongPassword": "Incorrect username or password.",
   "remoteAccess.rdpErrorLogonFailure":
@@ -2440,7 +2440,7 @@ const en = {
   "remoteAccess.rdpSessionError": "RDP session error: {reason}",
   "remoteAccess.ironrdpModuleNotLoaded": "IronRDP module not loaded",
   "remoteAccess.rdpProxySupportRequired":
-    "NetBird client with RDP proxy support is required",
+    "Cloink client with RDP proxy support is required",
   "remoteAccess.wsaInterruptedSystemCall": "interrupted system call",
   "remoteAccess.wsaBadFileDescriptor": "bad file descriptor",
   "remoteAccess.wsaPermissionDenied": "permission denied",
@@ -2522,7 +2522,7 @@ const en = {
     "Use this switch to enable or disable the route.",
   "routeModal.autoApplyRoute": "Auto Apply Route",
   "routeModal.autoApplyRouteHelp":
-    "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+    "Automatically apply this exit node to your distribution groups. This requires Cloink client v0.55.0 or higher.",
   "routeModal.metricHelp": "A lower metric indicates higher priority routes.",
   "routeModal.exitNodePeerName": "Exit Node ({name})",
   "routeModal.metric": "Metric",
@@ -2554,7 +2554,7 @@ const en = {
     "Peers in these groups will require manual domain name resolution",
   "networkRoutesPage.title": "Network Routes",
   "networkRoutesPage.description":
-    "Network routes allow you to access other networks like LANs and VPCs without installing NetBird on every resource.",
+    "Network routes allow you to access other networks like LANs and VPCs without installing Cloink on every resource.",
   "networkRoutesPage.callout":
     "We recommend using the new Networks concept to easier visualise and manage access to your resources.",
   "networkRoutesPage.goToNetworks": "Go to Networks",
@@ -2576,7 +2576,7 @@ const en = {
   "networkDetails.serviceTab": "Service",
   "networkDetails.goToPoliciesLink": "Go to Policies",
   "networks.pageDescription":
-    "Access internal resources in LANs and VPCs without installing NetBird on every machine.",
+    "Access internal resources in LANs and VPCs without installing Cloink on every machine.",
   "accessControl.pageDescription":
     "Policies connect users and agents to your network resources, controlling what each identity can reach.",
   "groups.pageDescription":
@@ -2657,7 +2657,7 @@ const en = {
   "groupPeers.searchPlaceholder": "Search by name, IP or owner...",
   "groupPeers.emptyTitle": "This group has no assigned peers yet",
   "groupPeers.emptyDescription":
-    "Install NetBird and assign existing peers to this group to see them listed here.",
+    "Install Cloink and assign existing peers to this group to see them listed here.",
   "groupPeers.emptyAssignTitle": "You don't have any peers to assign",
   "groupPeers.emptyAssignDescription":
     "To assign peers to this group, you need at least one peer that is not already part of this group.",
@@ -2666,7 +2666,7 @@ const en = {
   "groupPeers.removeFromGroup": "Remove Peers from Group",
   "routeAddRoutingPeer.title": "Add New Routing Peer",
   "routeAddRoutingPeer.description":
-    "When you add multiple routing peers, NetBird enables high availability for this network.",
+    "When you add multiple routing peers, Cloink enables high availability for this network.",
   "routeAddRoutingPeer.networkHelp":
     "Network name and CIDR that you are adding the route to.",
   "routeAddRoutingPeer.addRoute": "Add Route",
@@ -2683,10 +2683,10 @@ const en = {
   "peerSsh.cliClient": "CLI",
   "peerSsh.desktopClient": "Desktop Client",
   "peerSsh.cliStepIntro":
-    "If you are using NetBird via CLI, you can enable SSH by running",
-  "peerSsh.cliDownComment": "if NetBird is already running",
+    "If you are using Cloink via CLI, you can enable SSH by running",
+  "peerSsh.cliDownComment": "if Cloink is already running",
   "peerSsh.desktopStepPrefix":
-    "If you are using NetBird via the Desktop Client, click the NetBird tray icon, go to",
+    "If you are using Cloink via the Desktop Client, click the Cloink tray icon, go to",
   "peerSsh.settings": "Settings",
   "peerSsh.desktopStepMiddle": "and click",
   "peerSsh.allowSsh": "Allow SSH",
@@ -2696,17 +2696,17 @@ const en = {
   "peerSsh.desktopStepAdvancedSuffix":
     "and enable SSH Root Login under the SSH tab.",
   "peerSsh.explicitPolicyRequired":
-    "Starting from NetBird v0.61.0, SSH requires an explicit access control policy to allow SSH connections to this machine.",
+    "Starting from Cloink v0.61.0, SSH requires an explicit access control policy to allow SSH connections to this machine.",
   "peerSsh.createPolicy": "Create SSH Policy",
   "peerSsh.finishStepPrefix":
-    "Once the NetBird SSH server is allowed on the client,",
+    "Once the Cloink SSH server is allowed on the client,",
   "peerSsh.finishStepMiddle": "click",
   "peerSsh.confirmAndEnable": "Confirm & Enable",
   "peerSsh.finishStepSuffix": "below to finish the setup.",
   "peerSsh.finishSetup": "Finish Setup",
   "peerSsh.disableTitle": "Disable SSH Access?",
   "peerSsh.disableDescription":
-    "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
+    "Starting from Cloink v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your Cloink client to restore SSH functionality.",
   "peerSsh.disable": "Disable",
   "peerSsh.noPermission":
     "You don't have the required permissions to update this setting.",
@@ -2715,13 +2715,13 @@ const en = {
   "peerSsh.setupHelp":
     "Set up SSH and create an explicit access control policy defining which users can access specific local usernames of this machine via SSH.",
   "peerSsh.clientUpdateWarning":
-    "You have SSH access configured but your client runs on an older NetBird version. Please update your NetBird client to v0.61.0+ to allow SSH connections.",
+    "You have SSH access configured but your client runs on an older Cloink version. Please update your Cloink client to v0.61.0+ to allow SSH connections.",
   "peerSsh.serverDisabledWarning":
     "You have an SSH access policy configured, but the SSH server isn't enabled on this client. Enable the SSH server to allow SSH connections.",
   "peerSsh.explicitPolicyWarning":
-    "Your SSH server is enabled, but starting from NetBird v0.61.0, SSH requires an explicit access control policy. Please create an SSH access control policy to allow SSH connections.",
+    "Your SSH server is enabled, but starting from Cloink v0.61.0, SSH requires an explicit access control policy. Please create an SSH access control policy to allow SSH connections.",
   "peerNetworkRoutes.description":
-    "Access other networks without installing NetBird on every resource.",
+    "Access other networks without installing Cloink on every resource.",
   "peerRouteActions.deleteTitle": "Delete Route {name}",
   "peerRouteActions.deleted": "Route was successfully removed",
   "peerRouteActions.deleting": "Deleting the route...",
@@ -2759,10 +2759,10 @@ const en = {
     "The peer needs to be approved by an administrator before it can connect to other peers.",
   "peerApproval.required": "Approval required",
   "reverseProxyTargets.description":
-    "Expose services securely through NetBird's reverse proxy.",
+    "Expose services securely through Cloink's reverse proxy.",
   "reverseProxyTargets.emptyTitle": "This network has no services",
   "reverseProxyTargets.emptyDescription":
-    "Create resources and expose services securely through NetBird's reverse proxy.",
+    "Create resources and expose services securely through Cloink's reverse proxy.",
   "reverseProxy.authHeadersTitle": "HTTP Headers",
   "reverseProxy.addHeaders": "Add Headers",
   "reverseProxy.removeAll": "Remove All",
@@ -2791,7 +2791,7 @@ const en = {
   "reverseProxy.noGroups": "No groups",
   "reverseProxy.groupCount": "{count} Group(s)",
   "reverseProxy.privateClusterDescriptionPrefix":
-    "Lets you publish services that are only reachable from peers in your NetBird network. Required for",
+    "Lets you publish services that are only reachable from peers in your Cloink network. Required for",
   "reverseProxy.privateClusterDescriptionMiddle": "and",
   "reverseProxy.privateClusterDescriptionSuffix": "target types.",
   "reverseProxy.featureCustomPorts": "Custom Ports",
@@ -2875,10 +2875,10 @@ const en = {
     "Learn how to manage access for your network resources effectively. Whether you want to restrict access to specific machines or allow certain users to connect.",
   "onboarding.videoIdpTitle": "Provision Users & Groups From Your IdP",
   "onboarding.videoIdpDescription":
-    "Learn how to provision users and groups from your identity provider, such as Okta, Azure AD, or Google Workspace, to manage access control in NetBird and automate onboarding and offboarding processes.",
-  "onboarding.videoHowTitle": "How NetBird Works",
+    "Learn how to provision users and groups from your identity provider, such as Okta, Azure AD, or Google Workspace, to manage access control in Cloink and automate onboarding and offboarding processes.",
+  "onboarding.videoHowTitle": "How Cloink Works",
   "onboarding.videoHowDescription":
-    "See how NetBird works, its architecture, and how it can help you build secure networks.",
+    "See how Cloink works, its architecture, and how it can help you build secure networks.",
   "onboarding.goToDashboard": "Go to Dashboard",
   "onboarding.firstNetworkName": "My First Network",
   "onboarding.createdDuringOnboarding": "Created during onboarding",
@@ -2921,9 +2921,9 @@ const en = {
   "onboarding.addRoutingPeerTitle":
     "Add a routing peer and get the traffic flowing",
   "onboarding.addRoutingPeerDescription":
-    "Think of a routing peer as a connector to your internal network. It runs NetBird and lets your remote devices access internal resources, while enforcing access control policies.",
+    "Think of a routing peer as a connector to your internal network. It runs Cloink and lets your remote devices access internal resources, while enforcing access control policies.",
   "onboarding.addRoutingPeerStep":
-    "Generate a setup key and install NetBird on that machine.",
+    "Generate a setup key and install Cloink on that machine.",
   "onboarding.setupKey": "Setup Key",
   "onboarding.notGeneratedYet": "Not yet generated",
   "onboarding.generateSetupKey": "Generate Setup Key",
@@ -2940,7 +2940,7 @@ const en = {
   "userDetails.userRoleHelp":
     "Set a role for the user to assign access permissions.",
   "userDetails.accessTokensDescription":
-    "Access tokens give access to NetBird API.",
+    "Access tokens give access to Cloink API.",
   "userDetails.createAccessToken": "Create Access Token",
   "userDetails.name": "Name",
   "userDetails.userId": "User ID",
@@ -2958,7 +2958,7 @@ const en = {
   "peerDetails.accessiblePeers": "Accessible Peers",
   "peerDetails.noServicesTitle": "This peer has no services",
   "peerDetails.noServicesDescription":
-    "Add your services to this peer and securely expose them through NetBird's reverse proxy",
+    "Add your services to this peer and securely expose them through Cloink's reverse proxy",
   "peerDetails.assignedGroups": "Assigned Groups",
   "peerDetails.assignedGroupsHelp":
     "Use groups to control what this peer can access.",
@@ -2967,10 +2967,10 @@ const en = {
     "Connect directly to this peer via SSH or RDP.",
   "peerDetails.ipUpdated": "Peer IP was successfully updated",
   "peerDetails.ipUpdating": "Updating peer IP...",
-  "peerDetails.ipv6Updated": "NetBird peer IPv6 was successfully updated",
+  "peerDetails.ipv6Updated": "Cloink peer IPv6 was successfully updated",
   "peerDetails.updatingIpv6": "Updating peer IPv6...",
-  "peerDetails.netbirdIpAddress": "NetBird IP Address",
-  "peerDetails.netbirdIpv6Address": "NetBird IPv6 Address",
+  "peerDetails.netbirdIpAddress": "Cloink IP Address",
+  "peerDetails.netbirdIpv6Address": "Cloink IPv6 Address",
   "peerDetails.publicIpAddress": "Public IP Address",
   "peerDetails.dnsLabel": "DNS label",
   "peerDetails.domainName": "Domain Name",
@@ -2986,7 +2986,7 @@ const en = {
   "peerDetails.agentVersion": "Agent Version",
   "peerDetails.uiVersion": "UI Version",
   "peerAdvertisedRoutes.description":
-    "Quickly configure the CIDR ranges this peer advertises as a network router, and the local ranges that should be excluded from NetBird forwarding.",
+    "Quickly configure the CIDR ranges this peer advertises as a network router, and the local ranges that should be excluded from Cloink forwarding.",
   "peerAdvertisedRoutes.emptyTitle": "This peer is not a network router",
   "peerAdvertisedRoutes.emptyDescription":
     "Add this peer as a routing device in a network before configuring advertised and excluded routes here.",
@@ -3037,7 +3037,7 @@ const en = {
   "peerDetails.validIpError": "Please enter a valid IP, e.g., 100.64.0.15",
   "peerDetails.editIpTitle": "Edit Peer IP Address",
   "peerDetails.editIpDescription":
-    "Update the NetBird IP address for this peer.",
+    "Update the Cloink IP address for this peer.",
   "peerDetails.ipPlaceholder": "e.g., 100.64.0.15",
   "peerDetails.reconnectNotice":
     "Changes take effect when the peer reconnects.",
@@ -3053,7 +3053,7 @@ const en = {
   "peer.requireLoginAfterDisconnectDescription":
     "When enabled, users must re-authenticate after being disconnected from management for 10 minutes.",
   "peer.accessiblePeersDescription":
-    "This peer can connect to the following peers within the NetBird network.",
+    "This peer can connect to the following peers within the Cloink network.",
   "peer.loginExpiredTooltipLine1": "This peer is offline and needs to be",
   "peer.loginExpiredTooltipLine2":
     "re-authenticated because its login has expired.",
@@ -3120,7 +3120,7 @@ const en = {
   "accessPolicies.bidirectional": "Bidirectional",
   "accessPolicies.oneWay": "One-way",
   "accessPolicies.temporaryTooltip":
-    "Show temporary policies created by the NetBird browser client. These policies are ephemeral and will be deleted automatically after a short period of time.",
+    "Show temporary policies created by the Cloink browser client. These policies are ephemeral and will be deleted automatically after a short period of time.",
   "networks.searchPlaceholder": "Search by network name or description...",
   "networks.emptyTitle": "Create New Network",
   "networks.emptyDescription":
@@ -3336,7 +3336,7 @@ const en = {
     "Assign a peer group with machines to be used as routing peers.",
   "networkRoutingPeers.dontHave": "Don't have a routing peer?",
   "networkRoutingPeers.dontHaveHelp":
-    "You can install NetBird with a setup key on one or more machines to act as routing peers.",
+    "You can install Cloink with a setup key on one or more machines to act as routing peers.",
   "networkRoutingPeers.notifyTitle": "Network Routing Peer",
   "networkRoutingPeers.toggleDescription": "Routing peer is now {status}",
   "networkRoutingPeers.masqueradeToggleDescription":
@@ -3354,10 +3354,10 @@ const en = {
     "Traffic to these CIDR ranges will be announced through this routing peer. Leave empty to use this network's resource ranges.",
   "networkRoutingPeers.excludedRoutes": "Excluded Routes",
   "networkRoutingPeers.excludedRoutesHelp":
-    "CIDR ranges that should remain locally reachable and not be forwarded through NetBird.",
+    "CIDR ranges that should remain locally reachable and not be forwarded through Cloink.",
   "networkRoutingPeers.createSetupKeyTitle": "Create a Setup Key?",
   "networkRoutingPeers.createSetupKeyDescription":
-    "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
+    "If you continue, a one-off setup key will be automatically created and you will be able to install Cloink.",
   "networkRoutingPeers.setupKeyName": "Routing Peer ({name})",
   "networkRoutingPeers.masqueradeHelp":
     "Allow access to your private networks without configuring routes on your local routers or other devices.",
@@ -3455,20 +3455,20 @@ const en = {
     "Updating Lazy Connections setting...",
   "clientSettings.automaticUpdates": "Automatic Updates",
   "clientSettings.automaticUpdatesHelpPrefix":
-    "Configure how NetBird clients receive update notifications.",
+    "Configure how Cloink clients receive update notifications.",
   "clientSettings.automaticUpdatesHelpMiddle":
     "When enabled, users will be prompted to install the selected version.",
-  "clientSettings.requiresAtLeast": "This requires at least NetBird",
+  "clientSettings.requiresAtLeast": "This requires at least Cloink",
   "clientSettings.version": "Version",
   "clientSettings.versionPlaceholder": "e.g., 0.52.2",
   "clientSettings.forceAutomaticUpdates": "Force Automatic Updates",
   "clientSettings.forceAutomaticUpdatesHelp":
     "When enabled, updates are installed automatically in the background without user interaction.",
   "clientSettings.forceAutomaticUpdatesWarning":
-    "Enabling automatic updates will restart the NetBird client during updates, which can temporarily disrupt active connections. Use with caution in production environments.",
+    "Enabling automatic updates will restart the Cloink client during updates, which can temporarily disrupt active connections. Use with caution in production environments.",
   "clientSettings.exposeServices": "Expose Services from CLI",
   "clientSettings.exposeServicesHelpLine1":
-    "Allow peers to expose local services through the NetBird reverse proxy using the CLI.",
+    "Allow peers to expose local services through the Cloink reverse proxy using the CLI.",
   "clientSettings.enablePeerExpose": "Enable Peer Expose",
   "clientSettings.enablePeerExposeHelp":
     "When enabled, peers can expose local HTTP services accessible via a public URL.",
@@ -3478,10 +3478,10 @@ const en = {
   "clientSettings.selectPeerGroups": "Select peer groups...",
   "clientSettings.experimental": "Experimental",
   "clientSettings.lazyConnectionsHelpPrefix":
-    "Lazy connections are an experimental feature. Functionality and behavior may evolve. Instead of maintaining always-on connections, NetBird activates them on-demand based on activity or signaling.",
+    "Lazy connections are an experimental feature. Functionality and behavior may evolve. Instead of maintaining always-on connections, Cloink activates them on-demand based on activity or signaling.",
   "clientSettings.enableLazyConnections": "Enable Lazy Connections",
   "clientSettings.enableLazyConnectionsHelp":
-    "Allow to establish connections between peers only when required. This requires NetBird client v0.45 or higher. Changes will only take effect after restarting the clients.",
+    "Allow to establish connections between peers only when required. This requires Cloink client v0.45 or higher. Changes will only take effect after restarting the clients.",
   "clientSettings.agentNetwork": "Agent Network",
   "clientSettings.agentNetworkHelp":
     "Focus the dashboard on the Agent Network surface and hide sections that are not relevant for it, such as Networks, DNS and Reverse Proxy.",
@@ -3528,20 +3528,20 @@ const en = {
     "Select groups to enable IPv6...",
   "networkSettings.enableDnsWildcardRouting": "Enable DNS Wildcard Routing",
   "networkSettings.enableDnsWildcardRoutingHelp":
-    "Allow routing using DNS wildcards. This requires NetBird client v0.35 or higher. Changes will only take effect after restarting the clients.",
+    "Allow routing using DNS wildcards. This requires Cloink client v0.35 or higher. Changes will only take effect after restarting the clients.",
   "permissionsTab.notifyTitle": "Permission Settings",
   "permissionsTab.updatedDescription": "Permissions were updated successfully.",
   "permissionsTab.updating": "Updating permissions...",
   "permissionsTab.restrictDashboard": "Restrict dashboard for regular users",
   "permissionsTab.restrictDashboardHelp":
     "Access to the dashboard will be limited and regular users will not be able to view any peers.",
-  "dangerZone.deleteAccountTitle": "Delete NetBird account",
-  "dangerZone.deletedDescription": "NetBird account was successfully deleted.",
+  "dangerZone.deleteAccountTitle": "Delete Cloink account",
+  "dangerZone.deletedDescription": "Cloink account was successfully deleted.",
   "dangerZone.deleting": "Deleting the account...",
   "dangerZone.confirmDescription":
-    "Are you sure you want to delete your NetBird account? This action cannot be undone.",
+    "Are you sure you want to delete your Cloink account? This action cannot be undone.",
   "dangerZone.deleteAccountWarning":
-    "Before proceeding to delete your NetBird account, please be aware that this action is irreversible. Once your account is deleted, you will permanently lose access to all associated data, including your peers, users, groups, policies, and routes.",
+    "Before proceeding to delete your Cloink account, please be aware that this action is irreversible. Once your account is deleted, you will permanently lose access to all associated data, including your peers, users, groups, policies, and routes.",
   "dangerZone.deleteAccountButton": "Delete Account",
   "groupsSettings.title": "User Groups",
   "groupsSettings.save": "Save",
@@ -3557,7 +3557,7 @@ const en = {
     "Extract and sync groups from JWT claims with user's auto-groups, auto-creating groups from tokens.",
   "groupsSettings.jwtAllowGroupTitle": "JWT allow group - {group}",
   "groupsSettings.jwtAllowGroupDescription":
-    "Only users part of the {group} group will be able to access NetBird. Are you sure you want to save the changes?",
+    "Only users part of the {group} group will be able to access Cloink. Are you sure you want to save the changes?",
   "groupsSettings.accessWarning":
     "To prevent losing access, ensure you are part of this group.",
   "groupsSettings.jwtClaim": "JWT claim",
@@ -3566,7 +3566,7 @@ const en = {
   "groupsSettings.jwtClaimPlaceholder": "e.g., roles",
   "groupsSettings.jwtAllowGroups": "JWT allow groups",
   "groupsSettings.jwtAllowGroupsHelp":
-    "Limit access to NetBird for the specified group names, e.g., NetBird users. To use the groups, you need to configure them first in your IdP.",
+    "Limit access to Cloink for the specified group names, e.g., Cloink users. To use the groups, you need to configure them first in your IdP.",
   "groupsSettings.addGroupPlaceholder": "Add a group and press Enter",
   "groupsSettings.manageGroupsPrefix":
     "Looking to view and manage your groups? You can find group management under",
@@ -3577,7 +3577,7 @@ const en = {
   "accessTokens.lastUsedOn": "Last used on",
   "accessTokens.emptyTitle": "No access tokens",
   "accessTokens.emptyDescription":
-    "You don't have any access tokens yet. You can add a token to access the NetBird API.",
+    "You don't have any access tokens yet. You can add a token to access the Cloink API.",
   "accessTokens.deletedDescription": "Access token was successfully deleted",
   "accessTokens.deleting": "Deleting the access token...",
   "accessTokens.deleteConfirmTitle": "Delete '{name}'?",
@@ -3595,7 +3595,7 @@ const en = {
   "accessTokens.creating": "Creating access token...",
   "accessTokens.modalTitle": "Create Access Token",
   "accessTokens.modalDescription":
-    "Use this token to access NetBird's public API",
+    "Use this token to access Cloink's public API",
   "accessTokens.nameHelp": "Set an easily identifiable name for your token",
   "accessTokens.namePlaceholder": "e.g., Infra token",
   "accessTokens.expiresIn": "Expires in",
@@ -3612,18 +3612,18 @@ const en = {
   "postureChecks.nameLabel": "Name of the Posture Check",
   "postureChecks.nameHelp":
     "Set an easily identifiable name for your posture check.",
-  "postureChecks.namePlaceholder": "e.g., NetBird Version > 0.25.0",
+  "postureChecks.namePlaceholder": "e.g., Cloink Version > 0.25.0",
   "postureChecks.descriptionLabel": "Description (optional)",
   "postureChecks.descriptionHelp":
     "Write a short description to add more context to this policy.",
   "postureChecks.descriptionPlaceholder":
-    "e.g., Check if the NetBird version is bigger than 0.25.0",
+    "e.g., Check if the Cloink version is bigger than 0.25.0",
   "postureChecks.createButton": "Create Posture Check",
   "postureChecks.searchPlaceholder": "Search by name and description...",
   "postureChecks.addButton": "Add Posture Check",
   "postureChecks.emptyTitle": "Create Posture Check",
   "postureChecks.emptyDescription":
-    "Add posture checks to further restrict access in your network. E.g., only clients with a specific NetBird client version, operating system or location are allowed to connect.",
+    "Add posture checks to further restrict access in your network. E.g., only clients with a specific Cloink client version, operating system or location are allowed to connect.",
   "postureChecks.countLabel": "{count} Posture Checks",
   "postureChecks.browseChecks": "Browse Checks",
   "postureChecks.newButton": "New Posture Check",
@@ -3647,12 +3647,12 @@ const en = {
   "postureChecks.disableCheckDescription":
     "Are you sure you want to disable this check? All settings of this check will be lost.",
   "postureChecks.disable": "Disable",
-  "postureChecks.netbirdVersionTitle": "NetBird Client Version",
+  "postureChecks.netbirdVersionTitle": "Cloink Client Version",
   "postureChecks.netbirdVersionDescription":
-    "Restrict access to peers with a specific NetBird client version.",
+    "Restrict access to peers with a specific Cloink client version.",
   "postureChecks.minimumRequiredVersion": "Minimum required version",
   "postureChecks.minimumRequiredVersionHelp":
-    "Only peers with the minimum specified NetBird client version will have access to the network.",
+    "Only peers with the minimum specified Cloink client version will have access to the network.",
   "postureChecks.versionPlaceholder": "e.g., 0.25.0",
   "postureChecks.versionError":
     "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1",
@@ -3729,9 +3729,9 @@ const en = {
   "setupModal.installDescription":
     "To get started, install Cloink and log in with your email account.",
   "setupModal.setupKeyDescription":
-    "To get started, install and run NetBird with the setup key as a parameter.",
+    "To get started, install and run Cloink with the setup key as a parameter.",
   "setupModal.defaultDescription":
-    "To get started, install NetBird and log in with your email account.",
+    "To get started, install Cloink and log in with your email account.",
   "setupModal.linux": "Linux",
   "setupModal.windows": "Windows",
   "setupModal.macos": "macOS",
@@ -3746,23 +3746,23 @@ const en = {
     "When expired, the same key can not be used again.",
   "setupModal.generateSetupKey": "Generate a setup key",
   "setupModal.generateSetupKeyHelp":
-    "A setup key is a one-time, pre-authentication token used to enroll an unattended machine with NetBird. Pass it to netbird up with --setup-key and the peer registers without an interactive login.",
+    "A setup key is a one-time, pre-authentication token used to enroll an unattended machine with Cloink. Pass it to cloink up with --setup-key and the peer registers without an interactive login.",
   "setupModal.windowsInstallTitle": "Install on Windows",
   "setupModal.windowsStep1": "Download and run Windows Installer",
   "setupModal.selectArchitecture": "Select architecture",
   "setupModal.arch64": "64-Bit",
   "setupModal.arch64Msi": "64-Bit (MSI)",
   "setupModal.archArm64Msi": "ARM64 (MSI)",
-  "setupModal.downloadNetBird": "Download NetBird",
+  "setupModal.downloadNetBird": "Download Cloink",
   "setupModal.managementUrlInstructions":
-    'Click on "Settings" then "Advanced Settings" from the NetBird icon in your system tray and enter the following "Management URL"',
-  "setupModal.openCommandLineRunNetBird": "Open Command-line and run NetBird",
+    'Click on "Settings" then "Advanced Settings" from the Cloink icon in your system tray and enter the following "Management URL"',
+  "setupModal.openCommandLineRunNetBird": "Open Command-line and run Cloink",
   "setupModal.clickConnectTray":
-    'Click on "Connect" from the NetBird icon in your system tray',
+    'Click on "Connect" from the Cloink icon in your system tray',
   "setupModal.signUpWithEmail": "Sign up using your email address",
   "setupModal.macosInstallTitle": "Install on macOS",
   "setupModal.macosStep1": "Download and run macOS Installer",
-  "setupModal.openTerminalRunNetBird": "Open Terminal and run NetBird",
+  "setupModal.openTerminalRunNetBird": "Open Terminal and run Cloink",
   "setupModal.installManuallyTerminal": "Install manually with Terminal",
   "setupModal.runNetBird": "Run Cloink",
   "setupModal.andLogInBrowser": "and log in the browser",
@@ -3770,17 +3770,17 @@ const en = {
   "setupModal.downloadInstallHomebrew": "Download and install HomeBrew",
   "setupModal.homebrewGuide": "HomeBrew Installation Guide",
   "setupModal.homebrewUnavailable":
-    "HomeBrew packages are not published for NetBird yet. Use the installer download above.",
+    "HomeBrew packages are not published for Cloink yet. Use the installer download above.",
   "setupModal.cliOnlyComment": "# for CLI only",
   "setupModal.guiPackageComment": "# for GUI package",
-  "setupModal.startNetBirdDaemon": "Start NetBird daemon",
+  "setupModal.startNetBirdDaemon": "Start Cloink daemon",
   "setupModal.installWithCommandLine": "Install with Command-line",
   "setupModal.installManuallyUbuntu": "Install manually on Ubuntu",
   "setupModal.addRepository": "Add our repository",
   "setupModal.androidInstallTitle": "Install on Android",
   "setupModal.androidStep1":
     "Download and install the application from Google Play Store:",
-  "setupModal.googlePlayAlt": "Download NetBird from Google Play",
+  "setupModal.googlePlayAlt": "Download Cloink from Google Play",
   "setupModal.changeServerInstructions":
     'Click on "Change Server" and enter the following "Server"',
   "setupModal.clickConnectCenter":
@@ -3788,12 +3788,14 @@ const en = {
   "setupModal.iosInstallTitle": "Install on iOS",
   "setupModal.iosStep1":
     "Download and install the application on the App Store:",
-  "setupModal.appStoreAlt": "Download NetBird on the App Store",
+  "setupModal.appStoreAlt": "Download Cloink on the App Store",
   "setupModal.dockerInstallTitle": "Install with Docker",
   "setupModal.installDocker": "Install Docker",
-  "setupModal.runNetBirdContainer": "Run NetBird container",
+  "setupModal.officialDockerInstallationGuide":
+    "Official Docker Installation Guide",
+  "setupModal.runNetBirdContainer": "Run Cloink container",
   "setupModal.readDocumentation": "Read our documentation",
-  "setupModal.runningNetBirdDocker": "Running NetBird in Docker",
+  "setupModal.runningNetBirdDocker": "Running Cloink in Docker",
   "setupModal.setupKeyGeneratedDescription":
     "A one-off setup key was generated for this install.",
   "accessControl.modalUpdateTitle": "Update Access Control Policy",
@@ -3829,8 +3831,8 @@ const en = {
   "accessControl.sshAccessHelp":
     "Select 'Full Access' to allow SSH as any local user, or 'Limited Access' to specify which local users each group is allowed to use.",
   "accessControl.netbirdSshTooltip":
-    "Select NetBird SSH for SSH-specific policies with fine-grained access control, or use TCP with port 22 for basic network-level SSH access",
-  "accessControl.netbirdSsh": "NetBird SSH",
+    "Select Cloink SSH for SSH-specific policies with fine-grained access control, or use TCP with port 22 for basic network-level SSH access",
+  "accessControl.netbirdSsh": "Cloink SSH",
   "accessControl.selectSshAccessType": "Select SSH access type...",
   "accessControl.fullAccess": "Full Access",
   "accessControl.limitedAccess": "Limited Access",
@@ -3899,7 +3901,7 @@ const en = {
   "accessControl.noPoliciesDescription":
     "It looks like you don't have any policies yet. Policies can allow connections by specific protocol and ports.",
   "accessControl.temporaryPoliciesTooltip":
-    "Show temporary policies created by the NetBird browser client. These policies are ephemeral and will be deleted automatically after a short period of time.",
+    "Show temporary policies created by the Cloink browser client. These policies are ephemeral and will be deleted automatically after a short period of time.",
   "accessControl.portsCount": "{count} Ports",
   "groups.actionRenameDisabledIntegration":
     "This group name is managed by an integration and cannot be renamed.",
@@ -3918,9 +3920,9 @@ const en = {
   "policies.deletedDescription": "The policy was successfully deleted.",
   "policies.deleting": "Deleting policy...",
   "policies.notifyTitle": "Access Control Policy {{name}}",
-  "billing.notifyTitle": "NetBird Subscription",
+  "billing.notifyTitle": "Cloink Subscription",
   "billing.awsSubscribed": "Successfully subscribed to the {{name}} plan",
-  "billing.awsSubscribing": "Subscribing to NetBird via AWS Marketplace...",
+  "billing.awsSubscribing": "Subscribing to Cloink via AWS Marketplace...",
   "billing.upgradeDowngradeTitle": "{{action}} to {{name}}?",
   "billing.upgrade": "Upgrade",
   "billing.downgrade": "Downgrade",
@@ -3955,7 +3957,7 @@ const en = {
   "peerGroupSelector.resourceCount": "{count} Resource(s)",
   "peers.searchPlaceholder": "Search by name, IP, owner or group...",
   "peers.browserPeersTooltip":
-    "Show temporary peers created by the NetBird browser client. These peers are ephemeral and will be deleted automatically after a short period of time.",
+    "Show temporary peers created by the Cloink browser client. These peers are ephemeral and will be deleted automatically after a short period of time.",
   "peers.lastSeen": "Last seen",
   "table.serialNumber": "Serial Number",
   "table.version": "Version",
@@ -3999,7 +4001,7 @@ const en = {
   "peerSelector.noPeersAvailable": "No peers available to select.",
   "peerSelector.noMatchingPeers": "There are no peers matching your search.",
   "peerSelector.updateNetBirdTooltip":
-    "Please update NetBird to at least v0.36.6 or later to use this peer as a routing peer.",
+    "Please update Cloink to at least v0.36.6 or later to use this peer as a routing peer.",
   "networkRouteSelector.selectNetwork": "Select an existing network...",
   "networkRouteSelector.searchPlaceholder":
     "Search for network by name or cidr...",
@@ -4013,7 +4015,7 @@ const en = {
     "There are no users to select. Invite some users for this tenant before unlinking.",
   "userSelector.noMatchingUsers": "There are no users matching your search.",
   "userSelector.system": "System",
-  "noPeersGettingStarted.title": "Get Started with NetBird",
+  "noPeersGettingStarted.title": "Get Started with Cloink",
   "noPeersGettingStarted.description":
     "It looks like you don't have any connected machines. Get started by adding one to your network.",
   "noPeersGettingStarted.gettingStartedGuide": "Getting Started Guide",
@@ -4064,7 +4066,7 @@ const en = {
   "portSelector.addByEnter": "Add this port or range by pressing",
   "portSelector.enterKey": "Enter",
   "portSelector.addThisPort": "to add this port or range",
-  "portSelector.portRangesRequire": "Port ranges requires NetBird client",
+  "portSelector.portRangesRequire": "Port ranges requires Cloink client",
   "portSelector.orHigher": "or higher.",
   "dropdownInput.searchPlaceholder": "Search...",
   "selectDropdown.placeholder": "Select...",
@@ -4105,16 +4107,16 @@ const en = {
   "peer.sshEnabling": "Enabling SSH Access...",
   "peer.sshDisabling": "Disabling SSH Access...",
   "peer.loginExpiredIssueTooltip":
-    "This peer's login has expired. Re-authenticate from the NetBird client on the device to bring it back online.",
+    "This peer's login has expired. Re-authenticate from the Cloink client on the device to bring it back online.",
   "peer.approvalRequiredBadge": "Pending",
   "peer.approvalRequiredTooltip":
     "This peer needs administrator approval before it can connect. Approve it from the row's actions menu.",
   "peer.editIpTitle": "Edit Peer IP Address",
-  "peer.editIpDescription": "Update the NetBird IP address for this peer.",
+  "peer.editIpDescription": "Update the Cloink IP address for this peer.",
   "peer.editIpPlaceholder": "e.g., 100.64.0.15",
   "peer.editIpError": "Please enter a valid IP, e.g., 100.64.0.15",
   "peer.editIpv6Title": "Edit Peer IPv6 Address",
-  "peer.editIpv6Description": "Update the NetBird IPv6 address for this peer.",
+  "peer.editIpv6Description": "Update the Cloink IPv6 address for this peer.",
   "peer.editIpv6Placeholder": "e.g., fd00:1234::1",
   "peer.editIpv6Error": "Please enter a valid IPv6 address, e.g., fd00:1234::1",
   "peer.editIpReconnectInfo": "Changes take effect when the peer reconnects.",
@@ -4204,7 +4206,7 @@ const en = {
   "routes.enableRouteHelp": "Use this switch to enable or disable the route.",
   "routes.autoApplyRoute": "Auto Apply Route",
   "routes.autoApplyRouteHelp":
-    "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+    "Automatically apply this exit node to your distribution groups. This requires Cloink client v0.55.0 or higher.",
   "routes.metric": "Metric",
   "routes.metricHelp": "A lower metric indicates higher priority routes.",
   "routes.exitNodesLearnMore": "Exit Nodes",
@@ -4295,7 +4297,7 @@ const en = {
   "peerActionCell.enableSshAccess": "Enable SSH Access",
   "peerActionCell.disableSshAccessTitle": "Disable SSH Access?",
   "peerActionCell.disableSshAccessDescription":
-    "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
+    "Starting from Cloink v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your Cloink client to restore SSH functionality.",
   "peerActionCell.disable": "Disable",
   "peerActionCell.expirationDisabledTooltip":
     "Expiration is disabled for all peers added with an setup-key.",
@@ -4307,13 +4309,13 @@ const en = {
   "peerActionCell.approvedDescription":
     "This peer was approved and can now connect to other peers.",
   "peerActionCell.approving": "Approving peer...",
-  "peerAddress.netBirdIp": "NetBird IP",
+  "peerAddress.netBirdIp": "Cloink IP",
   "peerAddress.publicIp": "Public IP",
   "peerAddress.domain": "Domain",
   "peerAddress.region": "Region",
-  "peerAddress.netBirdIpCopied": "NetBird IP has been copied to your clipboard",
+  "peerAddress.netBirdIpCopied": "Cloink IP has been copied to your clipboard",
   "peerAddress.netBirdIpv6Copied":
-    "NetBird IPv6 has been copied to your clipboard",
+    "Cloink IPv6 has been copied to your clipboard",
   "peerAddress.publicIpCopied": "Public IP has been copied to your clipboard",
   "peerAddress.dnsLabelCopied": "DNS label has been copied to your clipboard",
   "peerAddress.regionCopied": "Region has been copied to your clipboard",
@@ -4321,7 +4323,7 @@ const en = {
   "peerGroupCell.saving": "Saving the groups of the peer...",
   "peerVersion.updateAvailable": "Update available",
   "peerVersion.updateDescription":
-    "A new version of NetBird is available. Please update your client to get the latest features and bug fixes.",
+    "A new version of Cloink is available. Please update your client to get the latest features and bug fixes.",
   "peerVersion.downloadChangelog": "Download & Changelog",
   "peerVersion.serial": "Serial:",
   "table.type": "Type",
@@ -4352,7 +4354,7 @@ const en = {
     "This policy is used by multiple resources",
   "networkProvider.editOrDeletePolicy": "{action} policy '{name}'?",
   "networkProvider.addRoutingPeer": "Add Routing Peer",
-  "peerAddress.netBirdIpv6": "NetBird IPv6",
+  "peerAddress.netBirdIpv6": "Cloink IPv6",
   "peerAddress.ipCopied": "IP address has been copied to your clipboard",
   "peerMultiSelect.bypassComplianceTitle":
     "Bypass compliance for {count} {peerWord}?",
@@ -4436,11 +4438,11 @@ const en = {
   "idpSync.deleteIntegrationDescription":
     "Are you sure you want to delete this integration?",
   "idpSync.deleteIntegrationHelp":
-    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to Cloink. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
   "idpSync.integrationDeleted": "{provider} was successfully deleted",
   "idpSync.integrationUpdated": "{provider} was successfully updated",
   "idpSync.integrationConnected":
-    "{provider} was successfully connected to NetBird.",
+    "{provider} was successfully connected to Cloink.",
   "idpSync.integrationSetUp": "{provider} was successfully set up",
   "idpSync.deletingIntegration": "Deleting integration...",
   "idpSync.updatingIntegration": "Updating integration...",
@@ -4451,25 +4453,25 @@ const en = {
   "idpSync.synchronizeUsers": "Synchronize Users",
   "idpSync.configuration": "{provider} Configuration",
   "idpSync.configurationDescription":
-    "Sync your users and groups from {provider} to NetBird.",
+    "Sync your users and groups from {provider} to Cloink.",
   "idpSync.integrationTitle": "{provider} Integration",
   "idpSync.groupPrefixHelpUsersPrefix": "By default,",
   "idpSync.groupPrefixHelpUsersAll": "All Users",
   "idpSync.groupPrefixHelpUsersSuffix":
-    "will be synchronized from your IdP to NetBird.",
+    "will be synchronized from your IdP to Cloink.",
   "idpSync.groupPrefixHelpUsersFilter":
     "If you want to synchronize only users that belong to a specific group, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
   "idpSync.groupPrefixHelpGroupsPrefix": "By default,",
   "idpSync.groupPrefixHelpGroupsAll": "All Groups",
   "idpSync.groupPrefixHelpGroupsSuffix":
-    "will be synchronized from your IdP to NetBird.",
+    "will be synchronized from your IdP to Cloink.",
   "idpSync.groupPrefixHelpGroupsFilter":
     "If you want to synchronize only groups that start with a specific prefix, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
 
   // ── Google Workspace setup ─────────────────────────────────────────
-  "googleWorkspace.connectTitle": "Connect NetBird with Google Workspace",
+  "googleWorkspace.connectTitle": "Connect Cloink with Google Workspace",
   "googleWorkspace.connectDescription":
-    "Start syncing your users and groups from Google Workspace to NetBird. Follow the steps below to get started.",
+    "Start syncing your users and groups from Google Workspace to Cloink. Follow the steps below to get started.",
   "googleWorkspace.estimatedTime": "10-20 Minutes",
   "googleWorkspace.accountPrefix": "Ensure that you have an",
   "googleWorkspace.accountType": "Google Workspace user account",
@@ -4479,7 +4481,7 @@ const en = {
     "If you don't have the required permissions, ask your workspace administrator to grant them to you.",
   "googleWorkspace.permCreate": "Create Google Workspace applications",
   "googleWorkspace.permManage": "Manage Google Workspace applications",
-  "googleWorkspace.step1Title": "Create NetBird project",
+  "googleWorkspace.step1Title": "Create Cloink project",
   "googleWorkspace.step1Line1Prefix": "Create a new",
   "googleWorkspace.step1Line1Suffix": "project in the",
   "googleWorkspace.step1Console": "Google Cloud Console",
@@ -4554,9 +4556,9 @@ const en = {
   "googleWorkspace.customerIdLabel": "Customer ID",
 
   // ── JumpCloud setup ────────────────────────────────────────────────
-  "jumpcloud.connectTitle": "Connect NetBird with Jumpcloud",
+  "jumpcloud.connectTitle": "Connect Cloink with Jumpcloud",
   "jumpcloud.connectDescription":
-    "Start syncing your users and groups from Jumpcloud to NetBird. Follow the steps below to get started.",
+    "Start syncing your users and groups from Jumpcloud to Cloink. Follow the steps below to get started.",
   "jumpcloud.estimatedTime": "5-15 Minutes",
   "jumpcloud.accountType": "Jumpcloud user account",
   "jumpcloud.accountRolesWord": "roles",
@@ -4595,17 +4597,17 @@ const en = {
   // ── JumpCloud / Okta configuration (shared via idpSync) ────────────
   "jumpcloud.configurationTitle": "Jumpcloud Configuration",
   "jumpcloud.configurationDescription":
-    "Sync your users and groups from Jumpcloud to NetBird.",
+    "Sync your users and groups from Jumpcloud to Cloink.",
   "okta.configurationTitle": "Okta Configuration",
   "okta.configurationDescription":
-    "Sync your users and groups from Okta to NetBird.",
+    "Sync your users and groups from Okta to Cloink.",
 
   // ── Okta SSO setup ─────────────────────────────────────────────────
   "okta.notifyTitle": "Okta SSO Integration",
   "okta.notifyConnected": "Okta SSO was successfully connected",
   "okta.notifyConnecting": "Connecting Okta SSO...",
   "okta.notifyFailed": "Failed to connect Okta SSO",
-  "okta.connectTitle": "Connect NetBird with Okta SSO",
+  "okta.connectTitle": "Connect Cloink with Okta SSO",
   "okta.connectDescription":
     "Use Okta as a Single Sign-On provider to authenticate users. Follow the steps below to get started.",
   "okta.accountType": "Okta user account",
@@ -4613,7 +4615,7 @@ const en = {
     "If you don't have the required permissions, ask your Okta administrator to grant them to you.",
   "okta.permAdd": "Add Okta applications",
   "okta.permConfigure": "Configure Okta applications",
-  "okta.step1Title": "Install NetBird application for Okta",
+  "okta.step1Title": "Install Cloink application for Okta",
   "okta.step1Navigate": "Navigate to",
   "okta.step1Link": "Okta Integration Network",
   "okta.step2Click": "Click",
@@ -4627,7 +4629,7 @@ const en = {
   "okta.step4Domain": "Okta account domain",
   "okta.step5Prefix": "Enter your",
   "okta.step5Domain": "Primary E-Mail Domain",
-  "okta.step5Suffix": "which will later be used to log in to NetBird.",
+  "okta.step5Suffix": "which will later be used to log in to Cloink.",
   "okta.step3AssignPrefix": "After installing the application go to the",
   "okta.step3AssignTab": "Assignments",
   "okta.step3AssignMiddle": "tab, select the",
@@ -4648,9 +4650,9 @@ const en = {
   "genericHttp.deleteConfirmDescription":
     "Are you sure you want to delete this integration? You will need to start the setup process again.",
   "genericHttp.configTitle": "Generic HTTP Configuration",
-  "genericHttp.connectTitle": "Connect NetBird with Generic HTTP",
+  "genericHttp.connectTitle": "Connect Cloink with Generic HTTP",
   "genericHttp.descriptionPrefix":
-    "Start streaming your NetBird audit & traffic events to a Generic HTTP endpoint.",
+    "Start streaming your Cloink audit & traffic events to a Generic HTTP endpoint.",
   "genericHttp.descriptionSuffix": "Follow the steps to get started.",
   "genericHttp.tabGeneral": "General",
   "genericHttp.tabHeaders": "Headers",
@@ -4702,9 +4704,9 @@ const en = {
 
   // ── Generic SCIM setup ─────────────────────────────────────────────
   "genericScim.notifyTitle": "{name} Integration",
-  "genericScim.connectTitle": "Connect NetBird with {name}",
+  "genericScim.connectTitle": "Connect Cloink with {name}",
   "genericScim.connectDescription":
-    "Start syncing your users and groups from {name} to NetBird. Follow the steps below to get started.",
+    "Start syncing your users and groups from {name} to Cloink. Follow the steps below to get started.",
   "genericScim.scimConfigHelpPrefix":
     "SCIM configuration varies by identity provider. Please refer to our",
   "genericScim.scimConfigHelpLink": "IdP Documentation",
@@ -4729,7 +4731,7 @@ const en = {
   "sso.oidc.notifyConnected": "{name} SSO was successfully connected",
   "sso.oidc.notifyConnecting": "Connecting {name} SSO...",
   "sso.oidc.notifyFailed": "Failed to connect {name} SSO",
-  "sso.oidc.connectTitle": "Connect NetBird with {name}",
+  "sso.oidc.connectTitle": "Connect Cloink with {name}",
   "sso.oidc.connectDescription":
     "Use {name} as a Single Sign-On provider to authenticate users. Follow the steps below to get started.",
   "sso.oidc.step1Description":
@@ -4743,7 +4745,7 @@ const en = {
   "sso.oidc.step3DescriptionPrefix": "Enter your",
   "sso.oidc.primaryEmailDomain": "Primary E-Mail Domain",
   "sso.oidc.step3DescriptionSuffix":
-    "which will later be used to log in to NetBird.",
+    "which will later be used to log in to Cloink.",
   "sso.oidc.learnMorePrefix": "Learn more about",
   "sso.oidc.integrationLink": "{name} Integration",
   "sso.oidc.connectButton": "Connect",
@@ -4800,7 +4802,7 @@ const en = {
 
   // ── Intune setup ──────────────────────────────────────────────────────
   "edr.intune.notifyTitle": "Intune Integration",
-  "edr.intune.notifyConnected": "Intune was successfully connected to NetBird.",
+  "edr.intune.notifyConnected": "Intune was successfully connected to Cloink.",
   "edr.intune.notifyDeleted": "Intune was successfully deleted",
   "edr.intune.notifyUpdated": "Intune was successfully updated",
   "edr.intune.notifyEnabled": "Intune was successfully enabled",
@@ -4808,7 +4810,7 @@ const en = {
   "edr.intune.settingUp": "Setting up integration...",
   "edr.intune.deleting": "Deleting integration...",
   "edr.intune.updating": "Updating integration...",
-  "edr.intune.setupTitle": "Connect NetBird with Intune",
+  "edr.intune.setupTitle": "Connect Cloink with Intune",
   "edr.intune.setupDescription":
     "Restrict network access to IT-managed devices marked Compliant in Intune. Follow the steps below to get started.",
   "edr.intune.requiredPermissions": "Required Permissions",
@@ -4874,7 +4876,7 @@ const en = {
   "edr.intune.tabDangerZone": "Danger Zone",
   "edr.intune.deleteIntegrationLabel": "Delete Integration",
   "edr.intune.deleteIntegrationHelp":
-    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to Cloink. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
   "edr.intune.deleteConfirmTitle": "Delete integration?",
   "edr.intune.deleteConfirmDescription":
     "Are you sure you want to delete this integration?",
@@ -4901,7 +4903,7 @@ const en = {
     "Are you sure you want to disable the Huntress integration?",
   "edr.huntress.cardDescription":
     "EDR with comprehensive, enterprise-grade protection, continuously backed by 24/7 AI-assisted SOC.",
-  "edr.huntress.setupTitle": "Connect NetBird with Huntress",
+  "edr.huntress.setupTitle": "Connect Cloink with Huntress",
   "edr.huntress.setupDescription":
     "Restrict network access to devices protected by Huntress. Follow the steps below to get started.",
   "edr.huntress.step1Title": "Enter API credentials",
@@ -4927,9 +4929,9 @@ const en = {
 
   // ── Azure AD / Entra ID setup ──────────────────────────────────────
   "azureAd.notifyTitle": "Entra ID Integration",
-  "azureAd.connectTitle": "Connect NetBird with Entra ID (API)",
+  "azureAd.connectTitle": "Connect Cloink with Entra ID (API)",
   "azureAd.connectDescription":
-    "Start syncing your users and groups from Entra ID to NetBird. Follow the steps below to get started.",
+    "Start syncing your users and groups from Entra ID to Cloink. Follow the steps below to get started.",
   "azureAd.accountType": "Azure AD user account",
   "azureAd.accountSuffix":
     "If you don't have the required permissions, ask your Azure AD administrator to grant them to you.",
@@ -5058,7 +5060,7 @@ const en = {
   // Modal – Provider tab form fields
   "aiProvider.modal.providerLabel": "Provider",
   "aiProvider.modal.providerHelpText":
-    "API provider to expose through NetBird.",
+    "API provider to expose through Cloink.",
   "aiProvider.modal.searchProviders": "Search providers...",
   "aiProvider.modal.selectProvider": "Select provider...",
   "aiProvider.modal.upstreamUrlLabel": "Upstream URL",
@@ -5073,7 +5075,7 @@ const en = {
   "aiProvider.modal.upstreamUrlHelp.vllm":
     "Your local vLLM server's OpenAI-compatible base URL.",
   "aiProvider.modal.upstreamUrlHelp.default":
-    "Where NetBird forwards the traffic.",
+    "Where Cloink forwards the traffic.",
   "aiProvider.modal.upstreamUrlPlaceholder.bifrost":
     "https://your-bifrost-host/openai",
   "aiProvider.modal.upstreamUrlPlaceholder.cloudflare_ai_gateway":
@@ -5100,7 +5102,7 @@ const en = {
     "Skips certificate validation on requests to this provider. Useful for quick testing against endpoints with self-signed certificates. For production we recommend mounting trusted certificates on your proxy instances instead.",
   "aiProvider.modal.jsonKeyLabel": "Service account JSON key",
   "aiProvider.modal.jsonKeyTooltipPrefix":
-    "Upload the Vertex AI service account JSON key. NetBird base64-encodes it and prefixes it with",
+    "Upload the Vertex AI service account JSON key. Cloink base64-encodes it and prefixes it with",
   "aiProvider.modal.jsonKeyTooltipSuffix":
     "before injecting it on every upstream request, so agents never see the key.",
   "aiProvider.modal.jsonKeyHelp": "Upload the service account JSON key file.",
@@ -5109,7 +5111,7 @@ const en = {
   "aiProvider.modal.keyAlreadyStored": "A key is already stored",
   "aiProvider.modal.noFileSelected": "No file selected",
   "aiProvider.modal.apiKeyLabel": "Provider API key",
-  "aiProvider.modal.apiKeyTooltipPrefix": "NetBird injects it as",
+  "aiProvider.modal.apiKeyTooltipPrefix": "Cloink injects it as",
   "aiProvider.modal.apiKeyTooltipSuffix":
     "on every upstream request, so agents never see the key.",
   "aiProvider.modal.apiKeyHelp": "The API key issued by the provider.",
@@ -5169,10 +5171,10 @@ const en = {
     "Wire header name receiving the caller's user email (or peer name when unlinked). Leave empty to skip.",
   "aiProvider.modal.bifrost.groupsHeaderLabel": "Groups header",
   "aiProvider.modal.bifrost.groupsHeaderHelp":
-    "Wire header name receiving the caller's NetBird groups as a comma-separated list. Leave empty to skip.",
+    "Wire header name receiving the caller's Cloink groups as a comma-separated list. Leave empty to skip.",
   // Cloudflare JSON metadata mappings
   "aiProvider.modal.cloudflare.metadataHelpPrefix":
-    "NetBird stamps a JSON object onto the",
+    "Cloink stamps a JSON object onto the",
   "aiProvider.modal.cloudflare.metadataHelpInfix":
     "header with the caller's identity so the gateway's logs and analytics key off the real user, not whichever app process happens to hold the API token. Pick the JSON key names that match your existing log filters; leave a field empty to omit that key from the JSON. The proxy strips any client-supplied value first, so an app can't spoof identity.",
   "aiProvider.modal.cloudflare.userIdentityKeyLabel": "User identity key",
@@ -5180,21 +5182,21 @@ const en = {
     "JSON key receiving the caller's user email (or peer name when unlinked). Leave empty to skip.",
   "aiProvider.modal.cloudflare.groupsKeyLabel": "Groups key",
   "aiProvider.modal.cloudflare.groupsKeyHelp":
-    "JSON key receiving the caller's NetBird groups as a comma-separated string. Leave empty to skip.",
+    "JSON key receiving the caller's Cloink groups as a comma-separated string. Leave empty to skip.",
   // Portkey mappings
-  "aiProvider.modal.portkey.metadataHelpPrefix": "NetBird stamps the",
+  "aiProvider.modal.portkey.metadataHelpPrefix": "Cloink stamps the",
   "aiProvider.modal.portkey.metadataHelpSuffix":
     "header with a JSON object so Portkey's analytics and budgets key off the real caller. The proxy strips any client-supplied value first, so an app can't spoof identity. Per Portkey's 128-character cap each value is truncated when needed. The mapping is fixed in this release.",
   // Bedrock mappings
   "aiProvider.modal.bedrock.stampHelp":
     "Stamp the identity metadata below onto Bedrock requests.",
   "aiProvider.modal.bedrock.metadataHelpPrefix":
-    "NetBird stamps the caller's identity into the",
+    "Cloink stamps the caller's identity into the",
   "aiProvider.modal.bedrock.metadataHelpSuffix":
     "header, so you can break Bedrock spend down by user and group. Client-supplied values are stripped and sanitized.",
   // Vercel mappings
   "aiProvider.modal.vercel.headersHelpPrefix":
-    "NetBird stamps the user identity and group list onto",
+    "Cloink stamps the user identity and group list onto",
   "aiProvider.modal.vercel.headersHelpAnd": "and",
   "aiProvider.modal.vercel.headersHelpInfix":
     "on every upstream request. Vercel groups its Custom Reporting API by these dimensions (",
@@ -5205,19 +5207,19 @@ const en = {
     "Vercel caps tags at 10 per request (each 1–64 chars) and the user value at 256 chars. Members of more than 10 groups will see Vercel reject the request with HTTP 400 — re-scope group memberships if you hit it. Vercel charges $0.075 per 1,000 unique user/tag values written; budget accordingly for high-cardinality use cases.",
   // OpenRouter mappings
   "aiProvider.modal.openrouter.attributionHelpPrefix":
-    "NetBird stamps the caller's user identity onto the request body's",
+    "Cloink stamps the caller's user identity onto the request body's",
   "aiProvider.modal.openrouter.attributionHelpSuffix":
     "field — that's the OpenAI-standard field OpenRouter consults for per-user analytics. The proxy overwrites any client-supplied value first, so an app can't spoof identity.",
   "aiProvider.modal.openrouter.noGroupsBold": "No groups dimension.",
   "aiProvider.modal.openrouter.noGroups":
-    "OpenRouter does not document a per-request tag, label, or team field — only per-user identity. NetBird's group memberships are not propagated to OpenRouter; if you need per-group attribution, query NetBird's own access log instead of OpenRouter's analytics.",
+    "OpenRouter does not document a per-request tag, label, or team field — only per-user identity. Cloink's group memberships are not propagated to OpenRouter; if you need per-group attribution, query Cloink's own access log instead of OpenRouter's analytics.",
   "aiProvider.modal.openrouter.appBrandingBold": "App branding",
   "aiProvider.modal.openrouter.appBranding":
     "(HTTP-Referer + X-OpenRouter-Title) is set per-provider on the Provider tab, not per-request. Operators who fill those in get their app surfaced on OpenRouter's public rankings and per-app analytics.",
   // Modal – Models tab
   "aiProvider.modal.modelsLabel": "Models",
   "aiProvider.modal.modelsHelp":
-    "Models exposed through this endpoint, with the per-1k input/output prices used for cost tracking. Empty = all catalog models allowed at catalog prices. Cache rates left empty fall back to NetBird's defaults for the model; 0 bills cached tokens at the input rate.",
+    "Models exposed through this endpoint, with the per-1k input/output prices used for cost tracking. Empty = all catalog models allowed at catalog prices. Cache rates left empty fall back to Cloink's defaults for the model; 0 bills cached tokens at the input rate.",
   "aiProvider.modal.addMore": "Add More",
   "aiProvider.modal.learnMoreAbout": "Learn more about",
   "aiProvider.modal.agentNetworkProviders": "Agent Network Providers",
@@ -5358,18 +5360,18 @@ const en = {
   "postureChecks.columnPolicies": "Policies",
   "postureChecks.tableText": "Posture Check",
   "settings.dangerZoneTitle": "Danger Zone",
-  "settings.deleteAccountTitle": "Delete NetBird account",
+  "settings.deleteAccountTitle": "Delete Cloink account",
   "settings.deleteAccountDescription":
     "Before proceeding to delete your Netbird account, please be aware that this action is irreversible. Once your account is deleted, you will permanently lose access to all associated data, including your peers, users, groups, policies, and routes.",
   "settings.deleteAccountButton": "Delete Account",
   "settings.deleteAccountConfirmDescription":
-    "Are you sure you want to delete your NetBird account? This action cannot be undone.",
+    "Are you sure you want to delete your Cloink account? This action cannot be undone.",
   "settings.deleteAccountSuccessDescription":
-    "NetBird account was successfully deleted.",
+    "Cloink account was successfully deleted.",
   "settings.deleteAccountLoadingMessage": "Deleting the account...",
   "agentConnect.title": "Configure Your Agent",
   "agentConnect.description":
-    "Point your agent at the NetBird endpoint as its base URL. No provider API key is needed on the client. NetBird authorizes the request against your policies and injects the upstream key.",
+    "Point your agent at the Cloink endpoint as its base URL. No provider API key is needed on the client. Cloink authorizes the request against your policies and injects the upstream key.",
   "agentConnect.addToConfig": "Add to {path}:",
   "agentConnect.runInShell": "Run in your shell:",
   "agentConnect.shellMode": "Shell",
@@ -5423,14 +5425,14 @@ const en = {
     "Use this URL as the base URL when configuring your AI agents or LLM SDK clients (e.g. OpenAI's",
   "agentNetwork.apiBaseUrlTooltip2": ", Anthropic's",
   "agentNetwork.apiBaseUrlTooltip3":
-    ", or any HTTP client). Calls hit NetBird first, get authorised by your policies, and only then reach the upstream provider.",
+    ", or any HTTP client). Calls hit Cloink first, get authorised by your policies, and only then reach the upstream provider.",
   "agentNetwork.copyEndpoint": "Copy endpoint",
   "agentNetwork.copy": "Copy",
   "agentNetwork.agentConfig": "Agent Config",
   "agentNetwork.connectFirstProvider":
     "Connect your first provider to set up your agent network endpoint.",
   "agentNetwork.providersDescription1":
-    "Connect AI providers and gateways like LiteLLM, OpenAI, and Anthropic through one keyless endpoint, accessible only via NetBird's tunnel.",
+    "Connect AI providers and gateways like LiteLLM, OpenAI, and Anthropic through one keyless endpoint, accessible only via Cloink's tunnel.",
   "agentNetwork.logCollection": "Log Collection",
   "agentNetwork.enableLogCollection": "Enable Log Collection",
   "agentNetwork.enableLogCollectionHelp":
@@ -5500,7 +5502,7 @@ const en = {
   "agentNetwork.promptCaptureDescription":
     "Redact PII before storing the prompt body.",
   "agentNetwork.promptCaptureDetails":
-    "NetBird redacts emails, SSN-shaped, phone-shaped, and credit-card patterns before storing the prompt body. Enabling this guardrail adds strict redaction on top of the proxy's built-in token redaction.",
+    "Cloink redacts emails, SSN-shaped, phone-shaped, and credit-card patterns before storing the prompt body. Enabling this guardrail adds strict redaction on top of the proxy's built-in token redaction.",
   "agentNetwork.limitSingular": "Limit",
   "agentNetwork.limitPlural": "Limits",
   "agentNetwork.limitsTabDescription":
@@ -5603,7 +5605,7 @@ const en = {
   "networkSettings.selectIpv6Groups": "Select groups to enable IPv6...",
   "networkSettings.enableRoutingPeerDns": "Enable Routing Peer DNS Resolution",
   "networkSettings.routingPeerDnsHelp":
-    "Resolves DNS for routed domains on the routing peer instead of on the client. Requires NetBird client v0.35 or higher. Changes will only take effect after restarting the clients.",
+    "Resolves DNS for routed domains on the routing peer instead of on the client. Requires Cloink client v0.35 or higher. Changes will only take effect after restarting the clients.",
   "filters.filter": "Filter",
   "filters.filtersCount": "Filter(s)",
   "refresh.cooldownMessage": "You can refresh it again in 5 seconds",
@@ -5651,20 +5653,20 @@ const en = {
   "setupNetbirdModal.installOnMacOS": "Install on macOS",
   "setupNetbirdModal.downloadAndRunInstaller":
     "Download and run macOS Installer",
-  "setupNetbirdModal.downloadNetBird": "Download NetBird",
+  "setupNetbirdModal.downloadNetBird": "Download Cloink",
   "setupNetbirdModal.managementUrlInstructions":
-    'Click on "Settings" then "Advanced Settings" from the NetBird icon in your system tray and enter the following "Management URL"',
-  "setupNetbirdModal.openTerminalAndRun": "Open Terminal and run NetBird",
+    'Click on "Settings" then "Advanced Settings" from the Cloink icon in your system tray and enter the following "Management URL"',
+  "setupNetbirdModal.openTerminalAndRun": "Open Terminal and run Cloink",
   "setupNetbirdModal.clickConnect":
-    'Click on "Connect" from the NetBird icon in your system tray',
+    'Click on "Connect" from the Cloink icon in your system tray',
   "setupNetbirdModal.signUpEmail": "Sign up using your email address",
   "setupNetbirdModal.installManuallyTerminal": "Install manually with Terminal",
-  "setupNetbirdModal.runNetBird": "Run NetBird",
+  "setupNetbirdModal.runNetBird": "Run Cloink",
   "setupNetbirdModal.andLogInBrowser": "and log in the browser",
   "setupNetbirdModal.installManuallyHomebrew": "Install manually with HomeBrew",
   "setupNetbirdModal.downloadInstallHomebrew": "Download and install HomeBrew",
   "setupNetbirdModal.homebrewInstallationGuide": "HomeBrew Installation Guide",
-  "setupNetbirdModal.startNetBirdDaemon": "Start NetBird daemon",
+  "setupNetbirdModal.startNetBirdDaemon": "Start Cloink daemon",
   "rdpCertificate.title": "RDP Certificate Verification",
   "rdpCertificate.serverPresenting":
     "The server <strong>{hostname}</strong> is presenting a certificate:",
@@ -5701,13 +5703,13 @@ const en = {
     "See who called which model, how many tokens it cost, and whether it was allowed. All attributed to the real caller.",
   "onboarding.agent.device.title": "Connect your device",
   "onboarding.agent.device.description":
-    "Agent Network endpoints are private and reachable only over the NetBird overlay. Install the client and sign in to join the network with keyless, encrypted access.",
+    "Agent Network endpoints are private and reachable only over the Cloink overlay. Install the client and sign in to join the network with keyless, encrypted access.",
   "onboarding.agent.device.connected":
     "Your device is connected to the network.",
   "onboarding.agent.device.waiting": "Waiting for your device to connect…",
   "onboarding.agent.provider.title": "Connect a provider",
   "onboarding.agent.provider.description":
-    "A provider is an upstream LLM service NetBird routes to, such as OpenAI, Anthropic, or an AI gateway. NetBird stores the API key securely and returns a tunnel-only endpoint.",
+    "A provider is an upstream LLM service Cloink routes to, such as OpenAI, Anthropic, or an AI gateway. Cloink stores the API key securely and returns a tunnel-only endpoint.",
   "onboarding.agent.provider.connectButton": "Connect Provider",
   "onboarding.agent.provider.connectedSingular": "Provider connected.",
   "onboarding.agent.provider.connectedPlural": "{count} providers connected.",
@@ -5727,7 +5729,7 @@ const en = {
   "onboarding.agent.policy.addButton": "Add Policy",
   "onboarding.agent.configure.title": "Configure your agent",
   "onboarding.agent.configure.description":
-    "Point your agent to the NetBird base URL. No client API key is needed, NetBird authorizes each request and injects the upstream key server side.",
+    "Point your agent to the Cloink base URL. No client API key is needed, Cloink authorizes each request and injects the upstream key server side.",
   "onboarding.agent.configure.noProvider":
     "Connect a provider to generate your endpoint, then your agent config appears here.",
   "trafficEventSetting.experimental": "Experimental",
@@ -5735,7 +5737,7 @@ const en = {
     "Traffic events is an experimental feature. Functionality and behavior may evolve, including changes to how data is collected or reported. Traffic events data retention is limited to 48 hours and capped at a maximum of 50,000 events.",
   "trafficEventSetting.enableTrafficEvents": "Enable Traffic Events",
   "trafficEventSetting.enableTrafficEventsHelp":
-    "Enable traffic events for all peers. This requires NetBird client v0.39 or higher.",
+    "Enable traffic events for all peers. This requires Cloink client v0.39 or higher.",
   "trafficEventSetting.enableTrafficReporting":
     "Enable Traffic Reporting (Kernel)",
   "trafficEventSetting.enableTrafficReportingHelp":
@@ -5760,7 +5762,7 @@ const en = {
     "Updating traffic reporting setting...",
   "trafficEventSetting.confirmTitle": "Enable Traffic Reporting (Kernel)?",
   "trafficEventSetting.confirmDescription":
-    "Note: Enabling this setting will lead to a higher CPU usage than usual on the NetBird client.",
+    "Note: Enabling this setting will lead to a higher CPU usage than usual on the Cloink client.",
   "trafficEventSetting.groupsNotifyTitle": "Traffic Events Groups",
   "trafficEventSetting.groupsUpdatedSuccess":
     "Traffic events groups successfully updated.",
@@ -5774,7 +5776,7 @@ const en = {
     "Select your preferred authentication method for the endpoint.",
   "accessToken.createTitle": "Create Access Token",
   "accessToken.createDescription":
-    "Use this token to access NetBird's public API",
+    "Use this token to access Cloink's public API",
   "accessToken.nameHelp": "Set an easily identifiable name for your token",
   "accessToken.namePlaceholder": "e.g., Infra token",
   "accessToken.expiresIn": "Expires in",
@@ -5796,10 +5798,10 @@ const en = {
     "If the peer's ZTA score is below the threshold, the peer will be rejected. The score should be between 1 and 100.",
   "eventStreaming.title": "Event Streaming",
   "eventStreaming.description":
-    "Event Streaming allows you to stream NetBirds audit & traffic events to different third-party services.",
+    "Event Streaming allows you to stream Cloinks audit & traffic events to different third-party services.",
   "azureAd.configurationTitle": "Entra ID (API) Configuration",
   "azureAd.configurationDescription":
-    "Sync your users and groups from Entra ID to NetBird.",
+    "Sync your users and groups from Entra ID to Cloink.",
   "azureAd.settings": "Settings",
   "azureAd.groupSync": "Group Sync",
   "azureAd.userSync": "User Sync",
@@ -5815,7 +5817,7 @@ const en = {
   "azureAd.userGroupStartsWith": "User group starts with...",
   "azureAd.deleteIntegration": "Delete Integration",
   "azureAd.deleteIntegrationHelp":
-    "Deleting this integration will remove the ability to sync users and groups from your IdP to NetBird. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
+    "Deleting this integration will remove the ability to sync users and groups from your IdP to Cloink. If you delete the integration you will need to reconfigure it again to enable the synchronization.",
   "azureAd.deleteConfirmTitle": "Delete integration?",
   "azureAd.deleteConfirmDescription":
     "Are you sure you want to delete this integration?",
@@ -5837,7 +5839,7 @@ const en = {
   "idp.noCompatibleProvidersSuffix": "to set one up.",
   "idpSync.title": "Identity Provider Sync",
   "idpSync.description":
-    "Configure your preferred Identity Provider (IdP) to synchronize your users and groups to NetBird.",
+    "Configure your preferred Identity Provider (IdP) to synchronize your users and groups to Cloink.",
   "idpSync.featureText": "Identity Provider (IdP) Sync",
   "idpSync.calloutPrefix": "Looking to enable a custom IdP like Keycloak?",
   "idpSync.calloutContact": "Please contact us at",
@@ -5871,7 +5873,7 @@ const en = {
   "peerSSH.enableAccess": "Enable SSH Access",
   "peerSSH.disableConfirmTitle": "Disable SSH Access?",
   "peerSSH.disableConfirmDescription":
-    "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
+    "Starting from Cloink v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your Cloink client to restore SSH functionality.",
   "peerSSH.permissionDenied":
     "You don't have the required permissions to update this setting.",
   "rdp.usernameAndPassword": "Username & Password",
@@ -5922,12 +5924,12 @@ const en = {
     "Use this switch to enable or disable the route.",
   "routeUpdate.autoApplyRoute": "Auto Apply Route",
   "routeUpdate.autoApplyRouteHelp":
-    "Automatically apply this exit node to your distribution groups. This requires NetBird client v0.55.0 or higher.",
+    "Automatically apply this exit node to your distribution groups. This requires Cloink client v0.55.0 or higher.",
   "routeUpdate.metric": "Metric",
   "routeUpdate.metricError": "Metric must be between 1 and 9999",
   "routeUpdate.networkRoutes": "Network Routes",
   "metricsTab.description":
-    "Help us improve NetBird by sharing performance metrics such as connection timing, sync duration, and login latency.",
+    "Help us improve Cloink by sharing performance metrics such as connection timing, sync duration, and login latency.",
   "metricsTab.shareMetrics": "Share performance metrics",
   "metricsTab.shareMetricsHelp":
     "When enabled, clients will periodically send performance data to help us identify and fix issues.",
@@ -5967,7 +5969,7 @@ const en = {
   "distributorCustomers.customerIdHelp":
     "An optional identifier to easier map customers to your internal systems.",
   "distributorCustomers.validDomainError":
-    "Please enter a valid domain, e.g. netbird.io",
+    "Please enter a valid domain, e.g. example.com",
   "distributorCustomers.addNotifyTitle": "Add {domain} customer",
   "distributorCustomers.addNotifyDescription":
     "The customer account has been created successfully.",
@@ -5991,7 +5993,7 @@ const en = {
   "mspTenants.ownershipVerified": "Ownership Verified",
   "mspTenants.pendingVerification": "Pending Verification",
   "mspTenants.verifyDomain": "Verify Domain",
-  "mspTenants.validDomainError": "Please enter a valid domain, e.g. netbird.io",
+  "mspTenants.validDomainError": "Please enter a valid domain, e.g. example.com",
   "mspTenants.addNotifyTitle": "Add {domain} account",
   "mspTenants.addNotifyDescription":
     "The tenant account has been created successfully.",
@@ -6059,9 +6061,9 @@ const en = {
   "notifications.webhookDeleted":
     "Webhook connection has been successfully deleted.",
   "notifications.webhookDeleting": "Deleting webhook...",
-  "oktaSetup.connectTitle": "Connect NetBird with Okta",
+  "oktaSetup.connectTitle": "Connect Cloink with Okta",
   "oktaSetup.connectDescription":
-    "Start syncing your users and groups from Okta to NetBird. Follow the steps below to get started.",
+    "Start syncing your users and groups from Okta to Cloink. Follow the steps below to get started.",
   "oktaSetup.requiredPermissions": "Required Permissions",
   "oktaSetup.accountPrefix": "Ensure that you have an",
   "oktaSetup.accountType": "Okta user account",
@@ -6079,7 +6081,7 @@ const en = {
   "oktaSetup.configureSsoStep3Middle": "section, change the",
   "oktaSetup.configureSsoStep3To": "to",
   "oktaSetup.configureSsoStep3AndSelect": "and select",
-  "oktaSetup.enableScimTitle": "Enable Okta SCIM in NetBird",
+  "oktaSetup.enableScimTitle": "Enable Okta SCIM in Cloink",
   "oktaSetup.enableScimStep1": "From the Okta dashboard, navigate to",
   "oktaSetup.enableScimStep1AndSelect": "and select the",
   "oktaSetup.enableScimStep2Prefix": "Under the",
@@ -6091,14 +6093,14 @@ const en = {
   "oktaSetup.enableScimStep4Prefix": "Click",
   "oktaSetup.enableScimStep4Middle":
     "to verify the SCIM connection, then select",
-  "oktaSetup.configureScimTitle": "Configure SCIM provisioning to NetBird",
+  "oktaSetup.configureScimTitle": "Configure SCIM provisioning to Cloink",
   "oktaSetup.configureScimStep1Prefix": "Go to the",
   "oktaSetup.configureScimStep1AndClick": "and click",
   "oktaSetup.configureScimStep2Prefix": "Enable",
   "oktaSetup.configureScimStep2Middle": "and",
   "oktaSetup.configureScimStep2And": "and",
   "oktaSetup.configureScimStep2Suffix": "and click",
-  "oktaSetup.syncUsersTitle": "Sync Users to NetBird",
+  "oktaSetup.syncUsersTitle": "Sync Users to Cloink",
   "oktaSetup.syncUsersStep1Prefix": "Go to the",
   "oktaSetup.syncUsersStep1Tab": "tab, select the",
   "oktaSetup.syncUsersStep1AndClick": "and click",
@@ -6107,19 +6109,19 @@ const en = {
   "oktaSetup.syncUsersStep2AndClick": "and click",
   "oktaSetup.syncUsersStep3Prefix": "Select",
   "oktaSetup.syncUsersStep3Suffix":
-    "after you have finished assigning groups. At this point, all members of the groups assigned to the application will be synced to NetBird.",
-  "oktaSetup.syncGroupsTitle": "Sync Groups to NetBird",
+    "after you have finished assigning groups. At this point, all members of the groups assigned to the application will be synced to Cloink.",
+  "oktaSetup.syncGroupsTitle": "Sync Groups to Cloink",
   "oktaSetup.syncGroupsStep1Prefix": "Go to the",
   "oktaSetup.syncGroupsStep1Tab": "tab, select",
   "oktaSetup.syncGroupsStep1AndClick": "and click",
   "oktaSetup.syncGroupsStep2Prefix": "Search groups to push and then click",
   "oktaSetup.syncGroupsStep2Suffix":
-    ". The selected groups will then be synced to NetBird.",
+    ". The selected groups will then be synced to Cloink.",
   "oktaSetup.estimatedTime": "5-15 Minutes",
-  "oktaSetup.ssoConnectTitle": "Connect NetBird with Okta",
+  "oktaSetup.ssoConnectTitle": "Connect Cloink with Okta",
   "oktaSetup.ssoConnectDescription":
-    "Start syncing your users and groups from Okta to NetBird. Follow the steps below to get started.",
-  "oktaSetup.installAppTitle": "Install NetBird application for Okta",
+    "Start syncing your users and groups from Okta to Cloink. Follow the steps below to get started.",
+  "oktaSetup.installAppTitle": "Install Cloink application for Okta",
   "oktaSetup.installAppStep1": "Navigate to",
   "oktaSetup.installAppStep2Prefix": "Click",
   "oktaSetup.installAppStep2AndThen": "and then",
@@ -6128,7 +6130,7 @@ const en = {
   "oktaSetup.installAppStep3Tab": "tab, select the",
   "oktaSetup.installAppStep3AndClick": "and click",
   "oktaSetup.installAppStep3Suffix": "and assign your user to the application",
-  "oktaSetup.shareDetailsTitle": "Share your Okta details with NetBird",
+  "oktaSetup.shareDetailsTitle": "Share your Okta details with Cloink",
   "oktaSetup.shareDetailsStep1Prefix": "Click on the",
   "oktaSetup.shareDetailsStep1Tab": "tab and take note",
   "oktaSetup.shareDetailsStep1Of": "of the",
@@ -6136,22 +6138,22 @@ const en = {
     "Under your user profile, take note of your",
   "oktaSetup.shareDetailsStep3Prefix": "Share your",
   "oktaSetup.shareDetailsStep3And": "and your",
-  "oktaSetup.shareDetailsStep3With": "with the NetBird team",
+  "oktaSetup.shareDetailsStep3With": "with the Cloink team",
   "oktaSetup.shareDetailsStep4Prefix":
-    "Once the NetBird team has enabled the authentication for your account you will receive an email. After that you can visit",
+    "Once the Cloink team has enabled the authentication for your account you will receive an email. After that you can visit",
   "oktaSetup.shareDetailsStep4Middle":
     "and authenticate using your Okta's credentials",
   "oktaSetup.shareDetailsTipPrefix": "You can use",
   "oktaSetup.shareDetailsTipMiddle":
-    "or any other secure sharing tool to share your Okta details with the NetBird team. If you need help, please contact us at",
+    "or any other secure sharing tool to share your Okta details with the Cloink team. If you need help, please contact us at",
   "oktaSetup.ssoEstimatedTime": "5 Minutes",
   "azureAd.genSecretStepTitle": "Generate client secret",
   "azureAd.appIdsStepTitle": "Enter Application ID and Directory ID",
   "azureAd.groupsToSyncTitle": "Groups to be synchronized",
   "azureAd.usersToSyncTitle": "Users to be synchronized",
-  "firehose.connectTitle": "Connect NetBird with Amazon Data Firehose",
+  "firehose.connectTitle": "Connect Cloink with Amazon Data Firehose",
   "firehose.connectDescription":
-    "Start streaming your NetBird audit & traffic events to Amazon Data Firehose. Follow the steps below to get started.",
+    "Start streaming your Cloink audit & traffic events to Amazon Data Firehose. Follow the steps below to get started.",
   "firehose.selectRegionTitle": "Select your Amazon Data Firehose region",
   "firehose.selectRegionHelp":
     "To identify which region you are on please check out the",
@@ -6188,10 +6190,10 @@ const en = {
   "firehose.enterSecretKey": "Enter your Secret-Key",
   "firehose.notifyTitle": "Amazon Data Firehose Integration",
   "firehose.notifyDescription":
-    "Amazon Data Firehose was successfully connected to NetBird.",
-  "s3.connectTitle": "Connect NetBird with Amazon S3",
+    "Amazon Data Firehose was successfully connected to Cloink.",
+  "s3.connectTitle": "Connect Cloink with Amazon S3",
   "s3.connectDescription":
-    "Start streaming your NetBird audit & traffic events to Amazon S3. Follow the steps below to get started.",
+    "Start streaming your Cloink audit & traffic events to Amazon S3. Follow the steps below to get started.",
   "s3.selectRegionTitle": "Select your Amazon S3 region",
   "s3.selectRegionHelp":
     "To identify which region you are on please check out the",
@@ -6218,10 +6220,10 @@ const en = {
   "s3.enterAccessKey": "Enter your Access-Key",
   "s3.enterSecretKey": "Enter your Secret-Key",
   "s3.notifyTitle": "Amazon S3 Integration",
-  "s3.notifyDescription": "Amazon S3 was successfully connected to NetBird.",
-  "datadog.connectTitle": "Connect NetBird with Datadog",
+  "s3.notifyDescription": "Amazon S3 was successfully connected to Cloink.",
+  "datadog.connectTitle": "Connect Cloink with Datadog",
   "datadog.connectDescription":
-    "Start streaming your NetBird audit & traffic events to Datadog. Follow the steps below to get started.",
+    "Start streaming your Cloink audit & traffic events to Datadog. Follow the steps below to get started.",
   "datadog.selectRegionTitle": "Select your Datadog region",
   "datadog.selectRegionHelp":
     "To identify which region you are on please check out the",
@@ -6237,8 +6239,8 @@ const en = {
     "When creating a new Datadog API key, it could take up to 5 minutes for the key to be available for use.",
   "datadog.enterApiKey": "Enter your API-Key",
   "datadog.notifyTitle": "Datadog Integration",
-  "datadog.notifyDescription": "Datadog was successfully connected to NetBird.",
-  "crowdStrike.connectTitle": "Connect NetBird with CrowdStrike",
+  "datadog.notifyDescription": "Datadog was successfully connected to Cloink.",
+  "crowdStrike.connectTitle": "Connect Cloink with CrowdStrike",
   "crowdStrike.connectDescription":
     "Restrict network access only to devices managed by the company's IT department",
   "crowdStrike.setup.selectRegionTitle": "Select your CrowdStrike region",
@@ -6256,7 +6258,7 @@ const en = {
   "crowdStrike.setup.estimatedTime": "5-10 Minutes",
   "crowdStrike.setup.notifyTitle": "CrowdStrike Integration",
   "crowdStrike.setup.notifyDescription":
-    "CrowdStrike was successfully connected to NetBird.",
+    "CrowdStrike was successfully connected to Cloink.",
   "trafficEvents.time": "Time",
   "trafficEvents.event": "Event",
   "trafficEvents.source": "Source",
@@ -6290,9 +6292,9 @@ const en = {
   "trafficEvents.detailsError": "Persisted details could not be loaded.",
   "trafficEvents.detailsEmpty": "No persisted details were found for this group.",
   "trafficEvents.retry": "Retry",
-  "notificationSlack.connectTitle": "Connect NetBird with Slack",
+  "notificationSlack.connectTitle": "Connect Cloink with Slack",
   "notificationSlack.connectDescription":
-    "Receive NetBird notification events directly in your Slack channel via an Incoming Webhook.",
+    "Receive Cloink notification events directly in your Slack channel via an Incoming Webhook.",
   "notificationSlack.createAppTitle": "Create a Slack App",
   "notificationSlack.createAppStep1Prefix": "Open",
   "notificationSlack.createAppStep1Link": "Slack App Management",
@@ -6547,7 +6549,7 @@ const en = {
     "Per-request audit with real caller identity, cost attribution, and budget controls.",
   "agentProviders.allModels": "All models",
   "agentProviders.emptyDescription":
-    "Route OpenAI, Anthropic, and other LLM APIs through NetBird to enforce access control, track token spend, and capture prompts.",
+    "Route OpenAI, Anthropic, and other LLM APIs through Cloink to enforce access control, track token spend, and capture prompts.",
   "agentProviders.modelsConfigured": "{count} configured",
   "agentProviders.searchPlaceholder": "Search by name...",
   "aws.changePlanLater": "You can always change your plan later.",
@@ -6558,13 +6560,13 @@ const en = {
     "With our flexible pricing, you are only billed for active users and active peers through your AWS account.",
   "aws.thanksForRegistering": "Thanks for registering via",
   "billing.activateTrialDescription":
-    "Activate your 14-day trial to access NetBird's full set of features & integrations. After the trial, you will return to your {plan} plan unless you choose to upgrade.",
+    "Activate your 14-day trial to access Cloink's full set of features & integrations. After the trial, you will return to your {plan} plan unless you choose to upgrade.",
   "billing.approachingUsageLimit": "Approaching usage limit",
   "billing.continueWith": "Continue with",
   "billing.continueWithTrial": "Continue with Trial",
   "billing.currentPlan": "Current Plan",
   "billing.downgradeTo": "Downgrade to",
-  "billing.exploreNetBird": "Explore NetBird",
+  "billing.exploreNetBird": "Explore Cloink",
   "billing.findOutWhich": "Find out which",
   "billing.flexiblePricingDescription":
     "With our flexible pricing, you are only billed for active users and active peers.",
@@ -6586,9 +6588,9 @@ const en = {
   "billing.lockedFeature.availableOnTeamOrHigher":
     "{feature} {verb} available on the Team plan or higher. ",
   "billing.lockedFeature.availableSelfHostedBusiness":
-    "{feature} {verb} available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Business plan. ",
+    "{feature} {verb} available with a Cloink Enterprise commercial license, or on Cloink Cloud with the Business plan. ",
   "billing.lockedFeature.availableSelfHostedTeam":
-    "{feature} {verb} available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Team plan or higher. ",
+    "{feature} {verb} available with a Cloink Enterprise commercial license, or on Cloink Cloud with the Team plan or higher. ",
   "billing.lockedFeature.availableWithEnterprise":
     "Available with an Enterprise license",
   "billing.lockedFeature.contactAdminPrefix":
@@ -6621,15 +6623,15 @@ const en = {
   "billing.planRecentlyUpdated":
     "Your plan was recently updated. Please wait for 48 hours from the last update to change your plan again.",
   "billing.planSuccessDescription":
-    "Your subscription has been successfully activated. You have now full access to all NetBird features of your selected plan.",
-  "billing.planSuccessTitle": "Thank you for subscribing to NetBird! 🎉",
+    "Your subscription has been successfully activated. You have now full access to all Cloink features of your selected plan.",
+  "billing.planSuccessTitle": "Thank you for subscribing to Cloink! 🎉",
   "billing.plansAndBilling": "Plans & Billing",
   "billing.pricingPlan": "Pricing Plan",
   "billing.startFreeTrial": "Start 14-Day Free Trial",
   "billing.subscribeTo": "Subscribe to",
   "billing.suitsYouBest": "suits you the best by visiting our website.",
   "billing.trialAccessDescription":
-    "You currently have access to NetBird's full set of features & integrations.",
+    "You currently have access to Cloink's full set of features & integrations.",
   "billing.trialAfterDescription":
     "After the trial, you will return to your {plan} plan unless you choose to upgrade.",
   "billing.trialEndsIn": "Trial ends in {count} days",
@@ -6644,13 +6646,13 @@ const en = {
   "billing.trialStartedNextTwoWeeks": "for the next two weeks",
   "billing.trialStartedTitle": "Your 14-Day Trial has started!",
   "billing.trialStartedWelcome":
-    "Welcome aboard! You have now access to NetBird's full set of features & integrations",
+    "Welcome aboard! You have now access to Cloink's full set of features & integrations",
   "billing.trialTeamPlanNote":
     "Your Team plan remains active during this trial.",
-  "billing.tryAllFeatures": "Try all of NetBird's features for free",
+  "billing.tryAllFeatures": "Try all of Cloink's features for free",
   "billing.unlimitedUsers": "Unlimited Users",
-  "billing.updateNetBirdPlan": "Update your NetBird Plan",
-  "billing.upgradeNetBirdPlan": "Upgrade your NetBird Plan",
+  "billing.updateNetBirdPlan": "Update your Cloink Plan",
+  "billing.upgradeNetBirdPlan": "Upgrade your Cloink Plan",
   "billing.upgradeNow": "Upgrade Now",
   "billing.upgradePlan": "Upgrade Plan",
   "billing.upgradeTo": "Upgrade to",
@@ -6682,14 +6684,14 @@ const en = {
   "crowdStrike.ztaToggleLabel": "Use Zero Trust Assessment Score",
   "distributor.accountExistsCallout":
     "The account owner must log in to the dashboard to accept or decline your request. Please inform them after you have requested access.",
-  "distributor.accountExistsLine1": "This NetBird account already",
+  "distributor.accountExistsLine1": "This Cloink account already",
   "distributor.accountExistsLine2": "exists in our system",
   "distributor.accountExistsManagePrefix": "To manage the account",
   "distributor.accountExistsManageSuffix":
     ", you must first request access from the account owner.",
   "distributor.invitationTooltip":
     "The customer account owner must log in to the dashboard to accept or decline your invitation.",
-  "distributor.netBirdPlanFor": "NetBird Plan for {name}",
+  "distributor.netBirdPlanFor": "Cloink Plan for {name}",
   "distributor.pendingInvitation": "Pending invitation",
   "distributor.selectPlanForCustomer":
     "Select the plan that best fits your customer's needs.",
@@ -6717,7 +6719,7 @@ const en = {
   "edr.huntress.setup.complianceDocLink": "Huntress Documentation",
   "edr.huntress.setup.complianceTitle": "Compliance Requirements",
   "edr.huntress.setup.connectedDescription":
-    "Huntress was successfully connected to NetBird.",
+    "Huntress was successfully connected to Cloink.",
   "edr.huntress.setup.createApiKeys": "Create API Keys",
   "edr.huntress.setup.getCredentialsStep1Console":
     "Huntress Management Console",
@@ -6769,7 +6771,7 @@ const en = {
     "Set the specific requirements that devices must meet to be considered compliant.",
   "edr.sentinelOne.setup.complianceTitle": "Compliance Requirements",
   "edr.sentinelOne.setup.connectedDescription":
-    "SentinelOne was successfully connected to NetBird.",
+    "SentinelOne was successfully connected to Cloink.",
   "edr.sentinelOne.setup.createApiTokens": "Create API Tokens",
   "edr.sentinelOne.setup.createTokenStep1Navigate": "Navigate to",
   "edr.sentinelOne.setup.createTokenStep1Path":
@@ -6779,7 +6781,7 @@ const en = {
   "edr.sentinelOne.setup.createTokenStep3Desc":
     "as the name, a optional description and select your preferred expiration date.",
   "edr.sentinelOne.setup.createTokenStep3Enter": "Enter",
-  "edr.sentinelOne.setup.createTokenStep3Name": "NetBird Integration",
+  "edr.sentinelOne.setup.createTokenStep3Name": "Cloink Integration",
   "edr.sentinelOne.setup.createTokenStep3Next": "Next",
   "edr.sentinelOne.setup.createTokenStep4Click": "Click",
   "edr.sentinelOne.setup.createTokenStep4Copy":
@@ -6812,7 +6814,7 @@ const en = {
   "edr.sentinelOne.setup.syncWindowTitle": "SentinelOne Sync Window",
   "edr.sentinelOne.setup.syncWindowTooltip":
     "Example: This property is set to 24 hours. Jane's laptop hasn't synced with SentinelOne for 27 hours. Even though it's marked as Compliant in SentinelOne, it will still be blocked from network access.",
-  "edr.sentinelOne.setup.title": "Connect NetBird with SentinelOne",
+  "edr.sentinelOne.setup.title": "Connect Cloink with SentinelOne",
   "edr.sentinelOne.threatsSuffix": "Threats",
   "edr.title": "MDM & EDR",
   "entraScim.authMethod": "Authentication Method",
@@ -6825,7 +6827,7 @@ const en = {
   "entraScim.step1Step3Desc":
     "Click + New application to create a new enterprise application and then click + Create your own application",
   "entraScim.step1Step4Desc":
-    "Enter NetBird SCIM as the name and select Integrate any other application you don't find in the gallery (Non-gallery)",
+    "Enter Cloink SCIM as the name and select Integrate any other application you don't find in the gallery (Non-gallery)",
   "entraScim.step1Step5Desc": "Click Create",
   "entraScim.step1Title": "Configure SCIM in Microsoft Entra ID",
   "entraScim.step2CalloutPrefix":
@@ -6853,9 +6855,9 @@ const en = {
     "Click Save to apply the final attribute mapping configuration",
   "entraScim.step4Title": "User Attribute Mapping",
   "entraScim.step5Step1Desc":
-    "Navigate to your NetBird enterprise application and click on Users and groups in the left menu",
+    "Navigate to your Cloink enterprise application and click on Users and groups in the left menu",
   "entraScim.step5Step2Desc":
-    "Click + Add user/group and select the users and groups you want to synchronize to NetBird",
+    "Click + Add user/group and select the users and groups you want to synchronize to Cloink",
   "entraScim.step5Step3Desc": "Click Assign to save the assignments",
   "entraScim.step5Title": "Assign Users and Groups",
   "entraScim.step6Step1Desc":
@@ -6867,7 +6869,7 @@ const en = {
   "eventStreaming.cardDescription":
     "Stream your activity events to third-party services.",
   "firewallGpt.accessForm.companySizeLabel":
-    "How many people in your company will use NetBird?",
+    "How many people in your company will use Cloink?",
   "firewallGpt.accessForm.description":
     "Smart Firewall translates natural language prompts into network policies. You can describe your access needs in plain language, and AI will handle the rest. If you're interested in early access, please fill out the form below.",
   "firewallGpt.accessForm.messageLabel":
@@ -6878,31 +6880,35 @@ const en = {
   "firewallGpt.accessForm.title": "Want to try Smart Firewall?",
   "firewallGpt.accessFormSuccess.close": "Close Message",
   "firewallGpt.accessFormSuccess.description":
-    "We'll send you an email once NetBird's Smart Firewall is ready to use in your account.",
+    "We'll send you an email once Cloink's Smart Firewall is ready to use in your account.",
   "firewallGpt.accessFormSuccess.title": "Thank you for signing up!",
   "firewallGpt.allPorts": "Allow connections through all ports",
   "firewallGpt.button.lockedDescription":
-    "Smart Firewall uses AI to help you create access policies and is available with a NetBird Enterprise commercial license.",
+    "Smart Firewall uses AI to help you create access policies and is available with a Cloink Enterprise commercial license.",
   "firewallGpt.creatingPolicy": "Creating policy...",
   "firewallGpt.header.subtitle":
     "Effortlessly create access control policies using natural language prompts",
   "firewallGpt.newChat": "New Chat",
+  "firewallGpt.notApproved":
+    "You don't have access to Cloink's Smart Firewall.",
+  "firewallGpt.notApprovedEmailNotice":
+    "We will notify you by email as soon as it's available for your account.",
   "firewallGpt.policyCreated.description":
     "Policy {name} was successfully created.",
-  "firewallGpt.policyCreated.title": "NetBird's Smart Firewall",
+  "firewallGpt.policyCreated.title": "Cloink's Smart Firewall",
   "firewallGpt.portPrefix": "Allow connections through port",
   "firewallGpt.postureCheckFailed": "Posture Check failed to create.",
   "firewallGpt.reviewNotice":
     "Please review new groups, assigned peers, policy settings and posture checks before creating the policy",
   "firewallGpt.smartFirewall": "Smart Firewall",
   "firewallGpt.successModal.description":
-    "How would you rate your experience with NetBird's Smart Firewall?",
+    "How would you rate your experience with Cloink's Smart Firewall?",
   "firewallGpt.successModal.title":
     "Policy '{name}' has been created successfully!",
   "fleetdm.complianceTitle": "Compliance Requirements",
   "fleetdm.connectDescription":
     "Restrict network access to devices managed by FleetDM based on their compliance policies.",
-  "fleetdm.connectTitle": "Connect NetBird with FleetDM",
+  "fleetdm.connectTitle": "Connect Cloink with FleetDM",
   "fleetdm.diskEncryption": "Disk Encryption",
   "fleetdm.diskEncryptionHelp":
     "Devices must have disk encryption (FileVault/BitLocker) enabled.",
@@ -6912,7 +6918,7 @@ const en = {
   "fleetdm.maxVulnerableSoftware": "Max Vulnerable Software",
   "fleetdm.maxVulnerableSoftwareHelp":
     "Maximum number of allowed vulnerable software on a device.",
-  "fleetdm.notifyConnected": "FleetDM was successfully connected to NetBird.",
+  "fleetdm.notifyConnected": "FleetDM was successfully connected to Cloink.",
   "fleetdm.onlineStatus": "Online Status",
   "fleetdm.onlineStatusHelp":
     "Require the host to be online (recently seen by Fleet).",
@@ -6957,12 +6963,12 @@ const en = {
   "invoices.redirectingToStripe":
     "Redirecting to Stripe to download the invoice...",
   "mfa.appliesToAllUsers": "This setting is global and applies to all users.",
-  "mfa.enableIfNotInIdp": "Enable NetBird MFA if not configured in your IdP.",
+  "mfa.enableIfNotInIdp": "Enable Cloink MFA if not configured in your IdP.",
   "mfa.enableMfa": "Enable MFA",
   "mfa.mayNotNeedPrefix": "Your",
   "mfa.mayNotNeedSuffix":
     "may already have MFA enabled. Enabling this setting could result in duplicated MFA checks.",
-  "mfa.mayNotNeedTitle": "You may not need NetBird MFA",
+  "mfa.mayNotNeedTitle": "You may not need Cloink MFA",
   "mfa.mfaDisabled": "MFA is now disabled for your account",
   "mfa.mfaEnabled": "MFA is now enabled for your account",
   "mfa.rememberBrowser": "Remember Browser for MFA",
@@ -6977,7 +6983,7 @@ const en = {
   "mfa.updatingSettings": "Updating MFA settings...",
   "msp.accountExistsCallout":
     "The account owner must log in to the dashboard to accept or decline your request. Please inform them after you have requested access.",
-  "msp.accountExistsLine1": "This NetBird account already",
+  "msp.accountExistsLine1": "This Cloink account already",
   "msp.accountExistsLine2": "exists in our system",
   "msp.accountExistsManagePrefix": "To manage the account",
   "msp.accountExistsManageSuffix":
@@ -6987,9 +6993,9 @@ const en = {
   "msp.addGroup": "Add Group",
   "msp.alreadyAccepted": "The invitation has already been accepted",
   "msp.contactAccountAdmin":
-    "To continue using NetBird, please contact your account administrator",
+    "To continue using Cloink, please contact your account administrator",
   "msp.contactDistributor":
-    "To continue using NetBird, please contact your distributor.",
+    "To continue using Cloink, please contact your distributor.",
   "msp.copyTxtRecordPrefix": "Copy the",
   "msp.copyTxtRecordSuffix": "below and add it to your DNS configuration for",
   "msp.decline": "Decline",
@@ -6997,15 +7003,15 @@ const en = {
     "Deleting this tenant will permanently remove all of its associated data, including its peers, users, groups and everything else. Please be aware that this action is irreversible and cannot be undone.",
   "msp.deleteTenantTitle": "Delete '{name}'?",
   "msp.dnsNote":
-    "Note: DNS changes may take some time to apply. If NetBird doesn't find the record immediately, please wait a day and try again.",
+    "Note: DNS changes may take some time to apply. If Cloink doesn't find the record immediately, please wait a day and try again.",
   "msp.goToTenants": "Go to Tenants",
   "msp.host": "Host",
   "msp.joinDescription":
-    "You will get access to the NetBird MSP portal where you can manage multiple customers and their networks from a single place.",
+    "You will get access to the Cloink MSP portal where you can manage multiple customers and their networks from a single place.",
   "msp.joinTitle":
-    "NetBird invites you to join as an Managed Service Provider (MSP)",
+    "Cloink invites you to join as an Managed Service Provider (MSP)",
   "msp.mspPortal": "MSP Portal",
-  "msp.netBirdPlanFor": "NetBird Plan for {name}",
+  "msp.netBirdPlanFor": "Cloink Plan for {name}",
   "msp.noCustomers": "Seems like you don't have any customers.",
   "msp.noCustomersMatching":
     "There are no customers matching your search. Try another search term.",
@@ -7014,7 +7020,7 @@ const en = {
   "msp.noDnsAccessSuffix":
     ". The email should be sent from the domain you are trying to verify.",
   "msp.notifyDescription": "Successfully joined as an Managed Service Provider",
-  "msp.notifyTitle": "NetBird Managed Service Provider",
+  "msp.notifyTitle": "Cloink Managed Service Provider",
   "msp.ownerMustLoginTooltip":
     "The account owner must log in to the dashboard to accept or decline your request.",
   "msp.ownerOnlyCallout":
@@ -7028,7 +7034,7 @@ const en = {
     "Select the plan that best fits your tenant's needs.",
   "msp.switchToAccount": "Switch to {name}'s Account",
   "msp.tenantTrialExpiredDescription":
-    "has reached the end of the free trial period. To continue using NetBird, please upgrade the plan for this tenant.",
+    "has reached the end of the free trial period. To continue using Cloink, please upgrade the plan for this tenant.",
   "msp.the14DayTrialExpired": "The 14-Day Trial has expired!",
   "msp.thisTenant": "This tenant",
   "msp.trialExpiredTooltip":
@@ -7052,9 +7058,9 @@ const en = {
   "onboarding.defaultPolicyDescription":
     "Allows connections between all your devices",
   "onboarding.endDescriptionExtended":
-    "What's next? Check out these guides to get the most out of NetBird. To learn more, explore the dashboard, visit our documentation, or browse our YouTube channel.",
+    "What's next? Check out these guides to get the most out of Cloink. To learn more, explore the dashboard, visit our documentation, or browse our YouTube channel.",
   "onboarding.videoHowDescriptionExtended":
-    "Learn more about how NetBird works, its architecture, and how it can help you build secure networks.",
+    "Learn more about how Cloink works, its architecture, and how it can help you build secure networks.",
   "peer.approvalRequiredIssueTooltip":
     "This peer needs admin approval before it can connect. Approve it from the row's actions menu.",
   "peer.complianceBypassedTooltip":
@@ -7072,9 +7078,9 @@ const en = {
   "peerResourcePicker.noResourcesAvailable":
     "No resources available to select.",
   "peerSSH.clientUpdateWarning":
-    "You have SSH access configured but your client runs on an older NetBird version. Please update your NetBird client to v.0.61.0+ in order to allow SSH connections.",
+    "You have SSH access configured but your client runs on an older Cloink version. Please update your Cloink client to v.0.61.0+ in order to allow SSH connections.",
   "peerSSH.explicitPolicyWarning":
-    "Your SSH server is enabled, but starting from NetBird v0.61.0, SSH requires an explicit access control policy. Please create an SSH access control policy in order to allow SSH connections.",
+    "Your SSH server is enabled, but starting from Cloink v0.61.0, SSH requires an explicit access control policy. Please create an SSH access control policy in order to allow SSH connections.",
   "plan.business": "Business",
   "plan.free": "Free",
   "plan.freeTrial": "Free Trial",
@@ -7085,7 +7091,7 @@ const en = {
   "plan.trialHasExpired": " (Trial has expired)",
   "plan.upgradePlan": "Upgrade Plan",
   "postureChecks.noChecksDescription":
-    "Add various posture checks to further restrict access in your network. E.g., only clients with a specific NetBird client version, operating system or location are allowed to connect.",
+    "Add various posture checks to further restrict access in your network. E.g., only clients with a specific Cloink client version, operating system or location are allowed to connect.",
   "postureChecks.removeChecks": "Remove Checks",
   "reverseProxy.clusterAddressCopied": "{address} has been copied to clipboard",
   "reverseProxy.customDomainNoClusterSelfHostedVerify":
@@ -7101,9 +7107,9 @@ const en = {
   "reverseProxy.statusTroubleshootingDocs": "Troubleshooting Docs",
   "reverseProxy.targetHelpArticle": "A",
   "reverseProxy.targetPeerHelpSuffix":
-    "is a machine (e.g., laptop, server, container) running NetBird. Select a peer if your service runs directly on it.",
+    "is a machine (e.g., laptop, server, container) running Cloink. Select a peer if your service runs directly on it.",
   "reverseProxy.targetResourceHelpSuffix":
-    "is a destination (IP, subnet, or domain) that can't run NetBird directly. Resources are part of a network and are reached through a routing peer that forwards traffic to them.",
+    "is a destination (IP, subnet, or domain) that can't run Cloink directly. Resources are part of a network and are reached through a routing peer that forwards traffic to them.",
   "reverseProxy.targetSelectGeneralHelp":
     "Choose where the proxy should forward incoming requests.",
   "reverseProxy.urlCopied": "URL has been copied to your clipboard",
@@ -7132,12 +7138,12 @@ const en = {
   "idpSync.defaultPrefix": "By default,",
   "idpSync.groupPrefixHelp":
     "If you want to synchronize only groups that start with a specific prefix, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
-  "idpSync.groupsSyncSuffix": "will be synchronized from your IdP to NetBird.",
+  "idpSync.groupsSyncSuffix": "will be synchronized from your IdP to Cloink.",
   "idpSync.identityProvider": "Identity Provider",
   "idpSync.identityProviderSync": "Identity Provider Sync",
   "idpSync.userGroupHelp":
     "If you want to synchronize only users that belong to a specific group, you can add them below. Keep in mind that the prefix matching is case-sensitive.",
-  "idpSync.usersSyncSuffix": "will be synchronized from your IdP to NetBird.",
+  "idpSync.usersSyncSuffix": "will be synchronized from your IdP to Cloink.",
   "jumpcloud.connect": "Connect Jumpcloud",
   "jumpcloud.description":
     "Jumpcloud is a unified identity, device, and access management platform.",
@@ -7148,7 +7154,7 @@ const en = {
   "okta.ssoRequiredTooltip":
     "Please setup Okta SSO from the Single-Sign-On tab to enable user and group sync.",
   "onboarding.addUserDeviceDescription":
-    "Your first resource and routing peer are all set. Now, take your device, install NetBird, and let's get you connected.",
+    "Your first resource and routing peer are all set. Now, take your device, install Cloink, and let's get you connected.",
   "onboarding.addUserDeviceTitle": "Time to add your client device",
   "onboarding.agentCompanySize": "How many people will use Agent Network?",
   "onboarding.agentEndDescription":
@@ -7160,16 +7166,16 @@ const en = {
     "Share a few details about your use case to help us get you started smoothly.",
   "onboarding.agentUseCase": "How do you plan to use Agent Network?",
   "onboarding.agentUseCaseHelp": "You can also select multiple use cases.",
-  "onboarding.agentWelcome": "Welcome to NetBird!",
-  "onboarding.agentWelcomeName": "Welcome to NetBird, {name}!",
+  "onboarding.agentWelcome": "Welcome to Cloink!",
+  "onboarding.agentWelcomeName": "Welcome to Cloink, {name}!",
   "onboarding.firstDeviceDescription":
-    "To access other machines, install NetBird, sign in, and your device joins the network. Every device you add becomes a NetBird peer in your network. It's that simple.",
+    "To access other machines, install Cloink, sign in, and your device joins the network. Every device you add becomes a Cloink peer in your network. It's that simple.",
   "onboarding.firstDeviceTitle": "Let's get your first device online",
   "onboarding.goToAccessLogs": "Go to Access Logs",
   "onboarding.otherUseCasePlaceholder": "e.g. Internal RAG service, MCP tools",
   "reverseProxy.terminated": "Terminated",
   "reverseProxy.terminatedTooltip":
-    "This service has been terminated by the NetBird team as it violates the Terms of Service. For questions, please contact",
+    "This service has been terminated by the Cloink team as it violates the Terms of Service. For questions, please contact",
   "routes.lowerMetricPriority": "Lower metrics have higher priority.",
   "search.close": "Close",
   "search.navigate": "Navigate",
@@ -7191,9 +7197,9 @@ const en = {
   "sso.failedVerification": "Failed Verification",
   "sso.idpSyncFeatureText": "Identity Provider (IdP) Sync",
   "survey.description":
-    "Help us improve by sharing how you discovered NetBird. Your feedback truly helps us grow.",
+    "Help us improve by sharing how you discovered Cloink. Your feedback truly helps us grow.",
   "survey.placeholder": "Please select an option...",
-  "survey.question": "How did you hear about NetBird?",
+  "survey.question": "How did you hear about Cloink?",
   "survey.submit": "Submit & Continue",
   "survey.title": "We'd love to hear from you",
   "webhooks.addHeader": "Add Header",
@@ -7284,11 +7290,11 @@ const en = {
   "onboarding.anySubdomain": "(any subdomain of {address})",
   "onboarding.commandCopied": "Command has been copied successfully",
   "onboarding.explainDefaultPolicyDescription":
-    "With NetBird, you decide who gets access to what. We've already set up an access policy for your devices.",
+    "With Cloink, you decide who gets access to what. We've already set up an access policy for your devices.",
   "onboarding.explainDefaultPolicyFlip":
     "Flip the switch, then try pinging your other device again to see how it affects the connection.",
   "onboarding.explainPolicyDescription":
-    "NetBird makes it easy for admins to enforce least-privilege access with access control policies. We've already created one for your resource during onboarding.",
+    "Cloink makes it easy for admins to enforce least-privilege access with access control policies. We've already created one for your resource during onboarding.",
   "onboarding.explainPolicyFlipResource":
     "Flip the switch, then try pinging your resource again to see how it affects the connection.",
   "onboarding.explainPolicyTitle": "Set the rules. You're in control",
@@ -7332,9 +7338,9 @@ const en = {
   "setupNetbirdModal.downloadFromGooglePlay":
     "Download and install the application from Google Play Store:",
   "setupNetbirdModal.downloadNetBirdAppStore":
-    "Download NetBird on the App Store",
+    "Download Cloink on the App Store",
   "setupNetbirdModal.downloadNetBirdGooglePlay":
-    "Download NetBird from Google Play",
+    "Download Cloink from Google Play",
   "setupNetbirdModal.installOnAndroid": "Install on Android",
   "setupNetbirdModal.installOnIos": "Install on iOS",
   "table.lastSeenOn": "Last seen on",
@@ -7362,7 +7368,7 @@ const en = {
   "notifications.edrSyncTokenExpiredHelp": "Notify when the EDR sync token has expired and needs renewal",
   "common.requestFailedWithCode": "Request failed with status code {code}",
   "common.errorPrefix": "Error: {message}",
-  "announcements.huntressIntegration": "Huntress now integrates with NetBird",
+  "announcements.huntressIntegration": "Huntress now integrates with Cloink",
   "nav.customers": "Customers",
   "nav.tenants": "Tenants",
   "cloud.agentNetwork": "Agent Network",
@@ -7396,9 +7402,9 @@ const en = {
   "onboarding.comparisonSites": "Comparison Sites",
   "onboarding.slack": "Slack",
   "onboarding.other": "Other",
-  "onboarding.netbirdYouTubeChannel": "NetBird YouTube Channel",
+  "onboarding.netbirdYouTubeChannel": "Cloink YouTube Channel",
   "onboarding.otherYouTubeChannel": "Other YouTube Channel",
-  "onboarding.netbirdSubReddit": "NetBird SubReddit",
+  "onboarding.netbirdSubReddit": "Cloink SubReddit",
   "onboarding.otherRedditThread": "Other Reddit Thread",
   "onboarding.github": "GitHub",
   "reverseProxy.httpsService": "HTTPS Service",
@@ -7475,7 +7481,7 @@ const en = {
   "postureChecks.android16": "Android 16",
   "notifications.createAnApp": "Create an app",
   "notifications.fromScratch": "From scratch",
-  "notifications.netbirdNotifications": "NetBird Notifications",
+  "notifications.netbirdNotifications": "Cloink Notifications",
   "notifications.createApp": "Create App",
   "notifications.incomingWebhooks": "Incoming Webhooks",
   "notifications.activateIncomingWebhooks": "Activate Incoming Webhooks",
@@ -7500,7 +7506,7 @@ const en = {
   "integrations.securityCredentials": "Security Credentials",
   "integrations.createAccessKey": "Create access key",
   "integrations.createBucket": "Create bucket",
-  "integrations.netbirdActivityEvents": "NetBird Activity Events",
+  "integrations.netbirdActivityEvents": "Cloink Activity Events",
   "integrations.createKey": "Create Key",
   "integrations.userReadAll": "User.Read.All",
   "integrations.groupReadAll": "Group.Read.All",

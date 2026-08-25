@@ -18,8 +18,8 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import AppleIcon from "@/assets/icons/AppleIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
-import { Process, ProcessCheck } from "@/interfaces/PostureCheck";
 import { useI18n } from "@/i18n/I18nProvider";
+import { Process, ProcessCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
 
 type Props = {
@@ -133,7 +133,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
     } else {
       return [];
     }
-  }, [processes]);
+  }, [processes, t]);
 
   const hasErrorsOrIsEmpty = useMemo(() => {
     if (processes.length === 0) return true;
@@ -168,7 +168,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                   <div className={"w-full flex flex-col gap-1.5"}>
                     <Input
                       customPrefix={<TerminalIcon size={16} />}
-                      placeholder={"/usr/local/bin/netbird"}
+                      placeholder={"/usr/local/bin/cloink"}
                       value={p.linux_path}
                       error={
                         pathErrors.find((e) => e.id === p.id)?.errorLinuxPath
@@ -197,7 +197,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                         />
                       }
                       placeholder={
-                        "/Applications/NetBird.app/Contents/MacOS/netbird"
+                        "/Applications/Cloink.app/Contents/MacOS/cloink"
                       }
                       value={p.mac_path}
                       error={
@@ -226,7 +226,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                           )}
                         />
                       }
-                      placeholder={`C:\\ProgramData\\NetBird\\netbird.exe`}
+                      placeholder={`C:\\ProgramData\\Cloink\\cloink.exe`}
                       value={p.windows_path}
                       errorTooltip={true}
                       errorTooltipPosition={"top-right"}

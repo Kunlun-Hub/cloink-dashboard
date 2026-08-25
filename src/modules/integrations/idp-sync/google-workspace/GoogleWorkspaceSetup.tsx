@@ -29,15 +29,15 @@ import {
   UserCircle,
 } from "lucide-react";
 import React, { useState } from "react";
-import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/google-workspace.png";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import { GoogleWorkspaceIntegration } from "@/interfaces/IdentityProvider";
+import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import googleAssignServiceAccount from "@/modules/integrations/idp-sync/google-workspace/images/google-assign-service-account.png";
 import googleEditServiceAccount from "@/modules/integrations/idp-sync/google-workspace/images/google-edit-service-account.png";
 import googlePrivilegesReview from "@/modules/integrations/idp-sync/google-workspace/images/google-privileges-review.png";
-import { useI18n } from "@/i18n/I18nProvider";
-import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { GroupPrefixInput } from "../GroupPrefixInput";
@@ -233,7 +233,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             <Steps.Step step={1}>
               <p>
                 {t("googleWorkspace.step1Line1Prefix")}{" "}
-                <Mark copy>NetBird</Mark>{" "}
+                <Mark copy>Cloink</Mark>{" "}
                 {t("googleWorkspace.step1Line1Suffix")}{" "}
                 <InlineLink
                   className={"inline"}
@@ -257,7 +257,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
                   {t("googleWorkspace.step1Api")}
                 </InlineLink>{" "}
                 {t("googleWorkspace.step1Line2Middle")}{" "}
-                <Mark>NetBird</Mark>
+                <Mark>Cloink</Mark>
                 {t("googleWorkspace.step1Line2Suffix")}
               </p>
             </Steps.Step>
@@ -304,7 +304,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             data={[
               {
                 label: t("googleWorkspace.serviceAccountName"),
-                value: "NetBird",
+                value: "Cloink",
               },
               {
                 label: t("googleWorkspace.serviceAccountId"),
@@ -338,7 +338,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                {t("googleWorkspace.step3Line2Prefix")} <Mark>NetBird</Mark>{" "}
+                {t("googleWorkspace.step3Line2Prefix")} <Mark>Cloink</Mark>{" "}
                 {t("googleWorkspace.step3Line2Middle")}
               </p>
               <Lightbox image={googleEditServiceAccount} />
@@ -358,7 +358,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
                   <Mail size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"netbird@loadtests-347817.iam.gserviceaccount.com"}
+              placeholder={"cloink@example-project.iam.gserviceaccount.com"}
               value={serviceAccountMail}
               onChange={(e) => setServiceAccountMail(e.target.value)}
             />

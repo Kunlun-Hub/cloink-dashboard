@@ -10,8 +10,8 @@ import { Share2 } from "lucide-react";
 import React, { useMemo } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Policy } from "@/interfaces/Policy";
-import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import { parsePortsToStrings } from "@/modules/access-control/useAccessControl";
+import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 
 // AccessControlProtoPortsCell — single column combining the protocol
 // and ports indicators. Protocol is always shown. Ports rendering:
@@ -54,7 +54,7 @@ export default function AccessControlProtoPortsCell({
         <FullTooltip
           interactive={false}
           content={
-            <span className={"text-xs text-nb-gray-100"}>NETBIRD-SSH</span>
+            <span className={"text-xs text-nb-gray-100"}>CLOINK-SSH</span>
           }
         >
           <span className={"cursor-help"}>{protocolBadge}</span>

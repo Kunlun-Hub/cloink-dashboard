@@ -28,15 +28,15 @@ import {
   UserCircle,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useI18n } from "@/i18n/I18nProvider";
-import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import integrationImage from "@/assets/integrations/okta.png";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OktaIntegration } from "@/interfaces/IdentityProvider";
+import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import oktaGroupsAssignments from "@/modules/integrations/idp-sync/okta-scim/images/okta-groups-assignments.png";
 import oktaSCIMToApp from "@/modules/integrations/idp-sync/okta-scim/images/okta-scim-to-app-sync-enabled.png";
 import oktaSSO from "@/modules/integrations/idp-sync/okta-scim/images/okta-sso-configuration.png";
 import oktaSyncGroups from "@/modules/integrations/idp-sync/okta-scim/images/okta-sync-groups.png";
-import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
 
@@ -238,7 +238,7 @@ export function SetupContent({
                 {t("oktaSetup.configureSsoStep1")}{" "}
                 <Mark>{"Applications > Applications"}</Mark>
                 {t("oktaSetup.configureSsoStep1Suffix")}{" "}
-                <Mark>NetBird</Mark>
+                <Mark>Cloink</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
@@ -273,7 +273,7 @@ export function SetupContent({
                 {t("oktaSetup.enableScimStep1")}{" "}
                 <Mark>{"Applications > Applications"}</Mark>
                 {t("oktaSetup.enableScimStep1AndSelect")}{" "}
-                <Mark>NetBird</Mark>
+                <Mark>Cloink</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
@@ -602,7 +602,7 @@ export function SetupSSOContent() {
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Once the NetBird team has enabled the authentication for your
+                Once the Cloink team has enabled the authentication for your
                 account you will receive an email. After that you can visit{" "}
                 <InlineLink href={"https://app.netbird.io"}>
                   app.netbird.io

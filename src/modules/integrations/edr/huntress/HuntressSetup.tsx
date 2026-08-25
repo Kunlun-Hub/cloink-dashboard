@@ -37,6 +37,7 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/huntress.png";
 import HelpText from "@/components/HelpText";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 import {
   DEFAULT_HUNTRESS_MATCH_ATTRIBUTES,
@@ -47,9 +48,8 @@ import {
   HUNTRESS_DOCUMENTATION_URL,
   matchAttributesReducer,
 } from "@/modules/integrations/edr/huntress/Huntress";
-import { useI18n } from "@/i18n/I18nProvider";
-import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { HuntressMatchSettings } from "@/modules/integrations/edr/huntress/HuntressMatchSettings";
+import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 
 type Props = {
   open: boolean;
@@ -267,7 +267,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             <Steps.Step step={2}>
               <p>
                 {t("edr.huntress.setup.getCredentialsStep2Under")} <Mark>{t("edr.huntress.setup.getCredentialsStep2Add")}</Mark> {t("edr.huntress.setup.getCredentialsStep2Then")}
-                <Mark copy={true}>NetBird</Mark> {t("edr.huntress.setup.getCredentialsStep2Desc")}
+                <Mark copy={true}>Cloink</Mark> {t("edr.huntress.setup.getCredentialsStep2Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>

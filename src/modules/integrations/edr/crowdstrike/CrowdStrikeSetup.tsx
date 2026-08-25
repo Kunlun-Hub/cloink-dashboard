@@ -26,8 +26,8 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
-import { useI18n } from "@/i18n/I18nProvider";
 import integrationImage from "@/assets/integrations/crowdstrike.png";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
 import { CrowdstrikeIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
@@ -224,7 +224,7 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
               <p className={"font-normal"}>
                 {t("crowdStrike.setup.step2Click")} <Mark>{t("edr.createApiClient")}</Mark>{" "}
                 {t("crowdStrike.setup.step2AndEnter")}
-                <Mark copy>NetBird</Mark>
+                <Mark copy>Cloink</Mark>
                 {t("crowdStrike.setup.step2AsClientName")}{" "}
                 <Mark>{t("edr.hostsRead")}</Mark> {t("crowdStrike.setup.step2And")}{" "}
                 <Mark>{t("edr.zeroTrustAssessmentRead")}</Mark>{" "}

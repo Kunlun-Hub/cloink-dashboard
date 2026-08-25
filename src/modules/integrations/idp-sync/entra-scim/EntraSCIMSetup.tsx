@@ -5,6 +5,7 @@ import { Modal, ModalContent, ModalFooter } from "@components/modal/Modal";
 import { notify } from "@components/Notification";
 import Steps from "@components/Steps";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
+import { Lightbox } from "@components/ui/Lightbox";
 import { Mark } from "@components/ui/Mark";
 import { MinimalList } from "@components/ui/MinimalList";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
@@ -21,25 +22,24 @@ import {
   Shield,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/generic-scim.png";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   IdentityProvider,
   ScimIntegration,
 } from "@/interfaces/IdentityProvider";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
-import { GenericSCIMProps } from "@/modules/integrations/idp-sync/generic-scim/GenericSCIM";
-import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-import { useSSOConnections } from "@/modules/integrations/sso/useSSOConnections";
-import entraGetStarted from "@/modules/integrations/idp-sync/entra-scim/images/entra-provisioning-get-started.png";
-import entraStartProvisioning from "@/modules/integrations/idp-sync/entra-scim/images/entra-provisioning-started.png";
 import entraAssignUsers from "@/modules/integrations/idp-sync/entra-scim/images/entra-assign-users-groups.png";
 import entraEditExternalId from "@/modules/integrations/idp-sync/entra-scim/images/entra-edit-externalid.png";
 import entraGroupMapping from "@/modules/integrations/idp-sync/entra-scim/images/entra-group-attribute-mapping.png";
-import { Lightbox } from "@components/ui/Lightbox";
-import { useI18n } from "@/i18n/I18nProvider";
+import entraGetStarted from "@/modules/integrations/idp-sync/entra-scim/images/entra-provisioning-get-started.png";
+import entraStartProvisioning from "@/modules/integrations/idp-sync/entra-scim/images/entra-provisioning-started.png";
+import { GenericSCIMProps } from "@/modules/integrations/idp-sync/generic-scim/GenericSCIM";
+import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
+import { useSSOConnections } from "@/modules/integrations/sso/useSSOConnections";
 
 interface Props extends GenericSCIMProps {
   open: boolean;
@@ -224,8 +224,8 @@ export function SetupContent({
 
       <IntegrationModalHeader
         image={image || integrationImage}
-        title={`Connect NetBird with ${name}`}
-        description={`Start syncing your users and groups from ${name} to NetBird. Follow the steps below to get started.`}
+        title={`Connect Cloink with ${name}`}
+        description={`Start syncing your users and groups from ${name} to Cloink. Follow the steps below to get started.`}
       />
 
       {step === -1 && (
@@ -454,7 +454,7 @@ export function SetupContent({
                 <Mark>userName</Mark>
                 <Mark>active</Mark>
                 <Mark>displayName</Mark>
-                <Mark>emails[type eq "work"].value</Mark>
+                <Mark>emails[type eq &quot;work&quot;].value</Mark>
                 <Mark>name.givenName</Mark>
                 <Mark>name.familyName</Mark>
                 <Mark>externalId</Mark>

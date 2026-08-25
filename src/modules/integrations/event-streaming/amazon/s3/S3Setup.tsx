@@ -24,8 +24,8 @@ import {
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
-import { useI18n } from "@/i18n/I18nProvider";
 import s3Logo from "@/assets/integrations/s3.svg";
+import { useI18n } from "@/i18n/I18nProvider";
 import { EventStream } from "@/interfaces/EventStream";
 import { AmazonRegions } from "@/modules/integrations/event-streaming/amazon/AmazonRegions";
 import {
@@ -91,8 +91,8 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
   const [secretKey, setSecretKey] = useState("");
   const [accessKey, setAccessKey] = useState("");
-  const accessKeyPlaceholder = useMemo(exampleAwsAccessKeyId, []);
-  const secretKeyPlaceholder = useMemo(exampleAwsSecretAccessKey, []);
+  const accessKeyPlaceholder = useMemo(() => exampleAwsAccessKeyId(), []);
+  const secretKeyPlaceholder = useMemo(() => exampleAwsSecretAccessKey(), []);
   const [bucketName, setBucketName] = useState("");
   const [region, setRegion] = useState(s3Regions[0].value);
   const [step, setStep] = useState(1);
@@ -212,7 +212,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             <Steps.Step step={3}>
               <p className={"font-normal"}>
                 {t("s3.giveNamePrefix")}{" "}
-                <Mark copy>netbird-activity-events</Mark>
+                <Mark copy>cloink-activity-events</Mark>
                 {t("s3.andClick")} <Mark>{t("integrations.createBucket")}</Mark>
               </p>
             </Steps.Step>
@@ -227,7 +227,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                       <PencilLine size={16} className={"text-nb-gray-300"} />
                     </div>
                   }
-                  placeholder={"netbird-activity-events"}
+                  placeholder={"cloink-activity-events"}
                   value={bucketName}
                   onChange={(e) => setBucketName(e.target.value)}
                 />

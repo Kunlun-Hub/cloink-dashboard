@@ -49,7 +49,7 @@ const zhCN = {
   "reverseProxy.searchTargetsPlaceholder": "按 URL、目标地址或目标搜索...",
   "common.savingChanges": "正在保存更改",
   "common.thisPage": "当前页面",
-  "common.installNetBird": "安装 NetBird",
+  "common.installNetBird": "安装 Cloink",
   "common.copiedToClipboard": "已复制到剪贴板",
   "common.close": "关闭",
   "common.delete": "删除",
@@ -250,14 +250,14 @@ const zhCN = {
   "overview.refreshInterval.15m": "15分钟",
   "help.title": "帮助与支持",
   "help.troubleshooting": "故障排查",
-  "help.forum": "NetBird 论坛",
-  "help.slack": "NetBird Slack",
+  "help.forum": "Cloink 论坛",
+  "help.slack": "Cloink Slack",
   "help.feedback": "反馈",
   "errorPage.blockedTitle": "用户账号已被封禁",
   "errorPage.pendingTitle": "用户等待审批",
   "errorPage.defaultTitle": "访问错误",
   "errorPage.blockedDescription":
-    "你的访问已被 NetBird 账号管理员阻止，这可能是由于新用户审批要求或安全策略导致的。请联系管理员以恢复访问权限。",
+    "你的访问已被 Cloink 账号管理员阻止，这可能是由于新用户审批要求或安全策略导致的。请联系管理员以恢复访问权限。",
   "errorPage.pendingDescription":
     "你的账号正在等待管理员审批。请在获得批准后再访问控制台。",
   "errorPage.defaultDescription":
@@ -318,7 +318,7 @@ const zhCN = {
     "这里展示了连接到你的私有网络的所有机器和设备。你可以在这个页面中管理设备。",
   "peers.blockedTitle": "将新设备加入你的网络",
   "peers.blockedDescription":
-    "开始使用前，请先安装 NetBird，并使用你的邮箱账号登录。完成后设备应该就会连接成功。",
+    "开始使用前，请先安装 Cloink，并使用你的邮箱账号登录。完成后设备应该就会连接成功。",
   "peers.addPeer": "添加设备",
   "peers.installationGuide": "安装指南",
   "peers.userDevices": "用户设备",
@@ -326,13 +326,13 @@ const zhCN = {
     "笔记本、手机以及其他有用户归属的个人设备，通常由用户通过 SSO 登录后添加。",
   "peers.userDevicesBlockedTitle": "将新设备加入你的网络",
   "peers.userDevicesBlockedDescription":
-    "开始使用前，请先安装 NetBird 并使用你的邮箱账号登录。完成后设备应该就会连接成功。",
+    "开始使用前，请先安装 Cloink 并使用你的邮箱账号登录。完成后设备应该就会连接成功。",
   "peers.servers": "服务器",
   "peers.serversDescription":
     "服务器、虚拟机、自动化代理以及其他无人值守机器，通常使用 setup key 注册。",
   "peers.serversBlockedTitle": "将新服务器加入你的网络",
   "peers.serversBlockedDescription":
-    "开始使用前，请在服务器上安装 NetBird，并使用 setup key 完成注册。",
+    "开始使用前，请在服务器上安装 Cloink，并使用 setup key 完成注册。",
   "peers.pendingApprovalTitle": "待审批设备",
   "peers.pendingApprovals": "待审批",
   "peers.pendingApprovalSearchPlaceholder":
@@ -569,7 +569,7 @@ const zhCN = {
   "dns.disableManagementHelp": "这些分组中的设备将需要手动进行域名解析",
   "nameservers.title": "域名服务器",
   "nameservers.description":
-    "为你的 NetBird 网络添加用于域名解析的域名服务器。",
+    "为你的 Cloink 网络添加用于域名解析的域名服务器。",
   "nameservers.tableTitle": "域名服务器",
   "nameserverTemplate.google": "Google DNS",
   "nameserverTemplate.googleDesc":
@@ -745,12 +745,12 @@ const zhCN = {
   "reverseProxy.title": "反向代理",
   "reverseProxy.accessLogs": "访问日志",
   "reverseProxy.servicesTitle": "服务",
-  "reverseProxy.servicesDescription": "通过 NetBird 的反向代理安全地暴露服务。",
+  "reverseProxy.servicesDescription": "通过 Cloink 的反向代理安全地暴露服务。",
   "reverseProxy.tableTitle": "反向代理",
   "reverseProxy.searchPlaceholder": "按 URL、域名或目标搜索...",
   "reverseProxy.emptyTitle": "创建服务",
   "reverseProxy.emptyDescription":
-    "通过 NetBird 的反向代理安全暴露内部服务，支持自动 TLS，并可选开启身份验证来保护你的服务。",
+    "通过 Cloink 的反向代理安全暴露内部服务，支持自动 TLS，并可选开启身份验证来保护你的服务。",
   "reverseProxy.addService": "添加服务",
   "reverseProxy.domain": "域名",
   "reverseProxy.type": "类型",
@@ -783,7 +783,7 @@ const zhCN = {
   "reverseProxy.serviceModeUdpDescription":
     "通过专用端口将原始 UDP 流量转发到后端，通常用于语音、视频或流媒体等实时服务。",
   "reverseProxy.modalL4Description": "将流量直接转发到你的后端服务。",
-  "reverseProxy.modalHttpDescription": "通过 NetBird 的反向代理安全暴露服务。",
+  "reverseProxy.modalHttpDescription": "通过 Cloink 的反向代理安全暴露服务。",
   "reverseProxy.tabService": "服务",
   "reverseProxy.tabAuthentication": "身份验证",
   "reverseProxy.tabAccessControl": "访问控制",
@@ -881,7 +881,7 @@ const zhCN = {
   "reverseProxy.subdomainOptionalPlaceholder": "myapp（可选）",
   "reverseProxy.clusterOfflineHostedPrefix":
     "集群 {clusterName} 当前离线。请几分钟后重试。如果问题持续存在，请查看",
-  "reverseProxy.netbirdStatus": "NetBird 状态页",
+  "reverseProxy.netbirdStatus": "Cloink 状态页",
   "reverseProxy.clusterOfflineHostedMiddle": "或联系",
   "reverseProxy.clusterOfflineSelfHosted":
     "集群 {clusterName} 当前离线。请确认代理服务器正在运行，并已连接到正确的管理地址。",
@@ -895,14 +895,14 @@ const zhCN = {
   "reverseProxy.customDomainsSearch": "按域名搜索...",
   "reverseProxy.customDomainsEmptyTitle": "添加自定义域名",
   "reverseProxy.customDomainsEmptyDescription":
-    "将你自己的域名用于 NetBird 反向代理。首先添加一个指向集群的 CNAME 记录，然后验证域名所有权。",
+    "将你自己的域名用于 Cloink 反向代理。首先添加一个指向集群的 CNAME 记录，然后验证域名所有权。",
   "reverseProxy.addDomain": "添加域名",
   "reverseProxy.customDomainsLearnMore": "自定义域名",
   "reverseProxy.pending": "待处理",
   "reverseProxy.pendingVerification": "待验证",
   "reverseProxy.verifyDomain": "验证域名",
   "reverseProxy.pendingVerificationHelp":
-    "DNS 变更可能需要一些时间传播。如果 NetBird 没有立即找到记录，请等待最多 24 小时后再试。",
+    "DNS 变更可能需要一些时间传播。如果 Cloink 没有立即找到记录，请等待最多 24 小时后再试。",
   "reverseProxy.customDomainSelectorAdd": "添加自定义域名",
   "reverseProxy.customDomainModalTitle": "添加自定义域名",
   "reverseProxy.customDomainModalDescription": "你需要通过 DNS 记录验证该域名",
@@ -949,7 +949,7 @@ const zhCN = {
   "reverseProxy.preservePathDisabledMiddle": "的请求会被转发为",
   "reverseProxy.preservePathEnabledPrefix": "开启时，例如发往",
   "reverseProxy.preservePathEnabledMiddle": "的请求会被转发为",
-  "reverseProxy.installNetBird": "安装 NetBird",
+  "reverseProxy.installNetBird": "安装 Cloink",
   "reverseProxy.networks": "网络",
   "reverseProxy.headerInvalidName": "请求头名称包含无效字符，请更换一个。",
   "reverseProxy.headerReserved": '"{name}" 是保留请求头，请更换一个。',
@@ -974,11 +974,11 @@ const zhCN = {
   "reverseProxy.targetPeerLabel": "对等端",
   "reverseProxy.targetResourceLabel": "资源",
   "reverseProxy.targetPeerHelp":
-    "对等端是运行 NetBird 的机器（例如笔记本、服务器、容器）。如果你的服务直接运行在其上，请选择对等端。",
+    "对等端是运行 Cloink 的机器（例如笔记本、服务器、容器）。如果你的服务直接运行在其上，请选择对等端。",
   "reverseProxy.targetPeerInstall": "如果你还没有对等端，可以",
   "reverseProxy.targetPeerOrResourceConnector": "或",
   "reverseProxy.targetResourceHelp":
-    "资源是无法直接运行 NetBird 的目标（IP、子网或域名）。资源属于某个网络，并通过转发流量的路由对等端访问。",
+    "资源是无法直接运行 Cloink 的目标（IP、子网或域名）。资源属于某个网络，并通过转发流量的路由对等端访问。",
   "reverseProxy.targetResourceCreate": "如果你还没有资源，请前往",
   "reverseProxy.targetCreateSome": "去创建一些。",
   "reverseProxy.targetSelectResourceHelp": "选择你想要暴露的网络资源。",
@@ -1021,9 +1021,9 @@ const zhCN = {
   "reverseProxy.selectUserGroups": "选择用户组...",
   "reverseProxy.addSso": "添加 SSO",
   "reverseProxy.betaHosted":
-    "NetBird 反向代理目前处于测试阶段，在此期间可免费使用。功能、能力以及定价在正式发布时都可能发生变化。",
+    "Cloink 反向代理目前处于测试阶段，在此期间可免费使用。功能、能力以及定价在正式发布时都可能发生变化。",
   "reverseProxy.betaSelfHosted":
-    "NetBird 反向代理目前处于测试阶段。功能与能力在正式发布时可能发生变化。",
+    "Cloink 反向代理目前处于测试阶段。功能与能力在正式发布时可能发生变化。",
   "reverseProxy.selfHostedProxies": "自托管代理",
   "reverseProxy.selfHostedDescription":
     "在你自己的基础设施上部署自托管代理，完全掌控流量转发和地理位置。",
@@ -1068,7 +1068,7 @@ const zhCN = {
   "reverseProxy.runProxyWithKubernetesHelp":
     "将以下 manifest 应用到你的集群以启动代理。",
   "reverseProxy.selfHostedRoutingWarning":
-    "自托管部署中，请先确认 NetBird 管理服务器已配置代理服务路由，然后再启动代理。",
+    "自托管部署中，请先确认 Cloink 管理服务器已配置代理服务路由，然后再启动代理。",
   "reverseProxy.requiredRoutingEndpoints": "所需路由端点",
   "reverseProxy.envReferenceHelp": "需要微调代理？查看全部可用",
   "reverseProxy.environmentVariables": "环境变量",
@@ -1094,8 +1094,8 @@ const zhCN = {
   "reverseProxy.deployTitleDigitalOcean": "部署到 DigitalOcean",
   "reverseProxy.deployTitleAws": "部署到 AWS",
   "reverseProxy.proxyClusterLearnMore": "代理集群",
-  "reverseProxy.proxyRegistered": "代理已注册并连接到 NetBird。",
-  "reverseProxy.waitingForRegistration": "正在等待代理注册到 NetBird...",
+  "reverseProxy.proxyRegistered": "代理已注册并连接到 Cloink。",
+  "reverseProxy.waitingForRegistration": "正在等待代理注册到 Cloink...",
   "reverseProxy.resourceCreated": "{resourceLabel} {name} 已创建",
   "reverseProxy.resourceCreatedWithIp":
     "{resourceLabel} {name} 已创建，{ipType}为 {ip}，仍在初始化中。请同时添加以下 DNS 记录。",
@@ -1106,10 +1106,10 @@ const zhCN = {
     "将这些记录指向新的{resource}。记录生效后，代理将获取证书。",
   "reverseProxy.hetznerApiToken": "Hetzner API 令牌",
   "reverseProxy.hetznerTokenTooltip":
-    "令牌直接从你的浏览器发送到 Hetzner，不会经过 NetBird 的服务器，设置成功后你可以删除它。",
+    "令牌直接从你的浏览器发送到 Hetzner，不会经过 Cloink 的服务器，设置成功后你可以删除它。",
   "reverseProxy.howToCreateToken": "如何创建令牌",
   "reverseProxy.hetznerTokenHelp":
-    "创建一个读写 API 令牌。NetBird 不会存储它。",
+    "创建一个读写 API 令牌。Cloink 不会存储它。",
   "reverseProxy.hetznerTokenPlaceholder": "在此粘贴你的 Hetzner Cloud API 令牌",
   "reverseProxy.hetznerCatalogError": "无法加载 Hetzner 选项：{error}",
   "reverseProxy.location": "位置",
@@ -1131,9 +1131,9 @@ const zhCN = {
   "reverseProxy.server": "服务器",
   "reverseProxy.digitalOceanApiToken": "DigitalOcean API 令牌",
   "reverseProxy.digitalOceanTokenTooltip":
-    "为了最小权限范围，请仅授予对 {tag}、{droplet} 和 {reservedIp} 的完全访问权限。令牌直接从你的浏览器发送到 DigitalOcean，不会经过 NetBird 的服务器，设置成功后你可以删除它。",
+    "为了最小权限范围，请仅授予对 {tag}、{droplet} 和 {reservedIp} 的完全访问权限。令牌直接从你的浏览器发送到 DigitalOcean，不会经过 Cloink 的服务器，设置成功后你可以删除它。",
   "reverseProxy.digitalOceanTokenHelp":
-    "创建一个具有写权限的令牌。NetBird 不会存储它。",
+    "创建一个具有写权限的令牌。Cloink 不会存储它。",
   "reverseProxy.digitalOceanTokenPlaceholder":
     "在此粘贴你的 DigitalOcean API 令牌",
   "reverseProxy.region": "区域",
@@ -1176,11 +1176,11 @@ const zhCN = {
   "reverseProxy.passwordPlaceholder": "密码",
   "reverseProxy.headerNameLabel": "名称",
   "reverseProxy.headerValueLabel": "值",
-  "reverseProxy.netBirdOnlyAccess": "仅限 NetBird 访问",
+  "reverseProxy.netBirdOnlyAccess": "仅限 Cloink 访问",
   "reverseProxy.netBirdOnlyDescription":
-    "仅可从所选 NetBird 分组中已连接的对等端访问。",
+    "仅可从所选 Cloink 分组中已连接的对等端访问。",
   "reverseProxy.netBirdOnlyRequiresCluster":
-    "「仅限 NetBird 访问」需要一个至少连接了一个嵌入式代理（{code}）的代理集群。所选集群没有。请连接一个嵌入式代理到此集群以启用此选项。",
+    "「仅限 Cloink 访问」需要一个至少连接了一个嵌入式代理（{code}）的代理集群。所选集群没有。请连接一个嵌入式代理到此集群以启用此选项。",
   "reverseProxy.directUpstreamClusterRequired":
     "「直接上游」仅可在至少连接了一个嵌入式代理（{code}）的集群上配置。所选集群没有。",
   "reverseProxy.directUpstreamLabel": "直接上游",
@@ -1189,9 +1189,9 @@ const zhCN = {
   "reverseProxy.directUpstreamHelp":
     "从代理主机直接拨号上游目标，而不是通过 WireGuard 隧道。当上游可在无 WireGuard 连接的情况下访问时开启。",
   "reverseProxy.privateServiceCallout":
-    "此服务仅可通过 NetBird 访问。默认会对 NetBird 网段应用一条允许规则。你在此处添加的任何规则将叠加在上面。",
+    "此服务仅可通过 Cloink 访问。默认会对 Cloink 网段应用一条允许规则。你在此处添加的任何规则将叠加在上面。",
   "reverseProxy.noAccessGroupsWarning":
-    "「仅限 NetBird」已开启，但未设置访问分组。请在「身份验证」标签页中打开它并选择至少一个分组。",
+    "「仅限 Cloink」已开启，但未设置访问分组。请在「身份验证」标签页中打开它并选择至少一个分组。",
   "reverseProxy.oneGroup": "1 个分组",
   "reverseProxy.oneHeader": "1 个请求头",
   "reverseProxy.headerCount": "{count} 个请求头",
@@ -1230,7 +1230,7 @@ const zhCN = {
   "reverseProxy.authHoverPinCode": "PIN 码",
   "reverseProxy.authHoverSso": "SSO（单点登录）",
   "reverseProxy.authHoverHttpHeaders": "HTTP 请求头",
-  "reverseProxy.authHoverNetBirdOnly": "仅限 NetBird 访问",
+  "reverseProxy.authHoverNetBirdOnly": "仅限 Cloink 访问",
   "reverseProxy.crowdSecEnforce": "强制执行",
   "reverseProxy.crowdSecObserve": "观察模式",
   "reverseProxy.learnMoreAbout": "了解更多关于",
@@ -1251,7 +1251,7 @@ const zhCN = {
   "clustersTable.setupSelfHostedCluster": "设置自托管集群",
   "networks.title": "网络",
   "networks.description":
-    "网络功能让你无需在每台机器上都安装 NetBird，也能访问局域网和 VPC 中的内部资源。",
+    "网络功能让你无需在每台机器上都安装 Cloink，也能访问局域网和 VPC 中的内部资源。",
   "networks.policyLabel": "策略",
   "networks.defaultPolicyName": "{name} 策略",
   "networks.multiPolicyTitle": "此策略被多个资源使用",
@@ -1338,7 +1338,7 @@ const zhCN = {
   "users.peersDescription": "查看该用户注册的所有设备。",
   "users.noRegisteredPeersTitle": "该用户还没有已注册设备",
   "users.noRegisteredPeersDescription":
-    "安装 NetBird 并以该用户身份登录后即可注册设备。",
+    "安装 Cloink 并以该用户身份登录后即可注册设备。",
   "users.allUsers": "所有用户",
   "users.status.disabled": "已禁用",
   "users.status.pendingApproval": "待审批",
@@ -1423,7 +1423,7 @@ const zhCN = {
     "你的账号已成功创建。现在可以使用邮箱和密码登录。",
   "invite.expiredTitle": "邀请已过期",
   "invite.expiredDescription": "此邀请链接已过期。请联系管理员重新获取邀请。",
-  "invite.welcomeTitle": "欢迎使用 NetBird",
+  "invite.welcomeTitle": "欢迎使用 Cloink",
   "auth.accountLinkedSuccessfully":
     "你的账户已成功关联。请再次登录以完成设置。",
   "auth.somethingWentWrong": "哦，出现了一些问题",
@@ -1488,10 +1488,10 @@ const zhCN = {
   "invite.passwordRuleSpecial": "一个特殊字符（!@#$%^&*）",
   "invite.acceptExpiresOnFormat": "YYYY年M月D日 HH:mm",
   "invite.copyAndClose": "复制并关闭",
-  "onboarding.installNetBird": "安装 NetBird",
+  "onboarding.installNetBird": "安装 Cloink",
   "onboarding.addClientDevice": "现在添加你的客户端设备",
   "onboarding.addClientDeviceDescription":
-    "你的第一个资源和路由设备已经设置好了。现在，拿起你的设备，安装 NetBird，让我们连接起来。",
+    "你的第一个资源和路由设备已经设置好了。现在，拿起你的设备，安装 Cloink，让我们连接起来。",
   "onboarding.testConnection": "让我们测试一下这个连接",
   "onboarding.testConnectionDescription":
     "很好！你已经成功连接了客户端设备。现在，让我们测试一下它是否能够访问你的资源。",
@@ -1505,11 +1505,11 @@ const zhCN = {
   "onboarding.itWorksContinue": "一切正常！- 继续",
   "onboarding.rulesTitle": "设置规则，一切由你掌控",
   "onboarding.networkPolicyDescription":
-    "NetBird 让管理员可以轻松通过访问控制策略落实最小权限原则。我们已经在引导过程中为你的资源创建好一条策略。",
+    "Cloink 让管理员可以轻松通过访问控制策略落实最小权限原则。我们已经在引导过程中为你的资源创建好一条策略。",
   "onboarding.networkPolicyToggleHint":
     "切换这个开关后，再次 ping 你的资源，看看它如何影响连接。",
   "onboarding.p2pPolicyDescription":
-    "在 NetBird 中，谁能访问什么完全由你决定。我们已经为你的设备预先配置好了一条访问策略。",
+    "在 Cloink 中，谁能访问什么完全由你决定。我们已经为你的设备预先配置好了一条访问策略。",
   "onboarding.p2pPolicyToggleHint":
     "切换这个开关后，再次 ping 你的另一台设备，看看它如何影响连接。",
   "onboarding.continue": "继续",
@@ -1529,10 +1529,10 @@ const zhCN = {
   "onboarding.usersToRoutingPeersPolicyDescription": "允许用户访问路由设备",
   "onboarding.getFirstDeviceOnline": "让我们让你的第一台设备上线",
   "onboarding.getFirstDeviceOnlineDescription":
-    "要访问其他机器，安装 NetBird，登录，你的设备就会加入网络。你添加的每台设备都会成为你网络中的 NetBird 对等端。就这么简单。",
+    "要访问其他机器，安装 Cloink，登录，你的设备就会加入网络。你添加的每台设备都会成为你网络中的 Cloink 对等端。就这么简单。",
   "onboarding.bringSecondDevice": "现在添加你的第二台设备",
   "onboarding.eachDeviceGetsPrivateIP":
-    "在你的 NetBird 网络中，每台设备（也称为对等端）都有自己的私有 IP 和名称，以便在网络中安全通信。",
+    "在你的 Cloink 网络中，每台设备（也称为对等端）都有自己的私有 IP 和名称，以便在网络中安全通信。",
   "onboarding.shareLinkToCompleteSetup":
     "要完成设置，只需分享此链接或将其通过电子邮件发送给自己，以便轻松设置你的下一台设备。",
   "onboarding.installationLinkCopied": "安装链接已成功复制",
@@ -1541,38 +1541,38 @@ const zhCN = {
     "使用无头设置来注册没有浏览器或用户交互的对等端。",
   "onboarding.installWithSetupKey": "使用设置密钥安装",
   "onboarding.installNetBirdOnAnotherDevice":
-    "使用此链接在另一台设备上安装 NetBird。",
+    "使用此链接在另一台设备上安装 Cloink。",
   "onboarding.createSetupKey": "创建设置密钥？",
   "onboarding.createSetupKeyDescription":
-    "如果继续，系统将自动创建一个一次性设置密钥，你可以使用它来安装 NetBird。",
+    "如果继续，系统将自动创建一个一次性设置密钥，你可以使用它来安装 Cloink。",
   "onboarding.dialogTitle": "引导流程",
   "onboarding.agentNetworkDialogTitle": "代理网络引导流程",
-  "onboarding.getStartedWithNetBird": "开始使用 NetBird",
+  "onboarding.getStartedWithNetBird": "开始使用 Cloink",
   "onboarding.netbirdFlexibility":
-    "NetBird 提供了点对点覆盖网络和远程网络访问解决方案的灵活性。选择适合你需求的方案，你始终可以结合使用两者。",
+    "Cloink 提供了点对点覆盖网络和远程网络访问解决方案的灵活性。选择适合你需求的方案，你始终可以结合使用两者。",
   "onboarding.peerToPeerNetwork": "点对点网络",
   "onboarding.p2pBusinessDescription":
-    "在两台或更多设备上安装 NetBird，创建安全、直接的 WireGuard 连接，例如笔记本电脑到服务器或服务器到数据库。至少添加两台机器开始使用。",
+    "在两台或更多设备上安装 Cloink，创建安全、直接的 WireGuard 连接，例如笔记本电脑到服务器或服务器到数据库。至少添加两台机器开始使用。",
   "onboarding.p2pHomelabDescription":
-    "在你的 homelab 中的两台或更多设备上安装 NetBird，例如你的笔记本电脑、NAS 或树莓派，以创建安全、直接的 WireGuard 连接。",
+    "在你的 homelab 中的两台或更多设备上安装 Cloink，例如你的笔记本电脑、NAS 或树莓派，以创建安全、直接的 WireGuard 连接。",
   "onboarding.remoteNetworkAccess": "远程网络访问",
   "onboarding.remoteAccessBusinessDescription":
-    "无需在每台机器上安装 NetBird，即可为员工提供对 VM、Kubernetes 集群以及云或本地资源的远程访问。",
+    "无需在每台机器上安装 Cloink，即可为员工提供对 VM、Kubernetes 集群以及云或本地资源的远程访问。",
   "onboarding.remoteAccessHomelabDescription":
-    "无需在每台设备上安装 NetBird，即可从任何地方安全访问你的 homelab。",
+    "无需在每台设备上安装 Cloink，即可从任何地方安全访问你的 homelab。",
   "onboarding.recommended": "推荐",
   "onboarding.recommendedBasedOnChoices":
     "根据你之前的选择，我们建议从 {title} 开始。你始终可以稍后结合使用两种选项。",
-  "onboarding.welcome": "欢迎使用 NetBird！",
-  "onboarding.welcomeWithName": "欢迎使用 NetBird，{{name}}！",
+  "onboarding.welcome": "欢迎使用 Cloink！",
+  "onboarding.welcomeWithName": "欢迎使用 Cloink，{{name}}！",
   "onboarding.shareDetails":
     "分享一些关于你的使用场景的详细信息，以帮助我们顺利开始。",
   "onboarding.business": "商业",
   "onboarding.personal": "个人",
-  "onboarding.companySizeQuestion": "贵公司有多少人将使用 NetBird？",
-  "onboarding.howHeardAboutNetBird": "你是如何了解到 NetBird 的？",
+  "onboarding.companySizeQuestion": "贵公司有多少人将使用 Cloink？",
+  "onboarding.howHeardAboutNetBird": "你是如何了解到 Cloink 的？",
   "onboarding.selectOption": "请选择一个选项...",
-  "onboarding.howPlanToUseNetBird": "你计划如何使用 NetBird？",
+  "onboarding.howPlanToUseNetBird": "你计划如何使用 Cloink？",
   "onboarding.selectMultipleUseCases": "你也可以选择多个使用场景。",
   "onboarding.zeroTrustSecurity": "零信任安全",
   "onboarding.employeeRemoteAccess": "员工远程访问",
@@ -1594,7 +1594,7 @@ const zhCN = {
   "onboarding.waitingForSecondDevice": "正在等待你的第二台设备连接",
   "onboarding.waitingForRoutingPeer": "正在等待你的路由设备连接",
   "onboarding.waitingForOwnDevice": "正在等待你自己的设备连接",
-  "onboarding.skipPrompt": "已经知道 NetBird 的工作方式了？",
+  "onboarding.skipPrompt": "已经知道 Cloink 的工作方式了？",
   "onboarding.skipToDashboard": "跳转到仪表盘",
   "onboarding.referralSource.Search Engines (Google, Bing etc.)":
     "搜索引擎（Google、Bing 等）",
@@ -1604,9 +1604,9 @@ const zhCN = {
   "onboarding.referralSource.Comparison Sites": "对比网站",
   "onboarding.referralSource.Slack": "Slack",
   "onboarding.referralSource.Other": "其他",
-  "onboarding.referralSource.NetBird YouTube Channel": "NetBird YouTube 频道",
+  "onboarding.referralSource.NetBird YouTube Channel": "Cloink YouTube 频道",
   "onboarding.referralSource.Other YouTube Channel": "其他 YouTube 频道",
-  "onboarding.referralSource.NetBird SubReddit": "NetBird SubReddit",
+  "onboarding.referralSource.NetBird SubReddit": "Cloink SubReddit",
   "onboarding.referralSource.Other Reddit Thread": "其他 Reddit 讨论串",
   "onboarding.referralSource.GitHub": "GitHub",
   "peer.expirationUpdated": "过期时间已成功更新",
@@ -1615,7 +1615,7 @@ const zhCN = {
   "peer.requireLoginAfterDisconnectDescription":
     "启用后，用户从管理中断开连接 10 分钟后需要重新认证。",
   "peer.accessiblePeersDescription":
-    "此设备可以连接到 NetBird 网络中的以下设备。",
+    "此设备可以连接到 Cloink 网络中的以下设备。",
   "peer.loginExpiredTooltipLine1": "此设备当前离线，需要重新认证，",
   "peer.loginExpiredTooltipLine2": "因为它的登录状态已过期。",
   "peer.expirationDisabledTooltip": "此设备的过期设置已禁用。",
@@ -1634,7 +1634,7 @@ const zhCN = {
   "invite.createUserTitle": "创建用户",
   "invite.inviteUserTitle": "邀请用户",
   "invite.cloudDescription": "邀请用户加入你的网络，并为他们设置权限。",
-  "invite.createDescription": "创建一个带邮箱和密码的 NetBird 用户账号。",
+  "invite.createDescription": "创建一个带邮箱和密码的 Cloink 用户账号。",
   "invite.inviteDescription": "生成一个邀请链接，用户可以通过它自行设置密码。",
   "invite.sendInvitation": "发送邀请",
   "invite.createInviteLink": "创建邀请链接",
@@ -1723,9 +1723,9 @@ const zhCN = {
   "mspTransfer.permissionSettings": "管理你的账号、设置和配置",
   "mspTransfer.permissionDevices": "管理所有设备和相关资源",
   "mspTransfer.permissionUsers": "管理所有用户、分组和权限",
-  "mfa.netbirdMfa": "NetBird MFA",
+  "mfa.netbirdMfa": "Cloink MFA",
   "mfa.tooltipDescription":
-    "NetBird MFA 主要面向使用邮箱和密码登录的用户。如果你的 SSO 提供商（例如 Google、Microsoft）已启用 MFA，则可能不需要 NetBird MFA。",
+    "Cloink MFA 主要面向使用邮箱和密码登录的用户。如果你的 SSO 提供商（例如 Google、Microsoft）已启用 MFA，则可能不需要 Cloink MFA。",
   "mfa.notEnrolled": "未注册",
   "mfa.activate": "激活",
   "mfa.resetTitle": "重置多因素认证？",
@@ -1813,7 +1813,7 @@ const zhCN = {
     "这个密钥不会再次显示，请务必复制并妥善保存在安全的位置。",
   "setupKey.creationFailed": "注册密钥创建失败...",
   "actions.close": "关闭",
-  "setupKey.installNetBird": "安装 NetBird",
+  "setupKey.installNetBird": "安装 Cloink",
   "setupKey.creatingTitle": "创建注册密钥",
   "setupKey.creatingDescription":
     "注册密钥已创建成功。现在你可以使用这个新密钥将设备加入网络。",
@@ -1855,12 +1855,12 @@ const zhCN = {
   "versionInfo.dashboard": "控制台",
   "versionInfo.updateAvailable": "有可用更新",
   "linuxTab.addRepository": "添加我们的软件源",
-  "linuxTab.installNetBird": "安装 NetBird",
+  "linuxTab.installNetBird": "安装 Cloink",
   "groupDetails.title": "分组信息",
   "groupDetails.notFound":
     "找不到你尝试访问的分组。它可能已被删除，或者你没有权限查看。请检查 URL，或返回仪表盘。",
   "analytics.googleTagManager": "Google 标签管理器",
-  "instanceSetup.welcomeTitle": "欢迎使用 NetBird",
+  "instanceSetup.welcomeTitle": "欢迎使用 Cloink",
   "instanceSetup.welcomeDescription": "创建第一个管理员账号以开始使用",
   "instanceSetup.accountCreated": "账号已创建！",
   "instanceSetup.redirectingToLoginIn": "即将跳转到登录页，剩余",
@@ -1872,7 +1872,7 @@ const zhCN = {
   "instanceSetup.passwordHelp": "至少需要 8 个字符",
   "instanceSetup.createAdminAccount": "创建管理员账号",
   "instanceSetup.creatingAccount": "正在创建账号...",
-  "instanceSetup.oneTimeSetup": "这是你的 NetBird 实例的一次性初始化设置。",
+  "instanceSetup.oneTimeSetup": "这是你的 Cloink 实例的一次性初始化设置。",
   "instanceSetup.nameRequired": "名称不能为空",
   "instanceSetup.emailRequired": "邮箱不能为空",
   "instanceSetup.invalidEmail": "请输入有效的邮箱地址",
@@ -1900,7 +1900,7 @@ const zhCN = {
   "activity.setupkey": "注册密钥",
   "activity.withKey": "使用密钥",
   "activity.peer": "设备",
-  "activity.wasAddedWithNetBirdIp": "已添加，NetBird IP为",
+  "activity.wasAddedWithNetBirdIp": "已添加，Cloink IP为",
   "activity.usingSetupKey": "使用注册密钥",
   "activity.domainS": "域名",
   "activity.range": "范围",
@@ -1927,10 +1927,10 @@ const zhCN = {
   "activity.ownerRoleTransferred": "所有者角色已转移",
   "activity.activityCode": "活动代码",
   "activity.meta": "元数据",
-  "activity.getStartedTitle": "开始使用 NetBird",
+  "activity.getStartedTitle": "开始使用 Cloink",
   "activity.getStartedDescription":
     "看起来你还没有任何已连接的机器。\n从向你的网络中添加一台设备开始吧。",
-  "activity.netbirdUser": "NetBird",
+  "activity.netbirdUser": "Cloink",
   "activity.setupkeyRevoke": "被撤销",
   "activity.setupkeyDelete": "被删除",
   "activity.setupkeyAdd": "被创建",
@@ -1944,9 +1944,9 @@ const zhCN = {
   "activity.routeUpdate": "被更新",
   "activity.routeAdd": "被创建",
   "activity.userPeerDelete": "被删除",
-  "activity.userPeerAdd": "已添加，NetBird IP为",
+  "activity.userPeerAdd": "已添加，Cloink IP为",
   "activity.userPeerUpdate": "已更新",
-  "activity.userJoin": "加入了 NetBird",
+  "activity.userJoin": "加入了 Cloink",
   "activity.userInvite": "已被邀请。",
   "activity.userCreate": "被创建，创建者为",
   "activity.userGroupAdd": "被添加至用户",
@@ -1964,8 +1964,8 @@ const zhCN = {
   "activity.userInviteLinkDelete": "邀请链接已为以下用户删除",
   "activity.serviceUserCreate": "已被创建",
   "activity.serviceUserDelete": "已被删除",
-  "activity.peerGroupDelete": "被从 NetBird IP 为的设备中移除",
-  "activity.peerGroupAdd": "被添加至 NetBird IP 为的设备",
+  "activity.peerGroupDelete": "被从 Cloink IP 为的设备中移除",
+  "activity.peerGroupAdd": "被添加至 Cloink IP 为的设备",
   "activity.peerLoginExpire": "已过期",
   "activity.peerSshDisable": "已被禁用",
   "activity.peerSshEnable": "已被启用",
@@ -1980,7 +1980,7 @@ const zhCN = {
   "activity.peerApproveAccount": "审批时间",
   "activity.peerApproveTime": "时间",
   "activity.peerIpUpdate": "IP地址已从以下地址更新为",
-  "activity.peerUserAdd": "已添加，NetBird IP 为",
+  "activity.peerUserAdd": "已添加，Cloink IP 为",
   "activity.groupAdd": "已被创建",
   "activity.groupDelete": "已被删除",
   "activity.groupUpdate": "已被重命名为",
@@ -2066,7 +2066,7 @@ const zhCN = {
   "activity.complianceBypassedFor": "合规已通过，适用于",
   "activity.complianceBypassRevokedFor": "合规绕过已撤销，适用于",
   "activity.originalNonCompliantReason": "（原始不合规原因：",
-  "activity.withNetBirdIp": "NetBird IP 为",
+  "activity.withNetBirdIp": "Cloink IP 为",
   "activity.setupKeySuffix": "安装密钥",
   "proxyEvents.title": "访问日志",
   "proxyEvents.description":
@@ -2253,22 +2253,22 @@ const zhCN = {
   "remoteAccess.reconnect": "重新连接",
   "remoteAccess.noAccessToken": "没有可用的访问令牌。",
   "remoteAccess.sshConnectionFailed": "SSH 连接失败。请查看控制台了解详情。",
-  "remoteAccess.netbirdConnectionError": "NetBird 连接错误",
+  "remoteAccess.netbirdConnectionError": "Cloink 连接错误",
   "remoteAccess.rdpConnectionError": "RDP 连接错误",
   "remoteAccess.rdpGenericError": "RDP 连接失败",
   "remoteAccess.rdpError": "RDP 错误",
-  "remoteAccess.netbirdClientError": "NetBird 客户端错误",
+  "remoteAccess.netbirdClientError": "Cloink 客户端错误",
   "remoteAccess.canvasUnavailable": "没有可用于 RDP 渲染的画布",
   "remoteAccess.ironrdpUnavailable": "客户端未提供可用的 IronRDP 组件",
   "remoteAccess.ironrdpInitFailed": "初始化 IronRDP 失败",
   "remoteAccess.wasmLoadFailed": "加载 WASM 运行时失败",
-  "remoteAccess.wasmInitTimeout": "NetBird WASM 初始化超时",
+  "remoteAccess.wasmInitTimeout": "Cloink WASM 初始化超时",
   "remoteAccess.wasmInitFailed": "初始化 WASM 失败",
   "remoteAccess.netbirdClientUnavailable":
-    "NetBird 客户端不可用，或它不是一个函数",
+    "Cloink 客户端不可用，或它不是一个函数",
   "remoteAccess.connectionFailed": "连接失败",
   "remoteAccess.goClientNotReady": "Go 客户端尚未就绪",
-  "remoteAccess.netbirdClientNotReady": "NetBird 客户端尚未就绪",
+  "remoteAccess.netbirdClientNotReady": "Cloink 客户端尚未就绪",
   "remoteAccess.wasmInitializationFailed": "WASM 初始化失败",
   "remoteAccess.rdpErrorWrongPassword": "用户名或密码不正确。",
   "remoteAccess.rdpErrorLogonFailure": "登录失败。请检查你的用户名和密码。",
@@ -2282,7 +2282,7 @@ const zhCN = {
   "remoteAccess.rdpErrorConnectionFailedHttp": "连接失败：HTTP {code}",
   "remoteAccess.rdpSessionError": "RDP 会话错误：{reason}",
   "remoteAccess.ironrdpModuleNotLoaded": "IronRDP 模块未加载",
-  "remoteAccess.rdpProxySupportRequired": "需要支持 RDP 代理的 NetBird 客户端",
+  "remoteAccess.rdpProxySupportRequired": "需要支持 RDP 代理的 Cloink 客户端",
   "remoteAccess.wsaInterruptedSystemCall": "中断的系统调用",
   "remoteAccess.wsaBadFileDescriptor": "错误的文件描述符",
   "remoteAccess.wsaPermissionDenied": "权限被拒绝",
@@ -2350,7 +2350,7 @@ const zhCN = {
   "routeModal.enableRouteHelp": "使用此开关启用或禁用该路由。",
   "routeModal.autoApplyRoute": "自动应用路由",
   "routeModal.autoApplyRouteHelp":
-    "自动将此出口节点应用到你的分发分组。这需要 NetBird 客户端 v0.55.0 或更高版本。",
+    "自动将此出口节点应用到你的分发分组。这需要 Cloink 客户端 v0.55.0 或更高版本。",
   "routeModal.metricHelp": "更低的 Metric 表示更高优先级的路由。",
   "routeModal.exitNodePeerName": "出口节点（{name}）",
   "routeModal.metric": "跃点数 (Metric)",
@@ -2379,7 +2379,7 @@ const zhCN = {
     "这些分组中的设备将需要手动进行域名解析",
   "networkRoutesPage.title": "网络路由",
   "networkRoutesPage.description":
-    "网络路由允许你访问其他网络，例如局域网和 VPC，而无需在每个资源上安装 NetBird。",
+    "网络路由允许你访问其他网络，例如局域网和 VPC，而无需在每个资源上安装 Cloink。",
   "networkRoutesPage.callout":
     "我们建议使用新的 Networks 概念，以更直观地查看并管理你的资源访问权限。",
   "networkRoutesPage.goToNetworks": "前往 Networks",
@@ -2400,7 +2400,7 @@ const zhCN = {
   "networkDetails.serviceTab": "服务",
   "networkDetails.goToPoliciesLink": "前往策略",
   "networks.pageDescription":
-    "无需在每台机器上都安装 NetBird，即可访问局域网和 VPC 中的内部资源。",
+    "无需在每台机器上都安装 Cloink，即可访问局域网和 VPC 中的内部资源。",
   "accessControl.pageDescription":
     "策略将用户和代理连接到你的网络资源，控制每个身份可以访问的内容。",
   "groups.pageDescription": "将设备、用户和资源组织成分组以管理访问权限。",
@@ -2479,7 +2479,7 @@ const zhCN = {
   "groupPeers.searchPlaceholder": "按名称、IP 或所有者搜索...",
   "groupPeers.emptyTitle": "该分组尚未分配任何设备",
   "groupPeers.emptyDescription":
-    "安装 NetBird 并将现有设备分配到此分组后，它们会显示在这里。",
+    "安装 Cloink 并将现有设备分配到此分组后，它们会显示在这里。",
   "groupPeers.emptyAssignTitle": "没有可分配的设备",
   "groupPeers.emptyAssignDescription":
     "要为此分组分配设备，至少需要一台尚未属于该分组的设备。",
@@ -2488,7 +2488,7 @@ const zhCN = {
   "groupPeers.removeFromGroup": "从分组中移除设备",
   "routeAddRoutingPeer.title": "添加新的路由设备",
   "routeAddRoutingPeer.description":
-    "当你添加多个路由设备时，NetBird 会为该网络启用高可用。",
+    "当你添加多个路由设备时，Cloink 会为该网络启用高可用。",
   "routeAddRoutingPeer.networkHelp": "你要添加此路由的网络名称和 CIDR。",
   "routeAddRoutingPeer.addRoute": "添加路由",
   "routeAddRoutingPeer.success": "设备已成功添加到该路由",
@@ -2504,10 +2504,10 @@ const zhCN = {
   "peerSsh.cliClient": "命令行",
   "peerSsh.desktopClient": "桌面客户端",
   "peerSsh.cliStepIntro":
-    "如果你通过 CLI 使用 NetBird，可以运行以下命令启用 SSH：",
-  "peerSsh.cliDownComment": "如果 NetBird 已在运行",
+    "如果你通过 CLI 使用 Cloink，可以运行以下命令启用 SSH：",
+  "peerSsh.cliDownComment": "如果 Cloink 已在运行",
   "peerSsh.desktopStepPrefix":
-    "如果你通过 NetBird 桌面客户端使用，请点击 NetBird 托盘图标，进入",
+    "如果你通过 Cloink 桌面客户端使用，请点击 Cloink 托盘图标，进入",
   "peerSsh.settings": "设置",
   "peerSsh.desktopStepMiddle": "并点击",
   "peerSsh.allowSsh": "允许 SSH",
@@ -2515,16 +2515,16 @@ const zhCN = {
   "peerSsh.advancedSettings": "设置 > 高级设置",
   "peerSsh.desktopStepAdvancedSuffix": "并在 SSH 选项卡下启用 SSH Root Login。",
   "peerSsh.explicitPolicyRequired":
-    "从 NetBird v0.61.0 开始，SSH 需要显式访问控制策略才能允许连接到这台设备。",
+    "从 Cloink v0.61.0 开始，SSH 需要显式访问控制策略才能允许连接到这台设备。",
   "peerSsh.createPolicy": "创建 SSH 策略",
-  "peerSsh.finishStepPrefix": "当客户端允许 NetBird SSH 服务后，",
+  "peerSsh.finishStepPrefix": "当客户端允许 Cloink SSH 服务后，",
   "peerSsh.finishStepMiddle": "点击下方的",
   "peerSsh.confirmAndEnable": "确认并启用",
   "peerSsh.finishStepSuffix": "以完成设置。",
   "peerSsh.finishSetup": "完成设置",
   "peerSsh.disableTitle": "禁用 SSH 访问？",
   "peerSsh.disableDescription":
-    "从 NetBird v0.61.0 开始，一旦禁用 SSH 访问，你将无法再从控制台重新启用。你需要创建显式访问控制策略并更新 NetBird 客户端，才能恢复 SSH 功能。",
+    "从 Cloink v0.61.0 开始，一旦禁用 SSH 访问，你将无法再从控制台重新启用。你需要创建显式访问控制策略并更新 Cloink 客户端，才能恢复 SSH 功能。",
   "peerSsh.disable": "禁用",
   "peerSsh.noPermission": "你没有更新此设置所需的权限。",
   "peerSsh.toggleHelp":
@@ -2532,13 +2532,13 @@ const zhCN = {
   "peerSsh.setupHelp":
     "设置 SSH，并创建显式访问控制策略，用于定义哪些用户可以通过 SSH 访问此机器上的特定本地用户名。",
   "peerSsh.clientUpdateWarning":
-    "你已配置 SSH 访问，但客户端运行的是较旧版本的 NetBird。请将 NetBird 客户端更新到 v0.61.0 及以上版本以允许 SSH 连接。",
+    "你已配置 SSH 访问，但客户端运行的是较旧版本的 Cloink。请将 Cloink 客户端更新到 v0.61.0 及以上版本以允许 SSH 连接。",
   "peerSsh.serverDisabledWarning":
     "你已配置 SSH 访问策略，但此客户端尚未启用 SSH 服务。请启用 SSH 服务以允许 SSH 连接。",
   "peerSsh.explicitPolicyWarning":
-    "你的 SSH 服务已启用，但从 NetBird v0.61.0 开始，SSH 需要显式访问控制策略。请创建 SSH 访问控制策略以允许 SSH 连接。",
+    "你的 SSH 服务已启用，但从 Cloink v0.61.0 开始，SSH 需要显式访问控制策略。请创建 SSH 访问控制策略以允许 SSH 连接。",
   "peerNetworkRoutes.description":
-    "无需在每个资源上安装 NetBird，也能访问其他网络。",
+    "无需在每个资源上安装 Cloink，也能访问其他网络。",
   "peerRouteActions.deleteTitle": "删除路由 {name}",
   "peerRouteActions.deleted": "路由已成功移除",
   "peerRouteActions.deleting": "正在删除路由...",
@@ -2572,10 +2572,10 @@ const zhCN = {
   "peerApproval.approving": "正在批准设备...",
   "peerApproval.help": "该设备需要由管理员批准后，才能连接到其他设备。",
   "peerApproval.required": "需要批准",
-  "reverseProxyTargets.description": "通过 NetBird 的反向代理安全地暴露服务。",
+  "reverseProxyTargets.description": "通过 Cloink 的反向代理安全地暴露服务。",
   "reverseProxyTargets.emptyTitle": "此网络没有服务",
   "reverseProxyTargets.emptyDescription":
-    "创建资源并通过 NetBird 的反向代理安全地暴露服务。",
+    "创建资源并通过 Cloink 的反向代理安全地暴露服务。",
   "reverseProxy.authHeadersTitle": "HTTP 请求头",
   "reverseProxy.addHeaders": "添加请求头",
   "reverseProxy.removeAll": "移除全部",
@@ -2604,7 +2604,7 @@ const zhCN = {
   "reverseProxy.noGroups": "无分组",
   "reverseProxy.groupCount": "{count} 个分组",
   "reverseProxy.privateClusterDescriptionPrefix":
-    "允许发布仅 NetBird 网络内设备可访问的服务。以下目标类型需要该能力：",
+    "允许发布仅 Cloink 网络内设备可访问的服务。以下目标类型需要该能力：",
   "reverseProxy.privateClusterDescriptionMiddle": "和",
   "reverseProxy.privateClusterDescriptionSuffix": "。",
   "reverseProxy.featureCustomPorts": "自定义端口",
@@ -2687,10 +2687,10 @@ const zhCN = {
     "学习如何高效管理你的网络资源访问。无论你是想限制对特定机器的访问，还是允许某些用户建立连接。",
   "onboarding.videoIdpTitle": "从你的 IdP 同步用户和分组",
   "onboarding.videoIdpDescription":
-    "学习如何从身份提供商（如 Okta、Azure AD 或 Google Workspace）同步用户和分组，以便在 NetBird 中管理访问控制并自动化入离职流程。",
-  "onboarding.videoHowTitle": "NetBird 的工作原理",
+    "学习如何从身份提供商（如 Okta、Azure AD 或 Google Workspace）同步用户和分组，以便在 Cloink 中管理访问控制并自动化入离职流程。",
+  "onboarding.videoHowTitle": "Cloink 的工作原理",
   "onboarding.videoHowDescription":
-    "看看 NetBird 的工作方式、架构，以及它如何帮助你构建安全网络。",
+    "看看 Cloink 的工作方式、架构，以及它如何帮助你构建安全网络。",
   "onboarding.goToDashboard": "前往仪表盘",
   "onboarding.firstNetworkName": "我的第一个网络",
   "onboarding.createdDuringOnboarding": "在引导过程中创建",
@@ -2729,9 +2729,9 @@ const zhCN = {
   "onboarding.routingPeerSetupKeyName": "路由设备（我的第一个网络）",
   "onboarding.addRoutingPeerTitle": "添加路由设备，让流量开始转发",
   "onboarding.addRoutingPeerDescription":
-    "可以把路由设备理解为你内部网络的连接器。它运行 NetBird，让远程设备能够访问内部资源，同时执行访问控制策略。",
+    "可以把路由设备理解为你内部网络的连接器。它运行 Cloink，让远程设备能够访问内部资源，同时执行访问控制策略。",
   "onboarding.addRoutingPeerStep":
-    "生成一个安装密钥，并在那台机器上安装 NetBird。",
+    "生成一个安装密钥，并在那台机器上安装 Cloink。",
   "onboarding.setupKey": "安装密钥",
   "onboarding.notGeneratedYet": "尚未生成",
   "onboarding.generateSetupKey": "生成安装密钥",
@@ -2746,7 +2746,7 @@ const zhCN = {
     "该用户添加的设备会自动被分配到这些分组。",
   "userDetails.userRole": "用户角色",
   "userDetails.userRoleHelp": "为用户设置角色以分配访问权限。",
-  "userDetails.accessTokensDescription": "访问令牌可用于访问 NetBird API。",
+  "userDetails.accessTokensDescription": "访问令牌可用于访问 Cloink API。",
   "userDetails.createAccessToken": "创建访问令牌",
   "userDetails.name": "名称",
   "userDetails.userId": "用户 ID",
@@ -2764,17 +2764,17 @@ const zhCN = {
   "peerDetails.accessiblePeers": "可访问设备",
   "peerDetails.noServicesTitle": "此设备暂无服务",
   "peerDetails.noServicesDescription":
-    "将你的服务添加到此设备，并通过 NetBird 的反向代理安全地暴露出去",
+    "将你的服务添加到此设备，并通过 Cloink 的反向代理安全地暴露出去",
   "peerDetails.assignedGroups": "已分配分组",
   "peerDetails.assignedGroupsHelp": "使用分组来控制该设备可以访问的内容。",
   "peerDetails.remoteAccess": "远程访问",
   "peerDetails.remoteAccessHelp": "通过 SSH 或 RDP 直接连接到此设备。",
   "peerDetails.ipUpdated": "设备 IP 已成功更新",
   "peerDetails.ipUpdating": "正在更新设备 IP...",
-  "peerDetails.ipv6Updated": "NetBird 设备 IPv6 已成功更新",
+  "peerDetails.ipv6Updated": "Cloink 设备 IPv6 已成功更新",
   "peerDetails.updatingIpv6": "正在更新设备 IPv6...",
-  "peerDetails.netbirdIpAddress": "NetBird IP 地址",
-  "peerDetails.netbirdIpv6Address": "NetBird IPv6 地址",
+  "peerDetails.netbirdIpAddress": "Cloink IP 地址",
+  "peerDetails.netbirdIpv6Address": "Cloink IPv6 地址",
   "peerDetails.publicIpAddress": "公网 IP 地址",
   "peerDetails.dnsLabel": "DNS 标签",
   "peerDetails.domainName": "域名",
@@ -2790,7 +2790,7 @@ const zhCN = {
   "peerDetails.agentVersion": "Agent 版本",
   "peerDetails.uiVersion": "UI 版本",
   "peerAdvertisedRoutes.description":
-    "快捷配置此设备作为路由设备时宣告的 CIDR 范围，以及不需要通过 NetBird 转发的本地排除范围。",
+    "快捷配置此设备作为路由设备时宣告的 CIDR 范围，以及不需要通过 Cloink 转发的本地排除范围。",
   "peerAdvertisedRoutes.emptyTitle": "此设备还不是路由设备",
   "peerAdvertisedRoutes.emptyDescription":
     "请先在网络中将此设备添加为路由设备，然后再在这里配置宣告路由和排除路由。",
@@ -2837,7 +2837,7 @@ const zhCN = {
     "如果域名已存在，我们会为其添加递增数字后缀。",
   "peerDetails.validIpError": "请输入有效的 IP，例如：100.64.0.15",
   "peerDetails.editIpTitle": "编辑设备 IP 地址",
-  "peerDetails.editIpDescription": "更新此设备的 NetBird IP 地址。",
+  "peerDetails.editIpDescription": "更新此设备的 Cloink IP 地址。",
   "peerDetails.ipPlaceholder": "例如：100.64.0.15",
   "peerDetails.reconnectNotice": "更改会在设备重新连接后生效。",
   "postureChecks.pageDescription": "使用姿态检查可以进一步限制网络中的访问。",
@@ -2891,7 +2891,7 @@ const zhCN = {
   "accessPolicies.active": "启用中",
   "accessPolicies.inactive": "未启用",
   "accessPolicies.temporaryTooltip":
-    "显示由 NetBird 浏览器客户端创建的临时策略。这些策略是短暂存在的，会在一段时间后自动删除。",
+    "显示由 Cloink 浏览器客户端创建的临时策略。这些策略是短暂存在的，会在一段时间后自动删除。",
   "networks.searchPlaceholder": "按网络名称或描述搜索...",
   "networks.emptyTitle": "创建新网络",
   "networks.emptyDescription":
@@ -3082,7 +3082,7 @@ const zhCN = {
     "分配包含机器的设备分组作为路由设备。",
   "networkRoutingPeers.dontHave": "没有路由设备？",
   "networkRoutingPeers.dontHaveHelp":
-    "您可以使用安装密钥在一台或多台机器上安装 NetBird 作为路由设备。",
+    "您可以使用安装密钥在一台或多台机器上安装 Cloink 作为路由设备。",
   "networkRoutingPeers.notifyTitle": "网络路由设备",
   "networkRoutingPeers.toggleDescription": "路由设备当前为{status}",
   "networkRoutingPeers.masqueradeToggleDescription": "地址伪装当前为{status}",
@@ -3097,10 +3097,10 @@ const zhCN = {
     "通告前往这些 CIDR 地址的流量通过此路由设备转发。留空则使用此网络的资源地址。",
   "networkRoutingPeers.excludedRoutes": "排除路由",
   "networkRoutingPeers.excludedRoutesHelp":
-    "这些 CIDR 地址可在本地直接访问，不会通过 NetBird 隧道中转。",
+    "这些 CIDR 地址可在本地直接访问，不会通过 Cloink 隧道中转。",
   "networkRoutingPeers.createSetupKeyTitle": "创建安装密钥？",
   "networkRoutingPeers.createSetupKeyDescription":
-    "如果继续，将自动创建一个一次性安装密钥，你随后就可以安装 NetBird。",
+    "如果继续，将自动创建一个一次性安装密钥，你随后就可以安装 Cloink。",
   "networkRoutingPeers.setupKeyName": "路由设备（{name}）",
   "networkRoutingPeers.masqueradeHelp":
     "在不配置本地路由器或其他设备上的路由的情况下，允许访问您的专用网络。",
@@ -3190,20 +3190,20 @@ const zhCN = {
   "clientSettings.lazyConnectionsUpdating": "正在更新懒连接设置...",
   "clientSettings.automaticUpdates": "自动更新",
   "clientSettings.automaticUpdatesHelpPrefix":
-    "配置 NetBird 客户端接收更新通知的方式。",
+    "配置 Cloink 客户端接收更新通知的方式。",
   "clientSettings.automaticUpdatesHelpMiddle":
     "启用后，用户会被提示安装所选版本。",
-  "clientSettings.requiresAtLeast": "此功能至少需要 NetBird",
+  "clientSettings.requiresAtLeast": "此功能至少需要 Cloink",
   "clientSettings.version": "版本",
   "clientSettings.versionPlaceholder": "例如：0.52.2",
   "clientSettings.forceAutomaticUpdates": "强制自动更新",
   "clientSettings.forceAutomaticUpdatesHelp":
     "启用后，更新会在后台自动安装，无需用户交互。",
   "clientSettings.forceAutomaticUpdatesWarning":
-    "启用自动更新会在更新期间重启 NetBird 客户端，这可能会暂时中断活动连接。请在生产环境中谨慎使用。",
+    "启用自动更新会在更新期间重启 Cloink 客户端，这可能会暂时中断活动连接。请在生产环境中谨慎使用。",
   "clientSettings.exposeServices": "通过 CLI 暴露服务",
   "clientSettings.exposeServicesHelpLine1":
-    "允许设备通过 CLI 使用 NetBird 反向代理暴露本地服务。",
+    "允许设备通过 CLI 使用 Cloink 反向代理暴露本地服务。",
   "clientSettings.enablePeerExpose": "启用设备暴露",
   "clientSettings.enablePeerExposeHelp":
     "启用后，设备可以暴露可通过公网 URL 访问的本地 HTTP 服务。",
@@ -3213,10 +3213,10 @@ const zhCN = {
   "clientSettings.selectPeerGroups": "选择设备分组...",
   "clientSettings.experimental": "实验性功能",
   "clientSettings.lazyConnectionsHelpPrefix":
-    "懒连接是一项实验性功能，具体行为和能力可能会继续演进。NetBird 不再始终维持常驻连接，而是根据活动或信令按需建立连接。",
+    "懒连接是一项实验性功能，具体行为和能力可能会继续演进。Cloink 不再始终维持常驻连接，而是根据活动或信令按需建立连接。",
   "clientSettings.enableLazyConnections": "启用懒连接",
   "clientSettings.enableLazyConnectionsHelp":
-    "仅在需要时才在设备之间建立连接。此功能要求 NetBird 客户端版本不低于 v0.45。修改后需要重启客户端才会生效。",
+    "仅在需要时才在设备之间建立连接。此功能要求 Cloink 客户端版本不低于 v0.45。修改后需要重启客户端才会生效。",
   "clientSettings.agentNetwork": "代理网络",
   "clientSettings.agentNetworkHelp":
     "将控制台聚焦在代理网络上，并隐藏与之无关的部分，例如网络、DNS 和反向代理。",
@@ -3256,20 +3256,20 @@ const zhCN = {
   "networkSettings.ipv6EnabledGroupsPlaceholder": "选择要启用 IPv6 的分组...",
   "networkSettings.enableDnsWildcardRouting": "启用 DNS 通配符路由",
   "networkSettings.enableDnsWildcardRoutingHelp":
-    "允许使用 DNS 通配符进行路由。此功能要求 NetBird 客户端版本不低于 v0.35。修改后需要重启客户端才会生效。",
+    "允许使用 DNS 通配符进行路由。此功能要求 Cloink 客户端版本不低于 v0.35。修改后需要重启客户端才会生效。",
   "permissionsTab.notifyTitle": "权限设置",
   "permissionsTab.updatedDescription": "权限已成功更新。",
   "permissionsTab.updating": "正在更新权限...",
   "permissionsTab.restrictDashboard": "限制普通用户的控制台访问",
   "permissionsTab.restrictDashboardHelp":
     "控制台访问将受到限制，普通用户将无法查看任何设备。",
-  "dangerZone.deleteAccountTitle": "删除 NetBird 账户",
-  "dangerZone.deletedDescription": "NetBird 账户已成功删除。",
+  "dangerZone.deleteAccountTitle": "删除 Cloink 账户",
+  "dangerZone.deletedDescription": "Cloink 账户已成功删除。",
   "dangerZone.deleting": "正在删除账户...",
   "dangerZone.confirmDescription":
-    "你确定要删除你的 NetBird 账户吗？此操作无法撤销。",
+    "你确定要删除你的 Cloink 账户吗？此操作无法撤销。",
   "dangerZone.deleteAccountWarning":
-    "在继续删除 NetBird 账户之前，请注意此操作不可逆。账户删除后，你将永久失去对所有相关数据的访问权限，包括设备、用户、分组、策略和路由。",
+    "在继续删除 Cloink 账户之前，请注意此操作不可逆。账户删除后，你将永久失去对所有相关数据的访问权限，包括设备、用户、分组、策略和路由。",
   "dangerZone.deleteAccountButton": "删除账户",
   "groupsSettings.title": "用户分组",
   "groupsSettings.save": "保存",
@@ -3284,7 +3284,7 @@ const zhCN = {
     "从 JWT 声明中提取并同步分组到用户的自动分组中，并可根据令牌自动创建分组。",
   "groupsSettings.jwtAllowGroupTitle": "JWT 允许分组 - {group}",
   "groupsSettings.jwtAllowGroupDescription":
-    "只有属于 {group} 分组的用户才能访问 NetBird。你确定要保存这些更改吗？",
+    "只有属于 {group} 分组的用户才能访问 Cloink。你确定要保存这些更改吗？",
   "groupsSettings.accessWarning": "为避免失去访问权限，请确保你属于这个分组。",
   "groupsSettings.jwtClaim": "JWT 声明字段",
   "groupsSettings.jwtClaimHelp":
@@ -3292,7 +3292,7 @@ const zhCN = {
   "groupsSettings.jwtClaimPlaceholder": "例如：roles",
   "groupsSettings.jwtAllowGroups": "JWT 允许分组",
   "groupsSettings.jwtAllowGroupsHelp":
-    "限制只有指定分组名称的用户可以访问 NetBird，例如 NetBird users。要使用这些分组，你需要先在身份提供商中完成配置。",
+    "限制只有指定分组名称的用户可以访问 Cloink，例如 Cloink users。要使用这些分组，你需要先在身份提供商中完成配置。",
   "groupsSettings.addGroupPlaceholder": "添加一个分组并按 Enter",
   "groupsSettings.manageGroupsPrefix":
     "想查看并管理你的分组？你可以在这里找到分组管理：",
@@ -3303,7 +3303,7 @@ const zhCN = {
   "accessTokens.lastUsedOn": "上次使用于",
   "accessTokens.emptyTitle": "暂无访问令牌",
   "accessTokens.emptyDescription":
-    "你还没有任何访问令牌。你可以创建一个令牌来访问 NetBird API。",
+    "你还没有任何访问令牌。你可以创建一个令牌来访问 Cloink API。",
   "accessTokens.deletedDescription": "访问令牌已成功删除",
   "accessTokens.deleting": "正在删除访问令牌...",
   "accessTokens.deleteConfirmTitle": "删除“{name}”？",
@@ -3319,7 +3319,7 @@ const zhCN = {
   "accessTokens.createdDescription": "{name} 已成功创建",
   "accessTokens.creating": "正在创建访问令牌...",
   "accessTokens.modalTitle": "创建访问令牌",
-  "accessTokens.modalDescription": "使用此令牌访问 NetBird 的公开 API",
+  "accessTokens.modalDescription": "使用此令牌访问 Cloink 的公开 API",
   "accessTokens.nameHelp": "为你的令牌设置一个易于识别的名称",
   "accessTokens.namePlaceholder": "例如：基础设施令牌",
   "accessTokens.expiresIn": "有效期",
@@ -3334,17 +3334,17 @@ const zhCN = {
   "postureChecks.nameDescription": "名称和描述",
   "postureChecks.nameLabel": "姿态检查名称",
   "postureChecks.nameHelp": "为你的姿态检查设置一个易于识别的名称。",
-  "postureChecks.namePlaceholder": "例如：NetBird 版本 > 0.25.0",
+  "postureChecks.namePlaceholder": "例如：Cloink 版本 > 0.25.0",
   "postureChecks.descriptionLabel": "描述（可选）",
   "postureChecks.descriptionHelp": "写一段简短描述，为这个策略补充更多上下文。",
   "postureChecks.descriptionPlaceholder":
-    "例如：检查 NetBird 版本是否高于 0.25.0",
+    "例如：检查 Cloink 版本是否高于 0.25.0",
   "postureChecks.createButton": "创建姿态检查",
   "postureChecks.searchPlaceholder": "按名称和描述搜索...",
   "postureChecks.addButton": "添加姿态检查",
   "postureChecks.emptyTitle": "创建姿态检查",
   "postureChecks.emptyDescription":
-    "添加姿态检查以进一步限制你网络中的访问。例如，只有满足特定 NetBird 客户端版本、操作系统或位置的客户端才允许连接。",
+    "添加姿态检查以进一步限制你网络中的访问。例如，只有满足特定 Cloink 客户端版本、操作系统或位置的客户端才允许连接。",
   "postureChecks.countLabel": "{count} 个姿态检查",
   "postureChecks.browseChecks": "浏览检查项",
   "postureChecks.newButton": "新建姿态检查",
@@ -3368,12 +3368,12 @@ const zhCN = {
   "postureChecks.disableCheckDescription":
     "你确定要禁用此检查吗？该检查的所有设置都会丢失。",
   "postureChecks.disable": "禁用",
-  "postureChecks.netbirdVersionTitle": "NetBird 客户端版本",
+  "postureChecks.netbirdVersionTitle": "Cloink 客户端版本",
   "postureChecks.netbirdVersionDescription":
-    "限制只有满足特定 NetBird 客户端版本的设备才能访问。",
+    "限制只有满足特定 Cloink 客户端版本的设备才能访问。",
   "postureChecks.minimumRequiredVersion": "最低要求版本",
   "postureChecks.minimumRequiredVersionHelp":
-    "只有满足最低指定 NetBird 客户端版本的设备才能访问网络。",
+    "只有满足最低指定 Cloink 客户端版本的设备才能访问网络。",
   "postureChecks.versionPlaceholder": "例如：0.25.0",
   "postureChecks.versionError":
     "请输入有效的版本，例如 0.2、0.2.0、0.2.0-alpha.1",
@@ -3446,9 +3446,9 @@ const zhCN = {
   "setupModal.installDescription":
     "开始之前，请先安装 Cloink 并使用你的邮箱账号登录。",
   "setupModal.setupKeyDescription":
-    "开始之前，请先安装并运行 NetBird，并将 setup key 作为参数传入。",
+    "开始之前，请先安装并运行 Cloink，并将 setup key 作为参数传入。",
   "setupModal.defaultDescription":
-    "开始之前，请先安装 NetBird 并使用你的邮箱账号登录。",
+    "开始之前，请先安装 Cloink 并使用你的邮箱账号登录。",
   "setupModal.linux": "Linux",
   "setupModal.windows": "Windows",
   "setupModal.macos": "macOS",
@@ -3462,22 +3462,22 @@ const zhCN = {
   "setupModal.setupKeyInfoLine2": "过期后，同一个 key 不能再次使用。",
   "setupModal.generateSetupKey": "生成 setup key",
   "setupModal.generateSetupKeyHelp":
-    "setup key 是用于注册无人值守机器的一次性预认证令牌。将它通过 --setup-key 传给 netbird up 后，设备即可无需交互登录完成注册。",
+    "setup key 是用于注册无人值守机器的一次性预认证令牌。将它通过 --setup-key 传给 cloink up 后，设备即可无需交互登录完成注册。",
   "setupModal.windowsInstallTitle": "在 Windows 上安装",
   "setupModal.windowsStep1": "下载并运行 Windows 安装程序",
   "setupModal.selectArchitecture": "选择架构",
   "setupModal.arch64": "64 位",
   "setupModal.arch64Msi": "64 位（MSI）",
   "setupModal.archArm64Msi": "ARM64（MSI）",
-  "setupModal.downloadNetBird": "下载 NetBird",
+  "setupModal.downloadNetBird": "下载 Cloink",
   "setupModal.managementUrlInstructions":
-    "点击系统托盘中的 NetBird 图标，依次进入“Settings”和“Advanced Settings”，然后输入下面的“Management URL”",
-  "setupModal.openCommandLineRunNetBird": "打开命令行并运行 NetBird",
-  "setupModal.clickConnectTray": "点击系统托盘中 NetBird 图标里的“Connect”",
+    "点击系统托盘中的 Cloink 图标，依次进入“Settings”和“Advanced Settings”，然后输入下面的“Management URL”",
+  "setupModal.openCommandLineRunNetBird": "打开命令行并运行 Cloink",
+  "setupModal.clickConnectTray": "点击系统托盘中 Cloink 图标里的“Connect”",
   "setupModal.signUpWithEmail": "使用你的邮箱地址注册/登录",
   "setupModal.macosInstallTitle": "在 macOS 上安装",
   "setupModal.macosStep1": "下载并运行 macOS 安装程序",
-  "setupModal.openTerminalRunNetBird": "打开终端并运行 NetBird",
+  "setupModal.openTerminalRunNetBird": "打开终端并运行 Cloink",
   "setupModal.installManuallyTerminal": "通过终端手动安装",
   "setupModal.runNetBird": "运行 Cloink",
   "setupModal.andLogInBrowser": "并在浏览器中登录",
@@ -3485,27 +3485,28 @@ const zhCN = {
   "setupModal.downloadInstallHomebrew": "下载并安装 HomeBrew",
   "setupModal.homebrewGuide": "HomeBrew 安装指南",
   "setupModal.homebrewUnavailable":
-    "NetBird 暂未发布 HomeBrew 包，请使用上方安装程序下载方式。",
+    "Cloink 暂未发布 HomeBrew 包，请使用上方安装程序下载方式。",
   "setupModal.cliOnlyComment": "# 仅 CLI 使用",
   "setupModal.guiPackageComment": "# GUI 图形界面包",
-  "setupModal.startNetBirdDaemon": "启动 NetBird 后台服务",
+  "setupModal.startNetBirdDaemon": "启动 Cloink 后台服务",
   "setupModal.installWithCommandLine": "通过命令行安装",
   "setupModal.installManuallyUbuntu": "在 Ubuntu 上手动安装",
-  "setupModal.addRepository": "手动下载安装 NetBird",
+  "setupModal.addRepository": "手动下载安装 Cloink",
   "setupModal.androidInstallTitle": "在 Android 上安装",
   "setupModal.androidStep1": "从 Google Play 商店下载并安装应用：",
-  "setupModal.googlePlayAlt": "从 Google Play 下载 NetBird",
+  "setupModal.googlePlayAlt": "从 Google Play 下载 Cloink",
   "setupModal.changeServerInstructions":
     "点击“Change Server”，然后输入下面的“Server”",
   "setupModal.clickConnectCenter": "点击屏幕中间的“Connect”按钮",
   "setupModal.iosInstallTitle": "在 iOS 上安装",
   "setupModal.iosStep1": "从 App Store 下载并安装应用：",
-  "setupModal.appStoreAlt": "在 App Store 下载 NetBird",
+  "setupModal.appStoreAlt": "在 App Store 下载 Cloink",
   "setupModal.dockerInstallTitle": "通过 Docker 安装",
   "setupModal.installDocker": "安装 Docker",
-  "setupModal.runNetBirdContainer": "运行 NetBird 容器",
+  "setupModal.officialDockerInstallationGuide": "Docker 官方安装指南",
+  "setupModal.runNetBirdContainer": "运行 Cloink 容器",
   "setupModal.readDocumentation": "阅读我们的文档",
-  "setupModal.runningNetBirdDocker": "在 Docker 中运行 NetBird",
+  "setupModal.runningNetBirdDocker": "在 Docker 中运行 Cloink",
   "setupModal.setupKeyGeneratedDescription": "已为本次安装生成一次性安装密钥。",
   "accessControl.modalUpdateTitle": "更新访问控制策略",
   "accessControl.modalCreateTitle": "创建新的访问控制策略",
@@ -3538,8 +3539,8 @@ const zhCN = {
   "accessControl.sshAccessHelp":
     "选择“完全访问”可允许以任意本地用户进行 SSH，选择“受限访问”可为每个分组指定允许使用的本地用户。",
   "accessControl.netbirdSshTooltip":
-    "如果你需要细粒度的 SSH 访问控制，请选择 NetBird SSH；如果只需要基础的网络级 SSH 访问，可使用 TCP 加 22 端口。",
-  "accessControl.netbirdSsh": "NetBird SSH",
+    "如果你需要细粒度的 SSH 访问控制，请选择 Cloink SSH；如果只需要基础的网络级 SSH 访问，可使用 TCP 加 22 端口。",
+  "accessControl.netbirdSsh": "Cloink SSH",
   "accessControl.selectSshAccessType": "选择 SSH 访问类型...",
   "accessControl.fullAccess": "完全访问",
   "accessControl.limitedAccess": "受限访问",
@@ -3605,7 +3606,7 @@ const zhCN = {
   "accessControl.noPoliciesDescription":
     "您目前还没有任何策略。策略可以允许按特定协议和端口进行连接。",
   "accessControl.temporaryPoliciesTooltip":
-    "显示由 NetBird 浏览器客户端创建的临时策略。这些策略是临时的，会在一段时间后自动删除。",
+    "显示由 Cloink 浏览器客户端创建的临时策略。这些策略是临时的，会在一段时间后自动删除。",
   "accessControl.portsCount": "{count} 个端口",
   "groups.actionRenameDisabledIntegration":
     "这个分组名称由集成系统管理，无法重命名。",
@@ -3622,9 +3623,9 @@ const zhCN = {
   "policies.deletedDescription": "策略已成功删除。",
   "policies.deleting": "正在删除策略...",
   "policies.notifyTitle": "访问控制策略 {{name}}",
-  "billing.notifyTitle": "NetBird 订阅",
+  "billing.notifyTitle": "Cloink 订阅",
   "billing.awsSubscribed": "已成功订阅 {{name}} 套餐",
-  "billing.awsSubscribing": "正在通过 AWS Marketplace 订阅 NetBird...",
+  "billing.awsSubscribing": "正在通过 AWS Marketplace 订阅 Cloink...",
   "billing.upgradeDowngradeTitle": "{{action}}{{name}？",
   "billing.upgrade": "升级",
   "billing.downgrade": "降级",
@@ -3654,7 +3655,7 @@ const zhCN = {
   "peerGroupSelector.resourceCount": "{count} 个资源",
   "peers.searchPlaceholder": "按名称、IP、所有者或分组搜索...",
   "peers.browserPeersTooltip":
-    "显示由 NetBird 浏览器客户端创建的临时设备。这些设备是短暂存在的，会在一段时间后自动删除。",
+    "显示由 Cloink 浏览器客户端创建的临时设备。这些设备是短暂存在的，会在一段时间后自动删除。",
   "peers.lastSeen": "最后在线",
   "table.serialNumber": "序列号",
   "table.version": "版本",
@@ -3695,7 +3696,7 @@ const zhCN = {
   "peerSelector.noPeersAvailable": "没有可供选择的设备。",
   "peerSelector.noMatchingPeers": "没有匹配搜索条件的设备。",
   "peerSelector.updateNetBirdTooltip":
-    "请将 NetBird 更新到至少 v0.36.6 或更高版本，以便将此设备用作路由设备。",
+    "请将 Cloink 更新到至少 v0.36.6 或更高版本，以便将此设备用作路由设备。",
   "networkRouteSelector.selectNetwork": "选择现有网络...",
   "networkRouteSelector.searchPlaceholder": "按名称或 CIDR 搜索网络...",
   "networkRouteSelector.noRoutes": "您似乎还没有创建任何网络路由。",
@@ -3706,7 +3707,7 @@ const zhCN = {
     "没有可供选择的用户。请在解除关联之前为此租户邀请一些用户。",
   "userSelector.noMatchingUsers": "没有匹配搜索条件的用户。",
   "userSelector.system": "系统",
-  "noPeersGettingStarted.title": "开始使用 NetBird",
+  "noPeersGettingStarted.title": "开始使用 Cloink",
   "noPeersGettingStarted.description":
     "您似乎还没有任何已连接的机器。开始向您的网络添加一台设备。",
   "noPeersGettingStarted.gettingStartedGuide": "入门指南",
@@ -3756,7 +3757,7 @@ const zhCN = {
   "portSelector.addByEnter": "按",
   "portSelector.enterKey": "回车",
   "portSelector.addThisPort": "添加此端口或范围",
-  "portSelector.portRangesRequire": "端口范围需要 NetBird 客户端",
+  "portSelector.portRangesRequire": "端口范围需要 Cloink 客户端",
   "portSelector.orHigher": "或更高版本。",
   "dropdownInput.searchPlaceholder": "搜索...",
   "selectDropdown.placeholder": "选择...",
@@ -3793,16 +3794,16 @@ const zhCN = {
   "peer.sshEnabling": "正在启用 SSH 访问...",
   "peer.sshDisabling": "正在禁用 SSH 访问...",
   "peer.loginExpiredIssueTooltip":
-    "此设备的登录状态已过期。请在该设备的 NetBird 客户端重新认证，使其重新上线。",
+    "此设备的登录状态已过期。请在该设备的 Cloink 客户端重新认证，使其重新上线。",
   "peer.approvalRequiredBadge": "待审批",
   "peer.approvalRequiredTooltip":
     "此设备接入前需要管理员审批。请在该行的操作菜单中审批。",
   "peer.editIpTitle": "编辑设备 IP 地址",
-  "peer.editIpDescription": "更新该设备的 NetBird IP 地址。",
+  "peer.editIpDescription": "更新该设备的 Cloink IP 地址。",
   "peer.editIpPlaceholder": "例如：100.64.0.15",
   "peer.editIpError": "请输入有效的 IP 地址，例如：100.64.0.15",
   "peer.editIpv6Title": "编辑设备 IPv6 地址",
-  "peer.editIpv6Description": "更新该设备的 NetBird IPv6 地址。",
+  "peer.editIpv6Description": "更新该设备的 Cloink IPv6 地址。",
   "peer.editIpv6Placeholder": "例如：fd00:1234::1",
   "peer.editIpv6Error": "请输入有效的 IPv6 地址，例如：fd00:1234::1",
   "peer.editIpReconnectInfo": "设备重新连接后更改才会生效。",
@@ -3883,7 +3884,7 @@ const zhCN = {
   "routes.enableRouteHelp": "使用此开关启用或停用该路由。",
   "routes.autoApplyRoute": "自动应用路由",
   "routes.autoApplyRouteHelp":
-    "自动将此出口节点应用到你的分发分组。需要 NetBird 客户端 v0.55.0 或更高版本。",
+    "自动将此出口节点应用到你的分发分组。需要 Cloink 客户端 v0.55.0 或更高版本。",
   "routes.metric": "Metric",
   "routes.metricHelp": "较低的 Metric 值表示更高的路由优先级。",
   "routes.exitNodesLearnMore": "出口节点",
@@ -3968,7 +3969,7 @@ const zhCN = {
   "peerActionCell.enableSshAccess": "启用 SSH 访问",
   "peerActionCell.disableSshAccessTitle": "禁用 SSH 访问？",
   "peerActionCell.disableSshAccessDescription":
-    "从 NetBird v0.61.0 开始，禁用 SSH 访问后，无法再从控制台重新启用。你需要创建显式访问控制策略，并更新 NetBird 客户端才能恢复 SSH 功能。",
+    "从 Cloink v0.61.0 开始，禁用 SSH 访问后，无法再从控制台重新启用。你需要创建显式访问控制策略，并更新 Cloink 客户端才能恢复 SSH 功能。",
   "peerActionCell.disable": "禁用",
   "peerActionCell.expirationDisabledTooltip":
     "通过安装密钥添加的所有设备均禁用过期设置。",
@@ -3978,12 +3979,12 @@ const zhCN = {
   "peerActionCell.approvedTitle": "设备 {name} 已审批",
   "peerActionCell.approvedDescription": "此设备已审批，现在可以连接其他设备。",
   "peerActionCell.approving": "正在审批设备...",
-  "peerAddress.netBirdIp": "NetBird IP",
+  "peerAddress.netBirdIp": "Cloink IP",
   "peerAddress.publicIp": "公网 IP",
   "peerAddress.domain": "域名",
   "peerAddress.region": "地区",
-  "peerAddress.netBirdIpCopied": "NetBird IP 已复制到剪贴板",
-  "peerAddress.netBirdIpv6Copied": "NetBird IPv6 已复制到剪贴板",
+  "peerAddress.netBirdIpCopied": "Cloink IP 已复制到剪贴板",
+  "peerAddress.netBirdIpv6Copied": "Cloink IPv6 已复制到剪贴板",
   "peerAddress.publicIpCopied": "公网 IP 已复制到剪贴板",
   "peerAddress.dnsLabelCopied": "DNS 标签已复制到剪贴板",
   "peerAddress.regionCopied": "地区已复制到剪贴板",
@@ -3991,7 +3992,7 @@ const zhCN = {
   "peerGroupCell.saving": "正在保存设备分组...",
   "peerVersion.updateAvailable": "有可用更新",
   "peerVersion.updateDescription":
-    "NetBird 新版本可用。请更新客户端以获取最新功能和错误修复。",
+    "Cloink 新版本可用。请更新客户端以获取最新功能和错误修复。",
   "peerVersion.downloadChangelog": "下载与更新日志",
   "peerVersion.serial": "序列号：",
   "table.type": "类型",
@@ -4021,7 +4022,7 @@ const zhCN = {
   "networkProvider.thisPolicyUsedByMultiple": "此策略被多个资源使用",
   "networkProvider.editOrDeletePolicy": "{action}策略 \u201c{name}\u201d？",
   "networkProvider.addRoutingPeer": "添加路由设备",
-  "peerAddress.netBirdIpv6": "NetBird IPv6",
+  "peerAddress.netBirdIpv6": "Cloink IPv6",
   "peerAddress.ipCopied": "IP 地址已复制到剪贴板",
   "peerMultiSelect.bypassComplianceTitle":
     "绕过 {count} {peerWord}的合规检查？",
@@ -4098,10 +4099,10 @@ const zhCN = {
   "idpSync.deleteIntegrationTitle": "删除集成?",
   "idpSync.deleteIntegrationDescription": "确定要删除此集成吗?",
   "idpSync.deleteIntegrationHelp":
-    "删除此集成将无法再从你的 IdP 同步用户和组到 NetBird。如果删除了集成,你需要重新配置才能启用同步。",
+    "删除此集成将无法再从你的 IdP 同步用户和组到 Cloink。如果删除了集成,你需要重新配置才能启用同步。",
   "idpSync.integrationDeleted": "{provider} 已成功删除",
   "idpSync.integrationUpdated": "{provider} 已成功更新",
-  "idpSync.integrationConnected": "{provider} 已成功连接到 NetBird。",
+  "idpSync.integrationConnected": "{provider} 已成功连接到 Cloink。",
   "idpSync.integrationSetUp": "{provider} 已成功设置",
   "idpSync.deletingIntegration": "正在删除集成...",
   "idpSync.updatingIntegration": "正在更新集成...",
@@ -4111,23 +4112,23 @@ const zhCN = {
   "idpSync.synchronizeUsers": "同步用户",
   "idpSync.configuration": "{provider} 配置",
   "idpSync.configurationDescription":
-    "将你的用户和组从 {provider} 同步到 NetBird。",
+    "将你的用户和组从 {provider} 同步到 Cloink。",
   "idpSync.integrationTitle": "{provider} 集成",
   "idpSync.groupPrefixHelpUsersPrefix": "默认情况下,",
   "idpSync.groupPrefixHelpUsersAll": "所有用户",
-  "idpSync.groupPrefixHelpUsersSuffix": "将从你的 IdP 同步到 NetBird。",
+  "idpSync.groupPrefixHelpUsersSuffix": "将从你的 IdP 同步到 Cloink。",
   "idpSync.groupPrefixHelpUsersFilter":
     "如果你只想同步属于特定组的用户,可以在下方添加。请注意,前缀匹配区分大小写。",
   "idpSync.groupPrefixHelpGroupsPrefix": "默认情况下,",
   "idpSync.groupPrefixHelpGroupsAll": "所有组",
-  "idpSync.groupPrefixHelpGroupsSuffix": "将从你的 IdP 同步到 NetBird。",
+  "idpSync.groupPrefixHelpGroupsSuffix": "将从你的 IdP 同步到 Cloink。",
   "idpSync.groupPrefixHelpGroupsFilter":
     "如果你只想同步以特定前缀开头的组,可以在下方添加。请注意,前缀匹配区分大小写。",
 
   // ── Google Workspace 设置 ──────────────────────────────────────────
-  "googleWorkspace.connectTitle": "将 NetBird 与 Google Workspace 连接",
+  "googleWorkspace.connectTitle": "将 Cloink 与 Google Workspace 连接",
   "googleWorkspace.connectDescription":
-    "开始将你的用户和组从 Google Workspace 同步到 NetBird。请按照以下步骤开始。",
+    "开始将你的用户和组从 Google Workspace 同步到 Cloink。请按照以下步骤开始。",
   "googleWorkspace.estimatedTime": "10-20 分钟",
   "googleWorkspace.accountPrefix": "请确保你拥有一个",
   "googleWorkspace.accountType": "Google Workspace 用户账户",
@@ -4137,7 +4138,7 @@ const zhCN = {
     "如果你没有所需的权限,请让你的工作区管理员为你授予这些权限。",
   "googleWorkspace.permCreate": "创建 Google Workspace 应用",
   "googleWorkspace.permManage": "管理 Google Workspace 应用",
-  "googleWorkspace.step1Title": "创建 NetBird 项目",
+  "googleWorkspace.step1Title": "创建 Cloink 项目",
   "googleWorkspace.step1Line1Prefix": "在",
   "googleWorkspace.step1Line1Suffix": "中创建一个新的",
   "googleWorkspace.step1Console": "Google Cloud Console",
@@ -4209,9 +4210,9 @@ const zhCN = {
   "googleWorkspace.customerIdLabel": "客户 ID",
 
   // ── JumpCloud 设置 ─────────────────────────────────────────────────
-  "jumpcloud.connectTitle": "将 NetBird 与 Jumpcloud 连接",
+  "jumpcloud.connectTitle": "将 Cloink 与 Jumpcloud 连接",
   "jumpcloud.connectDescription":
-    "开始将你的用户和组从 Jumpcloud 同步到 NetBird。请按照以下步骤开始。",
+    "开始将你的用户和组从 Jumpcloud 同步到 Cloink。请按照以下步骤开始。",
   "jumpcloud.estimatedTime": "5-15 分钟",
   "jumpcloud.accountType": "Jumpcloud 用户账户",
   "jumpcloud.accountRolesWord": "角色",
@@ -4249,23 +4250,23 @@ const zhCN = {
   // ── JumpCloud / Okta 配置 ──────────────────────────────────────────
   "jumpcloud.configurationTitle": "Jumpcloud 配置",
   "jumpcloud.configurationDescription":
-    "将你的用户和组从 Jumpcloud 同步到 NetBird。",
+    "将你的用户和组从 Jumpcloud 同步到 Cloink。",
   "okta.configurationTitle": "Okta 配置",
-  "okta.configurationDescription": "将你的用户和组从 Okta 同步到 NetBird。",
+  "okta.configurationDescription": "将你的用户和组从 Okta 同步到 Cloink。",
 
   // ── Okta SSO 设置 ─────────────────────────────────────────────────
   "okta.notifyTitle": "Okta SSO 集成",
   "okta.notifyConnected": "Okta SSO 已成功连接",
   "okta.notifyConnecting": "正在连接 Okta SSO...",
   "okta.notifyFailed": "连接 Okta SSO 失败",
-  "okta.connectTitle": "将 NetBird 与 Okta SSO 连接",
+  "okta.connectTitle": "将 Cloink 与 Okta SSO 连接",
   "okta.connectDescription":
     "使用 Okta 作为单点登录提供商来认证用户。请按照以下步骤开始。",
   "okta.accountType": "Okta 用户账户",
   "okta.accountSuffix": "如果你没有所需权限，请让你的 Okta 管理员为你授予。",
   "okta.permAdd": "添加 Okta 应用",
   "okta.permConfigure": "配置 Okta 应用",
-  "okta.step1Title": "为 Okta 安装 NetBird 应用",
+  "okta.step1Title": "为 Okta 安装 Cloink 应用",
   "okta.step1Navigate": "前往",
   "okta.step1Link": "Okta 集成网络",
   "okta.step2Click": "点击",
@@ -4279,7 +4280,7 @@ const zhCN = {
   "okta.step4Domain": "Okta 账户域名",
   "okta.step5Prefix": "输入你的",
   "okta.step5Domain": "主邮箱域名",
-  "okta.step5Suffix": "稍后将用于登录 NetBird。",
+  "okta.step5Suffix": "稍后将用于登录 Cloink。",
   "okta.step3AssignPrefix": "安装应用后，进入",
   "okta.step3AssignTab": "Assignments",
   "okta.step3AssignMiddle": "选项卡，选择",
@@ -4300,9 +4301,9 @@ const zhCN = {
   "genericHttp.deleteConfirmDescription":
     "确定要删除此集成吗？你需要重新开始设置流程。",
   "genericHttp.configTitle": "Generic HTTP 配置",
-  "genericHttp.connectTitle": "将 NetBird 与 Generic HTTP 连接",
+  "genericHttp.connectTitle": "将 Cloink 与 Generic HTTP 连接",
   "genericHttp.descriptionPrefix":
-    "开始将你的 NetBird 审计和流量事件流式传输到 Generic HTTP 端点。",
+    "开始将你的 Cloink 审计和流量事件流式传输到 Generic HTTP 端点。",
   "genericHttp.descriptionSuffix": "按照以下步骤开始。",
   "genericHttp.tabGeneral": "常规",
   "genericHttp.tabHeaders": "请求头",
@@ -4350,9 +4351,9 @@ const zhCN = {
 
   // ── Generic SCIM 设置 ─────────────────────────────────────────────
   "genericScim.notifyTitle": "{name} 集成",
-  "genericScim.connectTitle": "将 NetBird 与 {name} 连接",
+  "genericScim.connectTitle": "将 Cloink 与 {name} 连接",
   "genericScim.connectDescription":
-    "开始将你的用户和组从 {name} 同步到 NetBird。请按照以下步骤开始。",
+    "开始将你的用户和组从 {name} 同步到 Cloink。请按照以下步骤开始。",
   "genericScim.scimConfigHelpPrefix": "SCIM 配置因身份提供商而异。请参阅我们的",
   "genericScim.scimConfigHelpLink": "IdP 文档",
   "genericScim.scimConfigHelpSuffix": "获取针对特定提供商的设置指南。",
@@ -4376,7 +4377,7 @@ const zhCN = {
   "sso.oidc.notifyConnected": "{name} SSO 已成功连接",
   "sso.oidc.notifyConnecting": "正在连接 {name} SSO...",
   "sso.oidc.notifyFailed": "连接 {name} SSO 失败",
-  "sso.oidc.connectTitle": "将 NetBird 与 {name} 连接",
+  "sso.oidc.connectTitle": "将 Cloink 与 {name} 连接",
   "sso.oidc.connectDescription":
     "使用 {name} 作为单点登录提供商来认证用户。请按照以下步骤开始。",
   "sso.oidc.step1Description":
@@ -4389,7 +4390,7 @@ const zhCN = {
     "端点。它应该是公开可访问的并且使用 SSL 安全连接。",
   "sso.oidc.step3DescriptionPrefix": "输入你的",
   "sso.oidc.primaryEmailDomain": "Primary E-Mail Domain",
-  "sso.oidc.step3DescriptionSuffix": "它将用于后续登录 NetBird。",
+  "sso.oidc.step3DescriptionSuffix": "它将用于后续登录 Cloink。",
   "sso.oidc.learnMorePrefix": "了解更多关于",
   "sso.oidc.integrationLink": "{name} 集成",
   "sso.oidc.connectButton": "连接",
@@ -4443,7 +4444,7 @@ const zhCN = {
 
   // ── Intune 设置 ──────────────────────────────────────────────────────
   "edr.intune.notifyTitle": "Intune 集成",
-  "edr.intune.notifyConnected": "Intune 已成功连接到 NetBird。",
+  "edr.intune.notifyConnected": "Intune 已成功连接到 Cloink。",
   "edr.intune.notifyDeleted": "Intune 已成功删除",
   "edr.intune.notifyUpdated": "Intune 已成功更新",
   "edr.intune.notifyEnabled": "Intune 已成功启用",
@@ -4451,7 +4452,7 @@ const zhCN = {
   "edr.intune.settingUp": "正在设置集成...",
   "edr.intune.deleting": "正在删除集成...",
   "edr.intune.updating": "正在更新集成...",
-  "edr.intune.setupTitle": "将 NetBird 与 Intune 连接",
+  "edr.intune.setupTitle": "将 Cloink 与 Intune 连接",
   "edr.intune.setupDescription":
     "限制对 Intune 中标记为合规的 IT 管理设备的网络访问。请按照以下步骤开始。",
   "edr.intune.requiredPermissions": "所需权限",
@@ -4514,7 +4515,7 @@ const zhCN = {
   "edr.intune.tabDangerZone": "危险区域",
   "edr.intune.deleteIntegrationLabel": "删除集成",
   "edr.intune.deleteIntegrationHelp":
-    "删除此集成将移除将用户和组从你的 IdP 同步到 NetBird 的能力。如果你删除了集成，则需要重新配置它以启用同步。",
+    "删除此集成将移除将用户和组从你的 IdP 同步到 Cloink 的能力。如果你删除了集成，则需要重新配置它以启用同步。",
   "edr.intune.deleteConfirmTitle": "删除集成？",
   "edr.intune.deleteConfirmDescription": "你确定要删除此集成吗？",
   "edr.intune.disableConfirmTitle": "禁用 Huntress？",
@@ -4538,7 +4539,7 @@ const zhCN = {
   "edr.huntress.disableDescription": "你确定要禁用 Huntress 集成吗？",
   "edr.huntress.cardDescription":
     "具有全面的企业级保护，并由 24/7 AI 辅助 SOC 持续支持的 EDR。",
-  "edr.huntress.setupTitle": "将 NetBird 与 Huntress 连接",
+  "edr.huntress.setupTitle": "将 Cloink 与 Huntress 连接",
   "edr.huntress.setupDescription":
     "限制对受 Huntress 保护的设备的网络访问。请按照以下步骤开始。",
   "edr.huntress.step1Title": "输入 API 凭据",
@@ -4561,9 +4562,9 @@ const zhCN = {
 
   // ── Azure AD / Entra ID 设置 ──────────────────────────────────────
   "azureAd.notifyTitle": "Entra ID 集成",
-  "azureAd.connectTitle": "将 NetBird 与 Entra ID (API) 连接",
+  "azureAd.connectTitle": "将 Cloink 与 Entra ID (API) 连接",
   "azureAd.connectDescription":
-    "开始将你的用户和组从 Entra ID 同步到 NetBird。请按照以下步骤开始。",
+    "开始将你的用户和组从 Entra ID 同步到 Cloink。请按照以下步骤开始。",
   "azureAd.accountType": "Azure AD 用户账户",
   "azureAd.accountSuffix":
     "如果你没有所需权限，请让你的 Azure AD 管理员为你授予。",
@@ -4684,7 +4685,7 @@ const zhCN = {
     "下连接至少一个代理，然后再添加提供商。",
   // 弹窗 – 提供商表单字段
   "aiProvider.modal.providerLabel": "提供商",
-  "aiProvider.modal.providerHelpText": "通过 NetBird 暴露的 API 提供商。",
+  "aiProvider.modal.providerHelpText": "通过 Cloink 暴露的 API 提供商。",
   "aiProvider.modal.searchProviders": "搜索提供商...",
   "aiProvider.modal.selectProvider": "选择提供商...",
   "aiProvider.modal.upstreamUrlLabel": "上游 URL",
@@ -4698,7 +4699,7 @@ const zhCN = {
     "OpenRouter 使用固定端点 openrouter.ai/api/v1；应用通过模型前缀选择上游提供商，例如 anthropic/claude-* 或 openai/gpt-*。",
   "aiProvider.modal.upstreamUrlHelp.vllm":
     "你的本地 vLLM 服务器的 OpenAI 兼容基础 URL。",
-  "aiProvider.modal.upstreamUrlHelp.default": "NetBird 转发流量的目标地址。",
+  "aiProvider.modal.upstreamUrlHelp.default": "Cloink 转发流量的目标地址。",
   "aiProvider.modal.upstreamUrlPlaceholder.bifrost":
     "https://your-bifrost-host/openai",
   "aiProvider.modal.upstreamUrlPlaceholder.cloudflare_ai_gateway":
@@ -4724,7 +4725,7 @@ const zhCN = {
     "跳过对此提供商请求的证书验证。适用于使用自签名证书的端点进行快速测试。生产环境建议在代理实例上挂载受信任的证书。",
   "aiProvider.modal.jsonKeyLabel": "服务账号 JSON 密钥",
   "aiProvider.modal.jsonKeyTooltipPrefix":
-    "上传 Vertex AI 服务账号 JSON 密钥。NetBird 会将其进行 base64 编码并以",
+    "上传 Vertex AI 服务账号 JSON 密钥。Cloink 会将其进行 base64 编码并以",
   "aiProvider.modal.jsonKeyTooltipSuffix":
     "为前缀，在每次上游请求中注入，因此代理永远看不到密钥。",
   "aiProvider.modal.jsonKeyHelp": "上传服务账号 JSON 密钥文件。",
@@ -4733,7 +4734,7 @@ const zhCN = {
   "aiProvider.modal.keyAlreadyStored": "已存储密钥",
   "aiProvider.modal.noFileSelected": "未选择文件",
   "aiProvider.modal.apiKeyLabel": "提供商 API 密钥",
-  "aiProvider.modal.apiKeyTooltipPrefix": "NetBird 会将其作为",
+  "aiProvider.modal.apiKeyTooltipPrefix": "Cloink 会将其作为",
   "aiProvider.modal.apiKeyTooltipSuffix":
     "在每次上游请求中注入，因此代理永远看不到密钥。",
   "aiProvider.modal.apiKeyHelp": "提供商签发的 API 密钥。",
@@ -4792,10 +4793,10 @@ const zhCN = {
     "接收调用方用户邮箱（或未关联时的对等端名称）的线级请求头名称。留空则跳过。",
   "aiProvider.modal.bifrost.groupsHeaderLabel": "分组请求头",
   "aiProvider.modal.bifrost.groupsHeaderHelp":
-    "接收调用方 NetBird 分组（逗号分隔列表）的线级请求头名称。留空则跳过。",
+    "接收调用方 Cloink 分组（逗号分隔列表）的线级请求头名称。留空则跳过。",
   // Cloudflare JSON 元数据映射
   "aiProvider.modal.cloudflare.metadataHelpPrefix":
-    "NetBird 会将 JSON 对象注入到",
+    "Cloink 会将 JSON 对象注入到",
   "aiProvider.modal.cloudflare.metadataHelpInfix":
     "请求头中，携带调用方身份，以便网关的日志和分析基于真实用户而非恰好持有 API 令牌的应用进程。选择与你现有日志过滤器匹配的 JSON 键名；留空字段可省略该键。代理会先剥离客户端提供的任何值，因此应用无法伪造身份。",
   "aiProvider.modal.cloudflare.userIdentityKeyLabel": "用户身份键",
@@ -4803,20 +4804,20 @@ const zhCN = {
     "接收调用方用户邮箱（或未关联时的对等端名称）的 JSON 键。留空则跳过。",
   "aiProvider.modal.cloudflare.groupsKeyLabel": "分组键",
   "aiProvider.modal.cloudflare.groupsKeyHelp":
-    "接收调用方 NetBird 分组（逗号分隔字符串）的 JSON 键。留空则跳过。",
+    "接收调用方 Cloink 分组（逗号分隔字符串）的 JSON 键。留空则跳过。",
   // Portkey 映射
-  "aiProvider.modal.portkey.metadataHelpPrefix": "NetBird 会将",
+  "aiProvider.modal.portkey.metadataHelpPrefix": "Cloink 会将",
   "aiProvider.modal.portkey.metadataHelpSuffix":
     "请求头注入 JSON 对象，以便 Portkey 的分析和预算基于真实调用方。代理会先剥离客户端提供的任何值，因此应用无法伪造身份。根据 Portkey 的 128 字符上限，每个值会在需要时截断。此映射在当前版本中是固定的。",
   // Bedrock 映射
   "aiProvider.modal.bedrock.stampHelp":
     "将以下身份元数据注入到 Bedrock 请求中。",
-  "aiProvider.modal.bedrock.metadataHelpPrefix": "NetBird 会将调用方身份注入到",
+  "aiProvider.modal.bedrock.metadataHelpPrefix": "Cloink 会将调用方身份注入到",
   "aiProvider.modal.bedrock.metadataHelpSuffix":
     "请求头中，以便按用户和分组拆分 Bedrock 费用。客户端提供的值会被剥离和清理。",
   // Vercel 映射
   "aiProvider.modal.vercel.headersHelpPrefix":
-    "NetBird 会在每次上游请求中将用户身份和分组列表注入到",
+    "Cloink 会在每次上游请求中将用户身份和分组列表注入到",
   "aiProvider.modal.vercel.headersHelpAnd": "和",
   "aiProvider.modal.vercel.headersHelpInfix":
     "。Vercel 按这些维度对其 Custom Reporting API 进行分组（",
@@ -4827,19 +4828,19 @@ const zhCN = {
     "Vercel 限制每个请求最多 10 个标签（每个 1–64 字符），用户值限制为 256 字符。超过 10 个分组的成员会看到 Vercel 以 HTTP 400 拒绝请求 — 如遇此问题请调整分组归属。Vercel 对每 1,000 个唯一用户/标签值收取 $0.075；高基数用例请相应规划预算。",
   // OpenRouter 映射
   "aiProvider.modal.openrouter.attributionHelpPrefix":
-    "NetBird 会将调用方的用户身份注入到请求体的",
+    "Cloink 会将调用方的用户身份注入到请求体的",
   "aiProvider.modal.openrouter.attributionHelpSuffix":
     "字段 — 这是 OpenRouter 用于按用户分析的 OpenAI 标准字段。代理会先覆盖客户端提供的任何值，因此应用无法伪造身份。",
   "aiProvider.modal.openrouter.noGroupsBold": "无分组维度。",
   "aiProvider.modal.openrouter.noGroups":
-    "OpenRouter 没有文档化按请求的标签、标记或团队字段 — 仅支持按用户身份。NetBird 的分组归属不会传播到 OpenRouter；如需按分组归属，请查询 NetBird 自己的访问日志而非 OpenRouter 的分析。",
+    "OpenRouter 没有文档化按请求的标签、标记或团队字段 — 仅支持按用户身份。Cloink 的分组归属不会传播到 OpenRouter；如需按分组归属，请查询 Cloink 自己的访问日志而非 OpenRouter 的分析。",
   "aiProvider.modal.openrouter.appBrandingBold": "应用品牌",
   "aiProvider.modal.openrouter.appBranding":
     "（HTTP-Referer + X-OpenRouter-Title）在提供商标签页中按提供商设置，而非按请求设置。填写后，你的应用会出现在 OpenRouter 的公开排名和按应用分析中。",
   // 弹窗 – 模型标签页
   "aiProvider.modal.modelsLabel": "模型",
   "aiProvider.modal.modelsHelp":
-    "通过此端点暴露的模型，以及用于成本跟踪的每 1k 输入/输出价格。为空 = 所有目录模型按目录价格允许。缓存费率留空则使用 NetBird 对该模型的默认值；0 表示按输入费率计费缓存令牌。",
+    "通过此端点暴露的模型，以及用于成本跟踪的每 1k 输入/输出价格。为空 = 所有目录模型按目录价格允许。缓存费率留空则使用 Cloink 对该模型的默认值；0 表示按输入费率计费缓存令牌。",
   "aiProvider.modal.addMore": "添加更多",
   "aiProvider.modal.learnMoreAbout": "了解更多关于",
   "aiProvider.modal.agentNetworkProviders": "代理网络提供商",
@@ -4977,17 +4978,17 @@ const zhCN = {
   "postureChecks.columnPolicies": "策略",
   "postureChecks.tableText": "姿态检查",
   "settings.dangerZoneTitle": "危险区域",
-  "settings.deleteAccountTitle": "删除 NetBird 账号",
+  "settings.deleteAccountTitle": "删除 Cloink 账号",
   "settings.deleteAccountDescription":
-    "在删除你的 NetBird 账号之前，请注意此操作不可撤销。账号删除后，你将永久失去对所有关联数据的访问权限，包括设备、用户、分组、策略和路由。",
+    "在删除你的 Cloink 账号之前，请注意此操作不可撤销。账号删除后，你将永久失去对所有关联数据的访问权限，包括设备、用户、分组、策略和路由。",
   "settings.deleteAccountButton": "删除账号",
   "settings.deleteAccountConfirmDescription":
-    "确定要删除你的 NetBird 账号吗？此操作无法撤销。",
-  "settings.deleteAccountSuccessDescription": "NetBird 账号已成功删除。",
+    "确定要删除你的 Cloink 账号吗？此操作无法撤销。",
+  "settings.deleteAccountSuccessDescription": "Cloink 账号已成功删除。",
   "settings.deleteAccountLoadingMessage": "正在删除账号...",
   "agentConnect.title": "配置你的代理",
   "agentConnect.description":
-    "将你的代理的 base URL 指向 NetBird 端点即可。客户端无需提供上游 API Key。NetBird 会根据你的策略对请求进行鉴权，并自动注入上游密钥。",
+    "将你的代理的 base URL 指向 Cloink 端点即可。客户端无需提供上游 API Key。Cloink 会根据你的策略对请求进行鉴权，并自动注入上游密钥。",
   "agentConnect.addToConfig": "添加到 {path}:",
   "agentConnect.runInShell": "在终端中运行:",
   "agentConnect.shellMode": "Shell",
@@ -5040,14 +5041,14 @@ const zhCN = {
     "在配置 AI 代理或 LLM SDK 客户端时，使用此 URL 作为基础 URL（例如 OpenAI 的",
   "agentNetwork.apiBaseUrlTooltip2": "、Anthropic 的",
   "agentNetwork.apiBaseUrlTooltip3":
-    "，或任何 HTTP 客户端）。请求会先经过 NetBird，由你的策略进行授权，然后才会到达上游提供商。",
+    "，或任何 HTTP 客户端）。请求会先经过 Cloink，由你的策略进行授权，然后才会到达上游提供商。",
   "agentNetwork.copyEndpoint": "复制端点",
   "agentNetwork.copy": "复制",
   "agentNetwork.agentConfig": "代理配置",
   "agentNetwork.connectFirstProvider":
     "连接你的第一个提供商以设置代理网络端点。",
   "agentNetwork.providersDescription1":
-    "通过一个无需密钥的端点连接 LiteLLM、OpenAI 和 Anthropic 等 AI 提供商和网关，且仅可通过 NetBird 的隧道访问。",
+    "通过一个无需密钥的端点连接 LiteLLM、OpenAI 和 Anthropic 等 AI 提供商和网关，且仅可通过 Cloink 的隧道访问。",
   "agentNetwork.logCollection": "日志收集",
   "agentNetwork.enableLogCollection": "启用日志收集",
   "agentNetwork.enableLogCollectionHelp":
@@ -5113,7 +5114,7 @@ const zhCN = {
   "agentNetwork.promptCapture": "提示词捕获",
   "agentNetwork.promptCaptureDescription": "在存储提示词内容之前脱敏 PII。",
   "agentNetwork.promptCaptureDetails":
-    "NetBird 会在存储提示词内容之前脱敏邮箱、社会安全号码格式、电话号码格式和信用卡号格式。启用此护栏会在代理内置的 Token 脱敏基础上增加严格脱敏。",
+    "Cloink 会在存储提示词内容之前脱敏邮箱、社会安全号码格式、电话号码格式和信用卡号格式。启用此护栏会在代理内置的 Token 脱敏基础上增加严格脱敏。",
   "agentNetwork.limitSingular": "个限制",
   "agentNetwork.limitPlural": "个限制",
   "agentNetwork.limitsTabDescription": "直接应用于此策略的 Token 和预算上限。",
@@ -5208,7 +5209,7 @@ const zhCN = {
   "networkSettings.selectIpv6Groups": "选择要启用 IPv6 的分组...",
   "networkSettings.enableRoutingPeerDns": "启用路由对等体 DNS 解析",
   "networkSettings.routingPeerDnsHelp":
-    "在路由对等体上而非客户端上解析路由域名的 DNS。需要 NetBird 客户端 v0.35 或更高版本。更改仅在重启客户端后生效。",
+    "在路由对等体上而非客户端上解析路由域名的 DNS。需要 Cloink 客户端 v0.35 或更高版本。更改仅在重启客户端后生效。",
   "filters.filter": "筛选",
   "filters.filtersCount": "个筛选",
   "refresh.cooldownMessage": "请在 5 秒后再次刷新",
@@ -5255,20 +5256,20 @@ const zhCN = {
   "groupResources.goToNetworks": "前往网络",
   "setupNetbirdModal.installOnMacOS": "在 macOS 上安装",
   "setupNetbirdModal.downloadAndRunInstaller": "下载并运行 macOS 安装程序",
-  "setupNetbirdModal.downloadNetBird": "下载 NetBird",
+  "setupNetbirdModal.downloadNetBird": "下载 Cloink",
   "setupNetbirdModal.managementUrlInstructions":
-    "点击系统托盘中的 NetBird 图标，选择「Settings」然后「Advanced Settings」，输入以下「Management URL」",
-  "setupNetbirdModal.openTerminalAndRun": "打开终端并运行 NetBird",
+    "点击系统托盘中的 Cloink 图标，选择「Settings」然后「Advanced Settings」，输入以下「Management URL」",
+  "setupNetbirdModal.openTerminalAndRun": "打开终端并运行 Cloink",
   "setupNetbirdModal.clickConnect":
-    "点击系统托盘中的 NetBird 图标，然后选择「Connect」",
+    "点击系统托盘中的 Cloink 图标，然后选择「Connect」",
   "setupNetbirdModal.signUpEmail": "使用你的邮箱地址注册",
   "setupNetbirdModal.installManuallyTerminal": "使用终端手动安装",
-  "setupNetbirdModal.runNetBird": "运行 NetBird",
+  "setupNetbirdModal.runNetBird": "运行 Cloink",
   "setupNetbirdModal.andLogInBrowser": "并在浏览器中登录",
   "setupNetbirdModal.installManuallyHomebrew": "使用 HomeBrew 手动安装",
   "setupNetbirdModal.downloadInstallHomebrew": "下载并安装 HomeBrew",
   "setupNetbirdModal.homebrewInstallationGuide": "HomeBrew 安装指南",
-  "setupNetbirdModal.startNetBirdDaemon": "启动 NetBird 守护进程",
+  "setupNetbirdModal.startNetBirdDaemon": "启动 Cloink 守护进程",
   "rdpCertificate.title": "RDP 证书验证",
   "rdpCertificate.serverPresenting":
     "服务器 <strong>{hostname}</strong> 提供了一个证书：",
@@ -5305,12 +5306,12 @@ const zhCN = {
     "查看谁调用了哪个模型、消耗了多少令牌、是否被允许，所有记录均可追溯到真实调用者。",
   "onboarding.agent.device.title": "连接你的设备",
   "onboarding.agent.device.description":
-    "Agent Network 端点是私有的，仅可通过 NetBird 覆盖网络访问。请安装客户端并登录，以无密钥、加密的方式加入网络。",
+    "Agent Network 端点是私有的，仅可通过 Cloink 覆盖网络访问。请安装客户端并登录，以无密钥、加密的方式加入网络。",
   "onboarding.agent.device.connected": "你的设备已连接到网络。",
   "onboarding.agent.device.waiting": "正在等待你的设备连接…",
   "onboarding.agent.provider.title": "连接提供商",
   "onboarding.agent.provider.description":
-    "提供商是 NetBird 路由到的上游 LLM 服务，例如 OpenAI、Anthropic 或 AI 网关。NetBird 会安全存储 API 密钥，并返回一个仅限隧道访问的端点。",
+    "提供商是 Cloink 路由到的上游 LLM 服务，例如 OpenAI、Anthropic 或 AI 网关。Cloink 会安全存储 API 密钥，并返回一个仅限隧道访问的端点。",
   "onboarding.agent.provider.connectButton": "连接提供商",
   "onboarding.agent.provider.connectedSingular": "提供商已连接。",
   "onboarding.agent.provider.connectedPlural": "已连接 {count} 个提供商。",
@@ -5328,7 +5329,7 @@ const zhCN = {
   "onboarding.agent.policy.addButton": "添加策略",
   "onboarding.agent.configure.title": "配置你的代理",
   "onboarding.agent.configure.description":
-    "将你的代理指向 NetBird 基础 URL。无需客户端 API 密钥，NetBird 会授权每个请求并在服务端注入上游密钥。",
+    "将你的代理指向 Cloink 基础 URL。无需客户端 API 密钥，Cloink 会授权每个请求并在服务端注入上游密钥。",
   "onboarding.agent.configure.noProvider":
     "请先连接一个提供商以生成端点，之后你的代理配置将显示在这里。",
   "trafficEventSetting.experimental": "实验性功能",
@@ -5336,7 +5337,7 @@ const zhCN = {
     "流量事件是一项实验性功能。功能和行为可能会演进，包括数据收集或报告方式的变化。流量事件数据保留时间限制为 48 小时，最多 50,000 条事件。",
   "trafficEventSetting.enableTrafficEvents": "启用流量事件",
   "trafficEventSetting.enableTrafficEventsHelp":
-    "为所有设备启用流量事件。这需要 NetBird 客户端 v0.39 或更高版本。",
+    "为所有设备启用流量事件。这需要 Cloink 客户端 v0.39 或更高版本。",
   "trafficEventSetting.enableTrafficReporting": "启用流量报告（内核）",
   "trafficEventSetting.enableTrafficReportingHelp":
     "流量报告在用户空间始终启用，此设置仅适用于内核。启用后，将统计并报告网络数据包及其大小。",
@@ -5355,7 +5356,7 @@ const zhCN = {
   "trafficEventSetting.updatingReporting": "正在更新流量报告设置...",
   "trafficEventSetting.confirmTitle": "启用流量报告（内核）？",
   "trafficEventSetting.confirmDescription":
-    "注意：启用此设置会导致 NetBird 客户端的 CPU 使用量高于正常水平。",
+    "注意：启用此设置会导致 Cloink 客户端的 CPU 使用量高于正常水平。",
   "trafficEventSetting.groupsNotifyTitle": "流量事件分组",
   "trafficEventSetting.groupsUpdatedSuccess": "流量事件分组已成功更新。",
   "trafficEventSetting.updatingGroups": "正在更新流量事件分组...",
@@ -5366,7 +5367,7 @@ const zhCN = {
   "webhook.authentication": "身份验证",
   "webhook.authenticationHelp": "为此端点选择首选的身份验证方式。",
   "accessToken.createTitle": "创建访问令牌",
-  "accessToken.createDescription": "使用此令牌访问 NetBird 的公共 API",
+  "accessToken.createDescription": "使用此令牌访问 Cloink 的公共 API",
   "accessToken.nameHelp": "为你的令牌设置一个易于识别的名称",
   "accessToken.namePlaceholder": "例如：Infra token",
   "accessToken.expiresIn": "有效期",
@@ -5388,10 +5389,10 @@ const zhCN = {
     "如果设备的 ZTA 分数低于阈值，该设备将被拒绝。分数应在 1 到 100 之间。",
   "eventStreaming.title": "事件流",
   "eventStreaming.description":
-    "事件流功能允许你将 NetBird 的审计和流量事件推送到不同的第三方服务。",
+    "事件流功能允许你将 Cloink 的审计和流量事件推送到不同的第三方服务。",
   "azureAd.configurationTitle": "Entra ID (API) 配置",
   "azureAd.configurationDescription":
-    "将你的用户和分组从 Entra ID 同步到 NetBird。",
+    "将你的用户和分组从 Entra ID 同步到 Cloink。",
   "azureAd.settings": "设置",
   "azureAd.groupSync": "分组同步",
   "azureAd.userSync": "用户同步",
@@ -5406,7 +5407,7 @@ const zhCN = {
   "azureAd.userGroupStartsWith": "用户分组以...开头",
   "azureAd.deleteIntegration": "删除集成",
   "azureAd.deleteIntegrationHelp":
-    "删除此集成将移除从你的 IdP 同步用户和分组到 NetBird 的能力。如果删除了集成，你需要重新配置才能启用同步。",
+    "删除此集成将移除从你的 IdP 同步用户和分组到 Cloink 的能力。如果删除了集成，你需要重新配置才能启用同步。",
   "azureAd.deleteConfirmTitle": "删除集成？",
   "azureAd.deleteConfirmDescription": "确定要删除此集成吗？",
   "azureAd.deletedSuccess": "Entra ID (API) 已成功删除",
@@ -5424,7 +5425,7 @@ const zhCN = {
   "idp.noCompatibleProvidersSuffix": "进行设置。",
   "idpSync.title": "身份提供商同步",
   "idpSync.description":
-    "配置你首选的身份提供商 (IdP)，以将用户和分组同步到 NetBird。",
+    "配置你首选的身份提供商 (IdP)，以将用户和分组同步到 Cloink。",
   "idpSync.featureText": "身份提供商 (IdP) 同步",
   "idpSync.calloutPrefix": "想要启用 Keycloak 等自定义 IdP？",
   "idpSync.calloutContact": "请联系我们：",
@@ -5456,7 +5457,7 @@ const zhCN = {
   "peerSSH.enableAccess": "启用 SSH 访问",
   "peerSSH.disableConfirmTitle": "禁用 SSH 访问？",
   "peerSSH.disableConfirmDescription":
-    "从 NetBird v0.61.0 开始，禁用 SSH 访问后，你将无法再从控制台重新启用。你需要创建显式访问控制策略并更新 NetBird 客户端才能恢复 SSH 功能。",
+    "从 Cloink v0.61.0 开始，禁用 SSH 访问后，你将无法再从控制台重新启用。你需要创建显式访问控制策略并更新 Cloink 客户端才能恢复 SSH 功能。",
   "peerSSH.permissionDenied": "你没有更新此设置所需的权限。",
   "rdp.usernameAndPassword": "用户名和密码",
   "rdp.usernameAndPasswordHelp":
@@ -5499,12 +5500,12 @@ const zhCN = {
   "routeUpdate.enableRouteHelp": "使用此开关启用或停用该路由。",
   "routeUpdate.autoApplyRoute": "自动应用路由",
   "routeUpdate.autoApplyRouteHelp":
-    "自动将此出口节点应用到你的分发分组。这需要 NetBird 客户端 v0.55.0 或更高版本。",
+    "自动将此出口节点应用到你的分发分组。这需要 Cloink 客户端 v0.55.0 或更高版本。",
   "routeUpdate.metric": "度量值",
   "routeUpdate.metricError": "度量值必须在 1 到 9999 之间",
   "routeUpdate.networkRoutes": "网络路由",
   "metricsTab.description":
-    "通过分享连接耗时、同步时长和登录延迟等性能指标来帮助我们改进 NetBird。",
+    "通过分享连接耗时、同步时长和登录延迟等性能指标来帮助我们改进 Cloink。",
   "metricsTab.shareMetrics": "分享性能指标",
   "metricsTab.shareMetricsHelp":
     "启用后，客户端会定期发送性能数据，以帮助我们发现和修复问题。",
@@ -5540,7 +5541,7 @@ const zhCN = {
   "distributorCustomers.customerIdLabel": "客户 ID（可选）",
   "distributorCustomers.customerIdHelp":
     "一个可选标识符，便于将客户映射到你的内部系统。",
-  "distributorCustomers.validDomainError": "请输入有效域名，例如 netbird.io",
+  "distributorCustomers.validDomainError": "请输入有效域名，例如 example.com",
   "distributorCustomers.addNotifyTitle": "添加 {domain} 客户",
   "distributorCustomers.addNotifyDescription": "客户账号已成功创建。",
   "distributorCustomers.addNotifyLoading": "正在创建客户账号...",
@@ -5562,7 +5563,7 @@ const zhCN = {
   "mspTenants.ownershipVerified": "所有权已验证",
   "mspTenants.pendingVerification": "待验证",
   "mspTenants.verifyDomain": "验证域名",
-  "mspTenants.validDomainError": "请输入有效域名，例如 netbird.io",
+  "mspTenants.validDomainError": "请输入有效域名，例如 example.com",
   "mspTenants.addNotifyTitle": "添加 {domain} 账号",
   "mspTenants.addNotifyDescription": "租户账号已成功创建。",
   "mspTenants.updateNotifyTitle": "更新 {domain} 账号",
@@ -5620,9 +5621,9 @@ const zhCN = {
   "notifications.webhookDeleteConfirm": "删除",
   "notifications.webhookDeleted": "Webhook 连接已成功删除。",
   "notifications.webhookDeleting": "正在删除 Webhook...",
-  "oktaSetup.connectTitle": "将 NetBird 与 Okta 连接",
+  "oktaSetup.connectTitle": "将 Cloink 与 Okta 连接",
   "oktaSetup.connectDescription":
-    "开始将你的用户和分组从 Okta 同步到 NetBird。请按照以下步骤开始。",
+    "开始将你的用户和分组从 Okta 同步到 Cloink。请按照以下步骤开始。",
   "oktaSetup.requiredPermissions": "所需权限",
   "oktaSetup.accountPrefix": "请确保你拥有一个",
   "oktaSetup.accountType": "Okta 用户账号",
@@ -5640,7 +5641,7 @@ const zhCN = {
   "oktaSetup.configureSsoStep3Middle": "部分，将",
   "oktaSetup.configureSsoStep3To": "改为",
   "oktaSetup.configureSsoStep3AndSelect": "并选择",
-  "oktaSetup.enableScimTitle": "在 NetBird 中启用 Okta SCIM",
+  "oktaSetup.enableScimTitle": "在 Cloink 中启用 Okta SCIM",
   "oktaSetup.enableScimStep1": "在 Okta 控制台中，前往",
   "oktaSetup.enableScimStep1AndSelect": "并选择",
   "oktaSetup.enableScimStep2Prefix": "在",
@@ -5651,14 +5652,14 @@ const zhCN = {
   "oktaSetup.enableScimStep3Field": "字段中",
   "oktaSetup.enableScimStep4Prefix": "点击",
   "oktaSetup.enableScimStep4Middle": "以验证 SCIM 连接，然后选择",
-  "oktaSetup.configureScimTitle": "配置 SCIM 配置到 NetBird",
+  "oktaSetup.configureScimTitle": "配置 SCIM 配置到 Cloink",
   "oktaSetup.configureScimStep1Prefix": "前往",
   "oktaSetup.configureScimStep1AndClick": "并点击",
   "oktaSetup.configureScimStep2Prefix": "启用",
   "oktaSetup.configureScimStep2Middle": "、",
   "oktaSetup.configureScimStep2And": "和",
   "oktaSetup.configureScimStep2Suffix": "并点击",
-  "oktaSetup.syncUsersTitle": "将用户同步到 NetBird",
+  "oktaSetup.syncUsersTitle": "将用户同步到 Cloink",
   "oktaSetup.syncUsersStep1Prefix": "前往",
   "oktaSetup.syncUsersStep1Tab": "标签页，选择",
   "oktaSetup.syncUsersStep1AndClick": "并点击",
@@ -5666,18 +5667,18 @@ const zhCN = {
   "oktaSetup.syncUsersStep2AndClick": "并点击",
   "oktaSetup.syncUsersStep3Prefix": "完成分组分配后，选择",
   "oktaSetup.syncUsersStep3Suffix":
-    "。此时，所有分配到该应用的分组成员都将被同步到 NetBird。",
-  "oktaSetup.syncGroupsTitle": "将分组同步到 NetBird",
+    "。此时，所有分配到该应用的分组成员都将被同步到 Cloink。",
+  "oktaSetup.syncGroupsTitle": "将分组同步到 Cloink",
   "oktaSetup.syncGroupsStep1Prefix": "前往",
   "oktaSetup.syncGroupsStep1Tab": "标签页，选择",
   "oktaSetup.syncGroupsStep1AndClick": "并点击",
   "oktaSetup.syncGroupsStep2Prefix": "搜索要推送的分组，然后点击",
-  "oktaSetup.syncGroupsStep2Suffix": "。所选分组将被同步到 NetBird。",
+  "oktaSetup.syncGroupsStep2Suffix": "。所选分组将被同步到 Cloink。",
   "oktaSetup.estimatedTime": "5-15 分钟",
-  "oktaSetup.ssoConnectTitle": "将 NetBird 与 Okta 连接",
+  "oktaSetup.ssoConnectTitle": "将 Cloink 与 Okta 连接",
   "oktaSetup.ssoConnectDescription":
-    "开始将你的用户和分组从 Okta 同步到 NetBird。请按照以下步骤开始。",
-  "oktaSetup.installAppTitle": "为 Okta 安装 NetBird 应用",
+    "开始将你的用户和分组从 Okta 同步到 Cloink。请按照以下步骤开始。",
+  "oktaSetup.installAppTitle": "为 Okta 安装 Cloink 应用",
   "oktaSetup.installAppStep1": "前往",
   "oktaSetup.installAppStep2Prefix": "点击",
   "oktaSetup.installAppStep2AndThen": "然后",
@@ -5685,28 +5686,28 @@ const zhCN = {
   "oktaSetup.installAppStep3Tab": "标签页，选择",
   "oktaSetup.installAppStep3AndClick": "并点击",
   "oktaSetup.installAppStep3Suffix": "并将你的用户分配到该应用",
-  "oktaSetup.shareDetailsTitle": "与 NetBird 分享你的 Okta 信息",
+  "oktaSetup.shareDetailsTitle": "与 Cloink 分享你的 Okta 信息",
   "oktaSetup.shareDetailsStep1Prefix": "点击",
   "oktaSetup.shareDetailsStep1Tab": "标签页并记录",
   "oktaSetup.shareDetailsStep1Of": "的",
   "oktaSetup.shareDetailsStep2Prefix": "在你的用户资料下，记录你的",
   "oktaSetup.shareDetailsStep3Prefix": "将你的",
   "oktaSetup.shareDetailsStep3And": "和你的",
-  "oktaSetup.shareDetailsStep3With": "分享给 NetBird 团队",
+  "oktaSetup.shareDetailsStep3With": "分享给 Cloink 团队",
   "oktaSetup.shareDetailsStep4Prefix":
-    "NetBird 团队为你的账号启用认证后，你将收到一封邮件。之后你可以访问",
+    "Cloink 团队为你的账号启用认证后，你将收到一封邮件。之后你可以访问",
   "oktaSetup.shareDetailsStep4Middle": "并使用你的 Okta 凭据进行认证",
   "oktaSetup.shareDetailsTipPrefix": "你可以使用",
   "oktaSetup.shareDetailsTipMiddle":
-    "或其他安全分享工具将你的 Okta 信息分享给 NetBird 团队。如需帮助，请联系我们：",
+    "或其他安全分享工具将你的 Okta 信息分享给 Cloink 团队。如需帮助，请联系我们：",
   "oktaSetup.ssoEstimatedTime": "5 分钟",
   "azureAd.genSecretStepTitle": "生成客户端密钥",
   "azureAd.appIdsStepTitle": "输入应用程序 ID 和目录 ID",
   "azureAd.groupsToSyncTitle": "要同步的分组",
   "azureAd.usersToSyncTitle": "要同步的用户",
-  "firehose.connectTitle": "将 NetBird 与 Amazon Data Firehose 连接",
+  "firehose.connectTitle": "将 Cloink 与 Amazon Data Firehose 连接",
   "firehose.connectDescription":
-    "开始将你的 NetBird 审计和流量事件流式传输到 Amazon Data Firehose。请按照以下步骤开始。",
+    "开始将你的 Cloink 审计和流量事件流式传输到 Amazon Data Firehose。请按照以下步骤开始。",
   "firehose.selectRegionTitle": "选择你的 Amazon Data Firehose 区域",
   "firehose.selectRegionHelp": "要确认你所在的区域，请查看",
   "firehose.dashboardLink": "Amazon Data Firehose 控制台。",
@@ -5737,10 +5738,10 @@ const zhCN = {
   "firehose.enterAccessKey": "输入你的 Access-Key",
   "firehose.enterSecretKey": "输入你的 Secret-Key",
   "firehose.notifyTitle": "Amazon Data Firehose 集成",
-  "firehose.notifyDescription": "Amazon Data Firehose 已成功连接到 NetBird。",
-  "s3.connectTitle": "将 NetBird 与 Amazon S3 连接",
+  "firehose.notifyDescription": "Amazon Data Firehose 已成功连接到 Cloink。",
+  "s3.connectTitle": "将 Cloink 与 Amazon S3 连接",
   "s3.connectDescription":
-    "开始将你的 NetBird 审计和流量事件流式传输到 Amazon S3。请按照以下步骤开始。",
+    "开始将你的 Cloink 审计和流量事件流式传输到 Amazon S3。请按照以下步骤开始。",
   "s3.selectRegionTitle": "选择你的 Amazon S3 区域",
   "s3.selectRegionHelp": "要确认你所在的区域，请查看",
   "s3.dashboardLink": "Amazon S3 控制台。",
@@ -5766,10 +5767,10 @@ const zhCN = {
   "s3.enterAccessKey": "输入你的 Access-Key",
   "s3.enterSecretKey": "输入你的 Secret-Key",
   "s3.notifyTitle": "Amazon S3 集成",
-  "s3.notifyDescription": "Amazon S3 已成功连接到 NetBird。",
-  "datadog.connectTitle": "将 NetBird 与 Datadog 连接",
+  "s3.notifyDescription": "Amazon S3 已成功连接到 Cloink。",
+  "datadog.connectTitle": "将 Cloink 与 Datadog 连接",
   "datadog.connectDescription":
-    "开始将你的 NetBird 审计和流量事件流式传输到 Datadog。请按照以下步骤开始。",
+    "开始将你的 Cloink 审计和流量事件流式传输到 Datadog。请按照以下步骤开始。",
   "datadog.selectRegionTitle": "选择你的 Datadog 区域",
   "datadog.selectRegionHelp": "要确认你所在的区域，请查看",
   "datadog.docsLink": "Datadog 文档。",
@@ -5784,8 +5785,8 @@ const zhCN = {
     "创建新的 Datadog API 密钥后，可能需要最多 5 分钟才能使用。",
   "datadog.enterApiKey": "输入你的 API-Key",
   "datadog.notifyTitle": "Datadog 集成",
-  "datadog.notifyDescription": "Datadog 已成功连接到 NetBird。",
-  "crowdStrike.connectTitle": "将 NetBird 与 CrowdStrike 连接",
+  "datadog.notifyDescription": "Datadog 已成功连接到 Cloink。",
+  "crowdStrike.connectTitle": "将 Cloink 与 CrowdStrike 连接",
   "crowdStrike.connectDescription":
     "将网络访问限制为仅由公司 IT 部门管理的设备",
   "crowdStrike.setup.selectRegionTitle": "选择你的 CrowdStrike 区域",
@@ -5802,7 +5803,7 @@ const zhCN = {
     "只有满足 ZTA 分数阈值的设备才能被允许连接。",
   "crowdStrike.setup.estimatedTime": "5-10 分钟",
   "crowdStrike.setup.notifyTitle": "CrowdStrike 集成",
-  "crowdStrike.setup.notifyDescription": "CrowdStrike 已成功连接到 NetBird。",
+  "crowdStrike.setup.notifyDescription": "CrowdStrike 已成功连接到 Cloink。",
   "trafficEvents.time": "时间",
   "trafficEvents.event": "事件",
   "trafficEvents.source": "来源",
@@ -5836,9 +5837,9 @@ const zhCN = {
   "trafficEvents.detailsError": "无法加载已持久化明细。",
   "trafficEvents.detailsEmpty": "该分组没有已持久化明细。",
   "trafficEvents.retry": "重试",
-  "notificationSlack.connectTitle": "将 NetBird 与 Slack 连接",
+  "notificationSlack.connectTitle": "将 Cloink 与 Slack 连接",
   "notificationSlack.connectDescription":
-    "通过 Incoming Webhook 在你的 Slack 频道中直接接收 NetBird 通知事件。",
+    "通过 Incoming Webhook 在你的 Slack 频道中直接接收 Cloink 通知事件。",
   "notificationSlack.createAppTitle": "创建 Slack 应用",
   "notificationSlack.createAppStep1Prefix": "打开",
   "notificationSlack.createAppStep1Link": "Slack 应用管理",
@@ -6074,7 +6075,7 @@ const zhCN = {
     "按请求进行审计，包含真实的调用者身份、成本归因与预算控制。",
   "agentProviders.allModels": "全部模型",
   "agentProviders.emptyDescription":
-    "通过 NetBird 路由 OpenAI、Anthropic 及其他 LLM API，以实施访问控制、跟踪令牌消费并捕获提示词。",
+    "通过 Cloink 路由 OpenAI、Anthropic 及其他 LLM API，以实施访问控制、跟踪令牌消费并捕获提示词。",
   "agentProviders.modelsConfigured": "已配置 {count} 个",
   "agentProviders.searchPlaceholder": "按名称搜索...",
   "aws.changePlanLater": "您可以随时更改套餐。",
@@ -6085,13 +6086,13 @@ const zhCN = {
     "凭借我们灵活的定价，您只需通过 AWS 账户为活跃用户和活跃设备付费。",
   "aws.thanksForRegistering": "感谢您通过以下方式注册",
   "billing.activateTrialDescription":
-    "激活 14 天试用即可使用 NetBird 的全部功能与集成。试用结束后，除非您选择升级，否则将恢复到您的 {plan} 套餐。",
+    "激活 14 天试用即可使用 Cloink 的全部功能与集成。试用结束后，除非您选择升级，否则将恢复到您的 {plan} 套餐。",
   "billing.approachingUsageLimit": "即将达到用量上限",
   "billing.continueWith": "继续使用",
   "billing.continueWithTrial": "继续使用试用版",
   "billing.currentPlan": "当前套餐",
   "billing.downgradeTo": "降级到",
-  "billing.exploreNetBird": "探索 NetBird",
+  "billing.exploreNetBird": "探索 Cloink",
   "billing.findOutWhich": "了解哪种",
   "billing.flexiblePricingDescription":
     "凭借我们灵活的定价，您只需为活跃用户和活跃设备付费。",
@@ -6112,9 +6113,9 @@ const zhCN = {
   "billing.lockedFeature.availableOnTeamOrHigher":
     "{feature}{verb}可在团队版或更高版本套餐中使用。",
   "billing.lockedFeature.availableSelfHostedBusiness":
-    "{feature}{verb}需使用 NetBird 企业商业许可证，或在 NetBird 云上使用商业版套餐。",
+    "{feature}{verb}需使用 Cloink 企业商业许可证，或在 Cloink 云上使用商业版套餐。",
   "billing.lockedFeature.availableSelfHostedTeam":
-    "{feature}{verb}需使用 NetBird 企业商业许可证，或在 NetBird 云上使用团队版或更高版本套餐。",
+    "{feature}{verb}需使用 Cloink 企业商业许可证，或在 Cloink 云上使用团队版或更高版本套餐。",
   "billing.lockedFeature.availableWithEnterprise": "企业许可证可用",
   "billing.lockedFeature.contactAdminPrefix": "请联系您的账户管理员",
   "billing.lockedFeature.contactAdminSuffix": "以升级套餐。",
@@ -6142,14 +6143,14 @@ const zhCN = {
   "billing.planRecentlyUpdated":
     "您的套餐最近已更新。请在上次更新 48 小时后再更改套餐。",
   "billing.planSuccessDescription":
-    "您的订阅已成功激活。您现在可以完整使用所选套餐的全部 NetBird 功能。",
-  "billing.planSuccessTitle": "感谢您订阅 NetBird！🎉",
+    "您的订阅已成功激活。您现在可以完整使用所选套餐的全部 Cloink 功能。",
+  "billing.planSuccessTitle": "感谢您订阅 Cloink！🎉",
   "billing.plansAndBilling": "套餐与计费",
   "billing.pricingPlan": "定价套餐",
   "billing.startFreeTrial": "开始 14 天免费试用",
   "billing.subscribeTo": "订阅",
   "billing.suitsYouBest": "最适合您，请访问我们的网站。",
-  "billing.trialAccessDescription": "您目前可以使用 NetBird 的全部功能与集成。",
+  "billing.trialAccessDescription": "您目前可以使用 Cloink 的全部功能与集成。",
   "billing.trialAfterDescription":
     "试用结束后，除非您选择升级，否则将恢复到您的 {plan} 套餐。",
   "billing.trialEndsIn": "试用将在 {count} 天后结束",
@@ -6161,12 +6162,12 @@ const zhCN = {
   "billing.trialStartedNextTwoWeeks": "为期两周",
   "billing.trialStartedTitle": "您的 14 天试用已开始！",
   "billing.trialStartedWelcome":
-    "欢迎使用！您现在可以使用 NetBird 的全部功能与集成",
+    "欢迎使用！您现在可以使用 Cloink 的全部功能与集成",
   "billing.trialTeamPlanNote": "试用期间您的团队版套餐保持有效。",
-  "billing.tryAllFeatures": "免费试用 NetBird 的全部功能",
+  "billing.tryAllFeatures": "免费试用 Cloink 的全部功能",
   "billing.unlimitedUsers": "无限用户",
-  "billing.updateNetBirdPlan": "更新您的 NetBird 套餐",
-  "billing.upgradeNetBirdPlan": "升级您的 NetBird 套餐",
+  "billing.updateNetBirdPlan": "更新您的 Cloink 套餐",
+  "billing.upgradeNetBirdPlan": "升级您的 Cloink 套餐",
   "billing.upgradeNow": "立即升级",
   "billing.upgradePlan": "升级套餐",
   "billing.upgradeTo": "升级到",
@@ -6198,14 +6199,14 @@ const zhCN = {
   "crowdStrike.ztaToggleLabel": "使用零信任评估分数",
   "distributor.accountExistsCallout":
     "账户所有者必须登录仪表板来接受或拒绝您的请求。请在发出请求后告知他们。",
-  "distributor.accountExistsLine1": "此 NetBird 账户已",
+  "distributor.accountExistsLine1": "此 Cloink 账户已",
   "distributor.accountExistsLine2": "存在于我们的系统中",
   "distributor.accountExistsManagePrefix": "要管理该账户",
   "distributor.accountExistsManageSuffix":
     "，您必须先向账户所有者请求访问权限。",
   "distributor.invitationTooltip":
     "客户账户所有者必须登录仪表板来接受或拒绝您的邀请。",
-  "distributor.netBirdPlanFor": "{name} 的 NetBird 套餐",
+  "distributor.netBirdPlanFor": "{name} 的 Cloink 套餐",
   "distributor.pendingInvitation": "待处理的邀请",
   "distributor.selectPlanForCustomer": "选择最适合您客户需求的套餐。",
   "distributor.unlink": "解除关联",
@@ -6231,7 +6232,7 @@ const zhCN = {
   "edr.huntress.setup.complianceDescSuffix": "了解不同的状态。",
   "edr.huntress.setup.complianceDocLink": "Huntress 文档",
   "edr.huntress.setup.complianceTitle": "合规要求",
-  "edr.huntress.setup.connectedDescription": "Huntress 已成功连接到 NetBird。",
+  "edr.huntress.setup.connectedDescription": "Huntress 已成功连接到 Cloink。",
   "edr.huntress.setup.createApiKeys": "创建 API 密钥",
   "edr.huntress.setup.getCredentialsStep1Console": "Huntress 管理控制台",
   "edr.huntress.setup.getCredentialsStep1Mark": "API 凭据",
@@ -6277,7 +6278,7 @@ const zhCN = {
     "设置设备被视为合规所必须满足的具体要求。",
   "edr.sentinelOne.setup.complianceTitle": "合规要求",
   "edr.sentinelOne.setup.connectedDescription":
-    "SentinelOne 已成功连接到 NetBird。",
+    "SentinelOne 已成功连接到 Cloink。",
   "edr.sentinelOne.setup.createApiTokens": "创建 API 令牌",
   "edr.sentinelOne.setup.createTokenStep1Navigate": "前往",
   "edr.sentinelOne.setup.createTokenStep1Path": "设置 » 用户 » 服务用户",
@@ -6286,7 +6287,7 @@ const zhCN = {
   "edr.sentinelOne.setup.createTokenStep3Desc":
     "作为名称，添加可选描述，并选择您偏好的到期日期。",
   "edr.sentinelOne.setup.createTokenStep3Enter": "输入",
-  "edr.sentinelOne.setup.createTokenStep3Name": "NetBird Integration",
+  "edr.sentinelOne.setup.createTokenStep3Name": "Cloink Integration",
   "edr.sentinelOne.setup.createTokenStep3Next": "下一步",
   "edr.sentinelOne.setup.createTokenStep4Click": "点击",
   "edr.sentinelOne.setup.createTokenStep4Copy":
@@ -6317,7 +6318,7 @@ const zhCN = {
   "edr.sentinelOne.setup.syncWindowTitle": "SentinelOne 同步窗口",
   "edr.sentinelOne.setup.syncWindowTooltip":
     "示例：此属性设置为 24 小时。Jane 的笔记本电脑已 27 小时未与 SentinelOne 同步。即使它在 SentinelOne 中被标记为“合规”，也仍将被阻止访问网络。",
-  "edr.sentinelOne.setup.title": "将 NetBird 与 SentinelOne 连接",
+  "edr.sentinelOne.setup.title": "将 Cloink 与 SentinelOne 连接",
   "edr.sentinelOne.threatsSuffix": "威胁",
   "edr.title": "MDM 与 EDR",
   "entraScim.authMethod": "身份验证方法",
@@ -6330,7 +6331,7 @@ const zhCN = {
   "entraScim.step1Step3Desc":
     "点击“+ 新建应用程序”以创建新的企业应用程序，然后点击“+ 创建自己的应用程序”",
   "entraScim.step1Step4Desc":
-    "输入 NetBird SCIM 作为名称，并选择“集成库中未列出的任何其他应用程序（非库）”",
+    "输入 Cloink SCIM 作为名称，并选择“集成库中未列出的任何其他应用程序（非库）”",
   "entraScim.step1Step5Desc": "点击“创建”",
   "entraScim.step1Title": "在 Microsoft Entra ID 中配置 SCIM",
   "entraScim.step2CalloutPrefix":
@@ -6354,9 +6355,9 @@ const zhCN = {
   "entraScim.step4Step4Desc": "点击“保存”以应用最终的属性映射配置",
   "entraScim.step4Title": "用户属性映射",
   "entraScim.step5Step1Desc":
-    "前往您的 NetBird 企业应用程序，然后点击左侧菜单中的“用户和组”",
+    "前往您的 Cloink 企业应用程序，然后点击左侧菜单中的“用户和组”",
   "entraScim.step5Step2Desc":
-    "点击“+ 添加用户/组”，然后选择要同步到 NetBird 的用户和组",
+    "点击“+ 添加用户/组”，然后选择要同步到 Cloink 的用户和组",
   "entraScim.step5Step3Desc": "点击“分配”以保存分配",
   "entraScim.step5Title": "分配用户和组",
   "entraScim.step6Step1Desc":
@@ -6366,7 +6367,7 @@ const zhCN = {
   "entraScim.step6Title": "开始预配",
   "entraScim.tenantUrl": "租户 URL",
   "eventStreaming.cardDescription": "将您的活动事件流式传输到第三方服务。",
-  "firewallGpt.accessForm.companySizeLabel": "您公司有多少人会使用 NetBird？",
+  "firewallGpt.accessForm.companySizeLabel": "您公司有多少人会使用 Cloink？",
   "firewallGpt.accessForm.description":
     "智能防火墙将自然语言提示转换为网络策略。您可以用通俗的语言描述访问需求，AI 会处理其余部分。如果您对早期访问感兴趣，请填写下面的表单。",
   "firewallGpt.accessForm.messageLabel":
@@ -6377,35 +6378,38 @@ const zhCN = {
   "firewallGpt.accessForm.title": "想试用智能防火墙吗？",
   "firewallGpt.accessFormSuccess.close": "关闭消息",
   "firewallGpt.accessFormSuccess.description":
-    "NetBird 智能防火墙可在您的账户中使用后，我们会向您发送电子邮件。",
+    "Cloink 智能防火墙可在您的账户中使用后，我们会向您发送电子邮件。",
   "firewallGpt.accessFormSuccess.title": "感谢您的注册！",
   "firewallGpt.allPorts": "允许通过所有端口连接",
   "firewallGpt.button.lockedDescription":
-    "智能防火墙使用 AI 帮助您创建访问策略，需使用 NetBird 企业商业许可证。",
+    "智能防火墙使用 AI 帮助您创建访问策略，需使用 Cloink 企业商业许可证。",
   "firewallGpt.creatingPolicy": "正在创建策略...",
   "firewallGpt.header.subtitle": "使用自然语言提示轻松创建访问控制策略",
   "firewallGpt.newChat": "新对话",
+  "firewallGpt.notApproved": "你暂时无法使用 Cloink 智能防火墙。",
+  "firewallGpt.notApprovedEmailNotice":
+    "你的账户可以使用后，我们会立即通过邮件通知你。",
   "firewallGpt.policyCreated.description": "策略 {name} 已成功创建。",
-  "firewallGpt.policyCreated.title": "NetBird 智能防火墙",
+  "firewallGpt.policyCreated.title": "Cloink 智能防火墙",
   "firewallGpt.portPrefix": "允许通过端口",
   "firewallGpt.postureCheckFailed": "合规检查创建失败。",
   "firewallGpt.reviewNotice":
     "创建策略前，请检查新增的分组、已分配的设备、策略设置和合规检查",
   "firewallGpt.smartFirewall": "智能防火墙",
   "firewallGpt.successModal.description":
-    "您如何评价 NetBird 智能防火墙的使用体验？",
+    "您如何评价 Cloink 智能防火墙的使用体验？",
   "firewallGpt.successModal.title": "策略“{name}”已成功创建！",
   "fleetdm.complianceTitle": "合规要求",
   "fleetdm.connectDescription":
     "根据合规策略，仅允许由 FleetDM 管理的设备访问网络。",
-  "fleetdm.connectTitle": "将 NetBird 与 FleetDM 连接",
+  "fleetdm.connectTitle": "将 Cloink 与 FleetDM 连接",
   "fleetdm.diskEncryption": "磁盘加密",
   "fleetdm.diskEncryptionHelp": "设备必须启用磁盘加密（FileVault/BitLocker）。",
   "fleetdm.maxFailingPolicies": "最多未通过策略数",
   "fleetdm.maxFailingPoliciesHelp": "设备上允许的未通过策略的最大数量。",
   "fleetdm.maxVulnerableSoftware": "最多存在漏洞的软件数",
   "fleetdm.maxVulnerableSoftwareHelp": "设备上允许的存在漏洞软件的最大数量。",
-  "fleetdm.notifyConnected": "FleetDM 已成功连接到 NetBird。",
+  "fleetdm.notifyConnected": "FleetDM 已成功连接到 Cloink。",
   "fleetdm.onlineStatus": "在线状态",
   "fleetdm.onlineStatusHelp": "要求主机在线（最近被 Fleet 检测到）。",
   "fleetdm.permApiOnly": "仅 API 用户或管理员访问权限",
@@ -6444,12 +6448,12 @@ const zhCN = {
   "invoices.gettingInvoice": "正在获取本计费周期的发票...",
   "invoices.redirectingToStripe": "正在跳转到 Stripe 以下载发票...",
   "mfa.appliesToAllUsers": "此设置为全局设置，适用于所有用户。",
-  "mfa.enableIfNotInIdp": "如果您的 IdP 中未配置，请启用 NetBird MFA。",
+  "mfa.enableIfNotInIdp": "如果您的 IdP 中未配置，请启用 Cloink MFA。",
   "mfa.enableMfa": "启用 MFA",
   "mfa.mayNotNeedPrefix": "您的",
   "mfa.mayNotNeedSuffix":
     "可能已启用 MFA。启用此设置可能会导致重复的 MFA 验证。",
-  "mfa.mayNotNeedTitle": "您可能不需要 NetBird MFA",
+  "mfa.mayNotNeedTitle": "您可能不需要 Cloink MFA",
   "mfa.mfaDisabled": "您的账户现已禁用 MFA",
   "mfa.mfaEnabled": "您的账户现已启用 MFA",
   "mfa.rememberBrowser": "MFA 记住浏览器",
@@ -6462,15 +6466,15 @@ const zhCN = {
   "mfa.updatingSettings": "正在更新 MFA 设置...",
   "msp.accountExistsCallout":
     "账户所有者必须登录仪表板来接受或拒绝您的请求。请在发出请求后告知他们。",
-  "msp.accountExistsLine1": "此 NetBird 账户已",
+  "msp.accountExistsLine1": "此 Cloink 账户已",
   "msp.accountExistsLine2": "存在于我们的系统中",
   "msp.accountExistsManagePrefix": "要管理该账户",
   "msp.accountExistsManageSuffix": "，您必须先向账户所有者请求访问权限。",
   "msp.accountTrialExpiredDescription": "您的账户免费试用期已结束。",
   "msp.addGroup": "添加分组",
   "msp.alreadyAccepted": "该邀请已被接受",
-  "msp.contactAccountAdmin": "要继续使用 NetBird，请联系您的账户管理员",
-  "msp.contactDistributor": "要继续使用 NetBird，请联系您的分销商。",
+  "msp.contactAccountAdmin": "要继续使用 Cloink，请联系您的账户管理员",
+  "msp.contactDistributor": "要继续使用 Cloink，请联系您的分销商。",
   "msp.copyTxtRecordPrefix": "复制以下",
   "msp.copyTxtRecordSuffix": "记录，并将其添加到以下域名的 DNS 配置中",
   "msp.decline": "拒绝",
@@ -6478,21 +6482,21 @@ const zhCN = {
     "删除此租户将永久删除其所有关联数据，包括设备、用户、分组及其他所有内容。请注意此操作不可逆且无法撤销。",
   "msp.deleteTenantTitle": "删除“{name}”？",
   "msp.dnsNote":
-    "注意：DNS 更改可能需要一段时间才能生效。如果 NetBird 未立即找到该记录，请等待一天后重试。",
+    "注意：DNS 更改可能需要一段时间才能生效。如果 Cloink 未立即找到该记录，请等待一天后重试。",
   "msp.goToTenants": "前往租户",
   "msp.host": "主机",
   "msp.joinDescription":
-    "您将可访问 NetBird MSP 门户，在一个地方管理多个客户及其网络。",
-  "msp.joinTitle": "NetBird 邀请您以托管服务提供商（MSP）身份加入",
+    "您将可访问 Cloink MSP 门户，在一个地方管理多个客户及其网络。",
+  "msp.joinTitle": "Cloink 邀请您以托管服务提供商（MSP）身份加入",
   "msp.mspPortal": "MSP 门户",
-  "msp.netBirdPlanFor": "{name} 的 NetBird 套餐",
+  "msp.netBirdPlanFor": "{name} 的 Cloink 套餐",
   "msp.noCustomers": "您似乎还没有任何客户。",
   "msp.noCustomersMatching": "没有符合搜索条件的客户。请尝试其他搜索词。",
   "msp.noDnsAccessPrefix":
     "如果您无法访问 DNS 配置，也可以通过向我们发送电子邮件来验证您的域名，邮箱为",
   "msp.noDnsAccessSuffix": "。该电子邮件应从您要验证的域名发送。",
   "msp.notifyDescription": "已成功以托管服务提供商身份加入",
-  "msp.notifyTitle": "NetBird 托管服务提供商",
+  "msp.notifyTitle": "Cloink 托管服务提供商",
   "msp.ownerMustLoginTooltip": "账户所有者必须登录仪表板来接受或拒绝您的请求。",
   "msp.ownerOnlyCallout":
     "只有账户所有者可以接受此邀请。请联系账户所有者以接受邀请。",
@@ -6504,7 +6508,7 @@ const zhCN = {
   "msp.selectPlanForTenant": "选择最适合您租户需求的套餐。",
   "msp.switchToAccount": "切换到 {name} 的账户",
   "msp.tenantTrialExpiredDescription":
-    "免费试用期已结束。要继续使用 NetBird，请为此租户升级套餐。",
+    "免费试用期已结束。要继续使用 Cloink，请为此租户升级套餐。",
   "msp.the14DayTrialExpired": "14 天试用已过期！",
   "msp.thisTenant": "此租户",
   "msp.trialExpiredTooltip": "此租户的试用已过期。请升级套餐以继续使用该租户。",
@@ -6526,9 +6530,9 @@ const zhCN = {
   "onboarding.agentNetwork.skipPrompt": "已经了解代理网络的工作原理？",
   "onboarding.defaultPolicyDescription": "允许您的所有设备之间建立连接",
   "onboarding.endDescriptionExtended":
-    "接下来做什么？查看以下指南以充分利用 NetBird。要了解更多信息，请探索仪表板、访问我们的文档或浏览我们的 YouTube 频道。",
+    "接下来做什么？查看以下指南以充分利用 Cloink。要了解更多信息，请探索仪表板、访问我们的文档或浏览我们的 YouTube 频道。",
   "onboarding.videoHowDescriptionExtended":
-    "进一步了解 NetBird 的工作原理、架构，以及它如何帮助您构建安全网络。",
+    "进一步了解 Cloink 的工作原理、架构，以及它如何帮助您构建安全网络。",
   "peer.approvalRequiredIssueTooltip":
     "此设备在连接前需要管理员审批。请从该行的操作菜单中进行审批。",
   "peer.complianceBypassedTooltip":
@@ -6544,9 +6548,9 @@ const zhCN = {
   "peerResourcePicker.noMatchingResults": "没有匹配结果。",
   "peerResourcePicker.noResourcesAvailable": "没有可选择的资源。",
   "peerSSH.clientUpdateWarning":
-    "您已配置 SSH 访问，但您的客户端运行的是较旧的 NetBird 版本。请将 NetBird 客户端更新到 v.0.61.0 或更高版本以允许 SSH 连接。",
+    "您已配置 SSH 访问，但您的客户端运行的是较旧的 Cloink 版本。请将 Cloink 客户端更新到 v.0.61.0 或更高版本以允许 SSH 连接。",
   "peerSSH.explicitPolicyWarning":
-    "您的 SSH 服务器已启用，但从 NetBird v0.61.0 起，SSH 需要显式的访问控制策略。请创建 SSH 访问控制策略以允许 SSH 连接。",
+    "您的 SSH 服务器已启用，但从 Cloink v0.61.0 起，SSH 需要显式的访问控制策略。请创建 SSH 访问控制策略以允许 SSH 连接。",
   "plan.business": "商业版",
   "plan.free": "免费版",
   "plan.freeTrial": "免费试用",
@@ -6557,7 +6561,7 @@ const zhCN = {
   "plan.trialHasExpired": "（试用已过期）",
   "plan.upgradePlan": "升级套餐",
   "postureChecks.noChecksDescription":
-    "添加各种合规检查以进一步限制网络访问。例如，仅允许具有特定 NetBird 客户端版本、操作系统或位置的客户端连接。",
+    "添加各种合规检查以进一步限制网络访问。例如，仅允许具有特定 Cloink 客户端版本、操作系统或位置的客户端连接。",
   "postureChecks.removeChecks": "移除检查",
   "reverseProxy.clusterAddressCopied": "{address} 已复制到剪贴板",
   "reverseProxy.customDomainNoClusterSelfHostedVerify":
@@ -6572,9 +6576,9 @@ const zhCN = {
   "reverseProxy.statusTroubleshootingDocs": "故障排查文档",
   "reverseProxy.targetHelpArticle": "一个",
   "reverseProxy.targetPeerHelpSuffix":
-    "是运行 NetBird 的机器（例如笔记本、服务器、容器）。如果您的服务直接运行在其上，请选择设备。",
+    "是运行 Cloink 的机器（例如笔记本、服务器、容器）。如果您的服务直接运行在其上，请选择设备。",
   "reverseProxy.targetResourceHelpSuffix":
-    "是无法直接运行 NetBird 的目标（IP、子网或域名）。资源属于某个网络，并通过转发流量的路由节点访问。",
+    "是无法直接运行 Cloink 的目标（IP、子网或域名）。资源属于某个网络，并通过转发流量的路由节点访问。",
   "reverseProxy.targetSelectGeneralHelp": "选择代理应将入站请求转发到何处。",
   "reverseProxy.urlCopied": "URL 已复制到剪贴板",
   "reverseProxy.verdictBan": "封禁",
@@ -6600,12 +6604,12 @@ const zhCN = {
   "idpSync.defaultPrefix": "默认情况下，",
   "idpSync.groupPrefixHelp":
     "如果您只想同步以特定前缀开头的分组，可以在下方添加。请注意前缀匹配区分大小写。",
-  "idpSync.groupsSyncSuffix": "将从您的 IdP 同步到 NetBird。",
+  "idpSync.groupsSyncSuffix": "将从您的 IdP 同步到 Cloink。",
   "idpSync.identityProvider": "身份提供商",
   "idpSync.identityProviderSync": "身份提供商同步",
   "idpSync.userGroupHelp":
     "如果您只想同步属于特定分组的用户，可以在下方添加。请注意前缀匹配区分大小写。",
-  "idpSync.usersSyncSuffix": "将从您的 IdP 同步到 NetBird。",
+  "idpSync.usersSyncSuffix": "将从您的 IdP 同步到 Cloink。",
   "jumpcloud.connect": "连接 Jumpcloud",
   "jumpcloud.description": "Jumpcloud 是统一的身份、设备和访问管理平台。",
   "okta.connect": "连接 Okta",
@@ -6614,7 +6618,7 @@ const zhCN = {
   "okta.ssoRequiredTooltip":
     "请先在单点登录选项卡中配置 Okta SSO，以启用用户和分组同步。",
   "onboarding.addUserDeviceDescription":
-    "您的第一个资源和路由节点已就绪。现在请拿出您的设备，安装 NetBird，然后完成连接。",
+    "您的第一个资源和路由节点已就绪。现在请拿出您的设备，安装 Cloink，然后完成连接。",
   "onboarding.addUserDeviceTitle": "是时候添加您的客户端设备了",
   "onboarding.agentCompanySize": "将有多少人使用代理网络？",
   "onboarding.agentEndDescription":
@@ -6626,16 +6630,16 @@ const zhCN = {
     "请分享一些关于您使用场景的信息，以便我们帮助您顺利开始。",
   "onboarding.agentUseCase": "您计划如何使用代理网络？",
   "onboarding.agentUseCaseHelp": "您也可以选择多个使用场景。",
-  "onboarding.agentWelcome": "欢迎使用 NetBird！",
-  "onboarding.agentWelcomeName": "欢迎使用 NetBird，{name}！",
+  "onboarding.agentWelcome": "欢迎使用 Cloink！",
+  "onboarding.agentWelcomeName": "欢迎使用 Cloink，{name}！",
   "onboarding.firstDeviceDescription":
-    "要访问其他机器，请安装 NetBird 并登录，您的设备即会加入网络。您添加的每台设备都会成为网络中的一个 NetBird 设备。就这么简单。",
+    "要访问其他机器，请安装 Cloink 并登录，您的设备即会加入网络。您添加的每台设备都会成为网络中的一个 Cloink 设备。就这么简单。",
   "onboarding.firstDeviceTitle": "让您的第一台设备上线",
   "onboarding.goToAccessLogs": "前往访问日志",
   "onboarding.otherUseCasePlaceholder": "例如：内部 RAG 服务、MCP 工具",
   "reverseProxy.terminated": "已终止",
   "reverseProxy.terminatedTooltip":
-    "此服务因违反服务条款已被 NetBird 团队终止。如有疑问，请联系",
+    "此服务因违反服务条款已被 Cloink 团队终止。如有疑问，请联系",
   "routes.lowerMetricPriority": "指标值越低，优先级越高。",
   "search.close": "关闭",
   "search.navigate": "导航",
@@ -6654,9 +6658,9 @@ const zhCN = {
   "sso.failedVerification": "验证失败",
   "sso.idpSyncFeatureText": "身份提供商（IdP）同步",
   "survey.description":
-    "分享您是如何了解到 NetBird 的，帮助我们改进。您的反馈对我们非常重要。",
+    "分享您是如何了解到 Cloink 的，帮助我们改进。您的反馈对我们非常重要。",
   "survey.placeholder": "请选择一个选项...",
-  "survey.question": "您是如何了解到 NetBird 的？",
+  "survey.question": "您是如何了解到 Cloink 的？",
   "survey.submit": "提交并继续",
   "survey.title": "我们期待您的反馈",
   "webhooks.addHeader": "添加标头",
@@ -6744,11 +6748,11 @@ const zhCN = {
   "onboarding.anySubdomain": "（{address} 的任意子域名）",
   "onboarding.commandCopied": "命令已成功复制",
   "onboarding.explainDefaultPolicyDescription":
-    "使用 NetBird，您可以决定谁可以访问什么。我们已经为您的设备设置了一条访问策略。",
+    "使用 Cloink，您可以决定谁可以访问什么。我们已经为您的设备设置了一条访问策略。",
   "onboarding.explainDefaultPolicyFlip":
     "切换开关，然后再次尝试 ping 您的另一台设备，看看它如何影响连接。",
   "onboarding.explainPolicyDescription":
-    "NetBird 让管理员可以轻松通过访问控制策略实施最小权限访问。我们已在入门引导期间为您的资源创建了一条策略。",
+    "Cloink 让管理员可以轻松通过访问控制策略实施最小权限访问。我们已在入门引导期间为您的资源创建了一条策略。",
   "onboarding.explainPolicyFlipResource":
     "切换开关，然后再次尝试 ping 您的资源，看看它如何影响连接。",
   "onboarding.explainPolicyTitle": "由您制定规则，掌控全局",
@@ -6784,8 +6788,8 @@ const zhCN = {
   "setupNetbirdModal.downloadFromAppStore": "从 App Store 下载并安装应用：",
   "setupNetbirdModal.downloadFromGooglePlay":
     "从 Google Play 商店下载并安装应用：",
-  "setupNetbirdModal.downloadNetBirdAppStore": "从 App Store 下载 NetBird",
-  "setupNetbirdModal.downloadNetBirdGooglePlay": "从 Google Play 下载 NetBird",
+  "setupNetbirdModal.downloadNetBirdAppStore": "从 App Store 下载 Cloink",
+  "setupNetbirdModal.downloadNetBirdGooglePlay": "从 Google Play 下载 Cloink",
   "setupNetbirdModal.installOnAndroid": "在 Android 上安装",
   "setupNetbirdModal.installOnIos": "在 iOS 上安装",
   "table.lastSeenOn": "最近在线时间",
@@ -6813,7 +6817,7 @@ const zhCN = {
   "notifications.edrSyncTokenExpiredHelp": "当 EDR 同步令牌已过期需要续期时通知",
   "common.requestFailedWithCode": "请求失败，状态码 {code}",
   "common.errorPrefix": "错误：{message}",
-  "announcements.huntressIntegration": "Huntress 现已集成 NetBird",
+  "announcements.huntressIntegration": "Huntress 现已集成 Cloink",
   "nav.customers": "客户",
   "nav.tenants": "租户",
   "cloud.agentNetwork": "代理网络",
@@ -6847,9 +6851,9 @@ const zhCN = {
   "onboarding.comparisonSites": "对比网站",
   "onboarding.slack": "Slack",
   "onboarding.other": "其他",
-  "onboarding.netbirdYouTubeChannel": "NetBird YouTube 频道",
+  "onboarding.netbirdYouTubeChannel": "Cloink YouTube 频道",
   "onboarding.otherYouTubeChannel": "其他 YouTube 频道",
-  "onboarding.netbirdSubReddit": "NetBird SubReddit",
+  "onboarding.netbirdSubReddit": "Cloink SubReddit",
   "onboarding.otherRedditThread": "其他 Reddit 帖子",
   "onboarding.github": "GitHub",
   "reverseProxy.httpsService": "HTTPS 服务",
@@ -6926,7 +6930,7 @@ const zhCN = {
   "postureChecks.android16": "Android 16",
   "notifications.createAnApp": "创建应用",
   "notifications.fromScratch": "从头开始",
-  "notifications.netbirdNotifications": "NetBird 通知",
+  "notifications.netbirdNotifications": "Cloink 通知",
   "notifications.createApp": "创建应用",
   "notifications.incomingWebhooks": "传入 Webhooks",
   "notifications.activateIncomingWebhooks": "激活传入 Webhooks",
@@ -6951,7 +6955,7 @@ const zhCN = {
   "integrations.securityCredentials": "安全凭证",
   "integrations.createAccessKey": "创建访问密钥",
   "integrations.createBucket": "创建存储桶",
-  "integrations.netbirdActivityEvents": "NetBird 活动事件",
+  "integrations.netbirdActivityEvents": "Cloink 活动事件",
   "integrations.createKey": "创建密钥",
   "integrations.userReadAll": "User.Read.All",
   "integrations.groupReadAll": "Group.Read.All",

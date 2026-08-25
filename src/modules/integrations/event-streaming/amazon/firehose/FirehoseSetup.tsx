@@ -26,8 +26,8 @@ import {
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
-import { useI18n } from "@/i18n/I18nProvider";
 import firehoseLogo from "@/assets/integrations/firehose.png";
+import { useI18n } from "@/i18n/I18nProvider";
 import { EventStream } from "@/interfaces/EventStream";
 import { AmazonRegions } from "@/modules/integrations/event-streaming/amazon/AmazonRegions";
 import {
@@ -95,8 +95,8 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
   const [secretKey, setSecretKey] = useState("");
   const [accessKey, setAccessKey] = useState("");
-  const accessKeyPlaceholder = useMemo(exampleAwsAccessKeyId, []);
-  const secretKeyPlaceholder = useMemo(exampleAwsSecretAccessKey, []);
+  const accessKeyPlaceholder = useMemo(() => exampleAwsAccessKeyId(), []);
+  const secretKeyPlaceholder = useMemo(() => exampleAwsSecretAccessKey(), []);
   const [streamName, setStreamName] = useState("");
   const [region, setRegion] = useState(firehoseRegions[0].value);
   const [step, setStep] = useState(1);
@@ -228,7 +228,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             <Steps.Step step={5}>
               <p className={"font-normal"}>
                 {t("firehose.giveNamePrefix")}{" "}
-                <Mark copy>netbird-activity-events</Mark>
+                <Mark copy>cloink-activity-events</Mark>
                 {t("firehose.andClick")} <Mark>{t("integrations.createFirehoseStream")}</Mark>
                 <Tooltip>
                   <TooltipTrigger>
@@ -256,7 +256,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                       <PencilLine size={16} className={"text-nb-gray-300"} />
                     </div>
                   }
-                  placeholder={"netbird-activity-events"}
+                  placeholder={"cloink-activity-events"}
                   value={streamName}
                   onChange={(e) => setStreamName(e.target.value)}
                 />

@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
 import { notify } from "@components/Notification";
-import Paragraph from "@components/Paragraph";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
@@ -287,7 +286,6 @@ export default function VersionReleasesTab() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1>{t("versionReleases.title")}</h1>
-            <Paragraph>{t("versionReleases.description")}</Paragraph>
           </div>
         </div>
       </div>

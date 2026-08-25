@@ -1,15 +1,12 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
 import dayjs from "dayjs";
-import { ArrowLeftRightIcon, ExternalLinkIcon } from "lucide-react";
+import { ArrowLeftRightIcon } from "lucide-react";
 import React, { useMemo } from "react";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
-import { TRAFFIC_EVENTS_DOC_LINK } from "@/cloud/traffic-events/TrafficEventSetting";
 import TrafficEventsTable from "@/cloud/traffic-events/TrafficEventsTable";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
@@ -53,18 +50,6 @@ export default function NetworkTrafficPage() {
         </Breadcrumbs>
 
         <h1 ref={headingRef}>{t("nav.trafficEvents")}</h1>
-
-        <Paragraph>
-          {t("trafficEvents.description")}
-        </Paragraph>
-
-        <Paragraph>
-          {t("common.learnMoreAbout")}{" "}
-          <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
-            {t("nav.trafficEvents")} <ExternalLinkIcon size={12} />
-          </InlineLink>{" "}
-          {t("trafficEvents.inDocumentation")}
-        </Paragraph>
       </div>
 
       <RestrictedAccess

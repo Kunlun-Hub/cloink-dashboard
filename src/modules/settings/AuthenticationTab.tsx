@@ -3,11 +3,9 @@ import Button from "@components/Button";
 import FancyToggleSwitch from "@components/FancyToggleSwitch";
 import FullTooltip from "@components/FullTooltip";
 import HelpText from "@components/HelpText";
-import InlineLink from "@components/InlineLink";
 import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import { notify } from "@components/Notification";
-import Paragraph from "@components/Paragraph";
 import {
   Select,
   SelectContent,
@@ -26,7 +24,6 @@ import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
 import {
   CalendarClock,
-  ExternalLinkIcon,
   KeyRound,
   ShieldIcon,
   ShieldUserIcon,
@@ -195,12 +192,12 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("settings.title")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Authentication"}
+            label={t("settings.authentication")}
             icon={<ShieldIcon size={14} />}
             active
           />
@@ -208,28 +205,6 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
         <div className={"flex items-start justify-between"}>
           <div>
             <h1>{t("settings.authentication")}</h1>
-            <Paragraph>
-              {t("common.learnMoreAbout")}
-              <InlineLink
-                href={
-                  "https://docs.netbird.io/how-to/enforce-periodic-user-authentication"
-                }
-                target={"_blank"}
-              >
-                {t("settings.authentication")}
-                <ExternalLinkIcon size={12} />
-              </InlineLink>
-              {t("common.or")}{" "}
-              <InlineLink
-                href={
-                  "https://docs.netbird.io/how-to/multi-factor-authentication"
-                }
-                target={"_blank"}
-              >
-                MFA
-                <ExternalLinkIcon size={12} />
-              </InlineLink>
-            </Paragraph>
           </div>
 
           <Button

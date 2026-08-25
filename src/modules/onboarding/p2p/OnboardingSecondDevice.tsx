@@ -122,7 +122,7 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
         <Modal open={open} onOpenChange={setOpen}>
           <ModalContent>
             <SetupModalContent
-              title={"Install NetBird"}
+              title={t("common.installNetBird")}
               setupKey={setupKey.key}
             />
           </ModalContent>

@@ -1,13 +1,11 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
-import { ExternalLinkIcon, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import GroupsProvider from "@/contexts/GroupsProvider";
@@ -47,16 +45,6 @@ export default function PostureChecksPage() {
             />
           </Breadcrumbs>
           <h1 ref={headingRef}>{t("postureChecks.title")}</h1>
-          <Paragraph>
-            {t("postureChecks.pageDescription")}{" "}
-            <InlineLink
-              href={"https://docs.netbird.io/how-to/manage-posture-checks"}
-              target={"_blank"}
-            >
-              {t("common.learnMore")}
-              <ExternalLinkIcon size={12} />
-            </InlineLink>
-          </Paragraph>
         </div>
 
         <RestrictedAccess

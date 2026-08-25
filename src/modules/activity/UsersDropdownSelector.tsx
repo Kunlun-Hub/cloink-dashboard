@@ -12,8 +12,8 @@ import { ChevronsUpDown, Cog, UserCircle2 } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
-import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 import { useI18n } from "@/i18n/I18nProvider";
+import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 
 interface Props {
   value?: string;
@@ -34,7 +34,7 @@ const searchPredicate = (item: UserSelectOption, query: string) => {
   const lowerCaseQuery = query.toLowerCase();
   if (
     item.email === "NetBird" &&
-    "NetBird System".toLowerCase().includes(lowerCaseQuery)
+    "NetBird Cloink System".toLowerCase().includes(lowerCaseQuery)
   )
     return true;
   if (item.name.toLowerCase().includes(lowerCaseQuery)) return true;
@@ -241,7 +241,7 @@ export function UsersDropdownSelector({
                         }
                       >
                         <TextWithTooltip
-                          text={user?.email || "NetBird"}
+                          text={isSystemUser ? "Cloink" : user?.email}
                           maxChars={20}
                         />
                       </span>

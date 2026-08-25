@@ -1,17 +1,14 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
-import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import DNSIcon from "@/assets/icons/DNSIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { DNS_ZONE_DOCS_LINK, DNSZone } from "@/interfaces/DNS";
+import { DNSZone } from "@/interfaces/DNS";
 import PageContainer from "@/layouts/PageContainer";
 import { DNSZonesProvider } from "@/modules/dns/zones/DNSZonesProvider";
 import DNSZoneIcon from "@/assets/icons/DNSZoneIcon";
@@ -43,13 +40,6 @@ export default function DNSZonePage() {
           />
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("nav.zones")}</h1>
-        <Paragraph>
-          {t("zones.description")}{" "}
-          <InlineLink href={DNS_ZONE_DOCS_LINK} target={"_blank"}>
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
       </div>
 
       <RestrictedAccess page={t("dns.zonesPage")} hasAccess={permission?.dns?.read}>

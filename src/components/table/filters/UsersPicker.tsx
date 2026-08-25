@@ -1,16 +1,16 @@
 "use client";
 
-import { DropdownInput } from "@components/DropdownInput";
 import { DropdownInfoText } from "@components/DropdownInfoText";
-import { VirtualScrollAreaList } from "@components/VirtualScrollAreaList";
+import { DropdownInput } from "@components/DropdownInput";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
+import { VirtualScrollAreaList } from "@components/VirtualScrollAreaList";
 import { useSearch } from "@hooks/useSearch";
 import { sortBy, uniqBy } from "lodash";
 import { UserCircle2 } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
-import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 import { useI18n } from "@/i18n/I18nProvider";
+import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 
 // UsersPicker — single-select search list mirroring the Activity ›
 // Audit Logs user filter. The value stored on the column filter is the
@@ -33,7 +33,10 @@ const ALL_USERS_ID = "all-users";
 
 const searchPredicate = (item: UserOption, query: string) => {
   const q = query.toLowerCase();
-  if (item.email === "NetBird" && "NetBird System".toLowerCase().includes(q))
+  if (
+    item.email === "NetBird" &&
+    "NetBird Cloink System".toLowerCase().includes(q)
+  )
     return true;
   if (item.name?.toLowerCase().includes(q)) return true;
   if (item.email?.toLowerCase().includes(q)) return true;
@@ -144,7 +147,7 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
                     }
                   >
                     <TextWithTooltip
-                      text={user?.email || "NetBird"}
+                      text={isSystemUser ? "Cloink" : user?.email}
                       maxChars={22}
                     />
                   </span>
@@ -164,5 +167,6 @@ export function formatUsersChip(
 ): string | null {
   if (!value) return null;
   const user = options.find((u) => u.email === value);
+  if (user?.email === "NetBird") return "Cloink";
   return user?.name || user?.email || value;
 }

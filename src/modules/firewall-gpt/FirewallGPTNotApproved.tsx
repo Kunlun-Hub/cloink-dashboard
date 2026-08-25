@@ -1,11 +1,14 @@
 import { LockIcon } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { RegistrationStatus } from "@/interfaces/FirewallGPT";
 
 type Props = {
   status: RegistrationStatus;
 };
 export const FirewallGptNotApproved = ({ status }: Props) => {
+  const { t } = useI18n();
+
   return (
     status.status !== "approved" && (
       <div
@@ -15,9 +18,9 @@ export const FirewallGptNotApproved = ({ status }: Props) => {
       >
         <LockIcon size={20} className={"text-nb-gray-300"} />
         <span className={"text-center max-w-xl text-sm text-nb-gray-300"}>
-          {`You don't have access to NetBird's Smart Firewall.`}
+          {t("firewallGpt.notApproved")}
           <br />
-          {`We will notify you by email as soon as it's available for your account.`}
+          {t("firewallGpt.notApprovedEmailNotice")}
         </span>
       </div>
     )

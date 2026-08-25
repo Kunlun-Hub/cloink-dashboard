@@ -10,6 +10,7 @@ import { MinimalList } from "@components/ui/MinimalList";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { useApiCall } from "@utils/api";
 import { cn } from "@utils/helpers";
+import { isAuth0 } from "@utils/netbird";
 import { isEmpty, trim } from "lodash";
 import {
   BoxIcon,
@@ -21,21 +22,20 @@ import {
   UserCircle,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/jumpcloud.png";
+import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   IdentityProvider,
   ScimIntegration,
 } from "@/interfaces/IdentityProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { GroupPrefixInput } from "@/modules/integrations/idp-sync/GroupPrefixInput";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { useSSOConnections } from "@/modules/integrations/sso/useSSOConnections";
-import { isAuth0 } from "@utils/netbird";
 
 type Props = {
   open: boolean;
@@ -344,7 +344,7 @@ export function SetupContent({ onSuccess, onClose }: ModalProps) {
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("jumpcloud.step3Line2Prefix")} <Mark>{t("jumpcloud.step3SsoApps")}</Mark>{" "}
-                {t("jumpcloud.step3Line2Middle")} <Mark>NetBird</Mark>{" "}
+                {t("jumpcloud.step3Line2Middle")} <Mark>Cloink</Mark>{" "}
                 {t("jumpcloud.step3Line2AppSuffix")}{" "}
                 <Mark>{t("jumpcloud.step3IdentityMgmt")}</Mark>{" "}
                 {t("jumpcloud.step3Line2TabSuffix")}

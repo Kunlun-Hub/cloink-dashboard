@@ -1,14 +1,9 @@
 import Breadcrumbs from "@components/Breadcrumbs";
 import FancyToggleSwitch from "@components/FancyToggleSwitch";
-import InlineLink from "@components/InlineLink";
 import { notify } from "@components/Notification";
-import Paragraph from "@components/Paragraph";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useApiCall } from "@utils/api";
-import {
-  ChartNoAxesCombined,
-  ExternalLinkIcon,
-} from "lucide-react";
+import { ChartNoAxesCombined } from "lucide-react";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
@@ -58,7 +53,7 @@ export default function MetricsTab({ account }: Readonly<Props>) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("settings.title")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
@@ -70,22 +65,6 @@ export default function MetricsTab({ account }: Readonly<Props>) {
         </Breadcrumbs>
         <div>
           <h1>{t("settings.metrics")}</h1>
-          <Paragraph>
-            {t("metricsTab.description")}
-          </Paragraph>
-          <Paragraph>
-            {t("metricsTab.documentationPrefix")}{" "}
-            <InlineLink
-              href={
-                "https://docs.netbird.io/manage/client-metrics"
-              }
-              target={"_blank"}
-            >
-              {t("metricsTab.clientMetrics")}
-              <ExternalLinkIcon size={12} />
-            </InlineLink>
-            {t("metricsTab.documentationSuffix")}
-          </Paragraph>
         </div>
 
         <FancyToggleSwitch

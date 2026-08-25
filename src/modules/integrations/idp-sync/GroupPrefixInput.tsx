@@ -21,7 +21,7 @@ export function GroupPrefixInput({
   addText,
   icon = <Folder size={14} />,
   text,
-  placeholder = "e.g., NetBird_",
+  placeholder = "e.g., Cloink_",
 }: GroupPrefixInputProps) {
   const { t } = useI18n();
   const resolvedAddText = addText ?? t("groupPrefix.addGroupFilter");

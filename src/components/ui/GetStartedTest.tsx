@@ -67,9 +67,11 @@ export default function GetStartedTest({
                   {button && <div>{button}</div>}
                 </div>
               </div>
-              <Paragraph className={"text-sm justify-center pb-5 px-8"}>
-                {learnMore}
-              </Paragraph>
+              {learnMore && (
+                <Paragraph className={"text-sm justify-center pb-5 px-8"}>
+                  {learnMore}
+                </Paragraph>
+              )}
             </div>
           </div>
         </div>
