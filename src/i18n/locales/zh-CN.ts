@@ -3441,8 +3441,8 @@ const zhCN = {
   "setupModal.there": "朋友",
   "setupModal.welcomeTitle": "你好，{name}！",
   "setupModal.welcomeSubtitle": "现在来添加你的第一台设备吧。",
-  "setupModal.installWithSetupKey": "使用 Setup Key 安装 NetBird",
-  "setupModal.installNetBird": "安装 NetBird",
+  "setupModal.installWithSetupKey": "使用注册密钥安装 Cloink",
+  "setupModal.installNetBird": "安装 Cloink",
   "setupModal.setupKeyDescription":
     "开始之前，请先安装并运行 NetBird，并将 setup key 作为参数传入。",
   "setupModal.defaultDescription":
@@ -3477,7 +3477,7 @@ const zhCN = {
   "setupModal.macosStep1": "下载并运行 macOS 安装程序",
   "setupModal.openTerminalRunNetBird": "打开终端并运行 NetBird",
   "setupModal.installManuallyTerminal": "通过终端手动安装",
-  "setupModal.runNetBird": "运行 NetBird",
+  "setupModal.runNetBird": "运行 Cloink",
   "setupModal.andLogInBrowser": "并在浏览器中登录",
   "setupModal.installManuallyHomebrew": "通过 HomeBrew 手动安装",
   "setupModal.downloadInstallHomebrew": "下载并安装 HomeBrew",
@@ -6580,7 +6580,7 @@ const zhCN = {
   "reverseProxy.verdictThrottle": "限流",
   "setupModal.generatingSetupKey": "正在生成注册密钥...",
   "setupModal.installWithSetupKeyDescription":
-    "要开始使用，请安装 NetBird 并将注册密钥作为参数运行。",
+    "要开始使用，请安装 Cloink 并将注册密钥作为参数运行。",
   "setupModal.setupKeyCopied": "注册密钥已复制",
   "setupModal.setupKeyCopiedDescription": "已成功复制到剪贴板。",
   "setupModal.setupKeyCreated": "注册密钥已创建",

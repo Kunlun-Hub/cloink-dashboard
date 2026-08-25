@@ -62,6 +62,8 @@ test.describe("Setup modal Linux version releases", () => {
     await expect(modal).toContainText("install.sh");
     await expect(modal).toContainText('--version "0.77.1"');
     await expect(modal).toContainText('--architecture "amd64"');
+    await expect(modal).toContainText("cloink up");
+    await expect(modal).not.toContainText("netbird up");
     await expect(modal).not.toContainText("pkgs.netbird.io");
     await expect(modal).not.toContainText("apt-get install netbird");
   });

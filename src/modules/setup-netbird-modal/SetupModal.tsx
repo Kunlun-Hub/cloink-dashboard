@@ -147,8 +147,8 @@ export function SetupModalContent({
           content={
             <>
               A setup key is a one-time, pre-authentication token used to
-              enroll an unattended machine with NetBird. Pass it to{" "}
-              <code>netbird up</code> via <code>--setup-key</code> and the
+              enroll an unattended machine with Cloink. Pass it to{" "}
+              <code>cloink up</code> via <code>--setup-key</code> and the
               peer registers without an interactive login.
             </>
           }
@@ -184,12 +184,13 @@ export function SetupModalContent({
 
     return effectiveSetupKey
       ? t("setupModal.installWithSetupKey")
-      : "Install NetBird";
+      : "Install Cloink";
   }, [
     isFirstRun,
     isInstallPage,
     effectiveSetupKey,
     title,
+    t,
     user?.given_name,
   ]);
 
@@ -213,7 +214,7 @@ export function SetupModalContent({
           >
             {isUserDevice === false || effectiveSetupKey
               ? t("setupModal.installWithSetupKeyDescription")
-              : "To get started, install NetBird and log in with your email account."}
+              : "To get started, install Cloink and log in with your email account."}
           </Paragraph>
         </div>
       )}
@@ -379,7 +380,7 @@ type NetBirdUpCommandProps = {
   continuation?: string;
 };
 
-// NetBirdUpCommand renders `netbird up` inside a <Code> block. When
+// NetBirdUpCommand renders `cloink up` inside a <Code> block. When
 // extra flags are present it splits across multiple lines with the
 // shell's line-continuation character (purely visual) so long commands
 // stay readable; the clipboard always gets the single-line form.
@@ -473,7 +474,7 @@ type SetupKeyGeneratorProps = {
 // SetupKeyGenerator renders the inline banner that lets the operator
 // create a one-off setup key without leaving the install modal. The
 // resulting key is lifted to the parent so the OS tabs can splice it
-// into the `netbird up --setup-key=...` command.
+// into the `cloink up --setup-key=...` command.
 function SetupKeyGenerator({
   generatedKey,
   onGenerated,

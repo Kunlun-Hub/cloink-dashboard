@@ -3724,8 +3724,8 @@ const en = {
   "setupModal.there": "there",
   "setupModal.welcomeTitle": "Hello {name}!",
   "setupModal.welcomeSubtitle": "It's time to add your first device.",
-  "setupModal.installWithSetupKey": "Install NetBird with Setup Key",
-  "setupModal.installNetBird": "Install NetBird",
+  "setupModal.installWithSetupKey": "Install Cloink with Setup Key",
+  "setupModal.installNetBird": "Install Cloink",
   "setupModal.setupKeyDescription":
     "To get started, install and run NetBird with the setup key as a parameter.",
   "setupModal.defaultDescription":
@@ -3762,7 +3762,7 @@ const en = {
   "setupModal.macosStep1": "Download and run macOS Installer",
   "setupModal.openTerminalRunNetBird": "Open Terminal and run NetBird",
   "setupModal.installManuallyTerminal": "Install manually with Terminal",
-  "setupModal.runNetBird": "Run NetBird",
+  "setupModal.runNetBird": "Run Cloink",
   "setupModal.andLogInBrowser": "and log in the browser",
   "setupModal.installManuallyHomebrew": "Install manually with HomeBrew",
   "setupModal.downloadInstallHomebrew": "Download and install HomeBrew",
@@ -7110,7 +7110,7 @@ const en = {
   "reverseProxy.verdictThrottle": "Throttle",
   "setupModal.generatingSetupKey": "Generating setup key...",
   "setupModal.installWithSetupKeyDescription":
-    "To get started, install and run NetBird with the setup key as a parameter.",
+    "To get started, install and run Cloink with the setup key as a parameter.",
   "setupModal.setupKeyCopied": "Setup Key Copied",
   "setupModal.setupKeyCopiedDescription": "Successfully copied to clipboard.",
   "setupModal.setupKeyCreated": "Setup Key Created",
