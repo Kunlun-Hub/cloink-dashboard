@@ -20,10 +20,10 @@ import DialogProvider from "@/contexts/DialogProvider";
 import ErrorBoundaryProvider from "@/contexts/ErrorBoundary";
 import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
 import { NavigationEvents } from "@/contexts/NavigationEvents";
-import PublicBrandingProvider from "@/modules/account/PublicBrandingProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import PublicBrandingProvider from "@/modules/account/PublicBrandingProvider";
 
 const inter = localFont({
   src: "../assets/fonts/Inter.ttf",
@@ -45,11 +45,16 @@ export default function AppLayout({
   useSignupSource();
 
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('netbird-theme')||'dark';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.classList.toggle('light',!d);r.style.colorScheme=d?'dark':'light';}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`,
+          }}
+        />
         <GoogleTagManagerHeadScript />
       </head>
-      <body className={cn(inter.className)}>
+      <body className={cn(inter.className, "bg-nb-gray text-nb-gray-100")}>
         <Suspense fallback={<FullScreenLoading />}>
           <I18nProvider>
             <AnalyticsProvider>

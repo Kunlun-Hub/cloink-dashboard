@@ -4087,6 +4087,7 @@ const en = {
   "dataTablePagination.rows": "rows",
   "dataTablePagination.pageOf": "{currentPage} of {pageCount}",
   "accessControlGroupCount.routes": "Route(s)",
+  "darkModeToggle.theme": "Theme",
   "darkModeToggle.light": "Light",
   "darkModeToggle.dark": "Dark",
   "darkModeToggle.system": "System",

@@ -3776,6 +3776,7 @@ const zhCN = {
   "dataTablePagination.rows": "行",
   "dataTablePagination.pageOf": "第 {currentPage} 页，共 {pageCount} 页",
   "accessControlGroupCount.routes": "路由",
+  "darkModeToggle.theme": "主题",
   "darkModeToggle.light": "浅色",
   "darkModeToggle.dark": "深色",
   "darkModeToggle.system": "系统",
