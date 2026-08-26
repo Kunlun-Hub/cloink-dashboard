@@ -125,7 +125,7 @@ function PeersBlockedView() {
             "rounded-md border border-nb-gray-900/70 grid w-full bg-nb-gray-930/40 stepper-bg-variant"
           }
         >
-          <SetupModalContent header={false} footer={false} isUserDevice />
+          <SetupModalContent header={false} isUserDevice />
         </div>
       </div>
     </div>

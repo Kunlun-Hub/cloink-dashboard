@@ -4,10 +4,9 @@ import Button from "@components/Button";
 import Code from "@components/Code";
 import { HelpTooltip } from "@components/HelpTooltip";
 import InlineLink from "@components/InlineLink";
-import { ModalContent, ModalFooter } from "@components/modal/Modal";
+import { ModalContent } from "@components/modal/Modal";
 import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
-import SmallParagraph from "@components/SmallParagraph";
 import { Tabs, TabsList, TabsTrigger } from "@components/Tabs";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { useApiCall } from "@utils/api";
@@ -90,7 +89,6 @@ export default function SetupModal({
 type SetupModalContentProps = {
   user?: OidcUserInfo;
   header?: boolean;
-  footer?: boolean;
   tabAlignment?: "center" | "start" | "end";
   setupKey?: string;
   showOnlyRoutingPeerOS?: boolean;
@@ -102,7 +100,6 @@ type SetupModalContentProps = {
 export function SetupModalContent({
   user,
   header = true,
-  footer = true,
   tabAlignment = "center",
   setupKey,
   showOnlyRoutingPeerOS,
@@ -327,26 +324,6 @@ export function SetupModalContent({
           />
         )}
       </Tabs>
-      {footer && !isInstallPage && (
-        <ModalFooter variant={"setup"}>
-          <div>
-            <SmallParagraph>
-              After that you should be connected. Add more devices to your
-              network or manage your existing devices in the admin panel. If you
-              have further questions check out our{" "}
-              <InlineLink
-                href={
-                  "https://docs.netbird.io/how-to/getting-started#installation"
-                }
-                target={"_blank"}
-              >
-                Installation Guide
-                <ExternalLinkIcon size={12} />
-              </InlineLink>
-            </SmallParagraph>
-          </div>
-        </ModalFooter>
-      )}
     </>
   );
 }
