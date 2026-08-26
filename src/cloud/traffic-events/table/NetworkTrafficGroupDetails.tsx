@@ -27,6 +27,11 @@ export default function NetworkTrafficGroupDetails({
   // An existing empty value selects the persisted unknown-user group.
   defaultFilters.group_user_id = group.user.id;
   defaultFilters.reporter_id = group.reporter_id;
+  defaultFilters.source_key = group.source_key;
+  defaultFilters.destination_address = group.destination.address;
+  defaultFilters.protocol = String(group.protocol);
+  defaultFilters.direction = group.direction;
+  defaultFilters.connection_type = group.connection_type;
 
   return (
     <ServerPaginationProvider

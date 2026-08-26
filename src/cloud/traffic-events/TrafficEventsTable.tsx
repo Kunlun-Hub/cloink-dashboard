@@ -16,26 +16,32 @@ import {
   TableFiltersButton,
 } from "@components/table/TableFilters";
 import GetStartedTest from "@components/ui/GetStartedTest";
+import type { ColumnDef } from "@tanstack/react-table";
 import useFetchApi from "@utils/api";
 import { cn, formatBytes } from "@utils/helpers";
-import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { ArrowDownIcon, ArrowLeftRightIcon, ArrowUpIcon, ChevronRightIcon, ExternalLinkIcon } from "lucide-react";
+import {
+  ArrowDownIcon,
+  ArrowLeftRightIcon,
+  ArrowUpIcon,
+  ChevronRightIcon,
+  ExternalLinkIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
-import { useI18n } from "@/i18n/I18nProvider";
 import { DateRange } from "react-day-picker";
+import {
+  NetworkTrafficGroup,
+  NetworkTrafficGroupRow,
+} from "@/cloud/traffic-events/interfaces/NetworkTrafficGroup";
 import {
   TrafficEvent,
   TrafficEventDirection,
   TrafficEventType,
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
-import {
-  NetworkTrafficGroup,
-  NetworkTrafficGroupRow,
-} from "@/cloud/traffic-events/interfaces/NetworkTrafficGroup";
-import { TrafficEventsBytesCell } from "@/cloud/traffic-events/table/TrafficEventsBytesCell";
+import { TrafficEventProtocol } from "@/cloud/traffic-events/interfaces/TrafficEventProtocol";
 import NetworkTrafficGroupDetails from "@/cloud/traffic-events/table/NetworkTrafficGroupDetails";
+import { TrafficEventsBytesCell } from "@/cloud/traffic-events/table/TrafficEventsBytesCell";
 import { TrafficEventsMachineCell } from "@/cloud/traffic-events/table/TrafficEventsMachineCell";
 import { TrafficEventsPortCell } from "@/cloud/traffic-events/table/TrafficEventsPortCell";
 import { TrafficEventsReporterCell } from "@/cloud/traffic-events/table/TrafficEventsReporterCell";
@@ -46,6 +52,7 @@ import { parseAddressPort } from "@/cloud/traffic-events/utils/parseAddress";
 import { usePeers } from "@/contexts/PeersProvider";
 import { useServerPagination } from "@/contexts/ServerPaginationProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { NetworkResource } from "@/interfaces/Network";
 
 export const getTrafficEventTypeText = (
@@ -84,11 +91,15 @@ export const getTrafficEventTypeText = (
   }
 };
 
-export const TrafficEventsTableColumns = (t: (...args: any[]) => string): ColumnDef<TrafficEvent>[] => [
+export const TrafficEventsTableColumns = (
+  t: (...args: any[]) => string,
+): ColumnDef<TrafficEvent>[] => [
   {
     id: "timestamp",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.time")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.time")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <TrafficEventsTimeCell timestamp={row.original.events[0].timestamp} />
@@ -113,7 +124,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.event")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.event")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => row.getValue("type"),
   },
@@ -133,7 +146,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.event")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.event")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsTextCell event={row.original} />,
     enableGlobalFilter: false,
@@ -142,7 +157,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     id: "source",
     accessorFn: (row) => row.source.address,
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.source")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.source")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <TrafficEventsMachineCell event={row.original} isSource={true} />
@@ -153,7 +170,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     accessorFn: (row) => row.protocol,
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.protocolPort")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.protocolPort")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsPortCell event={row.original} />,
   },
@@ -176,7 +195,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     accessorFn: (row) => row.destination.address,
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.destination")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.destination")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return <TrafficEventsMachineCell event={row.original} isSource={false} />;
@@ -188,7 +209,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.traffic")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.traffic")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return <TrafficEventsBytesCell event={row.original} />;
@@ -200,7 +223,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.traffic")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.traffic")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return (
@@ -216,7 +241,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.traffic")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.traffic")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return (
@@ -231,7 +258,9 @@ export const TrafficEventsTableColumns = (t: (...args: any[]) => string): Column
     id: "reporter",
     accessorKey: "reporter_id",
     header: ({ column }) => (
-      <DataTableHeader column={column}>{t("trafficEvents.router")}</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("trafficEvents.router")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsReporterCell event={row.original} />,
   },
@@ -441,10 +470,10 @@ export default function TrafficEventsTable({
         enableGlobalFilter: false,
       },
       {
-        id: "window_start",
-        header: t("trafficEvents.windowStart"),
+        id: "latest_timestamp",
+        header: t("trafficEvents.latestTime"),
         cell: ({ row }) => (
-          <TrafficEventsTimeCell timestamp={row.original.window_start} />
+          <TrafficEventsTimeCell timestamp={row.original.latest_timestamp} />
         ),
       },
       {
@@ -466,38 +495,36 @@ export default function TrafficEventsTable({
         ),
       },
       {
-        id: "reporter",
-        header: t("trafficEvents.reporter"),
-        cell: ({ row }) => (
-          <span
-            className="block max-w-[180px] truncate text-sm text-nb-gray-300"
-            title={row.original.reporter_id}
-          >
-            {peers?.find((peer) => peer.id === row.original.reporter_id)?.name ??
-              row.original.reporter_id}
-          </span>
-        ),
+        id: "client",
+        header: t("trafficEvents.client"),
+        cell: ({ row }) => <EndpointSummary endpoint={row.original.source} />,
       },
       {
-        id: "details",
-        header: t("trafficEvents.details"),
+        id: "protocol",
+        header: t("trafficEvents.protocol"),
         cell: ({ row }) => (
           <span className="text-sm text-nb-gray-300">
-            {row.original.detail_count}
+            {TrafficEventProtocol[
+              row.original.protocol as keyof typeof TrafficEventProtocol
+            ] ?? row.original.protocol}
           </span>
         ),
       },
       {
-        id: "events",
-        header: t("trafficEvents.eventCounts"),
+        id: "destination",
+        header: t("trafficEvents.destination"),
         cell: ({ row }) => (
-          <div className="whitespace-nowrap text-xs text-nb-gray-400">
-            {t("trafficEvents.eventCountsValue", {
-              starts: row.original.num_of_starts,
-              ends: row.original.num_of_ends,
-              drops: row.original.num_of_drops,
-            })}
-          </div>
+          <EndpointSummary endpoint={row.original.destination} />
+        ),
+      },
+      {
+        id: "flow_count",
+        header: t("trafficEvents.flowCount"),
+        cell: ({ row }) => (
+          <span className="text-sm text-nb-gray-300">
+            {row.original.flow_count.toLocaleString()}{" "}
+            {t("trafficEvents.items")}
+          </span>
         ),
       },
       {
@@ -517,18 +544,6 @@ export default function TrafficEventsTable({
         ),
       },
       {
-        id: "integrity",
-        header: t("trafficEvents.integrity"),
-        cell: () => (
-          <span
-            className="inline-flex rounded-full border border-nb-gray-700 px-2 py-1 text-xs text-nb-gray-400"
-            title={t("trafficEvents.integrityUnknownDescription")}
-          >
-            {t("trafficEvents.integrityUnknown")}
-          </span>
-        ),
-      },
-      {
         id: "source_id",
         accessorFn: (row) => row.key,
         enableGlobalFilter: false,
@@ -539,7 +554,7 @@ export default function TrafficEventsTable({
         enableGlobalFilter: false,
       },
     ],
-    [peers, t],
+    [t],
   );
 
   const getStartedCard = !isSettingEnabled ? (
@@ -602,7 +617,7 @@ export default function TrafficEventsTable({
   return (
     <DataTable
       {...paginationProps}
-      serverSidePagination={false}
+      serverSidePagination
       useRowId={true}
       headingTarget={headingTarget}
       text={t("trafficEvents.title")}
@@ -670,5 +685,26 @@ export default function TrafficEventsTable({
         </>
       )}
     </DataTable>
+  );
+}
+
+function EndpointSummary({
+  endpoint,
+}: Readonly<{ endpoint: NetworkTrafficGroup["source"] }>) {
+  const label = endpoint.name || endpoint.address;
+  return (
+    <div className="min-w-[180px] max-w-[260px]">
+      <div className="truncate text-sm text-nb-gray-200" title={label}>
+        {label}
+      </div>
+      {endpoint.address && endpoint.address !== label && (
+        <div
+          className="truncate text-xs text-nb-gray-400"
+          title={endpoint.address}
+        >
+          {endpoint.address}
+        </div>
+      )}
+    </div>
   );
 }

@@ -27,8 +27,8 @@ export default function NetworkTrafficPage() {
   const defaultFilters = useMemo(
     () => ({
       grouped: "true",
-      start_date: dayjs().subtract(7, "day").startOf("day").toISOString(),
-      end_date: dayjs().endOf("day").toISOString(),
+      start_date: dayjs().subtract(5, "minute").toISOString(),
+      end_date: dayjs().toISOString(),
     }),
     [],
   );
@@ -60,7 +60,7 @@ export default function NetworkTrafficPage() {
         <PeersProvider>
           <ServerPaginationProvider
             url={"/events/network-traffic"}
-            defaultPageSize={10}
+            defaultPageSize={20}
             defaultFilters={defaultFilters}
             enabled={true}
           >

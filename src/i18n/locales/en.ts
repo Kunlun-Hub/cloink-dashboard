@@ -1175,8 +1175,7 @@ const en = {
   "reverseProxy.deployTitleDigitalOcean": "Deploy on DigitalOcean",
   "reverseProxy.deployTitleAws": "Deploy on AWS",
   "reverseProxy.proxyClusterLearnMore": "Proxy Cluster",
-  "reverseProxy.proxyRegistered":
-    "Proxy registered with Cloink and connected.",
+  "reverseProxy.proxyRegistered": "Proxy registered with Cloink and connected.",
   "reverseProxy.waitingForRegistration":
     "Waiting for the proxy to register with Cloink...",
   "reverseProxy.resourceCreated": "{resourceLabel} {name} was created",
@@ -1720,8 +1719,7 @@ const en = {
   "onboarding.referralSource.Comparison Sites": "Comparison Sites",
   "onboarding.referralSource.Slack": "Slack",
   "onboarding.referralSource.Other": "Other",
-  "onboarding.referralSource.NetBird YouTube Channel":
-    "Cloink YouTube Channel",
+  "onboarding.referralSource.NetBird YouTube Channel": "Cloink YouTube Channel",
   "onboarding.referralSource.Other YouTube Channel": "Other YouTube Channel",
   "onboarding.referralSource.NetBird SubReddit": "Cloink SubReddit",
   "onboarding.referralSource.Other Reddit Thread": "Other Reddit Thread",
@@ -5061,8 +5059,7 @@ const en = {
   "aiProvider.modal.noClustersAvailableSuffix": "before adding a provider.",
   // Modal – Provider tab form fields
   "aiProvider.modal.providerLabel": "Provider",
-  "aiProvider.modal.providerHelpText":
-    "API provider to expose through Cloink.",
+  "aiProvider.modal.providerHelpText": "API provider to expose through Cloink.",
   "aiProvider.modal.searchProviders": "Search providers...",
   "aiProvider.modal.selectProvider": "Select provider...",
   "aiProvider.modal.upstreamUrlLabel": "Upstream URL",
@@ -5995,7 +5992,8 @@ const en = {
   "mspTenants.ownershipVerified": "Ownership Verified",
   "mspTenants.pendingVerification": "Pending Verification",
   "mspTenants.verifyDomain": "Verify Domain",
-  "mspTenants.validDomainError": "Please enter a valid domain, e.g. example.com",
+  "mspTenants.validDomainError":
+    "Please enter a valid domain, e.g. example.com",
   "mspTenants.addNotifyTitle": "Add {domain} account",
   "mspTenants.addNotifyDescription":
     "The tenant account has been created successfully.",
@@ -6278,6 +6276,11 @@ const en = {
   "trafficEvents.emptyDescription":
     "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity.",
   "trafficEvents.windowStart": "Window start",
+  "trafficEvents.latestTime": "Latest time",
+  "trafficEvents.client": "Client",
+  "trafficEvents.protocol": "Protocol",
+  "trafficEvents.flowCount": "Flows",
+  "trafficEvents.items": "items",
   "trafficEvents.user": "User",
   "trafficEvents.unknownUser": "Unknown user",
   "trafficEvents.reporter": "Reporter",
@@ -6285,14 +6288,16 @@ const en = {
   "trafficEvents.expandDetails": "Expand persisted details",
   "trafficEvents.collapseDetails": "Collapse persisted details",
   "trafficEvents.eventCounts": "Observed events",
-  "trafficEvents.eventCountsValue": "{starts} start · {ends} end · {drops} drop",
+  "trafficEvents.eventCountsValue":
+    "{starts} start · {ends} end · {drops} drop",
   "trafficEvents.integrity": "Integrity",
   "trafficEvents.integrityUnknown": "Unknown",
   "trafficEvents.integrityUnknownDescription":
     "Collection completeness telemetry is not available for this window.",
   "trafficEvents.detailsLoading": "Loading persisted details...",
   "trafficEvents.detailsError": "Persisted details could not be loaded.",
-  "trafficEvents.detailsEmpty": "No persisted details were found for this group.",
+  "trafficEvents.detailsEmpty":
+    "No persisted details were found for this group.",
   "trafficEvents.retry": "Retry",
   "notificationSlack.connectTitle": "Connect Cloink with Slack",
   "notificationSlack.connectDescription":
@@ -7353,7 +7358,7 @@ const en = {
   "setupNetbirdModal.installOnIos": "Install on iOS",
   "table.lastSeenOn": "Last seen on",
   "table.peersSelected": "Peer(s) selected",
-"notifications.pendingApproval": "Pending Approval",
+  "notifications.pendingApproval": "Pending Approval",
   "notifications.peerAdded": "Peer Added",
   "notifications.routingPeerDisconnected": "Routing Peer Disconnected",
   "notifications.routingPeerDeleted": "Routing Peer Deleted",
@@ -7365,15 +7370,23 @@ const en = {
   "notifications.peerNotifications": "Peer Notifications",
   "notifications.userNotifications": "User Notifications",
   "notifications.integrationNotifications": "Integration Notifications",
-  "notifications.peerPendingApprovalHelp": "Notify when a peer is waiting for approval to join the network",
-  "notifications.peerAddedHelp": "Notify when a new peer is added to the network",
-  "notifications.routingPeerDisconnectedHelp": "Notify when a routing peer loses its connection",
-  "notifications.routingPeerDeletedHelp": "Notify when a routing peer is deleted from the network",
-  "notifications.userPendingApprovalHelp": "Notify when a user is waiting for approval to join the network",
+  "notifications.peerPendingApprovalHelp":
+    "Notify when a peer is waiting for approval to join the network",
+  "notifications.peerAddedHelp":
+    "Notify when a new peer is added to the network",
+  "notifications.routingPeerDisconnectedHelp":
+    "Notify when a routing peer loses its connection",
+  "notifications.routingPeerDeletedHelp":
+    "Notify when a routing peer is deleted from the network",
+  "notifications.userPendingApprovalHelp":
+    "Notify when a user is waiting for approval to join the network",
   "notifications.userJoinedHelp": "Notify when a new user joins the account",
-  "notifications.serviceUserCreatedHelp": "Notify when a new service user is created",
-  "notifications.idpSyncTokenExpiredHelp": "Notify when the IdP sync token has expired and needs renewal",
-  "notifications.edrSyncTokenExpiredHelp": "Notify when the EDR sync token has expired and needs renewal",
+  "notifications.serviceUserCreatedHelp":
+    "Notify when a new service user is created",
+  "notifications.idpSyncTokenExpiredHelp":
+    "Notify when the IdP sync token has expired and needs renewal",
+  "notifications.edrSyncTokenExpiredHelp":
+    "Notify when the EDR sync token has expired and needs renewal",
   "common.requestFailedWithCode": "Request failed with status code {code}",
   "common.errorPrefix": "Error: {message}",
   "announcements.huntressIntegration": "Huntress now integrates with Cloink",
@@ -7396,7 +7409,8 @@ const en = {
   "webhook.basicAuth": "Basic Auth",
   "webhook.bearerToken": "Bearer Token",
   "webhook.customAuthentication": "Custom Authentication",
-  "groups.useGroupsToControl": "Use groups to control what this peer can access",
+  "groups.useGroupsToControl":
+    "Use groups to control what this peer can access",
   "accessControl.icmp": "ICMP",
   "accessLog.date": "Date",
   "accessLog.user": "User",
@@ -7547,20 +7561,23 @@ const en = {
   "integrations.oktaAccountDomain": "Okta account domain",
   "integrations.primaryEmailDomain": "Primary email domain",
   "common.requestSentSuccessfully": "Request has been sent successfully.",
-  "domain.verifiedSuccessfully": "The domain ownership has been verified successfully.",
+  "domain.verifiedSuccessfully":
+    "The domain ownership has been verified successfully.",
   "domain.dnsRecordNotFound": "DNS record not found. Please try again...",
   "firewallGpt.iWillCreate": "I will create the ",
   "rdp.connectionFailed": "RDP connection failed",
   "rdp.websocketConnectionFailed": "Connection failed",
-"billing.notice": "Notice",
+  "billing.notice": "Notice",
   "billing.trial": "Trial",
-  "billing.usageLimitsReached": "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.",
+  "billing.usageLimitsReached":
+    "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.",
   "billing.goToPlansBilling": "Go to Plans & Billing",
   "tenant.deleting": "Deleting {name}",
   "tenant.deletedSuccessfully": "Successfully deleted {name} ({domain})",
   "tenant.deletingInProgress": "Deleting {name}...",
   "tenant.verificationOf": "Verification of {domain}",
-  "tenant.verifyingDomainOwnership": "Please wait while we verify the domain ownership...",
+  "tenant.verifyingDomainOwnership":
+    "Please wait while we verify the domain ownership...",
   "tenant.requestAccountAccess": "Request Account Access",
   "tenant.sendingRequest": "Sending request...",
   "customer.requestAccountAccess": "Request Account Access",
@@ -7580,27 +7597,42 @@ const en = {
   "common.enableAction": "Enable",
   "route.addRoute": "Add Route",
   "route.createNewRoute": "Create New Route",
-  "route.noRoutesDescription": "It looks like you don't have any routes. Access LANs and VPC by adding a network route.",
+  "route.noRoutesDescription":
+    "It looks like you don't have any routes. Access LANs and VPC by adding a network route.",
   "trafficEvents.noTrafficEvents": "No Traffic Events",
   "trafficEvents.trafficEventsDisabled": "Traffic Events Disabled",
-  "trafficEvents.noTrafficEventsDescription": "It looks like you don't have any traffic events. Traffic events will appear here once clients start connecting to your network.",
-  "trafficEvents.trafficEventsDisabledDescription": "It looks like you don't have any traffic events. To start receiving traffic events, you need to enable it in your account settings.",
-  "trafficEvents.connectionEstablished": "Connection successfully established between Peer 1 and Peer 2",
-  "trafficEvents.peerAcceptedConnection": "Peer 2 accepted the connection request",
-  "trafficEvents.peerRequestedConnection": "Peer 1 requested to connect to Peer 2",
+  "trafficEvents.noTrafficEventsDescription":
+    "It looks like you don't have any traffic events. Traffic events will appear here once clients start connecting to your network.",
+  "trafficEvents.trafficEventsDisabledDescription":
+    "It looks like you don't have any traffic events. To start receiving traffic events, you need to enable it in your account settings.",
+  "trafficEvents.connectionEstablished":
+    "Connection successfully established between Peer 1 and Peer 2",
+  "trafficEvents.peerAcceptedConnection":
+    "Peer 2 accepted the connection request",
+  "trafficEvents.peerRequestedConnection":
+    "Peer 1 requested to connect to Peer 2",
   "trafficEvents.ipCopiedToClipboard": "IP has been copied to clipboard",
   "common.copiedToClipboardWithName": "{name} has been copied to clipboard.",
   "reverseProxy.reason": "Reason: ",
   "peer.disapprovalReason": "Reason: {reason}",
-  "reverseProxy.httpsServiceDescription": "Reverse proxy with path routing and built-in authentication (SSO, PIN, password). Typically used for web applications and APIs.",
-  "reverseProxy.tlsPassthroughDescription": "Passes encrypted TLS traffic straight through to the backend. Typically used for services that manage their own TLS certificates.",
-  "reverseProxy.tcpServiceDescription": "Forwards raw TCP traffic to your backend on a dedicated port. Typically used for databases, custom protocols, or any TCP-based service.",
-  "reverseProxy.udpServiceDescription": "Forwards raw UDP traffic to your backend on a dedicated port. Typically used for real-time services like voice, video, or streaming.",
-  "setupNetbirdModal.debianNote": "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
-  "setupNetbirdModal.fedoraNote": "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
-  "setupNetbirdModal.rhelNote": "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
-  "setupNetbirdModal.opensuseNote": "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
-  "setupNetbirdModal.amazonLinuxNote": "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available.",
+  "reverseProxy.httpsServiceDescription":
+    "Reverse proxy with path routing and built-in authentication (SSO, PIN, password). Typically used for web applications and APIs.",
+  "reverseProxy.tlsPassthroughDescription":
+    "Passes encrypted TLS traffic straight through to the backend. Typically used for services that manage their own TLS certificates.",
+  "reverseProxy.tcpServiceDescription":
+    "Forwards raw TCP traffic to your backend on a dedicated port. Typically used for databases, custom protocols, or any TCP-based service.",
+  "reverseProxy.udpServiceDescription":
+    "Forwards raw UDP traffic to your backend on a dedicated port. Typically used for real-time services like voice, video, or streaming.",
+  "setupNetbirdModal.debianNote":
+    "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
+  "setupNetbirdModal.fedoraNote":
+    "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
+  "setupNetbirdModal.rhelNote":
+    "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
+  "setupNetbirdModal.opensuseNote":
+    "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
+  "setupNetbirdModal.amazonLinuxNote":
+    "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available.",
   "datadog.regionEurope": "Europe (EU)",
   "datadog.regionUs1": "United States (US1)",
   "datadog.regionUs3": "United States (US3)",
@@ -7631,18 +7663,20 @@ const en = {
   "edr.hostsRead": "Hosts (Read)",
   "edr.zeroTrustAssessmentRead": "Zero Trust Assessment (Read)",
   "common.done": "Done",
-"common.searchGroupPlaceholder": "Search group...",
+  "common.searchGroupPlaceholder": "Search group...",
   "common.selectCountryPlaceholder": "Select country...",
   "common.searchCountryPlaceholder": "Search country...",
   "common.selectCityPlaceholder": "Select city (optional)...",
   "common.searchCityPlaceholder": "Search city...",
   "common.selectArchitecturePlaceholder": "Select architecture",
   "common.selectDistributionPlaceholder": "Select distribution",
-  "common.searchUserByNameOrEmailPlaceholder": "Search user by name or email...",
+  "common.searchUserByNameOrEmailPlaceholder":
+    "Search user by name or email...",
   "common.searchGroupsPlaceholder": "Search groups...",
   "common.searchEventPlaceholder": "Search event...",
   "common.writeYourPromptPlaceholder": "Write your prompt here...",
-  "common.searchByInvoiceNumberOrDatePlaceholder": "Search by invoice number or date...",
+  "common.searchByInvoiceNumberOrDatePlaceholder":
+    "Search by invoice number or date...",
   "rdp.administratorOrDomainPlaceholder": "Administrator or DOMAIN\\username",
   "rdp.enterPasswordPlaceholder": "Enter password",
   "common.companyNamePlaceholder": "Acme Inc.",

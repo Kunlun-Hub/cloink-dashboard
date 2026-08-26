@@ -569,8 +569,7 @@ const zhCN = {
   "dns.disableManagementLabel": "为以下分组禁用 DNS 管理",
   "dns.disableManagementHelp": "这些分组中的设备将需要手动进行域名解析",
   "nameservers.title": "域名服务器",
-  "nameservers.description":
-    "为你的 Cloink 网络添加用于域名解析的域名服务器。",
+  "nameservers.description": "为你的 Cloink 网络添加用于域名解析的域名服务器。",
   "nameservers.tableTitle": "域名服务器",
   "nameserverTemplate.google": "Google DNS",
   "nameserverTemplate.googleDesc":
@@ -1109,8 +1108,7 @@ const zhCN = {
   "reverseProxy.hetznerTokenTooltip":
     "令牌直接从你的浏览器发送到 Hetzner，不会经过 Cloink 的服务器，设置成功后你可以删除它。",
   "reverseProxy.howToCreateToken": "如何创建令牌",
-  "reverseProxy.hetznerTokenHelp":
-    "创建一个读写 API 令牌。Cloink 不会存储它。",
+  "reverseProxy.hetznerTokenHelp": "创建一个读写 API 令牌。Cloink 不会存储它。",
   "reverseProxy.hetznerTokenPlaceholder": "在此粘贴你的 Hetzner Cloud API 令牌",
   "reverseProxy.hetznerCatalogError": "无法加载 Hetzner 选项：{error}",
   "reverseProxy.location": "位置",
@@ -5823,6 +5821,11 @@ const zhCN = {
   "trafficEvents.emptyDescription":
     "我们尚未检测到任何流量事件。这可能是因为你刚启用了此功能，或者还没有网络活动。",
   "trafficEvents.windowStart": "窗口开始时间",
+  "trafficEvents.latestTime": "最近时间",
+  "trafficEvents.client": "客户端",
+  "trafficEvents.protocol": "协议",
+  "trafficEvents.flowCount": "流数量",
+  "trafficEvents.items": "条",
   "trafficEvents.user": "用户",
   "trafficEvents.unknownUser": "未知用户",
   "trafficEvents.reporter": "上报设备",
@@ -5830,11 +5833,11 @@ const zhCN = {
   "trafficEvents.expandDetails": "展开已持久化明细",
   "trafficEvents.collapseDetails": "收起已持久化明细",
   "trafficEvents.eventCounts": "观测事件",
-  "trafficEvents.eventCountsValue": "开始 {starts} · 结束 {ends} · 丢弃 {drops}",
+  "trafficEvents.eventCountsValue":
+    "开始 {starts} · 结束 {ends} · 丢弃 {drops}",
   "trafficEvents.integrity": "完整性",
   "trafficEvents.integrityUnknown": "未知",
-  "trafficEvents.integrityUnknownDescription":
-    "该窗口尚无采集完整性遥测数据。",
+  "trafficEvents.integrityUnknownDescription": "该窗口尚无采集完整性遥测数据。",
   "trafficEvents.detailsLoading": "正在加载已持久化明细...",
   "trafficEvents.detailsError": "无法加载已持久化明细。",
   "trafficEvents.detailsEmpty": "该分组没有已持久化明细。",
@@ -6801,7 +6804,7 @@ const zhCN = {
   "setupNetbirdModal.installOnIos": "在 iOS 上安装",
   "table.lastSeenOn": "最近在线时间",
   "table.peersSelected": "已选择设备",
-"notifications.pendingApproval": "待审批",
+  "notifications.pendingApproval": "待审批",
   "notifications.peerAdded": "设备已添加",
   "notifications.routingPeerDisconnected": "路由节点已断开",
   "notifications.routingPeerDeleted": "路由节点已删除",
@@ -6820,8 +6823,10 @@ const zhCN = {
   "notifications.userPendingApprovalHelp": "当用户等待批准加入网络时通知",
   "notifications.userJoinedHelp": "当新用户加入账户时通知",
   "notifications.serviceUserCreatedHelp": "当新服务用户被创建时通知",
-  "notifications.idpSyncTokenExpiredHelp": "当 IdP 同步令牌已过期需要续期时通知",
-  "notifications.edrSyncTokenExpiredHelp": "当 EDR 同步令牌已过期需要续期时通知",
+  "notifications.idpSyncTokenExpiredHelp":
+    "当 IdP 同步令牌已过期需要续期时通知",
+  "notifications.edrSyncTokenExpiredHelp":
+    "当 EDR 同步令牌已过期需要续期时通知",
   "common.requestFailedWithCode": "请求失败，状态码 {code}",
   "common.errorPrefix": "错误：{message}",
   "announcements.huntressIntegration": "Huntress 现已集成 Cloink",
@@ -7000,9 +7005,10 @@ const zhCN = {
   "firewallGpt.iWillCreate": "我将创建",
   "rdp.connectionFailed": "RDP 连接失败",
   "rdp.websocketConnectionFailed": "连接失败",
-"billing.notice": "通知",
+  "billing.notice": "通知",
   "billing.trial": "试用",
-  "billing.usageLimitsReached": "您已达到使用限制。如需更多功能和更高限额，请考虑升级您的计划。",
+  "billing.usageLimitsReached":
+    "您已达到使用限制。如需更多功能和更高限额，请考虑升级您的计划。",
   "billing.goToPlansBilling": "前往计划与账单",
   "tenant.deleting": "正在删除 {name}",
   "tenant.deletedSuccessfully": "已成功删除 {name} ({domain})",
@@ -7028,11 +7034,14 @@ const zhCN = {
   "common.enableAction": "启用",
   "route.addRoute": "添加路由",
   "route.createNewRoute": "创建新路由",
-  "route.noRoutesDescription": "看起来您还没有任何路由。通过添加网络路由来访问局域网和 VPC。",
+  "route.noRoutesDescription":
+    "看起来您还没有任何路由。通过添加网络路由来访问局域网和 VPC。",
   "trafficEvents.noTrafficEvents": "无流量事件",
   "trafficEvents.trafficEventsDisabled": "流量事件已禁用",
-  "trafficEvents.noTrafficEventsDescription": "看起来您还没有任何流量事件。当客户端开始连接到您的网络后，流量事件将在此显示。",
-  "trafficEvents.trafficEventsDisabledDescription": "看起来您还没有任何流量事件。要开始接收流量事件，您需要在账户设置中启用它。",
+  "trafficEvents.noTrafficEventsDescription":
+    "看起来您还没有任何流量事件。当客户端开始连接到您的网络后，流量事件将在此显示。",
+  "trafficEvents.trafficEventsDisabledDescription":
+    "看起来您还没有任何流量事件。要开始接收流量事件，您需要在账户设置中启用它。",
   "trafficEvents.connectionEstablished": "设备1和设备2之间已成功建立连接",
   "trafficEvents.peerAcceptedConnection": "设备2接受了连接请求",
   "trafficEvents.peerRequestedConnection": "设备1请求连接到设备2",
@@ -7040,15 +7049,24 @@ const zhCN = {
   "common.copiedToClipboardWithName": "{name} 已复制到剪贴板。",
   "reverseProxy.reason": "原因：",
   "peer.disapprovalReason": "原因：{reason}",
-  "reverseProxy.httpsServiceDescription": "带有路径路由和内置认证（SSO、PIN、密码）的反向代理。通常用于 Web 应用和 API。",
-  "reverseProxy.tlsPassthroughDescription": "将加密的 TLS 流量直接传递到后端。通常用于管理自己的 TLS 证书的服务。",
-  "reverseProxy.tcpServiceDescription": "在专用端口上将原始 TCP 流量转发到后端。通常用于数据库、自定义协议或任何基于 TCP 的服务。",
-  "reverseProxy.udpServiceDescription": "在专用端口上将原始 UDP 流量转发到后端。通常用于语音、视频或流媒体等实时服务。",
-  "setupNetbirdModal.debianNote": "桌面应用需要 Ubuntu 24.04 或 Debian 13 及更高版本。早期版本请仅安装 CLI。",
-  "setupNetbirdModal.fedoraNote": "桌面应用需要 Fedora 43 及更高版本。早期版本请仅安装 CLI。",
-  "setupNetbirdModal.rhelNote": "桌面应用需要版本10或更高版本并启用 EPEL（提供 WebKitGTK 6.0）。版本9请仅安装 CLI。",
-  "setupNetbirdModal.opensuseNote": "桌面应用需要 Tumbleweed 或 Leap 15.6 及更高版本。早期版本请仅安装 CLI。",
-  "setupNetbirdModal.amazonLinuxNote": "Amazon Linux 不提供 GTK 4 或 WebKitGTK 6.0，因此仅提供 CLI。",
+  "reverseProxy.httpsServiceDescription":
+    "带有路径路由和内置认证（SSO、PIN、密码）的反向代理。通常用于 Web 应用和 API。",
+  "reverseProxy.tlsPassthroughDescription":
+    "将加密的 TLS 流量直接传递到后端。通常用于管理自己的 TLS 证书的服务。",
+  "reverseProxy.tcpServiceDescription":
+    "在专用端口上将原始 TCP 流量转发到后端。通常用于数据库、自定义协议或任何基于 TCP 的服务。",
+  "reverseProxy.udpServiceDescription":
+    "在专用端口上将原始 UDP 流量转发到后端。通常用于语音、视频或流媒体等实时服务。",
+  "setupNetbirdModal.debianNote":
+    "桌面应用需要 Ubuntu 24.04 或 Debian 13 及更高版本。早期版本请仅安装 CLI。",
+  "setupNetbirdModal.fedoraNote":
+    "桌面应用需要 Fedora 43 及更高版本。早期版本请仅安装 CLI。",
+  "setupNetbirdModal.rhelNote":
+    "桌面应用需要版本10或更高版本并启用 EPEL（提供 WebKitGTK 6.0）。版本9请仅安装 CLI。",
+  "setupNetbirdModal.opensuseNote":
+    "桌面应用需要 Tumbleweed 或 Leap 15.6 及更高版本。早期版本请仅安装 CLI。",
+  "setupNetbirdModal.amazonLinuxNote":
+    "Amazon Linux 不提供 GTK 4 或 WebKitGTK 6.0，因此仅提供 CLI。",
   "datadog.regionEurope": "欧洲 (EU)",
   "datadog.regionUs1": "美国 (US1)",
   "datadog.regionUs3": "美国 (US3)",
@@ -7079,7 +7097,7 @@ const zhCN = {
   "edr.hostsRead": "主机 (读取)",
   "edr.zeroTrustAssessmentRead": "零信任评估 (读取)",
   "common.done": "完成",
-"common.searchGroupPlaceholder": "搜索分组...",
+  "common.searchGroupPlaceholder": "搜索分组...",
   "common.selectCountryPlaceholder": "选择国家...",
   "common.searchCountryPlaceholder": "搜索国家...",
   "common.selectCityPlaceholder": "选择城市（可选）...",
