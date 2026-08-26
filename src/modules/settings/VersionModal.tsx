@@ -101,6 +101,7 @@ export default function VersionModal({
   const [downloadUrl, setDownloadUrl] = useState("");
   const [description, setDescription] = useState("");
   const [sha256, setSha256] = useState("");
+  const [signature, setSignature] = useState("");
   const [isLatest, setIsLatest] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -114,6 +115,7 @@ export default function VersionModal({
     setDownloadUrl(versionRelease?.downloadUrl ?? "");
     setDescription(versionRelease?.description ?? "");
     setSha256(versionRelease?.sha256 ?? "");
+    setSignature(versionRelease?.signature ?? "");
     setIsLatest(versionRelease?.isLatest ?? false);
     setSelectedFile(null);
     setIsUploading(false);
@@ -150,6 +152,7 @@ export default function VersionModal({
       downloadUrl: trim(downloadUrl),
       description: trim(description),
       sha256: trim(sha256).toLowerCase(),
+      signature: trim(signature),
       isLatest,
     };
     const request = isEditing
@@ -310,6 +313,18 @@ export default function VersionModal({
               value={sha256}
               onChange={(event) => setSha256(event.target.value)}
               placeholder={t("versionReleases.sha256Placeholder")}
+              disabled={!canEdit}
+              className="font-mono text-xs"
+            />
+          </div>
+
+          <div>
+            <Label>{t("versionReleases.signature")}</Label>
+            <HelpText>{t("versionReleases.signatureHelp")}</HelpText>
+            <Input
+              value={signature}
+              onChange={(event) => setSignature(event.target.value)}
+              placeholder={t("versionReleases.signaturePlaceholder")}
               disabled={!canEdit}
               className="font-mono text-xs"
             />

@@ -525,9 +525,10 @@ const zhCN = {
   "versionReleases.uploading": "正在上传安装包...",
   "versionReleases.sha256Help": "标记为最新版本时必须填写。",
   "versionReleases.sha256Placeholder": "64 位小写十六进制校验和",
-  "versionReleases.signature": "签名 JSON",
+  "versionReleases.signature": "Ed25519 签名",
   "versionReleases.signatureHelp":
-    "最新版本必须包含带有 signature 和 key_id 字段的 JSON。",
+    "使用 release_files/sign-version-release.sh 在离线环境生成 Base64 签名。",
+  "versionReleases.signaturePlaceholder": "Base64 Ed25519 签名",
   "versionReleases.descriptionLabel": "描述",
   "versionReleases.descriptionPlaceholder": "版本说明或更新内容",
   "versionReleases.latest": "最新版本",

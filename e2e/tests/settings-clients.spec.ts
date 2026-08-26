@@ -1,12 +1,12 @@
-import { test, expect } from "../helpers/fixtures";
-import { navigateTo } from "../helpers/auth";
-import { generateRandomName } from "../helpers/utils";
 import { deleteGroupsByPrefix } from "../helpers/api";
+import { navigateTo } from "../helpers/auth";
+import { expect,test } from "../helpers/fixtures";
+import { generateRandomName } from "../helpers/utils";
 
 let peerExposeGroup = "";
 
 test.describe.serial("Settings - Clients @settings", () => {
-  test("Should set automatic updates to Latest Version with force updates", async ({
+  test("Should set signed update prompts to Latest Version", async ({
     dashboardAsOwner: page,
   }) => {
     await navigateTo(page, "/settings?tab=clients");
@@ -19,20 +19,13 @@ test.describe.serial("Settings - Clients @settings", () => {
     }
 
     await selectAutoUpdateMethod(page, "Latest Version");
-    const forceToggle = page.getByTestId("force-auto-updates");
-    if ((await forceToggle.getAttribute("data-state")) !== "checked") {
-      await forceToggle.click();
-    }
-    await expect(forceToggle).toHaveAttribute("data-state", "checked");
+    await expect(page.getByTestId("force-auto-updates")).toHaveCount(0);
     await save(page);
   });
 
-  test("Should switch to Custom Version and disable force updates", async ({
+  test("Should switch to a Custom Version prompt", async ({
     dashboardAsOwner: page,
   }) => {
-    await page.getByTestId("force-auto-updates").click();
-    await expect(page.getByTestId("force-auto-updates")).toHaveAttribute("data-state", "unchecked");
-
     await selectAutoUpdateMethod(page, "Custom Version");
     await page.getByTestId("auto-update-version-input").fill("0.5");
     await save(page);

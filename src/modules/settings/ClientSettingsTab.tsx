@@ -11,13 +11,13 @@ import {
   SelectDropdown,
   SelectOption,
 } from "@components/select/SelectDropdown";
-import { Callout } from "@components/Callout";
+import { SkeletonSettings } from "@components/skeletons/SkeletonSettings";
+import { SmallBadge } from "@components/ui/SmallBadge";
 import { useHasChanges } from "@hooks/useHasChanges";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useApiCall } from "@utils/api";
 import { cn, validator } from "@utils/helpers";
 import {
-  AlertTriangle,
   ClockFadingIcon,
   ExternalLinkIcon,
   MonitorSmartphoneIcon,
@@ -26,16 +26,14 @@ import {
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
+import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
+import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Account } from "@/interfaces/Account";
-import { SmallBadge } from "@components/ui/SmallBadge";
-import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-import { useGroups } from "@/contexts/GroupsProvider";
-import { SkeletonSettings } from "@components/skeletons/SkeletonSettings";
 
 type Props = {
   account: Account;
@@ -94,10 +92,6 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
     isCustomVersion ? autoUpdateSetting : "",
   );
 
-  const [autoUpdateAlways, setAutoUpdateAlways] = useState(
-    account.settings?.auto_update_always ?? false,
-  );
-
   const [peerExposeEnabled, setPeerExposeEnabled] = useState<boolean>(
     account?.settings?.peer_expose_enabled ?? false,
   );
@@ -113,7 +107,6 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
   const { hasChanges, updateRef } = useHasChanges([
     autoUpdateMethod,
     autoUpdateCustomVersion,
-    autoUpdateAlways,
     peerExposeEnabled,
     peerExposeGroupNames,
   ]);
@@ -170,7 +163,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           settings: {
             ...account.settings,
             auto_update_version: autoUpdateCustomVersion || autoUpdateMethod,
-            auto_update_always: autoUpdateAlways,
+            auto_update_always: false,
             peer_expose_enabled: peerExposeEnabled,
             peer_expose_groups: peerExposeGroupIds,
           },
@@ -180,7 +173,6 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           updateRef([
             autoUpdateMethod,
             autoUpdateCustomVersion,
-            autoUpdateAlways,
             peerExposeEnabled,
             peerExposeGroupNames,
           ]);
@@ -306,36 +298,6 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
                 }}
               />
             </div>
-            <FancyToggleSwitch
-              className={"mt-4"}
-              value={autoUpdateAlways}
-              onChange={setAutoUpdateAlways}
-              data-testid="force-auto-updates"
-              label={
-                <>
-                  <AlertTriangle size={15} className={"text-yellow-400"} />
-                  {t("clientSettings.forceAutomaticUpdates")}
-                </>
-              }
-              helpText={t("clientSettings.forceAutomaticUpdatesHelp")}
-              disabled={
-                !permission.settings.update || autoUpdateMethod === "disabled"
-              }
-            />
-            {autoUpdateAlways && autoUpdateMethod !== "disabled" && (
-              <Callout
-                className={"mt-3"}
-                variant={"warning"}
-                icon={
-                  <AlertTriangle
-                    size={14}
-                    className={"shrink-0 relative top-[3px]"}
-                  />
-                }
-              >
-                {t("clientSettings.forceAutomaticUpdatesWarning")}
-              </Callout>
-            )}
           </div>
 
           <div>

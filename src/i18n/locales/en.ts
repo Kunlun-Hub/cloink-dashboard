@@ -523,9 +523,10 @@ const en = {
     "Required for a release that is marked as latest.",
   "versionReleases.sha256Placeholder":
     "64-character lowercase hexadecimal checksum",
-  "versionReleases.signature": "Signature JSON",
+  "versionReleases.signature": "Ed25519 signature",
   "versionReleases.signatureHelp":
-    "A latest release must include JSON with signature and key_id fields.",
+    "Generate this Base64 signature offline with release_files/sign-version-release.sh.",
+  "versionReleases.signaturePlaceholder": "Base64 Ed25519 signature",
   "versionReleases.descriptionLabel": "Description",
   "versionReleases.descriptionPlaceholder": "Release notes or changes",
   "versionReleases.latest": "Latest release",
