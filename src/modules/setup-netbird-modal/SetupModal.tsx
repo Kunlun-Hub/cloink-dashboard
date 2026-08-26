@@ -221,7 +221,11 @@ export function SetupModalContent({
 
       <Tabs
         defaultValue={String(
-          isUserDevice === false || setupKey ? OperatingSystem.LINUX : os,
+          isInstallPage
+            ? OperatingSystem.WINDOWS
+            : isUserDevice === false || setupKey
+            ? OperatingSystem.LINUX
+            : os,
         )}
       >
         <TabsList justify={tabAlignment} className={"pt-2 px-3"}>
@@ -323,7 +327,7 @@ export function SetupModalContent({
           />
         )}
       </Tabs>
-      {footer && (
+      {footer && !isInstallPage && (
         <ModalFooter variant={"setup"}>
           <div>
             <SmallParagraph>

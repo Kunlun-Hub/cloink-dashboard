@@ -5901,6 +5901,11 @@ const zhCN = {
   "versionInfo.updateAvailableLabel": "有可用更新",
   "windowsTab.installOnWindows": "在 Windows 上安装",
   "windowsTab.downloadInstaller": "下载并运行 Windows 安装程序",
+  "androidTab.installOnAndroid": "在 Android 上安装",
+  "androidTab.downloadInstaller": "选择并下载 Android APK",
+  "androidTab.selectRelease": "选择版本和架构",
+  "androidTab.noPublishedRelease": "暂无 Android 发布版本",
+  "androidTab.publishReleaseFirst": "请先在设置 > 版本发布中上传 Android APK。",
   "linuxTab.installWithCli": "使用命令行一键安装",
   "linuxTab.installManually": "手动安装（通用）",
   "linuxTab.oneClickDescription":

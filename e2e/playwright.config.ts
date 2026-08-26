@@ -46,8 +46,12 @@ export default defineConfig({
       testMatch: "login.spec.ts",
     },
     {
+      name: "public-install",
+      testMatch: "setup-modal-install.spec.ts",
+    },
+    {
       name: "e2e",
-      testIgnore: "login.spec.ts",
+      testIgnore: ["login.spec.ts", "setup-modal-install.spec.ts"],
       dependencies: ["login"],
     },
   ],

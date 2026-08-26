@@ -6358,6 +6358,12 @@ const en = {
   "versionInfo.updateAvailableLabel": "Update available",
   "windowsTab.installOnWindows": "Install on Windows",
   "windowsTab.downloadInstaller": "Download and run Windows Installer",
+  "androidTab.installOnAndroid": "Install on Android",
+  "androidTab.downloadInstaller": "Select and download the Android APK",
+  "androidTab.selectRelease": "Select version and architecture",
+  "androidTab.noPublishedRelease": "No Android release published",
+  "androidTab.publishReleaseFirst":
+    "Publish an Android APK in Settings > Version releases first.",
   "linuxTab.installWithCli": "One-click command-line installation",
   "linuxTab.installManually": "Manual installation (universal)",
   "linuxTab.oneClickDescription":
