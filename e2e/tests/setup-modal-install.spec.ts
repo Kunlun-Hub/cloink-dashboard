@@ -31,6 +31,15 @@ async function mockVersionReleases(
 
 test.describe("Public install modal", () => {
   test("defaults to Windows and omits the footer", async ({ page }) => {
+    const transformedArtifactRequests: string[] = [];
+    page.on("request", (request) => {
+      if (
+        request.url().includes("/api/version-releases/files/") &&
+        request.url().includes("__next._tree.txt")
+      ) {
+        transformedArtifactRequests.push(request.url());
+      }
+    });
     await mockVersionReleases(page);
     await page.goto("/install");
 
@@ -42,6 +51,7 @@ test.describe("Public install modal", () => {
       page.getByText(/After that you should be connected/i),
     ).toHaveCount(0);
     await expect(page.getByText("Installation Guide")).toHaveCount(0);
+    expect(transformedArtifactRequests).toEqual([]);
   });
 
   test("downloads Android from the published release catalog", async ({

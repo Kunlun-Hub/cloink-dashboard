@@ -65,6 +65,7 @@ export default function AndroidTab() {
                 <Link
                   href={androidUrl}
                   passHref
+                  prefetch={false}
                   target={"_blank"}
                   rel="noopener noreferrer"
                 >

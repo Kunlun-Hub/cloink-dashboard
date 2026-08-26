@@ -112,6 +112,7 @@ export default function WindowsTab({
               <Link
                 href={windowsUrl}
                 passHref
+                prefetch={false}
                 target={"_blank"}
                 rel="noopener noreferrer"
               >

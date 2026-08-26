@@ -71,7 +71,12 @@ export default function MacOSTab({
               {t("setupNetbirdModal.downloadAndRunInstaller")}
             </div>
             <div className={"flex gap-4 mt-1 flex-wrap"}>
-              <Link href={macosUrl} passHref target={"_blank"}>
+              <Link
+                href={macosUrl}
+                passHref
+                prefetch={false}
+                target={"_blank"}
+              >
                 <Button variant={"primary"}>
                   <DownloadIcon size={14} />
                   {t("setupNetbirdModal.downloadNetBird")}
