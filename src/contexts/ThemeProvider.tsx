@@ -1,6 +1,8 @@
 "use client";
 
+import "react-loading-skeleton/dist/skeleton.css";
 import * as React from "react";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 export type Theme = "light" | "dark" | "system";
 
@@ -48,9 +50,7 @@ const getSystemTheme = (): "light" | "dark" => {
 const withTransitionsDisabled = (apply: () => void) => {
   const style = document.createElement("style");
   style.appendChild(
-    document.createTextNode(
-      "*,*::before,*::after{transition:none!important}",
-    ),
+    document.createTextNode("*,*::before,*::after{transition:none!important}"),
   );
   document.head.appendChild(style);
   try {
@@ -63,15 +63,17 @@ const withTransitionsDisabled = (apply: () => void) => {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = React.useState<Theme>(getStoredTheme);
-  const [systemTheme, setSystemTheme] =
-    React.useState<"light" | "dark">(getSystemTheme);
+  const [systemTheme, setSystemTheme] = React.useState<"light" | "dark">(
+    getSystemTheme,
+  );
 
   const resolvedTheme = theme === "system" ? systemTheme : theme;
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     withTransitionsDisabled(() => {
       const root = document.documentElement;
       root.classList.toggle("dark", resolvedTheme === "dark");
+      root.classList.toggle("light", resolvedTheme === "light");
       root.style.colorScheme = resolvedTheme;
     });
   }, [resolvedTheme]);
@@ -98,7 +100,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>
+      <SkeletonTheme
+        baseColor={"rgb(var(--skeleton-base-color))"}
+        highlightColor={"rgb(var(--skeleton-highlight-color))"}
+      >
+        {children}
+      </SkeletonTheme>
+    </ThemeContext.Provider>
   );
 }
 

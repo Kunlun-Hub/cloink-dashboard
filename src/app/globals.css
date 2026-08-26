@@ -3,177 +3,178 @@
 @tailwind utilities;
 
 :root {
-    --toasts-before: 0;
-    --lift: 1;
+  --toasts-before: 0;
+  --lift: 1;
 
-    /* Theme-aware neutral ramp: light surfaces use high stops, text uses low. */
-    --nb-gray-DEFAULT: 245 247 249;
-    --nb-gray-50: 24 26 29;
-    --nb-gray-100: 31 33 36;
-    --nb-gray-200: 46 50 56;
-    --nb-gray-250: 54 59 64;
-    --nb-gray-300: 71 78 87;
-    --nb-gray-350: 83 93 103;
-    --nb-gray-400: 97 110 121;
-    --nb-gray-500: 124 137 148;
-    --nb-gray-600: 143 156 168;
-    --nb-gray-700: 203 210 214;
-    --nb-gray-800: 223 227 230;
-    --nb-gray-850: 231 234 236;
-    --nb-gray-900: 236 238 240;
-    --nb-gray-910: 238 240 242;
-    --nb-gray-920: 241 243 244;
-    --nb-gray-925: 243 245 246;
-    --nb-gray-930: 244 246 247;
-    --nb-gray-935: 246 248 249;
-    --nb-gray-940: 248 250 251;
-    --nb-gray-950: 251 252 252;
-    --nb-gray-960: 255 255 255;
-    --cloink-brand-50: 255 246 237;
-    --cloink-brand-100: 254 236 214;
-    --cloink-brand-150: 255 223 184;
-    --cloink-brand-200: 255 212 166;
-    --cloink-brand-300: 250 182 119;
-    --cloink-brand-400: 246 131 48;
-    --cloink-brand-500: 244 109 27;
-    --cloink-brand-600: 229 83 17;
-    --cloink-brand-700: 190 62 16;
-    --cloink-brand-800: 151 50 21;
-    --cloink-brand-900: 122 43 20;
-    --cloink-brand-950: 66 19 8;
+  /* Theme-aware neutral ramp: light surfaces use high stops, text uses low. */
+  --nb-gray-DEFAULT: 245 247 249;
+  --nb-gray-50: 24 26 29;
+  --nb-gray-100: 31 33 36;
+  --nb-gray-200: 46 50 56;
+  --nb-gray-250: 54 59 64;
+  --nb-gray-300: 71 78 87;
+  --nb-gray-350: 83 93 103;
+  --nb-gray-400: 97 110 121;
+  --nb-gray-500: 124 137 148;
+  --nb-gray-600: 143 156 168;
+  --nb-gray-700: 203 210 214;
+  --nb-gray-800: 223 227 230;
+  --nb-gray-850: 231 234 236;
+  --nb-gray-900: 236 238 240;
+  --nb-gray-910: 238 240 242;
+  --nb-gray-920: 241 243 244;
+  --nb-gray-925: 243 245 246;
+  --nb-gray-930: 244 246 247;
+  --nb-gray-935: 246 248 249;
+  --nb-gray-940: 248 250 251;
+  --nb-gray-950: 251 252 252;
+  --nb-gray-960: 255 255 255;
+  --skeleton-base-color: 236 238 240;
+  --skeleton-highlight-color: 248 250 251;
+  --cloink-brand-50: 255 246 237;
+  --cloink-brand-100: 254 236 214;
+  --cloink-brand-150: 255 223 184;
+  --cloink-brand-200: 255 212 166;
+  --cloink-brand-300: 250 182 119;
+  --cloink-brand-400: 246 131 48;
+  --cloink-brand-500: 244 109 27;
+  --cloink-brand-600: 229 83 17;
+  --cloink-brand-700: 190 62 16;
+  --cloink-brand-800: 151 50 21;
+  --cloink-brand-900: 122 43 20;
+  --cloink-brand-950: 66 19 8;
 }
 
 .dark {
-    --nb-gray-DEFAULT: 24 26 29;
-    --nb-gray-50: 244 246 247;
-    --nb-gray-100: 228 231 233;
-    --nb-gray-200: 203 210 214;
-    --nb-gray-250: 183 192 198;
-    --nb-gray-300: 163 173 181;
-    --nb-gray-350: 143 156 168;
-    --nb-gray-400: 124 137 148;
-    --nb-gray-500: 97 110 121;
-    --nb-gray-600: 83 93 103;
-    --nb-gray-700: 71 78 87;
-    --nb-gray-800: 63 68 75;
-    --nb-gray-850: 54 59 64;
-    --nb-gray-900: 46 50 56;
-    --nb-gray-910: 43 47 51;
-    --nb-gray-920: 37 40 45;
-    --nb-gray-925: 30 33 35;
-    --nb-gray-930: 37 40 44;
-    --nb-gray-935: 31 33 36;
-    --nb-gray-940: 28 30 33;
-    --nb-gray-950: 24 26 29;
-    --nb-gray-960: 22 24 27;
+  --nb-gray-DEFAULT: 24 26 29;
+  --nb-gray-50: 244 246 247;
+  --nb-gray-100: 228 231 233;
+  --nb-gray-200: 203 210 214;
+  --nb-gray-250: 183 192 198;
+  --nb-gray-300: 163 173 181;
+  --nb-gray-350: 143 156 168;
+  --nb-gray-400: 124 137 148;
+  --nb-gray-500: 97 110 121;
+  --nb-gray-600: 83 93 103;
+  --nb-gray-700: 71 78 87;
+  --nb-gray-800: 63 68 75;
+  --nb-gray-850: 54 59 64;
+  --nb-gray-900: 46 50 56;
+  --nb-gray-910: 43 47 51;
+  --nb-gray-920: 37 40 45;
+  --nb-gray-925: 30 33 35;
+  --nb-gray-930: 37 40 44;
+  --nb-gray-935: 31 33 36;
+  --nb-gray-940: 28 30 33;
+  --nb-gray-950: 24 26 29;
+  --nb-gray-960: 22 24 27;
+  --skeleton-base-color: 37 40 45;
+  --skeleton-highlight-color: 54 59 64;
 }
 
-html{
-    @apply bg-nb-gray;
+html {
+  @apply bg-nb-gray;
 }
 
 h1 {
-    @apply text-2xl font-medium text-nb-gray-100 my-1;
+  @apply text-2xl font-medium text-nb-gray-100 my-1;
 }
 h2 {
-    @apply text-xl font-medium text-nb-gray-100 my-1;
+  @apply text-xl font-medium text-nb-gray-100 my-1;
 }
 p {
-    @apply font-light tracking-wide text-nb-gray-200 text-sm;
+  @apply font-light tracking-wide text-nb-gray-200 text-sm;
 }
 
 .p-default {
-    @apply px-4 sm:px-6 md:px-8;
+  @apply px-4 sm:px-6 md:px-8;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-[placeholder]{
-    text-overflow:ellipsis;
+[placeholder] {
+  text-overflow: ellipsis;
 }
 
-.animated-gradient-bg{
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    height: 100%;
+.animated-gradient-bg {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100%;
 }
 
 @keyframes gradient {
-    0% {
-        background-position: 0 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0 50%;
-    }
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 .sticky {
-    position: sticky !important;
-    left: 0;
-    top: 0;
-    z-index: 1;
+  position: sticky !important;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
 
-
 .table-fixed-scroll {
-    display: table;
-    position: relative;
-    width: 100%;
+  display: table;
+  position: relative;
+  width: 100%;
 }
 
 .stepper-bg-variant .step-circle {
-    @apply !border-nb-gray-940;
+  @apply !border-nb-gray-940;
 }
 
-.webkit-scroll{
-    -webkit-overflow-scrolling: touch;
-    -webkit-transform: translate3d(0, 0, 0);
+.webkit-scroll {
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translate3d(0, 0, 0);
 }
-
 
 /**
  * Timescape Root element
  */
 .timescape {
-    @apply flex items-center gap-[1px] rounded-md py-2 px-3 select-none w-fit cursor-text bg-nb-gray-900;
+  @apply flex items-center gap-[1px] rounded-md py-2 px-3 select-none w-fit cursor-text bg-nb-gray-900;
 }
 
 /**
  * Date and time input elements
  */
 .timescape input {
-    @apply cursor-text px-0.5 py-1 bg-transparent h-fit border-0 outline-0 select-none box-content caret-transparent text-nb-gray-200 text-sm placeholder-nb-gray-300;
-    font-variant-numeric: tabular-nums;
-    /* For the calculation of the input width these are important */
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
+  @apply cursor-text px-0.5 py-1 bg-transparent h-fit border-0 outline-0 select-none box-content caret-transparent text-nb-gray-200 text-sm placeholder-nb-gray-300;
+  font-variant-numeric: tabular-nums;
+  /* For the calculation of the input width these are important */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .timescape input:focus {
-    @apply bg-nb-gray-700 text-nb-gray-50 rounded py-1 px-0.5 border-0 outline-0;
+  @apply bg-nb-gray-700 text-nb-gray-50 rounded py-1 px-0.5 border-0 outline-0;
 }
 
 /**
  * Separator elements
  */
 .timescape .separator {
-    @apply text-gray-400 m-0 text-[80%] -top-[1px] relative;
+  @apply text-gray-400 m-0 text-[80%] -top-[1px] relative;
 }
-
 
 /**
  * Fade in animation
@@ -183,81 +184,85 @@ p {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-
 .animate-slow-ping {
-    animation: ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite
+  animation: ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @keyframes ping {
-    75%, 100% {
-        transform: scale(2);
-        opacity: 0;
-    }
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 
 .animate-slow-pulse {
-    animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite
+  animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-
 @keyframes pulse {
-    60% {
-        opacity: 0.5;
-    }
+  60% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes bg-scroll {
-    0% {
-        background-position: 0% 100%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
+  0% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .animate-bg-scroll {
-    animation: bg-scroll 4s linear infinite;
+  animation: bg-scroll 4s linear infinite;
 }
 .animate-bg-scroll-faster {
-    animation: bg-scroll 1.8s linear infinite;
+  animation: bg-scroll 1.8s linear infinite;
 }
 
 /**
  * Terminal (xterm)
  */
 .xterm {
-    @apply m-0 p-1 box-border h-full w-full;
+  @apply m-0 p-1 box-border h-full w-full;
 }
 
 .xterm-viewport {
-    @apply m-0 p-0 box-border;
+  @apply m-0 p-0 box-border;
 }
 
 /* Disable sonner's opacity fade-in for custom toasts, but respect visibility */
 [data-sonner-toast][data-visible="true"] {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
-
 
 /* Adjust sonner stacking: less shrink and less lift per toast */
 [data-sonner-toast][data-expanded="false"][data-front="false"] {
-    --scale: calc(var(--toasts-before) * 0.03 - 1) !important;
-    --lift-amount: calc(var(--lift) * 10px) !important;
+  --scale: calc(var(--toasts-before) * 0.03 - 1) !important;
+  --lift-amount: calc(var(--lift) * 10px) !important;
 }
 
 /* Override stacked toast removal to move up instead of down */
-[data-sonner-toast][data-removed='true'][data-front='false'][data-swipe-out='false'][data-expanded='false'] {
-    --y: translateY(calc(var(--lift) * -20%)) !important;
+[data-sonner-toast][data-removed="true"][data-front="false"][data-swipe-out="false"][data-expanded="false"] {
+  --y: translateY(calc(var(--lift) * -20%)) !important;
 
-    opacity: 0 !important;
-    transition: transform 400ms ease, opacity 300ms ease !important;
+  opacity: 0 !important;
+  transition:
+    transform 400ms ease,
+    opacity 300ms ease !important;
 }
 
 /* Control Center */
-.react-flow__node-groupNode .selected{
-    @apply border-netbird;
+.react-flow__node-groupNode .selected {
+  @apply border-netbird;
 }

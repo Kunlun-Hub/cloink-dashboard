@@ -17,6 +17,76 @@ async function expectTheme(
     .toEqual({ isDark: theme === "dark", colorScheme: theme });
 }
 
+async function sampleDarkTransition(
+  page: import("@playwright/test").Page,
+  path: string,
+) {
+  return page.evaluate(async (targetPath) => {
+    const button = document.querySelector<HTMLButtonElement>(
+      `[data-nav-item="${targetPath}"] button`,
+    );
+    if (!button) throw new Error(`Navigation item not found: ${targetPath}`);
+
+    const samples: {
+      body: string;
+      html: string;
+      isDark: boolean;
+      largeLightSurfaces: number;
+      skeletonColors: string[];
+    }[] = [];
+    const startedAt = performance.now();
+
+    button.click();
+
+    while (performance.now() - startedAt < 900) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+
+      const largeLightSurfaces = [
+        ...document.querySelectorAll<HTMLElement>("body *"),
+      ].filter((element) => {
+        const rect = element.getBoundingClientRect();
+        if (rect.width * rect.height < innerWidth * innerHeight * 0.2) {
+          return false;
+        }
+        if (
+          rect.bottom <= 0 ||
+          rect.right <= 0 ||
+          rect.top >= innerHeight ||
+          rect.left >= innerWidth
+        ) {
+          return false;
+        }
+        const color = getComputedStyle(element).backgroundColor;
+        const channels = color.match(/[\d.]+/g)?.map(Number);
+        return (
+          !!channels &&
+          channels.length >= 3 &&
+          channels[0] >= 245 &&
+          channels[1] >= 245 &&
+          channels[2] >= 245 &&
+          (channels[3] ?? 1) >= 0.8
+        );
+      }).length;
+
+      samples.push({
+        body: getComputedStyle(document.body).backgroundColor,
+        html: getComputedStyle(document.documentElement).backgroundColor,
+        isDark: document.documentElement.classList.contains("dark"),
+        largeLightSurfaces,
+        skeletonColors: [
+          ...document.querySelectorAll<HTMLElement>(".react-loading-skeleton"),
+        ].map((element) =>
+          getComputedStyle(element).getPropertyValue("--base-color"),
+        ),
+      });
+    }
+
+    return samples;
+  }, path);
+}
+
 test.describe.serial("Theme @theme", () => {
   test("switches themes and persists the selection", async ({
     dashboardAsOwner: page,
@@ -72,6 +142,39 @@ test.describe.serial("Theme @theme", () => {
       if (colors.skeleton) {
         expect(colors.skeleton.match(/\d+/g)?.join(",")).toBe("37,40,45");
       }
+    }
+  });
+
+  test("keeps every client-side navigation frame dark", async ({
+    dashboardAsOwner: page,
+  }) => {
+    await page.evaluate((key) => localStorage.setItem(key, "dark"), THEME_KEY);
+    await navigateTo(page, "/peers");
+    await expectTheme(page, "dark");
+
+    for (const path of ["/relays", "/settings", "/peers", "/control-center"]) {
+      const samples = await sampleDarkTransition(page, path);
+
+      expect(samples.length).toBeGreaterThan(0);
+      expect(samples.every((sample) => sample.isDark)).toBe(true);
+      expect(
+        samples.every(
+          (sample) =>
+            sample.body === "rgb(24, 26, 29)" &&
+            sample.html === "rgb(24, 26, 29)",
+        ),
+      ).toBe(true);
+      expect(samples.every((sample) => sample.largeLightSurfaces === 0)).toBe(
+        true,
+      );
+      expect(
+        samples.every((sample) =>
+          sample.skeletonColors.every(
+            (color) => color.match(/\d+/g)?.join(",") === "37,40,45",
+          ),
+        ),
+      ).toBe(true);
+      await expect.poll(() => new URL(page.url()).pathname).toBe(path);
     }
   });
 });
