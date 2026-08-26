@@ -51,6 +51,31 @@ const defaultRanges = {
   },
 };
 
+const recentRanges = () => ({
+  last5Minutes: {
+    from: dayjs().subtract(5, "minute").toDate(),
+    to: dayjs().toDate(),
+  },
+  last15Minutes: {
+    from: dayjs().subtract(15, "minute").toDate(),
+    to: dayjs().toDate(),
+  },
+  last30Minutes: {
+    from: dayjs().subtract(30, "minute").toDate(),
+    to: dayjs().toDate(),
+  },
+  last1Hour: {
+    from: dayjs().subtract(1, "hour").toDate(),
+    to: dayjs().toDate(),
+  },
+});
+
+const isRecentRange = (value: DateRange | undefined, minutes: number) => {
+  if (!value?.from || !value.to) return false;
+  const duration = dayjs(value.to).diff(dayjs(value.from), "second");
+  return Math.abs(duration - minutes * 60) <= 2;
+};
+
 const isEqualDateRange = (a: DateRange | undefined, b: DateRange) => {
   if (!a) return false;
   const aFromDay = dayjs(a.from).format("YYYY-MM-DD");
@@ -69,13 +94,24 @@ export function dateRangePresetLabel(
   t: (key: MessageKey) => string,
 ): string | null {
   if (!value?.from && !value?.to) return null;
-  if (isEqualDateRange(value, defaultRanges.allTime)) return t("datePicker.allTime");
-  if (isEqualDateRange(value, defaultRanges.lastMonth)) return t("datePicker.lastMonth");
-  if (isEqualDateRange(value, defaultRanges.last14Days)) return t("datePicker.last14Days");
-  if (isEqualDateRange(value, defaultRanges.last2Days)) return t("datePicker.last2Days");
-  if (isEqualDateRange(value, defaultRanges.last7Days)) return t("datePicker.last7Days");
-  if (isEqualDateRange(value, defaultRanges.yesterday)) return t("datePicker.yesterday");
-  if (isEqualDateRange(value, defaultRanges.today)) return t("datePicker.today");
+  if (isRecentRange(value, 5)) return t("datePicker.last5Minutes");
+  if (isRecentRange(value, 15)) return t("datePicker.last15Minutes");
+  if (isRecentRange(value, 30)) return t("datePicker.last30Minutes");
+  if (isRecentRange(value, 60)) return t("datePicker.last1Hour");
+  if (isEqualDateRange(value, defaultRanges.allTime))
+    return t("datePicker.allTime");
+  if (isEqualDateRange(value, defaultRanges.lastMonth))
+    return t("datePicker.lastMonth");
+  if (isEqualDateRange(value, defaultRanges.last14Days))
+    return t("datePicker.last14Days");
+  if (isEqualDateRange(value, defaultRanges.last2Days))
+    return t("datePicker.last2Days");
+  if (isEqualDateRange(value, defaultRanges.last7Days))
+    return t("datePicker.last7Days");
+  if (isEqualDateRange(value, defaultRanges.yesterday))
+    return t("datePicker.yesterday");
+  if (isEqualDateRange(value, defaultRanges.today))
+    return t("datePicker.today");
   return null;
 }
 
@@ -90,6 +126,10 @@ export function DatePickerWithRange({
   const isActive = useMemo(() => {
     return {
       today: isEqualDateRange(value, defaultRanges.today),
+      last5Minutes: isRecentRange(value, 5),
+      last15Minutes: isRecentRange(value, 15),
+      last30Minutes: isRecentRange(value, 30),
+      last1Hour: isRecentRange(value, 60),
       yesterday: isEqualDateRange(value, defaultRanges.yesterday),
       last14Days: isEqualDateRange(value, defaultRanges.last14Days),
       last2Days: isEqualDateRange(value, defaultRanges.last2Days),
@@ -109,7 +149,7 @@ export function DatePickerWithRange({
     return `${dayjs(value.from).format("MMM DD, YYYY")} - ${dayjs(
       value.to,
     ).format("MMM DD, YYYY")}`;
-  }, [value]);
+  }, [t, value]);
 
   const [calendarOpen, setCalendarOpen] = useState(false);
 
@@ -159,6 +199,32 @@ export function DatePickerWithRange({
               "px-3 py-2 flex flex-wrap gap-2 max-w-[280px] sm:max-w-none border-b border-nb-gray-800 items-center justify-between w-full"
             }
           >
+            <div className={"flex gap-2 flex-wrap"}>
+              <CalendarButton
+                label={t("datePicker.last5Minutes")}
+                active={isActive.last5Minutes}
+                onClick={() => updateRangeAndClose(recentRanges().last5Minutes)}
+              />
+              <CalendarButton
+                label={t("datePicker.last15Minutes")}
+                active={isActive.last15Minutes}
+                onClick={() =>
+                  updateRangeAndClose(recentRanges().last15Minutes)
+                }
+              />
+              <CalendarButton
+                label={t("datePicker.last30Minutes")}
+                active={isActive.last30Minutes}
+                onClick={() =>
+                  updateRangeAndClose(recentRanges().last30Minutes)
+                }
+              />
+              <CalendarButton
+                label={t("datePicker.last1Hour")}
+                active={isActive.last1Hour}
+                onClick={() => updateRangeAndClose(recentRanges().last1Hour)}
+              />
+            </div>
             <div>
               <CalendarButton
                 label={
