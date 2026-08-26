@@ -70,7 +70,7 @@ test.describe.serial("Theme @theme", () => {
 
       expect(colors.body).not.toBe("rgb(255, 255, 255)");
       if (colors.skeleton) {
-        expect(colors.skeleton.replaceAll(" ", "")).toBe("rgb(37,40,45)");
+        expect(colors.skeleton.match(/\d+/g)?.join(",")).toBe("37,40,45");
       }
     }
   });
