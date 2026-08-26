@@ -113,7 +113,7 @@ function InviteAcceptContent() {
                 <Clock className="w-8 h-8 text-yellow-500" />
               </div>
             </div>
-            <h1 className="text-2xl font-semibold text-white mb-2">
+            <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
               {t("invite.tooManyRequests")}
             </h1>
             <Paragraph className="text-nb-gray-400 text-base">
@@ -139,7 +139,7 @@ function InviteAcceptContent() {
               <AlertCircle className="w-8 h-8 text-red-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold text-white mb-2">
+          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
             {t("invite.invalidTitle")}
           </h1>
           <Paragraph className="text-nb-gray-400 text-base">
@@ -166,7 +166,7 @@ function InviteAcceptContent() {
               <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold text-white mb-2">
+          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
             {t("invite.accountCreatedTitle")}
           </h1>
           <Paragraph className="text-nb-gray-400">
@@ -193,7 +193,7 @@ function InviteAcceptContent() {
               <AlertCircle className="w-8 h-8 text-yellow-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold text-white mb-2">
+          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
             {t("invite.expiredTitle")}
           </h1>
           <Paragraph className="text-nb-gray-400">
@@ -219,7 +219,7 @@ function InviteAcceptContent() {
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-white mb-2">
+          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
             {t("invite.welcomeTitle")}
           </h1>
           <p className="dark:text-nb-gray-400 text-nb-gray-500 text-base">
@@ -235,7 +235,7 @@ function InviteAcceptContent() {
               <User2 className="w-5 h-5 text-nb-gray-400" />
             </div>
             <div>
-              <div className="text-white font-medium">{inviteInfo.name}</div>
+              <div className="dark:text-white text-nb-gray-900 font-medium">{inviteInfo.name}</div>
               <div className="text-nb-gray-400 text-sm flex items-center gap-1">
                 <Mail className="w-3 h-3" />
                 {inviteInfo.email}

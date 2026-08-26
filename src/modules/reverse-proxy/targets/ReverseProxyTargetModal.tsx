@@ -360,22 +360,22 @@ export default function ReverseProxyTargetModal({
                             <div className="text-xs max-w-xs flex flex-col gap-2">
                               <div>
                                 {t("reverseProxy.preservePathDisabledPrefix")}{" "}
-                                <span className="font-mono text-white">
+                                <span className="font-mono text-nb-gray-100">
                                   {targetPath}/users
                                 </span>{" "}
                                 {t("reverseProxy.preservePathDisabledMiddle")}{" "}
-                                <span className="font-mono text-white">
+                                <span className="font-mono text-nb-gray-100">
                                   /users
                                 </span>
                                 .
                               </div>
                               <div>
                                 {t("reverseProxy.preservePathEnabledPrefix")}{" "}
-                                <span className="font-mono text-white">
+                                <span className="font-mono text-nb-gray-100">
                                   {targetPath}/users
                                 </span>{" "}
                                 {t("reverseProxy.preservePathEnabledMiddle")}{" "}
-                                <span className="font-mono text-white">
+                                <span className="font-mono text-nb-gray-100">
                                   {targetPath}/users
                                 </span>
                                 .

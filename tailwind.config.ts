@@ -102,6 +102,10 @@ const config: Config = {
           800: "#99154B",
           900: "#751A3D",
         },
+        // nb-gray is theme-aware: channels are defined as CSS variables in
+        // globals.css (:root = inverted light ramp, .dark = original dark ramp).
+        // The `rgb(var(...) / <alpha-value>)` form keeps opacity modifiers
+        // (e.g. `bg-nb-gray-900/80`) working.
         "nb-gray": {
           DEFAULT: "rgb(var(--nb-gray-DEFAULT) / <alpha-value>)",
           "50": "rgb(var(--nb-gray-50) / <alpha-value>)",

@@ -54,7 +54,7 @@ export default function DataTableResetFilterButton<TData>({
             if (hovered) event.preventDefault();
           }}
         >
-          <span className={"text-xs text-neutral-300"}>
+          <span className={"text-xs text-nb-gray-300"}>
             {t("dataTable.resetFiltersAndSearch")}
           </span>
         </TooltipContent>

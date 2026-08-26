@@ -54,9 +54,9 @@ export default function ClustersFeaturesCell({ cluster }: Readonly<Props>) {
       description: (
         <>
           {t("reverseProxy.privateClusterDescriptionPrefix")}{" "}
-          <span className={"font-medium text-white"}>{t("reverseProxy.netBirdOnlyAccess")}</span>{" "}
+          <span className={"font-medium text-nb-gray-100"}>{t("reverseProxy.netBirdOnlyAccess")}</span>{" "}
           {t("reverseProxy.privateClusterDescriptionMiddle")}{" "}
-          <span className={"font-medium text-white"}>{t("reverseProxy.proxyCluster")}</span>{" "}
+          <span className={"font-medium text-nb-gray-100"}>{t("reverseProxy.proxyCluster")}</span>{" "}
           {t("reverseProxy.privateClusterDescriptionSuffix")}
         </>
       ),
@@ -75,7 +75,7 @@ export default function ClustersFeaturesCell({ cluster }: Readonly<Props>) {
           key={f.key}
           content={
             <div className={"text-xs max-w-xs"}>
-              <div className={"font-medium text-white"}>{f.label}</div>
+              <div className={"font-medium text-nb-gray-100"}>{f.label}</div>
               <div className={"text-nb-gray-300 mt-1"}>{f.description}</div>
             </div>
           }

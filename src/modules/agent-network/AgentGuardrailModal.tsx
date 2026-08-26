@@ -334,7 +334,7 @@ function ModelAllowlistContent({
                     onCheckedChange={() => toggle(m.id)}
                   />
                   <div className={"flex-1"}>
-                    <div className={"text-sm text-white"}>
+                    <div className={"text-sm text-nb-gray-100"}>
                       <code>{m.id}</code>
                     </div>
                     <div className={"text-[11px] text-nb-gray-400"}>
@@ -438,4 +438,3 @@ function PromptCaptureContent({ onConfirm }: { onConfirm: () => void }) {
     </>
   );
 }
-

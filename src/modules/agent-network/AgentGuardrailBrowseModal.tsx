@@ -117,7 +117,7 @@ function GuardrailRow({
     >
       <Checkbox checked={checked} onCheckedChange={onToggle} />
       <div className={"flex-1 min-w-0"}>
-        <div className={"text-sm text-white"}>{guardrail.name}</div>
+        <div className={"text-sm text-nb-gray-100"}>{guardrail.name}</div>
         {guardrail.description && (
           <div className={"text-[11px] text-nb-gray-400 mt-0.5"}>
             {guardrail.description}

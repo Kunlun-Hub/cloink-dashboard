@@ -5,7 +5,7 @@ export default function PricingTableSkeleton() {
   const numberOfSkeletons = 3;
 
   return (
-    <div className="bg-nb-gray-950 p-6 text-white w-full">
+    <div className="bg-nb-gray-950 p-6 text-nb-gray-100 w-full">
       <h1 className="text-3xl font-bold mb-6">
         <Skeleton height={30} width={300}/>
       </h1>

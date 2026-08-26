@@ -260,7 +260,7 @@ const TenantItem = ({
     >
       <div
         className={cn(
-          "w-8 h-8 bg-nb-gray-900 border-nb-gray-800 flex items-center shrink-0 rounded-[4px] justify-center text-sm font-medium text-white uppercase",
+          "w-8 h-8 bg-nb-gray-900 border-nb-gray-800 flex items-center shrink-0 rounded-[4px] justify-center text-sm font-medium text-nb-gray-100 uppercase",
         )}
         style={{
           color: color,

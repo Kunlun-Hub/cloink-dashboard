@@ -460,7 +460,7 @@ function UserMultiSelect({
                     />
                     <CircleUser size={16} className={"text-nb-gray-400"} />
                     <div className={"flex-1 min-w-0"}>
-                      <div className={"text-sm text-white truncate"}>
+                      <div className={"text-sm text-nb-gray-100 truncate"}>
                         {u.name || u.email || u.id}
                       </div>
                       {u.email && u.name && (

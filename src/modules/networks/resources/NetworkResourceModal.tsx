@@ -345,7 +345,7 @@ export function ResourceModalContent({
                       {groupPolicyCount > 0 && (
                         <Callout variant={"info"} className={"mt-3"}>
                           {t("networkResources.groupPolicyPrefix")}{" "}
-                          <span className="text-white font-medium">
+                          <span className="text-sky-900 dark:text-white font-medium">
                             {groupPolicyCount}{" "}
                             {t("networkResources.groupPolicyBoldSuffix")}{" "}
                             {groupPolicyCount === 1

@@ -37,7 +37,7 @@ export const MSPAccountExistsModal = ({
         <div className={"flex flex-col gap-2 px-8 z-[1]"}>
           <div
             className={
-              "text-sm w-full text-center text-white py-2 rounded-lg flex items-center justify-center gap-2"
+              "text-sm w-full text-center text-nb-gray-100 py-2 rounded-lg flex items-center justify-center gap-2"
             }
           >
             <GlobeIcon size={16} className={"text-netbird"} />
@@ -49,7 +49,7 @@ export const MSPAccountExistsModal = ({
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}>
             {t("msp.accountExistsManagePrefix")}{" "}
-            <span className="text-white">{tenant?.domain}</span>
+            <span className="text-nb-gray-100">{tenant?.domain}</span>
             {t("msp.accountExistsManageSuffix")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}></div>

@@ -61,7 +61,7 @@ export const OnboardingTestResource = ({
         <Steps.Step step={1}>
           <p className={"!text-nb-gray-300"}>
             {t("onboarding.testResourceStep1Prefix")}{" "}
-            <span className={cn(device && "text-white")}>
+            <span className={cn(device && "text-nb-gray-100")}>
               {device?.name || t("onboarding.yourDevice")}
             </span>{" "}
             {t("onboarding.testResourceStep1Suffix")}

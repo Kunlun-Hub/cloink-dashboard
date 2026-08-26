@@ -73,9 +73,9 @@ export const ReverseProxyCrowdSecIPReputation = ({
           <Label>{t("reverseProxy.crowdsecTitle")}</Label>
           <HelpText>
             {t("reverseProxy.crowdsecDescriptionPrefix")}{" "}
-            <b className={"text-white"}>{t("reverseProxy.crowdsecEnforce")}</b>{" "}
+            <b className={"text-nb-gray-100"}>{t("reverseProxy.crowdsecEnforce")}</b>{" "}
             {t("reverseProxy.crowdsecDescriptionMiddle")}{" "}
-            <b className={"text-white"}>{t("reverseProxy.crowdsecObserve")}</b>{" "}
+            <b className={"text-nb-gray-100"}>{t("reverseProxy.crowdsecObserve")}</b>{" "}
             {t("reverseProxy.crowdsecDescriptionSuffix")}
           </HelpText>
         </div>

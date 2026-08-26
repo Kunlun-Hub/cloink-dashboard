@@ -277,7 +277,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               {t("clientSettings.automaticUpdatesHelpPrefix")}{" "}
               {t("clientSettings.automaticUpdatesHelpMiddle")}{" "}
               {t("clientSettings.requiresAtLeast")}{" "}
-              <span className={"text-white font-medium"}>v0.61.0</span>.{" "}
+              <span className={"text-nb-gray-100 font-medium"}>v0.61.0</span>.{" "}
               <InlineLink
                 href={"https://docs.netbird.io/manage/peers/auto-update"}
                 target={"_blank"}
@@ -347,7 +347,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               <HelpText>
                 {t("clientSettings.exposeServicesHelpLine1")} <br />{" "}
                 {t("clientSettings.requiresAtLeast")}{" "}
-                <span className={"text-white font-medium"}>v0.66.0</span>.{" "}
+                <span className={"text-nb-gray-100 font-medium"}>v0.66.0</span>.{" "}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/manage/reverse-proxy/expose-from-cli"

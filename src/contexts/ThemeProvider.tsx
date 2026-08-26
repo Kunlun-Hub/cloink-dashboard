@@ -1,21 +1,27 @@
 "use client";
 
-import "react-loading-skeleton/dist/skeleton.css";
 import * as React from "react";
-import { SkeletonTheme } from "react-loading-skeleton";
 
 export type Theme = "light" | "dark" | "system";
-type ResolvedTheme = Exclude<Theme, "system">;
 
 type ThemeContextValue = {
   theme: Theme;
-  resolvedTheme: ResolvedTheme;
+  resolvedTheme: "light" | "dark";
   setTheme: (theme: Theme) => void;
 };
 
 const STORAGE_KEY = "netbird-theme";
 const DEFAULT_THEME: Theme = "dark";
+
 const ThemeContext = React.createContext<ThemeContextValue | null>(null);
+
+/* Production fallback when useTheme is called outside ThemeProvider —
+   in development the same misuse throws instead. */
+const FALLBACK_CONTEXT: ThemeContextValue = {
+  theme: DEFAULT_THEME,
+  resolvedTheme: "dark",
+  setTheme: () => undefined,
+};
 
 const getStoredTheme = (): Theme => {
   if (typeof window === "undefined") return DEFAULT_THEME;
@@ -25,41 +31,47 @@ const getStoredTheme = (): Theme => {
       return stored;
     }
   } catch {
-    // The preference remains session-only when storage is unavailable.
+    // localStorage unavailable (e.g. blocked by browser settings)
   }
   return DEFAULT_THEME;
 };
 
-const getSystemTheme = (): ResolvedTheme => {
+const getSystemTheme = (): "light" | "dark" => {
   if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
 };
 
-const withoutTransitions = (apply: () => void) => {
+/* Suspends CSS transitions for one frame so the whole page switches
+   theme at once instead of elements fading at different speeds. */
+const withTransitionsDisabled = (apply: () => void) => {
   const style = document.createElement("style");
-  style.textContent = "*,*::before,*::after{transition:none!important}";
+  style.appendChild(
+    document.createTextNode(
+      "*,*::before,*::after{transition:none!important}",
+    ),
+  );
   document.head.appendChild(style);
   try {
     apply();
   } finally {
     window.getComputedStyle(document.documentElement);
-    window.setTimeout(() => style.remove(), 1);
+    setTimeout(() => style.remove(), 1);
   }
 };
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = React.useState<Theme>(getStoredTheme);
   const [systemTheme, setSystemTheme] =
-    React.useState<ResolvedTheme>(getSystemTheme);
+    React.useState<"light" | "dark">(getSystemTheme);
+
   const resolvedTheme = theme === "system" ? systemTheme : theme;
 
   React.useEffect(() => {
-    withoutTransitions(() => {
+    withTransitionsDisabled(() => {
       const root = document.documentElement;
       root.classList.toggle("dark", resolvedTheme === "dark");
-      root.classList.toggle("light", resolvedTheme === "light");
       root.style.colorScheme = resolvedTheme;
     });
   }, [resolvedTheme]);
@@ -75,7 +87,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      // The selected theme still applies for the current session.
+      // theme still applies for the session, just won't persist
     }
     setThemeState(next);
   }, []);
@@ -85,20 +97,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     [theme, resolvedTheme, setTheme],
   );
 
-  const skeletonColors =
-    resolvedTheme === "dark"
-      ? { base: "#25282d", highlight: "#33373e" }
-      : { base: "#e4e7e9", highlight: "#f4f6f7" };
-
   return (
-    <ThemeContext.Provider value={value}>
-      <SkeletonTheme {...skeletonColors}>{children}</SkeletonTheme>
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 
 export const useTheme = (): ThemeContextValue => {
-  const context = React.useContext(ThemeContext);
-  if (!context) throw new Error("useTheme must be used within ThemeProvider");
-  return context;
+  const ctx = React.useContext(ThemeContext);
+  if (!ctx) {
+    if (process.env.NODE_ENV !== "production") {
+      throw new Error("useTheme must be used within a ThemeProvider");
+    }
+    return FALLBACK_CONTEXT;
+  }
+  return ctx;
 };

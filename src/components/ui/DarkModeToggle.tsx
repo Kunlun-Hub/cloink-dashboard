@@ -39,6 +39,7 @@ export default function DarkModeToggle() {
               title={label}
               aria-label={label}
               aria-pressed={theme === value}
+              data-testid={`theme-${value}`}
               onClick={() => setTheme(value)}
               className={cn(
                 "flex h-7 w-7 items-center justify-center rounded-md transition-colors",

@@ -626,7 +626,7 @@ export default function TrafficEventsTable({
               ? t("trafficEvents.collapseDetails")
               : t("trafficEvents.expandDetails")
           }
-          className="rounded p-2 text-nb-gray-400 outline-none hover:bg-nb-gray-900 hover:text-white focus-visible:ring-2 focus-visible:ring-netbird"
+          className="rounded p-2 text-nb-gray-400 outline-none hover:bg-nb-gray-900 hover:text-nb-gray-100 focus-visible:ring-2 focus-visible:ring-netbird"
           onClick={(event) => {
             event.stopPropagation();
             toggle();

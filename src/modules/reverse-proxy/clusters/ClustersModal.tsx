@@ -387,16 +387,16 @@ spec:
                   {t("reverseProxy.selfHostedRequirements")}
                   <ul className={"list-disc pl-4 mt-2 flex flex-col gap-1"}>
                     <li>
-                      <span className={"text-white font-medium"}>
+                      <span className={"text-sky-900 dark:text-white font-medium"}>
                         {t("reverseProxy.publiclyAccessibleIp")}
                       </span>
                     </li>
                     <li>
-                      <span className={"text-white font-medium"}>Docker</span>{" "}
+                      <span className={"text-sky-900 dark:text-white font-medium"}>Docker</span>{" "}
                       {t("reverseProxy.dockerInstalled")}
                     </li>
                     <li>
-                      <span className={"text-white font-medium"}>
+                      <span className={"text-sky-900 dark:text-white font-medium"}>
                         {t("reverseProxy.ports80And443")}
                       </span>{" "}
                       {t("reverseProxy.portsOpen")}

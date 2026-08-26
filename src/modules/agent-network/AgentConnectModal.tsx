@@ -143,7 +143,7 @@ export function AgentConnectTabs({
                     setClaudeMode(claudeMode === "config" ? "shell" : "config")
                   }
                   className={
-                    "shrink-0 mr-2 text-[11px] text-white hover:underline underline-offset-2 cursor-pointer"
+                    "shrink-0 mr-2 text-[11px] text-nb-gray-100 hover:underline underline-offset-2 cursor-pointer"
                   }
                 >
                   {claudeMode === "config" ? t("agentConnect.shellMode") : t("agentConnect.jsonMode")}
@@ -217,7 +217,7 @@ export function AgentConnectTabs({
                     setClaudeMode(claudeMode === "config" ? "shell" : "config")
                   }
                   className={
-                    "shrink-0 mr-2 text-[11px] text-white hover:underline underline-offset-2 cursor-pointer"
+                    "shrink-0 mr-2 text-[11px] text-nb-gray-100 hover:underline underline-offset-2 cursor-pointer"
                   }
                 >
                   {claudeMode === "config" ? t("agentConnect.shellMode") : t("agentConnect.jsonMode")}

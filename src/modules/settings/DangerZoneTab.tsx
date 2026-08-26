@@ -86,14 +86,14 @@ export default function DangerZoneTab({ account }: Props) {
         <div className={"gap-6 mt-6 max-w-lg"}>
           <Card
             className={
-              "w-full flex flex-col gap-2 border-red-600 bg-red-950/50"
+              "w-full flex flex-col gap-2 border-red-300 bg-red-50 dark:border-red-600 dark:bg-red-950/50"
             }
           >
             <div className={"px-8 py-6"}>
-              <p className={"text-xl font-medium mb-2 !text-red-50"}>
+              <p className={"text-xl font-medium mb-2 !text-red-900 dark:!text-red-50"}>
                 {t("settings.deleteAccountTitle")}
               </p>
-              <p className={"!text-red-50/80"}>
+              <p className={"!text-red-900/80 dark:!text-red-50/80"}>
                 {t("settings.deleteAccountDescription")}
               </p>
               <div className={"mt-6"}>

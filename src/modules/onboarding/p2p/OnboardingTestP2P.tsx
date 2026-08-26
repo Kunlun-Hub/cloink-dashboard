@@ -43,9 +43,9 @@ export const OnboardingTestP2P = ({
         <Steps.Step step={1}>
           <p className={"!text-nb-gray-300"}>
             {t("onboarding.testP2PStep1Prefix")}{" "}
-            <span className={"text-white"}>{firstDevice?.name}</span>{" "}
+            <span className={"text-nb-gray-100"}>{firstDevice?.name}</span>{" "}
             {t("onboarding.testP2PStep1Middle")}{" "}
-            <span className={"text-white"}>{secondDevice?.name}</span>
+            <span className={"text-nb-gray-100"}>{secondDevice?.name}</span>
             {t("onboarding.testP2PStep1Suffix")}
           </p>
           <Code message={t("onboarding.commandCopied")}>

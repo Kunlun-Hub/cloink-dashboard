@@ -94,7 +94,7 @@ export default function ReverseProxyTargetSelector({
               content={
                 <>
                   {t("reverseProxy.targetHelpArticle")}{" "}
-                  <span className={"text-white font-medium"}>
+                  <span className={"text-nb-gray-100 font-medium"}>
                     {t("reverseProxy.targetPeerLabel")}
                   </span>{" "}
                   {t("reverseProxy.targetPeerHelpSuffix")}
@@ -117,7 +117,7 @@ export default function ReverseProxyTargetSelector({
               content={
                 <>
                   {t("reverseProxy.targetHelpArticle")}{" "}
-                  <span className={"text-white font-medium"}>
+                  <span className={"text-nb-gray-100 font-medium"}>
                     {t("reverseProxy.targetResourceLabel")}
                   </span>{" "}
                   {t("reverseProxy.targetResourceHelpSuffix")}
@@ -141,7 +141,7 @@ export default function ReverseProxyTargetSelector({
                   content={
                     <>
                       {t("reverseProxy.targetHelpArticle")}{" "}
-                      <span className={"text-white font-medium"}>
+                      <span className={"text-nb-gray-100 font-medium"}>
                         {t("reverseProxy.proxyCluster")}
                       </span>{" "}
                       {t("reverseProxy.proxyClusterHelpSuffix")}

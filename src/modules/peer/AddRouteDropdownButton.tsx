@@ -63,7 +63,7 @@ export default function AddRouteDropdownButton() {
                 size={"small"}
               />
               <div className={"flex flex-col text-left"}>
-                <div className={"text-left text-white"}>
+                <div className={"text-left text-nb-gray-100"}>
                   {t("routeActions.newNetworkRoute")}
                 </div>
                 <div className={"text-xs"}>
@@ -87,7 +87,7 @@ export default function AddRouteDropdownButton() {
                 size={"small"}
               />
               <div className={"flex flex-col text-left"}>
-                <div className={"text-left text-white"}>
+                <div className={"text-left text-nb-gray-100"}>
                   {t("routeActions.existingNetwork")}
                 </div>
                 <div className={"text-xs"}>

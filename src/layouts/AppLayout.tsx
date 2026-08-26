@@ -18,9 +18,9 @@ import AnalyticsProvider, {
 } from "@/contexts/AnalyticsProvider";
 import DialogProvider from "@/contexts/DialogProvider";
 import ErrorBoundaryProvider from "@/contexts/ErrorBoundary";
+import { GlobalThemeProvider } from "@/contexts/GlobalThemeProvider";
 import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
 import { NavigationEvents } from "@/contexts/NavigationEvents";
-import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import PublicBrandingProvider from "@/modules/account/PublicBrandingProvider";
@@ -59,7 +59,7 @@ export default function AppLayout({
           <I18nProvider>
             <AnalyticsProvider>
               <DialogProvider>
-                <ThemeProvider>
+                <GlobalThemeProvider>
                   <PublicBrandingProvider>
                     <ErrorBoundaryProvider>
                       <InstanceSetupProvider>
@@ -71,7 +71,7 @@ export default function AppLayout({
                       </InstanceSetupProvider>
                     </ErrorBoundaryProvider>
                   </PublicBrandingProvider>
-                </ThemeProvider>
+                </GlobalThemeProvider>
               </DialogProvider>
               <Toaster
                 position="top-center"

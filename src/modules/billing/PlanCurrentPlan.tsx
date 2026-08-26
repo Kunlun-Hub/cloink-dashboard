@@ -135,7 +135,7 @@ export const PlanCurrentPlan = ({
           <div className={"flex gap-2 items-center text-sm"}>
             <Users2Icon size={18} />
             <div>
-              <span className={"font-medium text-white"}>
+              <span className={"font-medium text-nb-gray-100"}>
                 {stats?.active_users}
               </span>
               {isFreePlan && !isTrial ? (
@@ -156,7 +156,7 @@ export const PlanCurrentPlan = ({
           <div className={"flex gap-2 items-center text-sm"}>
             <MonitorSmartphoneIcon size={18} />
             <div>
-              <span className={"font-medium text-white"}>
+              <span className={"font-medium text-nb-gray-100"}>
                 {stats?.active_peers}
               </span>
 
@@ -178,7 +178,7 @@ export const PlanCurrentPlan = ({
             <div className={"flex gap-2 items-center text-sm"}>
               <CreditCardIcon size={18} />
               <div>
-                <span className={"font-medium text-white"}>
+                <span className={"font-medium text-nb-gray-100"}>
                   {currentPlanPrice?.currency == Currency.USD && "$"}
                   {estimatedPrice}
                   {currentPlanPrice?.currency == Currency.EUR && "€"}

@@ -414,5 +414,5 @@ export const TrafficEventDescription = ({
 };
 
 const Mark = ({ children }: { children: React.ReactNode }) => {
-  return <span className={"text-white font-normal"}>{children}</span>;
+  return <span className={"text-nb-gray-100 font-normal"}>{children}</span>;
 };

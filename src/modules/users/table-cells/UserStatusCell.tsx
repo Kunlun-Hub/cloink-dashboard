@@ -67,7 +67,7 @@ export default function UserStatusCell({ user }: Readonly<Props>) {
     <div className={"max-w-xs text-xs flex flex-col gap-2"}>
       <div>
         {t("userStatus.pendingApprovalTooltip1")}{" "}
-        <span className={"font-medium text-white"}>
+        <span className={"font-medium text-nb-gray-100"}>
           {t("userStatus.userApprovalRequired")}
         </span>{" "}
         {t("userStatus.pendingApprovalTooltip2")}{" "}

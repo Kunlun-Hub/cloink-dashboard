@@ -14,7 +14,7 @@ export const NetBirdVersionTooltip = ({ version, children }: Props) => {
       className={"w-full"}
       interactive={false}
       content={
-        <div className={"text-neutral-300 flex items-center text-sm gap-1"}>
+        <div className={"text-nb-gray-300 flex items-center text-sm gap-1"}>
           <span className={""}>{t("postureChecks.minimumClientVersion")}</span>
 
           <span

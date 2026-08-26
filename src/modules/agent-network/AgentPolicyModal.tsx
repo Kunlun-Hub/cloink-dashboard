@@ -557,7 +557,7 @@ function ProviderMultiSelect({
                   />
                   <AIProviderLogo providerId={p.providerId} size={18} />
                   <div className={"flex-1 min-w-0"}>
-                    <div className={"text-sm text-white truncate"}>
+                    <div className={"text-sm text-nb-gray-100 truncate"}>
                       {p.name}
                     </div>
                   </div>
@@ -570,4 +570,3 @@ function ProviderMultiSelect({
     </div>
   );
 }
-

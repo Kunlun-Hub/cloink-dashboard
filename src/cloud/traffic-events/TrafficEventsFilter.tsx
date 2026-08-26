@@ -243,7 +243,7 @@ export function TrafficEventsFilter({
         <Button variant={"secondary"} disabled={disabled}>
           <FilterIcon size={15} className={"shrink-0"} />
           <span>
-            <span className={"text-white"}>
+            <span className={"text-nb-gray-100"}>
               {activeFilterIds.length > 0 && activeFilterIds.length}
             </span>
             {activeFilterIds.length > 0

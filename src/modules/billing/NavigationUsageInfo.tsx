@@ -93,7 +93,7 @@ const NavigationUsageInfoContent = () => {
             <div className={"flex gap-2 items-center"}>
               <Users2Icon size={13} />
               <div>
-                <span className={"font-medium text-white"}>
+                <span className={"font-medium text-nb-gray-100"}>
                   {stats?.active_users}
                 </span>
                 {isFreePlan ? (
@@ -114,7 +114,7 @@ const NavigationUsageInfoContent = () => {
             <div className={"flex gap-2 items-center"}>
               <MonitorSmartphoneIcon size={13} />
               <div>
-                <span className={"font-medium text-white"}>
+                <span className={"font-medium text-nb-gray-100"}>
                   {stats?.active_peers}
                 </span>
                 <span className={"text-nb-gray-300"}>

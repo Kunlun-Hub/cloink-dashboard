@@ -145,7 +145,7 @@ export const PlanCard = ({
         </div>
 
         {/* Plan Price */}
-        <div className="flex items-center text-white mt-3">
+        <div className="flex items-center text-nb-gray-100 mt-3">
           <p className="text-2xl font-bold">
             {currency == Currency.USD && "$"}
             {planPrice / 100}

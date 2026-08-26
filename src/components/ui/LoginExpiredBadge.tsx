@@ -18,7 +18,7 @@ export default function LoginExpiredBadge({ loginExpired }: Props) {
         </Badge>
       </TooltipTrigger>
       <TooltipContent>
-        <div className={"text-neutral-300 text-xs leading-1.5"}>
+        <div className={"text-nb-gray-300 text-xs leading-1.5"}>
           {t("peer.loginExpiredTooltipLine1")} <br />
           {t("peer.loginExpiredTooltipLine2")}
         </div>
