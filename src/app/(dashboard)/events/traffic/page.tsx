@@ -26,7 +26,6 @@ export default function NetworkTrafficPage() {
 
   const defaultFilters = useMemo(
     () => ({
-      grouped: "true",
       start_date: dayjs().subtract(7, "day").startOf("day").toISOString(),
       end_date: dayjs().endOf("day").toISOString(),
     }),
