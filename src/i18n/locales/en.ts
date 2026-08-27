@@ -523,10 +523,6 @@ const en = {
     "Required for a release that is marked as latest.",
   "versionReleases.sha256Placeholder":
     "64-character lowercase hexadecimal checksum",
-  "versionReleases.signature": "Ed25519 signature",
-  "versionReleases.signatureHelp":
-    "Generate this Base64 signature offline with release_files/sign-version-release.sh.",
-  "versionReleases.signaturePlaceholder": "Base64 Ed25519 signature",
   "versionReleases.descriptionLabel": "Description",
   "versionReleases.descriptionPlaceholder": "Release notes or changes",
   "versionReleases.latest": "Latest release",
@@ -544,7 +540,7 @@ const en = {
   "versionReleases.addTitle": "Add version release",
   "versionReleases.editTitle": "Edit version release",
   "versionReleases.modalDescription":
-    "Configure the installer metadata and optional signature.",
+    "Configure installer metadata. Release signatures are generated automatically.",
   "versionReleases.createTitle": "Create version release",
   "versionReleases.updateTitle": "Update version release",
   "versionReleases.creating": "Creating release...",
