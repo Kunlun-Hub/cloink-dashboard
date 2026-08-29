@@ -37,24 +37,26 @@ export const JobOutputCell = ({ job }: Props) => {
     return (
       <div className="flex flex-col gap-1 items-start justify-center pb-1">
         {Object.entries(job.workload.result).map(([key, value]) => (
-          <div key={key} className="text-sm max-w-[200px]">
+          <div key={key} className="text-sm w-[200px] max-w-full min-w-0">
             <span className="font-normal capitalize text-nb-gray-300 text-xs">
               {key.replaceAll("_", " ")}
             </span>
             <br />
-            <span className="text-nb-gray-200 truncate inline-flex items-center gap-2">
-              <CopyToClipboardText
-                message={t("jobs.outputCopied")}
-                alwaysShowIcon={true}
-              >
-                <span className={"font-mono truncate"}>
-                  {typeof value === "boolean"
-                    ? value
-                      ? t("common.yes")
-                      : t("common.no")
-                    : String(value)}
-                </span>
-              </CopyToClipboardText>
+            <span className="text-nb-gray-200 flex w-full min-w-0 items-center gap-1 overflow-hidden">
+              <span className="min-w-0 flex-1 overflow-hidden">
+                <CopyToClipboardText
+                  message={t("jobs.outputCopied")}
+                  alwaysShowIcon={true}
+                >
+                  <span className="block w-full truncate font-mono whitespace-nowrap">
+                    {typeof value === "boolean"
+                      ? value
+                        ? t("common.yes")
+                        : t("common.no")
+                      : String(value)}
+                  </span>
+                </CopyToClipboardText>
+              </span>
               {key === "upload_key" && typeof value === "string" && (
                 <button
                   type="button"
