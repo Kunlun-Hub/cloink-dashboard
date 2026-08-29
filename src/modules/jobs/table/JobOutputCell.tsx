@@ -2,10 +2,12 @@ import Badge from "@components/Badge";
 import CopyToClipboardText from "@components/CopyToClipboardText";
 import FullTooltip from "@components/FullTooltip";
 import { Input } from "@components/Input";
+import { useApiCall } from "@utils/api";
+import { Download } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Job } from "@/interfaces/Job";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   job: Job;
@@ -13,6 +15,24 @@ type Props = {
 
 export const JobOutputCell = ({ job }: Props) => {
   const { t } = useI18n();
+  const downloadRequest = useApiCall<Blob>("/debug-bundles", true, {
+    blob: true,
+  });
+
+  const downloadBundle = async (key: string) => {
+    const blob = await downloadRequest.get(
+      `/download?key=${encodeURIComponent(key)}`,
+    );
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "cloink-debug-bundle.zip";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
   if (job.status === "succeeded" && job.workload.result) {
     return (
       <div className="flex flex-col gap-1 items-start justify-center pb-1">
@@ -22,7 +42,7 @@ export const JobOutputCell = ({ job }: Props) => {
               {key.replaceAll("_", " ")}
             </span>
             <br />
-            <span className="text-nb-gray-200 truncate">
+            <span className="text-nb-gray-200 truncate inline-flex items-center gap-2">
               <CopyToClipboardText
                 message={t("jobs.outputCopied")}
                 alwaysShowIcon={true}
@@ -35,6 +55,17 @@ export const JobOutputCell = ({ job }: Props) => {
                     : String(value)}
                 </span>
               </CopyToClipboardText>
+              {key === "upload_key" && typeof value === "string" && (
+                <button
+                  type="button"
+                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-netbird hover:bg-nb-gray-900/60 hover:text-white"
+                  title={t("jobs.downloadBundle")}
+                  aria-label={t("jobs.downloadBundle")}
+                  onClick={() => downloadBundle(value)}
+                >
+                  <Download size={14} />
+                </button>
+              )}
             </span>
           </div>
         ))}

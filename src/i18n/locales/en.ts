@@ -2265,6 +2265,7 @@ const en = {
   "jobs.status.failed": "Failed",
   "jobs.status.completed": "Completed",
   "jobs.outputCopied": "Upload key has been copied to your clipboard",
+  "jobs.downloadBundle": "Download debug bundle",
   "jobs.parametersCount": "{count} Parameters",
   "jobs.createTitle": "Create Debug Job",
   "jobs.createDescription": "Debug job triggered successfully.",

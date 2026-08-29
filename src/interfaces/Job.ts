@@ -11,7 +11,7 @@ export interface Job {
 export interface Workload {
   type: "bundle";
   parameters: BundleJobParameters;
-  result: string | null;
+  result: Record<string, unknown> | null;
 }
 
 // Parameters for bundle job

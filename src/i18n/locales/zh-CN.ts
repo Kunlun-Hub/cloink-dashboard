@@ -2131,6 +2131,7 @@ const zhCN = {
   "jobs.status.failed": "失败",
   "jobs.status.completed": "已完成",
   "jobs.outputCopied": "上传密钥已复制到剪贴板",
+  "jobs.downloadBundle": "下载调试包",
   "jobs.parametersCount": "{count} 个参数",
   "jobs.createTitle": "创建调试任务",
   "jobs.createDescription": "调试任务已成功触发。",
