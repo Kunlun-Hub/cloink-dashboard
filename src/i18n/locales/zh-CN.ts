@@ -5445,6 +5445,17 @@ const zhCN = {
   "debugJob.notifyTitle": "创建调试任务",
   "debugJob.notifySuccess": "调试任务已成功触发。",
   "debugJob.creating": "正在创建任务...",
+  "debugJob.remoteJobsOptIn":
+    "Cloink 0.78.1 需要设备管理员先启用远程任务：在管理员终端执行 cloink up --allow-remote-jobs（Linux/macOS 需 sudo），或通过 allowRemoteJobs 托管设置开启。控制台不能绕过此授权。",
+  "debugJob.anonymizeLevel": "匿名化级别",
+  "debugJob.anonymizeLevelHelp":
+    "默认保留内网 IP 的可读性；严格模式还会匿名化私有地址、CGNAT 和链路本地地址。",
+  "debugJob.anonymizeDefault": "默认",
+  "debugJob.anonymizeStrict": "严格",
+  "debugJob.uploadUrl": "上传服务地址（可选）",
+  "debugJob.uploadUrlHelp":
+    "留空将调试包保存在该设备的 Cloink 管理服务器上。自定义地址必须使用 HTTPS；设备的托管上传地址优先级更高。",
+  "debugJob.uploadUrlPlaceholder": "默认使用自托管存储",
   "peerSSH.access": "SSH 访问",
   "peerSSH.accessHelp":
     "在此设备上启用 SSH 服务器，以便通过安全 Shell 访问该机器。",

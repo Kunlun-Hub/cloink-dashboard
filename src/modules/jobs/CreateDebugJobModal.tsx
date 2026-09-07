@@ -4,6 +4,7 @@ import {
   FileText,
   PlusCircle,
   Shield,
+  UploadCloud,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
@@ -19,6 +20,13 @@ import {
 } from "@/components/modal/Modal";
 import ModalHeader from "@/components/modal/ModalHeader";
 import { notify } from "@/components/Notification";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/Select";
 import Separator from "@/components/Separator";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Workload } from "@/interfaces/Job";
@@ -38,10 +46,13 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
   const [bundleForTime, setBundleForTime] = useState<string>("");
   const [logFileCount, setLogFileCount] = useState<string>("10");
   const [anonymize, setAnonymize] = useState<boolean>(false);
+  const [anonymizeLevel, setAnonymizeLevel] = useState<"default" | "strict">("default");
+  const [uploadUrl, setUploadUrl] = useState("");
 
   const isValid = useMemo(() => {
     let validBundleFor = true;
     let validLogFileCount = true;
+    let validUploadUrl = true;
 
     const logFileCountNumber = Number(logFileCount);
     const bundleForTimeNumber = Number(bundleForTime);
@@ -52,10 +63,20 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
 
     validLogFileCount = logFileCountNumber >= 1 && logFileCountNumber <= 1000;
 
-    return validLogFileCount && validBundleFor;
-  }, [bundleForTime, logFileCount]);
+    if (uploadUrl.trim()) {
+      try {
+        const parsed = new URL(uploadUrl.trim());
+        validUploadUrl = parsed.protocol === "https:" && parsed.host !== "";
+      } catch {
+        validUploadUrl = false;
+      }
+    }
+
+    return validLogFileCount && validBundleFor && validUploadUrl;
+  }, [bundleForTime, logFileCount, uploadUrl]);
 
   const createDebugJob = async () => {
+    if (!isValid) return;
     notify({
       title: t("debugJob.notifyTitle"),
       description: t("debugJob.notifySuccess"),
@@ -66,11 +87,13 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             type: "bundle",
             parameters: {
               anonymize,
+              anonymize_level: anonymize ? anonymizeLevel : undefined,
               bundle_for: bundleForTimeEnabled,
               bundle_for_time: bundleForTimeEnabled
                 ? Number(bundleForTime)
                 : undefined,
               log_file_count: logFileCount ? Number(logFileCount) : 10,
+              upload_url: uploadUrl.trim() || undefined,
             },
           },
         })
@@ -92,6 +115,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
 
       <Separator />
       <div className={"px-8 py-6 flex flex-col gap-4"}>
+        <HelpText>{t("debugJob.remoteJobsOptIn")}</HelpText>
         {/* Log File Count */}
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
@@ -172,6 +196,42 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
           }
           helpText={t("debugJob.anonymizeLogDataHelp")}
         />
+        {anonymize && (
+          <div className="flex justify-between gap-6">
+            <div className="max-w-[300px]">
+              <Label>{t("debugJob.anonymizeLevel")}</Label>
+              <HelpText>{t("debugJob.anonymizeLevelHelp")}</HelpText>
+            </div>
+            <Select
+              value={anonymizeLevel}
+              onValueChange={(value) => {
+                if (value === "default" || value === "strict") setAnonymizeLevel(value);
+              }}
+            >
+              <SelectTrigger className="w-[220px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="default">{t("debugJob.anonymizeDefault")}</SelectItem>
+                <SelectItem value="strict">{t("debugJob.anonymizeStrict")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+        <div className="flex justify-between gap-6">
+          <div className="max-w-[300px]">
+            <Label>{t("debugJob.uploadUrl")}</Label>
+            <HelpText>{t("debugJob.uploadUrlHelp")}</HelpText>
+          </div>
+          <Input
+            type="url"
+            placeholder={t("debugJob.uploadUrlPlaceholder")}
+            value={uploadUrl}
+            onChange={(event) => setUploadUrl(event.target.value)}
+            maxWidthClass="w-[220px]"
+            customPrefix={<UploadCloud size={16} className="text-nb-gray-300" />}
+          />
+        </div>
       </div>
 
       <ModalFooter className="items-center">

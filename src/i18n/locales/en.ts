@@ -5860,6 +5860,17 @@ const en = {
   "debugJob.notifyTitle": "Create Debug Job",
   "debugJob.notifySuccess": "Debug job triggered successfully.",
   "debugJob.creating": "Creating job...",
+  "debugJob.remoteJobsOptIn":
+    "Cloink 0.78.1 requires the device administrator to enable remote jobs first: cloink up --allow-remote-jobs in an administrator terminal (use sudo on Linux/macOS), or the allowRemoteJobs managed setting. This console cannot bypass that permission.",
+  "debugJob.anonymizeLevel": "Anonymization Level",
+  "debugJob.anonymizeLevelHelp":
+    "Default keeps private IP ranges readable. Strict also anonymizes private, CGNAT and link-local addresses.",
+  "debugJob.anonymizeDefault": "Default",
+  "debugJob.anonymizeStrict": "Strict",
+  "debugJob.uploadUrl": "Upload Service URL (optional)",
+  "debugJob.uploadUrlHelp":
+    "Leave empty to store the bundle on this device's Cloink management server. An override must use HTTPS. The device's managed upload URL takes precedence.",
+  "debugJob.uploadUrlPlaceholder": "Default: self-hosted storage",
   "peerSSH.access": "SSH Access",
   "peerSSH.accessHelp":
     "Enable the SSH server on this peer to access the machine via an secure shell.",

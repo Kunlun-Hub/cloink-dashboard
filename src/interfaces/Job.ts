@@ -17,7 +17,9 @@ export interface Workload {
 // Parameters for bundle job
 export interface BundleJobParameters {
   anonymize: boolean;
+  anonymize_level?: "default" | "strict";
   bundle_for: boolean;
   bundle_for_time: number;
   log_file_count: number;
+  upload_url?: string;
 }
