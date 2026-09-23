@@ -9,14 +9,15 @@ import {
 import { notify } from "@components/Notification";
 import { useApiCall } from "@utils/api";
 import { isNetBirdCloud } from "@utils/netbird";
-import { Ban, MoreVertical, Trash2, UndoIcon, XCircle } from "lucide-react";
+import { Ban, KeyRound, MoreVertical, Trash2, UndoIcon, XCircle } from "lucide-react";
 import * as React from "react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
+import { UserPasswordResetModal } from "@/modules/users/UserPasswordResetModal";
 import { UserResendInviteButton } from "@/modules/users/UserResendInviteButton";
 
 type Props = {
@@ -32,6 +33,7 @@ export default function UserActionCell({
   const { t } = useI18n();
   const userRequest = useApiCall<User>("/users");
   const { mutate } = useSWRConfig();
+  const [passwordResetOpen, setPasswordResetOpen] = useState(false);
 
   const deleteUser = async () => {
     const name = user.name || t("userActions.userFallback");
@@ -139,6 +141,10 @@ export default function UserActionCell({
 
   const isPendingApproval = user.pending_approval;
   const canManageUsers = permission.users.update;
+  // Only email/password accounts live in the embedded IdP, so only they can be
+  // sent a reset link from here.
+  const canResetPassword =
+    canManageUsers && !serviceUser && user.idp_id === "local";
   const canShowBlock =
     !serviceUser && !user.is_current && user.role !== "owner";
   const blockDisabled = !canManageUsers;
@@ -224,6 +230,23 @@ export default function UserActionCell({
               <DropdownMenuSeparator />
             </>
           )}
+          {canResetPassword && (
+            <>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPasswordResetOpen(true);
+                }}
+                data-cy={"reset-user-password"}
+              >
+                <div className={"flex gap-3 items-center"}>
+                  <KeyRound size={14} className={"shrink-0"} />
+                  {t("passwordReset.action")}
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
@@ -241,6 +264,11 @@ export default function UserActionCell({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <UserPasswordResetModal
+        user={user}
+        open={passwordResetOpen}
+        onOpenChange={setPasswordResetOpen}
+      />
     </div>
   );
 }

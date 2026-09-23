@@ -48,6 +48,7 @@ const emailTemplateLabelKeys: Record<EmailTemplateKind, MessageKey> = {
   invite_accepted: "emailSettings.templateInviteAccepted",
   user_pending_approval: "emailSettings.templateUserPendingApproval",
   device_pending_approval: "emailSettings.templateDevicePendingApproval",
+  password_reset: "emailSettings.templatePasswordReset",
 };
 
 function createDefaultTemplateValues(
@@ -83,6 +84,12 @@ function createDefaultTemplateValues(
       subject: t("emailSettings.defaultDevicePendingApprovalSubject"),
       body_html: t("emailSettings.defaultDevicePendingApprovalHtml"),
       body_text: t("emailSettings.defaultDevicePendingApprovalText"),
+    },
+    password_reset: {
+      enabled: true,
+      subject: t("emailSettings.defaultPasswordResetSubject"),
+      body_html: t("emailSettings.defaultPasswordResetHtml"),
+      body_text: t("emailSettings.defaultPasswordResetText"),
     },
   };
 }

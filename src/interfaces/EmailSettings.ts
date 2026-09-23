@@ -3,7 +3,8 @@ export type EmailTemplateKind =
   | "create_user"
   | "invite_accepted"
   | "user_pending_approval"
-  | "device_pending_approval";
+  | "device_pending_approval"
+  | "password_reset";
 
 export type EmailEncryption = "none" | "starttls" | "tls";
 
@@ -48,4 +49,5 @@ export const emailTemplateKinds: EmailTemplateKind[] = [
   "invite_accepted",
   "user_pending_approval",
   "device_pending_approval",
+  "password_reset",
 ];
