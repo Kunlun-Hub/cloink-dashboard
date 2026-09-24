@@ -1,6 +1,5 @@
 import Button from "@components/Button";
 import Code from "@components/Code";
-import InlineLink from "@components/InlineLink";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
 import { IconBrandUbuntu } from "@tabler/icons-react";
@@ -88,18 +87,11 @@ export default function DockerTab({
                   <span className={"text-netbird"}>{GRPC_API_ORIGIN}</span> \
                 </Code.Line>
               )}
-              <Code.Line> netbirdio/netbird:latest</Code.Line>
+              <Code.Line>
+                {" "}
+                ohoimager/cloink-new-client:0.79.0-upgrade
+              </Code.Line>
             </Code>
-          </Steps.Step>
-          <Steps.Step step={3 + offset} line={false}>
-            <p>{t("setupModal.readDocumentation")}</p>
-            <InlineLink
-              href={"https://docs.netbird.io/how-to/installation/docker"}
-              passHref={true}
-              target={"_blank"}
-            >
-              {t("setupModal.runningNetBirdDocker")}
-            </InlineLink>
           </Steps.Step>
         </Steps>
       </TabsContentPadding>

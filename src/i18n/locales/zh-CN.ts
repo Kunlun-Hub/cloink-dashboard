@@ -3658,8 +3658,6 @@ const zhCN = {
   "setupModal.installDocker": "安装 Docker",
   "setupModal.officialDockerInstallationGuide": "Docker 官方安装指南",
   "setupModal.runNetBirdContainer": "运行 Cloink 容器",
-  "setupModal.readDocumentation": "阅读我们的文档",
-  "setupModal.runningNetBirdDocker": "在 Docker 中运行 Cloink",
   "setupModal.setupKeyGeneratedDescription": "已为本次安装生成一次性安装密钥。",
   "accessControl.modalUpdateTitle": "更新访问控制策略",
   "accessControl.modalCreateTitle": "创建新的访问控制策略",

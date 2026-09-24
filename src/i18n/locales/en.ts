@@ -3951,8 +3951,6 @@ const en = {
   "setupModal.officialDockerInstallationGuide":
     "Official Docker Installation Guide",
   "setupModal.runNetBirdContainer": "Run Cloink container",
-  "setupModal.readDocumentation": "Read our documentation",
-  "setupModal.runningNetBirdDocker": "Running Cloink in Docker",
   "setupModal.setupKeyGeneratedDescription":
     "A one-off setup key was generated for this install.",
   "accessControl.modalUpdateTitle": "Update Access Control Policy",
