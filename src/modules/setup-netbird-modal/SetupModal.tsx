@@ -4,10 +4,9 @@ import Button from "@components/Button";
 import Code from "@components/Code";
 import { HelpTooltip } from "@components/HelpTooltip";
 import InlineLink from "@components/InlineLink";
-import { ModalContent, ModalFooter } from "@components/modal/Modal";
+import { ModalContent } from "@components/modal/Modal";
 import { notify } from "@components/Notification";
 import Paragraph from "@components/Paragraph";
-import SmallParagraph from "@components/SmallParagraph";
 import { Tabs, TabsList, TabsTrigger } from "@components/Tabs";
 import { Mark } from "@components/ui/Mark";
 import { IconInfoCircle } from "@tabler/icons-react";
@@ -328,22 +327,6 @@ export function SetupModalContent({
           />
         )}
       </Tabs>
-      {footer && (
-        <ModalFooter variant={"setup"}>
-          <div>
-            <SmallParagraph>
-              {t("setupModal.footerDescription")}{" "}
-              <InlineLink
-                href={
-                  "https://docs.netbird.io/how-to/getting-started#installation"
-                }
-                target={"_blank"}
-              >{t("peers.installationGuide")}<ExternalLinkIcon size={12} />
-              </InlineLink>
-            </SmallParagraph>
-          </div>
-        </ModalFooter>
-      )}
     </>
   );
 }
