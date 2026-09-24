@@ -3911,7 +3911,6 @@ const en = {
   "setupModal.windowsStep1": "Download and run Windows Installer",
   "setupModal.selectArchitecture": "Select architecture",
   "setupModal.arch64": "64-Bit",
-  "setupModal.arch64Msi": "64-Bit (MSI)",
   "setupModal.archArm64Msi": "ARM64 (MSI)",
   "setupModal.downloadNetBird": "Download Cloink",
   "setupModal.managementUrlInstructions":
@@ -5885,6 +5884,8 @@ const en = {
     "Install the CLI and start the service",
   "setupNetbirdModal.noMacosReleasePublished":
     "No macOS client published yet. Upload an installer in Settings → Version Releases first.",
+  "setupNetbirdModal.noWindowsReleasePublished":
+    "No Windows client published yet. Upload an installer in Settings → Version Releases first.",
   "rdpCertificate.title": "RDP Certificate Verification",
   "rdpCertificate.serverPresenting":
     "The server <strong>{hostname}</strong> is presenting a certificate:",
@@ -7705,7 +7706,6 @@ const en = {
   "setupNetbirdModal.rhelAlmaRockyDnf": "RHEL / AlmaLinux / Rocky (DNF)",
   "setupNetbirdModal.amazonLinuxYum": "Amazon Linux (YUM)",
   "setupNetbirdModal.arm64": "ARM64",
-  "setupNetbirdModal.arm64Msi": "ARM64 (MSI)",
   "identityProvider.oidcGeneric": "OIDC (Generic)",
   "identityProvider.google": "Google",
   "identityProvider.microsoft": "Microsoft",

@@ -3623,7 +3623,6 @@ const zhCN = {
   "setupModal.windowsStep1": "下载并运行 Windows 安装程序",
   "setupModal.selectArchitecture": "选择架构",
   "setupModal.arch64": "64 位",
-  "setupModal.arch64Msi": "64 位（MSI）",
   "setupModal.archArm64Msi": "ARM64（MSI）",
   "setupModal.downloadNetBird": "下载 Cloink",
   "setupModal.managementUrlInstructions":
@@ -5484,6 +5483,8 @@ const zhCN = {
   "setupNetbirdModal.installCliAndStartService": "安装 CLI 并启动后台服务",
   "setupNetbirdModal.noMacosReleasePublished":
     "尚未发布 macOS 客户端，请先在「设置 → 版本发布」中上传安装包。",
+  "setupNetbirdModal.noWindowsReleasePublished":
+    "尚未发布 Windows 客户端，请先在「设置 → 版本发布」中上传安装包。",
   "rdpCertificate.title": "RDP 证书验证",
   "rdpCertificate.serverPresenting":
     "服务器 <strong>{hostname}</strong> 提供了一个证书：",
@@ -7139,7 +7140,6 @@ const zhCN = {
   "setupNetbirdModal.rhelAlmaRockyDnf": "RHEL / AlmaLinux / Rocky (DNF)",
   "setupNetbirdModal.amazonLinuxYum": "Amazon Linux (YUM)",
   "setupNetbirdModal.arm64": "ARM64",
-  "setupNetbirdModal.arm64Msi": "ARM64 (MSI)",
   "identityProvider.oidcGeneric": "OIDC (通用)",
   "identityProvider.google": "Google",
   "identityProvider.microsoft": "Microsoft",

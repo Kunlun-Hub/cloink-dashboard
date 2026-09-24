@@ -2,7 +2,7 @@ import Button from "@components/Button";
 import { SelectDropdown } from "@components/select/SelectDropdown";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
-import { GRPC_API_ORIGIN, pkgsDownloadUrl } from "@utils/netbird";
+import { GRPC_API_ORIGIN } from "@utils/netbird";
 import { DownloadIcon, PackageOpenIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
@@ -33,8 +33,8 @@ export default function WindowsTab({
   hostname,
 }: Readonly<Props>) {
   const { t } = useI18n();
-  // Signed installers published in Settings → Version Releases take priority;
-  // the static pkgs.netbird.io links remain as a fallback when none exist.
+  // Only signed installers published in Settings → Version Releases are
+  // offered — the official NetBird packages must never be served from here.
   const releases = useVersionReleases("windows");
   const architectureLabels: Record<string, string> = {
     amd64: t("setupModal.arch64"),
@@ -51,27 +51,7 @@ export default function WindowsTab({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [releases],
   );
-  const fallbackOptions = [
-    {
-      label: t("setupModal.arch64"),
-      value: pkgsDownloadUrl("windows/x64"),
-    },
-    {
-      label: t("setupNetbirdModal.arm64"),
-      value: pkgsDownloadUrl("windows/arm64"),
-    },
-    {
-      label: t("setupModal.arch64Msi"),
-      value: pkgsDownloadUrl("windows/msi/x64"),
-    },
-    {
-      label: t("setupNetbirdModal.arm64Msi"),
-      value: pkgsDownloadUrl("windows/msi/arm64"),
-    },
-  ];
-  const downloadOptions =
-    releaseOptions.length > 0 ? releaseOptions : fallbackOptions;
-  const [windowsUrl, setWindowsUrl] = useState(fallbackOptions[0].value);
+  const [windowsUrl, setWindowsUrl] = useState("");
   // Snap the selection onto the published releases once they load, unless the
   // user already picked one of them.
   useEffect(() => {
@@ -101,26 +81,39 @@ export default function WindowsTab({
         <Steps>
           <Steps.Step step={1}>
             <p>{t("windowsTab.downloadInstaller")}</p>
-            <div className={"flex gap-4 mt-1"}>
+            <div className={"flex gap-4 mt-1 flex-wrap"}>
               <SelectDropdown
                 value={windowsUrl}
                 className={"w-[220px]"}
                 onChange={setWindowsUrl}
                 placeholder={t("common.selectArchitecturePlaceholder")}
-                options={downloadOptions}
+                options={releaseOptions}
+                disabled={releaseOptions.length === 0}
               />
-              <Link
-                href={windowsUrl}
-                passHref
-                prefetch={false}
-                target={"_blank"}
-                rel="noopener noreferrer"
-              >
-                <Button variant={"primary"}>
-                  <DownloadIcon size={14} />
-                  {t("setupNetbirdModal.downloadNetBird")}
-                </Button>
-              </Link>
+              {releaseOptions.length > 0 ? (
+                <Link
+                  href={windowsUrl}
+                  passHref
+                  prefetch={false}
+                  target={"_blank"}
+                  rel="noopener noreferrer"
+                >
+                  <Button variant={"primary"}>
+                    <DownloadIcon size={14} />
+                    {t("setupNetbirdModal.downloadNetBird")}
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Button variant={"primary"} disabled>
+                    <DownloadIcon size={14} />
+                    {t("setupNetbirdModal.downloadNetBird")}
+                  </Button>
+                  <p className={"text-sm font-light text-nb-gray-300 basis-full"}>
+                    {t("setupNetbirdModal.noWindowsReleasePublished")}
+                  </p>
+                </>
+              )}
             </div>
           </Steps.Step>
 
