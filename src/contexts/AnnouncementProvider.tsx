@@ -1,4 +1,7 @@
 import { AnnouncementVariant } from "@components/ui/AnnouncementBanner";
+import { deploymentAnnouncement } from "@utils/announcement";
+import loadConfig from "@utils/config";
+import { isNetBirdCloud } from "@utils/netbird";
 import { useI18n } from "@/i18n/I18nProvider";
 import md5 from "crypto-js/md5";
 import React, {
@@ -11,8 +14,7 @@ import React, {
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { getTrialExpiresInfo, getUsageLimitInfo } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { isNetBirdCloud } from "@utils/netbird";
-import loadConfig from "@utils/config";
+const config = loadConfig();
 
 const ANNOUNCEMENTS_URL = loadConfig().announcementsUrl;
 const STORAGE_KEY = "netbird-announcements";
@@ -186,6 +188,18 @@ export default function AnnouncementProvider({ children }: Readonly<Props>) {
               };
             });
           allAnnouncements.unshift(...mspAnnouncements);
+        }
+
+        // The operator's own announcement for this deployment
+        // (NETBIRD_ANNOUNCEMENT) stays up ahead of the remote and MSP ones;
+        // only the billing warnings below, when they open, come before it.
+        const deployment = deploymentAnnouncement(config.announcement);
+        if (deployment) {
+          allAnnouncements.unshift({
+            ...deployment,
+            hash: md5(deployment.text).toString(),
+            isOpen: true,
+          });
         }
 
         // Add billing announcements (initially closed, opened by BillingProvider)

@@ -4,6 +4,11 @@ import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
 import DataTableResetFilterButton from "@components/table/DataTableResetFilterButton";
 import {
+  ENABLED_COLUMN_ID,
+  fadeDisabledRowCells,
+} from "@components/table/disabledRowCells";
+import { ENABLED_COLUMN_CLASS } from "@components/table/enabledColumnClass";
+import {
   formatRadioChip,
   RadioOption,
   RadioPicker,
@@ -25,6 +30,7 @@ import { NetworkRouter } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { NetworkRoutingPeerName } from "@/modules/networks/routing-peers/NetworkRoutingPeerName";
 import { RoutingPeersActionCell } from "@/modules/networks/routing-peers/RoutingPeersActionCell";
+import { RoutingPeersEnabledCell } from "@/modules/networks/routing-peers/RoutingPeersEnabledCell";
 import { RoutingPeersMasqueradeCell } from "@/modules/networks/routing-peers/RoutingPeersMasqueradeCell";
 import RouteMetricCell from "@/modules/routes/RouteMetricCell";
 
@@ -59,8 +65,18 @@ export default function NetworkRoutingPeersTable({
         cell: ({ row }) => <NetworkRoutingPeerName router={row.original} />,
       },
       {
-        id: "enabled",
+        id: ENABLED_COLUMN_ID,
         accessorKey: "enabled",
+        enableSorting: false,
+        meta: { className: ENABLED_COLUMN_CLASS.xl },
+        header: ({ column }) => {
+          return (
+            <DataTableHeader column={column} sorting={false}>
+              {t("common.active")}
+            </DataTableHeader>
+          );
+        },
+        cell: ({ row }) => <RoutingPeersEnabledCell router={row.original} />,
       },
       {
         id: "metric",
@@ -189,8 +205,8 @@ export default function NetworkRoutingPeersTable({
           icon={<PeerIcon size={18} className={"fill-nb-gray-400"} />}
         />
       }
-      columnVisibility={{ search: false, enabled: false }}
-      rowClassName={(row) => (row.original.enabled ? "" : "opacity-50")}
+      columnVisibility={{ search: false }}
+      cellClassName={fadeDisabledRowCells}
       paginationPaddingClassName={"px-0 pt-8"}
       rightSide={() => (
         <Button

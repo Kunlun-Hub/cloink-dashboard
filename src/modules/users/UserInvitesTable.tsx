@@ -50,6 +50,7 @@ import {
   CreditCardIcon,
   ExternalLinkIcon,
   EyeIcon,
+  GaugeIcon,
   Link2,
   MailPlus,
   NetworkIcon,
@@ -60,6 +61,7 @@ import { usePathname } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
+import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
@@ -75,6 +77,7 @@ import {
   UserInviteRegenerateResponse,
 } from "@/interfaces/User";
 import { useAccount } from "@/modules/account/useAccount";
+import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import UserInviteModal from "@/modules/users/UserInviteModal";
 
 // Name cell for invites - same styling as UserNameCell but for invites
@@ -116,6 +119,8 @@ function InviteRoleCell({ invite }: { invite: UserInvite }) {
     [Role.BillingAdmin]: "userRoles.billingAdmin",
     [Role.Auditor]: "userRoles.auditor",
     [Role.NetworkAdmin]: "userRoles.networkAdmin",
+    [Role.AgentNetworkAdmin]: "userRoles.agentNetworkAdmin",
+    [Role.UsageViewer]: "userRoles.usageViewer",
   };
 
   return (
@@ -155,6 +160,18 @@ function InviteRoleCell({ invite }: { invite: UserInvite }) {
           <>
             <NetworkIcon size={14} />
             {t(roleLabels[Role.NetworkAdmin] as MessageKey)}
+          </>
+        )}
+        {role === Role.AgentNetworkAdmin && (
+          <>
+            <AgentNetworkIcon size={14} />
+            {t(roleLabels[Role.AgentNetworkAdmin] as MessageKey)}
+          </>
+        )}
+        {role === Role.UsageViewer && (
+          <>
+            <GaugeIcon size={14} />
+            {t(roleLabels[Role.UsageViewer] as MessageKey)}
           </>
         )}
       </Badge>
@@ -510,6 +527,7 @@ export default function UserInvitesTable({
   const { mutate } = useSWRConfig();
   const path = usePathname();
   const invitesTableColumns = useInvitesTableColumns();
+  const { enabled: agentNetworkEnabled } = useAgentNetworkMode();
 
   // Default sorting state of the table
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -557,10 +575,21 @@ export default function UserInvitesTable({
       { value: "admin", label: t("userRoles.admin") },
       { value: "user", label: t("userRoles.user") },
       { value: "network_admin", label: t("userRoles.networkAdmin") },
+      // Agent Network roles can only be assigned where the surface exists, so
+      // don't offer them as filters elsewhere.
+      ...(agentNetworkEnabled
+        ? [
+            {
+              value: "agent_network_admin",
+              label: t("userRoles.agentNetworkAdmin"),
+            },
+            { value: "usage_viewer", label: t("userRoles.usageViewer") },
+          ]
+        : []),
       { value: "billing_admin", label: t("userRoles.billingAdmin") },
       { value: "auditor", label: t("userRoles.auditor") },
     ],
-    [t],
+    [t, agentNetworkEnabled],
   );
 
   const filterDefs = useMemo<TableFilterDef[]>(

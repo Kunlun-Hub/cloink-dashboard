@@ -3,6 +3,7 @@ import Card from "@components/Card";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
 import { DataTableRowsPerPage } from "@components/table/DataTableRowsPerPage";
+import { ENABLED_COLUMN_CLASS } from "@components/table/enabledColumnClass";
 import NoResults from "@components/ui/NoResults";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { removeAllSpaces } from "@utils/helpers";
@@ -59,8 +60,14 @@ const createGroupResourcesColumns = (t: (key: any, ...args: any[]) => string): C
   {
     id: "enabled",
     accessorKey: "enabled",
+    enableSorting: false,
+    meta: { className: ENABLED_COLUMN_CLASS.xl },
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("common.active")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column} sorting={false}>
+          {t("common.active")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <ResourceEnabledCell

@@ -80,14 +80,12 @@ function EnabledCell({ rule }: { rule: AgentBudgetRule }) {
 }
 
 function TargetGroupsCell({ rule }: { rule: AgentBudgetRule }) {
-  const { groups: realGroups } = useGroups();
   const { t } = useI18n();
+  const { groups: realGroups } = useGroups();
   if (rule.targetGroups.length === 0 && rule.targetUsers.length === 0) {
     return (
       <Badge variant={"blue"} className={"whitespace-nowrap"}>
-        <Globe2 size={12} />
-        {t("agentNetwork.accountWide")}
-      </Badge>
+        <Globe2 size={12} />{t("agentNetwork.accountWide")}</Badge>
     );
   }
   if (rule.targetGroups.length === 0) return <EmptyRow />;
@@ -99,8 +97,8 @@ function TargetGroupsCell({ rule }: { rule: AgentBudgetRule }) {
   return (
     <MultipleGroups
       groups={groups}
-      label={t("agentNetwork.targetGroups")}
-      description={t("agentNetwork.targetGroupsDescription")}
+      label={"Target Groups"}
+      description={"This limit applies to members of these groups."}
     />
   );
 }
@@ -159,17 +157,17 @@ function TargetUsersCell({ rule }: { rule: AgentBudgetRule }) {
 }
 
 function TokenCapCell({ rule }: { rule: AgentBudgetRule }) {
-  const tl = rule.limits.tokenLimit;
   const { t } = useI18n();
+  const tl = rule.limits.tokenLimit;
   if (!tl.enabled) return <EmptyRow />;
   return (
     <FullTooltip
       content={
         <div className={"text-xs space-y-0.5"}>
-          <div className={"font-semibold"}>{t("agentNetwork.tokenLimit")}</div>
-          <div>· {t("agentNetwork.group")}: {capDisplay(tl.groupCap, false)}</div>
-          <div>· {t("agentNetwork.individual")}: {capDisplay(tl.userCap, false)}</div>
-          <div>· {t("agentNetwork.resetsEvery")} {formatLimitWindow(tl.windowSeconds)}</div>
+          <div className={"font-semibold"}>{t("agentPolicies.tokenLimit")}</div>
+          <div>· Group: {capDisplay(tl.groupCap, false)}</div>
+          <div>· Individual: {capDisplay(tl.userCap, false)}</div>
+          <div>· Resets every {formatLimitWindow(tl.windowSeconds)}</div>
         </div>
       }
     >
@@ -182,17 +180,17 @@ function TokenCapCell({ rule }: { rule: AgentBudgetRule }) {
 }
 
 function BudgetCapCell({ rule }: { rule: AgentBudgetRule }) {
-  const bl = rule.limits.budgetLimit;
   const { t } = useI18n();
+  const bl = rule.limits.budgetLimit;
   if (!bl.enabled) return <EmptyRow />;
   return (
     <FullTooltip
       content={
         <div className={"text-xs space-y-0.5"}>
-          <div className={"font-semibold"}>{t("agentNetwork.budgetLimit")}</div>
-          <div>· {t("agentNetwork.group")}: {capDisplay(bl.groupCapUsd, true)}</div>
-          <div>· {t("agentNetwork.individual")}: {capDisplay(bl.userCapUsd, true)}</div>
-          <div>· {t("agentNetwork.resetsEvery")} {formatLimitWindow(bl.windowSeconds)}</div>
+          <div className={"font-semibold"}>{t("agentPolicies.budgetLimit")}</div>
+          <div>· Group: {capDisplay(bl.groupCapUsd, true)}</div>
+          <div>· Individual: {capDisplay(bl.userCapUsd, true)}</div>
+          <div>· Resets every {formatLimitWindow(bl.windowSeconds)}</div>
         </div>
       }
     >
@@ -205,6 +203,7 @@ function BudgetCapCell({ rule }: { rule: AgentBudgetRule }) {
 }
 
 function UpdatedCell({ rule }: { rule: AgentBudgetRule }) {
+  const { t } = useI18n();
   if (!rule.updatedAt) return <EmptyRow />;
   return (
     <div className={"text-xs text-nb-gray-300"}>
@@ -253,16 +252,17 @@ function ActionsCell({
   rule: AgentBudgetRule;
   onEdit: (r: AgentBudgetRule) => void;
 }) {
+  const { t } = useI18n();
   const { confirm } = useDialog();
   const { toggleBudgetRule, deleteBudgetRule } = useAIProviders();
-  const { t } = useI18n();
 
   const onDelete = async () => {
     const ok = await confirm({
-      title: t("agentNetwork.deleteRuleTitle", { name: rule.name }),
-      description: t("agentNetwork.deleteRuleDescription"),
-      confirmText: t("common.delete"),
-      cancelText: t("common.cancel"),
+      title: `Delete '${rule.name}'?`,
+      description:
+        t("agentNetwork.deleteRuleDescription"),
+      confirmText: "Delete",
+      cancelText: "Cancel",
       type: "danger",
     });
     if (!ok) return;
@@ -286,22 +286,18 @@ function ActionsCell({
         <DropdownMenuContent className={"w-auto"} align={"end"}>
           <DropdownMenuItem onClick={() => onEdit(rule)}>
             <div className={"flex gap-3 items-center"}>
-              <PencilLineIcon size={14} className={"shrink-0"} />
-              {t("agentNetwork.editRule")}
-            </div>
+              <PencilLineIcon size={14} className={"shrink-0"} />{t("agentNetwork.editRule")}</div>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => toggleBudgetRule(rule.id)}>
             <div className={"flex gap-3 items-center"}>
               <Power size={14} className={"shrink-0"} />
-              {rule.enabled ? t("common.disable") : t("common.enable")}
+              {rule.enabled ? "Disable" : "Enable"}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={onDelete} variant={"danger"}>
             <div className={"flex gap-3 items-center"}>
-              <Trash2 size={14} className={"shrink-0"} />
-              {t("common.delete")}
-            </div>
+              <Trash2 size={14} className={"shrink-0"} />{t("common.delete")}</div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -310,9 +306,9 @@ function ActionsCell({
 }
 
 export default function AgentBudgetRulesTable() {
+  const { t } = useI18n();
   const path = usePathname();
   const { budgetRules, budgetRulesLoading } = useAIProviders();
-  const { t } = useI18n();
 
   const [sorting, setSorting] = useLocalStorage<SortingState>(
     "netbird-table-sort" + path + "-budget-rules",
@@ -336,7 +332,7 @@ export default function AgentBudgetRulesTable() {
         accessorKey: "name",
         sortingFn: "text",
         header: ({ column }) => (
-          <DataTableHeader column={column}>{t("common.name")}</DataTableHeader>
+          <DataTableHeader column={column}>{t("reverseProxy.dnsName")}</DataTableHeader>
         ),
         cell: ({ row }) => <NameCell rule={row.original} />,
       },
@@ -405,7 +401,7 @@ export default function AgentBudgetRulesTable() {
         ),
       },
     ],
-    [t],
+    [],
   );
 
   return (
@@ -425,12 +421,12 @@ export default function AgentBudgetRulesTable() {
 
       <DataTable
         isLoading={budgetRulesLoading}
-        text={t("agentNetwork.globalLimits")}
+        text={"Global Limits"}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={budgetRules}
-        searchPlaceholder={t("agentNetwork.searchGlobalLimits")}
+        searchPlaceholder={"Search global limits by name..."}
         onRowClick={(row) => openEdit(row.original)}
         getStartedCard={
           <GetStartedTest
@@ -446,8 +442,10 @@ export default function AgentBudgetRulesTable() {
                 size={"large"}
               />
             }
-            title={t("agentNetwork.setGlobalLimit")}
-            description={t("agentNetwork.globalLimitsDescription")}
+            title={"Set a Global Limit"}
+            description={
+              "Global limits cap token usage and spend across every policy. Apply a limit account-wide, or scope it to specific groups or users."
+            }
             button={
               <Button
                 variant={"primary"}
@@ -456,16 +454,13 @@ export default function AgentBudgetRulesTable() {
                   setCreateOpen(true);
                 }}
               >
-                <PlusCircle size={16} />
-                {t("agentNetwork.addGlobalLimit")}
-              </Button>
+                <PlusCircle size={16} />{t("agentNetwork.addGlobalLimit")}</Button>
             }
             learnMore={
-              <>
-                {t("common.learnMoreAbout")}
-                <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                  {t("agentNetwork.agentNetwork")}
-                  <ExternalLinkIcon size={12} />
+              <>{t("common.learnMoreAbout")}<InlineLink
+                  href={"https://docs.netbird.io/agent-network"}
+                  target={"_blank"}
+                >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
             }
@@ -481,9 +476,7 @@ export default function AgentBudgetRulesTable() {
                   setCreateOpen(true);
                 }}
               >
-                <IconCirclePlus size={16} />
-                {t("agentNetwork.addGlobalLimit")}
-              </Button>
+                <IconCirclePlus size={16} />{t("agentNetwork.addGlobalLimit")}</Button>
             </div>
           )
         }

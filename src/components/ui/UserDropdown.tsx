@@ -13,16 +13,16 @@ import { Modal } from "@components/modal/Modal";
 import DarkModeToggle from "@components/ui/DarkModeToggle";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { UserAvatar } from "@components/ui/UserAvatar";
+import { isMac } from "@hooks/useOperatingSystem";
+import { useGuardedRouter } from "@utils/navigation-guard";
 import { isNetBirdCloud } from "@utils/netbird";
 import { CreditCardIcon, KeyRound, LogOutIcon, User2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
-import useOSDetection from "@/hooks/useOperatingSystem";
 import { useI18n } from "@/i18n/I18nProvider";
 import { LanguageMenuItem } from "@/i18n/LanguageSelector";
 import { ChangePasswordModalContent } from "@/modules/users/ChangePasswordModal";
@@ -34,8 +34,7 @@ export default function UserDropdown() {
   const { loggedInUser, logout } = useLoggedInUser();
   const { isRestricted, permission } = usePermissions();
   const { t } = useI18n();
-  const isMac = useOSDetection();
-  const router = useRouter();
+  const router = useGuardedRouter();
 
   useHotkeys("shift+mod+l", () => logout(), []);
 
@@ -127,8 +126,14 @@ export default function UserDropdown() {
               <LogOutIcon size={14} />
               {t("user.logout")}
             </div>
-            <DropdownMenuShortcut>
-              {isMac ? "⇧⌘L" : "⇧ ⊞ L"}
+            <DropdownMenuShortcut className={"opacity-75"}>
+              {isMac ? (
+                "⇧⌘L"
+              ) : (
+                <span className="flex items-center gap-0.5">
+                  Ctrl<span>+</span>⇧<span>+</span>L
+                </span>
+              )}
             </DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>

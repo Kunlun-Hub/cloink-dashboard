@@ -37,6 +37,15 @@ export interface Permissions {
 
     services: Permission;
     version_releases: Permission;
+
+    agent_network: Permission;
+    "agent_network.providers": Permission;
+    "agent_network.policies": Permission;
+    "agent_network.guardrails": Permission;
+    "agent_network.budgets": Permission;
+    "agent_network.usage": Permission;
+    "agent_network.logs": Permission;
+    "agent_network.settings": Permission;
   };
 }
 

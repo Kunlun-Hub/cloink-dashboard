@@ -114,7 +114,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export const useTheme = (): ThemeContextValue => {
   const ctx = React.useContext(ThemeContext);
   if (!ctx) {
-    if (process.env.NODE_ENV !== "production") {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      process.env.NODE_ENV !== "test"
+    ) {
       throw new Error("useTheme must be used within a ThemeProvider");
     }
     return FALLBACK_CONTEXT;

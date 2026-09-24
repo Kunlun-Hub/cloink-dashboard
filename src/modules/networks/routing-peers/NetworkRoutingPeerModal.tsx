@@ -38,7 +38,7 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
-import { useI18n } from "@/i18n/I18nProvider";
+import { Group } from "@/interfaces/Group";
 import { Network, NetworkRouter } from "@/interfaces/Network";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
@@ -46,6 +46,7 @@ import { SetupKey } from "@/interfaces/SetupKey";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { RoutingPeerMasqueradeSwitch } from "@/modules/networks/routing-peers/RoutingPeerMasqueradeSwitch";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   network: Network;
@@ -77,18 +78,31 @@ export default function NetworkRoutingPeerModal({
   );
 }
 
+export type RoutingPeerModalResult = {
+  peer?: Peer;
+  peerGroups: Group[];
+  metric: number;
+  masquerade: boolean;
+  enabled: boolean;
+};
+
 type ContentProps = {
   network: Network;
   router?: NetworkRouter;
   onCreated?: (r: NetworkRouter) => void;
   onUpdated?: (r: NetworkRouter) => void;
+  // false → no API calls; the data comes back via onSaved (draft mode).
+  useSave?: boolean;
+  onSaved?: (r: RoutingPeerModalResult) => void;
 };
 
-function RoutingPeerModalContent({
+export function RoutingPeerModalContent({
   network,
   router,
   onCreated,
   onUpdated,
+  useSave = true,
+  onSaved,
 }: ContentProps) {
   const { t } = useI18n();
   const isRoutingPeer = router ? router.peer != "" : true;
@@ -103,14 +117,17 @@ function RoutingPeerModalContent({
     `/networks/${network.id}/routers/${router?.id}`,
   ).put;
 
-  const { data: peer } = useFetchApi<Peer>(
+  const { data: peer, isLoading: peerLoading } = useFetchApi<Peer>(
     "/peers/" + router?.peer,
     true,
     false,
     router ? router.peer != "" : false,
   );
 
-  const [routingPeer, setRoutingPeer] = useState<Peer | undefined>(peer);
+  const [selectedPeer, setSelectedPeer] = useState<Peer | undefined | null>(
+    null,
+  );
+  const routingPeer = selectedPeer === null ? peer : selectedPeer;
 
   const [
     routingPeerGroups,
@@ -141,20 +158,18 @@ function RoutingPeerModalContent({
   }, [isNonLinuxRoutingPeer]);
 
   const addRouter = async () => {
-    // Create groups that do not exist
     const g1 = getAllRoutingGroupsToUpdate();
     const createOrUpdateGroups = uniqBy([...g1], "name").map((g) => g.promise);
     const createdGroups = await Promise.all(
       createOrUpdateGroups.map((call) => call()),
     );
 
-    // Check if routing peer is selected
     const isRoutingPeer = type === "peer";
 
     notify({
-      title: t("networkRoutingPeers.notifyTitle"),
-      description: t("networkRoutingPeers.addedSuccessfully"),
-      loadingMessage: t("networkRoutingPeers.adding"),
+      title: "Network Routing Peer",
+      description: "Routing Peer added successfully.",
+      loadingMessage: "Adding Routing Peer...",
       promise: create({
         peer: isRoutingPeer ? routingPeer?.id : undefined,
         peer_groups: !isRoutingPeer
@@ -170,20 +185,18 @@ function RoutingPeerModalContent({
   };
 
   const updateRouter = async () => {
-    // Create groups that do not exist
     const g1 = getAllRoutingGroupsToUpdate();
     const createOrUpdateGroups = uniqBy([...g1], "name").map((g) => g.promise);
     const createdGroups = await Promise.all(
       createOrUpdateGroups.map((call) => call()),
     );
 
-    // Check if routing peer is selected
     const isRoutingPeer = type === "peer";
 
     notify({
-      title: t("networkRoutingPeers.notifyTitle"),
-      description: t("networkRoutingPeers.addedSuccessfully"),
-      loadingMessage: t("networkRoutingPeers.adding"),
+      title: "Network Routing Peer",
+      description: "Routing Peer added successfully.",
+      loadingMessage: "Adding Routing Peer...",
       promise: update({
         peer: isRoutingPeer ? routingPeer?.id : undefined,
         peer_groups: !isRoutingPeer
@@ -200,18 +213,23 @@ function RoutingPeerModalContent({
 
   const canContinue = routingPeer !== undefined || routingPeerGroups.length > 0;
 
+  // Group creation and the API call happen later, on deploy.
+  const saveDraft = () => {
+    onSaved?.({
+      peer: type === "peer" ? routingPeer : undefined,
+      peerGroups: type === "peer" ? [] : routingPeerGroups,
+      metric: parseInt(metric),
+      masquerade: type === "peer" && isNonLinuxRoutingPeer ? true : masquerade,
+      enabled,
+    });
+  };
+
   return (
     <ModalContent maxWidthClass={"max-w-xl"}>
       <ModalHeader
         icon={<Share2Icon size={16} />}
-        title={
-          router
-            ? t("networkRoutingPeers.updateTitle")
-            : t("networkRoutingPeers.addTitle")
-        }
-        description={t("networkRoutingPeers.description", {
-          name: network.name,
-        })}
+        title={router ? "Update Routing Peer" : "Add Routing Peer"}
+        description={`Route traffic to '${network.name}'`}
         color={"netbird"}
       />
 
@@ -223,9 +241,7 @@ function RoutingPeerModalContent({
               className={
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
-            />
-            {t("networkRoutingPeers.tabs.routingPeers")}
-          </TabsTrigger>
+            />{t("common.routingPeers")}</TabsTrigger>
 
           <TabsTrigger value={"settings"} className={"ml-auto"}>
             <Settings2
@@ -233,9 +249,7 @@ function RoutingPeerModalContent({
               className={
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
-            />
-            {t("networkRoutingPeers.tabs.advanced")}
-          </TabsTrigger>
+            />{t("reverseProxy.tabAdvancedSettings")}</TabsTrigger>
         </TabsList>
         <TabsContent value={"router"} className={"pb-6"}>
           <div className={"flex flex-col gap-4 px-8"}>
@@ -244,7 +258,7 @@ function RoutingPeerModalContent({
                 value={type}
                 onChange={(state) => {
                   setType(state);
-                  setRoutingPeer(undefined);
+                  setSelectedPeer(undefined);
                   setRoutingPeerGroups([]);
                 }}
               >
@@ -253,33 +267,34 @@ function RoutingPeerModalContent({
                     value={"peer"}
                     data-testid="routing-peer-tab-peer"
                   >
-                    <MonitorSmartphoneIcon size={16} />
-                    {t("networkRoutingPeers.segment.peer")}
-                  </SegmentedTabs.Trigger>
+                    <MonitorSmartphoneIcon size={16} />{t("common.routingPeers")}</SegmentedTabs.Trigger>
 
                   <SegmentedTabs.Trigger
                     value={"group"}
                     data-testid="routing-peer-tab-group"
                   >
                     <FolderGit2 size={16} />
-                    {t("networkRoutingPeers.segment.group")}
+                    Peer Group
                   </SegmentedTabs.Trigger>
                 </SegmentedTabs.List>
                 <SegmentedTabs.Content value={"peer"}>
                   <div>
                     <HelpText>
-                      {t("networkRoutingPeers.segment.peerHelp")}
+                      Assign a single or multiple peers as routing peers for the
+                      network.
                     </HelpText>
                     <PeerSelector
-                      onChange={setRoutingPeer}
+                      onChange={setSelectedPeer}
                       value={routingPeer}
+                      disabled={peerLoading}
                     />
                   </div>
                 </SegmentedTabs.Content>
                 <SegmentedTabs.Content value={"group"}>
                   <div>
                     <HelpText>
-                      {t("networkRoutingPeers.segment.groupHelp")}
+                      Assign a peer group with machines to be used as routing
+                      peers.
                     </HelpText>
                     <PeerGroupSelector
                       max={1}
@@ -293,15 +308,14 @@ function RoutingPeerModalContent({
 
             <div className={cn("flex justify-between items-center mt-3")}>
               <div>
-                <Label>{t("networkRoutingPeers.dontHave")}</Label>
+                <Label>{"Don't have a routing peer?"}</Label>
                 <HelpText className={""}>
-                  {t("networkRoutingPeers.dontHaveHelp")}
+                  You can install NetBird with a setup key on one or more
+                  machines to act as routing peers.
                 </HelpText>
               </div>
               <InstallNetBirdWithSetupKeyButton
-                name={t("networkRoutingPeers.setupKeyName", {
-                  name: network.name,
-                })}
+                name={`Routing Peer (${network.name})`}
               />
             </div>
           </div>
@@ -315,10 +329,12 @@ function RoutingPeerModalContent({
               label={
                 <>
                   <Power size={15} />
-                  {t("networkRoutingPeers.enable")}
+                  Enable Routing Peer
                 </>
               }
-              helpText={t("networkRoutingPeers.enableHelp")}
+              helpText={
+                "Use this switch to enable or disable the routing peer."
+              }
             />
 
             <RoutingPeerMasqueradeSwitch
@@ -331,9 +347,9 @@ function RoutingPeerModalContent({
 
             <div className={cn("flex justify-between")}>
               <div>
-                <Label>{t("networkRoutingPeers.metric")}</Label>
+                <Label>Metric</Label>
                 <HelpText className={"max-w-[200px]"}>
-                  {t("networkRoutingPeers.metricHelp")}
+                  A lower metric indicates higher priority routing peers.
                 </HelpText>
               </div>
 
@@ -360,14 +376,10 @@ function RoutingPeerModalContent({
 
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
-          <Paragraph className={"text-sm mt-auto"}>
-            {t("networkRoutingPeers.learnMoreAbout")}
-            <InlineLink
+          <Paragraph className={"text-sm mt-auto"}>{t("common.learnMoreAbout")}<InlineLink
               href={"https://docs.netbird.io/how-to/networks#routing-peers"}
               target={"_blank"}
-            >
-              {t("common.routingPeers")}
-              <ExternalLinkIcon size={12} />
+            >{t("common.routingPeers")}<ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
@@ -375,32 +387,28 @@ function RoutingPeerModalContent({
           {tab == "router" && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>
-                  {t("common.cancel")}
-                </Button>
+                <Button variant={"secondary"}>{t("common.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 onClick={() => setTab("settings")}
                 disabled={!canContinue}
                 data-testid="routing-peer-continue"
-              >
-                {t("common.continue")}
-              </Button>
+              >{t("common.continue")}</Button>
             </>
           )}
           {tab == "settings" && (
             <>
-              <Button variant={"secondary"} onClick={() => setTab("router")}>
-                {t("common.back")}
-              </Button>
+              <Button variant={"secondary"} onClick={() => setTab("router")}>{t("common.back")}</Button>
 
               <Button
                 variant={"primary"}
                 disabled={
                   routingPeer == undefined && routingPeerGroups.length <= 0
                 }
-                onClick={router ? updateRouter : addRouter}
+                onClick={
+                  !useSave ? saveDraft : router ? updateRouter : addRouter
+                }
                 data-testid="submit-routing-peer"
               >
                 {router ? (
@@ -408,7 +416,7 @@ function RoutingPeerModalContent({
                 ) : (
                   <>
                     <PlusCircle size={16} />
-                    {t("networkRoutingPeers.addTitle")}
+                    Add Routing Peer
                   </>
                 )}
               </Button>
@@ -427,7 +435,6 @@ type InstallNetBirdWithSetupKeyButtonProps = {
 const InstallNetBirdWithSetupKeyButton = ({
   name,
 }: InstallNetBirdWithSetupKeyButtonProps) => {
-  const { t } = useI18n();
   const setupKeyRequest = useApiCall<SetupKey>("/setup-keys", true);
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
@@ -438,10 +445,11 @@ const InstallNetBirdWithSetupKeyButton = ({
 
   const createSetupKey = async () => {
     const choice = await confirm({
-      title: t("networkRoutingPeers.createSetupKeyTitle"),
-      description: t("networkRoutingPeers.createSetupKeyDescription"),
-      confirmText: t("common.continue"),
-      cancelText: t("common.cancel"),
+      title: `Create a Setup Key?`,
+      description:
+        "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
+      confirmText: "Continue",
+      cancelText: "Cancel",
       type: "default",
     });
     if (!choice) return;
@@ -452,7 +460,7 @@ const InstallNetBirdWithSetupKeyButton = ({
       .post({
         name,
         type: "one-off",
-        expires_in: 24 * 60 * 60, // 1 day expiration
+        expires_in: 24 * 60 * 60, // 1 day expiration in seconds
         revoked: false,
         auto_groups: [],
         usage_limit: 1,
@@ -484,7 +492,7 @@ const InstallNetBirdWithSetupKeyButton = ({
         ) : (
           <DownloadIcon size={14} />
         )}
-        {t("common.installNetBird")}
+        Install NetBird
       </Button>
       {setupKey && (
         <Modal

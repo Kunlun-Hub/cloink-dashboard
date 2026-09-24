@@ -1,7 +1,15 @@
 import Badge from "@components/Badge";
 import { cn } from "@utils/helpers";
-import { Cog, CreditCardIcon, EyeIcon, NetworkIcon, User2 } from "lucide-react";
+import {
+  Cog,
+  CreditCardIcon,
+  EyeIcon,
+  GaugeIcon,
+  NetworkIcon,
+  User2,
+} from "lucide-react";
 import React from "react";
+import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Role, User } from "@/interfaces/User";
@@ -51,6 +59,18 @@ export default function UserRoleCell({ user }: Readonly<Props>) {
           <>
             <NetworkIcon size={14} />
             {t("userRoles.networkAdmin")}
+          </>
+        )}
+        {role === Role.AgentNetworkAdmin && (
+          <>
+            <AgentNetworkIcon size={14} />
+            Agent Network Admin
+          </>
+        )}
+        {role === Role.UsageViewer && (
+          <>
+            <GaugeIcon size={14} />
+            Usage Viewer
           </>
         )}
       </Badge>

@@ -67,8 +67,21 @@ export function useI18n() {
   const context = useContext(I18nContext);
 
   if (!context) {
-    throw new Error("useI18n must be used within I18nProvider");
+    // The app always wraps the tree in I18nProvider, but isolated unit tests
+    // render components bare — fall back to English strings there instead of
+    // crashing the render.
+    return fallbackValue;
   }
 
   return context;
 }
+
+const fallbackValue: I18nContextValue = {
+  locale: "en",
+  locales,
+  setLocale: () => undefined,
+  t: (key, values) => {
+    const enMessages = messages.en as Record<string, string>;
+    return interpolate(enMessages[key] ?? key, values);
+  },
+};

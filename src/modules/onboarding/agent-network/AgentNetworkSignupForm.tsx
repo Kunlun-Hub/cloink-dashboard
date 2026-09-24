@@ -20,11 +20,12 @@ import {
 import React, { useMemo, useState } from "react";
 import { HubspotFormField } from "@/contexts/AnalyticsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
-import { useI18n } from "@/i18n/I18nProvider";
+import { countryOptions } from "@/modules/onboarding/countryOptions";
 import {
   companySizes,
   referralSourceOptions,
 } from "@/modules/onboarding/OnboardingSurvey";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   onSubmit: (fields: HubspotFormField[]) => void;
@@ -44,13 +45,13 @@ type Props = {
 // domain field (self-hosted IdPs don't emit it) and asks Agent-Network use
 // cases.
 export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
+  const { t } = useI18n();
   const { oidcUser: user } = useOidcUser();
   const { loggedInUser } = useLoggedInUser();
-  const { t } = useI18n();
   const name = user?.given_name || user?.name || user?.preferred_username;
   const welcomeMessage = name
-    ? t("onboarding.agentWelcomeName", { name })
-    : t("onboarding.agentWelcome");
+    ? `Welcome to NetBird, ${name}!`
+    : "Welcome to NetBird!";
 
   // The email is already known from the authenticated user, so it's submitted
   // with the form silently — no field to fill or correct.
@@ -59,6 +60,7 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
   const [personalOrBusiness, setPersonalOrBusiness] = useState("business");
   const isBusiness = personalOrBusiness === "business";
   const [companySize, setCompanySize] = useState<string>("");
+  const [country, setCountry] = useState("");
   const [referralSource, setReferralSource] = useState("");
   const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [other, setOther] = useState(false);
@@ -70,47 +72,24 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
       {
         key: "llm_access",
         // The audience word flips with the Business/Personal toggle.
-        value: isBusiness
+        label: isBusiness
           ? "Employee access to LLMs"
           : "Personal access to LLMs",
-        label: isBusiness
-          ? t("onboarding.useCaseEmployeeLlm")
-          : t("onboarding.useCasePersonalLlm"),
         icon: <UsersIcon size={16} />,
       },
-      {
-        key: "agent_access",
-        value: "Autonomous agent access",
-        label: t("onboarding.useCaseAutonomousAgent"),
-        icon: <BotIcon size={16} />,
-      },
-      {
-        key: "token_budget_limits",
-        value: "Token & budget limits",
-        label: t("onboarding.useCaseTokenBudget"),
-        icon: <GaugeIcon size={16} />,
-      },
-      {
-        key: "usage_cost_attribution",
-        value: "Usage & cost attribution",
-        label: t("onboarding.useCaseUsageCost"),
-        icon: <CoinsIcon size={16} />,
-      },
-      {
-        key: "audit_access_logging",
-        value: "Audit & access logging for AI",
-        label: t("onboarding.useCaseAuditLogging"),
-        icon: <ScrollTextIcon size={16} />,
-      },
+      { key: "agent_access", label: t("onboarding.useCaseAutonomousAgent"), icon: <BotIcon size={16} /> },
+      { key: "token_budget_limits", label: t("onboarding.useCaseTokenBudget"), icon: <GaugeIcon size={16} /> },
+      { key: "usage_cost_attribution", label: t("onboarding.useCaseUsageCost"), icon: <CoinsIcon size={16} /> },
+      { key: "audit_access_logging", label: t("onboarding.useCaseAuditLogging"), icon: <ScrollTextIcon size={16} /> },
     ],
-    [isBusiness, t],
+    [isBusiness],
   );
 
   const toggle = (key: string) =>
     setSelected((prev) => ({ ...prev, [key]: !prev[key] }));
 
   const getUseCases = () => {
-    const picked = useCases.filter((u) => selected[u.key]).map((u) => u.value);
+    const picked = useCases.filter((u) => selected[u.key]).map((u) => u.label);
     if (other && otherUseCase) picked.push(otherUseCase);
     return picked.join(", ");
   };
@@ -131,14 +110,23 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
 
   const canSubmit = useMemo(() => {
     if (!hasIdentity) return false;
-    const base = hasSelectedUseCase && referralSource !== "";
+    const base = hasSelectedUseCase && referralSource !== "" && country !== "";
     return isBusiness ? base && companySize !== "" : base;
-  }, [hasIdentity, hasSelectedUseCase, referralSource, isBusiness, companySize]);
+  }, [
+    hasIdentity,
+    hasSelectedUseCase,
+    referralSource,
+    country,
+    isBusiness,
+    companySize,
+  ]);
 
   const submitForm = () => {
     if (!hasIdentity) return;
     const fields: HubspotFormField[] = [
       { name: "email", value: email },
+      // Company-scoped (0-2) Country/Region, required by the HubSpot form.
+      { objectTypeId: "0-2", name: "country", value: country },
       { name: "is_company", value: isBusiness ? "Business" : "Personal" },
       { name: "use_case", value: getUseCases() },
       { name: "how_did_you_hear_about_us", value: referralSource || "Other" },
@@ -159,7 +147,8 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
             "text-sm text-nb-gray-300 font-light mt-2 block text-center max-w-md mx-auto px-6"
           }
         >
-          {t("onboarding.agentSignupDescription")}
+          Share a few details about your use case to help us get you started
+          smoothly.
         </div>
 
         <div className={"flex flex-col mt-8 z-0 gap-8"}>
@@ -169,21 +158,15 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
           >
             <SegmentedTabs.List className={"rounded-lg border"}>
               <SegmentedTabs.Trigger value={"business"}>
-                <BriefcaseIcon size={16} />
-                {t("onboarding.business")}
-              </SegmentedTabs.Trigger>
+                <BriefcaseIcon size={16} />{t("onboarding.business")}</SegmentedTabs.Trigger>
               <SegmentedTabs.Trigger value={"personal"}>
-                <UserIcon size={16} />
-                {t("onboarding.personal")}
-              </SegmentedTabs.Trigger>
+                <UserIcon size={16} />{t("onboarding.personal")}</SegmentedTabs.Trigger>
             </SegmentedTabs.List>
           </SegmentedTabs>
 
           {isBusiness && (
             <div className={"flex w-full flex-col gap-2"}>
-              <Label>
-                {t("onboarding.agentCompanySize")}
-                <RequiredAsterisk />
+              <Label>{t("onboarding.agentCompanySize")}<RequiredAsterisk />
               </Label>
               <ButtonGroup>
                 {companySizes.map((size) => (
@@ -203,29 +186,37 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
           )}
 
           <div className={"flex w-full flex-col gap-2"}>
-            <Label>
-              {t("onboarding.agentReferral")}
-              <RequiredAsterisk />
+            <Label>{t("reverseProxy.country")}<RequiredAsterisk />
+            </Label>
+            <SelectDropdown
+              value={country}
+              onChange={setCountry}
+              options={countryOptions}
+              showSearch={true}
+              placeholder={"Select your country..."}
+              searchPlaceholder={"Search country..."}
+              variant={"dropdown"}
+            />
+          </div>
+
+          <div className={"flex w-full flex-col gap-2"}>
+            <Label>{t("onboarding.agentReferral")}<RequiredAsterisk />
             </Label>
             <SelectDropdown
               value={referralSource}
               onChange={setReferralSource}
               options={randomizedOptions}
               showValues={false}
-              placeholder={t("survey.placeholder")}
+              placeholder={"Please select an option..."}
               variant={"dropdown"}
             />
           </div>
 
           <div className={"flex w-full flex-col gap-2"}>
             <div>
-              <Label>
-                {t("onboarding.agentUseCase")}
-                <RequiredAsterisk />
+              <Label>{t("onboarding.agentUseCase")}<RequiredAsterisk />
               </Label>
-              <HelpText className={"mt-1.5"}>
-                {t("onboarding.agentUseCaseHelp")}
-              </HelpText>
+              <HelpText className={"mt-1.5"}>{t("onboarding.agentUseCaseHelp")}</HelpText>
             </div>
 
             <div className={"flex flex-col gap-3"}>
@@ -256,16 +247,14 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
                   className={
                     "flex items-center gap-1.5 whitespace-nowrap text-sm select-none"
                   }
-                >
-                  {t("onboarding.otherPleaseSpecify")}
-                </div>
+                >{t("onboarding.otherPleaseSpecify")}</div>
               </label>
             </div>
 
             <div className={cn(!other && "!h-0 opacity-0", "mt-2", other && "mb-3")}>
               <Input
                 ref={inputRef}
-                placeholder={t("onboarding.otherUseCasePlaceholder")}
+                placeholder={"e.g. Internal RAG service, MCP tools"}
                 value={otherUseCase}
                 onChange={(e) => setOtherUseCase(e.target.value)}
               />
@@ -279,9 +268,7 @@ export const AgentNetworkSignupForm = ({ onSubmit }: Props) => {
         className={"w-full mt-4"}
         onClick={submitForm}
         disabled={!canSubmit}
-      >
-        {t("common.continue")}
-      </Button>
+      >{t("common.continue")}</Button>
     </>
   );
 };

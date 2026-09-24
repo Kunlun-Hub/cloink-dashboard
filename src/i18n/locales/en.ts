@@ -44,6 +44,7 @@ const en = {
   "common.online": "Online",
   "common.offline": "Offline",
   "common.moreCount": "+ {count} more",
+  "common.noResources": "No Resources",
   "common.resourceCount": "{count} Resources",
   "common.remove": "Remove",
   "common.routingPeerCount": "{count} Routing Peer(s)",
@@ -91,6 +92,7 @@ const en = {
   "nav.routes": "Routes",
   "nav.reverseProxy": "Reverse Proxy",
   "nav.agentNetwork": "Agent Network",
+  "nav.connectAgent": "Connect Agent",
   "nav.providers": "Providers",
   "nav.usageLogs": "Usage & Logs",
   "nav.configuration": "Configuration",
@@ -1874,6 +1876,19 @@ const en = {
   "userRoles.billingAdmin": "Billing Admin",
   "userRoles.auditor": "Auditor",
   "userRoles.networkAdmin": "Network Admin",
+  "userRoles.agentNetworkAdmin": "Agent Network Admin",
+  "userRoles.usageViewer": "Usage Viewer",
+  "userRoles.categoryGeneral": "General",
+  "userRoles.desc.owner": "Full access, including transferring ownership.",
+  "userRoles.desc.admin": "Manages users, peers, networks and account settings.",
+  "userRoles.desc.networkAdmin": "Manages peers, networks and access control.",
+  "userRoles.desc.billingAdmin": "Manages the subscription and billing details.",
+  "userRoles.desc.auditor":
+    "Read-only access to the configuration and audit events.",
+  "userRoles.desc.user": "Access to their own peers only.",
+  "userRoles.desc.agentNetworkAdmin":
+    "Manages AI providers, agent policies and guardrails.",
+  "userRoles.desc.usageViewer": "Read-only access to usage and logs.",
   "userRoles.transferOwnershipTitle": "Transfer Ownership?",
   "userRoles.transferOwnershipLine1": "This action will transfer the",
   "userRoles.transferOwnershipLine2": "role to",
@@ -2099,6 +2114,7 @@ const en = {
   "activity.userApprove": "was approved",
   "activity.userReject": "was rejected",
   "activity.userPasswordChange": "Password was changed for user",
+  "activity.userPasswordReset": "User password reset with recovery link",
   "activity.userInviteLinkCreate": "Invite link was created for",
   "activity.userInviteLinkAccept": "Invite link was accepted by",
   "activity.userInviteLinkRegenerate": "Invite link was regenerated for",
@@ -2953,6 +2969,8 @@ const en = {
   "userDetails.userRole": "User Role",
   "userDetails.userRoleHelp":
     "Set a role for the user to assign access permissions.",
+  "userDetails.ownerRoleChangeRestricted":
+    "Only the account owner can change the owner's role.",
   "userDetails.accessTokensDescription":
     "Access tokens give access to Cloink API.",
   "userDetails.createAccessToken": "Create Access Token",
@@ -5020,6 +5038,8 @@ const en = {
   "aiProvider.notify.providerUpdated.title": "Provider updated",
   "aiProvider.notify.settingsSaved": "Settings saved.",
   "aiProvider.notify.providerUpdateFailed.title": "Failed to update provider",
+  "aiProvider.notify.providerNotUpdated.title": "Provider not updated",
+  "aiProvider.notify.providerNotUpdated.description": "This provider is no longer available. Reload the page.",
   "aiProvider.notify.providerRemoved.title": "Provider removed",
   "aiProvider.notify.providerRemoved.description":
     "Endpoint will be torn down on next mapping update.",

@@ -10,18 +10,24 @@ import FullTooltip from "@components/FullTooltip";
 import { MoreVertical, Power, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useDialog } from "@/contexts/DialogProvider";
-import { useI18n } from "@/i18n/I18nProvider";
+import { usePermissions } from "@/contexts/PermissionsProvider";
 import { AIProvider } from "@/modules/agent-network/data/mockData";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   provider: AIProvider;
 };
 
 export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
+  const { t } = useI18n();
   const { confirm } = useDialog();
   const { policies, toggleProvider, deleteProvider } = useAIProviders();
-  const { t } = useI18n();
+  // Each menu item maps to its own operation grant; read-only viewers
+  // (usage_viewer) get no menu at all instead of actions that can only 403.
+  const { permission } = usePermissions();
+  const canUpdate = !!permission?.["agent_network.providers"]?.update;
+  const canDelete = !!permission?.["agent_network.providers"]?.delete;
 
   const referencingPolicies = policies.filter((p) =>
     p.destinationProviderIds.includes(provider.id),
@@ -30,15 +36,18 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
 
   const handleDelete = async () => {
     const ok = await confirm({
-      title: t("reverseProxy.deleteClusterTitle", { name: provider.name }),
-      description: t("agentProviders.deleteConfirmDescription"),
-      confirmText: t("common.delete"),
-      cancelText: t("common.cancel"),
+      title: `Delete '${provider.name}'?`,
+      description:
+        t("agentProviders.deleteConfirmDescription"),
+      confirmText: "Delete",
+      cancelText: "Cancel",
       type: "danger",
     });
     if (!ok) return;
     await deleteProvider(provider.id);
   };
+
+  if (!canUpdate && !canDelete) return null;
 
   return (
     <div className={"flex justify-end pr-4"}>
@@ -55,41 +64,47 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className={"w-auto"} align={"end"}>
-          <DropdownMenuItem onClick={() => toggleProvider(provider.id)}>
-            <div className={"flex gap-3 items-center"}>
-              <Power size={14} className={"shrink-0"} />
-              {provider.enabled ? t("common.disable") : t("common.enable")}
-            </div>
-          </DropdownMenuItem>
-
-          <DropdownMenuSeparator />
-
-          <FullTooltip
-            disabled={!inUse}
-            interactive={false}
-            content={
-              <div className={"text-xs max-w-xs"}>
-                {t("agentProviders.inUseTooltip", { count: referencingPolicies.length })}
-              </div>
-            }
-          >
-            <DropdownMenuItem
-              onClick={(e) => {
-                if (inUse) {
-                  e.preventDefault();
-                  return;
-                }
-                handleDelete();
-              }}
-              variant={"danger"}
-              disabled={inUse}
-            >
+          {canUpdate && (
+            <DropdownMenuItem onClick={() => toggleProvider(provider.id)}>
               <div className={"flex gap-3 items-center"}>
-                <Trash2 size={14} className={"shrink-0"} />
-                {t("common.delete")}
+                <Power size={14} className={"shrink-0"} />
+                {provider.enabled ? "Disable" : "Enable"}
               </div>
             </DropdownMenuItem>
-          </FullTooltip>
+          )}
+
+          {canUpdate && canDelete && <DropdownMenuSeparator />}
+
+          {canDelete && (
+            <FullTooltip
+              disabled={!inUse}
+              interactive={false}
+              content={
+                <div className={"text-xs max-w-xs"}>
+                  This provider is referenced by{" "}
+                  {referencingPolicies.length === 1
+                    ? "1 policy"
+                    : `${referencingPolicies.length} policies`}{" "}
+                  and cannot be deleted. Detach it from the policy first.
+                </div>
+              }
+            >
+              <DropdownMenuItem
+                onClick={(e) => {
+                  if (inUse) {
+                    e.preventDefault();
+                    return;
+                  }
+                  handleDelete();
+                }}
+                variant={"danger"}
+                disabled={inUse}
+              >
+                <div className={"flex gap-3 items-center"}>
+                  <Trash2 size={14} className={"shrink-0"} />{t("common.delete")}</div>
+              </DropdownMenuItem>
+            </FullTooltip>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

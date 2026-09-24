@@ -25,14 +25,17 @@ import { useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 import { useUsers } from "@/contexts/UsersProvider";
-import { useAccessLogFilters } from "@/modules/agent-network/AccessLogFilters";
+import {
+  AccessLogFilterId,
+  useAccessLogFilters,
+} from "@/modules/agent-network/AccessLogFilters";
 import {
   APIAgentNetworkUsageBucket,
   buildUsageOverviewQuery,
 } from "@/modules/agent-network/agentAccessLogApi";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // Register the chart.js building blocks we use. Idempotent, so it's safe
 // even when another agent-network chart already registered them.
@@ -63,11 +66,23 @@ type DayBucket = {
 // chart with a Tokens / Cost switch, and a standard data table of the same
 // per-day buckets underneath. Data comes pre-aggregated from the server's
 // /agent-network/usage/overview endpoint (day granularity); the shared filter
-// bar (Date / User / Group / Provider / Model) drives the query.
-export default function AgentOverviewPanel() {
+// bar (Date / User / Group / Provider / Model) drives the query. With
+// selfScoped the server answers with the caller's own rows only, so the
+// identity filters (which the server overrides anyway) are dropped —
+// Date, Provider, and Model stay: the providers endpoint self-scopes too,
+// so the caller's own authorized providers back those options.
+const SELF_SCOPED_FILTERS = {
+  include: ["date", "provider", "model"] as AccessLogFilterId[],
+};
+
+export default function AgentOverviewPanel({
+  selfScoped = false,
+}: {
+  selfScoped?: boolean;
+} = {}) {
   const [metric, setMetric] = useState<Metric>("tokens");
   const { columnFilters, filtersButton, filterChips, resetButton } =
-    useAccessLogFilters();
+    useAccessLogFilters(selfScoped ? SELF_SCOPED_FILTERS : undefined);
   const { groups } = useGroups();
   const { users } = useUsers();
   const { enabled: agentNetworkEnabled } = useAgentNetworkMode();
@@ -94,11 +109,13 @@ export default function AgentOverviewPanel() {
     [columnFilters, groupIdByName, userIdByEmail],
   );
 
+  // Self-scoped callers can't always resolve the feature flag (it needs
+  // accounts read); reaching this panel configured is proof enough.
   const { data: buckets } = useFetchApi<APIAgentNetworkUsageBucket[]>(
     `/agent-network/usage/overview?${query}`,
     false,
     true,
-    agentNetworkEnabled,
+    agentNetworkEnabled || selfScoped,
   );
 
   const daily = useMemo(() => toDailyBuckets(buckets ?? []), [buckets]);
@@ -136,12 +153,12 @@ function OverviewContent({
           <div className={"flex items-start justify-between gap-3"}>
             <div>
               <h3 className={"text-sm font-medium text-nb-gray-100"}>
-                {metric === "tokens" ? t("agentOverview.tokens") : t("agentOverview.cost")} {t("agentOverview.byDay")}
+                {metric === "tokens" ? "Token usage" : "Cost"} by day
               </h3>
               <p className={"text-xs text-nb-gray-400 leading-snug mt-0.5"}>
                 {metric === "tokens"
-                  ? t("agentOverview.inputOutputDesc")
-                  : t("agentOverview.estimatedSpendDesc")}
+                  ? "Input and output tokens per day."
+                  : "Estimated spend per day."}
               </p>
             </div>
             <ButtonGroup>
@@ -149,16 +166,12 @@ function OverviewContent({
                 variant={metric === "tokens" ? "tertiary" : "secondary"}
                 onClick={() => setMetric("tokens")}
                 className={"!h-[30px] !px-3 !py-0 text-xs"}
-              >
-                {t("agentOverview.tokens")}
-              </ButtonGroup.Button>
+              >{t("agentAccessLog.column.tokens")}</ButtonGroup.Button>
               <ButtonGroup.Button
                 variant={metric === "cost" ? "tertiary" : "secondary"}
                 onClick={() => setMetric("cost")}
                 className={"!h-[30px] !px-3 !py-0 text-xs"}
-              >
-                {t("agentOverview.cost")}
-              </ButtonGroup.Button>
+              >{t("agentAccessLog.column.cost")}</ButtonGroup.Button>
             </ButtonGroup>
           </div>
 
@@ -197,7 +210,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "date",
         accessorKey: "key",
         header: ({ column }) => (
-          <DataTableHeader column={column}>{t("agentOverview.date")}</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentAccessLog.filter.date")}</DataTableHeader>
         ),
         cell: ({ row }) => (
           <span className={"text-nb-gray-200 px-3 py-2 whitespace-nowrap"}>
@@ -265,7 +278,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "cost",
         accessorKey: "cost",
         header: ({ column }) => (
-          <DataTableHeader column={column}>{t("agentOverview.cost")}</DataTableHeader>
+          <DataTableHeader column={column}>{t("agentAccessLog.column.cost")}</DataTableHeader>
         ),
         // Mirrors the access log's Cost hover: one row per bucket the provider
         // bills separately when the server sends the split, otherwise the coarse
@@ -337,12 +350,12 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         },
       },
     ],
-    [t],
+    [],
   );
 
   return (
     <DataTable
-      text={t("agentOverview.days")}
+      text={"Days"}
       columns={columns}
       data={rows}
       sorting={sorting}
@@ -361,16 +374,15 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
               size={"large"}
             />
           }
-          title={t("agentOverview.noUsageTitle")}
+          title={"No usage recorded yet"}
           description={
-            t("agentOverview.noUsageDescription")
+            "Daily token and cost totals appear here as agents send requests through the providers you've connected."
           }
           learnMore={
-            <>
-              {t("common.learnMoreAbout")}
-              <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                {t("agentOverview.agentNetwork")}
-                <ExternalLinkIcon size={12} />
+            <>{t("common.learnMoreAbout")}<InlineLink
+                href={"https://docs.netbird.io/agent-network"}
+                target={"_blank"}
+              >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
               </InlineLink>
             </>
           }
@@ -429,6 +441,7 @@ function BreakdownTotal({
   value: string;
   mono?: boolean;
 }) {
+  const { t } = useI18n();
   return (
     <div
       className={
@@ -436,7 +449,7 @@ function BreakdownTotal({
       }
     >
       <span className={"font-medium text-nb-gray-200"}>{value}</span>
-      <span className={cn(mono && "font-sans")}>total</span>
+      <span className={cn(mono && "font-sans")}>{t("agentAccessLog.total")}</span>
     </div>
   );
 }
@@ -457,13 +470,13 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: t("agentOverview.inputTokens"),
+              label: "Input tokens",
               data: daily.map((d) => d.input),
               backgroundColor: "rgba(99, 102, 241, 0.6)", // indigo-500
               stack: "tokens",
             },
             {
-              label: t("agentOverview.outputTokens"),
+              label: "Output tokens",
               data: daily.map((d) => d.output),
               backgroundColor: "rgba(34, 197, 94, 0.6)", // green-500
               stack: "tokens",
@@ -474,7 +487,7 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: t("agentOverview.cost") + " (USD)",
+              label: "Cost (USD)",
               data: daily.map((d) => d.cost),
               backgroundColor: "rgba(246, 131, 48, 0.65)", // netbird orange
             },

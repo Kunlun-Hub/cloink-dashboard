@@ -12,6 +12,7 @@ type Props<T> = {
   label?: string;
   onCanceled?: () => void;
   rightSide?: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 export function DataTableMultiSelectPopup<T>({
@@ -19,6 +20,7 @@ export function DataTableMultiSelectPopup<T>({
   label,
   selectedItems,
   rightSide,
+  icon,
 }: Props<T>) {
   const { t } = useI18n();
   const resolvedLabel = label ?? t("table.peersSelected");
@@ -57,7 +59,9 @@ export function DataTableMultiSelectPopup<T>({
                     }
                   >
                     <div className={"flex gap-2 items-center"}>
-                      <MonitorSmartphoneIcon size={16} className={""} />
+                      {icon ?? (
+                        <MonitorSmartphoneIcon size={16} className={""} />
+                      )}
                       <span>
                         <span className={"font-medium text-nb-gray-100"}>
                           {count}

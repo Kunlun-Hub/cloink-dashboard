@@ -1,5 +1,6 @@
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
+import { ENABLED_COLUMN_CLASS } from "@components/table/enabledColumnClass";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
 import { ReverseProxy, ReverseProxyTarget } from "@/interfaces/ReverseProxy";
@@ -45,8 +46,14 @@ const createReverseProxyTargetColumns = (
   },
   {
     accessorKey: "enabled",
+    enableSorting: false,
+    meta: { className: ENABLED_COLUMN_CLASS.xl },
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("common.active")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column} sorting={false}>
+          {t("common.active")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <ReverseProxyTargetActiveCell target={row.original} />,
   },

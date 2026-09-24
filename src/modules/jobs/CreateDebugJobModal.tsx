@@ -28,9 +28,9 @@ import {
   SelectValue,
 } from "@/components/Select";
 import Separator from "@/components/Separator";
-import { useI18n } from "@/i18n/I18nProvider";
 import { Workload } from "@/interfaces/Job";
 import { useApiCall } from "@/utils/api";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   peerID: string;
@@ -38,16 +38,18 @@ type Props = {
 };
 
 export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
+  const { t } = useI18n();
   const jobRequest = useApiCall<Workload>(`/peers/${peerID}/jobs`, true);
   const { mutate } = useSWRConfig();
-  const { t } = useI18n();
 
   const [bundleForTimeEnabled, setBundleForTimeEnabled] = useState(false);
   const [bundleForTime, setBundleForTime] = useState<string>("");
   const [logFileCount, setLogFileCount] = useState<string>("10");
   const [anonymize, setAnonymize] = useState<boolean>(false);
-  const [anonymizeLevel, setAnonymizeLevel] = useState<"default" | "strict">("default");
-  const [uploadUrl, setUploadUrl] = useState("");
+  const [anonymizeLevel, setAnonymizeLevel] = useState<"default" | "strict">(
+    "default",
+  );
+  const [uploadUrl, setUploadUrl] = useState<string>("");
 
   const isValid = useMemo(() => {
     let validBundleFor = true;
@@ -63,9 +65,10 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
 
     validLogFileCount = logFileCountNumber >= 1 && logFileCountNumber <= 1000;
 
-    if (uploadUrl.trim()) {
+    const trimmedUploadUrl = uploadUrl.trim();
+    if (trimmedUploadUrl) {
       try {
-        const parsed = new URL(uploadUrl.trim());
+        const parsed = new URL(trimmedUploadUrl);
         validUploadUrl = parsed.protocol === "https:" && parsed.host !== "";
       } catch {
         validUploadUrl = false;
@@ -76,11 +79,10 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
   }, [bundleForTime, logFileCount, uploadUrl]);
 
   const createDebugJob = async () => {
-    if (!isValid) return;
     notify({
-      title: t("debugJob.notifyTitle"),
-      description: t("debugJob.notifySuccess"),
-      loadingMessage: t("debugJob.creating"),
+      title: t("jobs.createTitle"),
+      description: t("jobs.createDescription"),
+      loadingMessage: t("jobs.creating"),
       promise: jobRequest
         .post({
           workload: {
@@ -93,7 +95,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
                 ? Number(bundleForTime)
                 : undefined,
               log_file_count: logFileCount ? Number(logFileCount) : 10,
-              upload_url: uploadUrl.trim() || undefined,
+              upload_url: uploadUrl.trim() ? uploadUrl.trim() : undefined,
             },
           },
         })
@@ -108,20 +110,20 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
     <ModalContent maxWidthClass="max-w-xl">
       <ModalHeader
         icon={<BugPlay size={20} />}
-        title={t("debugJob.title")}
-        description={t("debugJob.description")}
+        title={t("jobs.debugBundle")}
+        description={t("jobs.debugBundleDescription")}
         color="netbird"
       />
 
       <Separator />
       <div className={"px-8 py-6 flex flex-col gap-4"}>
-        <HelpText>{t("debugJob.remoteJobsOptIn")}</HelpText>
         {/* Log File Count */}
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
-            <Label>{t("debugJob.logFileCount")}</Label>
+            <Label>{t("jobs.logFileCountLabel")}</Label>
             <HelpText>
-              {t("debugJob.logFileCountHelp")}
+              Sets the limit for how many individual log files will be included
+              in the debug bundle.
             </HelpText>
           </div>
 
@@ -134,7 +136,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             onChange={(e) => setLogFileCount(e.target.value)}
             maxWidthClass="w-[220px]"
             customPrefix={<FileText size={16} className="text-nb-gray-300" />}
-            customSuffix={t("debugJob.files")}
+            customSuffix="File(s)"
           />
         </div>
         {/* Bundle Duration */}
@@ -151,19 +153,18 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             }}
             label={
               <>
-                <AlarmClock size={15} />
-                {t("debugJob.enableBundleDuration")}
-              </>
+                <AlarmClock size={15} />{t("jobs.enableBundleDuration")}</>
             }
-            helpText={t("debugJob.enableBundleDurationHelp")}
+            helpText={t("jobs.enableBundleDurationHelp")}
           />
 
           {bundleForTimeEnabled && (
             <div className="flex justify-between gap-6 mt-6 mb-3">
               <div className={"max-w-[300px]"}>
-                <Label>{t("debugJob.duration")}</Label>
+                <Label>{t("jobs.durationLabel")}</Label>
                 <HelpText>
-                  {t("debugJob.durationHelp")}
+                  Time period for which logs should be collected before creating
+                  the debug bundle.
                 </HelpText>
               </div>
 
@@ -178,7 +179,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
                 customPrefix={
                   <AlarmClock size={16} className="text-nb-gray-300" />
                 }
-                customSuffix={t("debugJob.minutes")}
+                customSuffix="Minute(s)"
               />
             </div>
           )}
@@ -190,44 +191,55 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
           onChange={setAnonymize}
           label={
             <>
-              <Shield size={15} />
-              {t("debugJob.anonymizeLogData")}
-            </>
+              <Shield size={15} />{t("jobs.anonymizeLabel")}</>
           }
-          helpText={t("debugJob.anonymizeLogDataHelp")}
+          helpText={t("jobs.anonymizeHelp")}
         />
+
+        {/* Anonymization Level */}
         {anonymize && (
           <div className="flex justify-between gap-6">
-            <div className="max-w-[300px]">
-              <Label>{t("debugJob.anonymizeLevel")}</Label>
-              <HelpText>{t("debugJob.anonymizeLevelHelp")}</HelpText>
+            <div className={"max-w-[300px]"}>
+              <Label>Anonymization Level</Label>
+              <HelpText>
+                Default keeps internal (private) IP ranges readable; Strict also
+                anonymizes private, CGNAT and link-local addresses.
+              </HelpText>
             </div>
+
             <Select
               value={anonymizeLevel}
-              onValueChange={(value) => {
-                if (value === "default" || value === "strict") setAnonymizeLevel(value);
-              }}
+              onValueChange={(v) => setAnonymizeLevel(v as "default" | "strict")}
             >
               <SelectTrigger className="w-[220px]">
-                <SelectValue />
+                <div className="flex items-center gap-3">
+                  <Shield size={15} className="text-nb-gray-300 shrink-0" />
+                  <SelectValue placeholder="Select level..." />
+                </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="default">{t("debugJob.anonymizeDefault")}</SelectItem>
-                <SelectItem value="strict">{t("debugJob.anonymizeStrict")}</SelectItem>
+                <SelectItem value="default">Default</SelectItem>
+                <SelectItem value="strict">Strict</SelectItem>
               </SelectContent>
             </Select>
           </div>
         )}
+
+        {/* Upload URL */}
         <div className="flex justify-between gap-6">
-          <div className="max-w-[300px]">
-            <Label>{t("debugJob.uploadUrl")}</Label>
-            <HelpText>{t("debugJob.uploadUrlHelp")}</HelpText>
+          <div className={"max-w-[300px]"}>
+            <Label>Upload URL (optional)</Label>
+            <HelpText>
+              Service the peer requests an upload URL from. Leave empty to use
+              the default upload server. Must be an https URL.
+            </HelpText>
           </div>
+
           <Input
-            type="url"
-            placeholder={t("debugJob.uploadUrlPlaceholder")}
+            type="text"
+            placeholder={"https://upload.debug.netbird.io"}
             value={uploadUrl}
-            onChange={(event) => setUploadUrl(event.target.value)}
+            onChange={(e) => setUploadUrl(e.target.value)}
             maxWidthClass="w-[220px]"
             customPrefix={<UploadCloud size={16} className="text-nb-gray-300" />}
           />
@@ -244,9 +256,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             disabled={!isValid}
             onClick={createDebugJob}
           >
-            <PlusCircle size={16} />
-            {t("debugJob.createDebugBundle")}
-          </Button>
+            <PlusCircle size={16} />{t("jobs.createDebugBundle")}</Button>
         </div>
       </ModalFooter>
     </ModalContent>

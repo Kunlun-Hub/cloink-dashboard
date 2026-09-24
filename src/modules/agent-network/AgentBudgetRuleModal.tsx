@@ -153,34 +153,30 @@ function AgentBudgetRuleModalContent({
     <ModalContent maxWidthClass={"max-w-3xl"}>
       <ModalHeader
         icon={<SlidersHorizontal size={19} />}
-        title={rule ? t("agentNetwork.updateGlobalLimit") : t("agentNetwork.createGlobalLimit")}
-        description={t("agentNetwork.globalLimitModalDescription")}
+        title={rule ? "Update Global Limit" : "Create Global Limit"}
+        description={
+          "Account-level token and budget caps. Apply account-wide or scope to specific groups or users."
+        }
         color={"netbird"}
       />
 
       <Tabs defaultValue={tab} onValueChange={setTab} value={tab}>
         <TabsList justify={"start"} className={"px-8"}>
           <TabsTrigger value={"rule"}>
-            <SlidersHorizontal size={16} />
-            {t("agentNetwork.tabRule")}
-          </TabsTrigger>
+            <SlidersHorizontal size={16} />{t("accessControl.rule")}</TabsTrigger>
           <TabsTrigger value={"limits"}>
-            <Gauge size={16} />
-            {t("agentNetwork.tabLimits")}
-          </TabsTrigger>
+            <Gauge size={16} />{t("agentPolicies.column.limits")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value={"rule"} className={"pb-8"}>
           <div className={"px-8 flex-col flex gap-6 pt-2"}>
             <div>
               <Label>{t("agentNetwork.nameOfGlobalLimit")}</Label>
-              <HelpText>
-                {t("agentNetwork.nameOfGlobalLimitHelp")}
-              </HelpText>
+              <HelpText>{t("agentNetwork.nameOfGlobalLimitHelp")}</HelpText>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={t("agentNetwork.nameOfGlobalLimitPlaceholder")}
+                placeholder={"e.g. Account-wide monthly cap"}
                 data-testid={"budget-rule-name"}
               />
             </div>
@@ -188,12 +184,12 @@ function AgentBudgetRuleModalContent({
             <div className={"flex gap-6 items-start"}>
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
-                  <Users2 size={15} />
-                  {t("agentNetwork.targetGroups")}
-                  <HelpTooltip
+                  <Users2 size={15} />{t("agentNetwork.targetGroups")}<HelpTooltip
                     content={
                       <>
-                        {t("agentNetwork.targetGroupsTooltip")}
+                        Restrict this rule to members of the selected
+                        groups. Leave empty (and no users) to apply
+                        account-wide.
                       </>
                     }
                   />
@@ -203,11 +199,7 @@ function AgentBudgetRuleModalContent({
                   placeholder={
                     <div className={"flex items-center gap-2"}>
                       <Badge className={"py-[3px]"} variant={"gray-ghost"}>
-                        <CircleUser size={12} />
-                        {t("agentNetwork.all")}
-                      </Badge>
-                      {t("agentNetwork.selectTargetGroups")}
-                    </div>
+                        <CircleUser size={12} />{t("common.all")}</Badge>{t("agentNetwork.selectTargetGroups")}</div>
                   }
                   values={targetGroupsRaw}
                   onChange={setTargetGroupsRaw}
@@ -217,12 +209,11 @@ function AgentBudgetRuleModalContent({
 
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
-                  <CircleUser size={15} />
-                  {t("agentNetwork.targetUsers")}
-                  <HelpTooltip
+                  <CircleUser size={15} />{t("agentNetwork.targetUsers")}<HelpTooltip
                     content={
                       <>
-                        {t("agentNetwork.targetUsersTooltip")}
+                        Restrict this rule to specific users. Leave empty
+                        (and no groups) to apply account-wide.
                       </>
                     }
                   />
@@ -237,11 +228,10 @@ function AgentBudgetRuleModalContent({
 
             {accountWide && (
               <div className={"text-xs text-nb-gray-300 leading-snug"}>
-                {t("agentNetwork.accountWideNote")}{" "}
-                <span className={"text-amber-400 font-medium"}>
-                  {t("agentNetwork.accountWideHighlight")}
-                </span>{" "}
-                {t("agentNetwork.accountWideNoteSuffix")}
+                With no targets selected, this rule applies{" "}
+                <span className={"text-amber-400 font-medium"}>{t("agentNetwork.accountWideHighlight")}</span>{" "}
+                — every agent-network request is counted against its
+                caps.
               </div>
             )}
           </div>
@@ -252,11 +242,10 @@ function AgentBudgetRuleModalContent({
 
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
-          <Paragraph className={"text-sm mt-auto"}>
-            {t("common.learnMoreAbout")}
-            <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-              {t("agentNetwork.agentNetwork")}
-              <ExternalLinkIcon size={12} />
+          <Paragraph className={"text-sm mt-auto"}>{t("common.learnMoreAbout")}<InlineLink
+              href={"https://docs.netbird.io/agent-network"}
+              target={"_blank"}
+            >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
@@ -272,9 +261,7 @@ function AgentBudgetRuleModalContent({
                     variant={"primary"}
                     onClick={() => setTab("limits")}
                     disabled={name.trim().length === 0}
-                  >
-                    {t("common.continue")}
-                  </Button>
+                  >{t("common.continue")}</Button>
                 </>
               )}
               {tab === "limits" && (
@@ -282,16 +269,14 @@ function AgentBudgetRuleModalContent({
                   <Button
                     variant={"secondary"}
                     onClick={() => setTab("rule")}
-                  >
-                    {t("common.back")}
-                  </Button>
+                  >{t("common.back")}</Button>
                   <Button
                     variant={"primary"}
                     onClick={handleSubmit}
                     disabled={submitDisabled}
                   >
                     <PlusCircle size={16} />
-                    {rule ? t("agentNetwork.saveGlobalLimit") : t("agentNetwork.addGlobalLimitButton")}
+                    {rule ? "Save Global Limit" : "Add Global Limit"}
                   </Button>
                 </>
               )}
@@ -305,9 +290,7 @@ function AgentBudgetRuleModalContent({
                 variant={"primary"}
                 onClick={handleSubmit}
                 disabled={submitDisabled}
-              >
-                {t("common.saveChanges")}
-              </Button>
+              >{t("common.saveChanges")}</Button>
             </>
           )}
         </div>
@@ -433,14 +416,12 @@ function UserMultiSelect({
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={t("agentNetwork.searchUsers")}
+              placeholder={"Search users..."}
             />
           </div>
           <div className={"overflow-y-auto p-1"}>
             {filtered.length === 0 ? (
-              <div className={"text-xs text-nb-gray-400 px-3 py-3"}>
-                {t("agentNetwork.noUsersMatch")}
-              </div>
+              <div className={"text-xs text-nb-gray-400 px-3 py-3"}>{t("agentNetwork.noUsersMatch")}</div>
             ) : (
               filtered.map((u) => {
                 const checked = value.includes(u.id);
@@ -460,7 +441,7 @@ function UserMultiSelect({
                     />
                     <CircleUser size={16} className={"text-nb-gray-400"} />
                     <div className={"flex-1 min-w-0"}>
-                      <div className={"text-sm text-nb-gray-100 truncate"}>
+                      <div className={"text-sm text-white truncate"}>
                         {u.name || u.email || u.id}
                       </div>
                       {u.email && u.name && (

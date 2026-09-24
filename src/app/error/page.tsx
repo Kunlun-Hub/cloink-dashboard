@@ -9,14 +9,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { useI18n } from "@/i18n/I18nProvider";
+import { PendingApproval } from "@/modules/users/PendingApproval";
 
 const config = loadConfig();
 
 export default function ErrorPage() {
+  const { t } = useI18n();
   const { logout, isAuthenticated } = useOidc();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { t } = useI18n();
   const [error, setError] = useState<{
     code: number;
     message: string;
@@ -59,18 +60,26 @@ export default function ErrorPage() {
     error?.code === 403 &&
     error?.message?.toLowerCase().includes("pending approval");
 
+  // Waiting for an approval is an expected part of signing up, so it gets a
+  // welcoming screen of its own instead of the error treatment.
+  if (isPendingApproval) {
+    return (
+      <PendingApproval
+        error={error}
+        onRefresh={handleRetry}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
   const getTitle = () => {
     if (isBlockedUser) return t("errorPage.blockedTitle");
-    if (isPendingApproval) return t("errorPage.pendingTitle");
     return t("errorPage.defaultTitle");
   };
 
   const getDescription = () => {
     if (isBlockedUser) {
       return t("errorPage.blockedDescription");
-    }
-    if (isPendingApproval) {
-      return t("errorPage.pendingDescription");
     }
     return t("errorPage.defaultDescription");
   };
@@ -90,9 +99,7 @@ export default function ErrorPage() {
       {error && (
         <div className="bg-nb-gray-930 border border-nb-gray-800 rounded-md p-4 mt-4 max-w-md font-mono mb-2">
           <div className="text-center text-sm text-netbird">
-            <div>
-              {t("errorPage.responseMessage")}: {error.message}
-            </div>
+            <div>{t("errorPage.responseMessage")}: {error.message}</div>
           </div>
         </div>
       )}
@@ -102,7 +109,7 @@ export default function ErrorPage() {
       </Paragraph>
 
       <div className="mt-5 space-y-3">
-        {!isBlockedUser && !isPendingApproval && (
+        {!isBlockedUser && (
           <Button variant="default-outline" size="sm" onClick={handleRetry}>
             <RefreshCw size={16} className="mr-2" />
             {t("errorPage.tryAgain")}
@@ -110,9 +117,7 @@ export default function ErrorPage() {
         )}
 
         <Button variant="primary" size="sm" onClick={handleLogout}>
-          {isBlockedUser || isPendingApproval
-            ? t("errorPage.signOut")
-            : t("auth.logout")}
+          {isBlockedUser ? t("errorPage.signOut") : t("auth.logout")}
           <ArrowRightIcon size={16} />
         </Button>
       </div>

@@ -13,6 +13,7 @@ import { useTheme } from "@/contexts/ThemeProvider";
 import * as React from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
+import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 
 type UserNodeProps = Node<
@@ -78,6 +79,9 @@ export const SelectUserNode = ({ data, id }: UserNodeProps) => {
 
   const user = users?.find((u) => u.id === data.currentUser);
 
+  const [open, setOpen] = React.useState(false);
+  useCloseOnCanvasClick(open, () => setOpen(false));
+
   return (
     <div
       className={cn(
@@ -86,11 +90,14 @@ export const SelectUserNode = ({ data, id }: UserNodeProps) => {
     >
       <SelectDropdown
         variant={"secondary"}
+        deferChange
         value={data.currentUser}
         onChange={data.onUserChange}
         options={userSelectOptions}
         showSearch={true}
         searchPlaceholder={t("common.searchUserByNameOrEmailPlaceholder")}
+        open={open}
+        onOpenChange={setOpen}
         popoverWidth={280}
         className={cn(
           "!bg-nb-gray-920  !hover:bg-nb-gray-925 !text-nb-gray-300",
@@ -99,8 +106,9 @@ export const SelectUserNode = ({ data, id }: UserNodeProps) => {
         size={"xs"}
         maxHeight={300}
       >
+        {/* Same 64px inner height as GroupNode so nodes line up. */}
         <div
-          className={"flex items-center justify-between gap-8 pr-3 py-2 pl-3"}
+          className={"flex items-center justify-between gap-8 pr-3 pl-3 h-[64px]"}
         >
           {user && <SelectedUser user={user} />}
           <ChevronsUpDown size={18} className={"shrink-0"} />

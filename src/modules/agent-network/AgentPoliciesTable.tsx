@@ -2,7 +2,6 @@
 
 import Badge from "@components/Badge";
 import Button from "@components/Button";
-import FullTooltip from "@components/FullTooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
+import FullTooltip from "@components/FullTooltip";
 import InlineLink from "@components/InlineLink";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
@@ -50,17 +50,18 @@ import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Group } from "@/interfaces/Group";
-import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-import ActiveInactiveRow from "@/modules/common-table-rows/ActiveInactiveRow";
+import AgentPolicyModal from "@/modules/agent-network/AgentPolicyModal";
+import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
+import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import {
+  AgentGuardrail,
   AgentPolicy,
   MOCK_GROUPS,
   PolicyBudgetLimit,
   PolicyTokenLimit,
 } from "@/modules/agent-network/data/mockData";
-import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
-import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
-import AgentPolicyModal from "@/modules/agent-network/AgentPolicyModal";
+import ActiveInactiveRow from "@/modules/common-table-rows/ActiveInactiveRow";
+import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import { useI18n } from "@/i18n/I18nProvider";
 
 function NameCell({ policy }: { policy: AgentPolicy }) {
@@ -81,7 +82,6 @@ function NameCell({ policy }: { policy: AgentPolicy }) {
 }
 
 function SourceCell({ policy }: { policy: AgentPolicy }) {
-  const { t } = useI18n();
   const { groups: realGroups } = useGroups();
   if (policy.sourceGroups.length === 0) return <EmptyRow />;
   const groups: Group[] = policy.sourceGroups.map((id) => {
@@ -93,8 +93,10 @@ function SourceCell({ policy }: { policy: AgentPolicy }) {
   return (
     <MultipleGroups
       groups={groups}
-      label={t("agentPolicies.sourceGroups")}
-      description={t("agentPolicies.sourceGroupsDescription")}
+      label={"Source Groups"}
+      description={
+        "Members of these groups are allowed to call the destination providers."
+      }
     />
   );
 }
@@ -133,6 +135,98 @@ function ProviderCell({ policy }: { policy: AgentPolicy }) {
   );
 }
 
+// A policy restricts models only through the guardrails attached to it: each
+// guardrail with an enabled model_allowlist narrows the policy to the models
+// it names, and a policy whose guardrails carry none can call every model the
+// destination providers offer.
+function allowlistModels(
+  policy: AgentPolicy,
+  guardrails: AgentGuardrail[],
+): string[] {
+  const models = policy.guardrailIds
+    .map((id) => guardrails.find((g) => g.id === id))
+    .filter((g): g is AgentGuardrail => Boolean(g))
+    .filter((g) => g.checks.model_allowlist.enabled)
+    .flatMap((g) => g.checks.model_allowlist.models);
+  return Array.from(new Set(models));
+}
+
+// How many models the tooltip spells out before it just counts the rest.
+const TOOLTIP_MODELS = 10;
+
+function ModelsCell({
+  policy,
+  onClickAdd,
+}: {
+  policy: AgentPolicy;
+  onClickAdd: () => void;
+}) {
+  const { guardrails } = useAIProviders();
+  const models = allowlistModels(policy, guardrails);
+
+  // No enabled allowlist means every model the providers offer is callable;
+  // the way to narrow it is a guardrail, so the badge opens that tab.
+  if (models.length === 0) {
+    return (
+      <div className={"flex"}>
+        <Badge
+          variant={"gray"}
+          useHover={true}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClickAdd();
+          }}
+        >
+          <IconCirclePlus size={14} />
+          Restrict
+        </Badge>
+      </div>
+    );
+  }
+
+  // A single model fits in the cell; past that only the count does, with the
+  // names on hover.
+  if (models.length === 1) {
+    return (
+      <div className={"flex"}>
+        <Badge
+          variant={"gray-ghost"}
+          className={"transition-all whitespace-nowrap"}
+        >
+          {models[0]}
+        </Badge>
+      </div>
+    );
+  }
+
+  const listed = models.slice(0, TOOLTIP_MODELS);
+  const rest = models.length - listed.length;
+
+  return (
+    <div className={"flex"}>
+      <FullTooltip
+        content={
+          <div className={"text-xs space-y-0.5"}>
+            <div className={"font-semibold"}>Model allowlist</div>
+            {listed.map((model) => (
+              <div key={model}>· {model}</div>
+            ))}
+            {rest > 0 && <div>· and {rest} more</div>}
+          </div>
+        }
+      >
+        <Badge
+          variant={"gray-ghost"}
+          useHover={true}
+          className={"px-3 gap-2 whitespace-nowrap"}
+        >
+          {models.length} Models
+        </Badge>
+      </FullTooltip>
+    </div>
+  );
+}
+
 function LimitsCell({
   policy,
   onClickAdd,
@@ -155,9 +249,7 @@ function LimitsCell({
             onClickAdd();
           }}
         >
-          <IconCirclePlus size={14} />
-          {t("agentPolicies.addLimit")}
-        </Badge>
+          <IconCirclePlus size={14} />{t("agentPolicies.addLimit")}</Badge>
       </div>
     );
   }
@@ -170,9 +262,9 @@ function LimitsCell({
           content={
             <div className={"text-xs space-y-0.5"}>
               <div className={"font-semibold"}>{t("agentPolicies.tokenLimit")}</div>
-              <div>· {t("agentPolicies.groupCap")} {capDisplay(tl.groupCap, false)}</div>
-              <div>· {t("agentPolicies.individualCap")} {capDisplay(tl.userCap, false)}</div>
-              <div>· {t("agentPolicies.resetsEvery", { window: formatLimitWindow(tl.windowSeconds, t) })}</div>
+              <div>· Group: {capDisplay(tl.groupCap, false)}</div>
+              <div>· Individual: {capDisplay(tl.userCap, false)}</div>
+              <div>· Resets every {formatLimitWindow(tl.windowSeconds)}</div>
             </div>
           }
         >
@@ -187,9 +279,9 @@ function LimitsCell({
           content={
             <div className={"text-xs space-y-0.5"}>
               <div className={"font-semibold"}>{t("agentPolicies.budgetLimit")}</div>
-              <div>· {t("agentPolicies.groupCap")} {capDisplay(bl.groupCapUsd, true)}</div>
-              <div>· {t("agentPolicies.individualCap")} {capDisplay(bl.userCapUsd, true)}</div>
-              <div>· {t("agentPolicies.resetsEvery", { window: formatLimitWindow(bl.windowSeconds, t) })}</div>
+              <div>· Group: {capDisplay(bl.groupCapUsd, true)}</div>
+              <div>· Individual: {capDisplay(bl.userCapUsd, true)}</div>
+              <div>· Resets every {formatLimitWindow(bl.windowSeconds)}</div>
             </div>
           }
         >
@@ -223,28 +315,20 @@ function capDisplay(value: number, isUsd: boolean): string {
   return isUsd ? `$${compact}` : compact;
 }
 
-function formatLimitWindow(seconds: number, t: (key: string, opts?: Record<string, unknown>) => string): string {
+function formatLimitWindow(seconds: number): string {
   if (seconds <= 0) return "—";
   if (seconds < 3600) {
     const minutes = Math.round(seconds / 60);
-    return minutes === 1
-      ? t("agentPolicies.minute", { count: 1 })
-      : t("agentPolicies.minutes", { count: minutes });
+    return `${minutes} minute${minutes === 1 ? "" : "s"}`;
   }
   if (seconds < 86_400) {
     const hours = Math.round(seconds / 3600);
-    return hours === 1
-      ? t("agentPolicies.hour", { count: 1 })
-      : t("agentPolicies.hours", { count: hours });
+    return `${hours} hour${hours === 1 ? "" : "s"}`;
   }
   const days = Math.floor(seconds / 86_400);
   const remHours = Math.round((seconds % 86_400) / 3600);
-  if (remHours === 0) {
-    return days === 1
-      ? t("agentPolicies.day", { count: 1 })
-      : t("agentPolicies.days", { count: days });
-  }
-  return t("agentPolicies.dayHours", { days, hours: remHours });
+  if (remHours === 0) return `${days} day${days === 1 ? "" : "s"}`;
+  return `${days}d ${remHours}h`;
 }
 
 function ActionsCell({
@@ -260,10 +344,11 @@ function ActionsCell({
 
   const onDelete = async () => {
     const ok = await confirm({
-      title: t("agentPolicies.deleteConfirmTitle", { name: policy.name }),
-      description: t("agentPolicies.deleteConfirmDescription"),
-      confirmText: t("common.delete"),
-      cancelText: t("common.cancel"),
+      title: `Delete '${policy.name}'?`,
+      description:
+        t("agentPolicies.deleteConfirmDescription"),
+      confirmText: "Delete",
+      cancelText: "Cancel",
       type: "danger",
     });
     if (!ok) return;
@@ -287,22 +372,18 @@ function ActionsCell({
         <DropdownMenuContent className={"w-auto"} align={"end"}>
           <DropdownMenuItem onClick={() => onEdit(policy)}>
             <div className={"flex gap-3 items-center"}>
-              <PencilLineIcon size={14} className={"shrink-0"} />
-              {t("agentPolicies.editPolicy")}
-            </div>
+              <PencilLineIcon size={14} className={"shrink-0"} />{t("networks.editPolicy")}</div>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => togglePolicy(policy.id)}>
             <div className={"flex gap-3 items-center"}>
               <Power size={14} className={"shrink-0"} />
-              {policy.enabled ? t("common.disable") : t("common.enable")}
+              {policy.enabled ? "Disable" : "Enable"}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={onDelete} variant={"danger"}>
             <div className={"flex gap-3 items-center"}>
-              <Trash2 size={14} className={"shrink-0"} />
-              {t("common.delete")}
-            </div>
+              <Trash2 size={14} className={"shrink-0"} />{t("common.delete")}</div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -322,7 +403,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
   // Deep-link: the access log links here with ?search=<policy name> so the
   // table opens pre-filtered to that policy.
   const initialSearch = searchParams.get("search") ?? undefined;
-  const { policies, isLoading, providers } = useAIProviders();
+  const { policies, isLoading, providers, guardrails } = useAIProviders();
   const { groups: realGroups } = useGroups();
 
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -346,7 +427,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
     () => [
       {
         id: "source_group_names",
-        label: t("agentPolicies.filter.groups"),
+        label: "Groups",
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -359,7 +440,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       },
       {
         id: "provider_ids",
-        label: t("agentPolicies.filter.providers"),
+        label: "Providers",
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -397,7 +478,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorKey: "name",
       sortingFn: "text",
       header: ({ column }) => (
-        <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>
+        <DataTableHeader column={column}>{t("reverseProxy.dnsName")}</DataTableHeader>
       ),
       cell: ({ row }) => <NameCell policy={row.original} />,
     },
@@ -406,7 +487,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorFn: (p) => p.sourceGroups.length,
       sortingFn: "basic",
       header: ({ column }) => (
-        <DataTableHeader column={column}>{t("agentPolicies.column.groups")}</DataTableHeader>
+        <DataTableHeader column={column}>{t("nav.groups")}</DataTableHeader>
       ),
       cell: ({ row }) => <SourceCell policy={row.original} />,
     },
@@ -415,9 +496,23 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorFn: (p) => p.destinationProviderIds.length,
       sortingFn: "basic",
       header: ({ column }) => (
-        <DataTableHeader column={column}>{t("agentPolicies.column.provider")}</DataTableHeader>
+        <DataTableHeader column={column}>{t("aiProvider.modal.tabProvider")}</DataTableHeader>
       ),
       cell: ({ row }) => <ProviderCell policy={row.original} />,
+    },
+    {
+      id: "models",
+      accessorFn: (p) => allowlistModels(p, guardrails).length,
+      sortingFn: "basic",
+      header: ({ column }) => (
+        <DataTableHeader column={column}>{t("aiProvider.modal.tabModels")}</DataTableHeader>
+      ),
+      cell: ({ row }) => (
+        <ModelsCell
+          policy={row.original}
+          onClickAdd={() => openEdit(row.original, "guardrails")}
+        />
+      ),
     },
     // Hidden filter-only columns powering the consolidated Filters UI.
     {
@@ -480,14 +575,18 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
         key={`policies-${initialSearch ?? ""}`}
         headingTarget={headingTarget}
         isLoading={isLoading}
-        text={t("agentPolicies.policies")}
+        text={"Policies"}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={policies}
         initialSearch={initialSearch}
-        searchPlaceholder={t("agentPolicies.searchPlaceholder")}
-        onRowClick={(row) => openEdit(row.original)}
+        searchPlaceholder={"Search by name or description..."}
+        // Clicking the Models cell lands on the tab that actually owns the
+        // model allowlist — the guardrails attached to the policy.
+        onRowClick={(row, cell) =>
+          openEdit(row.original, cell === "models" ? "guardrails" : undefined)
+        }
         getStartedCard={
           <GetStartedTest
             icon={
@@ -499,8 +598,10 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                 size={"large"}
               />
             }
-            title={t("agentPolicies.emptyTitle")}
-            description={t("agentPolicies.emptyDescription")}
+            title={"Create your first policy"}
+            description={
+              "Policies connect user and agent groups to AI providers, with optional token and budget limits and guardrails for model access and prompt capture."
+            }
             button={
               <Button
                 variant={"primary"}
@@ -509,16 +610,13 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                   setCreateOpen(true);
                 }}
               >
-                <PlusCircle size={16} />
-                {t("agentPolicies.addPolicy")}
-              </Button>
+                <PlusCircle size={16} />{t("networks.addPolicy")}</Button>
             }
             learnMore={
-              <>
-                {t("common.learnMoreAbout")}
-                <InlineLink href={"https://docs.netbird.io/"} target={"_blank"}>
-                  {t("agentPolicies.agentNetwork")}
-                  <ExternalLinkIcon size={12} />
+              <>{t("common.learnMoreAbout")}<InlineLink
+                  href={"https://docs.netbird.io/agent-network"}
+                  target={"_blank"}
+                >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
             }
@@ -534,9 +632,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                   setCreateOpen(true);
                 }}
               >
-                <PlusCircle size={16} />
-                {t("agentPolicies.addPolicy")}
-              </Button>
+                <PlusCircle size={16} />{t("networks.addPolicy")}</Button>
             </div>
           )
         }

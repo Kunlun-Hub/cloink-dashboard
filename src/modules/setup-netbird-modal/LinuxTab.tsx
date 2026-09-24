@@ -31,7 +31,7 @@ type Props = {
   hostname?: string;
 };
 
-const apiOrigin = loadConfig().apiOrigin.replace(/\/+$/, "");
+const apiOrigin = (loadConfig().apiOrigin ?? "").replace(/\/+$/, "");
 
 export default function LinuxTab({
   setupKey,

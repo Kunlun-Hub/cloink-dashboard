@@ -2,97 +2,34 @@
 
 import Breadcrumbs from "@components/Breadcrumbs";
 import { HelpTooltip } from "@components/HelpTooltip";
+import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import useCopyToClipboard from "@hooks/useCopyToClipboard";
 import { usePortalElement } from "@hooks/usePortalElement";
-import { Copy, Globe, Plug } from "lucide-react";
-import React, { Suspense, useState } from "react";
+import { ExternalLinkIcon, Globe } from "lucide-react";
+import React, { Suspense } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
-import AgentConnectModal from "@/modules/agent-network/AgentConnectModal";
 import AIProviderModal from "@/modules/agent-network/AIProviderModal";
 import AIProvidersProvider, {
   useAIProviders,
 } from "@/modules/agent-network/AIProvidersProvider";
+import EndpointBadge from "@/modules/agent-network/EndpointBadge";
 import AgentProvidersTable from "@/modules/agent-network/table/AgentProvidersTable";
-
-function EndpointBadge({ endpoint }: { endpoint: string }) {
-  const { t } = useI18n();
-  const [, copy] = useCopyToClipboard(`https://${endpoint}`);
-  const [connectOpen, setConnectOpen] = useState(false);
-  return (
-    <div
-      className={
-        "inline-flex items-center gap-3 rounded-lg border border-nb-gray-800 bg-nb-gray-900/40 p-3 min-w-[300px]"
-      }
-    >
-      <div className={"flex flex-col"}>
-        <div
-          className={
-            "text-[10px] text-nb-gray-400 uppercase tracking-wider font-medium inline-flex items-center gap-1.5"
-          }
-        >
-          {t("agentNetwork.apiBaseUrl")}
-          <HelpTooltip
-            iconSize={11}
-            content={
-              <>
-                {t("agentNetwork.apiBaseUrlTooltip1")}
-                <code className={"font-mono"}> base_url</code>
-                {t("agentNetwork.apiBaseUrlTooltip2")}{" "}
-                <code className={"font-mono"}>baseURL</code>
-                {t("agentNetwork.apiBaseUrlTooltip3")}
-              </>
-            }
-          />
-        </div>
-        <code
-          className={
-            "font-mono text-xs text-nb-gray-100 leading-tight mt-0.5 whitespace-nowrap"
-          }
-        >
-          https://{endpoint}
-        </code>
-      </div>
-      <button
-        type={"button"}
-        className={
-          "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-nb-gray-100 transition-colors shrink-0"
-        }
-        onClick={() => copy(t("agentNetwork.endpointCopied"))}
-        aria-label={t("agentNetwork.copyEndpoint")}
-      >
-        <Copy size={12} />
-        {t("agentNetwork.copy")}
-      </button>
-      <button
-        type={"button"}
-        className={
-          "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-nb-gray-100 transition-colors shrink-0"
-        }
-        onClick={() => setConnectOpen(true)}
-        aria-label={t("agentNetwork.agentConfig")}
-      >
-        <Plug size={12} />
-        {t("agentNetwork.agentConfig")}
-      </button>
-      <AgentConnectModal
-        open={connectOpen}
-        onOpenChange={setConnectOpen}
-        endpoint={endpoint}
-      />
-    </div>
-  );
-}
+import InlineLink from "@components/InlineLink";
+import { useI18n } from "@/i18n/I18nProvider";
 
 function EndpointHeader() {
   const { t } = useI18n();
   const { settings, settingsLoading, openWizard } = useAIProviders();
+  const { permission } = usePermissions();
   if (settingsLoading) return null;
   if (!settings) {
+    // The bootstrap CTA opens the provider wizard, so only callers who can
+    // actually connect a provider get it; read-only viewers (usage_viewer)
+    // see nothing until an admin sets the endpoint up.
+    if (!permission?.["agent_network.providers"]?.create) return null;
     return (
       <button
         type={"button"}
@@ -113,26 +50,24 @@ function EndpointHeader() {
             className={
               "text-[10px] text-nb-gray-500 uppercase tracking-wider font-medium inline-flex items-center gap-1.5"
             }
-          >
-            {t("agentNetwork.apiBaseUrl")}
-            <span onClick={(e) => e.stopPropagation()}>
+          >{t("agentNetwork.apiBaseUrl")}<span onClick={(e) => e.stopPropagation()}>
               <HelpTooltip
                 iconSize={11}
                 content={
                   <>
-                    {t("agentNetwork.apiBaseUrlTooltip1")}
-                    <code className={"font-mono"}> base_url</code>
-                    {t("agentNetwork.apiBaseUrlTooltip2")}{" "}
-                    <code className={"font-mono"}>baseURL</code>
-                    {t("agentNetwork.apiBaseUrlTooltip3")}
+                    Use this URL as the base URL when configuring your AI agents
+                    or LLM SDK clients (e.g. OpenAI&apos;s
+                    <code className={"font-mono"}> base_url</code>,
+                    Anthropic&apos;s{" "}
+                    <code className={"font-mono"}>baseURL</code>, or any HTTP
+                    client). Calls hit NetBird first, get authorised by your
+                    policies, and only then reach the upstream provider.
                   </>
                 }
               />
             </span>
           </div>
-          <span className={"text-xs text-nb-gray-400 leading-tight mt-0.5"}>
-            {t("agentNetwork.connectFirstProvider")}
-          </span>
+          <span className={"text-xs text-nb-gray-400 leading-tight mt-0.5"}>{t("agentNetwork.connectFirstProvider")}</span>
         </div>
       </button>
     );
@@ -167,26 +102,36 @@ export default function AgentNetworkProvidersPage() {
     <PageContainer>
       {/* Gate the whole surface: AIProvidersProvider and EndpointHeader fetch
           agent-network state, so they must not mount for users without
-          services.read. */}
+          read on the providers submodule. */}
       <RestrictedAccess
-        page={t("nav.providers")}
-        hasAccess={permission?.services?.read}
+        page={"Providers"}
+        hasAccess={permission?.["agent_network.providers"]?.read}
       >
         <AIProvidersProvider>
           <div className={"p-default py-6"}>
             <Breadcrumbs>
               <Breadcrumbs.Item
                 href={"/agent-network/providers"}
-                label={t("agentNetwork.agentNetwork")}
+                label={"Agent Network"}
                 icon={<AgentNetworkIcon size={16} />}
               />
               <Breadcrumbs.Item
                 href={"/agent-network/providers"}
-                label={t("nav.providers")}
+                label={"Providers"}
                 active={true}
               />
             </Breadcrumbs>
             <h1 ref={headingRef}>{t("nav.providers")}</h1>
+            <Paragraph>
+              Connect AI providers and gateways like LiteLLM, OpenAI, and
+              Anthropic through one keyless endpoint, accessible only via
+              NetBird’s tunnel.
+              <InlineLink
+                href={"https://docs.netbird.io/agent-network/providers"}
+                target={"_blank"}
+              >{t("common.learnMore")}<ExternalLinkIcon size={12} />
+              </InlineLink>
+            </Paragraph>
             <div className={"mt-4"}>
               <EndpointHeader />
             </div>

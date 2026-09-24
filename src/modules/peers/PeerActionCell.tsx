@@ -57,16 +57,16 @@ export default function PeerActionCell() {
 
   const approvePeer = async () => {
     const choice = await confirm({
-      title: t("peerActionCell.approveTitle", { name: peer.name }),
-      description: t("peerActionCell.approveDescription"),
-      confirmText: t("peerActionCell.approve"),
-      cancelText: t("common.cancel"),
+      title: `Approve peer '${peer.name}'?`,
+      description: "Are you sure you want to approve this peer?",
+      confirmText: "Approve",
+      cancelText: "Cancel",
       type: "default",
     });
     if (!choice) return;
     notify({
-      title: t("peerActionCell.approvedTitle", { name: peer.name }),
-      description: t("peerActionCell.approvedDescription"),
+      title: `Peer ${peer.name} approved`,
+      description: `This peer was approved and can now connect to other peers.`,
       promise: update({
         name: peer.name,
         ssh: peer.ssh_enabled,
@@ -76,41 +76,45 @@ export default function PeerActionCell() {
         mutate("/peers");
         mutate("/groups");
       }),
-      loadingMessage: t("peerActionCell.approving"),
+      loadingMessage: "Approving peer...",
     });
   };
 
   const handleBypassCompliance = async () => {
     const choice = await confirm({
-      title: t("peerActionCell.bypassTitle", { name: peer.name }),
-      description: t("peerActionCell.bypassDescription"),
-      confirmText: t("peerActionCell.bypassCompliance"),
-      cancelText: t("common.cancel"),
+      title: `Bypass compliance for '${peer.name}'?`,
+      description:
+        "This will override the compliance check and allow this peer to connect. " +
+        "The bypass will be automatically removed if the device becomes compliant.",
+      confirmText: "Bypass Compliance",
+      cancelText: "Cancel",
       type: "warning",
     });
     if (!choice || !peer.id) return;
     notify({
-      title: t("peerActionCell.bypassedTitle", { name: peer.name }),
-      description: t("peerActionCell.bypassedDescription"),
+      title: `Compliance bypassed for ${peer.name}`,
+      description: `This peer can now connect to other peers.`,
       promise: bypassCompliance(peer.id),
-      loadingMessage: t("peerActionCell.bypassing"),
+      loadingMessage: "Bypassing compliance...",
     });
   };
 
   const handleRevokeBypass = async () => {
     const choice = await confirm({
-      title: t("peerActionCell.revokeBypassTitle", { name: peer.name }),
-      description: t("peerActionCell.revokeBypassDescription"),
-      confirmText: t("peerActionCell.revoke"),
-      cancelText: t("common.cancel"),
+      title: `Revoke compliance bypass for '${peer.name}'?`,
+      description:
+        "This peer will be subject to normal compliance validation. " +
+        "If still non-compliant, it will lose network access.",
+      confirmText: "Revoke",
+      cancelText: "Cancel",
       type: "warning",
     });
     if (!choice || !peer.id) return;
     notify({
-      title: t("peerActionCell.revokeBypassNotifyTitle"),
-      description: t("peerActionCell.revokeBypassNotifyDescription", { name: peer.name }),
+      title: `Compliance bypass revoked`,
+      description: `Peer ${peer.name} is now subject to normal compliance validation.`,
       promise: revokeBypass(peer.id),
-      loadingMessage: t("peerActionCell.revoking"),
+      loadingMessage: "Revoking compliance bypass...",
     });
   };
 
@@ -141,16 +145,11 @@ export default function PeerActionCell() {
   const showRemoteAccessItems = !isMobile && !!peer.connected;
 
   const toggleLoginExpiration = async () => {
-    const status = peer.login_expiration_enabled
-      ? t("peerActionCell.sessionExpirationDisabled")
-      : t("peerActionCell.sessionExpirationEnabled");
+    const text = peer.login_expiration_enabled ? "disabled" : "enabled";
     const disableLoginExpiration = peer.login_expiration_enabled;
-    const descriptionKey = peer.login_expiration_enabled
-      ? "peerActionCell.sessionExpirationDescriptionDisabled"
-      : "peerActionCell.sessionExpirationDescriptionEnabled";
     notify({
-      title: status,
-      description: t(descriptionKey, { name: peer.name }),
+      title: `Session expiration is ${text}`,
+      description: `Session expiration for peer ${peer.name} was successfully ${text}.`,
       promise: update({
         loginExpiration: !peer.login_expiration_enabled,
         inactivityExpiration: disableLoginExpiration
@@ -160,28 +159,29 @@ export default function PeerActionCell() {
         mutate("/peers");
         mutate("/groups");
       }),
-      loadingMessage: t("peerActionCell.updatingSessionExpiration"),
+      loadingMessage: "Updating session expiration...",
     });
   };
 
   const disableDashboardSSH = async () => {
     const choice = await confirm({
-      title: t("peerActionCell.disableSshAccessTitle"),
+      title: `Disable SSH Access?`,
       description: (
         <div>
-          {t("peerActionCell.disableSshAccessDescription")}{" "}
+          Starting from NetBird v0.61.0, once SSH access is disabled, you cannot
+          re-enable it again from the dashboard. You&apos;ll need to create an
+          explicit access control policy and update your NetBird client to
+          restore SSH functionality.{" "}
           <InlineLink
             href={"https://docs.netbird.io/manage/peers/ssh"}
             target={"_blank"}
             onClick={(e) => e.stopPropagation()}
-          >
-            {t("common.learnMore")}
-            <ExternalLinkIcon size={12} />
+          >{t("common.learnMore")}<ExternalLinkIcon size={12} />
           </InlineLink>
         </div>
       ),
-      confirmText: t("peerActionCell.disable"),
-      cancelText: t("common.cancel"),
+      confirmText: "Disable",
+      cancelText: "Cancel",
       type: "warning",
       maxWidthClass: "max-w-xl",
     });
@@ -199,7 +199,7 @@ export default function PeerActionCell() {
             e.preventDefault();
           }}
         >
-          <Button variant={"secondary"} className={"!px-3"} border={0}>
+          <Button variant={"secondary"} className={"!px-3"}>
             <MoreVertical size={16} className={"shrink-0"} />
           </Button>
         </DropdownMenuTrigger>
@@ -210,7 +210,7 @@ export default function PeerActionCell() {
           >
             <div className={"flex gap-3 items-center"}>
               <MonitorIcon size={14} className={"shrink-0"} />
-              {t("peerActionCell.viewDetails")}
+              View Details
             </div>
           </DropdownMenuItem>
 
@@ -221,7 +221,7 @@ export default function PeerActionCell() {
                 <DropdownMenuItem onClick={approvePeer}>
                   <div className={"flex gap-3 items-center"}>
                     <CheckCircle2 size={14} className={"shrink-0"} />
-                    {t("peerActionCell.approve")}
+                    Approve
                   </div>
                 </DropdownMenuItem>
               )}
@@ -230,14 +230,16 @@ export default function PeerActionCell() {
                   className={"w-full block"}
                   content={
                     <div className={"text-xs max-w-xs"}>
-                      {t("peerActionCell.bypassTooltip", { integration: activeIntegrationName })}
+                      Bypass {activeIntegrationName} compliance check and
+                      allow this peer to connect. The bypass is automatically
+                      removed when the device becomes compliant.
                     </div>
                   }
                 >
                   <DropdownMenuItem onClick={handleBypassCompliance}>
                     <div className={"flex gap-3 items-center w-full"}>
                       <ShieldCheck size={14} className={"shrink-0"} />
-                      {t("peerActionCell.bypassCompliance")}
+                      Bypass Compliance
                     </div>
                   </DropdownMenuItem>
                 </FullTooltip>
@@ -246,7 +248,7 @@ export default function PeerActionCell() {
                 <DropdownMenuItem onClick={handleRevokeBypass}>
                   <div className={"flex gap-3 items-center"}>
                     <ShieldOff size={14} className={"shrink-0"} />
-                    {t("peerActionCell.revokeBypass")}
+                    Revoke Bypass
                   </div>
                 </DropdownMenuItem>
               )}
@@ -269,7 +271,7 @@ export default function PeerActionCell() {
               >
                 <IconInfoCircle size={14} />
                 <span>
-                  {t("peerActionCell.expirationDisabledTooltip")}
+                  Expiration is disabled for all peers added with a setup-key.
                 </span>
               </div>
             }
@@ -282,9 +284,8 @@ export default function PeerActionCell() {
             >
               <div className={"flex gap-3 items-center w-full"}>
                 <TimerResetIcon size={14} className={"shrink-0"} />
-                {peer.login_expiration_enabled
-                  ? t("peerActionCell.disableSessionExpiration")
-                  : t("peerActionCell.enableSessionExpiration")}
+                {peer.login_expiration_enabled ? "Disable" : "Enable"} Session
+                Expiration
               </div>
             </DropdownMenuItem>
           </FullTooltip>
@@ -301,9 +302,7 @@ export default function PeerActionCell() {
               <div className={"flex gap-3 items-center w-full"}>
                 <TerminalSquare size={14} className={"shrink-0"} />
                 <div className={"flex justify-between items-center w-full"}>
-                  {peer.ssh_enabled
-                    ? t("peerActionCell.disableSshAccess")
-                    : t("peerActionCell.enableSshAccess")}
+                  {peer.ssh_enabled ? "Disable" : "Enable"} SSH Access
                 </div>
               </div>
             </DropdownMenuItem>
@@ -319,9 +318,7 @@ export default function PeerActionCell() {
             disabled={!permission.peers.delete}
           >
             <div className={"flex gap-3 items-center"}>
-              <Trash2 size={14} className={"shrink-0"} />
-              {t("common.delete")}
-            </div>
+              <Trash2 size={14} className={"shrink-0"} />{t("common.delete")}</div>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

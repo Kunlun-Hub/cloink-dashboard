@@ -7,7 +7,6 @@ import { ArrowUpRightIcon, LockIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { useI18n } from "@/i18n/I18nProvider";
 import { Peer } from "@/interfaces/Peer";
 import InlineLink from "@components/InlineLink";
 import { useAccount } from "@/modules/account/useAccount";
@@ -27,19 +26,15 @@ export const PeerExpirationToggle = ({
   peer,
   value,
   onChange,
-  title,
-  description,
+  title = "Session Expiration",
+  description = "Enable to require SSO login peers to re-authenticate when their session expires after a certain period of time.",
   icon,
   className,
   variant = "default",
   type = "login-expiration",
 }: Props) => {
-  const { t } = useI18n();
   const { permission } = usePermissions();
   const account = useAccount();
-  const resolvedTitle = title ?? t("authenticationTab.sessionExpiration");
-  const resolvedDescription =
-    description ?? t("peer.sessionExpirationToggleDescription");
 
   const noPermissionOrNoUser = !peer.user_id || !permission?.peers.update;
 
@@ -60,34 +55,39 @@ export const PeerExpirationToggle = ({
           {!peer.user_id ? (
             <>
               <IconInfoCircle size={14} />
-              <span>{t("peer.settingDisabledForSetupKeyPeers")}</span>
+              <span>
+                This setting is disabled for all peers added with a setup-key.
+              </span>
             </>
           ) : (
             <>
               <LockIcon size={14} />
-              <span>{t("peer.updateSettingPermissionDenied")}</span>
+              <span>
+                {`You don't have the required permissions to update this setting.`}
+              </span>
             </>
           )}
         </div>
       );
     }
     if (isGlobalSettingDisabled) {
-      const setting =
+      const text =
         type === "login-expiration"
-          ? t("peer.peerSessionExpirationLabel")
-          : t("peer.requireLoginAfterDisconnect");
+          ? "'Peer Session Expiration'"
+          : "'Require login after disconnect'";
       return (
         <div className={"flex flex-col gap-2 text-xs max-w-xs"}>
           <div>
-            {t("peer.globalSettingDisabledPrefix", { setting })}{" "}
+            Global setting {text} is currently disabled. Enable the global
+            setting to be able to toggle it individually per peer.{"  "}
             <InlineLink href={"/settings"}>
-              {t("peer.goToSettings")} <ArrowUpRightIcon size={12} />
+              Go to Settings <ArrowUpRightIcon size={12} />
             </InlineLink>
           </div>
         </div>
       );
     }
-  }, [noPermissionOrNoUser, peer, type, isGlobalSettingDisabled, t]);
+  }, [noPermissionOrNoUser, peer, type, isGlobalSettingDisabled]);
 
   return (
     <FullTooltip
@@ -104,10 +104,10 @@ export const PeerExpirationToggle = ({
         label={
           <>
             {icon}
-            {resolvedTitle}
+            {title}
           </>
         }
-        helpText={resolvedDescription}
+        helpText={description}
       />
     </FullTooltip>
   );
