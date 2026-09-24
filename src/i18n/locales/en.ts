@@ -8011,6 +8011,8 @@ const en = {
   "controlCenter.addressPlaceholderShort": "IP, CIDR or Domain",
   "counts.accessControlPolicy": "{count} Access Control Policy",
   "counts.accessControlPolicies": "{count} Access Control Policies",
+  "trafficEvents.rxLabel": "Received",
+  "trafficEvents.txLabel": "Sent",
 } as const;
 
 export default en;

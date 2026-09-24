@@ -7429,6 +7429,8 @@ const zhCN = {
   "controlCenter.addressPlaceholderShort": "IP、CIDR 或域名",
   "counts.accessControlPolicy": "{count} 条访问控制策略",
   "counts.accessControlPolicies": "{count} 条访问控制策略",
+  "trafficEvents.rxLabel": "接收",
+  "trafficEvents.txLabel": "发送",
 } as const;
 
 export default zhCN;

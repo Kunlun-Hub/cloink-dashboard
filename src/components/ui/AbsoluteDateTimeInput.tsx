@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { DateRange } from "react-day-picker";
 import { useTimescape } from "timescape/react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   value?: DateRange;
@@ -45,11 +46,15 @@ const Time = ({
   value?: Date;
   onChange?: (date?: Date) => void;
 }) => {
+  const { locale } = useI18n();
+  // A 24-hour clock is the norm for zh-CN; the AM/PM field is only meaningful
+  // for locales that read a 12-hour clock.
+  const hour12 = locale !== "zh-CN";
   const { getRootProps, getInputProps, options, update } = useTimescape({
     date: value,
     minDate: undefined,
     maxDate: undefined,
-    hour12: true,
+    hour12,
     digits: "2-digit",
     wrapAround: false,
     snapToStep: false,
@@ -88,7 +93,7 @@ const Time = ({
         <input {...getInputProps("minutes")} />
         <span className={"separator"}>:</span>
         <input {...getInputProps("seconds")} />
-        <input {...getInputProps("am/pm")} />
+        {hour12 && <input {...getInputProps("am/pm")} />}
       </div>
     </div>
   );

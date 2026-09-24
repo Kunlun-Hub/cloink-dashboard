@@ -19,6 +19,9 @@ function Calendar({
 }: CalendarProps) {
   const { locale } = useI18n();
   const dayjsLocale = locale === "zh-CN" ? "zh-cn" : "en";
+  // The caption pattern is locale-specific: zh reads "2026年9月" while en
+  // needs the month name ("September 2026").
+  const captionFormat = locale === "zh-CN" ? "YYYY年M月" : "MMMM YYYY";
 
   // react-day-picker ships its own English month/weekday labels. Reuse the
   // dayjs locale the app already configures so the calendar follows the UI
@@ -26,12 +29,12 @@ function Calendar({
   const localizedFormatters = React.useMemo(
     () => ({
       formatCaption: (month: Date) =>
-        dayjs(month).locale(dayjsLocale).format("YYYY年M月"),
+        dayjs(month).locale(dayjsLocale).format(captionFormat),
       formatWeekdayName: (weekday: Date) =>
         dayjs(weekday).locale(dayjsLocale).format("dd"),
       ...formatters,
     }),
-    [dayjsLocale, formatters],
+    [dayjsLocale, captionFormat, formatters],
   );
 
   return (
@@ -55,8 +58,7 @@ function Calendar({
         ),
         month_grid: "w-full border-collapse space-y-1",
         weekdays: "flex",
-        weekday:
-          "text-nb-gray-400 rounded-md w-9 font-normal text-[0.8rem]",
+        weekday: "text-nb-gray-400 rounded-md w-9 font-normal text-[0.8rem]",
         week: "flex w-full mt-2",
         day: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-netbird/10 [&:has([aria-selected])]:bg-netbird/10 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day_button: cn("h-9 w-9 p-0 font-normal aria-selected:opacity-100"),

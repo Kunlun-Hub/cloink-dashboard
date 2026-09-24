@@ -49,6 +49,7 @@ import { TrafficEventsReporterCell } from "@/cloud/traffic-events/table/TrafficE
 import { TrafficEventsTextCell } from "@/cloud/traffic-events/table/TrafficEventsTextCell";
 import { TrafficEventsTimeCell } from "@/cloud/traffic-events/table/TrafficEventsTimeCell";
 import { TRAFFIC_EVENTS_DOC_LINK } from "@/cloud/traffic-events/TrafficEventSetting";
+import { isNoisyTrafficGroup } from "@/cloud/traffic-events/utils/noise";
 import { parseAddressPort } from "@/cloud/traffic-events/utils/parseAddress";
 import { usePeers } from "@/contexts/PeersProvider";
 import { useServerPagination } from "@/contexts/ServerPaginationProvider";
@@ -306,7 +307,9 @@ export default function TrafficEventsTable({
 
   const groups = useMemo<NetworkTrafficGroupRow[] | undefined>(() => {
     if (!Array.isArray(data)) return undefined;
-    return data.map((group) => ({ ...group, id: group.key }));
+    return data
+      .filter((group) => !isNoisyTrafficGroup(group))
+      .map((group) => ({ ...group, id: group.key }));
   }, [data]);
 
   const userOptions = useMemo<PeerResourceOption[]>(() => {
@@ -505,7 +508,9 @@ export default function TrafficEventsTable({
       {
         id: "client",
         header: t("trafficEvents.client"),
-        cell: ({ row }) => <EndpointSummary endpoint={row.original.source} />,
+        cell: ({ row }) => (
+          <EndpointSummary endpoint={row.original.source} t={t} />
+        ),
       },
       {
         id: "protocol",
@@ -537,7 +542,7 @@ export default function TrafficEventsTable({
         id: "destination",
         header: t("trafficEvents.destination"),
         cell: ({ row }) => (
-          <EndpointSummary endpoint={row.original.destination} />
+          <EndpointSummary endpoint={row.original.destination} t={t} />
         ),
       },
       {
@@ -555,12 +560,18 @@ export default function TrafficEventsTable({
         header: t("trafficEvents.traffic"),
         cell: ({ row }) => (
           <div className="flex flex-col gap-1 whitespace-nowrap text-xs font-medium text-nb-gray-300">
-            <span className="flex items-center gap-2">
-              <ArrowDownIcon size={15} className="text-sky-400" />
+            <span className="flex items-center gap-1.5">
+              <ArrowDownIcon size={14} className="shrink-0 text-sky-400" />
+              <span className="text-nb-gray-400">
+                {t("trafficEvents.rxLabel")}
+              </span>
               {formatBytes(row.original.rx_bytes)}
             </span>
-            <span className="flex items-center gap-2">
-              <ArrowUpIcon size={15} className="text-netbird" />
+            <span className="flex items-center gap-1.5">
+              <ArrowUpIcon size={14} className="shrink-0 text-netbird" />
+              <span className="text-nb-gray-400">
+                {t("trafficEvents.txLabel")}
+              </span>
               {formatBytes(row.original.tx_bytes)}
             </span>
           </div>
@@ -711,14 +722,50 @@ export default function TrafficEventsTable({
   );
 }
 
+// The endpoint type is what tells an operator whether a row is a device talking
+// to another device or a device reaching an internal resource, so surface it
+// next to the name instead of hiding it in the persisted columns.
+const endpointTypeLabel = (
+  t: (key: string) => string,
+  type: string,
+): string | undefined => {
+  switch (type) {
+    case "PEER":
+      return t("trafficEvents.peerPrefix");
+    case "HOST_RESOURCE":
+    case "SUBNET_RESOURCE":
+    case "DOMAIN_RESOURCE":
+      return t("trafficEvents.resourcePrefix");
+    case "ROUTE":
+      return t("trafficEvents.routePrefix");
+    default:
+      return undefined;
+  }
+};
+
 function EndpointSummary({
   endpoint,
-}: Readonly<{ endpoint: NetworkTrafficGroup["source"] }>) {
+  t,
+}: Readonly<{
+  endpoint: NetworkTrafficGroup["source"];
+  t: (key: string) => string;
+}>) {
   const label = endpoint.name || endpoint.address;
+  const typeLabel = endpointTypeLabel(t, endpoint.type);
   return (
     <div className="min-w-[180px] max-w-[260px]">
-      <div className="truncate text-sm text-nb-gray-200" title={label}>
-        {label}
+      <div className="flex min-w-0 items-center gap-2">
+        <span className="truncate text-sm text-nb-gray-200" title={label}>
+          {label}
+        </span>
+        {typeLabel && (
+          <Badge
+            variant={"gray"}
+            className={"shrink-0 px-1.5 py-0 text-[0.65rem] font-normal"}
+          >
+            {typeLabel}
+          </Badge>
+        )}
       </div>
       {endpoint.address && endpoint.address !== label && (
         <div
