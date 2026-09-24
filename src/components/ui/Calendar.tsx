@@ -17,7 +17,7 @@ function Calendar({
   formatters,
   ...props
 }: CalendarProps) {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const dayjsLocale = locale === "zh-CN" ? "zh-cn" : "en";
   // The caption pattern is locale-specific: zh reads "2026年9月" while en
   // needs the month name ("September 2026").
@@ -37,11 +37,34 @@ function Calendar({
     [dayjsLocale, captionFormat, formatters],
   );
 
+  // Screen readers use the day buttons' ARIA labels, which react-day-picker
+  // renders in English by default ("Today, Thursday, September 24th, 2026").
+  const dayLabelFormat =
+    locale === "zh-CN" ? "YYYY年M月D日 dddd" : "dddd, MMMM Do, YYYY";
+  const localizedLabels = React.useMemo(() => {
+    const formatDayLabel = (
+      date: Date,
+      modifiers?: { today?: boolean; selected?: boolean },
+    ) => {
+      const parts = [
+        dayjs(date).locale(dayjsLocale).format(dayLabelFormat),
+      ];
+      if (modifiers?.today) parts.unshift(t("datePicker.today"));
+      if (modifiers?.selected) parts.push(t("common.selected"));
+      return parts.join(locale === "zh-CN" ? "，" : ", ");
+    };
+    return {
+      labelDayButton: formatDayLabel,
+      labelGridcell: formatDayLabel,
+    };
+  }, [dayjsLocale, dayLabelFormat, locale, t]);
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       formatters={localizedFormatters}
+      labels={localizedLabels}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0 relative",
         month: "space-y-4 pr-4 last:pr-0",

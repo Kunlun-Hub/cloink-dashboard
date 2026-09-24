@@ -7440,6 +7440,11 @@ const zhCN = {
   "trafficEvents.aggregateSourceLabel": " · 来源：",
   "trafficEvents.aggregateTargetLabel": " · 目标：",
   "trafficEvents.summaryLabel": "本页合计",
+  "trafficEvents.resourceOnlyLabel": "仅内部资源访问",
+  "trafficEvents.resourceOnlyTooltip": "只显示通过 VPN 访问内部资源的流量，隐藏设备之间的 P2P 直连流量。",
+  "trafficEvents.allTrafficLabel": "全部流量",
+  "trafficEvents.allTrafficTooltip": "显示全部流量，包括设备之间的 P2P 直连流量。",
+  "trafficEvents.resourceOnlyEmpty": "当前时间范围内没有访问内部资源的流量。",
   "trafficEvents.summaryConnections": "{count} 个连接",
 } as const;
 

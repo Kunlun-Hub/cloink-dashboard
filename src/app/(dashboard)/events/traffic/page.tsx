@@ -27,6 +27,9 @@ export default function NetworkTrafficPage() {
   const defaultFilters = useMemo(
     () => ({
       grouped: "true",
+      // A traffic log is read to answer "who reached which internal resource",
+      // so the resource-only view is the default and can be switched off.
+      resource_only: "true",
       start_date: dayjs().subtract(5, "minute").toISOString(),
       end_date: dayjs().toISOString(),
     }),

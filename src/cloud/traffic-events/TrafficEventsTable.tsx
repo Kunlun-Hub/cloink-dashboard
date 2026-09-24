@@ -6,6 +6,7 @@ import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
 import DataTableRefreshButton from "@components/table/DataTableRefreshButton";
+import FullTooltip from "@components/FullTooltip";
 import {
   formatPeerResourceChip,
   PeerResourceOption,
@@ -27,6 +28,8 @@ import {
   ArrowUpIcon,
   ChevronRightIcon,
   ExternalLinkIcon,
+  LayersIcon,
+  ShieldCheckIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
@@ -350,6 +353,15 @@ export default function TrafficEventsTable({
     [setFilter],
   );
 
+  // Resource-only is the default view: a traffic log answers "who reached which
+  // internal resource", and P2P chatter between devices drowns that out. The
+  // server drops those rows, so the page totals stay consistent.
+  const resourceOnly = getFilter("resource_only") !== "false";
+  const setResourceOnly = useCallback(
+    (next: boolean) => setFilter("resource_only", next ? "true" : "false"),
+    [setFilter],
+  );
+
   const peerOptions = useMemo<PeerResourceOption[]>(() => {
     return (peers ?? [])
       .filter((p) => p.id)
@@ -633,7 +645,11 @@ export default function TrafficEventsTable({
         />
       }
       title={t("trafficEvents.emptyTitle")}
-      description={t("trafficEvents.emptyDescription")}
+      description={
+        resourceOnly
+          ? t("trafficEvents.resourceOnlyEmpty")
+          : t("trafficEvents.emptyDescription")
+      }
       learnMore={
         <>
           {t("common.learnMoreAbout")}{" "}
@@ -697,7 +713,7 @@ export default function TrafficEventsTable({
       data={groups}
       searchPlaceholder={t("trafficEvents.searchPlaceholder")}
       aboveTable={(table) => (
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="p-default flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pb-3">
           <TableFilterChips table={table} filters={filterDefs} />
           <TrafficEventsSummary rows={groups} />
         </div>
@@ -706,6 +722,12 @@ export default function TrafficEventsTable({
     >
       {(table) => (
         <>
+          <TrafficEventsResourceOnlyToggle
+            resourceOnly={resourceOnly}
+            disabled={filtersDisabled}
+            onChange={setResourceOnly}
+          />
+
           <DatePickerWithRange
             value={dateRange}
             onChange={handleDateFilterChange}
@@ -729,7 +751,9 @@ export default function TrafficEventsTable({
 }
 
 // A traffic log is read as a whole, not row by row, so surface the totals of the
-// rows on screen next to the filters instead of making operators add them up.
+// rows on screen as a dedicated bar above the table instead of making operators
+// add them up. The bar is padded like the toolbar and pushed to the right so it
+// reads as table metadata rather than as part of the search field.
 function TrafficEventsSummary({
   rows,
 }: Readonly<{ rows?: NetworkTrafficGroupRow[] }>) {
@@ -740,8 +764,12 @@ function TrafficEventsSummary({
   const connections = rows.reduce((sum, row) => sum + (row.flow_count ?? 0), 0);
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-nb-gray-400">
-      <span className="font-medium text-nb-gray-300">
+    <div
+      className={
+        "ml-auto flex flex-wrap items-center gap-x-4 gap-y-1 rounded-md border border-nb-gray-900 bg-nb-gray-930/60 px-3 py-1.5 text-xs text-nb-gray-300"
+      }
+    >
+      <span className="font-medium text-nb-gray-200">
         {t("trafficEvents.summaryLabel")}
       </span>
       <span className="flex items-center gap-1.5">
@@ -755,12 +783,88 @@ function TrafficEventsSummary({
         <ArrowUpIcon size={13} className="shrink-0 text-netbird" />
         {t("trafficEvents.txLabel")} {formatBytes(sent)}
       </span>
-      <span>
+      <span className="text-nb-gray-300">
         {t("trafficEvents.summaryConnections", {
           count: connections.toLocaleString(),
         })}
       </span>
     </div>
+  );
+}
+
+// The collector stores every flow it sees, including peer-to-peer chatter that
+// never touches an internal resource. The log defaults to resource access and
+// lets an operator switch to the full stream without leaving the page.
+function TrafficEventsResourceOnlyToggle({
+  resourceOnly,
+  disabled,
+  onChange,
+}: Readonly<{
+  resourceOnly: boolean;
+  disabled?: boolean;
+  onChange: (next: boolean) => void;
+}>) {
+  const { t } = useI18n();
+  return (
+    <div
+      className={cn(
+        "bg-nb-gray-930/70 p-1 rounded-lg flex justify-center gap-1 border border-nb-gray-900 relative",
+        disabled && "opacity-50 pointer-events-none",
+      )}
+      data-testid={"traffic-resource-only-toggle"}
+    >
+      <ToggleButton
+        isActive={resourceOnly}
+        onClick={() => onChange(true)}
+        tooltip={t("trafficEvents.resourceOnlyTooltip")}
+      >
+        <ShieldCheckIcon size={14} className="shrink-0 text-netbird" />
+        {t("trafficEvents.resourceOnlyLabel")}
+      </ToggleButton>
+      <ToggleButton
+        isActive={!resourceOnly}
+        onClick={() => onChange(false)}
+        tooltip={t("trafficEvents.allTrafficTooltip")}
+      >
+        <LayersIcon size={14} className="shrink-0 text-nb-gray-300" />
+        {t("trafficEvents.allTrafficLabel")}
+      </ToggleButton>
+    </div>
+  );
+}
+
+function ToggleButton({
+  isActive,
+  onClick,
+  tooltip,
+  children,
+}: Readonly<{
+  isActive: boolean;
+  onClick: () => void;
+  tooltip: string;
+  children: React.ReactNode;
+}>) {
+  return (
+    <FullTooltip content={tooltip} side={"bottom"} align={"center"}>
+      <button
+        type="button"
+        aria-pressed={isActive}
+        onClick={onClick}
+        className={cn(
+          "px-3 py-1.5 text-sm rounded-md transition-all",
+          isActive ? "bg-nb-gray-900" : "hover:bg-nb-gray-900/50",
+        )}
+      >
+        <span
+          className={cn(
+            "flex items-center justify-center gap-1.5 whitespace-nowrap",
+            isActive ? "text-nb-gray-100" : "text-nb-gray-400",
+          )}
+        >
+          {children}
+        </span>
+      </button>
+    </FullTooltip>
   );
 }
 

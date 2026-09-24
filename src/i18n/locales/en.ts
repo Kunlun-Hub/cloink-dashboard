@@ -8022,6 +8022,11 @@ const en = {
   "trafficEvents.aggregateSourceLabel": " from ",
   "trafficEvents.aggregateTargetLabel": " to ",
   "trafficEvents.summaryLabel": "Page total",
+  "trafficEvents.resourceOnlyLabel": "Internal resources only",
+  "trafficEvents.resourceOnlyTooltip": "Show only traffic that reaches an internal resource over the VPN and hide peer-to-peer traffic between devices.",
+  "trafficEvents.allTrafficLabel": "All traffic",
+  "trafficEvents.allTrafficTooltip": "Show all traffic, including peer-to-peer traffic between devices.",
+  "trafficEvents.resourceOnlyEmpty": "No internal resource access in the selected time range.",
   "trafficEvents.summaryConnections": "{count} connections",
 } as const;
 
