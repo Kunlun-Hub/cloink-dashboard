@@ -5,14 +5,17 @@ import TabsContentPadding, { TabsContent } from "@components/Tabs";
 import { GRPC_API_ORIGIN, pkgsDownloadUrl } from "@utils/netbird";
 import { DownloadIcon, PackageOpenIcon } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import useVersionReleases, {
+  resolveReleaseDownloadURL,
+} from "@/hooks/useVersionReleases";
+import { useI18n } from "@/i18n/I18nProvider";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
   ManagementUrlStep,
   NetBirdUpCommand,
   RoutingPeerSetupKeyInfo,
 } from "@/modules/setup-netbird-modal/SetupModal";
-import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   setupKey?: string;
@@ -30,7 +33,56 @@ export default function WindowsTab({
   hostname,
 }: Readonly<Props>) {
   const { t } = useI18n();
-  const [windowsUrl, setWindowsUrl] = useState(pkgsDownloadUrl("windows/x64"));
+  // Signed installers published in Settings → Version Releases take priority;
+  // the static pkgs.netbird.io links remain as a fallback when none exist.
+  const releases = useVersionReleases("windows");
+  const architectureLabels: Record<string, string> = {
+    amd64: "64-Bit",
+    arm64: t("setupNetbirdModal.arm64"),
+    armv7: "ARMv7",
+    universal: t("versionReleases.architectureUniversal"),
+  };
+  const releaseOptions = useMemo(
+    () =>
+      releases.map((release) => ({
+        label: `${architectureLabels[release.architecture] ?? release.architecture} (v${release.version})`,
+        value: resolveReleaseDownloadURL(release.downloadUrl),
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [releases],
+  );
+  const fallbackOptions = [
+    {
+      label: "64-Bit",
+      value: pkgsDownloadUrl("windows/x64"),
+    },
+    {
+      label: t("setupNetbirdModal.arm64"),
+      value: pkgsDownloadUrl("windows/arm64"),
+    },
+    {
+      label: "64-Bit (MSI)",
+      value: pkgsDownloadUrl("windows/msi/x64"),
+    },
+    {
+      label: t("setupNetbirdModal.arm64Msi"),
+      value: pkgsDownloadUrl("windows/msi/arm64"),
+    },
+  ];
+  const downloadOptions =
+    releaseOptions.length > 0 ? releaseOptions : fallbackOptions;
+  const [windowsUrl, setWindowsUrl] = useState(fallbackOptions[0].value);
+  // Snap the selection onto the published releases once they load, unless the
+  // user already picked one of them.
+  useEffect(() => {
+    if (
+      releaseOptions.length > 0 &&
+      !releaseOptions.some((option) => option.value === windowsUrl)
+    ) {
+      setWindowsUrl(releaseOptions[0].value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [releaseOptions]);
   // The CLI-run branch is required for the server flow (setupKeyContent
   // present) even before a key is generated — the placeholder keeps the
   // command shape consistent. Otherwise we fall back to the existing
@@ -43,44 +95,30 @@ export default function WindowsTab({
     <TabsContent value={String(OperatingSystem.WINDOWS)}>
       <TabsContentPadding>
         <p className={"font-medium flex gap-3 items-center text-base"}>
-          <PackageOpenIcon size={16} />{t("setupModal.windowsInstallTitle")}</p>
+          <PackageOpenIcon size={16} />
+          {t("windowsTab.installOnWindows")}
+        </p>
         <Steps>
           <Steps.Step step={1}>
-            <p>{t("setupModal.windowsStep1")}</p>
+            <p>{t("windowsTab.downloadInstaller")}</p>
             <div className={"flex gap-4 mt-1"}>
               <SelectDropdown
                 value={windowsUrl}
-                className={"w-[170px]"}
+                className={"w-[220px]"}
                 onChange={setWindowsUrl}
-                placeholder={"Select architecture"}
-                options={[
-                  {
-                    label: "64-Bit",
-                    value: pkgsDownloadUrl("windows/x64"),
-                  },
-                  {
-                    label: "ARM64",
-                    value: pkgsDownloadUrl("windows/arm64"),
-                  },
-                  {
-                    label: t("setupModal.arch64Msi"),
-                    value: pkgsDownloadUrl("windows/msi/x64"),
-                  },
-                  {
-                    label: t("setupModal.archArm64Msi"),
-                    value: pkgsDownloadUrl("windows/msi/arm64"),
-                  },
-                ]}
+                placeholder={t("common.selectArchitecturePlaceholder")}
+                options={downloadOptions}
               />
               <Link
                 href={windowsUrl}
                 passHref
+                prefetch={false}
                 target={"_blank"}
                 rel="noopener noreferrer"
               >
                 <Button variant={"primary"}>
                   <DownloadIcon size={14} />
-                  Download NetBird
+                  {t("setupNetbirdModal.downloadNetBird")}
                 </Button>
               </Link>
             </div>
@@ -88,7 +126,7 @@ export default function WindowsTab({
 
           {GRPC_API_ORIGIN && (
             <Steps.Step step={baseMgmtStep}>
-              <ManagementUrlStep trayName={"system tray"} />
+              <ManagementUrlStep trayName={t("setupModal.systemTray")} />
             </Steps.Step>
           )}
 
@@ -99,7 +137,7 @@ export default function WindowsTab({
           {useCliRun ? (
             <Steps.Step step={runStep} line={false}>
               <p>
-                Open Command-line and run NetBird{" "}
+                {t("setupModal.openCommandLineRunNetBird")} {" "}
                 {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
               </p>
 
@@ -113,13 +151,10 @@ export default function WindowsTab({
           ) : (
             <>
               <Steps.Step step={runStep}>
-                <p>
-                  {/* eslint-disable-next-line react/no-unescaped-entities */}
-                  Click on "Connect" from the NetBird icon in your system tray
-                </p>
+                <p>{t("setupNetbirdModal.clickConnect")}</p>
               </Steps.Step>
               <Steps.Step step={runStep + 1} line={false}>
-                <p>{t("setupModal.signUpWithEmail")}</p>
+                <p>{t("setupNetbirdModal.signUpEmail")}</p>
               </Steps.Step>
             </>
           )}

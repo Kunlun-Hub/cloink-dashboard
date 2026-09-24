@@ -158,10 +158,7 @@ export function SetupModalContent({
       <div className={"flex items-center gap-1.5 flex-wrap"}>{t("setupModal.generateSetupKey")}<HelpTooltip
           content={
             <>
-              A setup key is a one-time, pre-authentication token used to
-              enroll an unattended machine with NetBird. Pass it to{" "}
-              <code>netbird up</code> via <code>--setup-key</code> and the
-              peer registers without an interactive login.
+              {t("setupModal.generateSetupKeyHelp")}
             </>
           }
         />
@@ -199,13 +196,14 @@ export function SetupModalContent({
     }
 
     return effectiveSetupKey
-      ? "Install NetBird with Setup Key"
-      : "Install NetBird";
+      ? t("setupModal.installWithSetupKey")
+      : t("setupModal.installNetBird");
   }, [
     isFirstRun,
     isInstallPage,
     effectiveSetupKey,
     title,
+    t,
     user?.given_name,
   ]);
 
@@ -228,15 +226,19 @@ export function SetupModalContent({
             )}
           >
             {isUserDevice === false || effectiveSetupKey
-              ? "To get started, install and run NetBird with the setup key as a parameter."
-              : "To get started, install NetBird and log in with your email account."}
+              ? t("setupModal.installWithSetupKeyDescription")
+              : t("setupModal.installDescription")}
           </Paragraph>
         </div>
       )}
 
       <Tabs
         defaultValue={String(
-          isUserDevice === false || setupKey ? OperatingSystem.LINUX : os,
+          isInstallPage
+            ? OperatingSystem.WINDOWS
+            : isUserDevice === false || setupKey
+            ? OperatingSystem.LINUX
+            : os,
         )}
       >
         <TabsList justify={tabAlignment} className={"pt-2 px-3"}>
@@ -330,9 +332,7 @@ export function SetupModalContent({
         <ModalFooter variant={"setup"}>
           <div>
             <SmallParagraph>
-              After that you should be connected. Add more devices to your
-              network or manage your existing devices in the admin panel. If you
-              have further questions check out our{" "}
+              {t("setupModal.footerDescription")}{" "}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/getting-started#installation"
@@ -436,17 +436,20 @@ export const ManagementUrlStep = ({ trayName }: ManagementUrlStepProps) => {
   return (
     <>
       <p>
-        On first launch, NetBird asks where to connect. Select{" "}
-        <Mark>Self-hosted</Mark> and enter the following{" "}
-        <Mark>Management server URL</Mark>
+        {t("setupModal.firstLaunchSelect")}{" "}
+        <Mark>Self-hosted</Mark> {t("setupModal.firstLaunchEnter")}{" "}
+        <Mark>{t("setupModal.managementServerUrl")}</Mark>
       </p>
       <Code>
         <Code.Line>{GRPC_API_ORIGIN}</Code.Line>
       </Code>
       <p className={"mt-2 text-xs text-nb-gray-300 font-normal"}>
-        Already past that screen? Click the NetBird icon in your {trayName},
-        open <Mark>{t("common.settings")}</Mark> and set <Mark>Management Server</Mark> to{" "}
-        <Mark>Self-hosted</Mark> under <Mark>General</Mark>.
+        {t("setupModal.pastScreenHint", {
+          trayName,
+          settings: t("common.settings"),
+          managementServer: t("setupModal.managementServer"),
+          general: t("setupModal.generalLabel"),
+        })}
       </p>
     </>
   );

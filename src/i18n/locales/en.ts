@@ -3772,6 +3772,16 @@ const en = {
   "setupModal.docker": "Docker",
   "setupModal.footerDescription":
     "After that you should be connected. Add more devices to your network or manage your existing devices in the admin panel. If you have further questions check out our",
+  "setupModal.firstLaunchSelect":
+    "On first launch, Cloink asks where to connect. Select",
+  "setupModal.firstLaunchEnter": "and enter the following",
+  "setupModal.managementServerUrl": "Management server URL",
+  "setupModal.managementServer": "Management Server",
+  "setupModal.generalLabel": "General",
+  "setupModal.systemTray": "system tray",
+  "setupModal.menuBar": "menu bar",
+  "setupModal.pastScreenHint":
+    "Already past that screen? Click the Cloink icon in your {trayName}, open {settings} and set {managementServer} to \"Self-hosted\" under {general}.",
   "setupModal.setupKeyInfoLine1":
     "This setup key can be used only once within the next 24 hours.",
   "setupModal.setupKeyInfoLine2":

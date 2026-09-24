@@ -3486,6 +3486,15 @@ const zhCN = {
   "setupModal.docker": "Docker",
   "setupModal.footerDescription":
     "完成后你应该已经连接成功。你可以继续为网络添加更多设备，或在管理面板中管理现有设备。如果还有疑问，可以查看我们的",
+  "setupModal.firstLaunchSelect": "首次启动时，Cloink 会询问连接位置。请选择",
+  "setupModal.firstLaunchEnter": "并输入以下",
+  "setupModal.managementServerUrl": "管理服务器地址",
+  "setupModal.managementServer": "管理服务器",
+  "setupModal.generalLabel": "通用",
+  "setupModal.systemTray": "系统托盘",
+  "setupModal.menuBar": "菜单栏",
+  "setupModal.pastScreenHint":
+    "已经跳过该界面？点击{trayName}中的 Cloink 图标，打开{settings}，在「{general}」中将{managementServer}设置为「Self-hosted」。",
   "setupModal.setupKeyInfoLine1":
     "这个 setup key 只能在接下来的 24 小时内使用一次。",
   "setupModal.setupKeyInfoLine2": "过期后，同一个 key 不能再次使用。",
