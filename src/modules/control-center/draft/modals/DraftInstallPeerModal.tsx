@@ -19,6 +19,7 @@ import {
   useDraftChangeset,
 } from "@/modules/control-center/draft/DraftChangesetContext";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useControlCenterData } from "@/modules/control-center/hooks/useControlCenterData";
 import { usePlaceholderArtifacts } from "@/modules/control-center/hooks/usePlaceholderArtifacts";
 import {
@@ -32,6 +33,7 @@ import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
 // Server/Agent installs arrive without a setup key: it is generated on demand
 // and written back onto the placeholder node so reopening Install reuses it.
 export const DraftInstallPeerModal = () => {
+  const { t } = useI18n();
   const { installModal, setInstallModal } = useDraftMode();
   const { oidcUser: user } = useOidcUser();
   const reactFlow = useReactFlow();
@@ -298,13 +300,13 @@ export const DraftInstallPeerModal = () => {
           <ModalHeader
             icon={<CheckCircle2Icon size={20} />}
             color={"green"}
-            title={"Peer installed"}
+            title={t("controlCenter.draft.peerInstalledTitle")}
             description={`“${installedChange.name}” registered and took the placeholder's place in your draft.`}
           />
           <ModalFooter>
             <ModalClose asChild={true}>
               <Button variant={"primary"} className={"w-full"}>
-                Continue
+                {t("common.continue")}
               </Button>
             </ModalClose>
           </ModalFooter>

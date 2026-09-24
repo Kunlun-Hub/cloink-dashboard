@@ -7,6 +7,7 @@ import {
   TrafficEventType,
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
 import { TrafficEventDescription } from "@/cloud/traffic-events/table/TrafficEventDescription";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   event: TrafficEvent;
@@ -130,6 +131,7 @@ const PolicyListItem = ({
   policy?: { id: string; name: string };
   isBlocked: boolean;
 }) => {
+  const { t } = useI18n();
   return (
     <ListItem
       topLine={true}
@@ -139,7 +141,7 @@ const PolicyListItem = ({
       <span
         className={"whitespace-nowrap leading-none flex items-center gap-2"}
       >
-        Policy
+        {t("nav.policies")}
         <Link href={`/access-control?id=${policy?.id}`}>
           <span
             className={
@@ -150,7 +152,9 @@ const PolicyListItem = ({
             <ArrowUpRightIcon size={14} />
           </span>
         </Link>
-        {isBlocked ? "blocked" : "allowed"} the connection
+        {isBlocked
+          ? t("trafficEvents.policyBlockedConnection")
+          : t("trafficEvents.policyAllowedConnection")}
       </span>
     </ListItem>
   );

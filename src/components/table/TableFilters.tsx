@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // A TableFilterDef wires one TanStack column to the consolidated filter UI.
 // Each filter renders its own picker — the framework just provides the
@@ -44,6 +45,7 @@ export function TableFiltersButton<TData>({
   filters,
   disabled,
 }: ButtonProps<TData>) {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [activeFilterId, setActiveFilterId] = useState<string | null>(null);
 
@@ -71,7 +73,7 @@ export function TableFiltersButton<TData>({
         >
           <FilterIcon size={16} className={"shrink-0"} />
           <span className={"flex items-center gap-1.5"}>
-            Filters
+            {t("table.filters")}
             {activeCount > 0 && (
               <span
                 className={
@@ -98,7 +100,7 @@ export function TableFiltersButton<TData>({
               }
             >
               <button
-                aria-label={"Back"}
+                aria-label={t("common.back")}
                 className={
                   "flex items-center justify-center w-7 h-7 -ml-1 shrink-0 text-nb-gray-400 hover:text-nb-gray-100 hover:bg-nb-gray-900 rounded transition-colors"
                 }

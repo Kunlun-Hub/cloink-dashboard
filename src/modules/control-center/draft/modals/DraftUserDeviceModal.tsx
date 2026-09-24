@@ -16,6 +16,7 @@ import useFetchApi from "@utils/api";
 import { sortBy } from "lodash";
 import { DownloadIcon, MonitorSmartphoneIcon } from "lucide-react";
 import * as React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Peer } from "@/interfaces/Peer";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import { usePlaceholderUpgrade } from "@/modules/control-center/hooks/useDraftPeerUpgrade";
@@ -49,6 +50,7 @@ const StepperContent = ({
   name: string;
   onClose: () => void;
 }) => {
+  const { t } = useI18n();
   const { setInstallModal } = useDraftMode();
   const { data: peers } = useFetchApi<Peer[]>("/peers");
   const nodes = useStructuralNodes();
@@ -86,7 +88,7 @@ const StepperContent = ({
       <ModalHeader
         icon={<MonitorSmartphoneIcon size={18} className={"text-netbird"} />}
         title={`Set up “${name}”`}
-        description={"Install NetBird and assign the registered peer."}
+        description={t("controlCenter.draft.userDeviceDescription")}
         color={"netbird"}
       />
       <Separator />
@@ -94,7 +96,7 @@ const StepperContent = ({
         <Steps>
           <Steps.Step step={1}>
             <p className={"text-sm font-normal"}>
-              Install NetBird on the device. Skip if it is already installed.
+              {t("controlCenter.draft.installCloinkStep")}
             </p>
             <div className={"flex gap-4"}>
               <Button
@@ -109,13 +111,13 @@ const StepperContent = ({
                 }
               >
                 <DownloadIcon size={14} />
-                Install NetBird
+                {t("common.installNetBird")}
               </Button>
             </div>
           </Steps.Step>
           <Steps.Step step={2} line={false}>
             <p className={"text-sm font-normal"}>
-              Assign the peer this device registered as
+              {t("controlCenter.draft.assignPeerDescription")}
             </p>
             <SelectDropdown
               variant={"secondary"}
@@ -123,8 +125,8 @@ const StepperContent = ({
               onChange={setSelected}
               options={options}
               showSearch={true}
-              searchPlaceholder={"Search peers..."}
-              placeholder={"Select a peer..."}
+              searchPlaceholder={t("controlCenter.draft.searchPeers")}
+              placeholder={t("controlCenter.draft.selectPeer")}
               maxHeight={280}
             />
           </Steps.Step>
@@ -135,7 +137,7 @@ const StepperContent = ({
       <ModalFooter className={"items-center"} separator={false}>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
@@ -143,7 +145,7 @@ const StepperContent = ({
             onClick={apply}
             data-testid={"cc-user-device-select"}
           >
-            Assign
+            {t("controlCenter.draft.assign")}
           </Button>
         </div>
       </ModalFooter>

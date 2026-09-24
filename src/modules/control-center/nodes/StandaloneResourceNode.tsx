@@ -12,6 +12,7 @@ import {
   getDraftResource,
   getResourceNodeEnabled,
 } from "@/modules/control-center/utils/helpers";
+import { useI18n } from "@/i18n/I18nProvider";
 import { AllHandles } from "@/modules/control-center/handles/AllHandles";
 import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 
@@ -38,6 +39,7 @@ export const StandaloneResourceNode = ({
   // Drilled views already show the network in their header.
   hideNetwork?: boolean;
 }) => {
+  const { t } = useI18n();
   const { showHandles = false } = data;
   const { isDraft, setResourceEditor, setResourceNetworkPicker } =
     useDraftMode();
@@ -86,7 +88,7 @@ export const StandaloneResourceNode = ({
             }}
           >
             <AlertTriangleIcon size={12} className={"text-yellow-400"} />
-            No Network
+            {t("controlCenter.noNetwork")}
           </Button>
         </div>
       )}

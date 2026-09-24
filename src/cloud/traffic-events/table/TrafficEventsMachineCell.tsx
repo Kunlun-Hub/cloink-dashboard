@@ -104,7 +104,7 @@ export const TrafficEventsMachineCell = ({
                   message={t("trafficEvents.ipCopiedToClipboard")}
                   alwaysShowIcon={true}
                 >
-                  {machine.name || "Unknown"}
+                  {machine.name || t("common.unknown")}
                 </CopyToClipboardText>
               }
             />
@@ -113,11 +113,11 @@ export const TrafficEventsMachineCell = ({
           {machine.dns_label && (
             <ListItem
               icon={<GlobeIcon size={14} />}
-              label={"Domain"}
+              label={t("trafficEvents.domain")}
               value={
                 <CopyToClipboardText
                   iconAlignment={"right"}
-                  message={"Domain has been copied to your clipboard"}
+                  message={t("trafficEvents.domainCopiedToClipboard")}
                   alwaysShowIcon={true}
                 >
                   {machine.dns_label}
@@ -130,7 +130,7 @@ export const TrafficEventsMachineCell = ({
             <>
               <ListItem
                 icon={<UserIcon size={14} />}
-                label={"User"}
+                label={t("trafficEvents.user")}
                 value={
                   <CopyToClipboardText
                     iconAlignment={"right"}
@@ -144,11 +144,11 @@ export const TrafficEventsMachineCell = ({
               {event?.user.email && (
                 <ListItem
                   icon={<MailIcon size={14} />}
-                  label={"User E-Mail"}
+                  label={t("trafficEvents.userEmail")}
                   value={
                     <CopyToClipboardText
                       iconAlignment={"right"}
-                      message={"E-Mail has been copied to your clipboard"}
+                      message={t("trafficEvents.emailCopiedToClipboard")}
                       alwaysShowIcon={true}
                     >
                       {event?.user.email}
@@ -175,7 +175,7 @@ export const TrafficEventsMachineCell = ({
 
           <ListItem
             icon={<FlagIcon size={14} />}
-            label={"Region"}
+            label={t("trafficEvents.region")}
             value={
               <>
                 {isGeoDataLoading ? (
@@ -183,7 +183,7 @@ export const TrafficEventsMachineCell = ({
                 ) : (
                   <CopyToClipboardText
                     iconAlignment={"right"}
-                    message={"Region has been copied to your clipboard"}
+                    message={t("trafficEvents.regionCopiedToClipboard")}
                     alwaysShowIcon={true}
                   >
                     <div className={"flex gap-2 items-center"}>

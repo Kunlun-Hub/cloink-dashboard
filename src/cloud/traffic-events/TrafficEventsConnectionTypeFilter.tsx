@@ -1,4 +1,5 @@
 import ButtonGroup from "@components/ButtonGroup";
+import { useI18n } from "@/i18n/I18nProvider";
 import * as React from "react";
 
 type Props = {
@@ -10,13 +11,14 @@ export const TrafficEventsConnectionTypeFilter = ({
   value,
   onChange,
 }: Props) => {
+  const { t } = useI18n();
   return (
     <ButtonGroup>
       <ButtonGroup.Button
         onClick={() => onChange?.("")}
         variant={value == undefined || value == "" ? "tertiary" : "secondary"}
       >
-        All
+        {t("common.all")}
       </ButtonGroup.Button>
       <ButtonGroup.Button
         onClick={() => onChange?.("P2P")}
@@ -28,7 +30,7 @@ export const TrafficEventsConnectionTypeFilter = ({
         onClick={() => onChange?.("ROUTED")}
         variant={value === "ROUTED" ? "tertiary" : "secondary"}
       >
-        Routed
+        {t("trafficEvents.routed")}
       </ButtonGroup.Button>
     </ButtonGroup>
   );

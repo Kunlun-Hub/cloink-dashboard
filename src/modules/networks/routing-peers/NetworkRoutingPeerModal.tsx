@@ -274,15 +274,12 @@ export function RoutingPeerModalContent({
                     data-testid="routing-peer-tab-group"
                   >
                     <FolderGit2 size={16} />
-                    Peer Group
+                    {t("networks.peerGroup")}
                   </SegmentedTabs.Trigger>
                 </SegmentedTabs.List>
                 <SegmentedTabs.Content value={"peer"}>
                   <div>
-                    <HelpText>
-                      Assign a single or multiple peers as routing peers for the
-                      network.
-                    </HelpText>
+                    <HelpText>{t("networks.routingPeersHelp")}</HelpText>
                     <PeerSelector
                       onChange={setSelectedPeer}
                       value={routingPeer}
@@ -292,10 +289,7 @@ export function RoutingPeerModalContent({
                 </SegmentedTabs.Content>
                 <SegmentedTabs.Content value={"group"}>
                   <div>
-                    <HelpText>
-                      Assign a peer group with machines to be used as routing
-                      peers.
-                    </HelpText>
+                    <HelpText>{t("networks.routingPeerGroupHelp")}</HelpText>
                     <PeerGroupSelector
                       max={1}
                       onChange={setRoutingPeerGroups}
@@ -308,11 +302,8 @@ export function RoutingPeerModalContent({
 
             <div className={cn("flex justify-between items-center mt-3")}>
               <div>
-                <Label>{"Don't have a routing peer?"}</Label>
-                <HelpText className={""}>
-                  You can install NetBird with a setup key on one or more
-                  machines to act as routing peers.
-                </HelpText>
+                <Label>{t("networks.noRoutingPeerTitle")}</Label>
+                <HelpText>{t("networks.noRoutingPeerHelp")}</HelpText>
               </div>
               <InstallNetBirdWithSetupKeyButton
                 name={`Routing Peer (${network.name})`}
@@ -329,12 +320,10 @@ export function RoutingPeerModalContent({
               label={
                 <>
                   <Power size={15} />
-                  Enable Routing Peer
+                  {t("networks.enableRoutingPeer")}
                 </>
               }
-              helpText={
-                "Use this switch to enable or disable the routing peer."
-              }
+              helpText={t("networks.enableRoutingPeerHelp")}
             />
 
             <RoutingPeerMasqueradeSwitch
@@ -347,9 +336,9 @@ export function RoutingPeerModalContent({
 
             <div className={cn("flex justify-between")}>
               <div>
-                <Label>Metric</Label>
+                <Label>{t("networks.metricLabel")}</Label>
                 <HelpText className={"max-w-[200px]"}>
-                  A lower metric indicates higher priority routing peers.
+                  {t("networks.metricHelp")}
                 </HelpText>
               </div>
 
@@ -416,7 +405,7 @@ export function RoutingPeerModalContent({
                 ) : (
                   <>
                     <PlusCircle size={16} />
-                    Add Routing Peer
+                    {t("networks.addRoutingPeer")}
                   </>
                 )}
               </Button>
@@ -435,6 +424,7 @@ type InstallNetBirdWithSetupKeyButtonProps = {
 const InstallNetBirdWithSetupKeyButton = ({
   name,
 }: InstallNetBirdWithSetupKeyButtonProps) => {
+  const { t } = useI18n();
   const setupKeyRequest = useApiCall<SetupKey>("/setup-keys", true);
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
@@ -445,11 +435,10 @@ const InstallNetBirdWithSetupKeyButton = ({
 
   const createSetupKey = async () => {
     const choice = await confirm({
-      title: `Create a Setup Key?`,
-      description:
-        "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
-      confirmText: "Continue",
-      cancelText: "Cancel",
+      title: t("networkRoutingPeers.createSetupKeyTitle"),
+      description: t("networkRoutingPeers.createSetupKeyDescription"),
+      confirmText: t("common.continue"),
+      cancelText: t("common.cancel"),
       type: "default",
     });
     if (!choice) return;
@@ -492,7 +481,7 @@ const InstallNetBirdWithSetupKeyButton = ({
         ) : (
           <DownloadIcon size={14} />
         )}
-        Install NetBird
+        {t("common.installNetBird")}
       </Button>
       {setupKey && (
         <Modal

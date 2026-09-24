@@ -11,6 +11,7 @@ import { useReactFlow } from "@xyflow/react";
 import { NetworkIcon, PlusCircle } from "lucide-react";
 import * as React from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Network } from "@/interfaces/Network";
 import { isFrameNode } from "@/modules/control-center/utils/helpers";
 import { useControlCenterData } from "@/modules/control-center/hooks/useControlCenterData";
@@ -49,6 +50,7 @@ const PickerContent = ({
   resourceNodeId: string;
   onClose: () => void;
 }) => {
+  const { t } = useI18n();
   const reactFlow = useReactFlow();
   const { networks } = useControlCenterData();
   const {
@@ -172,8 +174,8 @@ const PickerContent = ({
       <ModalContent maxWidthClass={"max-w-lg"}>
         <ModalHeader
           icon={<NetworkRoutesIcon className={"fill-netbird"} />}
-          title={"Assign a network"}
-          description={"Pick a network for this resource or create a new one."}
+          title={t("controlCenter.draft.assignNetworkTitle")}
+          description={t("controlCenter.draft.assignNetworkDescription")}
           color={"netbird"}
         />
         <Separator />
@@ -183,8 +185,8 @@ const PickerContent = ({
             onChange={setSelected}
             options={options}
             showSearch={true}
-            searchPlaceholder={"Search networks..."}
-            placeholder={"Select or create a network..."}
+            searchPlaceholder={t("controlCenter.draft.searchNetworks")}
+            placeholder={t("controlCenter.draft.selectOrCreateNetwork")}
             maxHeight={190}
             // Pinned below the options so scroll or search can't hide it.
             footer={(close) => (
@@ -200,7 +202,7 @@ const PickerContent = ({
                   }}
                 >
                   <PlusCircle size={14} />
-                  Create New Network
+                  {t("controlCenter.emptyNetworkTitle")}
                 </button>
               </div>
             )}
@@ -211,10 +213,10 @@ const PickerContent = ({
         <ModalFooter className={"items-center"} separator={false}>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common.cancel")}</Button>
             </ModalClose>
             <Button variant={"primary"} disabled={!selected} onClick={save}>
-              Assign Network
+              {t("controlCenter.draft.assignNetwork")}
             </Button>
           </div>
         </ModalFooter>

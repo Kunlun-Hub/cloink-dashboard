@@ -8,6 +8,7 @@ import {
   ModalFooter,
 } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
+import { useI18n } from "@/i18n/I18nProvider";
 import { trim } from "lodash";
 
 type Props = {
@@ -29,11 +30,19 @@ export const GroupRenameModal = ({
   onRename,
   currentName,
   takenNames,
-  duplicateError = "This group already exists. Please choose another name.",
-  title = "Rename Group",
-  description = "Set an easily identifiable name for your group.",
-  inputPlaceholder = "e.g., Developers",
+  duplicateError,
+  title,
+  description,
+  inputPlaceholder,
 }: Props) => {
+  const { t } = useI18n();
+  const duplicateErrorText =
+    duplicateError ?? t("controlCenter.draft.groupExists");
+  const titleText = title ?? t("controlCenter.draft.renameGroup");
+  const descriptionText =
+    description ?? t("controlCenter.draft.groupNameDescription");
+  const placeholderText =
+    inputPlaceholder ?? t("controlCenter.draft.groupNamePlaceholder");
   const [name, setName] = useState(currentName);
   const [error, setError] = useState("");
 
@@ -47,7 +56,7 @@ export const GroupRenameModal = ({
     const newName = e.target.value;
     const exists =
       newName !== currentName && takenNames.includes(trim(newName));
-    setError(exists ? duplicateError : "");
+    setError(exists ? duplicateErrorText : "");
     setName(newName);
   };
 
@@ -67,10 +76,14 @@ export const GroupRenameModal = ({
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-md"}>
-        <ModalHeader title={title} description={description} color={"blue"} />
+        <ModalHeader
+          title={titleText}
+          description={descriptionText}
+          color={"blue"}
+        />
         <div className={"p-default flex flex-col"}>
           <Input
-            placeholder={inputPlaceholder}
+            placeholder={placeholderText}
             value={name}
             onChange={handleNameChange}
             onKeyDown={(e) => e.key === "Enter" && submit()}
@@ -83,7 +96,7 @@ export const GroupRenameModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} className={"w-full"}>
-                Cancel
+                {t("common.cancel")}
               </Button>
             </ModalClose>
             <Button
@@ -93,7 +106,7 @@ export const GroupRenameModal = ({
               onClick={submit}
               data-testid="cc-rename-submit"
             >
-              Rename
+              {t("controlCenter.draft.rename")}
             </Button>
           </div>
         </ModalFooter>

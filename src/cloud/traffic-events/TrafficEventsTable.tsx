@@ -1,3 +1,4 @@
+import Badge from "@components/Badge";
 import Button from "@components/Button";
 import { DatePickerWithRange } from "@components/DatePickerWithRange";
 import InlineLink from "@components/InlineLink";
@@ -484,12 +485,19 @@ export default function TrafficEventsTable({
             <div className="text-sm text-nb-gray-200">
               {row.original.user.name ||
                 row.original.user.email ||
+                row.original.source.name ||
                 t("trafficEvents.unknownUser")}
             </div>
-            {row.original.user.email && (
+            {row.original.user.email ? (
               <div className="text-xs text-nb-gray-400">
                 {row.original.user.email}
               </div>
+            ) : (
+              !row.original.source.name && (
+                <div className="text-xs text-nb-gray-400">
+                  {t("trafficEvents.noUserBound")}
+                </div>
+              )
             )}
           </div>
         ),
@@ -509,6 +517,21 @@ export default function TrafficEventsTable({
             ] ?? row.original.protocol}
           </span>
         ),
+      },
+      {
+        id: "connection_type",
+        header: t("trafficEvents.connectionType"),
+        cell: ({ row }) => {
+          const isRouted = row.original.connection_type === "ROUTED";
+          return (
+            <Badge
+              variant={isRouted ? "blue-darker" : "gray"}
+              className={"py-1 whitespace-nowrap"}
+            >
+              {isRouted ? t("trafficEvents.routed") : t("trafficEvents.p2p")}
+            </Badge>
+          );
+        },
       },
       {
         id: "destination",
@@ -573,7 +596,7 @@ export default function TrafficEventsTable({
           variant={"primary"}
           onClick={() => router.push("/settings?tab=networks")}
         >
-          Enable Traffic Events
+          {t("trafficEvents.enableButton")}
         </Button>
       }
       learnMore={

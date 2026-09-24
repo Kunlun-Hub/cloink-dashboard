@@ -286,15 +286,13 @@ export function ResourceModalContent({
           <div className={"px-8 flex-col flex gap-6"}>
             <div>
               <Label>{t("reverseProxy.dnsName")}</Label>
-              <HelpText>
-                Set an easily identifiable name for your resource
-              </HelpText>
+              <HelpText>{t("networks.resourceNameHelp")}</HelpText>
               <Input
                 ref={nameRef}
                 autoFocus={true}
                 tabIndex={0}
                 data-testid="resource-name-input"
-                placeholder={"e.g., Postgres Database"}
+                placeholder={t("networks.resourceNamePlaceholder")}
                 value={name}
                 error={nameError}
                 onChange={(e) => setName(e.target.value)}
@@ -306,22 +304,22 @@ export function ResourceModalContent({
               onError={setAddressError}
               description={
                 <>
-                  Enter a single{" "}
+                  {t("networks.enterSingle")}{" "}
                   <HelpTooltip
                     content={
-                      "A single host address, e.g., 10.0.0.1 or 192.168.1.5. Use this to give access to a specific machine or service."
+                      t("networks.singleHostTooltip")
                     }
                   >{t("reverseProxy.ipAddress")}</HelpTooltip>
                   ,{" "}
                   <HelpTooltip
                     content={
-                      "To give access to an entire subnet, use a CIDR block. For example, 10.0.0.0/24 or 192.168.1.0/24."
+                      t("networks.cidrTooltip")
                     }
                   >{t("reverseProxy.cidrBlock")}</HelpTooltip>{" "}
                   or{" "}
                   <HelpTooltip
                     content={
-                      "A DNS domain name, e.g., service.internal, example.com or *.example.com to match all subdomains."
+                      t("networks.domainTooltip")
                     }
                   >{t("peerDetails.domainName")}</HelpTooltip>
                 </>
@@ -344,60 +342,56 @@ export function ResourceModalContent({
                 <AccordionContent className={""}>
                   <div className={"flex flex-col gap-6 pb-4 pt-2"}>
                     <div>
-                      <Label>Description</Label>
-                      <HelpText>
-                        Write a short description to add more context to this
-                        resource.
-                      </HelpText>
+                      <Label>{t("accessControl.descriptionLabel")}</Label>
+                      <HelpText>{t("networks.resourceDescriptionHelp")}</HelpText>
                       <Input
-                        placeholder={"e.g., Production, Development"}
+                        placeholder={t("networks.resourceDescriptionPlaceholder")}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         data-testid="resource-description-input"
                       />
                     </div>
                     <div>
-                      <Label>Resource Groups</Label>
+                      <Label>{t("networks.resourceGroupsLabel")}</Label>
                       <HelpText className={"mt-1"}>
-                        Add this resource to a group (e.g., Databases, Web
-                        Servers) and reference the group <br /> in access
-                        policies to simplify management.
+                        {t("networks.resourceGroupsHelp")}
                       </HelpText>
                       <PeerGroupSelector
                         side={"top"}
                         onChange={setGroups}
                         values={groups}
                         showPeerCounter={false}
-                        placeholder={"Add or select resource group(s)..."}
+                        placeholder={t("networks.resourceGroupsPlaceholder")}
                         policies={allPolicies}
                       />
                       {groupPolicyCount > 0 && (
                         <Callout variant={"info"} className={"mt-3"}>
-                          Your selected resource groups are used in{" "}
+                          {t("networks.resourceGroupsUsedIn")}{" "}
                           <span className="text-white font-medium">
                             {groupPolicyCount} Access Control{" "}
                             {groupPolicyCount === 1 ? "Policy" : "Policies"}
                           </span>
-                          . This resource will inherit access from{" "}
-                          {groupPolicyCount === 1
-                            ? "this policy"
-                            : "these policies"}
-                          .
+                          {t("networks.resourceInheritsAccess", {
+                            scope:
+                              groupPolicyCount === 1
+                                ? t("networks.thisPolicy")
+                                : t("networks.thesePolicies"),
+                          })}
                           {useSave && (isAddressValid || resource) ? (
                             <>
                               {" "}
-                              Please review them in the{" "}
+                              {t("networks.pleaseReviewIn")}{" "}
                               <InlineButtonLink
                                 onClick={() => setTab("access-control")}
                                 variant={"dashed"}
                               >{t("nav.accessControl")}</InlineButtonLink>{" "}
-                              tab.
+                              {t("networks.tabSuffix")}
                             </>
                           ) : useSave ? (
-                            " Please review them in the Access Control tab."
+                            t("networks.pleaseReviewInAccessControl")
                           ) : (
                             // Draft has no Access Control tab.
-                            " Review them on the canvas before you deploy."
+                            t("networks.reviewOnCanvas")
                           )}
                         </Callout>
                       )}

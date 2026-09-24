@@ -20,6 +20,7 @@ import {
   Loader2,
 } from "lucide-react";
 import React, { useCallback, useMemo, useRef } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useControlCenterPolicy } from "@/modules/control-center/contexts/ControlCenterPolicyModals";
 import { ChangeAccordionItem } from "@/modules/control-center/draft/changeset/ChangeAccordionItem";
 import {
@@ -43,6 +44,7 @@ type Props = {
 };
 
 export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => {
+  const { t } = useI18n();
   const { changes, clearChanges } = useDraftChangeset();
   const { removeWithCascade, previewRemove } = useRemoveChange();
   const { deploy, isDeploying, deployStatus } = useDeployChangeset();
@@ -177,7 +179,7 @@ export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => 
       <ModalContent maxWidthClass={"max-w-[45rem]"}>
         <ModalHeader
           icon={<GitPullRequestArrowIcon size={18} className={"text-netbird"} />}
-          title={"Review & Deploy"}
+          title={t("controlCenter.draft.reviewAndDeploy")}
           description={description}
           color={"netbird"}
         />
@@ -187,7 +189,7 @@ export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => 
         <div className={"px-8 pb-6 border-t border-nb-gray-910 pt-6 min-w-0"}>
           {changes.length === 0 ? (
             <div className={"text-sm text-nb-gray-400 text-center py-10"}>
-              No pending changes.
+              {t("controlCenter.draft.noPendingChanges")}
             </div>
           ) : (
             <Accordion
@@ -221,14 +223,14 @@ export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => 
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common.learnMoreAbout")}
               <InlineLink
                 // TODO: point at the Control Center / Review & Deploy docs
                 // page once it exists.
                 href={"https://docs.netbird.io/"}
                 target={"_blank"}
               >
-                Review & Deploy
+                {t("controlCenter.draft.reviewAndDeploy")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
@@ -236,13 +238,13 @@ export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => 
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} disabled={isDeploying}>
-                Cancel
+                {t("common.cancel")}
               </Button>
             </ModalClose>
             {/* A disabled button emits no hover, so the wrapper div FullTooltip
                 adds carries the tooltip. */}
             <FullTooltip
-              content={"Resolve issues before deploying"}
+              content={t("controlCenter.draft.resolveIssuesFirst")}
               disabled={!hasIssues}
               side={"top"}
             >
@@ -266,7 +268,7 @@ export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => 
                   )}
                 >
                   <ListTodoIcon size={16} />
-                  Approve & Deploy
+                  {t("controlCenter.draft.approveAndDeploy")}
                 </span>
                 {isDeploying && (
                   <span

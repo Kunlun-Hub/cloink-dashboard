@@ -12,6 +12,7 @@ import * as React from "react";
 import { useSWRConfig } from "swr";
 import { Network, NetworkRouter } from "@/interfaces/Network";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
 import { useDraftNetworkActions } from "@/modules/control-center/hooks/useDraftNetworkActions";
 import { RoutingPeerModalContent } from "@/modules/networks/routing-peers/NetworkRoutingPeerModal";
@@ -19,6 +20,7 @@ import { RoutingPeerModalContent } from "@/modules/networks/routing-peers/Networ
 // The networks page's routing-peer modal, run in pure-data mode for draft
 // targets: the result lands in the changeset instead of a live PUT.
 export const DraftRoutingPeerModal = () => {
+  const { t } = useI18n();
   const { isDraft, routingPeerModal, setRoutingPeerModal } = useDraftMode();
   const { addRouterFromSelection, updateRouterFromSelection } =
     useDraftNetworkActions();
@@ -90,17 +92,13 @@ export const DraftRoutingPeerModal = () => {
             <ModalHeader
               icon={<Share2Icon size={20} />}
               color={"netbird"}
-              title={"Routing peer not installed yet"}
-              description={
-                "This routing peer uses a peer that hasn't been installed. " +
-                "Install it to edit these settings, or remove this change " +
-                "and add the routing peer again."
-              }
+              title={t("controlCenter.draft.routingPeerNotInstalledTitle")}
+              description={t("controlCenter.draft.routingPeerNotInstalledDescription")}
             />
             <ModalFooter>
               <ModalClose asChild={true}>
                 <Button variant={"primary"} className={"w-full"}>
-                  Got it
+                  {t("controlCenter.gotIt")}
                 </Button>
               </ModalClose>
             </ModalFooter>

@@ -115,24 +115,22 @@ export const NetworkModalContent = ({
       <Separator />
       <div className={"px-8 flex-col flex gap-6 py-6"}>
         <div>
-          <Label>Network Name</Label>
-          <HelpText>Provide a unique name for the network.</HelpText>
+          <Label>{t("networks.nameLabel")}</Label>
+          <HelpText>{t("networks.nameHelp")}</HelpText>
           <Input
             tabIndex={0}
             data-testid="network-name-input"
-            placeholder={"e.g., Office Network"}
+            placeholder={t("networks.namePlaceholder")}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
           <Label>{t("accessControl.descriptionLabel")}</Label>
-          <HelpText>
-            Write a short description to add more context to this network.
-          </HelpText>
+          <HelpText>{t("networks.descriptionHelp")}</HelpText>
           <Textarea
             data-testid="network-description-input"
-            placeholder={"e.g., Berlin, Münzstraße 12 "}
+            placeholder={t("networks.descriptionPlaceholder")}
             value={description}
             rows={3}
             onChange={(e) => setDescription(e.target.value)}

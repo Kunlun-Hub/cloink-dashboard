@@ -5,6 +5,7 @@ import SquareIcon from "@components/SquareIcon";
 import GetStartedTest from "@components/ui/GetStartedTest";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { FlowView } from "@/modules/control-center/header/FlowSelector";
 import { ExternalLinkIcon, PlusCircle } from "lucide-react";
 import { useCanvasState } from "@/modules/control-center/contexts/ControlCenterContext";
@@ -18,6 +19,7 @@ const EMPTY_STATE_REVEAL_IN =
   "animate-in fade-in zoom-in-[.97] duration-[700ms] ease-out fill-mode-both";
 
 export function ControlCenterEmptyStates() {
+  const { t } = useI18n();
   const { currentView, selectedNetwork, layoutInitialized, instantDrill } =
     useCanvasState();
   const { isDraft } = useDraftMode();
@@ -73,10 +75,8 @@ export function ControlCenterEmptyStates() {
                   size={"large"}
                 />
               }
-              title={"Create Resources"}
-              description={
-                "It looks like you don't have any resources. Add internal services like hosts, subnets or domains so your peers can reach them."
-              }
+              title={t("controlCenter.emptyResourceTitle")}
+              description={t("controlCenter.emptyResourceDescription")}
               button={
                 <div
                   className={"gap-x-4 flex items-center justify-center"}
@@ -89,18 +89,18 @@ export function ControlCenterEmptyStates() {
                     disabled={!permission.networks.update}
                   >
                     <PlusCircle size={16} />
-                    Add Resource
+                    {t("controlCenter.addResource")}
                   </Button>
                 </div>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("common.learnMoreAbout")}
                   <InlineLink
                     href={"https://docs.netbird.io/how-to/networks#resources"}
                     target={"_blank"}
                   >
-                    Resources
+                    {t("controlCenter.resourcesLabel")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>
@@ -128,10 +128,8 @@ export function ControlCenterEmptyStates() {
                   size={"large"}
                 />
               }
-              title={"Create New Network"}
-              description={
-                "It looks like you don't have any networks. Access internal resources in your LANs and VPC by adding a network."
-              }
+              title={t("controlCenter.emptyNetworkTitle")}
+              description={t("controlCenter.emptyNetworkDescription")}
               button={
                 <div
                   className={"gap-x-4 flex items-center justify-center"}
@@ -142,18 +140,18 @@ export function ControlCenterEmptyStates() {
                     disabled={!permission.networks.create}
                   >
                     <PlusCircle size={16} />
-                    Add Network
+                    {t("controlCenter.addNetwork")}
                   </Button>
                 </div>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("common.learnMoreAbout")}
                   <InlineLink
                     href={"https://docs.netbird.io/how-to/networks"}
                     target={"_blank"}
                   >
-                    Networks
+                    {t("controlCenter.networksLabel")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>

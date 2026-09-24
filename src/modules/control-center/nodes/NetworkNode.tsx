@@ -296,6 +296,7 @@ const FrameAddResourceButton = ({
   setHoveredNetworkNodeId: (v: string | null) => void;
   setControlsHovered: (v: boolean) => void;
 }) => {
+  const { t } = useI18n();
   const { setResourceEditor } = useDraftMode();
   return (
     <div
@@ -332,7 +333,7 @@ const FrameAddResourceButton = ({
         }}
       >
         <CirclePlusIcon size={12} />
-        Add Resource
+        {t("controlCenter.addResource")}
       </Button>
     </div>
   );

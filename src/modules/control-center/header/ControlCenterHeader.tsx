@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useDestinationGroup } from "@/modules/control-center/contexts/ControlCenterContext";
 import {
   useCanvasState,
@@ -71,6 +72,7 @@ function NetworkActionsMenu({
   networkNodeId: string;
   onDeleted?: () => void;
 }) {
+  const { t } = useI18n();
   const { isDraft, setNetworkEditor } = useDraftMode();
   const { permission } = usePermissions();
   const reactFlow = useReactFlow();
@@ -107,7 +109,7 @@ function NetworkActionsMenu({
       <DropdownMenuTrigger asChild>
         <button
           type={"button"}
-          aria-label={"Network actions"}
+          aria-label={t("controlCenter.networkActions")}
           className={
             "flex items-center justify-center h-[40px] px-4 shrink-0 rounded-r-md border border-l-0 border-gray-700/40 bg-nb-gray-920 text-gray-400 hover:text-white hover:bg-nb-gray-910 transition-colors"
           }
@@ -122,7 +124,7 @@ function NetworkActionsMenu({
           >
             <div className={"flex gap-3 items-center"}>
               <SquarePenIcon size={14} className={"shrink-0"} />
-              Edit
+              {t("common.edit")}
             </div>
           </DropdownMenuItem>
         )}
@@ -145,6 +147,7 @@ function NetworkActionsMenu({
 }
 
 function AddResourceButton({ networkNodeId }: { networkNodeId: string }) {
+  const { t } = useI18n();
   const { setResourceEditor } = useDraftMode();
   return (
     <button
@@ -160,7 +163,7 @@ function AddResourceButton({ networkNodeId }: { networkNodeId: string }) {
       )}
     >
       <CirclePlusIcon size={14} className={"shrink-0"} />
-      Add Resource
+      {t("controlCenter.addResource")}
     </button>
   );
 }
@@ -381,6 +384,7 @@ function HeaderTopLeft() {
 }
 
 function FocusModePill() {
+  const { t } = useI18n();
   const { highlightArmed, setHighlightArmed, focusedNodeId, setFocusedNodeId } =
     useDestinationGroup();
   const nodes = useStructuralNodes();
@@ -458,7 +462,7 @@ function FocusModePill() {
                 className={
                   "p-1.5 rounded-full text-nb-gray-400 hover:text-nb-gray-100 hover:bg-nb-gray-800 transition-colors"
                 }
-                aria-label={"Exit Focus"}
+                aria-label={t("controlCenter.exitFocus")}
               >
                 <XIcon size={15} />
               </button>
@@ -505,6 +509,7 @@ function HeaderBottom() {
 }
 
 function FeedbackButton() {
+  const { t } = useI18n();
   return (
     <div className={"absolute bottom-0 right-0 z-10 p-3 md:px-6 md:py-4"}>
       <a
@@ -514,7 +519,7 @@ function FeedbackButton() {
       >
         <Button variant={"secondary"} size={"xs"} className={"h-[39px] px-4.5"}>
           <MessageSquareShare size={14} />
-          Feedback
+          {t("controlCenter.feedback")}
         </Button>
       </a>
     </div>

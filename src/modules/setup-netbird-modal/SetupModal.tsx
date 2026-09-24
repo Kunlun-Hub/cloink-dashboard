@@ -186,10 +186,11 @@ export function SetupModalContent({
     if (title) return title;
 
     if (isFirstRun && !isInstallPage) {
-      let name = user?.given_name || "there";
+      const name = user?.given_name || t("setupModal.there");
       return (
         <>
-          Hello {name}! 👋 <br /> It&apos;s time to add your first device.
+          {t("setupModal.welcomeTitle", { name })} 👋 <br />{" "}
+          {t("setupModal.welcomeSubtitle")}
         </>
       );
     }
@@ -547,7 +548,7 @@ function SetupKeyGenerator({
           ) : (
             <KeyRoundIcon size={14} />
           )}
-          Generate Key
+          {t("setupModal.generateKey")}
         </Button>
       </div>
     );
@@ -577,7 +578,7 @@ function SetupKeyGenerator({
           }
         >
 
-          This setup key can be used only once and expires in 24 hours.
+          {t("setupModal.setupKeyExpiryNotice")}
         </div>
       </div>
       <Button variant={"secondary"} onClick={copy}>

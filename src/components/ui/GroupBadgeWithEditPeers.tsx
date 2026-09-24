@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { Group } from "@/interfaces/Group";
 import { AssignPeerToGroupModal } from "@/modules/groups/AssignPeerToGroupModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   group: Group;
@@ -24,6 +25,7 @@ export default function GroupBadgeWithEditPeers({
   useSave = true,
   onPeerAssignmentChange,
 }: Readonly<Props>) {
+  const { t } = useI18n();
   const isNew = !group?.id;
   const [editGroupPeersModal, setEditGroupPeersModal] = useState(false);
   const { dropdownOptions, addDropdownOptions, updateGroupDropdown } =
@@ -104,7 +106,7 @@ export default function GroupBadgeWithEditPeers({
               >
                 {peerCount}
               </span>{" "}
-              Peers{" "}
+              {t("nav.peers")}{" "}
             </span>
             {isAllGroup ? (
               <EyeIcon size={11} className={"shrink-0"} />

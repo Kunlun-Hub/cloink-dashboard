@@ -25,6 +25,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
@@ -316,6 +317,7 @@ export const DestinationGroupPanel = ({
   groupId,
   onClose,
 }: DestinationGroupPanelProps) => {
+  const { t } = useI18n();
   const { peers, networkResources, groups } = useControlCenterData();
   // Structural subscription: a nodes subscription re-renders the panel on every canvas update.
   const nodes = useStructuralNodes();
@@ -989,7 +991,7 @@ export const DestinationGroupPanel = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Peers
+              {t("nav.peers")}
             </TabsTrigger>
             <TabsTrigger
               value={"resources"}
@@ -1001,7 +1003,7 @@ export const DestinationGroupPanel = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Resources
+              {t("controlCenter.resourcesLabel")}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -1103,7 +1105,7 @@ export const DestinationGroupPanel = ({
                         !(resource as { draftNetwork?: unknown })
                           .draftNetwork && (
                           <DraftStatusChip
-                            label={"No Network"}
+                            label={t("controlCenter.noNetwork")}
                             onClick={() =>
                               setResourceNetworkPicker({
                                 nodeId: `resource-${resource.id}`,
@@ -1148,7 +1150,7 @@ export const DestinationGroupPanel = ({
               className={"py-2.5"}
               onClick={onClose}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button
               variant={"primary"}

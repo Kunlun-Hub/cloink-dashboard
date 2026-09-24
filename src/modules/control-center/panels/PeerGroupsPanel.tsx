@@ -14,6 +14,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
@@ -52,6 +53,7 @@ interface PeerGroupsPanelProps {
 const groupRef = (g: Group) => g.id ?? g.name;
 
 export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
+  const { t } = useI18n();
   const { peers, groups } = useControlCenterData();
   const nodes = useStructuralNodes();
   const { isDraft } = useDraftMode();
@@ -310,7 +312,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             autoFocus
-            placeholder={"Search group..."}
+            placeholder={t("common.searchGroup")}
           />
           <div
             className={"absolute left-0 top-1 bottom-0 flex items-center pl-5"}
@@ -339,7 +341,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Groups
+              {t("nav.groups")}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -431,7 +433,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
               className={"py-2.5"}
               onClick={onClose}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button
               variant={"primary"}

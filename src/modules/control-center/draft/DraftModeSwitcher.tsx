@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
@@ -18,6 +19,7 @@ import { useDiscardDraft } from "@/modules/control-center/draft/useDiscardDraft"
 
 type Props = {};
 export const DraftModeSwitcher = ({}: Props) => {
+  const { t } = useI18n();
   const { isDraft, startBlankDraft, startCurrentDraft } = useDraftMode();
   const { changeCount } = useDraftChangeset();
   const { discardAndExit, exitAfterDeploy } = useDiscardDraft();
@@ -51,7 +53,7 @@ export const DraftModeSwitcher = ({}: Props) => {
           data-testid={"cc-mode-live"}
         >
           <CircleIcon active={true} size={8} className={"shrink-0"} />
-          Live
+          {t("controlCenter.mode.live")}
         </SegmentedTabs.Trigger>
         <SegmentedTabs.Trigger
           value={"draft"}
@@ -63,9 +65,9 @@ export const DraftModeSwitcher = ({}: Props) => {
           data-testid={"cc-mode-draft"}
         >
           <PencilLineIcon size={12} />
-          Draft
+          {t("controlCenter.mode.draft")}
           <SmallBadge
-            text={"Beta"}
+            text={t("common.beta")}
             variant={"sky"}
             className={"text-[8px] leading-none py-[3px] px-[5px]"}
             textClassName={"top-0"}
@@ -102,7 +104,7 @@ export const DraftModeSwitcher = ({}: Props) => {
               className={"h-[39px] px-4.5"}
               data-testid={"cc-draft-cancel"}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button
               variant={"primary"}
@@ -115,7 +117,7 @@ export const DraftModeSwitcher = ({}: Props) => {
               data-testid={"cc-draft-review"}
             >
               <GitPullRequestArrowIcon size={14} />
-              Review & Deploy
+              {t("controlCenter.draft.reviewAndDeploy")}
               {changeCount > 0 && (
                 <span
                   className={

@@ -198,13 +198,16 @@ export const TrafficEventsPeerTabContent = () => {
         <div className={"flex justify-between items-center mb-5"}>
           <div>
             <Paragraph>
-              Here you can see all the {isInbound ? "inbound" : "outbound"}{" "}
-              traffic events for this peer.
+              {t("trafficEvents.peerTabDescription", {
+                direction: isInbound
+                  ? t("trafficEvents.filterInboundLabel")
+                  : t("trafficEvents.filterOutboundLabel"),
+              })}
             </Paragraph>
             <Paragraph>
-              Learn more about{" "}
+              {t("common.learnMoreAbout")}{" "}
               <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
-                Traffic Events <ExternalLinkIcon size={12} />
+                {t("trafficEvents.title")} <ExternalLinkIcon size={12} />
               </InlineLink>{" "}
               in our documentation.
             </Paragraph>
@@ -397,7 +400,7 @@ const TrafficEventsPeerDetailTable = ({
                 variant={"primary"}
                 onClick={() => router.push("/settings?tab=networks")}
               >
-                Go to Settings
+                {t("trafficEvents.goToSettings")}
                 <ArrowUpRightIcon size={16} />
               </Button>
             </div>
@@ -470,10 +473,11 @@ const TrafficEventsPeerDetailTable = ({
 };
 
 export const TrafficEventsPeerTabTrigger = () => {
+  const { t } = useI18n();
   return (
     <TabsTrigger value={"traffic-events"}>
       <ArrowLeftRightIcon size={16} />
-      Traffic Events
+      {t("trafficEvents.title")}
     </TabsTrigger>
   );
 };

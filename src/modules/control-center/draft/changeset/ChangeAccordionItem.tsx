@@ -18,6 +18,7 @@ import {
 } from "@components/DropdownMenu";
 import { notify } from "@components/Notification";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   DraftChange,
   getChangeApiCall,
@@ -64,6 +65,7 @@ export const ChangeAccordionItem = ({
   disabled,
   status,
 }: Props) => {
+  const { t } = useI18n();
   const apiCall = getChangeApiCall(change);
   const request = useMemo(
     () => buildChangeRequest(change, live),
@@ -174,7 +176,7 @@ export const ChangeAccordionItem = ({
                 doCopy(true);
               }
             }}
-            aria-label={"Copy URL"}
+            aria-label={t("controlCenter.draft.copyUrl")}
             className={
               "group/copy relative top-[1px] flex items-center gap-1.5 font-mono text-[0.7rem] text-nb-gray-400 min-w-0 max-w-[18rem] cursor-pointer hover:text-nb-gray-200 transition-colors"
             }
@@ -221,14 +223,14 @@ export const ChangeAccordionItem = ({
         {status === "deploying" ? (
           <div
             className={"self-center shrink-0 p-1.5 text-white"}
-            aria-label={"Deploying"}
+            aria-label={t("controlCenter.draft.deploying")}
           >
             <Loader2 size={16} className={"animate-spin"} />
           </div>
         ) : status === "done" ? (
           <div
             className={"self-center shrink-0 p-1.5 text-green-500"}
-            aria-label={"Deployed"}
+            aria-label={t("controlCenter.draft.deployed")}
           >
             <CheckIcon size={16} />
           </div>
@@ -243,7 +245,7 @@ export const ChangeAccordionItem = ({
                 className={
                   "self-center shrink-0 p-1.5 rounded text-nb-gray-400 hover:text-nb-gray-100 hover:bg-nb-gray-800 data-[state=open]:bg-nb-gray-800 data-[state=open]:text-nb-gray-100 transition-colors disabled:opacity-50 outline-none"
                 }
-                aria-label={"More actions"}
+                aria-label={t("common.moreActions")}
               >
                 <MoreVerticalIcon size={16} />
               </button>
@@ -257,7 +259,7 @@ export const ChangeAccordionItem = ({
                 }}
               >
                 <CopyIcon size={14} />
-                Copy cURL
+                {t("controlCenter.draft.copyCurl")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 variant={"danger"}
@@ -266,7 +268,7 @@ export const ChangeAccordionItem = ({
                 onClick={handleRemove}
               >
                 <Trash2Icon size={14} />
-                Remove
+                {t("common.remove")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

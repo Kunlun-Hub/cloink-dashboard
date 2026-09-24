@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
+import { useI18n } from "@/i18n/I18nProvider";
 import { Policy, PolicyRuleResource } from "@/interfaces/Policy";
 import { useCanvasState } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useControlCenterPolicy } from "@/modules/control-center/contexts/ControlCenterPolicyModals";
@@ -49,6 +50,7 @@ const PickerContent = ({
   state: NetworkDestinationPickerState;
   onClose: () => void;
 }) => {
+  const { t } = useI18n();
   const { networkNodeId, policyNodeId } = state;
   const { nodes } = useCanvasState();
   const { groups: apiGroups, networkResources } = useControlCenterData();
@@ -112,9 +114,9 @@ const PickerContent = ({
   const rule = policy?.rules?.[0];
   const existingDestinations = (rule?.destinations as (Group | string)[]) ?? [];
   const blockedReason = rule?.destinationResource
-    ? "This policy already has a resource destination. Remove it from the policy first."
+    ? t("controlCenter.draft.resourceDestinationConflict")
     : pickedResource && existingDestinations.length > 0
-      ? "This policy already has group destinations, and a resource can't be combined with them. Pick groups instead."
+      ? t("controlCenter.draft.groupDestinationConflict")
       : null;
 
   const onConnect = () => {
@@ -143,7 +145,7 @@ const PickerContent = ({
     <ModalContent maxWidthClass={"max-w-lg"}>
       <ModalHeader
         icon={<NetworkRoutesIcon className={"fill-netbird"} />}
-        title={"Select Destination"}
+        title={t("controlCenter.draft.selectDestinationTitle")}
         description={`Access ${network?.name ?? "this network"}${
           policy?.name ? ` via "${policy.name}"` : ""
         }`}
@@ -152,14 +154,14 @@ const PickerContent = ({
       <div className={"p-default flex flex-col"}>
         {resources.length === 0 && groupIds.length === 0 ? (
           <div className={"text-sm text-nb-gray-400 text-center py-4"}>
-            This network has no resources yet.
+            {t("controlCenter.draft.networkHasNoResources")}
           </div>
         ) : (
           <div className={"w-full"}>
             <PeerGroupSelector
               data-testid={"network-destination-selector"}
               popoverWidth={480}
-              placeholder={"Select destination(s)..."}
+              placeholder={t("controlCenter.draft.selectDestinationPlaceholder")}
               showResources={true}
               showResourceCounter={true}
               // Land on the tab that has content.
@@ -189,7 +191,7 @@ const PickerContent = ({
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
             <Button variant={"secondary"} className={"w-full"}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           </ModalClose>
           <Button
@@ -198,7 +200,7 @@ const PickerContent = ({
             onClick={onConnect}
             disabled={!hasPick || !!blockedReason}
           >
-            Connect
+            {t("controlCenter.draft.connect")}
           </Button>
         </div>
       </ModalFooter>

@@ -63,6 +63,7 @@ import {
   useDraftGroupActions,
 } from "@/modules/control-center/hooks/useDraftGroupActions";
 import { SmallBadge } from "@components/ui/SmallBadge";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type BlankKind = "group" | "network" | "resource";
 
@@ -73,43 +74,49 @@ type PeerTemplate = {
   icon: LucideIcon;
 };
 
-const PEER_TEMPLATES: PeerTemplate[] = [
+// Translate function shape handed down from useI18n(); the template tables are
+// built per render so their labels follow the active locale.
+type TranslateFn = (key: string, values?: Record<string, unknown>) => string;
+
+const peerTemplates = (t: TranslateFn): PeerTemplate[] => [
   {
     key: "server",
-    label: "Server",
-    description: "Install on a server or VM",
+    label: t("controlCenter.template.server"),
+    description: t("controlCenter.template.serverDescription"),
     icon: ServerIcon,
   },
   {
     key: "agent",
-    label: "Agent",
-    description: "Add an automated or headless peer",
+    label: t("controlCenter.template.agent"),
+    description: t("controlCenter.template.agentDescription"),
     icon: BotIcon,
   },
 ];
 
-const BLANK_TEMPLATES: {
+const blankTemplates = (
+  t: TranslateFn,
+): {
   kind: BlankKind;
   label: string;
   description: string;
   icon: LucideIcon;
-}[] = [
+}[] => [
   {
     kind: "group",
-    label: "Group",
-    description: "Group peers and resources together",
+    label: t("controlCenter.template.group"),
+    description: t("controlCenter.template.groupDescription"),
     icon: FolderGit2,
   },
   {
     kind: "network",
-    label: "Network",
-    description: "Give access to a private network",
+    label: t("controlCenter.template.network"),
+    description: t("controlCenter.template.networkDescription"),
     icon: NetworkIcon,
   },
   {
     kind: "resource",
-    label: "Resource",
-    description: "A host subnet or domain in a network",
+    label: t("controlCenter.template.resource"),
+    description: t("controlCenter.template.resourceDescription"),
     icon: WorkflowIcon,
   },
 ];
@@ -135,15 +142,17 @@ type FlatRow =
 
 type PanelCategory = "peers" | "policies" | "groups" | "resources";
 
-const CATEGORIES: {
+const categories = (
+  t: TranslateFn,
+): {
   id: PanelCategory;
   label: string;
   icon: LucideIcon;
-}[] = [
-  { id: "peers", label: "Peers", icon: MonitorSmartphoneIcon },
-  { id: "policies", label: "Policies", icon: ShieldIcon },
-  { id: "groups", label: "Groups", icon: FolderGit2 },
-  { id: "resources", label: "Networks & Resources", icon: NetworkIcon },
+}[] => [
+  { id: "peers", label: t("nav.peers"), icon: MonitorSmartphoneIcon },
+  { id: "policies", label: t("nav.policies"), icon: ShieldIcon },
+  { id: "groups", label: t("nav.groups"), icon: FolderGit2 },
+  { id: "resources", label: t("controlCenter.networksAndResources"), icon: NetworkIcon },
 ];
 
 export const ControlCenterComponentsPanel = () => {
@@ -186,6 +195,7 @@ const PanelContent = React.memo(
     setResourceEditor: ReturnType<typeof useDraftMode>["setResourceEditor"];
     drillDownNetworkNodeId: string | null;
   }) => {
+    const { t } = useI18n();
     const drilled = !!drillDownNetworkNodeId;
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState<PanelCategory>("peers");
@@ -728,30 +738,34 @@ const PanelContent = React.memo(
     );
     const filteredPeerTemplates = useMemo(
       () =>
-        PEER_TEMPLATES.filter((t) => peersCategory || matchesSearch(t.label)),
-      [matchesSearch, peersCategory],
+        peerTemplates(t).filter(
+          (tpl) => peersCategory || matchesSearch(tpl.label),
+        ),
+      [matchesSearch, peersCategory, t],
     );
     const groupTemplates = useMemo(
       () =>
-        BLANK_TEMPLATES.filter(
-          (t) =>
-            t.kind === "group" && (groupsCategory || matchesSearch(t.label)),
+        blankTemplates(t).filter(
+          (tpl) =>
+            tpl.kind === "group" &&
+            (groupsCategory || matchesSearch(tpl.label)),
         ),
-      [matchesSearch, groupsCategory],
+      [matchesSearch, groupsCategory, t],
     );
     const resourceTemplates = useMemo(
       () =>
-        BLANK_TEMPLATES.filter(
-          (t) =>
-            (t.kind === "resource" &&
-              (resourcesCategory || matchesSearch(t.label))) ||
+        blankTemplates(t).filter(
+          (tpl) =>
+            (tpl.kind === "resource" &&
+              (resourcesCategory || matchesSearch(tpl.label))) ||
             (!drilled &&
-              t.kind === "network" &&
-              (networksCategory || matchesSearch(t.label))),
+              tpl.kind === "network" &&
+              (networksCategory || matchesSearch(tpl.label))),
         ),
-      [matchesSearch, resourcesCategory, networksCategory, drilled],
+      [matchesSearch, resourcesCategory, networksCategory, drilled, t],
     );
-    const showPolicyTemplate = policiesCategory || matchesSearch("Policy");
+    const showPolicyTemplate =
+      policiesCategory || matchesSearch(t("controlCenter.template.policy"));
 
     const buildPeerTemplateRows = () =>
       filteredPeerTemplates.map((tpl) => (
@@ -771,8 +785,8 @@ const PanelContent = React.memo(
             <TemplateItem
               key={"policy-template"}
               icon={ShieldIcon}
-              label={"Policy"}
-              description={"Control access between sources and destinations"}
+              label={t("controlCenter.template.policy")}
+              description={t("controlCenter.template.policyDescription")}
               onPointerDown={(e) => handlePolicyDragStart(e)}
               data-testid={"cc-template-policy"}
             />,
@@ -862,7 +876,7 @@ const PanelContent = React.memo(
                   <SmallBadge />
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
-                  {protocolLabel || "All"}
+                  {protocolLabel || t("common.all")}
                 </span>
               </div>
             </div>
@@ -1116,7 +1130,7 @@ const PanelContent = React.memo(
       isSearching
         ? [
             {
-              title: "Add New",
+              title: t("controlCenter.panel.addNew"),
               rows: [
                 ...buildPeerTemplateRows(),
                 ...buildPolicyTemplateRows(),
@@ -1125,58 +1139,58 @@ const PanelContent = React.memo(
               ],
             },
             {
-              title: "Peers",
+              title: t("nav.peers"),
               rows: [...buildDraftPeerRows(), ...buildPeerRows()],
             },
             {
-              title: "Policies",
+              title: t("nav.policies"),
               rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
             },
             {
-              title: "Groups",
+              title: t("nav.groups"),
               rows: [...buildDraftGroupRows(), ...buildGroupRows()],
             },
             {
-              title: "Networks",
+              title: t("nav.networks"),
               rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
             },
             {
-              title: "Resources",
+              title: t("controlCenter.resourcesLabel"),
               rows: [...buildDraftResourceRows(), ...buildResourceRows()],
             },
           ]
         : category === "peers"
         ? [
-            { title: "Add New", rows: buildPeerTemplateRows() },
+            { title: t("controlCenter.panel.addNew"), rows: buildPeerTemplateRows() },
             {
-              title: "Existing Peers",
+              title: t("controlCenter.panel.existingPeers"),
               rows: [...buildDraftPeerRows(), ...buildPeerRows()],
             },
           ]
         : category === "policies"
         ? [
-            { title: "Add New", rows: buildPolicyTemplateRows() },
+            { title: t("controlCenter.panel.addNew"), rows: buildPolicyTemplateRows() },
             {
-              title: "Existing Policies",
+              title: t("controlCenter.panel.existingPolicies"),
               rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
             },
           ]
         : category === "groups"
         ? [
-            { title: "Add New", rows: buildGroupTemplateRows() },
+            { title: t("controlCenter.panel.addNew"), rows: buildGroupTemplateRows() },
             {
-              title: "Existing Groups",
+              title: t("controlCenter.panel.existingGroups"),
               rows: [...buildDraftGroupRows(), ...buildGroupRows()],
             },
           ]
         : [
-            { title: "Add New", rows: buildResourceTemplateRows() },
+            { title: t("controlCenter.panel.addNew"), rows: buildResourceTemplateRows() },
             {
-              title: "Existing Networks",
+              title: t("controlCenter.panel.existingNetworks"),
               rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
             },
             {
-              title: "Existing Resources",
+              title: t("controlCenter.panel.existingResources"),
               rows: [...buildDraftResourceRows(), ...buildResourceRows()],
             },
           ]
@@ -1242,7 +1256,7 @@ const PanelContent = React.memo(
                   typeof DropdownInput
                 >["onChange"]
               }
-              placeholder={"Search components, peers, groups, resources..."}
+              placeholder={t("controlCenter.panel.searchPlaceholder")}
               className={"py-3.5"}
               hideEnterIcon
             />
@@ -1266,7 +1280,7 @@ const PanelContent = React.memo(
                 "w-[52px] shrink-0 border-r border-nb-gray-910 py-2 flex flex-col items-center gap-1"
               }
             >
-              {CATEGORIES.map((cat) => (
+              {categories(t).map((cat) => (
                 <FullTooltip
                   key={cat.id}
                   content={<span className={"text-xs"}>{cat.label}</span>}
@@ -1343,7 +1357,7 @@ const PanelContent = React.memo(
                     </div>
                   </div>
                   <div className={"text-nb-gray-100 mb-1"}>
-                    Could not find any results
+                    {t("common.noResults")}
                   </div>
                   <div
                     className={
