@@ -64,7 +64,7 @@ export const createRouteTableColumns = (t: (key: any, ...args: any[]) => string)
     meta: { className: ENABLED_COLUMN_CLASS["2xl"] },
     header: ({ column }) => (
       <DataTableHeader column={column} sorting={false}>
-        Active
+        {t("common.active")}
       </DataTableHeader>
     ),
     cell: ({ row }) => <RouteActiveCell route={row.original} />,

@@ -286,10 +286,8 @@ export default function NetworkRoutesTable({
                 <NetworkRoutesIcon className={"fill-nb-gray-200"} size={20} />
               }
               className={"py-4"}
-              title={"This group is not used within any network routes yet"}
-              description={
-                "Assign this group when creating a new route to see them listed here."
-              }
+              title={t("routeTable.emptyGroupTitle")}
+              description={t("routeTable.emptyGroupDescription")}
             >
               <div className={"gap-x-4 flex items-center justify-center mt-4"}>
                 <AddExitNodeButton distributionGroups={distributionGroups} />
@@ -337,14 +335,14 @@ export default function NetworkRoutesTable({
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("common.learnMoreAbout")}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/how-to/routing-traffic-to-private-networks"
                     }
                     target={"_blank"}
                   >
-                    Network Routes
+                    {t("networkRoutes.title")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>

@@ -5,6 +5,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
 import { ReverseProxyTarget } from "@/interfaces/ReverseProxy";
 import { useReverseProxyTarget } from "./ReverseProxyTargetContext";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   target: ReverseProxyTarget;
@@ -12,6 +13,7 @@ type Props = {
 
 export const ReverseProxyTargetActionCell = ({ target }: Props) => {
   const reverseProxy = useReverseProxyTarget();
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { openTargetModal, handleDeleteTarget } = useReverseProxies();
 
@@ -27,7 +29,7 @@ export const ReverseProxyTargetActionCell = ({ target }: Props) => {
         }}
       >
         <PenSquare size={16} />
-        Edit
+        {t("common.edit")}
       </Button>
       <Button
         variant={"danger-outline"}
@@ -39,7 +41,7 @@ export const ReverseProxyTargetActionCell = ({ target }: Props) => {
         }}
       >
         <Trash2 size={16} />
-        Delete
+        {t("common.delete")}
       </Button>
     </div>
   );

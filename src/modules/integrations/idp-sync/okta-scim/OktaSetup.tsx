@@ -238,22 +238,22 @@ export function SetupContent({
                 {t("oktaSetup.configureSsoStep1")}{" "}
                 <Mark>{"Applications > Applications"}</Mark>
                 {t("oktaSetup.configureSsoStep1Suffix")}{" "}
-                <Mark>Cloink</Mark>
+                <Mark>{t("activity.netbirdUser")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("oktaSetup.configureSsoStep2")} <Mark>{"Sign On > Settings"}</Mark>{" "}
                 {t("oktaSetup.configureSsoStep2Suffix")}{" "}
-                <Mark>Edit</Mark>
+                <Mark>{t("common.edit")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
                 {t("oktaSetup.configureSsoStep3Prefix")} <Mark>{t("integrations.credentialsDetails")}</Mark>{" "}
                 {t("oktaSetup.configureSsoStep3Middle")}
-                <Mark>{t("integrations.applicationUsernameFormat")}</Mark> {t("oktaSetup.configureSsoStep3To")} <Mark>Email</Mark>{" "}
-                {t("oktaSetup.configureSsoStep3AndSelect")} <Mark>Save</Mark>
+                <Mark>{t("integrations.applicationUsernameFormat")}</Mark> {t("oktaSetup.configureSsoStep3To")} <Mark>{t("settings.email")}</Mark>{" "}
+                {t("oktaSetup.configureSsoStep3AndSelect")} <Mark>{t("common.save")}</Mark>
               </p>
               <Lightbox image={oktaSSO} />
             </Steps.Step>
@@ -273,7 +273,7 @@ export function SetupContent({
                 {t("oktaSetup.enableScimStep1")}{" "}
                 <Mark>{"Applications > Applications"}</Mark>
                 {t("oktaSetup.enableScimStep1AndSelect")}{" "}
-                <Mark>Cloink</Mark>
+                <Mark>{t("activity.netbirdUser")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
@@ -298,7 +298,7 @@ export function SetupContent({
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
                 {t("oktaSetup.enableScimStep4Prefix")} <Mark>{t("integrations.testApiCredentials")}</Mark>{" "}
-                {t("oktaSetup.enableScimStep4Middle")} <Mark>Save</Mark>
+                {t("oktaSetup.enableScimStep4Middle")} <Mark>{t("common.save")}</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -315,7 +315,7 @@ export function SetupContent({
             <Steps.Step step={1}>
               <p>
                 {t("oktaSetup.configureScimStep1Prefix")} <Mark>{"Provisioning > Settings > To App"}</Mark>{" "}
-                {t("oktaSetup.configureScimStep1AndClick")} <Mark>Edit</Mark>
+                {t("oktaSetup.configureScimStep1AndClick")} <Mark>{t("common.edit")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
@@ -324,7 +324,7 @@ export function SetupContent({
                 {t("oktaSetup.configureScimStep2Middle")}{" "}
                 <Mark>{t("integrations.updateUserAttributes")}</Mark>
                 {t("oktaSetup.configureScimStep2And")}{" "}
-                <Mark>{t("integrations.deactivateUsers")}</Mark> {t("oktaSetup.configureScimStep2Suffix")} <Mark>Save</Mark>
+                <Mark>{t("integrations.deactivateUsers")}</Mark> {t("oktaSetup.configureScimStep2Suffix")} <Mark>{t("common.save")}</Mark>
               </p>
               <Lightbox image={oktaSCIMToApp} />
             </Steps.Step>
@@ -381,7 +381,7 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                {t("oktaSetup.syncGroupsStep2Prefix")} <Mark>Save</Mark>
+                {t("oktaSetup.syncGroupsStep2Prefix")} <Mark>{t("common.save")}</Mark>
                 {t("oktaSetup.syncGroupsStep2Suffix")}
               </p>
             </Steps.Step>
@@ -558,7 +558,7 @@ export function SetupSSOContent() {
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("oktaSetup.installAppStep2Prefix")} <Mark>+ Add Integration</Mark>{" "}
-                {t("oktaSetup.installAppStep2AndThen")} <Mark>Done</Mark>
+                {t("oktaSetup.installAppStep2AndThen")} <Mark>{t("common.done")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
@@ -602,8 +602,7 @@ export function SetupSSOContent() {
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Once the Cloink team has enabled the authentication for your
-                account you will receive an email. After that you can visit{" "}
+                {t("oktaSetup.shareDetailsStep4Prefix")}{" "}
                 <InlineLink href={"https://app.netbird.io"}>
                   app.netbird.io
                 </InlineLink>{" "}

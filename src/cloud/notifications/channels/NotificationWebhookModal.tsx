@@ -106,7 +106,7 @@ function NotificationWebhookModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            General
+            {t("userRoles.categoryGeneral")}
           </TabsTrigger>
           <TabsTrigger
             value={"headers"}
@@ -119,7 +119,7 @@ function NotificationWebhookModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Headers
+            {t("genericHttp.tabHeaders")}
           </TabsTrigger>
         </TabsList>
 
@@ -135,12 +135,12 @@ function NotificationWebhookModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common.learnMoreAbout")}
             <InlineLink
               href={NOTIFICATION_CHANNELS_WEBHOOK_DOCS_LINK}
               target={"_blank"}
             >
-              Webhook Notifications
+              {t("notifications.webhookNotifyTitle")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -157,7 +157,7 @@ function NotificationWebhookModalContent({
                 disabled={!config.canSave}
                 data-testid="webhook-save"
               >
-                Save Changes
+                {t("common.saveChanges")}
               </Button>
             </>
           ) : (
@@ -173,7 +173,7 @@ function NotificationWebhookModalContent({
                     onClick={() => setTab("headers")}
                     data-testid="webhook-continue"
                   >
-                    Continue
+                    {t("common.continue")}
                   </Button>
                 </>
               )}
@@ -183,7 +183,7 @@ function NotificationWebhookModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("general")}
                   >
-                    Back
+                    {t("common.back")}
                   </Button>
                   <Button
                     variant={"primary"}
@@ -192,7 +192,7 @@ function NotificationWebhookModalContent({
                     data-testid="webhook-save"
                   >
                     <Repeat size={16} />
-                    Connect
+                    {t("remoteAccess.connect")}
                   </Button>
                 </>
               )}

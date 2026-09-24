@@ -121,10 +121,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
             <Label>{t("jobs.logFileCountLabel")}</Label>
-            <HelpText>
-              Sets the limit for how many individual log files will be included
-              in the debug bundle.
-            </HelpText>
+            <HelpText>{t("jobs.logFileCountHelp")}</HelpText>
           </div>
 
           <Input
@@ -162,10 +159,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             <div className="flex justify-between gap-6 mt-6 mb-3">
               <div className={"max-w-[300px]"}>
                 <Label>{t("jobs.durationLabel")}</Label>
-                <HelpText>
-                  Time period for which logs should be collected before creating
-                  the debug bundle.
-                </HelpText>
+                <HelpText>{t("jobs.durationHelp")}</HelpText>
               </div>
 
               <Input
@@ -200,11 +194,8 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
         {anonymize && (
           <div className="flex justify-between gap-6">
             <div className={"max-w-[300px]"}>
-              <Label>Anonymization Level</Label>
-              <HelpText>
-                Default keeps internal (private) IP ranges readable; Strict also
-                anonymizes private, CGNAT and link-local addresses.
-              </HelpText>
+              <Label>{t("debugJob.anonymizeLevel")}</Label>
+              <HelpText>{t("debugJob.anonymizeLevelHelp")}</HelpText>
             </div>
 
             <Select
@@ -214,12 +205,16 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
               <SelectTrigger className="w-[220px]">
                 <div className="flex items-center gap-3">
                   <Shield size={15} className="text-nb-gray-300 shrink-0" />
-                  <SelectValue placeholder="Select level..." />
+                  <SelectValue />
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="default">Default</SelectItem>
-                <SelectItem value="strict">Strict</SelectItem>
+                <SelectItem value="default">
+                  {t("debugJob.anonymizeDefault")}
+                </SelectItem>
+                <SelectItem value="strict">
+                  {t("debugJob.anonymizeStrict")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -228,16 +223,13 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
         {/* Upload URL */}
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
-            <Label>Upload URL (optional)</Label>
-            <HelpText>
-              Service the peer requests an upload URL from. Leave empty to use
-              the default upload server. Must be an https URL.
-            </HelpText>
+            <Label>{t("debugJob.uploadUrl")}</Label>
+            <HelpText>{t("debugJob.uploadUrlHelp")}</HelpText>
           </div>
 
           <Input
             type="text"
-            placeholder={"https://upload.debug.netbird.io"}
+            placeholder={t("debugJob.uploadUrlPlaceholder")}
             value={uploadUrl}
             onChange={(e) => setUploadUrl(e.target.value)}
             maxWidthClass="w-[220px]"

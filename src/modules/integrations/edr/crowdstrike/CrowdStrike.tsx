@@ -126,6 +126,7 @@ type ConfigurationProps = {
   config: CrowdstrikeIntegration;
 };
 const ConfigurationButton = ({ config }: ConfigurationProps) => {
+  const { t } = useI18n();
   const [configModal, setConfigModal] = useState(false);
 
   return (
@@ -140,7 +141,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common.settings")}
         </Button>
       </div>
       <CrowdStrikeConfiguration

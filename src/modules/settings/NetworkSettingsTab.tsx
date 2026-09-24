@@ -266,7 +266,7 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
               </div>
               <div className={"w-full"}>
                 <Input
-                  placeholder={"e.g. 100.64.0.0/16"}
+                  placeholder={t("networkSettings.networkRangePlaceholder")}
                   errorTooltip={true}
                   errorTooltipPosition={"top"}
                   error={networkRangeError}
@@ -293,7 +293,7 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
               </div>
               <div className={"w-full"}>
                 <Input
-                  placeholder={"e.g. fd00:1234:5678::/64"}
+                  placeholder={t("networkSettings.ipv6NetworkRangePlaceholder")}
                   errorTooltip={true}
                   errorTooltipPosition={"top"}
                   error={networkRangeV6Error}

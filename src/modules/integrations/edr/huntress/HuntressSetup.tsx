@@ -267,7 +267,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             <Steps.Step step={2}>
               <p>
                 {t("edr.huntress.setup.getCredentialsStep2Under")} <Mark>{t("edr.huntress.setup.getCredentialsStep2Add")}</Mark> {t("edr.huntress.setup.getCredentialsStep2Then")}
-                <Mark copy={true}>Cloink</Mark> {t("edr.huntress.setup.getCredentialsStep2Desc")}
+                <Mark copy={true}>{t("activity.netbirdUser")}</Mark> {t("edr.huntress.setup.getCredentialsStep2Desc")}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>

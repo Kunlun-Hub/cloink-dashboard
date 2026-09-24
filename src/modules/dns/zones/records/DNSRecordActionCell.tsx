@@ -5,6 +5,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { DNSRecord } from "@/interfaces/DNS";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
 import { useDNSZone } from "@/modules/dns/zones/records/DNSRecordsTable";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   record: DNSRecord;
@@ -12,6 +13,7 @@ type Props = {
 
 export const DNSRecordActionCell = ({ record }: Props) => {
   const { permission } = usePermissions();
+  const { t } = useI18n();
   const { deleteRecord, openRecordModal } = useDNSZones();
   const zone = useDNSZone();
 
@@ -25,7 +27,7 @@ export const DNSRecordActionCell = ({ record }: Props) => {
         data-testid="edit-dns-record"
       >
         <PenSquare size={16} />
-        Edit
+        {t("common.edit")}
       </Button>
       <Button
         variant={"danger-outline"}
@@ -35,7 +37,7 @@ export const DNSRecordActionCell = ({ record }: Props) => {
         data-testid="delete-dns-record"
       >
         <Trash2 size={16} />
-        Delete
+        {t("common.delete")}
       </Button>
     </div>
   );

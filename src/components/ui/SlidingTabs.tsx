@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   defaultValue?: string;
@@ -138,6 +139,7 @@ export const SlidingTabsBackTrigger = ({
   children: React.ReactNode;
 }) => {
   const { back } = useSlidingTabContext();
+  const { t } = useI18n();
   return (
     <div
       onClick={(e) => {
@@ -148,7 +150,7 @@ export const SlidingTabsBackTrigger = ({
       className={"flex gap-2 items-center select-none cursor-pointer"}
     >
       <ChevronLeft size={18} />
-      Back
+      {t("common.back")}
     </div>
   );
 };

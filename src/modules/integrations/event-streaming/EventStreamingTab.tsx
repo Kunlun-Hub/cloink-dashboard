@@ -21,7 +21,7 @@ export default function EventStreamingTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Integrations"}
+            label={t("nav.integrations")}
             icon={<IntegrationIcon size={13} />}
           />
           <Breadcrumbs.Item

@@ -209,7 +209,7 @@ export const TrafficEventsPeerTabContent = () => {
               <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
                 {t("trafficEvents.title")} <ExternalLinkIcon size={12} />
               </InlineLink>{" "}
-              in our documentation.
+              {t("trafficEvents.inDocumentation")}
             </Paragraph>
           </div>
         </div>

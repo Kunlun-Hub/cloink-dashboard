@@ -135,7 +135,7 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
             ></div>
           </div>
           <div className={"flex items-start flex-col flex-1 min-w-0 pr-10"}>
-            <p className={"font-medium text-sm"}>Slack</p>
+            <p className={"font-medium text-sm"}>{t("notifications.slackTitle")}</p>
             {isConnected ? (
               <TruncatedText
                 text={target?.url}

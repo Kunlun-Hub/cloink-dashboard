@@ -290,13 +290,11 @@ export function AccessControlModalContent({
             data-testid={policy ? "update-policy-title" : "create-policy-title"}
           >
             {policy
-              ? "Update Access Control Policy"
-              : "Create New Access Control Policy"}
+              ? t("accessControl.modalUpdateTitle")
+              : t("accessControl.modalCreateTitle")}
           </span>
         }
-        description={
-          "Use this policy to restrict access to groups of resources."
-        }
+        description={t("accessControl.modalDescription")}
         color={"netbird"}
       />
 
@@ -323,10 +321,7 @@ export function AccessControlModalContent({
               <div className={"w-full"}>
                 <Label>{t("accessControl.protocol")}</Label>
                 <HelpText className={"max-w-sm"}>
-                  Allow only specified network protocols. To change traffic
-                  direction and ports, select{" "}
-                  <b className={"text-white"}>TCP</b> or{" "}
-                  <b className={"text-white"}>UDP</b> protocol.
+                  {t("accessControl.protocolHelp")}
                 </HelpText>
               </div>
               <Select
@@ -358,16 +353,12 @@ export function AccessControlModalContent({
                         align={"center"}
                         side={"right"}
                         content={
-                          <>
-                            Select NetBird SSH for SSH-specific policies with
-                            fine-grained access control, or use TCP with port 22
-                            for basic network-level SSH access
-                          </>
+                          <>{t("accessControl.netbirdSshTooltip")}</>
                         }
                       />
                     }
                   >
-                    NetBird SSH
+                    {t("accessControl.netbirdSsh")}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -378,18 +369,14 @@ export function AccessControlModalContent({
                 <Label className={"mb-2"}>
                   <FolderDown size={15} />{t("controlCenter.source")}<HelpTooltip
                     content={
-                      <>
-                        Typically a group of user devices (e.g., Developers,
-                        Marketing) or individual devices in peer-to-peer
-                        connections that will access the destination.
-                      </>
+                      <>{t("accessControl.sourceHelp")}</>
                     }
                   />
                 </Label>
                 <PeerGroupSelector
                   data-testid={"source-group-selector"}
                   popoverWidth={500}
-                  placeholder={"Select source(s)..."}
+                  placeholder={t("accessControl.selectSources")}
                   showRoutes={protocol !== "netbird-ssh"}
                   showResources={false}
                   showPeers={protocol !== "netbird-ssh"}
@@ -420,18 +407,14 @@ export function AccessControlModalContent({
                 <Label className={"mb-2"}>
                   <FolderInput size={15} />{t("controlCenter.destination")}<HelpTooltip
                     content={
-                      <>
-                        Typically a group of peers or resources (e.g., Servers,
-                        Databases, Internal Services) that will be accessed by
-                        the source. Can also be an individual peer or resource.
-                      </>
+                      <>{t("accessControl.destinationHelp")}</>
                     }
                   />
                 </Label>
                 <PeerGroupSelector
                   data-testid={"destination-group-selector"}
                   popoverWidth={500}
-                  placeholder={"Select destination(s)..."}
+                  placeholder={t("accessControl.selectDestinations")}
                   showRoutes={true}
                   showResources={protocol !== "netbird-ssh"}
                   showPeers={!destinationScope}
@@ -470,8 +453,7 @@ export function AccessControlModalContent({
                   }
                   className="mb-4"
                 >
-                  Some destination groups contain resources. Resources only
-                  support incoming traffic and cannot initiate connections.
+                  {t("accessControl.resourceWarning")}
                 </Callout>
               )}
 
@@ -488,9 +470,7 @@ export function AccessControlModalContent({
                     }
                     className="mb-6"
                   >
-                    SSH access only works on peers, not on routed resources.
-                    Please ensure your destination groups contain peers for SSH
-                    connectivity.
+                    {t("accessControl.sshResourceWarning")}
                   </Callout>
                 )}
                 <div
@@ -500,9 +480,7 @@ export function AccessControlModalContent({
                     <Label className={"flex items-center gap-2"}>
                       <SquareTerminalIcon size={15} />{t("accessControl.sshAccess")}</Label>
                     <HelpText>
-                      Select {`'Full Access'`} to allow SSH as any local user,
-                      or {`'Limited Access'`} to specify which local users each
-                      group is allowed to use.
+                      {t("accessControl.sshAccessHelp")}
                     </HelpText>
                   </div>
                   <SSHAccessType
@@ -528,8 +506,7 @@ export function AccessControlModalContent({
                   <Label className={"flex items-center gap-2"}>
                     <Shield size={14} />{t("accessControl.ports")}</Label>
                   <HelpText>
-                    Allow network traffic and access only to specified ports.
-                    Select ports or port ranges between 1 and 65535.
+                    {t("accessControl.portsHelp")}
                   </HelpText>
                 </div>
                 <div className={""}>
@@ -555,7 +532,7 @@ export function AccessControlModalContent({
                 <>
                   <Power size={15} />{t("accessControl.enablePolicy")}</>
               }
-              helpText={"Use this switch to enable or disable the policy."}
+              helpText={t("accessControl.enablePolicyHelp")}
             />
           </div>
         </TabsContent>
@@ -575,7 +552,7 @@ export function AccessControlModalContent({
                 value={name}
                 data-testid={"policy-name"}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"e.g., Devs to Servers"}
+                placeholder={t("accessControl.namePlaceholder")}
                 disabled={
                   !permission.policies.update || !permission.policies.create
                 }
@@ -588,9 +565,7 @@ export function AccessControlModalContent({
                 value={description}
                 data-testid={"policy-description"}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder={
-                  "e.g., Devs are allowed to access servers and servers are allowed to access Devs."
-                }
+                placeholder={t("accessControl.descriptionPlaceholder")}
                 rows={3}
                 disabled={
                   !permission.policies.update || !permission.policies.create

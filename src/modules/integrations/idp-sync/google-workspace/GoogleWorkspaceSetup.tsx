@@ -233,7 +233,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             <Steps.Step step={1}>
               <p>
                 {t("googleWorkspace.step1Line1Prefix")}{" "}
-                <Mark copy>Cloink</Mark>{" "}
+                <Mark copy>{t("activity.netbirdUser")}</Mark>{" "}
                 {t("googleWorkspace.step1Line1Suffix")}{" "}
                 <InlineLink
                   className={"inline"}
@@ -257,7 +257,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
                   {t("googleWorkspace.step1Api")}
                 </InlineLink>{" "}
                 {t("googleWorkspace.step1Line2Middle")}{" "}
-                <Mark>Cloink</Mark>
+                <Mark>{t("activity.netbirdUser")}</Mark>
                 {t("googleWorkspace.step1Line2Suffix")}
               </p>
             </Steps.Step>
@@ -338,7 +338,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                {t("googleWorkspace.step3Line2Prefix")} <Mark>Cloink</Mark>{" "}
+                {t("googleWorkspace.step3Line2Prefix")} <Mark>{t("activity.netbirdUser")}</Mark>{" "}
                 {t("googleWorkspace.step3Line2Middle")}
               </p>
               <Lightbox image={googleEditServiceAccount} />

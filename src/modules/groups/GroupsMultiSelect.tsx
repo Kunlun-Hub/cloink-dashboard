@@ -10,6 +10,7 @@ import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Group } from "@/interfaces/Group";
 import { GroupUsage } from "@/modules/groups/useGroupsUsage";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   selectedGroups?: GroupUsage[];
@@ -20,6 +21,7 @@ export const GroupsMultiSelect = ({
   selectedGroups = [],
   onCanceled,
 }: Readonly<Props>) => {
+  const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();
   const { deleteGroupDropdownOption } = useGroups();
@@ -31,12 +33,16 @@ export const GroupsMultiSelect = ({
     if (!permission.groups.delete || groupCount === 0) return;
 
     const choice = await confirm({
-      title: `Delete ${groupCount} ${groupCount > 1 ? "groups" : "group"}?`,
-      description: `Are you sure you want to delete ${
-        groupCount > 1 ? "these groups" : "this group"
-      }? This action cannot be undone.`,
-      confirmText: "Delete All",
-      cancelText: "Cancel",
+      title:
+        groupCount > 1
+          ? t("groupsMultiSelect.deleteTitlePlural", { count: groupCount })
+          : t("groupsMultiSelect.deleteTitleSingle", { count: groupCount }),
+      description:
+        groupCount > 1
+          ? t("groupsMultiSelect.deleteDescriptionPlural")
+          : t("groupsMultiSelect.deleteDescriptionSingle"),
+      confirmText: t("groupsMultiSelect.deleteAll"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -64,46 +70,58 @@ export const GroupsMultiSelect = ({
       if (failures.length === 0) return;
 
       const firstError = failures[0].reason as ErrorResponse | undefined;
-      const failureMessage = firstError?.message ?? "Something went wrong...";
+      const failureMessage =
+        firstError?.message ?? t("notification.genericError");
       return Promise.reject({
         code: firstError?.code ?? 418,
         requestId: firstError?.requestId,
         message:
           failures.length === groupCount
             ? failureMessage
-            : `${failures.length} of ${groupCount} groups could not be deleted. ${failureMessage}`,
+            : `${t("groupsMultiSelect.partialFailure", {
+                failed: failures.length,
+                total: groupCount,
+              })} ${failureMessage}`,
       } satisfies ErrorResponse);
     });
 
     notify({
-      title: "Delete Groups",
+      title: t("groupsMultiSelect.deleteNotifyTitle"),
       description:
         groupCount > 1
-          ? "Groups were successfully deleted"
-          : "Group was successfully deleted",
+          ? t("groupsMultiSelect.deleteNotifyPlural")
+          : t("groupsMultiSelect.deleteNotifySingle"),
       promise,
       loadingMessage:
         groupCount > 1
-          ? "Deleting the selected groups..."
-          : "Deleting the selected group...",
+          ? t("groupsMultiSelect.deletingPlural")
+          : t("groupsMultiSelect.deletingSingle"),
     });
   };
 
   return (
     <DataTableMultiSelectPopup
       selectedItems={selectedGroups}
-      label={groupCount === 1 ? "Group selected" : "Groups selected"}
+      label={
+        groupCount === 1
+          ? t("groupsMultiSelect.selectedSingle")
+          : t("groupsMultiSelect.selectedPlural")
+      }
       onCanceled={onCanceled}
       icon={<FolderGit2 size={16} />}
       rightSide={
-        <FullTooltip content={<span className={"text-xs"}>Delete All</span>}>
+        <FullTooltip
+          content={
+            <span className={"text-xs"}>{t("groupsMultiSelect.deleteAll")}</span>
+          }
+        >
           <Button
             variant={"danger-outline"}
             size={"xs"}
             className={"!h-9 !w-9"}
             onClick={deleteAllGroups}
             disabled={!permission.groups.delete}
-            aria-label={"Delete selected groups"}
+            aria-label={t("groupsMultiSelect.deleteAllTooltip")}
           >
             <Trash2 size={16} className={"shrink-0"} />
           </Button>

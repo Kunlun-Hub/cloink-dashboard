@@ -224,7 +224,7 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
               <p className={"font-normal"}>
                 {t("crowdStrike.setup.step2Click")} <Mark>{t("edr.createApiClient")}</Mark>{" "}
                 {t("crowdStrike.setup.step2AndEnter")}
-                <Mark copy>Cloink</Mark>
+                <Mark copy>{t("activity.netbirdUser")}</Mark>
                 {t("crowdStrike.setup.step2AsClientName")}{" "}
                 <Mark>{t("edr.hostsRead")}</Mark> {t("crowdStrike.setup.step2And")}{" "}
                 <Mark>{t("edr.zeroTrustAssessmentRead")}</Mark>{" "}

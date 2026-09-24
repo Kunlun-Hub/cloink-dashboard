@@ -183,7 +183,7 @@ export const NotificationsTabTrigger = () => {
       <MessageSquareDot size={14} />
       {t("notifications.title")}
       <SmallBadge
-        text={"Beta"}
+        text={t("common.beta")}
         variant={"sky"}
         className={"text-[8px] leading-none py-[3px] px-[5px]"}
         textClassName={"top-0"}

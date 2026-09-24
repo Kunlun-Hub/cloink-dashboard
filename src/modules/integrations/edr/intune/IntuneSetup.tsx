@@ -238,7 +238,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("edr.intune.step2Click")} <Mark>{t("integrations.appRegistrations")}</Mark>{" "}
-                {t("edr.intune.step2InLeftMenu")} <Mark>+ New registration</Mark>{" "}
+                {t("edr.intune.step2InLeftMenu")} <Mark>{t("notifications.newRegistration")}</Mark>{" "}
                 {t("edr.intune.step2Suffix")}
               </p>
             </Steps.Step>
@@ -297,7 +297,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               <p className={"font-normal"}>
                 {t("edr.intune.apiPermStep4Prefix")}{" "}
                 <Mark>{t("integrations.grantAdminConsent")}</Mark>{" "}
-                {t("edr.intune.apiPermStep4Middle")} <Mark>Yes</Mark>
+                {t("edr.intune.apiPermStep4Middle")} <Mark>{t("common.yes")}</Mark>
               </p>
               <Lightbox image={azureGrantAdmin} />
             </Steps.Step>
@@ -314,24 +314,24 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                {t("edr.intune.genSecretNavigate")} <Mark>Certificates & secrets</Mark>{" "}
+                {t("edr.intune.genSecretNavigate")} <Mark>{t("notifications.certificatesAndSecrets")}</Mark>{" "}
                 {t("edr.intune.genSecretNavSuffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                {t("edr.intune.genSecretClick")} <Mark>+ New client secret</Mark>
+                {t("edr.intune.genSecretClick")} <Mark>{t("notifications.newClientSecret")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                {t("edr.intune.genSecretAddPrefix")} <Mark copy>Cloink</Mark>{" "}
-                {t("edr.intune.genSecretAddSuffix")} <Mark>Add</Mark>
+                {t("edr.intune.genSecretAddPrefix")} <Mark copy>{t("activity.netbirdUser")}</Mark>{" "}
+                {t("edr.intune.genSecretAddSuffix")} <Mark>{t("edr.intune.genSecretAddPrefix")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                {t("edr.intune.genSecretCopyPrefix")} <Mark>Value</Mark>{" "}
+                {t("edr.intune.genSecretCopyPrefix")} <Mark>{t("common.value")}</Mark>{" "}
                 {t("edr.intune.genSecretCopySuffix")}
               </p>
             </Steps.Step>
@@ -376,9 +376,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                {t("edr.intune.enterIdsSelectPrefix")} <Mark>Cloink</Mark>{" "}
-                {t("edr.intune.enterIdsSelectSuffix")} <Mark>Application (client) ID</Mark>{" "}
-                {t("edr.intune.enterIdsAnd")} <Mark>Directory (tenant) ID</Mark>
+                {t("edr.intune.enterIdsSelectPrefix")} <Mark>{t("activity.netbirdUser")}</Mark>{" "}
+                {t("edr.intune.enterIdsSelectSuffix")} <Mark>{t("edr.intune.applicationIdLabel")}</Mark>{" "}
+                {t("edr.intune.enterIdsAnd")} <Mark>{t("edr.intune.directoryIdLabel")}</Mark>
               </p>
             </Steps.Step>
           </Steps>

@@ -368,7 +368,7 @@ export function ResourceModalContent({
                         <Callout variant={"info"} className={"mt-3"}>
                           {t("networks.resourceGroupsUsedIn")}{" "}
                           <span className="text-white font-medium">
-                            {groupPolicyCount} Access Control{" "}
+                            {groupPolicyCount} {t("nav.accessControl")}{" "}
                             {groupPolicyCount === 1 ? "Policy" : "Policies"}
                           </span>
                           {t("networks.resourceInheritsAccess", {

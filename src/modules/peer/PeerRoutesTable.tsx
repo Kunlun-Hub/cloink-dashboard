@@ -93,7 +93,7 @@ export default function PeerRoutesTable({
         wrapperProps={{
           className: cn("w-full"),
         }}
-        text={"Network Routes"}
+        text={t("routeModal.networkRoutesLink")}
         tableClassName={"mt-0"}
         getStartedCard={
           <NoResults

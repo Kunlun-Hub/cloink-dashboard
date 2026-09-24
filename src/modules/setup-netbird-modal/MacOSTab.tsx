@@ -182,9 +182,9 @@ export default function MacOSTab({
                       `brew install --cask netbirdio/tap/netbird-ui`,
                     ].join("\n")}
                   >
-                    <Code.Comment># for CLI only</Code.Comment>
+                    <Code.Comment>{t("setupModal.cliOnlyComment")}</Code.Comment>
                     <Code.Line>brew install netbirdio/tap/netbird</Code.Line>
-                    <Code.Comment># for GUI package</Code.Comment>
+                    <Code.Comment>{t("setupModal.guiPackageComment")}</Code.Comment>
                     <Code.Line>
                       brew install --cask netbirdio/tap/netbird-ui
                     </Code.Line>

@@ -430,7 +430,7 @@ function HeaderItemRow({
             {item.type === "bearer" && (
               <Input
                 customPrefix={"Bearer"}
-                placeholder="e.g. eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+                placeholder={t("reverseProxy.bearerPlaceholder")}
                 maxWidthClass="w-full"
                 value={item.value}
                 onChange={(e) => onChange({ value: e.target.value })}

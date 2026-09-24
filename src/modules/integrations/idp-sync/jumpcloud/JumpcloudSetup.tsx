@@ -220,11 +220,11 @@ export function SetupContent({ onSuccess, onClose }: ModalProps) {
                 {t("idpSync.requiredPermissions")}
               </div>
               <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-                Ensure that you have an{" "}
+                {t("googleWorkspace.accountPrefix")}{" "}
                 <span className={"text-nb-gray-100 font-semibold"}>
                   {t("jumpcloud.accountType")}
                 </span>{" "}
-                with the following{" "}
+                {t("googleWorkspace.accountMiddle")}{" "}
                 <span className={"text-nb-gray-100 font-semibold"}>
                   {t("jumpcloud.accountRolesWord")}
                 </span>
@@ -344,7 +344,7 @@ export function SetupContent({ onSuccess, onClose }: ModalProps) {
             <Steps.Step step={2}>
               <p className={"font-normal"}>
                 {t("jumpcloud.step3Line2Prefix")} <Mark>{t("jumpcloud.step3SsoApps")}</Mark>{" "}
-                {t("jumpcloud.step3Line2Middle")} <Mark>Cloink</Mark>{" "}
+                {t("jumpcloud.step3Line2Middle")} <Mark>{t("activity.netbirdUser")}</Mark>{" "}
                 {t("jumpcloud.step3Line2AppSuffix")}{" "}
                 <Mark>{t("jumpcloud.step3IdentityMgmt")}</Mark>{" "}
                 {t("jumpcloud.step3Line2TabSuffix")}

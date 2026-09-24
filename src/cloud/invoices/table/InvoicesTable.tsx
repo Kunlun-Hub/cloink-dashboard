@@ -82,7 +82,7 @@ export default function InvoicesTable({
       tableClassName={"mt-0"}
       tableCellClassName={""}
       rowClassName={"last:mb-5"}
-      text={"Invoices"}
+      text={t("invoices.title")}
       columns={InvoicesColumns}
       keepStateInLocalStorage={false}
       data={invoices}
@@ -91,10 +91,8 @@ export default function InvoicesTable({
       getStartedCard={
         <NoResults
           className={"py-4"}
-          title={"You don't have any invoices"}
-          description={
-            "Invoices are created at the end of each billing period. You will see them here once they are available."
-          }
+          title={t("invoices.emptyTitle")}
+          description={t("invoices.emptyDescription")}
           icon={<ReceiptTextIcon size={20} />}
         />
       }

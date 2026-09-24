@@ -221,7 +221,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               <Label>
                 <div className={"flex gap-2 items-center"}>
                   <FolderGit2 size={14} />
-                  Groups
+                  {t("nav.groups")}
                 </div>
               </Label>
               <HelpText className={"max-w-lg mt-2"}>

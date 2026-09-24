@@ -71,8 +71,8 @@ export default function UserGroupCell({ user }: Readonly<Props>) {
 
   return (
     <GroupsRow
-      label={"Auto-assigned Groups"}
-      description={"Groups will be assigned to peers added by this user."}
+      label={t("setupKeys.autoAssignedGroups")}
+      description={t("invite.autoGroupsHelp")}
       groups={userGroupIds}
       onSave={handleSave}
       hideAllGroup={true}

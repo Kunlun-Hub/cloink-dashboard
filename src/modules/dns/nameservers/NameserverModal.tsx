@@ -459,9 +459,7 @@ export function NameserverModalContent({
                 {t("nameservers.descriptionHelp")}
               </HelpText>
               <Textarea
-                placeholder={
-                  "e.g., Berlin office resolver for remote developers"
-                }
+                placeholder={t("nameservers.descriptionPlaceholder")}
                 value={description}
                 rows={3}
                 disabled={!canAction}

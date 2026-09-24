@@ -219,7 +219,7 @@ export const GroupsTableColumns = (
         icon={<NetworkRoutesIcon size={10} />}
         groupName={row.original.name}
         href={`/group?id=${row.original.id}&tab=network-routes`}
-        text={"Network Route(s)"}
+        text={t("groups.count.networkRoutes")}
         count={row.original.routes_count}
       />
     ),

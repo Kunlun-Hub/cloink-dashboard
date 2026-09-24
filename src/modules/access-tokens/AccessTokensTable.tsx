@@ -90,7 +90,7 @@ export default function AccessTokensTable({ user }: Readonly<Props>) {
       <Card className={"mt-5 w-full"}>
         {tokens && tokens.length > 0 ? (
           <DataTable
-            text={"Access Tokens"}
+            text={t("accessTokens.title")}
             tableClassName={"mt-0"}
             minimal={true}
             showSearchAndFilters={false}

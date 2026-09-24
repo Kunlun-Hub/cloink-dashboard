@@ -249,16 +249,16 @@ export function SetupContent({
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t("googleWorkspace.accountPrefix")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Azure AD user account
+              {t("azureAd.accountType")}
             </span>{" "}
-            with the following{" "}
+            {t("googleWorkspace.accountMiddle")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("googleWorkspace.accountPermissionWord")}
             </span>
             .{" "}
             {
@@ -276,7 +276,7 @@ export function SetupContent({
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create Azure AD applications
+              {t("edr.intune.permCreate")}
             </div>
             <div
               className={
@@ -284,17 +284,18 @@ export function SetupContent({
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage Azure AD applications
+              {t("edr.intune.permManage")}
             </div>
           </div>
 
           {!entraConnection && !isSSOLoading && isAuth0() && (
             <Callout className={"max-w-xl mt-5 text-left"} variant={"warning"}>
               <span>
-                It seems your account is currently not logged in via Entra ID.
-                Please logout and simply sign in with the{" "}
-                <span className={"font-medium"}>{t("integrations.continueWithEntraId")}</span>{" "}
-                button on the login page.
+                {t("entraSCIM.notLoggedInPrefix")}{" "}
+                <span className={"font-medium"}>
+                  {t("integrations.continueWithEntraId")}
+                </span>{" "}
+                {t("entraSCIM.notLoggedInSuffix")}
               </span>
             </Callout>
           )}
@@ -452,7 +453,7 @@ export function SetupContent({
               </p>
               <div>
                 <Mark>userName</Mark>
-                <Mark>active</Mark>
+                <Mark>{t("networkRoutingPeers.cell.active")}</Mark>
                 <Mark>displayName</Mark>
                 <Mark>emails[type eq &quot;work&quot;].value</Mark>
                 <Mark>name.givenName</Mark>

@@ -102,10 +102,8 @@ export const AuthenticationSettings = ({
       <div className={"flex flex-col gap-6 mt-6"}>
         <div>
           <div>
-            <Label>HTTP Header Name & Value</Label>
-            <HelpText>
-              Specify the header name and value for your custom authentication
-            </HelpText>
+            <Label>{t("webhooks.customAuthLabel")}</Label>
+            <HelpText>{t("webhooks.customAuthHelp")}</HelpText>
           </div>
           <div className={"flex flex-col gap-2"}>
             <Input

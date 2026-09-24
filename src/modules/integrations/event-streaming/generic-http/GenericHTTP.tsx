@@ -99,7 +99,7 @@ export default function GenericHTTP() {
           onClick={() => setOpen(true)}
         >
           <Settings size={14} />
-          Configuration
+          {t("nav.configuration")}
         </Button>
       </IntegrationCard>
       <GenericHTTPModal

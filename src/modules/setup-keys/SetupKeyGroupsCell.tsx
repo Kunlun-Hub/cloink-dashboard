@@ -46,10 +46,8 @@ export default function SetupKeyGroupsCell({ setupKey }: Readonly<Props>) {
   return (
     permission.groups.read && (
       <GroupsRow
-        label={"Auto-assigned Groups"}
-        description={
-          "These groups will be automatically assigned to peers enrolled with this key"
-        }
+        label={t("setupKeys.autoAssignedGroups")}
+        description={t("setupKeys.autoAssignedGroupsDescription")}
         groups={setupKey.auto_groups || []}
         onSave={handleSave}
         hideAllGroup={true}

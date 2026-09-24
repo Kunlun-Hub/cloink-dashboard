@@ -155,13 +155,13 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                 {t("idpSync.requiredPermissions")}
               </div>
               <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-                Ensure that you have an{" "}
+                {t("googleWorkspace.accountPrefix")}{" "}
                 <span className={"text-nb-gray-100 font-semibold"}>
                   {t("okta.accountType")}
                 </span>{" "}
-                with the following{" "}
+                {t("googleWorkspace.accountMiddle")}{" "}
                 <span className={"text-nb-gray-100 font-semibold"}>
-                  permissions
+                  {t("googleWorkspace.accountPermissionWord")}
                 </span>
                 .{" "}
                 {t("okta.accountSuffix")}
@@ -214,7 +214,7 @@ export default function OktaSSOSetup({ open, onOpenChange }: Props) {
                   <p className={"font-normal"}>
                     {t("okta.step2Click")} <Mark>+ Add Integration</Mark>{" "}
                     {t("okta.step2AndThen")}{" "}
-                    <Mark>Done</Mark>
+                    <Mark>{t("common.done")}</Mark>
                   </p>
                 </Steps.Step>
                 <Steps.Step step={3} line={false}>

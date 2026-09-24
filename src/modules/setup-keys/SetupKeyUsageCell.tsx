@@ -19,7 +19,7 @@ export default function SetupKeyUsageCell({ current, limit, reusable }: Props) {
     </div>
   ) : (
     <div className={"flex items-center text-[13px] text-nb-gray-300 gap-2"}>
-      <Repeat1 size={14} /> One-off
+      <Repeat1 size={14} /> {t("setupKeys.oneOff")}
     </div>
   );
 }

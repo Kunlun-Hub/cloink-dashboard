@@ -92,10 +92,8 @@ export const PeerExpirationSettings = () => {
                 inactivityExpiration: state,
               });
             }}
-            title={"Require login after disconnect"}
-            description={
-              "Enable to require authentication after users disconnect from management for 10 minutes."
-            }
+            title={t("peer.requireLoginAfterDisconnect")}
+            description={t("authenticationTab.requireLoginAfterDisconnectHelp")}
             className={
               !peerLoginExpiration ? "opacity-40 pointer-events-none" : ""
             }

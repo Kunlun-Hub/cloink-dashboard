@@ -11,6 +11,7 @@ import { trim } from "lodash";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   initialName: string;
@@ -25,6 +26,7 @@ export const EditGroupNameModal = ({
   onSuccess,
 }: Props) => {
   const [name, setName] = useState(initialName);
+  const { t } = useI18n();
   const { groups } = useGroups();
   const [error, setError] = useState("");
 
@@ -50,8 +52,8 @@ export const EditGroupNameModal = ({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-md"}>
         <ModalHeader
-          title={"Rename Group"}
-          description={"Set an easily identifiable name for your group."}
+          title={t("group.renameGroup")}
+          description={t("groups.renameDescription")}
           color={"blue"}
         />
 
@@ -59,7 +61,7 @@ export const EditGroupNameModal = ({
           <div>
             <Input
               data-testid="group-name-input"
-              placeholder={"e.g., Developers"}
+              placeholder={t("groups.renamePlaceholder")}
               value={name}
               onChange={handleNameChange}
               error={error}
@@ -71,7 +73,7 @@ export const EditGroupNameModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} className={"w-full"}>
-                Cancel
+                {t("common.cancel")}
               </Button>
             </ModalClose>
 
@@ -83,7 +85,7 @@ export const EditGroupNameModal = ({
               disabled={isDisabled}
               type={"submit"}
             >
-              Save
+              {t("common.save")}
             </Button>
           </div>
         </ModalFooter>

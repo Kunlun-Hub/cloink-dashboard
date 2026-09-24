@@ -163,7 +163,7 @@ export default function Navigation({
                     <div className={"flex items-center gap-2"}>
                       {t("nav.reverseProxy")}
                       <SmallBadge
-                        text={"Beta"}
+                        text={t("common.beta")}
                         variant={"sky"}
                         className={"text-[8px] leading-none py-[3px] px-[5px]"}
                         textClassName={"top-0"}
@@ -213,7 +213,7 @@ export default function Navigation({
                       {t("nav.agentNetwork")}
                       {!agentNetworkOnly && (
                         <SmallBadge
-                          text={"Beta"}
+                          text={t("common.beta")}
                           variant={"sky"}
                           className={
                             "text-[8px] leading-none py-[3px] px-[5px]"

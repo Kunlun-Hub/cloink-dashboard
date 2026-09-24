@@ -175,11 +175,11 @@ export function SetupContent({ onSuccess }: ModalProps) {
             {t("idpSync.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t("googleWorkspace.accountPrefix")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
               {t("azureAd.accountType")}
             </span>{" "}
-            with the following{" "}
+            {t("googleWorkspace.accountMiddle")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
               {t("oktaSetup.permissionsWord")}
             </span>
@@ -236,7 +236,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
               <p className={"font-normal"}>
                 {t("azureAd.step2Click")} <Mark>{t("integrations.appRegistrations")}</Mark>{" "}
                 {t("azureAd.step2InLeftMenu")}{" "}
-                <Mark>+ New registration</Mark>{" "}
+                <Mark>{t("notifications.newRegistration")}</Mark>{" "}
                 {t("azureAd.step2Suffix")}
               </p>
             </Steps.Step>
@@ -311,7 +311,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
                 {t("azureAd.apiPermStep4Prefix")}{" "}
                 <Mark>{t("integrations.grantAdminConsent")}</Mark>{" "}
                 {t("azureAd.apiPermStep4Middle")}{" "}
-                <Mark>Yes</Mark>
+                <Mark>{t("common.yes")}</Mark>
               </p>
               <Lightbox image={azureGrantAdmin} />
             </Steps.Step>
@@ -328,24 +328,23 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Navigate to <Mark>Certificates & secrets</Mark> on left side
-                menu
+                {t("azureAd.step1Navigate")} <Mark>{t("notifications.certificatesAndSecrets")}</Mark> {t("edr.intune.genSecretNavSuffix")}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click on <Mark>+ New client secret</Mark>
+                {t("edr.intune.genSecretClick")} <Mark>{t("notifications.newClientSecret")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Add <Mark copy>Cloink</Mark> as the description and click{" "}
-                <Mark>Add</Mark>
+                {t("actions.add")} <Mark copy>{t("activity.netbirdUser")}</Mark> {t("edr.intune.genSecretAddSuffix")}{" "}
+                <Mark>{t("actions.add")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Copy the <Mark>Value</Mark> and paste it here
+                {t("edr.intune.genSecretCopyPrefix")} <Mark>{t("common.value")}</Mark> {t("edr.intune.genSecretCopySuffix")}
               </p>
             </Steps.Step>
           </Steps>
@@ -375,7 +374,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Navigate to{" "}
+                {t("azureAd.step1Navigate")}{" "}
                 <InlineLink
                   target={"_blank"}
                   className={"inline"}
@@ -383,15 +382,14 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://portal.azure.com/#view/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/~/RegisteredApps"
                   }
                 >
-                  All applications
+                  {t("edr.intune.enterIdsLink")}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Select <Mark>Cloink</Mark> application in overview page and
-                enter your <Mark>Application (client) ID</Mark> and{" "}
-                <Mark>Directory (tenant) ID</Mark>
+                {t("reverseProxy.targetSelectPeerOrResource")} <Mark>{t("activity.netbirdUser")}</Mark> {t("edr.intune.enterIdsSelectSuffix")} <Mark>{t("azureAd.appClientId")}</Mark> {t("azureAd.apiPermStep3And")}{" "}
+                <Mark>{t("azureAd.directoryTenantId")}</Mark>
               </p>
             </Steps.Step>
           </Steps>

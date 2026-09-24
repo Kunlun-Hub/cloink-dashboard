@@ -2792,6 +2792,10 @@ const en = {
   "peerSsh.desktopClient": "Desktop Client",
   "peerSsh.cliStepIntro":
     "If you are using Cloink via CLI, you can enable SSH by running",
+  "peerSsh.cliStepCommandsElevated": "these commands in an elevated prompt",
+  "peerSsh.cliStepCommandsRoot": "these commands as root",
+  "peerSsh.cliStepIntroSuffix":
+    ". Run the first one only if Cloink is already running. On a machine where you do not have those rights, an administrator has to run them.",
   "peerSsh.cliDownComment": "if Cloink is already running",
   "peerSsh.desktopStepPrefix":
     "If you are using Cloink via the Desktop Client, click the Cloink tray icon, go to",
@@ -7922,6 +7926,52 @@ const en = {
   "integrations.edit": "Edit",
   "integrations.email": "Email",
   "integrations.save": "Save",
+  "pendingApproval.accountCreated": "Account Created",
+  "pendingApproval.waitingForApproval": "Waiting for Approval",
+  "pendingApproval.joinAccount": "Join Account",
+  "pendingApproval.description":
+    "Your organization requires new users to be manually approved before joining.",
+  "pendingApproval.askOwnerWithEmail": "Ask the owner of the account at",
+  "pendingApproval.askOwnerSuffix": "to approve your access.",
+  "pendingApproval.askOwner": "Ask the owner of the account to approve your access.",
+  "pendingApproval.refresh": "Refresh",
+  "pendingApproval.logOut": "Log Out",
+  "pendingApproval.needHelp": "Need help?",
+  "pendingApproval.readTheDocs": "Read the Docs",
+  "pendingApproval.contactSupport": "Contact Support",
+  "groupsMultiSelect.selectedSingle": "Group selected",
+  "groupsMultiSelect.selectedPlural": "Groups selected",
+  "groupsMultiSelect.deleteAll": "Delete All",
+  "groupsMultiSelect.deleteAllTooltip": "Delete selected groups",
+  "groupsMultiSelect.deleteTitleSingle": "Delete {count} group?",
+  "groupsMultiSelect.deleteTitlePlural": "Delete {count} groups?",
+  "groupsMultiSelect.deleteDescriptionSingle":
+    "Are you sure you want to delete this group? This action cannot be undone.",
+  "groupsMultiSelect.deleteDescriptionPlural":
+    "Are you sure you want to delete these groups? This action cannot be undone.",
+  "groupsMultiSelect.deleteNotifyTitle": "Delete Groups",
+  "groupsMultiSelect.deleteNotifySingle": "Group was successfully deleted",
+  "groupsMultiSelect.deleteNotifyPlural": "Groups were successfully deleted",
+  "groupsMultiSelect.deletingSingle": "Deleting the selected group...",
+  "groupsMultiSelect.deletingPlural": "Deleting the selected groups...",
+  "groupsMultiSelect.partialFailure":
+    "{failed} of {total} groups could not be deleted.",
+  "invoices.emptyTitle": "You don't have any invoices",
+  "invoices.emptyDescription":
+    "Invoices are created at the end of each billing period. You will see them here once they are available.",
+  "webhooks.customAuthLabel": "HTTP Header Name & Value",
+  "webhooks.customAuthHelp":
+    "Specify the header name and value for your custom authentication",
+  "authenticationTab.peerApproval": "Peer approval",
+  "authenticationTab.peerApprovalDisabledByIntegration":
+    "Peer approval is disabled because the {integration} integration is enabled. If you want to enable peer approval, please disable first the {integration} integration.",
+  "invoices.typeAccount": "Account",
+  "invoices.typeCustomers": "Customers",
+  "invoices.typeTenants": "Tenants",
+  "entraSCIM.notLoggedInPrefix":
+    "It seems your account is currently not logged in via Entra ID. Please logout and simply sign in with the",
+  "entraSCIM.notLoggedInSuffix": "button on the login page.",
+  "emailSettings.fromNamePlaceholder": "Cloink",
 } as const;
 
 export default en;

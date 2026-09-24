@@ -154,7 +154,7 @@ function SlackModalContent({ onSave }: Readonly<ModalContentProps>) {
               <p className={"font-normal"}>
                 {t("notificationSlack.configureWebhookStep2Prefix")} <Mark>{t("notifications.addNewWebhook")}</Mark>{" "}
                 {t("notificationSlack.configureWebhookStep2Middle")}{" "}
-                <Mark>Allow</Mark>
+                <Mark>{t("postureChecks.allow")}</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>

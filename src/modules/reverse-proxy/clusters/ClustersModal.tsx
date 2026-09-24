@@ -392,7 +392,7 @@ spec:
                       </span>
                     </li>
                     <li>
-                      <span className={"text-sky-900 dark:text-white font-medium"}>Docker</span>{" "}
+                      <span className={"text-sky-900 dark:text-white font-medium"}>{t("reverseProxy.docker")}</span>{" "}
                       {t("reverseProxy.dockerInstalled")}
                     </li>
                     <li>

@@ -485,7 +485,7 @@ export default function EmailSettingsTab() {
                   value={fromName}
                   onChange={(e) => setFromName(e.target.value)}
                   disabled={!permission.settings.update}
-                  placeholder={"Cloink"}
+                  placeholder={t("emailSettings.fromNamePlaceholder")}
                 />
               </Field>
               <Field label={t("emailSettings.fromEmail")}>

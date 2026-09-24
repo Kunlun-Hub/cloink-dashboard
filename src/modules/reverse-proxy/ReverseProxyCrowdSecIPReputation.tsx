@@ -65,7 +65,7 @@ export const ReverseProxyCrowdSecIPReputation = ({
         >
           <Image
             src={CrowdSecIconImage}
-            alt={"CrowdSec"}
+            alt={t("reverseProxy.crowdSec")}
             className={"rounded-[4px]"}
           />
         </div>

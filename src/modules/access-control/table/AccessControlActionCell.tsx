@@ -69,7 +69,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           <Button
             variant={"secondary"}
             className={"!px-3"}
-            aria-label={"Policy actions"}
+            aria-label={t("actions.policyActions")}
             data-testid={"policy-actions"}
           >
             <MoreVertical size={16} className={"shrink-0"} />

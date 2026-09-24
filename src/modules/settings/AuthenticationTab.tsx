@@ -270,16 +270,16 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
           <FullTooltip
             content={
               <div className={"text-xs max-w-sm"}>
-                Peer approval is disabled because the {activeIntegrationName}{" "}
-                integration is enabled. If you want to enable peer approval,
-                please disable first the {activeIntegrationName} integration.
+                {t("authenticationTab.peerApprovalDisabledByIntegration", {
+                  integration: activeIntegrationName,
+                })}
               </div>
             }
             disabled={!isAnyIntegrationEnabled}
           >
             <div className={"w-full"} data-auth-setting={"peer-approval"}>
               <LockedFeatureBadge
-                featureText={"Peer approval"}
+                featureText={t("authenticationTab.peerApproval")}
                 feature={"DEVICE_APPROVALS"}
                 disabled={peerApproval}
               >

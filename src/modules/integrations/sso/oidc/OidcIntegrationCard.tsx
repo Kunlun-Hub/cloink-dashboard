@@ -90,6 +90,7 @@ type ConfigurationProps = {
 };
 
 const ConfigurationContent = ({ connection }: ConfigurationProps) => {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   const hasSomePendingDomains = useMemo(() => {
@@ -146,7 +147,7 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
           }
         >
           <span className={cn("h-2 w-2 rounded-full bg-nb-gray-600")}></span>
-          Inactive
+          {t("common.inactive")}
         </div>
       )}
       <Button
@@ -156,7 +157,7 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
         onClick={() => setOpen(true)}
       >
         <Settings size={14} />
-        Settings
+        {t("common.settings")}
       </Button>
       {open && (
         <OktaSsoSettings

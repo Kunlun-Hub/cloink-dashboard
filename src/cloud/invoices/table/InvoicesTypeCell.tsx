@@ -2,12 +2,14 @@ import { UserIcon, UsersIcon } from "lucide-react";
 import React from "react";
 import { useDistributor } from "@/cloud/distributor/contexts/DistributorProvider";
 import { Invoice } from "@/cloud/msp/interfaces/Invoice";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   invoice: Invoice;
 };
 
 export default function InvoicesTypeCell({ invoice }: Readonly<Props>) {
+  const { t } = useI18n();
   const { isActive: isDistributor } = useDistributor();
   const { type } = invoice;
   return (
@@ -15,12 +17,12 @@ export default function InvoicesTypeCell({ invoice }: Readonly<Props>) {
       {type == "account" ? (
         <>
           <UserIcon size={14} />
-          Account
+          {t("invoices.typeAccount")}
         </>
       ) : (
         <>
           <UsersIcon size={14} />
-          {isDistributor ? "Customers" : "Tenants"}
+          {isDistributor ? t("invoices.typeCustomers") : t("invoices.typeTenants")}
         </>
       )}
     </div>
