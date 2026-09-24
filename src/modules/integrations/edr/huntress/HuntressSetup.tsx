@@ -226,7 +226,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
                 "py-2 px-6 flex items-center gap-2 rounded-md w-full justify-center bg-nb-gray-930/0 text-nb-gray-200"
               }
             >
-              <PlusCircle size={14} className={"text-sky-500"} />
+              <PlusCircle size={14} className={"text-sky-700 dark:text-sky-500"} />
               {t("edr.huntress.setup.createApiKeys")}
             </div>
             <div
@@ -234,7 +234,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
                 "py-2 px-6 flex items-center gap-2 rounded-md w-full justify-center bg-nb-gray-930/0 text-nb-gray-200"
               }
             >
-              <Settings2 size={14} className={"text-sky-500"} />
+              <Settings2 size={14} className={"text-sky-700 dark:text-sky-500"} />
               {t("edr.huntress.setup.manageApiKeys")}
             </div>
           </div>

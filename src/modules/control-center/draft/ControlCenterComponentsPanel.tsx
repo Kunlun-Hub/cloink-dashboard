@@ -1391,7 +1391,7 @@ PanelContent.displayName = "PanelContent";
 const DeletedBadge = () => (
   <span
     className={
-      "text-[0.55rem] leading-none px-1 py-[0.3rem] rounded-[3px] bg-red-900/40 border border-red-500/20 text-red-400"
+      "text-[0.55rem] leading-none px-1 py-[0.3rem] rounded-[3px] bg-red-900/40 border border-red-500/20 text-red-700 dark:text-red-400"
     }
   >
     DELETED

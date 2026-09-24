@@ -6,6 +6,7 @@ import * as React from "react";
 import { useMemo } from "react";
 import { Group } from "@/interfaces/Group";
 import { useI18n } from "@/i18n/I18nProvider";
+import { localizeGroupName } from "@/utils/serverLabels";
 import {
   useDestinationGroup,
   useIsContextMenuTarget,
@@ -44,9 +45,7 @@ export const GroupNode = ({ data, id }: GroupNodeProps) => {
   );
   const isEnabled = enabled ?? sourceGroupEnabled;
   // Selector form: re-renders only when the boolean flips, not per pointer move.
-  const isTarget = useConnection(
-    (c) => c.inProgress && c.fromNode.id !== id,
-  );
+  const isTarget = useConnection((c) => c.inProgress && c.fromNode.id !== id);
   const isNew = !group?.id;
   const isContextMenuActive = useIsContextMenuTarget(id);
   const { t } = useI18n();
@@ -56,10 +55,7 @@ export const GroupNode = ({ data, id }: GroupNodeProps) => {
     (selectedDestinationGroup === group?.id || selectedDestinationGroup === id);
   const showHalo = isPanelActive || isContextMenuActive;
 
-  const countLabel = useMemo(
-    () => getGroupCountLabel(group, t),
-    [group, t],
-  );
+  const countLabel = useMemo(() => getGroupCountLabel(group, t), [group, t]);
 
   return (
     <div
@@ -96,7 +92,7 @@ export const GroupNode = ({ data, id }: GroupNodeProps) => {
                 "flex items-center gap-2 text-nb-gray-200 font-normal whitespace-nowrap"
               }
             >
-              {group.name}
+              {localizeGroupName(group.name, t)}
               {isNew && <SmallBadge />}
             </div>
             <div className={"text-nb-gray-400 whitespace-nowrap text-sm"}>

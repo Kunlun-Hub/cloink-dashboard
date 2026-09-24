@@ -49,7 +49,7 @@ export const ReverseProxyEventsReasonCell = ({ event }: Props) => {
       >
         <div className="px-3 py-2">
           <Badge variant="gray" className="gap-1.5">
-            <ShieldAlert size={12} className="text-yellow-500" />
+            <ShieldAlert size={12} className="text-yellow-700 dark:text-yellow-500" />
             {t("reverseProxy.crowdsecObserveLabel")}: {verdictLabel}
           </Badge>
         </div>

@@ -20,7 +20,7 @@ export const ReverseProxyEventsBytesCell = ({ event }: Props) => {
   return (
     <div className={"flex flex-col text-xs gap-1 text-nb-gray-300 font-medium"}>
       <div className={"flex gap-2 items-center whitespace-nowrap"}>
-        <ArrowDownIcon size={15} className={cn("text-sky-400")} />
+        <ArrowDownIcon size={15} className={cn("text-sky-700 dark:text-sky-400")} />
         <span className="sr-only">{t("reverseProxy.download")}</span>
         {formatBytes(event.bytes_download ?? 0)}
       </div>

@@ -93,7 +93,7 @@ export default function ReverseProxyStatusCell({
           >
             <div className={"flex"}>
               {compact ? (
-                <span className={"text-red-400 cursor-help truncate"}>
+                <span className={"text-red-700 dark:text-red-400 cursor-help truncate"}>
                   {t("reverseProxy.statusError")}
                 </span>
               ) : (
@@ -129,7 +129,7 @@ export default function ReverseProxyStatusCell({
           >
             <div className={"flex"}>
               {compact ? (
-                <span className={"text-red-400 cursor-help truncate"}>
+                <span className={"text-red-700 dark:text-red-400 cursor-help truncate"}>
                   {t("reverseProxy.statusTunnelNotCreated")}
                 </span>
               ) : (
@@ -156,7 +156,7 @@ export default function ReverseProxyStatusCell({
       <div className={"flex"} data-status-cell>
         {compact ? (
           <span
-            className={"inline-flex items-center gap-1.5 text-yellow-400 truncate"}
+            className={"inline-flex items-center gap-1.5 text-yellow-700 dark:text-yellow-400 truncate"}
           >
             <Loader2 size={11} className={"animate-spin shrink-0"} />
             {t("reverseProxy.statusIssuingCertificate")}
@@ -180,7 +180,7 @@ const SettingUpService = ({ compact }: { compact?: boolean }) => {
     <div className={"flex"} data-status-cell>
       {compact ? (
         <span
-          className={"inline-flex items-center gap-1.5 text-yellow-400 truncate"}
+          className={"inline-flex items-center gap-1.5 text-yellow-700 dark:text-yellow-400 truncate"}
         >
           <Loader2 size={11} className={"animate-spin shrink-0"} />
           {t("reverseProxy.statusSettingUpService")}

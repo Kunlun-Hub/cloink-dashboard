@@ -175,7 +175,7 @@ export const AccountMFASettings = () => {
         />
         <label
           className={cn(
-            "text-neutral-500 dark:text-nb-gray-300 font-normal flex items-start gap-4 cursor-pointer mt-4 justify-start text-left",
+            "text-neutral-600 dark:text-nb-gray-300 font-normal flex items-start gap-4 cursor-pointer mt-4 justify-start text-left",
             accountMfa?.mfa ? "opacity-100" : "opacity-50 pointer-events-none",
           )}
         >

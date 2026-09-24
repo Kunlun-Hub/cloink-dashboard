@@ -29,7 +29,7 @@ export const GeoLocationTooltip = ({ children, check }: Props) => {
           <div className={"px-4 pt-3"}>
             {check.action == "allow" ? (
               <span>
-                <span className={"text-green-500 font-semibold"}>
+                <span className={"text-green-700 dark:text-green-500 font-semibold"}>
                   {t("postureChecks.allowOnly")}
                 </span>{" "}
                 {t("postureChecks.geoTooltipAllowedLine1")} <br />
@@ -37,7 +37,7 @@ export const GeoLocationTooltip = ({ children, check }: Props) => {
               </span>
             ) : (
               <span>
-                <span className={"text-red-500 font-semibold"}>
+                <span className={"text-red-700 dark:text-red-500 font-semibold"}>
                   {t("postureChecks.block")}
                 </span>{" "}
                 {t("postureChecks.geoTooltipBlockedLine1")} <br />

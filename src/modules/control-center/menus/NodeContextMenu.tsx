@@ -1249,7 +1249,7 @@ export const NodeContextMenu = ({
                 className={cn(
                   "flex w-full items-center gap-3 rounded-md px-3 py-1.5 text-sm transition-colors cursor-pointer",
                   item.danger
-                    ? "text-red-500 hover:bg-red-900/20 hover:text-red-500"
+                    ? "text-red-700 dark:text-red-500 hover:bg-red-900/20 hover:text-red-500"
                     : "text-nb-gray-300 hover:bg-nb-gray-900 hover:text-gray-50",
                 )}
               >

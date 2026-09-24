@@ -229,7 +229,7 @@ export const ChangeAccordionItem = ({
           </div>
         ) : status === "done" ? (
           <div
-            className={"self-center shrink-0 p-1.5 text-green-500"}
+            className={"self-center shrink-0 p-1.5 text-green-700 dark:text-green-500"}
             aria-label={t("controlCenter.draft.deployed")}
           >
             <CheckIcon size={16} />

@@ -128,9 +128,9 @@ export default function ReverseProxyAuthCell({
       }
     >
       {authCount > 0 ? (
-        <LockKeyhole size={12} className="text-green-500" />
+        <LockKeyhole size={12} className="text-green-700 dark:text-green-500" />
       ) : (
-        <LockOpenIcon size={12} className="text-red-500" />
+        <LockOpenIcon size={12} className="text-red-700 dark:text-red-500" />
       )}
       <span className={"font-medium text-xs"}>{authCount}</span>
     </Badge>
@@ -162,7 +162,7 @@ export default function ReverseProxyAuthCell({
                       icon={<Icon size={14} />}
                       label={t(hoverLabelKey)}
                       value={
-                        <div className={"text-green-500"}>
+                        <div className={"text-green-700 dark:text-green-500"}>
                           {key === "bearer_auth" && ssoGroups.length === 0
                             ? t("reverseProxy.allUsers")
                             : t("common.enable")}
@@ -193,7 +193,7 @@ export default function ReverseProxyAuthCell({
                       icon={<FileCode2Icon size={14} />}
                       label={t(HEADER_AUTH_METHOD.hoverLabelKey)}
                       value={
-                        <div className={"text-green-500"}>
+                        <div className={"text-green-700 dark:text-green-500"}>
                           {(auth?.header_auths ?? []).filter((h) => h.enabled).length === 1
                             ? t("reverseProxy.oneHeader")
                             : t("reverseProxy.headerCount", { count: (auth?.header_auths ?? []).filter((h) => h.enabled).length })}
@@ -207,7 +207,7 @@ export default function ReverseProxyAuthCell({
                       icon={<CircleUser size={14} />}
                       label={t(NETBIRD_ONLY_METHOD.hoverLabelKey)}
                       value={
-                        <div className={"text-green-500"}>
+                        <div className={"text-green-700 dark:text-green-500"}>
                           {accessGroups.length === 0
                             ? t("reverseProxy.noGroups")
                             : accessGroups.length === 1

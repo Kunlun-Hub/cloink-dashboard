@@ -26,10 +26,7 @@ const isResource = (m: TrafficEventMachine) => {
   return m.type !== TrafficEventMachineType.PEER;
 };
 
-const getNamePrefix = (
-  m: TrafficEventMachine,
-  t: (key: string) => string,
-) => {
+const getNamePrefix = (m: TrafficEventMachine, t: (key: string) => string) => {
   switch (m.type) {
     case TrafficEventMachineType.PEER:
       return t("trafficEvents.peerPrefix");
@@ -52,7 +49,11 @@ export const TrafficEventDescription = ({
 
   const routerName = useMemo(() => {
     const reporter = peers?.find((peer) => peer.id === event.reporter_id);
-    return reporter ? <Mark>{reporter.name}</Mark> : <Mark>{t("common.unknown")}</Mark>;
+    return reporter ? (
+      <Mark>{reporter.name}</Mark>
+    ) : (
+      <Mark>{t("common.unknown")}</Mark>
+    );
   }, [event.reporter_id, peers, t]);
 
   const timestamp = event.events?.find((e) => e.type === type)?.timestamp;
@@ -137,13 +138,13 @@ export const TrafficEventDescription = ({
       sentences.push(
         info.isInbound ? (
           <>
-            {info.destinationName} {joinClauses(initiated)}{" "}
-            {t("trafficEvents.from")} {info.sourceName}
+            {info.destinationName} {joinClauses(initiated)}
+            {t("trafficEvents.aggregateSourceLabel")} {info.sourceName}
           </>
         ) : (
           <>
-            {info.sourceName} {joinClauses(initiated)} {t("trafficEvents.to")}{" "}
-            {info.destinationName}
+            {info.sourceName} {joinClauses(initiated)}{" "}
+            {t("trafficEvents.aggregateTargetLabel")} {info.destinationName}
           </>
         ),
       );
@@ -357,9 +358,7 @@ export const TrafficEventDescription = ({
 
     // Fallback to generic message
     return (
-      <>
-        {getTrafficEventTypeText(t, info.type, info.isP2P, event.direction)}
-      </>
+      <>{getTrafficEventTypeText(t, info.type, info.isP2P, event.direction)}</>
     );
   };
 

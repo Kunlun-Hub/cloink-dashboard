@@ -386,7 +386,7 @@ const PeerGroupMassAssignmentContent = ({
                       )}
                       {!isLoading && isSuccess && (
                         <>
-                          <CheckCircle size={14} className={"text-green-400"} />
+                          <CheckCircle size={14} className={"text-green-700 dark:text-green-400"} />
                           <span>{t("peerMultiSelect.groupsAssigned")}</span>
                         </>
                       )}

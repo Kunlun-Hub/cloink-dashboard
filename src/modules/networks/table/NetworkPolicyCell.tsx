@@ -24,7 +24,7 @@ export const NetworkPolicyCell = ({ network }: Props) => {
       className={"cursor-pointer w-fit"}
       onClick={() => router.push(`/network?id=${network.id}`)}
     >
-      <ShieldIcon size={14} className={"text-green-500"} />
+      <ShieldIcon size={14} className={"text-green-700 dark:text-green-500"} />
       <div>
         <span className={"font-medium text-xs"}>{count}</span>
       </div>

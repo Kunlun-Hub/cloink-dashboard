@@ -54,7 +54,7 @@ export const Ephemeral = () => {
     >
       <PowerOffIcon
         size={12}
-        className={"shrink-0 text-yellow-400 cursor-help"}
+        className={"shrink-0 text-yellow-700 dark:text-yellow-400 cursor-help"}
       />
     </FullTooltip>
   );

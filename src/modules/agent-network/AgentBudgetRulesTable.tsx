@@ -195,7 +195,7 @@ function BudgetCapCell({ rule }: { rule: AgentBudgetRule }) {
       }
     >
       <Badge variant={"gray"} useHover={true}>
-        <Wallet size={14} className={"text-amber-400"} />
+        <Wallet size={14} className={"text-amber-700 dark:text-amber-400"} />
         {formatBudgetLimit(bl)}
       </Badge>
     </FullTooltip>

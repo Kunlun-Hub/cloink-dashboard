@@ -35,7 +35,7 @@ const inputVariants = cva("", {
         "ring-offset-neutral-200/20 dark:ring-offset-neutral-950/50 dark:focus-visible:ring-neutral-500/20 focus-visible:ring-neutral-300/10",
       ],
       error: [
-        "dark:bg-nb-gray-900 dark:placeholder:text-neutral-400/70 placeholder:text-neutral-500 border-neutral-300 dark:border-red-500 text-red-500",
+        "dark:bg-nb-gray-900 dark:placeholder:text-neutral-400/70 placeholder:text-neutral-500 border-neutral-300 dark:border-red-500 text-red-700 dark:text-red-500",
         "ring-offset-red-500/10 dark:ring-offset-red-500/10 dark:focus-visible:ring-red-500/10 focus-visible:ring-red-500/10",
       ],
     },
@@ -44,7 +44,7 @@ const inputVariants = cva("", {
         "dark:bg-nb-gray-900 border-neutral-300 dark:border-nb-gray-700 text-nb-gray-300",
       ],
       error: [
-        "dark:bg-nb-gray-900 border-red-500 text-nb-gray-300 text-red-500",
+        "dark:bg-nb-gray-900 border-red-500 text-nb-gray-300 text-red-700 dark:text-red-500",
       ],
     },
   },
@@ -154,7 +154,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             >
               <FullTooltip
                 content={
-                  <div className={"text-xs text-red-500 inline-flex"}>
+                  <div className={"text-xs text-red-700 dark:text-red-500 inline-flex"}>
                     <AlertCircle
                       size={13}
                       className={"top-[1px] relative mr-2"}
@@ -173,7 +173,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && !errorTooltip && (
-          <Paragraph className={"text-xs !text-red-500 mt-2"}>
+          <Paragraph className={"text-xs !text-red-700 dark:text-red-500 mt-2"}>
             {error}
           </Paragraph>
         )}

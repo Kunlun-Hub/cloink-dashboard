@@ -35,7 +35,7 @@ export const OnboardingAgentPolicy = ({ onBack, onNext }: Props) => {
 
       {hasPolicy ? (
         <div className={"mt-4 flex items-center justify-center gap-2 text-sm"}>
-          <CheckCircle2Icon size={16} className={"text-green-500"} />
+          <CheckCircle2Icon size={16} className={"text-green-700 dark:text-green-500"} />
           <span>
             {policies.length > 1
               ? t("onboarding.agent.policy.createdPlural", { count: policies.length })

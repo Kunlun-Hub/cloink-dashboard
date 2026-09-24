@@ -11,7 +11,9 @@ interface Props extends React.HTMLAttributes<HTMLDivElement>, BadgeVariants {
 const variants = cva("", {
   variants: {
     variant: {
-      default: ["bg-nb-gray-800 border-nb-gray-700 text-nb-gray-300 "],
+      default: [
+        "bg-nb-gray-800 border-nb-gray-700 text-nb-gray-300 dark:text-nb-gray-200 ",
+      ],
       darker: ["bg-nb-gray-930 border-nb-gray-900 text-nb-gray-250 "],
       netbird: ["bg-netbird-100 text-netbird border-netbird "],
     },

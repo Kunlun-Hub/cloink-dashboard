@@ -82,7 +82,7 @@ export const UserPasswordResetModal = ({ user, open, onOpenChange }: Props) => {
                 </Paragraph>
               ) : (
                 <Paragraph
-                  className={"!mt-0 mb-3 text-xs text-amber-500 text-center"}
+                  className={"!mt-0 mb-3 text-xs text-amber-700 dark:text-amber-500 text-center"}
                 >
                   {t("passwordReset.emailFailed")}
                   {link.email_error ? ` (${link.email_error})` : ""}

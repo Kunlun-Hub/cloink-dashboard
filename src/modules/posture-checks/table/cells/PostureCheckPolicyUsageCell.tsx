@@ -92,7 +92,7 @@ export const PostureCheckPolicyUsageCell = ({ check }: Props) => {
               if (!tooltipOpen) setTooltipOpen(true);
             }}
           >
-            <ShieldIcon size={14} className={"text-green-500"} />
+            <ShieldIcon size={14} className={"text-green-700 dark:text-green-500"} />
             <div>
               <span className={"font-medium text-xs"}>{policyCount}</span>
             </div>

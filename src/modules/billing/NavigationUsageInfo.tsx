@@ -146,8 +146,8 @@ const NavigationUsageInfoContent = () => {
             {isFreePlan && usagePercentage >= 80 && (
               <div
                 className={cn(
-                  "text-red-500 flex gap-1.5 items-center mt-1.5",
-                  usagePercentage >= 100 ? "text-red-500" : "text-netbird",
+                  "text-red-700 dark:text-red-500 flex gap-1.5 items-center mt-1.5",
+                  usagePercentage >= 100 ? "text-red-700 dark:text-red-500" : "text-netbird",
                 )}
               >
                 <IconInfoCircle size={12} className={"font-medium"} />

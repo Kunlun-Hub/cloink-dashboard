@@ -28,8 +28,8 @@ export const buttonVariants = cva(
           "dark:focus:ring-zinc-800/50 dark:bg-nb-gray dark:text-gray-400 dark:border-gray-700/30 dark:hover:text-white dark:hover:bg-zinc-800/50",
         ],
         primary: [
-          "dark:focus:ring-netbird-600/50 dark:ring-offset-neutral-950/50 enabled:dark:bg-netbird disabled:dark:bg-nb-gray-910 dark:text-gray-100 enabled:dark:hover:text-white enabled:dark:hover:bg-netbird-500/80",
-          "enabled:bg-netbird enabled:text-white enabled:focus:ring-netbird-400/50 enabled:hover:bg-netbird-500",
+          "dark:focus:ring-netbird-600/50 dark:ring-offset-neutral-950/50 enabled:dark:bg-netbird-700 disabled:dark:bg-nb-gray-910 dark:text-gray-100 enabled:dark:hover:text-white enabled:dark:hover:bg-netbird-800",
+          "enabled:bg-netbird-700 enabled:text-white enabled:focus:ring-netbird-400/50 enabled:hover:bg-netbird-800",
         ],
         secondary: [
           "bg-white hover:text-black focus:ring-zinc-200/50 hover:bg-gray-100 border-gray-200 text-gray-900",
@@ -69,11 +69,11 @@ export const buttonVariants = cva(
           "dark:focus:ring-zinc-800/50 dark:bg-transparent dark:text-netbird dark:border-netbird dark:hover:bg-nb-gray-900/30",
         ],
         "danger-outline": [
-          "bg-transparent text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400 focus:ring-red-500/30",
+          "bg-transparent text-red-700 border-red-300 hover:bg-red-50 hover:border-red-400 focus:ring-red-500/30",
           "enabled:dark:focus:ring-red-800/20 enabled:dark:focus:bg-red-950/40 enabled:hover:dark:bg-red-950/50 enabled:dark:hover:border-red-800/50 dark:bg-transparent dark:text-red-500 dark:border-transparent",
         ],
         "danger-text": [
-          "bg-transparent text-red-500 hover:text-red-600 border-transparent !px-0 !shadow-none !py-0 focus:ring-red-500/30 ring-offset-nb-gray-950/50 rounded-sm",
+          "bg-transparent text-red-700 dark:text-red-500 hover:text-red-600 border-transparent !px-0 !shadow-none !py-0 focus:ring-red-500/30 ring-offset-nb-gray-950/50 rounded-sm",
         ],
         "default-outline": [
           "ring-offset-nb-gray-950/50 focus:ring-nb-gray-500/20",

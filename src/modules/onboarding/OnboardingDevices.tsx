@@ -49,9 +49,9 @@ export const OnboardingDevices = ({
           }
         >
           {enabled ? (
-            <ShieldCheckIcon size={16} className={"text-green-500"} />
+            <ShieldCheckIcon size={16} className={"text-green-700 dark:text-green-500"} />
           ) : (
-            <ShieldXIcon size={16} className={"text-red-500"} />
+            <ShieldXIcon size={16} className={"text-red-700 dark:text-red-500"} />
           )}
         </div>
       )}
@@ -134,9 +134,9 @@ export const OnboardingDevices = ({
             }
           >
             {enabled ? (
-              <ShieldCheckIcon size={16} className={"text-green-500"} />
+              <ShieldCheckIcon size={16} className={"text-green-700 dark:text-green-500"} />
             ) : (
-              <ShieldXIcon size={16} className={"text-red-500"} />
+              <ShieldXIcon size={16} className={"text-red-700 dark:text-red-500"} />
             )}
           </div>
         )}

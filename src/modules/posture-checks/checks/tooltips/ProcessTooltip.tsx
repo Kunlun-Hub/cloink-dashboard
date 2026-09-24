@@ -28,7 +28,7 @@ export const ProcessTooltip = ({ check, children }: Props) => {
         >
           <div className={"px-4 pt-3"}>
             <span>
-              <span className={"text-green-500 font-semibold"}>
+              <span className={"text-green-700 dark:text-green-500 font-semibold"}>
                 {t("postureChecks.allowOnly")}
               </span>{" "}
               {t("postureChecks.processTooltipAllowed")}

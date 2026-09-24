@@ -280,7 +280,7 @@ const RegistrationCheck = ({
     <div className={"flex items-center gap-2 text-sm"}>
       {registered ? (
         <>
-          <CheckCircle2 size={16} className={"text-green-500 shrink-0"} />
+          <CheckCircle2 size={16} className={"text-green-700 dark:text-green-500 shrink-0"} />
           <span className={"text-nb-gray-100"}>
             {t("reverseProxy.proxyRegistered")}
           </span>

@@ -22,7 +22,7 @@ export default function NetworkRoutingPeerCell({ network }: Props) {
     () => (
       <>
         {t("networkRoutingPeers.cell.haInactivePrefix")}{" "}
-        <span className={"text-yellow-400 font-medium"}>
+        <span className={"text-yellow-700 dark:text-yellow-400 font-medium"}>
           {t("networkRoutingPeers.cell.inactive")}
         </span>{" "}
         {t("networkRoutingPeers.cell.haForNetwork")}
@@ -35,7 +35,7 @@ export default function NetworkRoutingPeerCell({ network }: Props) {
     () => (
       <>
         {t("networkRoutingPeers.cell.haActivePrefix")}{" "}
-        <span className={"text-green-500 font-medium"}>
+        <span className={"text-green-700 dark:text-green-500 font-medium"}>
           {t("networkRoutingPeers.cell.active")}
         </span>{" "}
         {t("networkRoutingPeers.cell.haForNetwork")}

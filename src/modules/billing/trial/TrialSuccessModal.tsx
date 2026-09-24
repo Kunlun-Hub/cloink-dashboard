@@ -17,7 +17,7 @@ export const TrialSuccessModal = ({ open, setOpen }: Props) => {
       <ModalContent showClose={false} maxWidthClass={"max-w-md"}>
         <GradientFadedBackground />
         <div className={"flex items-center justify-center flex-col gap-3 px-6"}>
-          <CircleCheckBig size={28} className={"text-green-500"} />
+          <CircleCheckBig size={28} className={"text-green-700 dark:text-green-500"} />
           <div className={"text-xl font-medium"}>
             {t("billing.trialStartedTitle")}
           </div>

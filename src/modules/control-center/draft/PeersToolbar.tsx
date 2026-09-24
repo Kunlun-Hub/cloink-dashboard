@@ -365,7 +365,7 @@ export const PeersToolbar = () => {
                   {deletableSelectedGroups.length > 0 && (
                     <ToolbarButton
                       onClick={handleDeleteGroups}
-                      className="px-3 text-red-500 hover:text-red-400"
+                      className="px-3 text-red-700 dark:text-red-500 hover:text-red-400"
                     >
                       <TrashIcon size={14} />
                       <span className="text-xs ml-2">{t("common.delete")}</span>

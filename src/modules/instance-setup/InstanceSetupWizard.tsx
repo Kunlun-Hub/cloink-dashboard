@@ -161,7 +161,7 @@ export default function InstanceSetupWizard() {
         </div>
         <Card className={"max-w-[360px] mt-8 mx-auto"}>
           <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center mb-4 mx-auto">
-            <CheckCircle2 className="text-green-500" size={22} />
+            <CheckCircle2 className="text-green-700 dark:text-green-500" size={22} />
           </div>
           <h1 className={"text-xl text-center z-10 relative"}>
             {t("instanceSetup.accountCreated")}
@@ -321,7 +321,7 @@ const Card = ({
 
 const ErrorMessage = ({ error }: { error?: string }) => {
   return (
-    <div className="text-red-400 bg-red-800/20 border border-red-800/50 rounded-lg px-4 py-3 whitespace-break-spaces my-3 text-sm">
+    <div className="text-red-700 dark:text-red-400 bg-red-800/20 border border-red-800/50 rounded-lg px-4 py-3 whitespace-break-spaces my-3 text-sm">
       {error}
     </div>
   );

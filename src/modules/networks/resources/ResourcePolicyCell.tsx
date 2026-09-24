@@ -68,11 +68,11 @@ export const ResourcePolicyCell = ({ resource }: Props) => {
         <ShieldIcon
           size={12}
           className={cn(
-            enabledCount > 0 ? "text-green-500" : "text-nb-gray-400",
+            enabledCount > 0 ? "text-green-700 dark:text-green-500" : "text-nb-gray-400",
           )}
         />
       ) : (
-        <ShieldOff size={12} className="text-red-500" />
+        <ShieldOff size={12} className="text-red-700 dark:text-red-500" />
       )}
       <span className={"font-medium text-xs"}>{displayCount}</span>
     </Badge>

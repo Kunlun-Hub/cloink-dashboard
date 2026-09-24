@@ -334,7 +334,7 @@ const ResourceIcon = ({
   name?: string;
 }) => {
   if (name?.includes("Exit Node")) {
-    return <IconDirectionSign size={size} className={"text-yellow-400"} />;
+    return <IconDirectionSign size={size} className={"text-yellow-700 dark:text-yellow-400"} />;
   }
 
   switch (type) {

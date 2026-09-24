@@ -528,5 +528,5 @@ const OnboardingCheckbox = ({
 };
 
 const RequiredAsterisk = () => (
-  <span className={"text-red-500 relative -top-[2.5px]"}>*</span>
+  <span className={"text-red-700 dark:text-red-500 relative -top-[2.5px]"}>*</span>
 );

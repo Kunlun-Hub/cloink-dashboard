@@ -53,7 +53,7 @@ export const OnboardingAgentDevice = ({
       >
         {deviceConnected ? (
           <>
-            <CheckCircle2Icon size={16} className={"text-green-500"} />
+            <CheckCircle2Icon size={16} className={"text-green-700 dark:text-green-500"} />
             <span>{t("onboarding.agent.device.connected")}</span>
           </>
         ) : (

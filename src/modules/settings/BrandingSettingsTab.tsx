@@ -301,7 +301,7 @@ export default function BrandingSettingsTab({ account }: Readonly<Props>) {
             testId={"branding-icon"}
           />
 
-          {logoError && <p className={"text-xs text-red-500"}>{logoError}</p>}
+          {logoError && <p className={"text-xs text-red-700 dark:text-red-500"}>{logoError}</p>}
 
           <div
             className={

@@ -19,7 +19,7 @@ export default function NetworkRangeCell({ network, domains }: Props) {
   ) : isExitNode ? (
     <ExitNodeHelpTooltip>
       <div className={"flex gap-2 items-center dark:text-nb-gray-300 group"}>
-        <IconDirectionSign size={16} className={"text-yellow-400"} />
+        <IconDirectionSign size={16} className={"text-yellow-700 dark:text-yellow-400"} />
         {t("common.exitNode")}{" "}
         <InfoIcon
           size={14}

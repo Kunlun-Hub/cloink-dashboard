@@ -133,7 +133,7 @@ function ReleaseActions({
           <DropdownMenuItem
             onClick={deleteRelease}
             disabled={!permission.version_releases.delete}
-            className="text-red-500 focus:text-red-500"
+            className="text-red-700 dark:text-red-500 focus:text-red-500"
           >
             <Trash2 size={14} className="mr-2" />
             {t("common.delete")}

@@ -29,7 +29,7 @@ export const TrafficEventsBytesCell = ({
     <div className={"flex flex-col text-xs gap-1 text-nb-gray-300 font-medium"}>
       {showInbound && (
         <div className={"flex gap-2 items-center whitespace-nowrap"}>
-          <ArrowDownIcon size={15} className={cn("text-sky-400")} />
+          <ArrowDownIcon size={15} className={cn("text-sky-700 dark:text-sky-400")} />
           {formatBytes(event.rx_bytes)}
         </div>
       )}

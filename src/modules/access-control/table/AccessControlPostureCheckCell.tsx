@@ -19,7 +19,7 @@ export default function AccessControlPostureCheckCell({ policy }: Props) {
     policy.source_posture_checks.length > 0 ? (
     <div className={"flex"}>
       <Badge variant={"gray"} useHover={true}>
-        <ShieldCheck size={14} className={"text-green-500"} />
+        <ShieldCheck size={14} className={"text-green-700 dark:text-green-500"} />
         {t("accessControl.postureChecksCount", { count: policy.source_posture_checks.length })}
       </Badge>
     </div>

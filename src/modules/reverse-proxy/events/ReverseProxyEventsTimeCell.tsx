@@ -1,4 +1,6 @@
 import { cn } from "@utils/helpers";
+import { timeFormatFor } from "@utils/dateTime";
+import { useI18n } from "@/i18n/I18nProvider";
 import dayjs from "dayjs";
 import * as React from "react";
 
@@ -8,6 +10,8 @@ type Props = {
 };
 
 export const ReverseProxyEventsTimeCell = ({ timestamp, className }: Props) => {
+  const { locale } = useI18n();
+  const timeFormat = timeFormatFor(locale);
   return (
     <div
       className={cn(
@@ -26,7 +30,7 @@ export const ReverseProxyEventsTimeCell = ({ timestamp, className }: Props) => {
             {dayjs(timestamp).format("MMM D, YYYY")}
           </span>
           <span className={"text-nb-gray-400"}>
-            {dayjs(timestamp).format("h:mm:ss A")}
+            {dayjs(timestamp).format(timeFormat)}
           </span>
         </div>
       </div>

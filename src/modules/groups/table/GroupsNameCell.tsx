@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizeGroupName } from "@/utils/serverLabels";
 
 type Props = {
   active: boolean;
@@ -11,6 +13,8 @@ type Props = {
 };
 export default function GroupsNameCell({ active, group }: Readonly<Props>) {
   const router = useRouter();
+  const { t } = useI18n();
+  const displayName = localizeGroupName(group?.name, t);
   return (
     <div className={""}>
       <div
@@ -25,10 +29,10 @@ export default function GroupsNameCell({ active, group }: Readonly<Props>) {
 
         <div
           className={"flex flex-col min-w-0 cursor-pointer"}
-          aria-label={`View details of group ${group.name}`}
+          aria-label={`View details of group ${displayName}`}
         >
           <div className={"font-medium flex gap-2 items-center justify-center"}>
-            <TextWithTooltip text={group?.name} maxChars={50} />
+            <TextWithTooltip text={displayName} maxChars={50} />
           </div>
         </div>
         <CircleIcon

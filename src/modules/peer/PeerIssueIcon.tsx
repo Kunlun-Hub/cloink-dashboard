@@ -39,7 +39,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
       >
         <AlertTriangle
           size={ICON_SIZE}
-          className={"shrink-0 text-yellow-400 cursor-help"}
+          className={"shrink-0 text-yellow-700 dark:text-yellow-400 cursor-help"}
         />
       </FullTooltip>
     );
@@ -57,7 +57,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
       >
         <AlertTriangle
           size={ICON_SIZE}
-          className={"shrink-0 text-red-500 cursor-help"}
+          className={"shrink-0 text-red-700 dark:text-red-500 cursor-help"}
         />
       </FullTooltip>
     );
@@ -81,7 +81,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
         >
           <AlertTriangle
             size={ICON_SIZE}
-            className={"shrink-0 text-red-500 cursor-help"}
+            className={"shrink-0 text-red-700 dark:text-red-500 cursor-help"}
           />
         </FullTooltip>
       );
@@ -97,7 +97,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
       >
         <AlertTriangle
           size={ICON_SIZE}
-          className={"shrink-0 text-red-500 cursor-help"}
+          className={"shrink-0 text-red-700 dark:text-red-500 cursor-help"}
         />
       </FullTooltip>
     );

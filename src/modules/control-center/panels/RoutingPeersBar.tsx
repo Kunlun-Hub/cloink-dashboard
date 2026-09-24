@@ -36,7 +36,7 @@ export const RoutingPeersIndicator = ({
       {showAlert ? (
         <AlertTriangleIcon
           size={dotSize + 5}
-          className={"shrink-0 text-yellow-400"}
+          className={"shrink-0 text-yellow-700 dark:text-yellow-400"}
         />
       ) : (
         <CircleIcon

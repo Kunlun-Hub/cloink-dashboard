@@ -20,11 +20,12 @@ interface InlineButtonProps
 }
 
 export const linkVariants = cva(
-  "underline-offset-4 items-center transition-all duration-200 inline-flex texts-inherit gap-1",
+  "underline-offset-4 items-center transition-all duration-200 inline-flex text-inherit gap-1",
   {
     variants: {
       variant: {
-        default: "text-netbird hover:underline font-normal",
+        default:
+          "text-netbird-700 dark:text-netbird-400 hover:underline font-normal",
         faded: "text-nb-gray-400 hover:text-nb-gray-300 hover:underline",
         white: "text-nb-gray-100 hover:text-nb-gray-100 hover:underline",
         dashed:
@@ -36,7 +37,7 @@ export const linkVariants = cva(
 
 export default function InlineLink({ variant = "default", ...props }: Props) {
   return (
-    <Link {...props} className={cn(props.className, linkVariants({ variant }))}>
+    <Link {...props} className={cn(linkVariants({ variant }), props.className)}>
       {props.children}
     </Link>
   );
@@ -49,7 +50,7 @@ export function InlineButtonLink({
   return (
     <button
       {...props}
-      className={cn(props.className, linkVariants({ variant }))}
+      className={cn(linkVariants({ variant }), props.className)}
     >
       {props.children}
     </button>

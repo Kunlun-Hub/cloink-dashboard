@@ -180,7 +180,7 @@ const PickerContent = ({
         )}
         {blockedReason && (
           <div
-            className={"text-sm text-yellow-400 pt-3"}
+            className={"text-sm text-yellow-700 dark:text-yellow-400 pt-3"}
             data-testid={"network-destination-blocked"}
           >
             {blockedReason}

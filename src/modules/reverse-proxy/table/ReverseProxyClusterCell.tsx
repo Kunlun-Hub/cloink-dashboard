@@ -84,7 +84,7 @@ export default function ReverseProxyClusterCell({
     ) : (
       <div className="flex items-center gap-2" data-cluster-cell>
         <Badge variant={"gray"} className={cn("font-normal")}>
-          <Server size={11} className={cn("text-green-500")} />
+          <Server size={11} className={cn("text-green-700 dark:text-green-500")} />
           {reverseProxy.proxy_cluster}
         </Badge>
       </div>
@@ -117,7 +117,7 @@ export default function ReverseProxyClusterCell({
       {compact ? (
         <span
           className={
-            "inline-flex items-center gap-1.5 text-red-500 cursor-help truncate"
+            "inline-flex items-center gap-1.5 text-red-700 dark:text-red-500 cursor-help truncate"
           }
         >
           <AlertTriangle size={11} className={"shrink-0"} />

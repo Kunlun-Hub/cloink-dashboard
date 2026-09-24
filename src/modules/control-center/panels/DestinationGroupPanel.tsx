@@ -276,7 +276,7 @@ const DraftStatusChip = ({
       onClick?.();
     }}
   >
-    {icon ?? <TriangleAlertIcon size={12} className={"text-yellow-400"} />}
+    {icon ?? <TriangleAlertIcon size={12} className={"text-yellow-700 dark:text-yellow-400"} />}
     {label}
   </Button>
 );
@@ -296,7 +296,7 @@ const DraftPeerRowActions = ({ draftPeer }: { draftPeer: Peer }) => {
         isUserDevice ? undefined : setupKey ? (
           <Loader2 size={12} className={"animate-spin text-nb-gray-300"} />
         ) : (
-          <DownloadIcon size={12} className={"text-yellow-400"} />
+          <DownloadIcon size={12} className={"text-yellow-700 dark:text-yellow-400"} />
         )
       }
       onClick={() =>

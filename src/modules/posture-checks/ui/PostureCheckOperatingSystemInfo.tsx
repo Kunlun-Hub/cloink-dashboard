@@ -37,7 +37,7 @@ export const PostureCheckOperatingSystemInfo = ({
       <div className={"flex items-center"}>
         <span
           className={cn(
-            version ? "text-green-500" : "text-red-500",
+            version ? "text-green-700 dark:text-green-500" : "text-red-700 dark:text-red-500",
             "mr-1 font-semibold",
           )}
         >

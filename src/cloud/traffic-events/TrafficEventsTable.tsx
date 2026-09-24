@@ -561,7 +561,10 @@ export default function TrafficEventsTable({
         cell: ({ row }) => (
           <div className="flex flex-col gap-1 whitespace-nowrap text-xs font-medium text-nb-gray-300">
             <span className="flex items-center gap-1.5">
-              <ArrowDownIcon size={14} className="shrink-0 text-sky-400" />
+              <ArrowDownIcon
+                size={14}
+                className="shrink-0 text-sky-700 dark:text-sky-400"
+              />
               <span className="text-nb-gray-400">
                 {t("trafficEvents.rxLabel")}
               </span>
@@ -694,7 +697,10 @@ export default function TrafficEventsTable({
       data={groups}
       searchPlaceholder={t("trafficEvents.searchPlaceholder")}
       aboveTable={(table) => (
-        <TableFilterChips table={table} filters={filterDefs} />
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <TableFilterChips table={table} filters={filterDefs} />
+          <TrafficEventsSummary rows={groups} />
+        </div>
       )}
       getStartedCard={getStartedCard}
     >
@@ -719,6 +725,42 @@ export default function TrafficEventsTable({
         </>
       )}
     </DataTable>
+  );
+}
+
+// A traffic log is read as a whole, not row by row, so surface the totals of the
+// rows on screen next to the filters instead of making operators add them up.
+function TrafficEventsSummary({
+  rows,
+}: Readonly<{ rows?: NetworkTrafficGroupRow[] }>) {
+  const { t } = useI18n();
+  if (!rows || rows.length === 0) return null;
+  const received = rows.reduce((sum, row) => sum + (row.rx_bytes ?? 0), 0);
+  const sent = rows.reduce((sum, row) => sum + (row.tx_bytes ?? 0), 0);
+  const connections = rows.reduce((sum, row) => sum + (row.flow_count ?? 0), 0);
+
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-nb-gray-400">
+      <span className="font-medium text-nb-gray-300">
+        {t("trafficEvents.summaryLabel")}
+      </span>
+      <span className="flex items-center gap-1.5">
+        <ArrowDownIcon
+          size={13}
+          className="shrink-0 text-sky-700 dark:text-sky-400"
+        />
+        {t("trafficEvents.rxLabel")} {formatBytes(received)}
+      </span>
+      <span className="flex items-center gap-1.5">
+        <ArrowUpIcon size={13} className="shrink-0 text-netbird" />
+        {t("trafficEvents.txLabel")} {formatBytes(sent)}
+      </span>
+      <span>
+        {t("trafficEvents.summaryConnections", {
+          count: connections.toLocaleString(),
+        })}
+      </span>
+    </div>
   );
 }
 

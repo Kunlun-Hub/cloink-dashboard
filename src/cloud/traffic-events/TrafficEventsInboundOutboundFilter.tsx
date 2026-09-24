@@ -25,7 +25,7 @@ export function TrafficEventsInboundOutboundFilter({ value, onChange }: Props) {
         isActive={isInbound}
         onClick={() => onChange(TrafficEventDirection.INGRESS)}
       >
-        <ArrowDownIcon size={14} className={cn("text-sky-400")} />
+        <ArrowDownIcon size={14} className={cn("text-sky-700 dark:text-sky-400")} />
         {t("trafficEvents.filterInboundLabel")}
       </InnerButton>
       <InnerButton

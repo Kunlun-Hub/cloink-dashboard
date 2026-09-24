@@ -239,7 +239,7 @@ export default function Notification<T>({
                 <span>{t("notification.requestId")}</span>
                 <span className={"font-mono select-all"}>{requestId}</span>
                 {copied ? (
-                  <CheckIcon size={12} className={"text-green-500 shrink-0"} />
+                  <CheckIcon size={12} className={"text-green-700 dark:text-green-500 shrink-0"} />
                 ) : (
                   <CopyIcon
                     size={12}

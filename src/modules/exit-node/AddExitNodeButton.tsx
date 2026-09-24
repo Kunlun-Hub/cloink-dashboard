@@ -39,7 +39,7 @@ export const AddExitNodeButton = ({
             </>
           ) : (
             <>
-              <IconDirectionSign size={16} className={"text-yellow-400"} />
+              <IconDirectionSign size={16} className={"text-yellow-700 dark:text-yellow-400"} />
               {t("exitNodes.setup")}
             </>
           )}

@@ -27,7 +27,7 @@ export default function GroupedRouteHighAvailabilityCell({
     () => (
       <>
         {t("routeGroup.haCurrentlyDisabled")}{" "}
-        <span className={"text-red-500 font-medium"}>
+        <span className={"text-red-700 dark:text-red-500 font-medium"}>
           {t("routeGroup.haDisabled")}
         </span>{" "}
         {t("routeGroup.haForThisRoute")}
@@ -40,7 +40,7 @@ export default function GroupedRouteHighAvailabilityCell({
     () => (
       <>
         {t("routeGroup.haIs")}{" "}
-        <span className={"text-green-500 font-medium"}>
+        <span className={"text-green-700 dark:text-green-500 font-medium"}>
           {t("routeGroup.haEnabled")}
         </span>{" "}
         {t("routeGroup.haForThisRoute")}

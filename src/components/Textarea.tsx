@@ -25,7 +25,7 @@ const inputVariants = cva("", {
         "ring-offset-neutral-200/20 dark:ring-offset-neutral-950/50 dark:focus-visible:ring-neutral-500/20 focus-visible:ring-neutral-300/10",
       ],
       error: [
-        "dark:bg-red-950/30 dark:placeholder:text-red-400/70 placeholder:text-red-500 border-red-500 dark:border-red-500 text-red-500",
+        "dark:bg-red-950/30 dark:placeholder:text-red-400/70 placeholder:text-red-500 border-red-500 dark:border-red-500 text-red-700 dark:text-red-500",
         "ring-offset-red-500/10 dark:ring-offset-red-500/10 dark:focus-visible:ring-red-500/10 focus-visible:ring-red-500/10",
       ],
     },
@@ -60,7 +60,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, InputProps>(
           {customElement && customElement}
         </div>
         {error && (
-          <Paragraph className={"text-xs !text-red-500 mt-2"}>
+          <Paragraph className={"text-xs !text-red-700 dark:text-red-500 mt-2"}>
             {error}
           </Paragraph>
         )}

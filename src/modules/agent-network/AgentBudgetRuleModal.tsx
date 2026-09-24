@@ -229,7 +229,7 @@ function AgentBudgetRuleModalContent({
             {accountWide && (
               <div className={"text-xs text-nb-gray-300 leading-snug"}>
                 With no targets selected, this rule applies{" "}
-                <span className={"text-amber-400 font-medium"}>{t("agentNetwork.accountWideHighlight")}</span>{" "}
+                <span className={"text-amber-700 dark:text-amber-400 font-medium"}>{t("agentNetwork.accountWideHighlight")}</span>{" "}
                 — every agent-network request is counted against its
                 caps.
               </div>

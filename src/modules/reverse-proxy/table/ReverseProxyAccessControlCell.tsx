@@ -71,9 +71,9 @@ export default function ReverseProxyAccessControlCell({
       }
     >
       {ruleCount > 0 ? (
-        <ShieldCheck size={12} className="text-green-500" />
+        <ShieldCheck size={12} className="text-green-700 dark:text-green-500" />
       ) : (
-        <ShieldOff size={12} className="text-red-500" />
+        <ShieldOff size={12} className="text-red-700 dark:text-red-500" />
       )}
       <span className={"font-medium text-xs"}>{ruleCount}</span>
     </Badge>
@@ -206,7 +206,7 @@ export default function ReverseProxyAccessControlCell({
                         <Icon
                           size={14}
                           className={
-                            blocked ? "text-red-500" : "text-green-500"
+                            blocked ? "text-red-700 dark:text-red-500" : "text-green-700 dark:text-green-500"
                           }
                         />
                         {label}

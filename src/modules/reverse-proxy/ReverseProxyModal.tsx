@@ -646,7 +646,7 @@ export default function ReverseProxyModal({
               )}
 
               {isPrivate && accessGroups.length === 0 && (
-                <Paragraph className={"!text-yellow-400 !text-xs !mt-0"}>
+                <Paragraph className={"!text-yellow-700 dark:text-yellow-400 !text-xs !mt-0"}>
                   {t("reverseProxy.noAccessGroupsWarning")}
                 </Paragraph>
               )}

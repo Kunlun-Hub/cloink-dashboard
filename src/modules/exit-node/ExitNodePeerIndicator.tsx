@@ -22,7 +22,7 @@ export const ExitNodePeerIndicator = ({ peer }: Props) => {
     <FullTooltip content={<div className={"text-xs max-w-xs"}>{tooltipContent}</div>}>
       <IconDirectionSign 
         size={15} 
-        className={`shrink-0 ${exitNodeInfo.skipAutoApply === false ? "text-green-400" : "text-yellow-400"}`} 
+        className={`shrink-0 ${exitNodeInfo.skipAutoApply === false ? "text-green-700 dark:text-green-400" : "text-yellow-700 dark:text-yellow-400"}`} 
       />
     </FullTooltip>
   );

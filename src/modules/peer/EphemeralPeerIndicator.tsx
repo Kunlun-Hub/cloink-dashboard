@@ -15,7 +15,7 @@ export const EphemeralPeerIndicator = ({ peer }: Props) => {
 
     return (
         <FullTooltip content={<div className={"text-xs max-w-xs"}>{tooltipContent}</div>}>
-            <PowerOffIcon size={12} className={"shrink-0 text-yellow-400"} />
+            <PowerOffIcon size={12} className={"shrink-0 text-yellow-700 dark:text-yellow-400"} />
         </FullTooltip>
     );
 };

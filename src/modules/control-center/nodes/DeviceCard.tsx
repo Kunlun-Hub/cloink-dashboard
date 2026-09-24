@@ -101,7 +101,7 @@ export const DeviceCard = ({
         </span>
         <span
           className={cn(
-            "font-normal text-nb-gray-400 relative",
+            "font-normal text-nb-gray-400 dark:text-nb-gray-300 relative",
             isSmall ? "text-[0.72rem]" : "text-sm -top-[0.1rem]",
           )}
         >

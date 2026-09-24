@@ -218,7 +218,7 @@ const ErrorMessage = ({ error }: MessageProps) => {
       }
     >
       <div className="text-nb-gray-200 font-normal text-base flex gap-2 items-center justify-center">
-        <CircleXIcon size={16} className={"shrink-0 text-red-500"} />
+        <CircleXIcon size={16} className={"shrink-0 text-red-700 dark:text-red-500"} />
         {error?.message}
       </div>
     </div>

@@ -11,7 +11,7 @@ export default function SetupKeyUsageCell({ current, limit, reusable }: Props) {
   const { t } = useI18n();
   return reusable ? (
     <div className={"flex items-center text-[13px] text-nb-gray-300 gap-2"}>
-      <IconRepeat size={14} className={"text-green-400"} />
+      <IconRepeat size={14} className={"text-green-700 dark:text-green-400"} />
       <span>
         <span className={"font-medium text-nb-gray-200"}> {current} </span> of{" "}
         {limit == 0 ? <>{t("setupKey.unlimited")}</> : limit} {t("setupKey.peerCount")}

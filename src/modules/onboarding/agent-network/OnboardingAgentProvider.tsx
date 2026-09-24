@@ -73,7 +73,7 @@ const EndpointPanel = ({
   return (
     <div className={"mt-4 flex flex-col gap-3"}>
       <div className={"flex items-center justify-center gap-2 text-sm"}>
-        <CheckCircle2Icon size={16} className={"text-green-500"} />
+        <CheckCircle2Icon size={16} className={"text-green-700 dark:text-green-500"} />
         <span>
           {count > 1
             ? t("onboarding.agent.provider.connectedPlural", { count })

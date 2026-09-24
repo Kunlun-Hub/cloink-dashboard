@@ -254,7 +254,7 @@ function AgentPolicyModalContent({
                 {hasLegacyExtraGroups && (
                   <div
                     className={
-                      "mt-2 text-xs text-yellow-400 leading-snug"
+                      "mt-2 text-xs text-yellow-700 dark:text-yellow-400 leading-snug"
                     }
                   >
                     This policy was created with multiple source groups.

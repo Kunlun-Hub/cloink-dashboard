@@ -47,7 +47,7 @@ export default function NetworkRoutes() {
             <Callout className={"max-w-xl mt-5"} variant={"warning"}>
               <span>
                 {t("networkRoutesPage.callout")}{" "}
-                <InlineLink href={"/networks"}>
+                <InlineLink href={"/networks"} className={"text-inherit"}>
                   {t("networkRoutesPage.goToNetworks")}
                   <ArrowUpRightIcon size={14} />
                 </InlineLink>

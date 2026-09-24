@@ -11,6 +11,7 @@ import { useTheme } from "@/contexts/ThemeProvider";
 import * as React from "react";
 import { Group } from "@/interfaces/Group";
 import { useI18n } from "@/i18n/I18nProvider";
+import { localizeGroupName } from "@/utils/serverLabels";
 import { getGroupCountLabel } from "@/modules/control-center/utils/helpers";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
 
@@ -95,7 +96,7 @@ export const SelectGroupNode = ({ data, id }: NodeProps) => {
                       " text-nb-gray-200 font-normal whitespace-nowrap text-left"
                     }
                   >
-                    {group.name}
+                    {localizeGroupName(group.name, t)}
                   </div>
                   <div
                     className={

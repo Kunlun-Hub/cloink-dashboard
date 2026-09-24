@@ -450,7 +450,7 @@ function FocusModePill() {
                 "flex items-center gap-2 pl-3.5 pr-1.5 py-1.5 rounded-full border border-nb-gray-900 bg-nb-gray-930 text-xs font-medium text-nb-gray-200"
               }
             >
-              <FocusIcon size={13} className={"text-sky-400 shrink-0"} />
+              <FocusIcon size={13} className={"text-sky-700 dark:text-sky-400 shrink-0"} />
               {focusedNodeId
                 ? t("controlCenter.focusingOn", {
                     name: focusedName || t("controlCenter.nodeFallback"),

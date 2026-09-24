@@ -3079,7 +3079,7 @@ const zhCN = {
   "authenticationTab.peerApprovalHelpLine1":
     "要求新用户设备通过管理员审批后才能接入网络。",
   "authenticationTab.peerApprovalHelpLine2":
-    "Setup Key 设备和 Web SSH/RDP 临时设备不受影响。",
+    "使用设置密钥接入的设备和 Web SSH/RDP 临时设备不受影响。",
   "authenticationTab.peerApprovalHelpLine3":
     "关闭此设置后，当前待审批设备将自动允许接入。",
   "authenticationTab.peerSessionLabel": "设备会话过期",
@@ -6048,13 +6048,13 @@ const zhCN = {
   "trafficEvents.emptyDescription":
     "我们尚未检测到任何流量事件。这可能是因为你刚启用了此功能，或者还没有网络活动。",
   "trafficEvents.windowStart": "窗口开始时间",
-  "trafficEvents.latestTime": "最近时间",
-  "trafficEvents.client": "客户端",
+  "trafficEvents.latestTime": "时间",
+  "trafficEvents.client": "来源设备",
   "trafficEvents.protocol": "协议",
-  "trafficEvents.flowCount": "流数量",
+  "trafficEvents.flowCount": "连接数",
   "trafficEvents.items": "条",
   "trafficEvents.user": "用户",
-  "trafficEvents.connectionType": "连接类型",
+  "trafficEvents.connectionType": "连接方式",
   "trafficEvents.noUserBound": "该设备未绑定用户",
   "trafficEvents.unknownUser": "未知用户",
   "trafficEvents.reporter": "上报设备",
@@ -6924,8 +6924,8 @@ const zhCN = {
   "routeGroup.haEnabled": "已启用",
   "routeGroup.haForThisRoute": "用于此路由。",
   "routeGroup.haIs": "高可用性",
-  "trafficEvents.accepted": "接受",
-  "trafficEvents.and": " 和 ",
+  "trafficEvents.accepted": "接入",
+  "trafficEvents.and": "、",
   "trafficEvents.blockedConnectionTo": "阻止连接，目标为",
   "trafficEvents.blockedP2PConnectionFrom": "阻止 P2P 连接，来自",
   "trafficEvents.blockedP2PConnectionTo": "阻止 P2P 连接到",
@@ -6936,7 +6936,7 @@ const zhCN = {
   "trafficEvents.connectionStopped": "已停止",
   "trafficEvents.connectionTo": "到",
   "trafficEvents.connections": "{count} 个连接",
-  "trafficEvents.ended": "结束",
+  "trafficEvents.ended": "关闭",
   "trafficEvents.filter": "筛选",
   "trafficEvents.filterBlocked": "已阻止",
   "trafficEvents.filterInbound": "（入站）",
@@ -6960,7 +6960,7 @@ const zhCN = {
   "trafficEvents.routePrefix": "路由",
   "trafficEvents.routed": "路由",
   "trafficEvents.routingPeer": "路由节点",
-  "trafficEvents.started": "启动",
+  "trafficEvents.started": "发起",
   "trafficEvents.startedRoutingTo": "开始路由，目标为",
   "trafficEvents.stoppedConnectionTo": "停止连接到",
   "trafficEvents.stoppedP2PConnectionFrom": "停止 P2P 连接，来自",
@@ -7431,6 +7431,16 @@ const zhCN = {
   "counts.accessControlPolicies": "{count} 条访问控制策略",
   "trafficEvents.rxLabel": "接收",
   "trafficEvents.txLabel": "发送",
+  "groups.allGroupName":
+    "全部",
+  "accessControl.defaultPolicyName":
+    "默认策略",
+  "accessControl.defaultPolicyDescription":
+    "默认规则：允许所有资源之间的连接。",
+  "trafficEvents.aggregateSourceLabel": " · 来源：",
+  "trafficEvents.aggregateTargetLabel": " · 目标：",
+  "trafficEvents.summaryLabel": "本页合计",
+  "trafficEvents.summaryConnections": "{count} 个连接",
 } as const;
 
 export default zhCN;

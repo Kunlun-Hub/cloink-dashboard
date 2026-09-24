@@ -151,12 +151,12 @@ export const ReverseProxyAccessControlRules = ({
       {
         label: t("reverseProxy.allowOnly"),
         value: "allow",
-        icon: (props) => <ShieldCheckIcon {...props} className="text-green-500" />,
+        icon: (props) => <ShieldCheckIcon {...props} className="text-green-700 dark:text-green-500" />,
       },
       {
         label: t("reverseProxy.blockOnly"),
         value: "block",
-        icon: (props) => <ShieldXIcon {...props} className="text-red-500" />,
+        icon: (props) => <ShieldXIcon {...props} className="text-red-700 dark:text-red-500" />,
       },
     ],
     [t],

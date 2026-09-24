@@ -1,4 +1,6 @@
 import { cn } from "@utils/helpers";
+import { timeFormatFor } from "@utils/dateTime";
+import { useI18n } from "@/i18n/I18nProvider";
 import dayjs from "dayjs";
 import { ClockIcon } from "lucide-react";
 import * as React from "react";
@@ -9,7 +11,11 @@ type Props = {
 };
 
 export const TrafficEventsTimeCell = ({ timestamp, className }: Props) => {
-  const fullTimestamp = dayjs(timestamp).format("MMM D, YYYY h:mm:ss A Z");
+  const { locale } = useI18n();
+  const timeFormat = timeFormatFor(locale);
+  const fullTimestamp = dayjs(timestamp).format(
+    `MMM D, YYYY ${timeFormat} Z`,
+  );
   return (
     <time
       dateTime={timestamp}
@@ -30,7 +36,7 @@ export const TrafficEventsTimeCell = ({ timestamp, className }: Props) => {
             {dayjs(timestamp).format("MMM D, YYYY")}
           </span>
           <span className={"text-nb-gray-400"}>
-            {dayjs(timestamp).format("h:mm:ss A")}
+            {dayjs(timestamp).format(timeFormat)}
           </span>
         </span>
       </span>

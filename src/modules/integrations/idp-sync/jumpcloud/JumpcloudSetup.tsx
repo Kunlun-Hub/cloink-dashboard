@@ -241,7 +241,7 @@ export function SetupContent({ onSuccess, onClose }: ModalProps) {
                     "py-2 px-6 inline-flex items-center gap-2 rounded-md justify-start bg-nb-gray-930/0 text-nb-gray-200"
                   }
                 >
-                  <ShieldUser size={14} className={"text-sky-500"} />
+                  <ShieldUser size={14} className={"text-sky-700 dark:text-sky-500"} />
                   {t("jumpcloud.roleAdmin")}
                 </div>
                 <div
@@ -249,7 +249,7 @@ export function SetupContent({ onSuccess, onClose }: ModalProps) {
                     "py-2 px-6 inline-flex items-center gap-2 rounded-md justify-start bg-nb-gray-930/0 text-nb-gray-200"
                   }
                 >
-                  <ShieldUser size={14} className={"text-sky-500"} />
+                  <ShieldUser size={14} className={"text-sky-700 dark:text-sky-500"} />
                   {t("jumpcloud.roleAdminBilling")}
                 </div>
               </div>

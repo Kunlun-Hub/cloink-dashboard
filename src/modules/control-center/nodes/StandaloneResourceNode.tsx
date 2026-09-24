@@ -87,7 +87,7 @@ export const StandaloneResourceNode = ({
               setResourceNetworkPicker({ nodeId: id });
             }}
           >
-            <AlertTriangleIcon size={12} className={"text-yellow-400"} />
+            <AlertTriangleIcon size={12} className={"text-yellow-700 dark:text-yellow-400"} />
             {t("controlCenter.noNetwork")}
           </Button>
         </div>

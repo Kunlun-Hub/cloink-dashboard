@@ -265,7 +265,7 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
     () => (
       <>
         {t("networkDetails.highAvailabilityInactivePrefix")}{" "}
-        <span className={"text-yellow-400 font-medium"}>{t("networkDetails.inactive")}</span>{" "}
+        <span className={"text-yellow-700 dark:text-yellow-400 font-medium"}>{t("networkDetails.inactive")}</span>{" "}
         {t("networkDetails.highAvailabilitySuffix")}
       </>
     ),
@@ -276,7 +276,7 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
     () => (
       <>
         {t("networkDetails.highAvailabilityActivePrefix")}{" "}
-        <span className={"text-green-500 font-medium"}>{t("networkDetails.active")}</span>{" "}
+        <span className={"text-green-700 dark:text-green-500 font-medium"}>{t("networkDetails.active")}</span>{" "}
         {t("networkDetails.highAvailabilitySuffix")}
       </>
     ),
@@ -336,13 +336,13 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
           label={
             policyCount > 0 ? (
               <>
-                <ShieldCheckIcon size={16} className={"text-green-500"} />
+                <ShieldCheckIcon size={16} className={"text-green-700 dark:text-green-500"} />
                 {policyCount}{" "}
                 {policyCount === 1 ? t("networkDetails.activePolicy") : t("networkDetails.activePolicies")}
               </>
             ) : (
               <>
-                <ShieldXIcon size={16} className={"text-red-500"} />
+                <ShieldXIcon size={16} className={"text-red-700 dark:text-red-500"} />
                 {t("networkDetails.noActivePolicies")}
               </>
             )

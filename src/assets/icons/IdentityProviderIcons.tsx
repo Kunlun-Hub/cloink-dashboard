@@ -25,7 +25,7 @@ export const idpIcon = (
     keycloak: <KeycloakIcon size={size} />,
     adfs: <MicrosoftIcon size={size} />,
     oidc: <KeyRound size={size} className="text-nb-gray-400" />,
-    wechatwork: <MessageCircle size={size} className="text-green-500" />,
+    wechatwork: <MessageCircle size={size} className="text-green-700 dark:text-green-500" />,
   };
 
   return icons[type];

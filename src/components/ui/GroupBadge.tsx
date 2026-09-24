@@ -7,6 +7,8 @@ import { XIcon } from "lucide-react";
 import * as React from "react";
 import { Group } from "@/interfaces/Group";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/i18n/I18nProvider";
+import { localizeGroupName } from "@/utils/serverLabels";
 
 type Props = {
   group: Group;
@@ -39,6 +41,7 @@ export default function GroupBadge({
 }: Readonly<Props>) {
   const isNew = !group?.id;
   const router = useRouter();
+  const { t } = useI18n();
 
   const handleGroupPageRedirect = () => {
     if (!group?.id) return;
@@ -64,7 +67,7 @@ export default function GroupBadge({
     >
       <GroupBadgeIcon id={group?.id} issued={group?.issued} />
       <TruncatedText
-        text={group?.name || ""}
+        text={localizeGroupName(group?.name, t)}
         maxChars={maxChars}
         maxWidth={maxWidth}
         className={textClassName}

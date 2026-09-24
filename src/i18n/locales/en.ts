@@ -6508,9 +6508,9 @@ const en = {
     "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity.",
   "trafficEvents.windowStart": "Window start",
   "trafficEvents.latestTime": "Latest time",
-  "trafficEvents.client": "Client",
+  "trafficEvents.client": "Source Device",
   "trafficEvents.protocol": "Protocol",
-  "trafficEvents.flowCount": "Flows",
+  "trafficEvents.flowCount": "Connections",
   "trafficEvents.items": "items",
   "trafficEvents.user": "User",
   "trafficEvents.connectionType": "Connection Type",
@@ -8013,6 +8013,16 @@ const en = {
   "counts.accessControlPolicies": "{count} Access Control Policies",
   "trafficEvents.rxLabel": "Received",
   "trafficEvents.txLabel": "Sent",
+  "groups.allGroupName":
+    "All",
+  "accessControl.defaultPolicyName":
+    "Default",
+  "accessControl.defaultPolicyDescription":
+    "This is a default rule that allows connections between all the resources",
+  "trafficEvents.aggregateSourceLabel": " from ",
+  "trafficEvents.aggregateTargetLabel": " to ",
+  "trafficEvents.summaryLabel": "Page total",
+  "trafficEvents.summaryConnections": "{count} connections",
 } as const;
 
 export default en;

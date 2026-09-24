@@ -14,7 +14,7 @@ export const PolicyCell = ({ count }: Props) => {
   return count > 0 ? (
     <div className={"flex gap-3"}>
       <Badge variant={"gray"} useHover={true}>
-        <ShieldIcon size={14} className={"text-green-500"} />
+        <ShieldIcon size={14} className={"text-green-700 dark:text-green-500"} />
         <div>
           <span className={"font-medium"}>{count}</span>{" "}
           {t("networkResources.accessPolicySuffix")}

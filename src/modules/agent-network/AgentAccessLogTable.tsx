@@ -33,6 +33,7 @@ import {
 import GetStartedTest from "@components/ui/GetStartedTest";
 import MultipleGroups from "@components/ui/MultipleGroups";
 import ButtonGroup from "@components/ButtonGroup";
+import { timeFormatFor } from "@utils/dateTime";
 import { cn, formatDuration } from "@utils/helpers";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -786,7 +787,8 @@ export default function AgentAccessLogTable({
 }
 
 function TimeCell({ timestamp }: { timestamp: string }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const timeFormat = timeFormatFor(locale);
   return (
     <div className={"w-full flex flex-col gap-1 min-w-[120px] max-w-[120px]"}>
       <div
@@ -799,7 +801,7 @@ function TimeCell({ timestamp }: { timestamp: string }) {
           {dayjs(timestamp).format("MMM D, YYYY")}
         </span>
         <span className={"text-nb-gray-400"}>
-          {dayjs(timestamp).format("h:mm:ss A")}
+          {dayjs(timestamp).format(timeFormat)}
         </span>
       </div>
     </div>
@@ -1144,7 +1146,7 @@ function TokensCell({ entry }: { entry: AIAccessLogEntry }) {
         className={"flex flex-col text-xs gap-1 text-nb-gray-300 font-medium"}
       >
         <div className={"flex gap-2 items-center whitespace-nowrap"}>
-          <ArrowUpIcon size={15} className={"text-sky-400"} />
+          <ArrowUpIcon size={15} className={"text-sky-700 dark:text-sky-400"} />
           <span className={"sr-only"}>{t("agentAccessLog.inputLabel")}</span>
           {(entry.inputTokens ?? 0).toLocaleString()}
         </div>
@@ -1438,7 +1440,8 @@ function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
 // omitted (constant across a session); the model is shown in full, and the
 // status carries the request duration plus a reason when it failed.
 function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const timeFormat = timeFormatFor(locale);
   const [open, setOpen] = useState<string[]>([]);
   const toggle = (id: string) =>
     setOpen((prev) =>
@@ -1494,7 +1497,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                     "text-xs text-nb-gray-400 font-mono whitespace-nowrap w-[88px] shrink-0"
                   }
                 >
-                  {dayjs(entry.timestamp).format("h:mm:ss A")}
+                  {dayjs(entry.timestamp).format(timeFormat)}
                 </span>
                 <span
                   className={
@@ -1511,7 +1514,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                   <span
                     className={cn(
                       "text-xs font-mono tabular-nums",
-                      isError ? "text-red-400" : "text-nb-gray-400",
+                      isError ? "text-red-700 dark:text-red-400" : "text-nb-gray-400",
                     )}
                   >
                     {entry.status}

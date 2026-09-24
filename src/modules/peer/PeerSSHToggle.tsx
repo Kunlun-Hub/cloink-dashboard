@@ -282,7 +282,7 @@ export const PeerSSHToggle = () => {
                 size={14}
                 className={cn(
                   enabledPolicies?.length > 0
-                    ? "text-green-500"
+                    ? "text-green-700 dark:text-green-500"
                     : "text-nb-gray-300",
                 )}
               />

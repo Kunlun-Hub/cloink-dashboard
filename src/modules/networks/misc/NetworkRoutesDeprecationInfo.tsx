@@ -19,7 +19,7 @@ export const NetworkRoutesDeprecationInfo = ({ size = 14 }: Props) => {
     >
       <TriangleAlertIcon
         size={size}
-        className={"text-amber-500 ml-2.5 hover:text-amber-400 cursor-help"}
+        className={"text-amber-700 dark:text-amber-500 ml-2.5 hover:text-amber-400 cursor-help"}
       />
     </FullTooltip>
   );

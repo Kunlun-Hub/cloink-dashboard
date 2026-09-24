@@ -13,7 +13,7 @@ export default function SetupKeyTypeCell({ reusable }: Readonly<Props>) {
       <Badge className={"text-xs"} variant={"gray"}>
         {reusable ? (
           <>
-            <IconRepeat size={14} className={"text-green-400"} /> {t("setupKeys.reusable")}
+            <IconRepeat size={14} className={"text-green-700 dark:text-green-400"} /> {t("setupKeys.reusable")}
           </>
         ) : (
           <>

@@ -89,7 +89,7 @@ function Trigger({
           ? "bg-nb-gray-920"
           : disabled
           ? ""
-          : "text-nb-gray-500 hover:bg-nb-gray-900/50",
+          : "text-nb-gray-400 dark:text-nb-gray-300 hover:bg-nb-gray-900/50",
       )}
       value={value}
       onClick={() => {

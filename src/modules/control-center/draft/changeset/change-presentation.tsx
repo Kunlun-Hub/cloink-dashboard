@@ -80,23 +80,23 @@ const KIND_BADGES: Record<
   add: {
     label: "Add",
     icon: <SquarePlusIcon size={13} />,
-    className: "bg-green-900/30 text-green-400 border border-green-500/20",
+    className: "bg-green-900/30 text-green-700 dark:text-green-400 border border-green-500/20",
   },
   update: {
     label: "Modify",
     icon: <SquareDotIcon size={13} />,
-    className: "bg-yellow-900/30 text-yellow-400 border border-yellow-500/20",
+    className: "bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border border-yellow-500/20",
   },
   remove: {
     label: "Delete",
     icon: <SquareMinusIcon size={13} />,
-    className: "bg-red-900/30 text-red-400 border border-red-500/20",
+    className: "bg-red-900/30 text-red-700 dark:text-red-400 border border-red-500/20",
   },
   // Not an API call but a step the user performs; deploy leaves these pending.
   install: {
     label: "Install",
     icon: <TriangleAlertIcon size={13} />,
-    className: "bg-amber-900/30 text-amber-400 border border-amber-500/20",
+    className: "bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-500/20",
   },
 };
 
@@ -112,7 +112,7 @@ export const IssueBadge = ({
 }) => {
   const className = cn(
     "inline-flex items-center justify-center gap-1.5 text-[0.65rem] font-medium px-2 py-1 rounded shrink-0 [&>svg]:shrink-0",
-    "bg-amber-900/30 text-amber-400 border border-amber-500/20",
+    "bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-500/20",
     onClick &&
       "cursor-pointer hover:bg-amber-900/50 hover:text-amber-300 transition-colors",
   );
@@ -200,12 +200,12 @@ export const DiffStat = ({
   return (
     <span className={"flex items-center gap-2 shrink-0"}>
       {additions > 0 && (
-        <span className={"text-[0.7rem] font-medium text-green-400"}>
+        <span className={"text-[0.7rem] font-medium text-green-700 dark:text-green-400"}>
           +{additions}
         </span>
       )}
       {deletions > 0 && (
-        <span className={"text-[0.7rem] font-medium text-red-400"}>
+        <span className={"text-[0.7rem] font-medium text-red-700 dark:text-red-400"}>
           −{deletions}
         </span>
       )}

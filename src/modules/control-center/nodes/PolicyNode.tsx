@@ -9,6 +9,7 @@ import { FullAreaTargetHandle } from "@/modules/control-center/handles/FullAreaT
 import { getPolicyProtocolAndPortText } from "@/modules/control-center/utils/helpers";
 import { Policy } from "@/interfaces/Policy";
 import { useI18n } from "@/i18n/I18nProvider";
+import { localizePolicyName } from "@/utils/serverLabels";
 
 type PolicyNode = Node<
   {
@@ -54,7 +55,9 @@ export const PolicyNode = ({ data, id }: PolicyNode) => {
             " text-nb-gray-200 font-normal whitespace-nowrap text-[0.8rem] flex items-center justify-center w-full"
           }
         >
-          <div className={"truncate max-w-[200px]"}>{rule?.name}</div>
+          <div className={"truncate max-w-[200px]"}>
+            {localizePolicyName(rule?.name, t)}
+          </div>
           {String(data.policy.id ?? "").startsWith("new-") && (
             <SmallBadge className={"ml-1.5"} />
           )}

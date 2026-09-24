@@ -78,7 +78,7 @@ export const EventStreamingCard = () => {
               <div
                 className={cn(
                   "text-xs flex gap-2 items-center mb-2 font-medium",
-                  enabled ? "text-green-500" : "text-nb-gray-500",
+                  enabled ? "text-green-700 dark:text-green-500" : "text-nb-gray-400 dark:text-nb-gray-300",
                 )}
               >
                 <IconCircleFilled size={8} />

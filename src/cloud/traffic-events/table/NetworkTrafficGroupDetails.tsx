@@ -56,7 +56,7 @@ function NetworkTrafficGroupDetailTable({
   if (error) {
     return (
       <div
-        className="flex items-center gap-4 px-6 py-5 text-sm text-red-400"
+        className="flex items-center gap-4 px-6 py-5 text-sm text-red-700 dark:text-red-400"
         role="alert"
       >
         <span>{t("trafficEvents.detailsError")}</span>
@@ -89,7 +89,7 @@ function NetworkTrafficGroupDetailTable({
   }
 
   return (
-    <div className="border-t border-zinc-700/40 bg-nb-gray-950/30 px-4 pb-4">
+    <div className="border-t border-zinc-300/60 dark:border-zinc-700/40 bg-nb-gray-950/30 px-4 pb-4">
       <DataTable
         {...pagination}
         columns={columns}

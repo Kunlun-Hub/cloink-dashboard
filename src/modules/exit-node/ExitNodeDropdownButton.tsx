@@ -38,7 +38,7 @@ export const ExitNodeDropdownButton = ({ peer }: Props) => {
             <>
               <IconDirectionSign
                 size={14}
-                className={"shrink-0 text-yellow-400"}
+                className={"shrink-0 text-yellow-700 dark:text-yellow-400"}
               />
               <div className={"flex justify-between items-center w-full"}>
                 {t("exitNodes.setup")}

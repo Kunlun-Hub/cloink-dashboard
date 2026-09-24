@@ -52,7 +52,7 @@ const variants = cva("", {
         "bg-green-100 border-green-500 border text-green-700 dark:bg-green-950 dark:text-green-400",
       ],
       netbird: [
-        "bg-netbird-100 border-netbird-500 border text-netbird-700 dark:bg-netbird-950 dark:text-netbird-500",
+        "bg-netbird-100 border-netbird-500 border text-netbird-800 dark:bg-netbird-950 dark:text-netbird-500",
       ],
     },
     size: {

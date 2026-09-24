@@ -44,7 +44,7 @@ export default function ClustersFeaturesCell({ cluster }: Readonly<Props>) {
       key: "crowdsec",
       label: t("reverseProxy.crowdSec"),
       description: t("reverseProxy.featureCrowdSecDescription"),
-      icon: <ShieldAlert size={14} className={"text-green-500"} />,
+      icon: <ShieldAlert size={14} className={"text-green-700 dark:text-green-500"} />,
     });
   }
   if (cluster.private) {

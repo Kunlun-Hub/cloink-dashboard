@@ -122,12 +122,12 @@ export const PeerNode = ({ data, id }: PeerNodeType) => {
             className={"!px-3 !text-nb-gray-300"}
           >
             {placeholderKind === "user-device" ? (
-              <AlertTriangleIcon size={12} className={"text-yellow-400"} />
+              <AlertTriangleIcon size={12} className={"text-yellow-700 dark:text-yellow-400"} />
             ) : setupKey ? (
               // Waiting for the machine to register.
               <Loader2 size={12} className={"animate-spin text-nb-gray-300"} />
             ) : (
-              <DownloadIcon size={12} className={"text-yellow-400"} />
+              <DownloadIcon size={12} className={"text-yellow-700 dark:text-yellow-400"} />
             )}
             {placeholderKind === "user-device"
               ? t("controlCenter.installOrAssign")

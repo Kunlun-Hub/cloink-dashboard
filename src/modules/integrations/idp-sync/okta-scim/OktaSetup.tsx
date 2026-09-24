@@ -211,7 +211,7 @@ export function SetupContent({
                 "py-2 px-6 flex items-center gap-2 rounded-md w-full justify-center bg-nb-gray-930/0 text-nb-gray-200"
               }
             >
-              <PlusCircle size={14} className={"text-sky-500"} />
+              <PlusCircle size={14} className={"text-sky-700 dark:text-sky-500"} />
               {t("oktaSetup.permAdd")}
             </div>
             <div
@@ -219,7 +219,7 @@ export function SetupContent({
                 "py-2 px-6 flex items-center gap-2 rounded-md w-full justify-center bg-nb-gray-930/0 text-nb-gray-200"
               }
             >
-              <Settings2 size={14} className={"text-sky-500"} />
+              <Settings2 size={14} className={"text-sky-700 dark:text-sky-500"} />
               {t("oktaSetup.permConfigure")}
             </div>
           </div>
@@ -521,7 +521,7 @@ export function SetupSSOContent() {
                 "py-2 px-6 flex items-center gap-2 rounded-md w-full justify-center bg-nb-gray-930/0 text-nb-gray-200"
               }
             >
-              <PlusCircle size={14} className={"text-sky-500"} />
+              <PlusCircle size={14} className={"text-sky-700 dark:text-sky-500"} />
               {t("oktaSetup.permAdd")}
             </div>
             <div
@@ -529,7 +529,7 @@ export function SetupSSOContent() {
                 "py-2 px-6 flex items-center gap-2 rounded-md w-full justify-center bg-nb-gray-930/0 text-nb-gray-200"
               }
             >
-              <Settings2 size={14} className={"text-sky-500"} />
+              <Settings2 size={14} className={"text-sky-700 dark:text-sky-500"} />
               {t("oktaSetup.permConfigure")}
             </div>
           </div>

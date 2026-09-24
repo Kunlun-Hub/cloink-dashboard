@@ -73,7 +73,7 @@ function Trigger({
           ? "bg-nb-gray-900"
           : disabled
           ? "data-[disabled]:text-nb-gray-400"
-          : "text-nb-gray-400 hover:bg-nb-gray-900/50",
+          : "text-nb-gray-400 dark:text-nb-gray-300 hover:bg-nb-gray-900/50",
         className,
       )}
       value={value}

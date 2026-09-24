@@ -68,7 +68,7 @@ export function WebhookHeadersTabContent({ value }: Readonly<Props>) {
           icon={
             <AlertTriangleIcon
               size={16}
-              className={"shrink-0 mt-[2px] text-yellow-400"}
+              className={"shrink-0 mt-[2px] text-yellow-700 dark:text-yellow-400"}
             />
           }
           className={"mt-5"}
