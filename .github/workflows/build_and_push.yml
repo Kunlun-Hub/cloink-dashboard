@@ -9,6 +9,11 @@ on:
       - "**"
   pull_request:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Dashboard version to embed (for example v2.93.0); defaults to tag name or development"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -69,7 +74,9 @@ jobs:
       - name: Get version from tag
         id: version
         run: |
-          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          if [[ -n "${{ inputs.version }}" ]]; then
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           else
             echo "version=development" >> $GITHUB_OUTPUT
