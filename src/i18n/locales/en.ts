@@ -3931,8 +3931,6 @@ const en = {
   "setupModal.homebrewGuide": "HomeBrew Installation Guide",
   "setupModal.homebrewUnavailable":
     "HomeBrew packages are not published for Cloink yet. Use the installer download above.",
-  "setupModal.cliOnlyComment": "# for CLI only",
-  "setupModal.guiPackageComment": "# for GUI package",
   "setupModal.startNetBirdDaemon": "Start Cloink daemon",
   "setupModal.installWithCommandLine": "Install with Command-line",
   "setupModal.installManuallyUbuntu": "Install manually on Ubuntu",
@@ -5882,10 +5880,11 @@ const en = {
   "setupNetbirdModal.installManuallyTerminal": "Install manually with Terminal",
   "setupNetbirdModal.runNetBird": "Run Cloink",
   "setupNetbirdModal.andLogInBrowser": "and log in the browser",
-  "setupNetbirdModal.installManuallyHomebrew": "Install manually with HomeBrew",
-  "setupNetbirdModal.downloadInstallHomebrew": "Download and install HomeBrew",
-  "setupNetbirdModal.homebrewInstallationGuide": "HomeBrew Installation Guide",
-  "setupNetbirdModal.startNetBirdDaemon": "Start Cloink daemon",
+  "setupNetbirdModal.downloadExtractCli": "Download and extract the Cloink CLI",
+  "setupNetbirdModal.installCliAndStartService":
+    "Install the CLI and start the service",
+  "setupNetbirdModal.noMacosReleasePublished":
+    "No macOS client published yet. Upload an installer in Settings → Version Releases first.",
   "rdpCertificate.title": "RDP Certificate Verification",
   "rdpCertificate.serverPresenting":
     "The server <strong>{hostname}</strong> is presenting a certificate:",

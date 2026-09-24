@@ -9,11 +9,9 @@ import Code from "@components/Code";
 import Separator from "@components/Separator";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
-import { GRPC_API_ORIGIN, pkgsDownloadUrl } from "@utils/netbird";
+import { GRPC_API_ORIGIN } from "@utils/netbird";
 import {
-  BeerIcon,
   DownloadIcon,
-  ExternalLinkIcon,
   PackageOpenIcon,
   TerminalSquareIcon,
 } from "lucide-react";
@@ -45,12 +43,12 @@ export default function MacOSTab({
   hostname,
 }: Readonly<Props>) {
   const { t } = useI18n();
-  // Signed installers published in Settings → Version Releases take priority;
-  // the static pkgs.netbird.io link remains as a fallback when none exist.
+  // Only signed installers published in Settings → Version Releases are
+  // offered — the official NetBird packages must never be served from here.
   const releases = useVersionReleases("macos");
-  const macosUrl = releases.length
+  const macosReleaseUrl = releases.length
     ? resolveReleaseDownloadURL(releases[0].downloadUrl)
-    : pkgsDownloadUrl("macos/universal");
+    : undefined;
   // Mirrors WindowsTab: server flow (setupKeyContent present) forces
   // the CLI run branch so the netbird up command stays visible while
   // the operator generates a key.
@@ -72,17 +70,29 @@ export default function MacOSTab({
               {t("setupNetbirdModal.downloadAndRunInstaller")}
             </div>
             <div className={"flex gap-4 mt-1 flex-wrap"}>
-              <Link
-                href={macosUrl}
-                passHref
-                prefetch={false}
-                target={"_blank"}
-              >
-                <Button variant={"primary"}>
-                  <DownloadIcon size={14} />
-                  {t("setupNetbirdModal.downloadNetBird")}
-                </Button>
-              </Link>
+              {macosReleaseUrl ? (
+                <Link
+                  href={macosReleaseUrl}
+                  passHref
+                  prefetch={false}
+                  target={"_blank"}
+                >
+                  <Button variant={"primary"}>
+                    <DownloadIcon size={14} />
+                    {t("setupNetbirdModal.downloadNetBird")}
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Button variant={"primary"} disabled>
+                    <DownloadIcon size={14} />
+                    {t("setupNetbirdModal.downloadNetBird")}
+                  </Button>
+                  <p className={"text-sm font-light text-nb-gray-300 basis-full"}>
+                    {t("setupNetbirdModal.noMacosReleasePublished")}
+                  </p>
+                </>
+              )}
             </div>
           </Steps.Step>
 
@@ -132,83 +142,52 @@ export default function MacOSTab({
               {t("setupNetbirdModal.installManuallyTerminal")}
             </AccordionTrigger>
             <AccordionContent>
-              <Steps>
-                <Steps.Step step={1}>
-                  <Code>
-                    curl -fsSL https://pkgs.netbird.io/install.sh | sh
-                  </Code>
-                </Steps.Step>
-                <Steps.Step step={2} line={false}>
-                  <p>
-                    {t("setupNetbirdModal.runNetBird")} {!usingSetupKeyParam && t("setupNetbirdModal.andLogInBrowser")}
-                    {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
-                  </p>
-                  <NetBirdUpCommand
-                    setupKey={setupKey}
-                    setupKeyPlaceholder={setupKeyPlaceholder}
-                    hostname={hostname}
-                  />
-                </Steps.Step>
-              </Steps>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </TabsContentPadding>
-      <Separator />
-      <TabsContentPadding>
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1">
-            <AccordionTrigger>
-              <BeerIcon size={16} /> {t("setupNetbirdModal.installManuallyHomebrew")}
-            </AccordionTrigger>
-            <AccordionContent>
-              <Steps>
-                <Steps.Step step={1}>
-                  <p>{t("setupNetbirdModal.downloadInstallHomebrew")}</p>
-                  <div className={"flex gap-4"}>
-                    <Link href={"https://brew.sh/"} passHref target={"_blank"}>
-                      <Button variant={"primary"}>
-                        <ExternalLinkIcon size={14} />
-                        {t("setupNetbirdModal.homebrewInstallationGuide")}
-                      </Button>
-                    </Link>
-                  </div>
-                </Steps.Step>
-                <Steps.Step step={2}>
-                  <p>{t("common.installNetBird")}</p>
-                  <Code
-                    codeToCopy={[
-                      `brew install netbirdio/tap/netbird`,
-                      `brew install --cask netbirdio/tap/netbird-ui`,
-                    ].join("\n")}
-                  >
-                    <Code.Comment>{t("setupModal.cliOnlyComment")}</Code.Comment>
-                    <Code.Line>brew install netbirdio/tap/netbird</Code.Line>
-                    <Code.Comment>{t("setupModal.guiPackageComment")}</Code.Comment>
-                    <Code.Line>
-                      brew install --cask netbirdio/tap/netbird-ui
-                    </Code.Line>
-                  </Code>
-                </Steps.Step>
-                <Steps.Step step={3}>
-                  <p>{t("setupNetbirdModal.startNetBirdDaemon")}</p>
-                  <Code>
-                    <Code.Line>sudo netbird service install</Code.Line>
-                    <Code.Line>sudo netbird service start</Code.Line>
-                  </Code>
-                </Steps.Step>
-                <Steps.Step step={4} line={false}>
-                  <p>
-                    {t("setupNetbirdModal.runNetBird")} {!usingSetupKeyParam && t("setupNetbirdModal.andLogInBrowser")}
-                    {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
-                  </p>
-                  <NetBirdUpCommand
-                    setupKey={setupKey}
-                    setupKeyPlaceholder={setupKeyPlaceholder}
-                    hostname={hostname}
-                  />
-                </Steps.Step>
-              </Steps>
+              {macosReleaseUrl ? (
+                <Steps>
+                  <Steps.Step step={1}>
+                    <p>{t("setupNetbirdModal.downloadExtractCli")}</p>
+                    <Code
+                      codeToCopy={`curl -fSL -o cloink.tar.gz "${macosReleaseUrl}"\ntar -xzf cloink.tar.gz`}
+                    >
+                      <Code.Line>
+                        curl -fSL -o cloink.tar.gz &quot;{macosReleaseUrl}&quot;
+                      </Code.Line>
+                      <Code.Line>tar -xzf cloink.tar.gz</Code.Line>
+                    </Code>
+                  </Steps.Step>
+                  <Steps.Step step={2}>
+                    <p>{t("setupNetbirdModal.installCliAndStartService")}</p>
+                    <Code
+                      codeToCopy={[
+                        "sudo install -m 0755 cloink /usr/local/bin/cloink",
+                        "sudo cloink service install",
+                        "sudo cloink service start",
+                      ].join("\n")}
+                    >
+                      <Code.Line>
+                        sudo install -m 0755 cloink /usr/local/bin/cloink
+                      </Code.Line>
+                      <Code.Line>sudo cloink service install</Code.Line>
+                      <Code.Line>sudo cloink service start</Code.Line>
+                    </Code>
+                  </Steps.Step>
+                  <Steps.Step step={3} line={false}>
+                    <p>
+                      {t("setupNetbirdModal.runNetBird")} {!usingSetupKeyParam && t("setupNetbirdModal.andLogInBrowser")}
+                      {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
+                    </p>
+                    <NetBirdUpCommand
+                      setupKey={setupKey}
+                      setupKeyPlaceholder={setupKeyPlaceholder}
+                      hostname={hostname}
+                    />
+                  </Steps.Step>
+                </Steps>
+              ) : (
+                <p className={"text-sm font-light text-nb-gray-300"}>
+                  {t("setupNetbirdModal.noMacosReleasePublished")}
+                </p>
+              )}
             </AccordionContent>
           </AccordionItem>
         </Accordion>

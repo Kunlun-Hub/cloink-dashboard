@@ -3642,8 +3642,6 @@ const zhCN = {
   "setupModal.homebrewGuide": "HomeBrew 安装指南",
   "setupModal.homebrewUnavailable":
     "Cloink 暂未发布 HomeBrew 包，请使用上方安装程序下载方式。",
-  "setupModal.cliOnlyComment": "# 仅 CLI 使用",
-  "setupModal.guiPackageComment": "# GUI 图形界面包",
   "setupModal.startNetBirdDaemon": "启动 Cloink 后台服务",
   "setupModal.installWithCommandLine": "通过命令行安装",
   "setupModal.installManuallyUbuntu": "在 Ubuntu 上手动安装",
@@ -5482,10 +5480,10 @@ const zhCN = {
   "setupNetbirdModal.installManuallyTerminal": "使用终端手动安装",
   "setupNetbirdModal.runNetBird": "运行 Cloink",
   "setupNetbirdModal.andLogInBrowser": "并在浏览器中登录",
-  "setupNetbirdModal.installManuallyHomebrew": "使用 HomeBrew 手动安装",
-  "setupNetbirdModal.downloadInstallHomebrew": "下载并安装 HomeBrew",
-  "setupNetbirdModal.homebrewInstallationGuide": "HomeBrew 安装指南",
-  "setupNetbirdModal.startNetBirdDaemon": "启动 Cloink 守护进程",
+  "setupNetbirdModal.downloadExtractCli": "下载并解压 Cloink CLI",
+  "setupNetbirdModal.installCliAndStartService": "安装 CLI 并启动后台服务",
+  "setupNetbirdModal.noMacosReleasePublished":
+    "尚未发布 macOS 客户端，请先在「设置 → 版本发布」中上传安装包。",
   "rdpCertificate.title": "RDP 证书验证",
   "rdpCertificate.serverPresenting":
     "服务器 <strong>{hostname}</strong> 提供了一个证书：",
