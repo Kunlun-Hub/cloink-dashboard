@@ -37,7 +37,7 @@ export default function WindowsTab({
   // the static pkgs.netbird.io links remain as a fallback when none exist.
   const releases = useVersionReleases("windows");
   const architectureLabels: Record<string, string> = {
-    amd64: "64-Bit",
+    amd64: t("setupModal.arch64"),
     arm64: t("setupNetbirdModal.arm64"),
     armv7: "ARMv7",
     universal: t("versionReleases.architectureUniversal"),
@@ -53,7 +53,7 @@ export default function WindowsTab({
   );
   const fallbackOptions = [
     {
-      label: "64-Bit",
+      label: t("setupModal.arch64"),
       value: pkgsDownloadUrl("windows/x64"),
     },
     {
@@ -61,7 +61,7 @@ export default function WindowsTab({
       value: pkgsDownloadUrl("windows/arm64"),
     },
     {
-      label: "64-Bit (MSI)",
+      label: t("setupModal.arch64Msi"),
       value: pkgsDownloadUrl("windows/msi/x64"),
     },
     {
