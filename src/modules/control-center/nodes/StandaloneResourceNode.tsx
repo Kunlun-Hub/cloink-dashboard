@@ -66,7 +66,7 @@ export const StandaloneResourceNode = ({
         // min-w matches NETWORK_FRAME_CHILD_WIDTH_MULTI, the framed row width.
         "relative rounded-lg transition-colors group/node w-full min-w-[185px]",
         "cursor-pointer border bg-nb-gray-940 border-nb-gray-850 hover:bg-nb-gray-930 hover:border-nb-gray-800 px-3 py-2.5",
-        isTarget && "hover:ring-2 hover:ring-white",
+        isTarget && "hover:ring-2 hover:ring-nb-gray-50",
         showHalo && "ring-2 ring-sky-500",
         (data.enabled === false || !getResourceNodeEnabled({ id, data })) &&
           "opacity-60",

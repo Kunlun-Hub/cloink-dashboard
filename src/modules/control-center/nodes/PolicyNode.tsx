@@ -34,7 +34,7 @@ export const PolicyNode = ({ data, id }: PolicyNode) => {
         !isActive && "opacity-60",
         isDraft &&
           isDropTarget &&
-          "hover:bg-nb-gray-930 hover:ring-2 ring-white",
+          "hover:bg-nb-gray-930 hover:ring-2 ring-nb-gray-50",
         showHalo && "ring-2 ring-sky-500",
       )}
     >

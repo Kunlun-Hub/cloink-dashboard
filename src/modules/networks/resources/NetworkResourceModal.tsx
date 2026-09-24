@@ -367,7 +367,7 @@ export function ResourceModalContent({
                       {groupPolicyCount > 0 && (
                         <Callout variant={"info"} className={"mt-3"}>
                           {t("networks.resourceGroupsUsedIn")}{" "}
-                          <span className="text-white font-medium">
+                          <span className="text-nb-gray-50 font-medium">
                             {groupPolicyCount} {t("nav.accessControl")}{" "}
                             {groupPolicyCount === 1 ? "Policy" : "Policies"}
                           </span>

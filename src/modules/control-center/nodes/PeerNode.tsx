@@ -97,7 +97,7 @@ export const PeerNode = ({ data, id }: PeerNodeType) => {
           "relative rounded-lg transition-all group/node border bg-nb-gray-940 border-nb-gray-850",
           // Same fixed height as real peer nodes / GroupNode (64px inner).
           "hover:bg-nb-gray-930 hover:border-nb-gray-800 pr-5 pl-4 h-[64px] flex items-center",
-          isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-white",
+          isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-nb-gray-50",
           showHalo && "ring-2 ring-sky-500",
         )}
       >
@@ -183,7 +183,7 @@ export const PeerNode = ({ data, id }: PeerNodeType) => {
         variant === "default" && "border-transparent",
         onClick &&
           "hover:bg-nb-gray-930 hover:border-nb-gray-800 cursor-pointer",
-        isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-white",
+        isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-nb-gray-50",
         showHalo && "ring-2 ring-sky-500",
       )}
       onClick={() => peer && onClick?.(peer)}

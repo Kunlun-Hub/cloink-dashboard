@@ -61,12 +61,12 @@ export const GroupNode = ({ data, id }: GroupNodeProps) => {
       className={cn(
         "relative cc-group-node bg-nb-gray-940 border rounded-lg transition-all group/node",
         dropTarget
-          ? "border-white ring-2 ring-white/20 bg-nb-gray-930"
+          ? "border-nb-gray-50 ring-2 ring-nb-gray-50/20 bg-nb-gray-930"
           : "border-nb-gray-850",
         !isEnabled && "opacity-60",
         hoverable &&
           "hover:bg-nb-gray-930 hover:border-nb-gray-800 cursor-pointer",
-        isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-white",
+        isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-nb-gray-50",
         showHalo && "ring-2 ring-sky-500",
       )}
       onClick={() => onClick?.(group)}

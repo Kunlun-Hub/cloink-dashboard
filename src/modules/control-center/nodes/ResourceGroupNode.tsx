@@ -84,7 +84,7 @@ export const ResourceGroupNode = ({ data, id, parentId }: ResourceGroupNode) => 
           className={cn(
             "cc-frame-row-icon h-9 w-9 bg-nb-gray-850 rounded-md flex items-center justify-center shrink-0 group-hover/node:bg-nb-gray-800 transition-all",
             // Rings live on the icon box, not the whole row.
-            isTarget && "group-hover/node:ring-2 group-hover/node:ring-white",
+            isTarget && "group-hover/node:ring-2 group-hover/node:ring-nb-gray-50",
             showHalo && "ring-2 ring-sky-500",
           )}
         >

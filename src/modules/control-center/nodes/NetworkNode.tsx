@@ -170,9 +170,9 @@ export const NetworkNode = ({ data, id }: NetworkNodeProps) => {
         !isDrilled && "cursor-pointer",
         isDraft &&
           isTarget &&
-          "hover:ring-2 hover:ring-white/60 hover:bg-nb-gray-930",
+          "hover:ring-2 hover:ring-nb-gray-50/60 hover:bg-nb-gray-930",
         // Set on the node's data by useDragToGroup during a drag.
-        data.dropTarget && "border-white bg-nb-gray-930",
+        data.dropTarget && "border-nb-gray-50 bg-nb-gray-930",
         showHalo && "ring-2 ring-sky-500",
       )}
     >

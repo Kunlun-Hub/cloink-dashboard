@@ -60,7 +60,7 @@ export const JobOutputCell = ({ job }: Props) => {
               {key === "upload_key" && typeof value === "string" && (
                 <button
                   type="button"
-                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-netbird hover:bg-nb-gray-900/60 hover:text-white"
+                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-netbird hover:bg-nb-gray-900/60 hover:text-nb-gray-100"
                   title={t("jobs.downloadBundle")}
                   aria-label={t("jobs.downloadBundle")}
                   onClick={() => downloadBundle(value)}

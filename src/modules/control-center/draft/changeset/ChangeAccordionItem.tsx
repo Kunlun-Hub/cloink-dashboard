@@ -222,7 +222,7 @@ export const ChangeAccordionItem = ({
 
         {status === "deploying" ? (
           <div
-            className={"self-center shrink-0 p-1.5 text-white"}
+            className={"self-center shrink-0 p-1.5 text-nb-gray-100"}
             aria-label={t("controlCenter.draft.deploying")}
           >
             <Loader2 size={16} className={"animate-spin"} />

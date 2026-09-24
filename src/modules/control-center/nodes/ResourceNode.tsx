@@ -109,7 +109,7 @@ export const ResourceNode = ({ data, id, parentId }: ResourceNode) => {
               "cc-frame-row-icon h-9 w-9 bg-nb-gray-850 rounded-md flex items-center justify-center shrink-0 transition-all",
               "border border-nb-gray-850",
               "group-hover/node:text-nb-gray-200 group-hover/node:bg-nb-gray-700 group-hover/node:border-nb-gray-700",
-              isTarget && "group-hover/node:ring-2 group-hover/node:ring-white",
+              isTarget && "group-hover/node:ring-2 group-hover/node:ring-nb-gray-50",
               showHalo && "ring-2 ring-sky-500",
             )}
           >
@@ -152,7 +152,7 @@ export const ResourceNode = ({ data, id, parentId }: ResourceNode) => {
           ? "bg-nb-gray-940 border-nb-gray-850 pr-5 pl-3 h-[64px] flex items-center"
           : "border-transparent",
         "hover:bg-nb-gray-930 hover:border-nb-gray-800",
-        isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-white",
+        isTarget && "hover:bg-nb-gray-930 hover:ring-2 ring-nb-gray-50",
         className,
       )}
     >

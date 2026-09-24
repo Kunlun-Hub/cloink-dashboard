@@ -89,7 +89,7 @@ export const NotificationChannelListItem = ({
       className={cn(
         "flex items-center w-full gap-4 dark:text-neutral-300 text-neutral-500 transition-all group/channel rounded-md px-3 py-2.5",
         onClick && !disabled
-          ? "hover:text-neutral-100 hover:bg-nb-gray-930 cursor-pointer relative"
+          ? "hover:text-nb-gray-100 hover:bg-nb-gray-930 cursor-pointer relative"
           : "cursor-default",
       )}
       onClick={handleClick}

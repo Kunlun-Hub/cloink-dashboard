@@ -106,7 +106,7 @@ export const ConnectHandle = ({
             position === Position.Top && "top-[calc(50%-16px)]",
             "opacity-0 group-hover/node:opacity-100",
             "bg-nb-gray-940 border border-nb-gray-800 rounded-full",
-            "group-hover/handle:w-7 group-hover/handle:h-7 group-hover/handle:bg-white group-hover/handle:border-2 text-nb-gray",
+            "group-hover/handle:w-7 group-hover/handle:h-7 group-hover/handle:bg-nb-gray-50 group-hover/handle:border-2 text-nb-gray",
             isConnecting && "opacity-0",
             isDragging && "!opacity-0",
             hidden && "!opacity-0",

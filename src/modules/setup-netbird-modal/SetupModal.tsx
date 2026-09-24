@@ -219,16 +219,20 @@ export function SetupModalContent({
           >
             {titleMessage}
           </h2>
-          <Paragraph
-            className={cn(
-              "mx-auto mt-3",
-              effectiveSetupKey ? "max-w-sm" : "max-w-xs",
-            )}
-          >
-            {isUserDevice === false || effectiveSetupKey
-              ? t("setupModal.installWithSetupKeyDescription")
-              : t("setupModal.installDescription")}
-          </Paragraph>
+          {/* The standalone /install page only needs the heading and the OS
+              tabs; the redundant description is hidden there. */}
+          {!isInstallPage && (
+            <Paragraph
+              className={cn(
+                "mx-auto mt-3",
+                effectiveSetupKey ? "max-w-sm" : "max-w-xs",
+              )}
+            >
+              {isUserDevice === false || effectiveSetupKey
+                ? t("setupModal.installWithSetupKeyDescription")
+                : t("setupModal.installDescription")}
+            </Paragraph>
+          )}
         </div>
       )}
 
