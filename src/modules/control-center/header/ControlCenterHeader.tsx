@@ -137,7 +137,7 @@ function NetworkActionsMenu({
               ) : (
                 <Trash2Icon size={14} className={"shrink-0"} />
               )}
-              {isDraftNew ? "Remove" : "Delete"}
+              {isDraftNew ? t("common.remove") : t("common.delete")}
             </div>
           </DropdownMenuItem>
         )}
@@ -452,8 +452,10 @@ function FocusModePill() {
             >
               <FocusIcon size={13} className={"text-sky-400 shrink-0"} />
               {focusedNodeId
-                ? `Focusing on “${focusedName || "node"}”`
-                : "Select a node to focus"}
+                ? t("controlCenter.focusingOn", {
+                    name: focusedName || t("controlCenter.nodeFallback"),
+                  })
+                : t("controlCenter.selectNodeToFocus")}
               <button
                 onClick={() => {
                   setHighlightArmed(false);

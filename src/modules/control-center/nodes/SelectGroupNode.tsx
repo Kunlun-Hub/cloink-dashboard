@@ -44,7 +44,7 @@ export const SelectGroupNode = ({ data, id }: NodeProps) => {
   );
 
   const group = groups?.find((g) => g.id === data.currentGroup);
-  const countLabel = getGroupCountLabel(group);
+  const countLabel = getGroupCountLabel(group, t);
 
   const [open, setOpen] = React.useState(false);
   useCloseOnCanvasClick(open, () => setOpen(false));

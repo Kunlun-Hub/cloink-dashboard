@@ -16,6 +16,7 @@ import {
   StandaloneResourceNode,
 } from "@/modules/control-center/nodes/StandaloneResourceNode";
 import { useIsContextMenuTarget } from "@/modules/control-center/contexts/ControlCenterContext";
+import { useI18n } from "@/i18n/I18nProvider";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import {
   DraftNetworkRef,
@@ -43,6 +44,7 @@ type ResourceNode = Node<
 >;
 
 export const ResourceNode = ({ data, id, parentId }: ResourceNode) => {
+  const { t } = useI18n();
   const { enabled, resource, peer, showHandles = false, className } = data;
   const sourceGroupEnabled = useAnySourceGroupEnabled(
     id,
@@ -131,7 +133,7 @@ export const ResourceNode = ({ data, id, parentId }: ResourceNode) => {
                 "font-normal text-sm text-nb-gray-500 relative -top-[0.1rem]"
               }
             >
-              {cardResource.address || "IP, CIDR or Domain"}
+              {cardResource.address || t("controlCenter.addressPlaceholderShort")}
             </span>
           </div>
         </div>

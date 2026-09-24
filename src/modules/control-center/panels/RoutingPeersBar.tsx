@@ -1,7 +1,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@components/Popover";
 import { GroupBadgeIcon } from "@components/ui/GroupBadgeIcon";
 import { VirtualScrollAreaList } from "@components/VirtualScrollAreaList";
-import { cn, singularize } from "@utils/helpers";
+import { cn, countLabel } from "@utils/helpers";
 import {
   AlertTriangleIcon,
   ChevronDown,
@@ -27,6 +27,7 @@ export const RoutingPeersIndicator = ({
   className?: string;
   zeroLabel?: string;
 }) => {
+  const { t } = useI18n();
   // A missing router means the network can't route, so the status bar warns
   // instead of showing the traffic-light dot.
   const showAlert = count === 0 && !!zeroLabel;
@@ -50,7 +51,7 @@ export const RoutingPeersIndicator = ({
       )}
       {count === 0 && zeroLabel
         ? zeroLabel
-        : singularize("Routing Peers", count, true)}
+        : countLabel(t, count, "counts.routingPeer", "counts.routingPeers")}
     </div>
   );
 };
@@ -257,7 +258,7 @@ export const RoutingPeersBar = ({
                   <span className={"truncate flex-1 min-w-0"}>
                     {row.name}
                     {row.peersCount !== undefined &&
-                      ` (${singularize("Peers", row.peersCount, true)})`}
+                      ` (${countLabel(t, row.peersCount, "counts.peer", "counts.peers")})`}
                   </span>
                   {row.onEdit && (
                     <SquarePenIcon

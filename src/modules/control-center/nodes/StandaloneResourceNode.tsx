@@ -132,7 +132,7 @@ export const StandaloneResourceNode = ({
               "font-normal text-sm text-nb-gray-500 relative -top-[0.1rem]"
             }
           >
-            {resource.address || "IP, CIDR or Domain"}
+            {resource.address || t("controlCenter.addressPlaceholderShort")}
           </span>
         </div>
       </div>

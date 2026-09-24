@@ -704,8 +704,8 @@ export function PeerGroupSelector({
                         className={"mt-5 mb-5 max-w-sm mx-auto"}
                       >
                         {search !== ""
-                          ? "There are no groups matching your search. Please try a different search term."
-                          : "There are no groups that contain resources yet."}
+                          ? t("peerGroupSelector.noGroupsMatchingSearch")
+                          : t("peerGroupSelector.noGroupsWithResources")}
                       </DropdownInfoText>
                     )}
 

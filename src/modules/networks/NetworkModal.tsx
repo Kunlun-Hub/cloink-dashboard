@@ -165,7 +165,7 @@ export const NetworkModalContent = ({
             }
           >
             {network ? (
-              "Save Changes"
+              t("common.saveChanges")
             ) : (
               <>
                 <PlusCircle size={16} />{t("networks.addNetwork")}</>

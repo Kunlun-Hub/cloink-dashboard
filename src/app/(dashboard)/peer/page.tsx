@@ -17,7 +17,7 @@ import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
 import useRedirect from "@hooks/useRedirect";
 import useFetchApi from "@utils/api";
-import { singularize } from "@utils/helpers";
+import { countLabel } from "@utils/helpers";
 import dayjs from "dayjs";
 import { isEmpty } from "lodash";
 import {
@@ -371,7 +371,7 @@ const PeerOverviewTabs = () => {
               size={16}
               className="fill-nb-gray-400 group-data-[state=active]/trigger:fill-netbird"
             />
-            {singularize(t("nav.services"), flatTargets.length)}
+            {countLabel(t, flatTargets.length, "counts.service", "counts.services")}
           </TabsTrigger>
         )}
 

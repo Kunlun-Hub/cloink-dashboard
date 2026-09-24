@@ -1060,8 +1060,8 @@ export const DestinationGroupPanel = ({
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no peers matching your search. Please try a different search term."
-                  : "There are no peers in this group yet."}
+                  ? t("peerGroupSelector.noMatchingPeers")
+                  : t("controlCenter.noPeersInGroup")}
               </DropdownInfoText>
             </div>
           )}
@@ -1124,8 +1124,8 @@ export const DestinationGroupPanel = ({
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no resources matching your search. Please try a different search term."
-                  : "There are no resources in this group yet."}
+                  ? t("peerGroupSelector.noMatchingResources")
+                  : t("controlCenter.noResourcesInGroup")}
               </DropdownInfoText>
             </div>
           )}
@@ -1161,7 +1161,7 @@ export const DestinationGroupPanel = ({
             >
               {/* Keep the label's width while saving so nothing jumps. */}
               <span className={cn(saving && "invisible")}>
-                {isDraft ? "Assign" : "Save"}
+                {isDraft ? t("common.assign") : t("common.save")}
               </span>
               {saving && (
                 <Loader2

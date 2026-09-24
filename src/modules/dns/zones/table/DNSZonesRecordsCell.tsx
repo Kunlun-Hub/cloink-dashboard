@@ -3,6 +3,7 @@ import Button from "@components/Button";
 import { GlobeIcon, PlusCircle } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 import { DNSZone } from "@/interfaces/DNS";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
 
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const DNSZonesRecordsCell = ({ zone }: Props) => {
+  const { t } = useI18n();
   const { permission } = usePermissions();
   const { openRecordModal } = useDNSZones();
 
@@ -42,7 +44,7 @@ export const DNSZonesRecordsCell = ({ zone }: Props) => {
         data-testid="add-dns-record"
       >
         <PlusCircle size={12} />
-        Add
+        {t("common.add")}
       </Button>
     </div>
   );

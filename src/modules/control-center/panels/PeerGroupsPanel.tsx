@@ -394,7 +394,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
                             {!g.id && <SmallBadge />}
                           </span>
                           <span className={"text-[0.72rem] text-nb-gray-400"}>
-                            {getGroupCountLabel(g)}
+                            {getGroupCountLabel(g, t)}
                           </span>
                         </div>
                       </div>
@@ -409,8 +409,8 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no groups matching your search. Please try a different search term."
-                  : "There are no groups yet."}
+                  ? t("controlCenter.noGroupsMatching")
+                  : t("controlCenter.noGroupsYet")}
               </DropdownInfoText>
             </div>
           )}
@@ -443,7 +443,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
               onClick={() => void saveAssignments()}
             >
               <span className={cn(saving && "invisible")}>
-                {isDraft ? "Assign" : "Save"}
+                {isDraft ? t("common.assign") : t("common.save")}
               </span>
               {saving && (
                 <Loader2

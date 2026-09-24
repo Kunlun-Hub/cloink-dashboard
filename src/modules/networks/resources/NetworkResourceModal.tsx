@@ -19,6 +19,7 @@ import { HelpTooltip } from "@components/HelpTooltip";
 import { PeerGroupSelector } from "@components/PeerGroupSelector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { useApiCall } from "@utils/api";
+import { countLabel } from "@utils/helpers";
 import { normalizeHostCIDR } from "@utils/ip";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
@@ -368,8 +369,12 @@ export function ResourceModalContent({
                         <Callout variant={"info"} className={"mt-3"}>
                           {t("networks.resourceGroupsUsedIn")}{" "}
                           <span className="text-nb-gray-50 font-medium">
-                            {groupPolicyCount} {t("nav.accessControl")}{" "}
-                            {groupPolicyCount === 1 ? "Policy" : "Policies"}
+                            {countLabel(
+                              t,
+                              groupPolicyCount,
+                              "counts.accessControlPolicy",
+                              "counts.accessControlPolicies",
+                            )}
                           </span>
                           {t("networks.resourceInheritsAccess", {
                             scope:
@@ -442,7 +447,7 @@ export function ResourceModalContent({
                   onClick={saveDraft}
                   disabled={!canCreate}
                 >
-                  {resource ? "Save Changes" : "Add Resource"}
+                  {resource ? t("common.saveChanges") : t("networks.addResource")}
                 </Button>
               </ModalClose>
             </>

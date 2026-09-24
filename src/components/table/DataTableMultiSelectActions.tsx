@@ -1,6 +1,7 @@
 import Button from "@components/Button";
 import { Table } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
+import { countLabel } from "@utils/helpers";
 import { useI18n } from "@/i18n/I18nProvider";
 
 interface Props<TData> {
@@ -14,7 +15,13 @@ export default function DataTableMultiSelectActions<TData>({
     <div>
       <Button variant={"danger-outline"}>
         <Trash2 size={16} />
-        {t("setupKeys.revoke")} {table.getFilteredSelectedRowModel().rows.length} Key(s)
+        {t("setupKeys.revoke")}{" "}
+        {countLabel(
+          t,
+          table.getFilteredSelectedRowModel().rows.length,
+          "counts.key",
+          "counts.keys",
+        )}
       </Button>
     </div>
   ) : null;

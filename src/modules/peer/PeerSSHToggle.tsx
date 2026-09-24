@@ -25,7 +25,7 @@ import { Group } from "@/interfaces/Group";
 import { orderBy } from "lodash";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import Badge from "@components/Badge";
-import { cn, singularize } from "@utils/helpers";
+import { cn, countLabel } from "@utils/helpers";
 import { Modal } from "@components/modal/Modal";
 import { AccessControlModalContent } from "@/modules/access-control/AccessControlModal";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
@@ -288,10 +288,11 @@ export const PeerSSHToggle = () => {
               />
               <div>
                 <span className={"font-medium text-xs"}>
-                  {singularize(
-                    t("networkDetails.activePolicies"),
-                    enabledPolicies?.length,
-                    true,
+                  {countLabel(
+                    t,
+                    enabledPolicies?.length ?? 0,
+                    "counts.activePolicy",
+                    "counts.activePolicies",
                   )}
                 </span>
               </div>

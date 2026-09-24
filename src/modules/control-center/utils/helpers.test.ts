@@ -1,6 +1,7 @@
 import { Node } from "@xyflow/react";
 import { describe, expect, it } from "vitest";
 import { Group } from "@/interfaces/Group";
+import { messages } from "@/i18n/messages";
 import { Policy } from "@/interfaces/Policy";
 import { isEmptiedPolicy } from "./change-cascade";
 import {
@@ -431,23 +432,57 @@ describe("isTrackablePolicy — both-sides policies enter the changeset even wit
   });
 });
 
+// Mirrors I18nProvider's lookup + interpolation so the label assertions also
+// cover the localized strings.
+const translate =
+  (locale: "en" | "zh-CN") =>
+  (key: string, values?: Record<string, unknown>) => {
+    const template = (messages[locale] as Record<string, string>)[key] ?? key;
+    return template.replace(/\{(\w+)\}/g, (_, name: string) =>
+      values?.[name] === undefined ? `{${name}}` : String(values[name]),
+    );
+  };
+
+const t = translate("en");
+
 describe("getGroupCountLabel", () => {
   it("formats peer and resource counts", () => {
-    expect(getGroupCountLabel(undefined)).toBe("No Peers");
-    expect(getGroupCountLabel({ name: "g", peers_count: 3 } as Group)).toBe(
+    expect(getGroupCountLabel(undefined, t)).toBe("No Peers");
+    expect(getGroupCountLabel({ name: "g", peers_count: 3 } as Group, t)).toBe(
       "3 Peers",
     );
     expect(
-      getGroupCountLabel({ name: "g", resources_count: 2 } as Group),
+      getGroupCountLabel({ name: "g", resources_count: 2 } as Group, t),
     ).toBe("2 Resources");
     // Resources lead once the group holds any.
     expect(
-      getGroupCountLabel({
-        name: "g",
-        peers_count: 1,
-        resources_count: 2,
-      } as Group),
+      getGroupCountLabel(
+        {
+          name: "g",
+          peers_count: 1,
+          resources_count: 2,
+        } as Group,
+        t,
+      ),
     ).toBe("2 Resources, 1 Peer");
+  });
+
+  it("localizes the counts", () => {
+    const zh = translate("zh-CN");
+    expect(getGroupCountLabel(undefined, zh)).toBe("无节点或资源");
+    expect(getGroupCountLabel({ name: "g", peers_count: 3 } as Group, zh)).toBe(
+      "3 个节点",
+    );
+    expect(
+      getGroupCountLabel(
+        {
+          name: "g",
+          peers_count: 1,
+          resources_count: 2,
+        } as Group,
+        zh,
+      ),
+    ).toBe("2 个资源, 1 个节点");
   });
 });
 

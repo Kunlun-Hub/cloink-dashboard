@@ -62,7 +62,7 @@ export const GroupsTableColumns = (
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           disabled={!table.getRowModel().rows.some((row) => row.getCanSelect())}
-          aria-label="Select all groups on this page"
+          aria-label={t("groups.selectAllOnPage")}
         />
       </div>
     ),

@@ -244,6 +244,20 @@ export const getBrowserInfo = () => {
   }
 };
 
+export type TranslateFn = (key: string, values?: Record<string, unknown>) => string;
+
+/**
+ * Locale-aware counterpart of {@link singularize}. Picks the singular or plural
+ * translation key and interpolates the count, so localized UIs never render
+ * English plural forms such as "3 Peers".
+ */
+export const countLabel = (
+  t: TranslateFn,
+  count: number,
+  singularKey: string,
+  pluralKey: string,
+) => t(count === 1 ? singularKey : pluralKey, { count });
+
 export const singularize = (
   word: string,
   count?: number,

@@ -25,6 +25,7 @@ import {
 import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 import { AllHandles } from "@/modules/control-center/handles/AllHandles";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
+import { useI18n } from "@/i18n/I18nProvider";
 import Button from "@components/Button";
 
 // A not-yet-installed peer dropped from the components sidebar.
@@ -53,6 +54,7 @@ export type PeerNodeType = Node<
 >;
 
 export const PeerNode = ({ data, id }: PeerNodeType) => {
+  const { t } = useI18n();
   const {
     peer,
     enabled,
@@ -128,10 +130,10 @@ export const PeerNode = ({ data, id }: PeerNodeType) => {
               <DownloadIcon size={12} className={"text-yellow-400"} />
             )}
             {placeholderKind === "user-device"
-              ? "Install or assign"
+              ? t("controlCenter.installOrAssign")
               : setupKey
-              ? "Waiting"
-              : "Install"}
+              ? t("controlCenter.waitingForRegistration")
+              : t("common.install")}
           </Button>
         </div>
         <div className={"flex items-center gap-2.5 text-nb-gray-300"}>

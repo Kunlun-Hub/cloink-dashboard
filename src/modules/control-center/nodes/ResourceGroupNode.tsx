@@ -1,9 +1,10 @@
 import { SmallBadge } from "@components/ui/SmallBadge";
 import { GroupBadgeIcon } from "@components/ui/GroupBadgeIcon";
-import { cn, singularize } from "@utils/helpers";
+import { cn, countLabel } from "@utils/helpers";
 import { type Node, Position, useConnection, useStore } from "@xyflow/react";
 import * as React from "react";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   useDestinationGroup,
   useIsContextMenuTarget,
@@ -27,6 +28,7 @@ type ResourceGroupNode = Node<
 // A resource group shown INSIDE a network frame: a flat row (no card
 // background), laid out by the frame like its resources.
 export const ResourceGroupNode = ({ data, id, parentId }: ResourceGroupNode) => {
+  const { t } = useI18n();
   const { group, showHandles = true } = data;
   const { isDraft, drillDownNetworkNodeId } = useDraftMode();
   const { selectedDestinationGroup, setSelectedDestinationGroup } =
@@ -105,8 +107,13 @@ export const ResourceGroupNode = ({ data, id, parentId }: ResourceGroupNode) => 
             }
           >
             {group?.resources_count
-              ? singularize("Resources", group.resources_count, true)
-              : "No Resources"}
+              ? countLabel(
+                  t,
+                  group.resources_count,
+                  "counts.resource",
+                  "counts.resources",
+                )
+              : t("counts.noResources")}
           </span>
         </div>
       </div>

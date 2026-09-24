@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { motion } from "framer-motion";
-import { cn, singularize } from "@utils/helpers";
+import { cn, countLabel } from "@utils/helpers";
 import useFetchApi from "@utils/api";
 import { Peer } from "@/interfaces/Peer";
 import { Network, NetworkResource } from "@/interfaces/Network";
@@ -910,8 +910,13 @@ const PanelContent = React.memo(
               </span>
               <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
                 {resourceCount
-                  ? singularize("Resources", resourceCount)
-                  : "No Resources"}
+                  ? countLabel(
+                      t,
+                      resourceCount,
+                      "counts.resource",
+                      "counts.resources",
+                    )
+                  : t("counts.noResources")}
               </span>
             </div>
           </div>
@@ -955,8 +960,13 @@ const PanelContent = React.memo(
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
                   {network.resources?.length
-                    ? singularize("Resources", network.resources.length)
-                    : "No Resources"}
+                    ? countLabel(
+                        t,
+                        network.resources.length,
+                        "counts.resource",
+                        "counts.resources",
+                      )
+                    : t("counts.noResources")}
                 </span>
               </div>
             </div>
@@ -1033,7 +1043,7 @@ const PanelContent = React.memo(
                 <SmallBadge />
               </span>
               <span className={"text-[0.72rem] text-nb-gray-400"}>
-                {getGroupCountLabel(group)}
+                {getGroupCountLabel(group, t)}
               </span>
             </div>
           </div>
@@ -1074,7 +1084,7 @@ const PanelContent = React.memo(
                   {pendingDelete && <DeletedBadge />}
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400"}>
-                  {getGroupCountLabel(group)}
+                  {getGroupCountLabel(group, t)}
                 </span>
               </div>
             </div>
@@ -1117,7 +1127,7 @@ const PanelContent = React.memo(
                   {pendingDelete && <DeletedBadge />}
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
-                  {protocolLabel || "All"}
+                  {protocolLabel || t("common.all")}
                 </span>
               </div>
             </div>
@@ -1364,7 +1374,7 @@ const PanelContent = React.memo(
                       "text-sm text-nb-gray-350 font-light max-w-xs px-6"
                     }
                   >
-                    {`We couldn't find any results. Please try a different search term.`}
+                    {t("common.noResultsDescription")}
                   </div>
                 </div>
               </div>

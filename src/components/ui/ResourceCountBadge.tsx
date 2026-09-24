@@ -1,9 +1,10 @@
 import Badge, { BadgeVariants } from "@components/Badge";
-import { cn, singularize } from "@utils/helpers";
+import { cn, countLabel } from "@utils/helpers";
 import { LayersIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   group?: Group;
@@ -16,6 +17,7 @@ export default function ResourceCountBadge({
   disableRedirect = false,
 }: Props) {
   const router = useRouter();
+  const { t } = useI18n();
   const hasId = !!group?.id;
 
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -32,7 +34,12 @@ export default function ResourceCountBadge({
       useHover={hasId}
     >
       <LayersIcon size={12} />
-      {singularize("Resources", group?.resources_count, true)}
+      {countLabel(
+        t,
+        group?.resources_count ?? 0,
+        "counts.resource",
+        "counts.resources",
+      )}
     </Badge>
   );
 }

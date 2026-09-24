@@ -499,7 +499,7 @@ export const InviteUserButton = ({
   const button = (
     <Button variant={"primary"} className={className} disabled={isDisabled}>
       <MailPlus size={16} />
-      {isCloud ? "Invite User" : "Add User"}
+      {isCloud ? t("users.inviteUser") : t("users.addUser")}
     </Button>
   );
 

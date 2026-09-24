@@ -5,7 +5,7 @@ import {
   useStore,
 } from "@xyflow/react";
 import { orderBy } from "lodash";
-import { singularize } from "@utils/helpers";
+import { countLabel, TranslateFn } from "@utils/helpers";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -41,12 +41,20 @@ export const getNetworksFromPolicy = (networks: Network[], policy: Policy) => {
   });
 };
 
-export const getGroupCountLabel = (group?: Group) => {
+export const getGroupCountLabel = (
+  group: Group | undefined,
+  t: TranslateFn,
+) => {
   const peerCount = group?.peers_count || 0;
   const resourceCount = group?.resources_count || 0;
-  if (peerCount === 0 && resourceCount === 0) return "No Peers";
-  const peers = singularize("Peers", peerCount, true);
-  const resources = singularize("Resources", resourceCount, true);
+  if (peerCount === 0 && resourceCount === 0) return t("counts.noPeersOrResources");
+  const peers = countLabel(t, peerCount, "counts.peer", "counts.peers");
+  const resources = countLabel(
+    t,
+    resourceCount,
+    "counts.resource",
+    "counts.resources",
+  );
   if (resourceCount === 0) return peers;
   if (peerCount === 0) return resources;
   return peerCount > resourceCount

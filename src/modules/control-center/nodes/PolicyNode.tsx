@@ -8,6 +8,7 @@ import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 import { FullAreaTargetHandle } from "@/modules/control-center/handles/FullAreaTargetHandle";
 import { getPolicyProtocolAndPortText } from "@/modules/control-center/utils/helpers";
 import { Policy } from "@/interfaces/Policy";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type PolicyNode = Node<
   {
@@ -17,6 +18,7 @@ type PolicyNode = Node<
 >;
 
 export const PolicyNode = ({ data, id }: PolicyNode) => {
+  const { t } = useI18n();
   const rule = data.policy.rules?.[0];
   const label = getPolicyProtocolAndPortText(data.policy);
   const isActive = rule?.enabled;
@@ -63,7 +65,7 @@ export const PolicyNode = ({ data, id }: PolicyNode) => {
           "border-l border-nb-gray-800 flex items-center text-nb-gray-300 text-[0.65rem] pl-2 pr-3 font-mono"
         }
       >
-        <div>{label === "" ? "All" : label}</div>
+        <div>{label === "" ? t("common.all") : label}</div>
       </div>
 
       <Handle

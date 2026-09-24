@@ -1,11 +1,12 @@
 import Badge, { BadgeVariants } from "@components/Badge";
-import { cn, singularize } from "@utils/helpers";
+import { cn, countLabel } from "@utils/helpers";
 import { MonitorSmartphoneIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useMemo } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 import ResourceCountBadge from "@components/ui/ResourceCountBadge";
 
 type Props = {
@@ -21,6 +22,7 @@ export default function PeerCountBadge({
   disableRedirect = false,
 }: Props) {
   const router = useRouter();
+  const { t } = useI18n();
   const { dropdownOptions, groups } = useGroups();
 
   const currentGroup = useMemo(() => {
@@ -61,7 +63,7 @@ export default function PeerCountBadge({
       useHover={canRedirect}
     >
       <MonitorSmartphoneIcon size={12} />
-      {singularize("Peers", peerCount, true)}
+      {countLabel(t, peerCount, "counts.peer", "counts.peers")}
     </Badge>
   );
 }

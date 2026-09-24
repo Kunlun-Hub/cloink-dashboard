@@ -6,13 +6,16 @@ import {
   TooltipTrigger,
 } from "@components/Tooltip";
 import { Server } from "lucide-react";
+import { countLabel } from "@utils/helpers";
 import React from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 import { NameserverGroup } from "@/interfaces/Nameserver";
 
 type Props = {
   ns: NameserverGroup;
 };
 export default function NameserverNameserversCell({ ns }: Props) {
+  const { t } = useI18n();
   const nameservers = ns.nameservers ?? [];
 
   if (nameservers.length > 3) {
@@ -22,7 +25,12 @@ export default function NameserverNameserversCell({ ns }: Props) {
           <TooltipTrigger asChild={true}>
             <Badge variant={"gray"} className={"font-mono cursor-help"}>
               <Server size={10} className={"mr-1"} />
-              {nameservers.length} Servers
+              {countLabel(
+                t,
+                nameservers.length,
+                "counts.server",
+                "counts.servers",
+              )}
             </Badge>
           </TooltipTrigger>
           <TooltipContent className={"p-3"}>

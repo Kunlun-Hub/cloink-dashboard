@@ -5,6 +5,7 @@ import { type Node, Position, useConnection } from "@xyflow/react";
 import * as React from "react";
 import { useMemo } from "react";
 import { Group } from "@/interfaces/Group";
+import { useI18n } from "@/i18n/I18nProvider";
 import {
   useDestinationGroup,
   useIsContextMenuTarget,
@@ -48,13 +49,17 @@ export const GroupNode = ({ data, id }: GroupNodeProps) => {
   );
   const isNew = !group?.id;
   const isContextMenuActive = useIsContextMenuTarget(id);
+  const { t } = useI18n();
   const { selectedDestinationGroup } = useDestinationGroup();
   const isPanelActive =
     selectedDestinationGroup !== "" &&
     (selectedDestinationGroup === group?.id || selectedDestinationGroup === id);
   const showHalo = isPanelActive || isContextMenuActive;
 
-  const countLabel = useMemo(() => getGroupCountLabel(group), [group]);
+  const countLabel = useMemo(
+    () => getGroupCountLabel(group, t),
+    [group, t],
+  );
 
   return (
     <div
