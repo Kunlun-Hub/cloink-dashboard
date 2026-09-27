@@ -78,6 +78,10 @@ jobs:
             echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
             echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            # main tracks upstream dashboard v2.93.0; keep the embedded
+            # version pinned instead of reporting "development".
+            echo "version=v2.93.0" >> $GITHUB_OUTPUT
           else
             echo "version=development" >> $GITHUB_OUTPUT
           fi
@@ -99,6 +103,7 @@ jobs:
             latest=false
           tags: |
             type=raw,value=main,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=test,enable=${{ github.ref == 'refs/heads/feature/self-hosted-flow-logs' }}
             type=raw,value=0.79.0-upgrade,enable=${{ github.ref == 'refs/heads/upgrade/dashboard-v2.93.0' }}
             type=ref,event=tag
