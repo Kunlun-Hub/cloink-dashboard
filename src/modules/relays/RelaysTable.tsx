@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@components/Button";
+import { Checkbox } from "@components/Checkbox";
 import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import { Modal, ModalContent, ModalFooter } from "@components/modal/Modal";
@@ -27,6 +28,7 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
 import { useDialog } from "@/contexts/DialogProvider";
+import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -48,6 +50,7 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
   const [deployModal, setDeployModal] = React.useState(false);
   const [priorityRelay, setPriorityRelay] = React.useState<Relay | null>(null);
   const [priorityDraft, setPriorityDraft] = React.useState("30");
+  const [groupsDraft, setGroupsDraft] = React.useState<string[]>([]);
   const deleteRelay = useApiCall<unknown>("/relays", true).del;
   const updateRelay = useApiCall<unknown>("/relays", true).put;
   const applyRelayConfig = useApiCall<unknown>("/relays/apply", true).post;
@@ -64,6 +67,7 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
   const openPriorityModal = React.useCallback((relay: Relay) => {
     setPriorityRelay(relay);
     setPriorityDraft(String(relay.priority ?? 30));
+    setGroupsDraft(relay.groups ?? []);
   }, []);
 
   const saveRelayPriority = React.useCallback(
@@ -86,7 +90,7 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
         title: t("relays.priorityUpdateTitle"),
         description: t("relays.priorityUpdated"),
         promise: updateRelay(
-          { priority },
+          { priority, groups: groupsDraft },
           "/" + encodeURIComponent(relayID),
         ).then(() => {
           mutate("/relays").then();
@@ -95,7 +99,7 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
         loadingMessage: t("relays.priorityUpdating"),
       });
     },
-    [canUpdate, mutate, priorityDraft, t, updateRelay],
+    [canUpdate, mutate, priorityDraft, groupsDraft, t, updateRelay],
   );
 
   const columns = useMemo<ColumnDef<Relay>[]>(
@@ -177,6 +181,29 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
         cell: ({ row }) => row.original.priority,
       },
       {
+        accessorKey: "groups",
+        header: ({ column }) => (
+          <DataTableHeader column={column}>{t("relays.groups")}</DataTableHeader>
+        ),
+        cell: ({ row }) => {
+          const groups = row.original.groups ?? [];
+          if (groups.length === 0) {
+            return (
+              <span className={"text-neutral-500 dark:text-nb-gray-400"}>
+                {t("relays.groupsGlobal")}
+              </span>
+            );
+          }
+          return (
+            <div className={"flex flex-wrap gap-1 max-w-[220px]"}>
+              {groups.map((name) => (
+                <SmallBadge key={name} text={name} variant={"blue"} size={"md"} />
+              ))}
+            </div>
+          );
+        },
+      },
+      {
         accessorKey: "connected_clients",
         header: ({ column }) => (
           <DataTableHeader column={column}>
@@ -206,7 +233,7 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
         accessorFn: (row) =>
           `${row.name ?? ""} ${row.id ?? ""} ${row.observed_id ?? ""} ${
             row.address
-          } ${row.status} ${row.error ?? ""}`,
+          } ${row.status} ${row.error ?? ""} ${(row.groups ?? []).join(" ")}`,
       },
       {
         id: "actions",
@@ -359,6 +386,8 @@ export default function RelaysTable({ headingTarget }: Readonly<Props>) {
         relay={priorityRelay}
         value={priorityDraft}
         onValueChange={setPriorityDraft}
+        groupsValue={groupsDraft}
+        onGroupsChange={setGroupsDraft}
         onOpenChange={(open) => {
           if (!open) setPriorityRelay(null);
         }}
@@ -374,23 +403,36 @@ function RelayPriorityModal({
   relay,
   value,
   onValueChange,
+  groupsValue,
+  onGroupsChange,
   onOpenChange,
   onSave,
 }: Readonly<{
   relay: Relay | null;
   value: string;
   onValueChange: (value: string) => void;
+  groupsValue: string[];
+  onGroupsChange: (value: string[]) => void;
   onOpenChange: (open: boolean) => void;
   onSave: () => void;
 }>) {
   const { t } = useI18n();
+  const { groups } = useGroups();
+
+  const toggleGroup = (name: string) => {
+    if (groupsValue.includes(name)) {
+      onGroupsChange(groupsValue.filter((g) => g !== name));
+    } else {
+      onGroupsChange([...groupsValue, name]);
+    }
+  };
 
   return (
     <Modal open={!!relay} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-md"}>
         <ModalHeader
           icon={<PencilIcon size={18} />}
-          title={t("relays.editPriority")}
+          title={t("relays.editRelay")}
           description={relay?.name || relay?.id || relay?.address || ""}
           className={"px-6 pb-5 pt-6"}
         />
@@ -404,6 +446,46 @@ function RelayPriorityModal({
             value={value}
             onChange={(event) => onValueChange(event.target.value)}
           />
+          <div className={"mt-5"}>
+            <Label>{t("relays.groups")}</Label>
+            <p
+              className={
+                "text-xs text-neutral-500 dark:text-nb-gray-400 mb-3"
+              }
+            >
+              {t("relays.groupsHelp")}
+            </p>
+            <div
+              className={
+                "max-h-[180px] overflow-y-auto rounded-md border border-neutral-200 dark:border-nb-gray-800 px-3 py-2"
+              }
+            >
+              {groups && groups.length > 0 ? (
+                groups.map((group) => (
+                  <label
+                    key={group.name}
+                    className={
+                      "flex items-center gap-3 py-2 cursor-pointer text-sm text-neutral-700 dark:text-nb-gray-200"
+                    }
+                  >
+                    <Checkbox
+                      checked={groupsValue.includes(group.name)}
+                      onCheckedChange={() => toggleGroup(group.name)}
+                    />
+                    <span>{group.name}</span>
+                  </label>
+                ))
+              ) : (
+                <span
+                  className={
+                    "text-xs text-neutral-500 dark:text-nb-gray-400"
+                  }
+                >
+                  {t("relays.noGroupsAvailable")}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
         <ModalFooter className={"justify-end"}>
           <Button
@@ -448,6 +530,13 @@ function RelayExpandedRow({ relay }: Readonly<{ relay: Relay }>) {
     {
       label: t("relays.priority"),
       value: relay.priority,
+    },
+    {
+      label: t("relays.groups"),
+      value:
+        relay.groups && relay.groups.length > 0
+          ? relay.groups.join(", ")
+          : t("relays.groupsGlobal"),
     },
     {
       label: t("relays.connectedClients"),

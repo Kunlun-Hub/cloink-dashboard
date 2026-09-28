@@ -6,6 +6,7 @@ import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
 import { RadioTowerIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
+import GroupsProvider from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import PageContainer from "@/layouts/PageContainer";
@@ -36,7 +37,9 @@ export default function RelaysPage() {
         hasAccess={permission?.settings?.read}
       >
         <Suspense fallback={<SkeletonTable />}>
-          <RelaysTable headingTarget={portalTarget} />
+          <GroupsProvider>
+            <RelaysTable headingTarget={portalTarget} />
+          </GroupsProvider>
         </Suspense>
       </RestrictedAccess>
     </PageContainer>
