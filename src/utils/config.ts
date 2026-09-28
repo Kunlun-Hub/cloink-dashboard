@@ -20,7 +20,6 @@ interface Config {
   authServiceUrl?: string;
   wasmPath: string;
   wasmExecPath: string;
-  announcementsUrl?: string;
   releasesUrl?: string;
   analyticsEnabled: boolean;
   licensed: boolean;
@@ -35,10 +34,6 @@ interface Config {
   hubspotOnboardingFormId?: string;
   hubspotSurveyFormId?: string;
   analyticsExcludedEmails: string[];
-  // announcement: text the operator wants every user of this deployment to
-  // see in a permanent banner (NETBIRD_ANNOUNCEMENT), e.g. which environment
-  // or backend instance a dashboard belongs to. Unset for none.
-  announcement?: string;
 }
 
 /**
@@ -91,7 +86,6 @@ const loadConfig = (): Config => {
     authServiceUrl: configJson?.authServiceUrl ?? undefined,
     wasmPath: configJson?.wasmPath || "/netbird.wasm",
     wasmExecPath: configJson?.wasmExecPath || "/wasm_exec.js",
-    announcementsUrl: configJson?.announcementsUrl || undefined,
     releasesUrl: configJson?.releasesUrl || undefined,
     analyticsEnabled: configJson?.analyticsEnabled === "true",
     licensed: configJson?.licensed === "true",
@@ -106,7 +100,6 @@ const loadConfig = (): Config => {
       .split(",")
       .map((email: string) => email.trim())
       .filter(Boolean),
-    announcement: configJson?.announcement || undefined,
   } as Config;
 };
 

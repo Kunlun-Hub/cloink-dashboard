@@ -7060,7 +7060,6 @@ const zhCN = {
     "当 EDR 同步令牌已过期需要续期时通知",
   "common.requestFailedWithCode": "请求失败，状态码 {code}",
   "common.errorPrefix": "错误：{message}",
-  "announcements.huntressIntegration": "Huntress 现已集成 Cloink",
   "nav.customers": "客户",
   "nav.tenants": "租户",
   "cloud.agentNetwork": "代理网络",

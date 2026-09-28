@@ -13,9 +13,6 @@ import React from "react";
 import { NetBirdCloudProvider } from "@/cloud/contexts/NetBirdCloudProvider";
 import DistributorProvider from "@/cloud/distributor/contexts/DistributorProvider";
 import MSPProvider from "@/cloud/msp/contexts/MSPProvider";
-import AnnouncementProvider, {
-  useAnnouncement,
-} from "@/contexts/AnnouncementProvider";
 import ApplicationProvider, {
   useApplicationContext,
 } from "@/contexts/ApplicationProvider";
@@ -38,17 +35,15 @@ export default function DashboardLayout({
       <DistributorProvider>
         <MSPProvider>
           <UsersProvider>
-            <AnnouncementProvider>
-              <BillingProvider>
-                <GroupsProvider>
-                  <CountryProvider>
-                    <NetBirdCloudProvider />
-                    {!isNetBirdCloud() && <OnboardingProvider />}
-                    <DashboardPageContent>{children}</DashboardPageContent>
-                  </CountryProvider>
-                </GroupsProvider>
-              </BillingProvider>
-            </AnnouncementProvider>
+            <BillingProvider>
+              <GroupsProvider>
+                <CountryProvider>
+                  <NetBirdCloudProvider />
+                  {!isNetBirdCloud() && <OnboardingProvider />}
+                  <DashboardPageContent>{children}</DashboardPageContent>
+                </CountryProvider>
+              </GroupsProvider>
+            </BillingProvider>
           </UsersProvider>
         </MSPProvider>
       </DistributorProvider>
@@ -68,7 +63,6 @@ function DashboardPageContent({
   // itself in Navigation. Gating the sidebar itself here once emptied it for
   // the limited (user role) view, whose items were the Agent Network ones.
   const navOpenPageWidth = isSm ? "45%" : isXs ? "60%" : "80%";
-  const { bannerHeight } = useAnnouncement();
   return (
     <div className={cn("flex flex-col h-screen", mobileNavOpen && "flex")}>
       {mobileNavOpen && (
@@ -174,7 +168,7 @@ function DashboardPageContent({
             <div
               className={"flex flex-row flex-grow"}
               style={{
-                height: `calc(100vh - ${headerHeight + bannerHeight}px)`,
+                height: `calc(100vh - ${headerHeight}px)`,
               }}
             >
               <Navigation hideOnMobile />

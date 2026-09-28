@@ -2,7 +2,6 @@
 
 import Button from "@components/Button";
 import { NetBirdLogo } from "@components/NetBirdLogo";
-import { AnnouncementBanner } from "@components/ui/AnnouncementBanner";
 import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
 import UserDropdown from "@components/ui/UserDropdown";
 import { cn } from "@utils/helpers";
@@ -12,7 +11,6 @@ import React from "react";
 import { DistributorTransferAccountModal } from "@/cloud/distributor/DistributorTransferAccountModal";
 import { MSPTenantsSwitcher } from "@/cloud/msp/MSPTenantsSwitcher";
 import { MSPTransferAccountModal } from "@/cloud/msp/MSPTransferAccountModal";
-import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import {
@@ -28,7 +26,6 @@ export const headerHeight = 65;
 export default function NavbarWithDropdown() {
   const router = useGuardedRouter();
   const { toggleMobileNav } = useApplicationContext();
-  const { bannerHeight } = useAnnouncement();
   const { isRestricted } = usePermissions();
   const account = useAccount();
   const brandingLogoDataURL = getAccountBrandingLogoDataURL(account);
@@ -41,10 +38,9 @@ export default function NavbarWithDropdown() {
       <div
         className={"fixed z-50 w-full"}
         style={{
-          height: headerHeight + bannerHeight,
+          height: headerHeight,
         }}
       >
-        <AnnouncementBanner />
         <div
           className={cn(
             "bg-white px-2 py-3 dark:border-gray-700 dark:bg-nb-gray backdrop-blur-lg sm:px-6",
@@ -94,7 +90,7 @@ export default function NavbarWithDropdown() {
       </div>
       <div
         style={{
-          height: headerHeight + bannerHeight,
+          height: headerHeight,
         }}
       ></div>
     </>
