@@ -21,12 +21,13 @@ function Snippet({
   lines: string[];
   copyText?: string;
 }) {
+  const { t } = useI18n();
   return (
     <div className={"min-w-0"}>
       {caption && <SmallParagraph className={"mb-2"}>{caption}</SmallParagraph>}
       <Code
         codeToCopy={copyText ?? lines.join("\n")}
-        message={"Copied to clipboard"}
+        message={t("common.copiedToClipboard")}
       >
         {lines.map((line, i) => (
           <Code.Line key={i}>{line}</Code.Line>
@@ -109,8 +110,8 @@ export function AgentConnectTabs({
               }
               options={[
                 { label: t("agentConnect.optionAnthropicApi"), value: "anthropic" },
-                { label: "Vertex AI", value: "vertex" },
-                { label: "Bedrock", value: "bedrock" },
+                { label: t("agentConnect.optionVertexAi"), value: "vertex" },
+                { label: t("agentConnect.optionBedrock"), value: "bedrock" },
                 ...(hasKimi
                   ? [{ label: t("agentConnect.optionKimiMoonshot"), value: "kimi" }]
                   : []),
@@ -125,8 +126,8 @@ export function AgentConnectTabs({
               <div className={"flex items-center justify-between gap-3 mb-2"}>
                 <SmallParagraph className={"!mb-0"}>
                   {claudeMode === "config"
-                    ? "Add to ~/.claude/settings.json:"
-                    : "Run in your shell:"}
+                    ? t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })
+                    : t("agentConnect.runInShell")}
                 </SmallParagraph>
                 <button
                   type={"button"}
@@ -137,7 +138,7 @@ export function AgentConnectTabs({
                     "shrink-0 mr-2 text-[11px] text-white hover:underline underline-offset-2 cursor-pointer"
                   }
                 >
-                  {claudeMode === "config" ? "Shell" : "JSON"}
+                  {claudeMode === "config" ? t("agentConnect.shellMode") : t("agentConnect.jsonMode")}
                 </button>
               </div>
               <Snippet
@@ -163,7 +164,7 @@ export function AgentConnectTabs({
 
           {claudeProvider === "vertex" && (
             <Snippet
-              caption={"Add to ~/.claude/settings.json:"}
+              caption={t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })}
               lines={[
                 `{`,
                 `  "env": {`,
@@ -180,7 +181,7 @@ export function AgentConnectTabs({
 
           {claudeProvider === "bedrock" && (
             <Snippet
-              caption={"Add to ~/.claude/settings.json:"}
+              caption={t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })}
               lines={[
                 `{`,
                 `  "env": {`,
@@ -198,8 +199,8 @@ export function AgentConnectTabs({
               <div className={"flex items-center justify-between gap-3 mb-2"}>
                 <SmallParagraph className={"!mb-0"}>
                   {claudeMode === "config"
-                    ? "Add to ~/.claude/settings.json:"
-                    : "Run in your shell:"}
+                    ? t("agentConnect.addToConfig", { path: "~/.claude/settings.json" })
+                    : t("agentConnect.runInShell")}
                 </SmallParagraph>
                 <button
                   type={"button"}
@@ -210,7 +211,7 @@ export function AgentConnectTabs({
                     "shrink-0 mr-2 text-[11px] text-white hover:underline underline-offset-2 cursor-pointer"
                   }
                 >
-                  {claudeMode === "config" ? "Shell" : "JSON"}
+                  {claudeMode === "config" ? t("agentConnect.shellMode") : t("agentConnect.jsonMode")}
                 </button>
               </div>
               <Snippet
@@ -254,11 +255,10 @@ export function AgentConnectTabs({
                 }
               />
               <SmallParagraph className={"mt-3"}>
-                Pairs with a Kimi provider keeping the default upstream URL{" "}
-                <code className={"font-mono"}>{t("aiProvider.modal.upstreamUrlPlaceholder.kimi_api")}</code>.
-                The <code className={"font-mono"}>/anthropic</code> suffix in
-                the base URL rides through the endpoint to Moonshot, which
-                serves the Anthropic Messages API under that path.
+                {t("agentConnect.kimiPairsDescription", {
+                  url: t("aiProvider.modal.upstreamUrlPlaceholder.kimi_api"),
+                  suffix: "/anthropic",
+                })}
               </SmallParagraph>
             </>
           )}
@@ -268,12 +268,12 @@ export function AgentConnectTabs({
       <TabsContent value={"codex"}>
         <div className={contentClassName}>
           <Snippet
-            caption={"Add to ~/.codex/config.toml:"}
+            caption={t("agentConnect.addToConfig", { path: "~/.codex/config.toml" })}
             lines={[
               `model_provider = "netbird"`,
               ``,
               `[model_providers.netbird]`,
-              `name = "NetBird"`,
+              `name = "Cloink"`,
               `base_url = "${openaiBase}"`,
               `wire_api = "responses"`,
             ]}
@@ -288,7 +288,7 @@ export function AgentConnectTabs({
             // Claude Code, its "anthropic" provider type needs the bare
             // endpoint — no /anthropic prefix in base_url; api_key is a
             // placeholder since NetBird injects the real key server-side.
-            caption={"Add to ~/.kimi/config.toml:"}
+            caption={t("agentConnect.addToConfig", { path: "~/.kimi/config.toml" })}
             lines={[
               `default_model = "kimi-k3"`,
               ``,
@@ -304,17 +304,11 @@ export function AgentConnectTabs({
             ]}
           />
           <SmallParagraph className={"mt-3"}>
-            Pairs with a Kimi provider keeping the default upstream URL{" "}
-            <code className={"font-mono"}>{t("aiProvider.modal.upstreamUrlPlaceholder.kimi_api")}</code>. For
-            the OpenAI shape instead, use{" "}
-            <code className={"font-mono"}>
-              type = &quot;openai_legacy&quot;
-            </code>{" "}
-            with{" "}
-            <code className={"font-mono"}>
-              base_url = &quot;{openaiBase}&quot;
-            </code>
-            .
+            {t("agentConnect.kimiCliPairsDescription", {
+              url: t("aiProvider.modal.upstreamUrlPlaceholder.kimi_api"),
+              typeValue: `type = "openai_legacy"`,
+              baseUrlValue: `base_url = "${openaiBase}"`,
+            })}
           </SmallParagraph>
         </div>
       </TabsContent>
@@ -332,7 +326,7 @@ export function AgentConnectTabs({
               ``,
               `client.chat.completions.create(`,
               `    model="gpt-5.5",`,
-              `    messages=[{"role": "user", "content": "What is NetBird Agent Network?"}],`,
+              `    messages=[{"role": "user", "content": "What is Cloink Agent Network?"}],`,
               `)`,
             ]}
           />
@@ -350,11 +344,11 @@ export function AgentConnectTabs({
               `  -d '{`,
               `    "model": "gpt-5.5",`,
               `    "messages": [`,
-              `      { "role": "user", "content": "What is NetBird Agent Network?" }`,
+              `      { "role": "user", "content": "What is Cloink Agent Network?" }`,
               `    ]`,
               `  }'`,
             ]}
-            copyText={`curl ${openaiBase}/chat/completions -H "Content-Type: application/json" -d '{"model":"gpt-5.5","messages":[{"role":"user","content":"What is NetBird Agent Network?"}]}'`}
+            copyText={`curl ${openaiBase}/chat/completions -H "Content-Type: application/json" -d '{"model":"gpt-5.5","messages":[{"role":"user","content":"What is Cloink Agent Network?"}]}'`}
           />
         </div>
       </TabsContent>

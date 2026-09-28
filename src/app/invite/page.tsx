@@ -113,7 +113,7 @@ function InviteAcceptContent() {
                 <Clock className="w-8 h-8 text-yellow-700 dark:text-yellow-500" />
               </div>
             </div>
-            <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
+            <h1 className="text-2xl font-semibold text-nb-gray-100 mb-2">
               {t("invite.tooManyRequests")}
             </h1>
             <Paragraph className="text-nb-gray-400 text-base">
@@ -139,7 +139,7 @@ function InviteAcceptContent() {
               <AlertCircle className="w-8 h-8 text-red-700 dark:text-red-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
+          <h1 className="text-2xl font-semibold text-nb-gray-100 mb-2">
             {t("invite.invalidTitle")}
           </h1>
           <Paragraph className="text-nb-gray-400 text-base">
@@ -166,7 +166,7 @@ function InviteAcceptContent() {
               <CheckCircle2 className="w-8 h-8 text-green-700 dark:text-green-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
+          <h1 className="text-2xl font-semibold text-nb-gray-100 mb-2">
             {t("invite.accountCreatedTitle")}
           </h1>
           <Paragraph className="text-nb-gray-400">
@@ -193,7 +193,7 @@ function InviteAcceptContent() {
               <AlertCircle className="w-8 h-8 text-yellow-700 dark:text-yellow-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
+          <h1 className="text-2xl font-semibold text-nb-gray-100 mb-2">
             {t("invite.expiredTitle")}
           </h1>
           <Paragraph className="text-nb-gray-400">
@@ -219,10 +219,10 @@ function InviteAcceptContent() {
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold dark:text-white text-nb-gray-900 mb-2">
+          <h1 className="text-2xl font-semibold text-nb-gray-100 mb-2">
             {t("invite.welcomeTitle")}
           </h1>
-          <p className="dark:text-nb-gray-400 text-nb-gray-500 text-base">
+          <p className="text-nb-gray-400 text-base">
             {t("invite.welcomeDescription", {
               invitedBy: inviteInfo.invited_by,
             })}
@@ -235,7 +235,7 @@ function InviteAcceptContent() {
               <User2 className="w-5 h-5 text-nb-gray-400" />
             </div>
             <div>
-              <div className="dark:text-white text-nb-gray-900 font-medium">{inviteInfo.name}</div>
+              <div className="text-nb-gray-100 font-medium">{inviteInfo.name}</div>
               <div className="text-nb-gray-400 text-sm flex items-center gap-1">
                 <Mail className="w-3 h-3" />
                 {inviteInfo.email}
@@ -301,7 +301,7 @@ function InviteAcceptContent() {
           </form>
         </div>
 
-        <p className="text-center text-xs text-nb-gray-500">
+        <p className="text-center text-xs text-nb-gray-400">
           {t("invite.acceptExpiresOn", {
             date: dayjs(inviteInfo.expires_at).format("D MMMM, YYYY [at] h:mm A"),
           })}
@@ -317,9 +317,9 @@ function PasswordRule({ met, text }: { met: boolean; text: string }) {
       {met ? (
         <CheckCircle2 className="w-3 h-3 text-green-700 dark:text-green-500" />
       ) : (
-        <AlertCircle className="w-3 h-3 text-nb-gray-500" />
+        <AlertCircle className="w-3 h-3 text-nb-gray-400" />
       )}
-      <span className={met ? "text-green-700 dark:text-green-500" : "text-nb-gray-500"}>{text}</span>
+      <span className={met ? "text-green-700 dark:text-green-500" : "text-nb-gray-400"}>{text}</span>
     </div>
   );
 }

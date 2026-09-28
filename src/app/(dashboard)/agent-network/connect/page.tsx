@@ -1,7 +1,6 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import React from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
@@ -13,6 +12,7 @@ import {
   APIMeSetup,
   useMyAgentNetworkSetup,
 } from "@/modules/agent-network/useMyAgentNetworkSetup";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // ConnectAgentPage is the caller-scoped self-service view: the endpoint to
 // configure tools with and the per-tool config that goes with it — the one
@@ -23,6 +23,7 @@ import {
 // still gets it, with an empty provider list carrying the explanation. The caller's own usage lives on the regular Usage & Logs page,
 // which the server scopes to them.
 export default function ConnectAgentPage() {
+  const { t } = useI18n();
   const { setup, isLoading } = useMyAgentNetworkSetup();
 
   return (
@@ -31,22 +32,16 @@ export default function ConnectAgentPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/connect"}
-            label={"Agent Network"}
+            label={t("nav.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/connect"}
-            label={"Connect Agent"}
+            label={t("nav.connectAgent")}
             active
           />
         </Breadcrumbs>
-        <h1>Connect Your Agent</h1>
-        <Paragraph>
-          Point your agent at the NetBird endpoint as its base URL. No provider
-          API key is required on the client. NetBird authenticates you through
-          your identity provider and authorizes each request against your access
-          policies.
-        </Paragraph>
+        <h1>{t("nav.connectAgent")}</h1>
 
         {isLoading ? (
           <div className={"mt-4"}>
@@ -61,6 +56,7 @@ export default function ConnectAgentPage() {
 }
 
 function ConnectAgentSetup({ setup }: { setup?: APIMeSetup }) {
+  const { t } = useI18n();
   const providers = setup?.providers ?? [];
   // EndpointBadge builds https:// URLs from a bare host.
   const bareEndpoint = (setup?.endpoint ?? "").replace(/^https?:\/\//, "");
@@ -93,7 +89,7 @@ function ConnectAgentSetup({ setup }: { setup?: APIMeSetup }) {
       )}
 
       <div className={"max-w-3xl"}>
-        <h2 className={"text-base mt-8 mb-0"}>Your Providers &amp; Models</h2>
+        <h2 className={"text-base mt-8 mb-0"}>{t("agentNetwork.yourProvidersAndModels")}</h2>
         <ConnectProvidersTable providers={providers} />
       </div>
     </>

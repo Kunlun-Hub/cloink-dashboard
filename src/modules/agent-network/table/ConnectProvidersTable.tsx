@@ -16,6 +16,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
 import { AIProviderId } from "@/modules/agent-network/data/mockData";
 import { APIMeProvider } from "@/modules/agent-network/useMyAgentNetworkSetup";
+import { useI18n } from "@/i18n/I18nProvider";
 
 function NameCell({ provider }: { provider: APIMeProvider }) {
   return (
@@ -49,8 +50,9 @@ function NameCell({ provider }: { provider: APIMeProvider }) {
 const NAMED_MODELS = 2;
 
 function ModelsCell({ provider }: { provider: APIMeProvider }) {
+  const { t } = useI18n();
   if (provider.all_models_allowed) {
-    return <span className={"text-xs text-nb-gray-400"}>All Models</span>;
+    return <span className={"text-xs text-nb-gray-400"}>{t("agentProviders.allModels")}</span>;
   }
   // A short allow-list is spelled out as one chip per model, the way groups
   // and providers are chipped elsewhere; a long one collapses to a count.
@@ -85,20 +87,20 @@ function ModelsCell({ provider }: { provider: APIMeProvider }) {
           useHover={true}
           className={"whitespace-nowrap"}
         >
-          {provider.models.length} Models
+          {t("agentAccessLog.modelsCount", { count: provider.models.length })}
         </Badge>
       </FullTooltip>
     </div>
   );
 }
 
-const columns: ColumnDef<APIMeProvider>[] = [
+const getColumns = (t: (...args: any[]) => string): ColumnDef<APIMeProvider>[] => [
   {
     id: "name",
     accessorKey: "name",
     sortingFn: "text",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Provider</DataTableHeader>
+      <DataTableHeader column={column}>{t("agentNetwork.provider")}</DataTableHeader>
     ),
     cell: ({ row }) => <NameCell provider={row.original} />,
   },
@@ -108,7 +110,7 @@ const columns: ColumnDef<APIMeProvider>[] = [
     accessorFn: (p) => (p.all_models_allowed ? Infinity : p.models.length),
     sortingFn: "basic",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Models</DataTableHeader>
+      <DataTableHeader column={column}>{t("table.models")}</DataTableHeader>
     ),
     cell: ({ row }) => <ModelsCell provider={row.original} />,
   },
@@ -123,6 +125,7 @@ type Props = {
 // rows come from the caller-scoped agent-config answer, so there is nothing
 // here to connect, edit, or delete.
 export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
+  const { t } = useI18n();
   const path = usePathname();
   const router = useRouter();
   const [sorting, setSorting] = useLocalStorage<SortingState>(
@@ -137,10 +140,10 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
 
   return (
     <DataTable
-      text={"Providers"}
+      text={t("nav.providers")}
       sorting={sorting}
       setSorting={setSorting}
-      columns={columns}
+      columns={getColumns(t)}
       data={providers}
       showSearchAndFilters={false}
       initialPageSize={25}
@@ -157,11 +160,11 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
               size={"large"}
             />
           }
-          title={"No providers available yet"}
+          title={t("connectProviders.emptyTitle")}
           description={
             canManagePolicies
-              ? "No access policy covers your user yet. Add one of your groups to a policy to route your own agent through NetBird."
-              : "You don’t have access to any providers yet. Ask your administrator to add you to an Agent Network access policy."
+              ? t("connectProviders.emptyManageableDescription")
+              : t("connectProviders.emptyReadonlyDescription")
           }
           button={
             canManagePolicies ? (
@@ -169,7 +172,7 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
                 variant={"primary"}
                 onClick={() => router.push("/agent-network/policies")}
               >
-                Go to Policies
+                {t("connectProviders.goToPolicies")}
               </Button>
             ) : undefined
           }

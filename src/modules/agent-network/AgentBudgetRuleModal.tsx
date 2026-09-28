@@ -5,7 +5,6 @@ import Button from "@components/Button";
 import { Checkbox } from "@components/Checkbox";
 import HelpText from "@components/HelpText";
 import { HelpTooltip } from "@components/HelpTooltip";
-import InlineLink from "@components/InlineLink";
 import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import {
@@ -15,14 +14,12 @@ import {
   ModalFooter,
 } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
-import Paragraph from "@components/Paragraph";
 import { PeerGroupSelector } from "@components/PeerGroupSelector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { cn } from "@utils/helpers";
 import {
   ChevronsUpDown,
   CircleUser,
-  ExternalLinkIcon,
   Gauge,
   PlusCircle,
   SlidersHorizontal,
@@ -153,10 +150,8 @@ function AgentBudgetRuleModalContent({
     <ModalContent maxWidthClass={"max-w-3xl"}>
       <ModalHeader
         icon={<SlidersHorizontal size={19} />}
-        title={rule ? "Update Global Limit" : "Create Global Limit"}
-        description={
-          "Account-level token and budget caps. Apply account-wide or scope to specific groups or users."
-        }
+        title={rule ? t("agentNetwork.updateGlobalLimit") : t("agentNetwork.createGlobalLimit")}
+        description={t("agentNetwork.globalLimitModalDescription")}
         color={"netbird"}
       />
 
@@ -176,7 +171,7 @@ function AgentBudgetRuleModalContent({
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"e.g. Account-wide monthly cap"}
+                placeholder={t("agentNetwork.nameOfGlobalLimitPlaceholder")}
                 data-testid={"budget-rule-name"}
               />
             </div>
@@ -186,11 +181,7 @@ function AgentBudgetRuleModalContent({
                 <Label className={"mb-2"}>
                   <Users2 size={15} />{t("agentNetwork.targetGroups")}<HelpTooltip
                     content={
-                      <>
-                        Restrict this rule to members of the selected
-                        groups. Leave empty (and no users) to apply
-                        account-wide.
-                      </>
+                      <>{t("agentNetwork.targetGroupsTooltip")}</>
                     }
                   />
                 </Label>
@@ -211,10 +202,7 @@ function AgentBudgetRuleModalContent({
                 <Label className={"mb-2"}>
                   <CircleUser size={15} />{t("agentNetwork.targetUsers")}<HelpTooltip
                     content={
-                      <>
-                        Restrict this rule to specific users. Leave empty
-                        (and no groups) to apply account-wide.
-                      </>
+                      <>{t("agentNetwork.targetUsersTooltip")}</>
                     }
                   />
                 </Label>
@@ -228,10 +216,9 @@ function AgentBudgetRuleModalContent({
 
             {accountWide && (
               <div className={"text-xs text-nb-gray-300 leading-snug"}>
-                With no targets selected, this rule applies{" "}
+                {t("agentNetwork.accountWideNote")}{" "}
                 <span className={"text-amber-700 dark:text-amber-400 font-medium"}>{t("agentNetwork.accountWideHighlight")}</span>{" "}
-                — every agent-network request is counted against its
-                caps.
+                {t("agentNetwork.accountWideNoteSuffix")}
               </div>
             )}
           </div>
@@ -241,14 +228,6 @@ function AgentBudgetRuleModalContent({
       </Tabs>
 
       <ModalFooter className={"items-center"}>
-        <div className={"w-full"}>
-          <Paragraph className={"text-sm mt-auto"}>{t("common.learnMoreAbout")}<InlineLink
-              href={"https://docs.netbird.io/agent-network"}
-              target={"_blank"}
-            >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
-            </InlineLink>
-          </Paragraph>
-        </div>
         <div className={"flex gap-3 w-full justify-end"}>
           {!rule ? (
             <>
@@ -276,7 +255,7 @@ function AgentBudgetRuleModalContent({
                     disabled={submitDisabled}
                   >
                     <PlusCircle size={16} />
-                    {rule ? "Save Global Limit" : "Add Global Limit"}
+                    {t("agentNetwork.addGlobalLimit")}
                   </Button>
                 </>
               )}
@@ -416,7 +395,7 @@ function UserMultiSelect({
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={"Search users..."}
+              placeholder={t("agentNetwork.searchUsers")}
             />
           </div>
           <div className={"overflow-y-auto p-1"}>

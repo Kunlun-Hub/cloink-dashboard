@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
 import FullTooltip from "@components/FullTooltip";
-import InlineLink from "@components/InlineLink";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
@@ -23,7 +22,6 @@ import { cn } from "@utils/helpers";
 import dayjs from "dayjs";
 import {
   CircleUser,
-  ExternalLinkIcon,
   Gauge,
   Globe2,
   MoreVertical,
@@ -97,8 +95,8 @@ function TargetGroupsCell({ rule }: { rule: AgentBudgetRule }) {
   return (
     <MultipleGroups
       groups={groups}
-      label={"Target Groups"}
-      description={"This limit applies to members of these groups."}
+      label={t("agentNetwork.targetGroups")}
+      description={t("agentNetwork.targetGroupsDescription")}
     />
   );
 }
@@ -165,9 +163,9 @@ function TokenCapCell({ rule }: { rule: AgentBudgetRule }) {
       content={
         <div className={"text-xs space-y-0.5"}>
           <div className={"font-semibold"}>{t("agentPolicies.tokenLimit")}</div>
-          <div>· Group: {capDisplay(tl.groupCap, false)}</div>
-          <div>· Individual: {capDisplay(tl.userCap, false)}</div>
-          <div>· Resets every {formatLimitWindow(tl.windowSeconds)}</div>
+          <div>· {t("agentPolicies.groupCap")} {capDisplay(tl.groupCap, false)}</div>
+          <div>· {t("agentPolicies.individualCap")} {capDisplay(tl.userCap, false)}</div>
+          <div>· {t("agentPolicies.resetsEvery", { window: formatLimitWindow(tl.windowSeconds, t) })}</div>
         </div>
       }
     >
@@ -188,9 +186,9 @@ function BudgetCapCell({ rule }: { rule: AgentBudgetRule }) {
       content={
         <div className={"text-xs space-y-0.5"}>
           <div className={"font-semibold"}>{t("agentPolicies.budgetLimit")}</div>
-          <div>· Group: {capDisplay(bl.groupCapUsd, true)}</div>
-          <div>· Individual: {capDisplay(bl.userCapUsd, true)}</div>
-          <div>· Resets every {formatLimitWindow(bl.windowSeconds)}</div>
+          <div>· {t("agentPolicies.groupCap")} {capDisplay(bl.groupCapUsd, true)}</div>
+          <div>· {t("agentPolicies.individualCap")} {capDisplay(bl.userCapUsd, true)}</div>
+          <div>· {t("agentPolicies.resetsEvery", { window: formatLimitWindow(bl.windowSeconds, t) })}</div>
         </div>
       }
     >
@@ -229,20 +227,30 @@ function capDisplay(value: number, isUsd: boolean): string {
   return isUsd ? `$${compact}` : compact;
 }
 
-function formatLimitWindow(seconds: number): string {
+function formatLimitWindow(
+  seconds: number,
+  t: (key: string, values?: Record<string, unknown>) => string,
+): string {
   if (seconds <= 0) return "—";
   if (seconds < 3600) {
     const minutes = Math.round(seconds / 60);
-    return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+    return t(minutes === 1 ? "agentPolicies.minute" : "agentPolicies.minutes", {
+      count: minutes,
+    });
   }
   if (seconds < 86_400) {
     const hours = Math.round(seconds / 3600);
-    return `${hours} hour${hours === 1 ? "" : "s"}`;
+    return t(hours === 1 ? "agentPolicies.hour" : "agentPolicies.hours", {
+      count: hours,
+    });
   }
   const days = Math.floor(seconds / 86_400);
   const remHours = Math.round((seconds % 86_400) / 3600);
-  if (remHours === 0) return `${days} day${days === 1 ? "" : "s"}`;
-  return `${days}d ${remHours}h`;
+  if (remHours === 0)
+    return t(days === 1 ? "agentPolicies.day" : "agentPolicies.days", {
+      count: days,
+    });
+  return t("agentPolicies.dayHours", { days, hours: remHours });
 }
 
 function ActionsCell({
@@ -258,11 +266,11 @@ function ActionsCell({
 
   const onDelete = async () => {
     const ok = await confirm({
-      title: `Delete '${rule.name}'?`,
+      title: t("agentNetwork.deleteRuleTitle", { name: rule.name }),
       description:
         t("agentNetwork.deleteRuleDescription"),
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!ok) return;
@@ -291,7 +299,7 @@ function ActionsCell({
           <DropdownMenuItem onClick={() => toggleBudgetRule(rule.id)}>
             <div className={"flex gap-3 items-center"}>
               <Power size={14} className={"shrink-0"} />
-              {rule.enabled ? "Disable" : "Enable"}
+              {rule.enabled ? t("common.disable") : t("common.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -421,12 +429,12 @@ export default function AgentBudgetRulesTable() {
 
       <DataTable
         isLoading={budgetRulesLoading}
-        text={"Global Limits"}
+        text={t("agentNetwork.globalLimits")}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={budgetRules}
-        searchPlaceholder={"Search global limits by name..."}
+        searchPlaceholder={t("agentNetwork.searchGlobalLimits")}
         onRowClick={(row) => openEdit(row.original)}
         getStartedCard={
           <GetStartedTest
@@ -442,10 +450,8 @@ export default function AgentBudgetRulesTable() {
                 size={"large"}
               />
             }
-            title={"Set a Global Limit"}
-            description={
-              "Global limits cap token usage and spend across every policy. Apply a limit account-wide, or scope it to specific groups or users."
-            }
+            title={t("agentNetwork.setGlobalLimit")}
+            description={t("agentNetwork.globalLimitsDescription")}
             button={
               <Button
                 variant={"primary"}
@@ -455,14 +461,6 @@ export default function AgentBudgetRulesTable() {
                 }}
               >
                 <PlusCircle size={16} />{t("agentNetwork.addGlobalLimit")}</Button>
-            }
-            learnMore={
-              <>{t("common.learnMoreAbout")}<InlineLink
-                  href={"https://docs.netbird.io/agent-network"}
-                  target={"_blank"}
-                >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
-                </InlineLink>
-              </>
             }
           />
         }

@@ -1,7 +1,6 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
@@ -91,20 +90,16 @@ export default function UsageAndLogsPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/providers"}
-            label={"Agent Network"}
+            label={t("nav.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/usage"}
-            label={"Usage & Logs"}
+            label={t("nav.usageLogs")}
             active={true}
           />
         </Breadcrumbs>
         <h1>{t("nav.usageLogs")}</h1>
-        <Paragraph>
-          Per-request audit with real caller identity, cost attribution, and
-          budget controls.
-        </Paragraph>
       </div>
 
       <RestrictedAccess
@@ -123,7 +118,7 @@ export default function UsageAndLogsPage() {
                   {canUseUsage && (
                     <TabsTrigger value={TAB_USAGE}>
                       <LayoutDashboard size={16} />
-                      Usage
+                      {t("agentNetwork.usageTab")}
                     </TabsTrigger>
                   )}
                   {canUseLogs && (

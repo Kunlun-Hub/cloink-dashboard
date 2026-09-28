@@ -169,8 +169,8 @@ function LimitRow({
   const userCap = isToken
     ? (limit as PolicyTokenLimit).userCap
     : (limit as PolicyBudgetLimit).userCapUsd;
-  const groupLabel = formatCap(groupCap, isToken);
-  const userLabel = formatCap(userCap, isToken);
+  const groupLabel = formatCap(groupCap, isToken, t);
+  const userLabel = formatCap(userCap, isToken, t);
 
   return (
     <div
@@ -268,8 +268,12 @@ function NoLimitsInfo({
   );
 }
 
-function formatCap(value: number, isToken: boolean): string {
-  if (!value) return "uncapped";
+function formatCap(
+  value: number,
+  isToken: boolean,
+  t: (key: string) => string,
+): string {
+  if (!value) return t("agentNetwork.uncapped");
   if (isToken) return value.toLocaleString();
   return `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
 }
