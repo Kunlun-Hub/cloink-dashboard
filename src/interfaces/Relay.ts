@@ -5,6 +5,8 @@ export interface Relay {
   observed_id?: string;
   registered?: boolean;
   priority: number;
+  /** Distribution scope as group names; empty/undefined means global distribution. */
+  groups?: string[];
   status: "online" | "offline";
   connected_clients?: number;
   public_ip?: string;
