@@ -7625,7 +7625,6 @@ const en = {
     "Notify when the EDR sync token has expired and needs renewal",
   "common.requestFailedWithCode": "Request failed with status code {code}",
   "common.errorPrefix": "Error: {message}",
-  "announcements.huntressIntegration": "Huntress now integrates with Cloink",
   "nav.customers": "Customers",
   "nav.tenants": "Tenants",
   "cloud.agentNetwork": "Agent Network",

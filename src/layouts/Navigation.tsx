@@ -21,7 +21,6 @@ import { DistributorNavigation } from "@/cloud/distributor/DistributorNavigation
 import { MSPNavigationItem } from "@/cloud/msp/MSPNavigationItem";
 import SidebarItem from "@/components/SidebarItem";
 import { NavigationVersionInfo } from "@/components/VersionInfo";
-import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -40,7 +39,6 @@ export default function Navigation({
   fullWidth = false,
   hideOnMobile = false,
 }: Readonly<Props>) {
-  const { bannerHeight } = useAnnouncement();
   const { isNavigationCollapsed } = useApplicationContext();
   const { permission } = usePermissions();
   const { t } = useI18n();
@@ -76,14 +74,14 @@ export default function Navigation({
           "md:w-[64px] md:min-w-[64px] md:fixed md:overflow-hidden md:hover:w-[15rem] md:hover:max-w-[15rem] md:hover:min-w-[15rem] md:z-50",
       )}
       style={{
-        height: `calc(100vh - ${headerHeight + bannerHeight}px)`,
+        height: `calc(100vh - ${headerHeight}px)`,
       }}
     >
       <div className={cn(fullWidth ? "w-10/12" : "fixed z-0")}>
         <ScrollArea
           style={{
             height: !fullWidth
-              ? `calc(100vh - ${headerHeight + bannerHeight}px)`
+              ? `calc(100vh - ${headerHeight}px)`
               : "100%",
           }}
         >
@@ -95,7 +93,7 @@ export default function Navigation({
             )}
             style={{
               height: !fullWidth
-                ? `calc(100vh - ${headerHeight + bannerHeight}px)`
+                ? `calc(100vh - ${headerHeight}px)`
                 : "100%",
             }}
           >
