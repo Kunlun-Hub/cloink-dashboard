@@ -446,6 +446,9 @@ function RelayPriorityModal({
             value={value}
             onChange={(event) => onValueChange(event.target.value)}
           />
+          <p className={"text-xs text-neutral-500 dark:text-nb-gray-400 mt-2"}>
+            {t("relays.prioritySemantics")}
+          </p>
           <div className={"mt-5"}>
             <Label>{t("relays.groups")}</Label>
             <p

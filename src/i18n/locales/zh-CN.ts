@@ -150,6 +150,8 @@ const zhCN = {
   "relays.address": "中继地址",
   "relays.priority": "优先级",
   "relays.priorityHelp": "数值越高越优先选择。",
+  "relays.prioritySemantics":
+    "优先级决定中继权重：大于 0 时权重等于所填数字，否则按 30 处理；数字越大越优先。注意：填 5 的中继会排在未设置优先级（权重 30）的中继之后。",
   "relays.editPriority": "编辑优先级",
   "relays.editRelay": "编辑中继",
   "relays.groups": "分组",

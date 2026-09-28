@@ -122,6 +122,8 @@ const en = {
   "relays.address": "Relay Address",
   "relays.priority": "Priority",
   "relays.priorityHelp": "Higher values are selected first.",
+  "relays.prioritySemantics":
+    "Priority determines relay weight: when greater than 0 the weight equals the entered number, otherwise 30; higher wins. Note: a relay with priority 5 sorts below a relay with no priority set (weight 30).",
   "relays.editPriority": "Edit priority",
   "relays.editRelay": "Edit relay",
   "relays.groups": "Groups",
