@@ -729,7 +729,9 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
       await mutate().catch(() => undefined);
       notify({
         title: t("aiProvider.notify.providerConnected.title"),
-        description: `${created.name} is now available on your agent network endpoint.`,
+        description: t("aiProvider.notify.providerConnected.description", {
+          name: created.name,
+        }),
       });
       return fromAPI(created);
     },
@@ -826,7 +828,9 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await mutatePolicies();
         notify({
           title: t("aiProvider.notify.policyCreated.title"),
-          description: `${created.name} is now active.`,
+          description: t("aiProvider.notify.policyCreated.description", {
+            name: created.name,
+          }),
         });
         return policyFromAPI(created);
       } catch (err) {
@@ -910,7 +914,9 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await mutateGuardrails();
         notify({
           title: t("aiProvider.notify.guardrailCreated.title"),
-          description: `${created.name} can now be attached to policies.`,
+          description: t("aiProvider.notify.guardrail_created.description", {
+            name: created.name,
+          }),
         });
         return guardrailFromAPI(created);
       } catch (err) {
@@ -979,7 +985,9 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await mutateBudgetRules();
         notify({
           title: t("aiProvider.notify.budgetRuleCreated.title"),
-          description: `${created.name} is now active.`,
+          description: t("aiProvider.notify.budgetRuleCreated.description", {
+            name: created.name,
+          }),
         });
         return budgetRuleFromAPI(created);
       } catch (err) {

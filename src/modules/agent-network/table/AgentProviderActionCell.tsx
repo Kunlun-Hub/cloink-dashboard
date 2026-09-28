@@ -36,11 +36,11 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
 
   const handleDelete = async () => {
     const ok = await confirm({
-      title: `Delete '${provider.name}'?`,
+      title: t("agentNetwork.deleteRuleTitle", { name: provider.name }),
       description:
         t("agentProviders.deleteConfirmDescription"),
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      confirmText: t("common.delete"),
+      cancelText: t("common.cancel"),
       type: "danger",
     });
     if (!ok) return;
@@ -68,7 +68,11 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
             <DropdownMenuItem onClick={() => toggleProvider(provider.id)}>
               <div className={"flex gap-3 items-center"}>
                 <Power size={14} className={"shrink-0"} />
-                {provider.enabled ? "Disable" : "Enable"}
+                {t("agentProviders.enableToggle", {
+                  action: provider.enabled
+                    ? t("common.disable")
+                    : t("common.enable"),
+                })}
               </div>
             </DropdownMenuItem>
           )}
@@ -81,11 +85,9 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
               interactive={false}
               content={
                 <div className={"text-xs max-w-xs"}>
-                  This provider is referenced by{" "}
-                  {referencingPolicies.length === 1
-                    ? "1 policy"
-                    : `${referencingPolicies.length} policies`}{" "}
-                  and cannot be deleted. Detach it from the policy first.
+                  {t("agentProviders.inUseTooltip", {
+                    count: referencingPolicies.length,
+                  })}
                 </div>
               }
             >

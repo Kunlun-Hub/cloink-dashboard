@@ -2,7 +2,6 @@
 
 import ButtonGroup from "@components/ButtonGroup";
 import FullTooltip from "@components/FullTooltip";
-import InlineLink from "@components/InlineLink";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
@@ -153,12 +152,13 @@ function OverviewContent({
           <div className={"flex items-start justify-between gap-3"}>
             <div>
               <h3 className={"text-sm font-medium text-nb-gray-100"}>
-                {metric === "tokens" ? "Token usage" : "Cost"} by day
+                {metric === "tokens" ? t("agentOverview.tokens") : t("agentOverview.cost")}{" "}
+                {t("agentOverview.byDay")}
               </h3>
               <p className={"text-xs text-nb-gray-400 leading-snug mt-0.5"}>
                 {metric === "tokens"
-                  ? "Input and output tokens per day."
-                  : "Estimated spend per day."}
+                  ? t("agentOverview.inputOutputDesc")
+                  : t("agentOverview.estimatedSpendDesc")}
               </p>
             </div>
             <ButtonGroup>
@@ -251,19 +251,19 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
                 <div className={"text-xs flex flex-col gap-1"}>
                   <BreakdownRow
                     value={d.input.toLocaleString()}
-                    label={"input"}
+                    label={t("agentAccessLog.tokenInput")}
                   />
                   <BreakdownRow
                     value={d.output.toLocaleString()}
-                    label={"output"}
+                    label={t("agentAccessLog.tokenOutput")}
                   />
                   <BreakdownRow
                     value={d.cacheRead.toLocaleString()}
-                    label={"cache read"}
+                    label={t("agentAccessLog.cacheRead")}
                   />
                   <BreakdownRow
                     value={d.cacheWrite.toLocaleString()}
-                    label={"cache write"}
+                    label={t("agentAccessLog.cacheWrite")}
                   />
                   <BreakdownTotal value={total.toLocaleString()} />
                 </div>
@@ -308,22 +308,22 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
                       <BreakdownRow
                         mono={true}
                         value={usd(d.inputCost ?? 0)}
-                        label={"input"}
+                        label={t("agentAccessLog.tokenInput")}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.outputCost ?? 0)}
-                        label={"output"}
+                        label={t("agentAccessLog.tokenOutput")}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cacheReadCost ?? 0)}
-                        label={"cache read"}
+                        label={t("agentAccessLog.cacheRead")}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cacheWriteCost ?? 0)}
-                        label={"cache write"}
+                        label={t("agentAccessLog.cacheWrite")}
                       />
                     </>
                   ) : (
@@ -331,12 +331,12 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cost - d.cacheCost)}
-                        label={"input + output"}
+                        label={t("agentAccessLog.inputOutput")}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cacheCost)}
-                        label={"cache"}
+                        label={t("agentAccessLog.cache")}
                       />
                     </>
                   )}
@@ -355,7 +355,7 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
 
   return (
     <DataTable
-      text={"Days"}
+      text={t("agentOverview.days")}
       columns={columns}
       data={rows}
       sorting={sorting}
@@ -374,18 +374,8 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
               size={"large"}
             />
           }
-          title={"No usage recorded yet"}
-          description={
-            "Daily token and cost totals appear here as agents send requests through the providers you've connected."
-          }
-          learnMore={
-            <>{t("common.learnMoreAbout")}<InlineLink
-                href={"https://docs.netbird.io/agent-network"}
-                target={"_blank"}
-              >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
-              </InlineLink>
-            </>
-          }
+          title={t("agentOverview.noUsageTitle")}
+          description={t("agentOverview.noUsageDescription")}
         />
       }
     />
@@ -470,13 +460,13 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: "Input tokens",
+              label: t("agentOverview.inputTokens"),
               data: daily.map((d) => d.input),
               backgroundColor: "rgba(99, 102, 241, 0.6)", // indigo-500
               stack: "tokens",
             },
             {
-              label: "Output tokens",
+              label: t("agentOverview.outputTokens"),
               data: daily.map((d) => d.output),
               backgroundColor: "rgba(34, 197, 94, 0.6)", // green-500
               stack: "tokens",
@@ -487,7 +477,7 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: "Cost (USD)",
+              label: t("agentOverview.costUsd"),
               data: daily.map((d) => d.cost),
               backgroundColor: "rgba(246, 131, 48, 0.65)", // netbird orange
             },
@@ -524,13 +514,13 @@ function ConsumptionByDayChart({
                 if (!d) return [];
                 if (metric === "cost") {
                   return d.cacheCost > 0
-                    ? [`Cache: $${d.cacheCost.toFixed(2)}`]
+                    ? [`${t("agentAccessLog.cache")}: $${d.cacheCost.toFixed(2)}`]
                     : [];
                 }
                 return d.cacheRead + d.cacheWrite > 0
                   ? [
-                      `Cache read: ${d.cacheRead.toLocaleString()}`,
-                      `Cache write: ${d.cacheWrite.toLocaleString()}`,
+                      `${t("agentAccessLog.cacheRead")}: ${d.cacheRead.toLocaleString()}`,
+                      `${t("agentAccessLog.cacheWrite")}: ${d.cacheWrite.toLocaleString()}`,
                     ]
                   : [];
               },

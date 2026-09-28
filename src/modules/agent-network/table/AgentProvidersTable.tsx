@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "@components/Button";
-import InlineLink from "@components/InlineLink";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
@@ -188,14 +187,6 @@ export default function AgentProvidersTable({
               <div className={"gap-x-4 flex items-center justify-center"}>
                 <AddProviderButton />
               </div>
-            }
-            learnMore={
-              <>{t("common.learnMoreAbout")}<InlineLink
-                  href={"https://docs.netbird.io/agent-network/providers"}
-                  target={"_blank"}
-                >{t("aiProvider.modal.agentNetworkProviders")}<ExternalLinkIcon size={12} />
-                </InlineLink>
-              </>
             }
           />
         }

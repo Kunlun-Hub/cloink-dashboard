@@ -1,22 +1,18 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
-import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { VerticalTabs } from "@components/VerticalTabs";
 import * as Tabs from "@radix-ui/react-tabs";
-import { ExternalLinkIcon, Gauge, ScrollText, ServerIcon } from "lucide-react";
+import { Gauge, ScrollText, ServerIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { lazy, Suspense, useMemo } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import GroupsProvider from "@/contexts/GroupsProvider";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { REVERSE_PROXY_CLUSTERS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
-import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import AgentAccountControlsCard from "@/modules/agent-network/AgentAccountControlsCard";
 import AgentBudgetRulesTable from "@/modules/agent-network/AgentBudgetRulesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
@@ -37,7 +33,6 @@ const TAB_CLUSTERS = "clusters";
 export default function AgentNetworkConfigurationPage() {
   const { t } = useI18n();
   const { permission } = usePermissions();
-  const { only: agentNetworkOnly } = useAgentNetworkMode();
   const queryParams = useSearchParams();
   const queryTab = queryParams.get("tab");
   const router = useRouter();
@@ -89,13 +84,9 @@ export default function AgentNetworkConfigurationPage() {
                     className={"w-full"}
                   >
                     <ConfigTabHeader
-                      label={"Global Limits"}
+                      label={t("agentNetwork.globalLimits")}
                       href={"/agent-network/configuration?tab=budget-settings"}
-                    >
-                      Account-wide caps on token usage and spend, applied across
-                      every policy. Scope a limit to specific groups or users,
-                      or leave it account-wide.
-                    </ConfigTabHeader>
+                    />
                     {/* DataTable applies its own p-default, so it is rendered
                         directly (no extra wrapper) to align with the header. */}
                     <Suspense fallback={<SkeletonTable />}>
@@ -114,18 +105,9 @@ export default function AgentNetworkConfigurationPage() {
                   {canReadClusters && (
                     <Tabs.Content value={TAB_CLUSTERS} className={"w-full"}>
                       <ConfigTabHeader
-                        label={"Clusters"}
+                        label={t("nav.clusters")}
                         href={"/agent-network/configuration?tab=clusters"}
-                      >
-                        {agentNetworkOnly
-                          ? "Proxy clusters route your agents' traffic to AI providers and run on your own infrastructure. Add multiple clusters to scale your environment."
-                          : "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure."}{" "}
-                        <InlineLink
-                          href={REVERSE_PROXY_CLUSTERS_DOCS_LINK}
-                          target={"_blank"}
-                        >{t("common.learnMore")}<ExternalLinkIcon size={12} />
-                        </InlineLink>
-                      </ConfigTabHeader>
+                      />
                       <Suspense fallback={<SkeletonTable />}>
                         <ClustersTable />
                       </Suspense>
@@ -141,29 +123,27 @@ export default function AgentNetworkConfigurationPage() {
   );
 }
 
-// ConfigTabHeader mirrors the breadcrumb + heading + description block each
+// ConfigTabHeader mirrors the breadcrumb + heading block each
 // Settings tab renders at the top of its content.
 function ConfigTabHeader({
   label,
   href,
-  children,
 }: {
   label: string;
   href: string;
-  children?: React.ReactNode;
 }) {
+  const { t } = useI18n();
   return (
     <div className={"p-default py-6"}>
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/agent-network/providers"}
-          label={"Agent Network"}
+          label={t("nav.agentNetwork")}
           icon={<AgentNetworkIcon size={16} />}
         />
         <Breadcrumbs.Item href={href} label={label} active />
       </Breadcrumbs>
       <h1>{label}</h1>
-      {children && <Paragraph>{children}</Paragraph>}
     </div>
   );
 }

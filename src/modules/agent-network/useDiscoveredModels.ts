@@ -2,6 +2,7 @@
 
 import { type ErrorResponse, useApiCall } from "@utils/api";
 import { useCallback, useRef, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 // DiscoveredModel is one model the vendor says this credential can reach.
 export type DiscoveredModel = {
@@ -58,6 +59,7 @@ export type DiscoveryState = {
  * project has enabled — and it drifts as vendors retire models.
  */
 export function useDiscoveredModels() {
+  const { t } = useI18n();
   // ignoreError: the failures here are expected and handled inline (a wrong
   // key, a provider with no listing endpoint), so they must not raise the
   // global error toast on top of the message shown in the form.
@@ -112,12 +114,12 @@ export function useDiscoveredModels() {
           error:
             status === 422
               ? undefined
-              : failure?.message ?? "Could not reach the provider",
+              : failure?.message ?? t("agentNetwork.couldNotReachProvider"),
         });
         return [];
       }
     },
-    [request],
+    [request, t],
   );
 
   // reset bumps the generation too, so a request already in flight cannot

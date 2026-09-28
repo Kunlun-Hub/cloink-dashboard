@@ -3,7 +3,6 @@
 import Badge from "@components/Badge";
 import { DatePickerWithRange } from "@components/DatePickerWithRange";
 import FullTooltip from "@components/FullTooltip";
-import InlineLink from "@components/InlineLink";
 import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
@@ -41,7 +40,6 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   ChevronRight,
-  ExternalLinkIcon,
   ShieldCheckIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -209,8 +207,8 @@ export default function AgentAccessLogTable({
 
   const providerDisplay = useCallback(
     (entry: AIAccessLogEntry): ProviderDisplay =>
-      resolveProviderDisplay(entry, providerByConfigId, catalogNameById),
-    [providerByConfigId, catalogNameById],
+      resolveProviderDisplay(entry, providerByConfigId, catalogNameById, t),
+    [providerByConfigId, catalogNameById, t],
   );
 
   const columns = useMemo<ColumnDef<AIAccessLogEntry>[]>(
@@ -630,7 +628,7 @@ export default function AgentAccessLogTable({
               setFilter("path", trimmed ? trimmed : undefined);
             }}
             close={p.close}
-            placeholder={"e.g. /v1/chat/completions"}
+            placeholder={t("agentAccessLog.pathPlaceholder")}
           />
         ),
         formatChip: (v) => formatTextChip(v as string | undefined),
@@ -722,8 +720,8 @@ export default function AgentAccessLogTable({
           <AgentAccessLogExpandedRow entry={row as AIAccessLogEntry} />
         )
       }
-      searchPlaceholder={"Search by user, agent, model, prompt…"}
-      text={grouped ? "Sessions" : "Requests"}
+      searchPlaceholder={t("agentAccessLog.searchPlaceholder")}
+      text={grouped ? t("agentAccessLog.sessions") : t("agentAccessLog.requests")}
       uniqueKey={
         grouped
           ? "agent-network-access-log-sessions"
@@ -740,18 +738,8 @@ export default function AgentAccessLogTable({
               size={"large"}
             />
           }
-          title={"No Access Log Entries Yet"}
-          description={
-            "No agent network requests yet. Check that providers are connected, policies allow traffic, and log collection is on."
-          }
-          learnMore={
-            <>{t("common.learnMoreAbout")}<InlineLink
-                href={"https://docs.netbird.io/agent-network"}
-                target={"_blank"}
-              >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
-              </InlineLink>
-            </>
-          }
+          title={t("agentAccessLog.emptyTitle")}
+          description={t("agentAccessLog.emptyDescription")}
         />
       }
     >
@@ -812,6 +800,7 @@ function TimeCell({ timestamp }: { timestamp: string }) {
 // requests a clickable reference to the policy that authorised it — linking
 // to the Policies view pre-filtered to that policy.
 function ReasonCell({ entry }: { entry: AIAccessLogEntry }) {
+  const { t } = useI18n();
   const { policies } = useAIProviders();
 
   if (entry.decision === "deny") {
@@ -836,7 +825,7 @@ function ReasonCell({ entry }: { entry: AIAccessLogEntry }) {
 
   return (
     <div className={"px-3 py-2"}>
-      <FullTooltip content={"This policy allowed the request"}>
+      <FullTooltip content={t("agentAccessLog.policyAllowed")}>
         <Link
           href={`/agent-network/policies?search=${encodeURIComponent(
             policy.name,
@@ -869,6 +858,7 @@ function StatusCell({ entry }: { entry: AIAccessLogEntry }) {
 }
 
 function GroupCell({ groupNames }: { groupNames: string[] }) {
+  const { t } = useI18n();
   const { groups: realGroups } = useGroups();
   if (groupNames.length === 0) return <EmptyRow />;
   // Match real groups by name when available; otherwise synthesise a
@@ -882,8 +872,8 @@ function GroupCell({ groupNames }: { groupNames: string[] }) {
     <div className={"px-2 py-1.5"}>
       <MultipleGroups
         groups={groups}
-        label={"User Groups"}
-        description={"Groups the user belonged to at the time of the request."}
+        label={t("agentAccessLog.userGroupsLabel")}
+        description={t("agentAccessLog.userGroupsDescription")}
         countOnly
       />
     </div>
@@ -891,6 +881,7 @@ function GroupCell({ groupNames }: { groupNames: string[] }) {
 }
 
 function UserCell({ entry }: { entry: AIAccessLogEntry }) {
+  const { t } = useI18n();
   // The access log's userId field is whatever the proxy stamped as
   // the principal — for tunnel-peer auth that's peer.ID; for OIDC /
   // header / interactive flows that's user.ID. Look up users first,
@@ -931,7 +922,7 @@ function UserCell({ entry }: { entry: AIAccessLogEntry }) {
     };
   } else if (peer) {
     displayName = peer.name || entry.user || entry.userId;
-    displaySub = "Agent";
+    displaySub = t("agentAccessLog.agent");
     identityForColor = {
       id: peer.id ?? entry.userId,
       name: displayName,
@@ -1004,6 +995,7 @@ function resolveProviderDisplay(
   entry: AIAccessLogEntry,
   providerByConfigId: Map<string, AIProvider>,
   catalogNameById: Map<string, string>,
+  t: (key: string) => string,
 ): ProviderDisplay {
   const resolved = entry.resolvedProviderId
     ? providerByConfigId.get(entry.resolvedProviderId)
@@ -1020,9 +1012,9 @@ function resolveProviderDisplay(
   if (!entry.providerVendor) {
     return {
       key: "unknown",
-      name: "Unknown",
+      name: t("agentAccessLog.unknownProvider"),
       resolved: false,
-      hint: "Not attributed to a provider. The request was rejected before NetBird recognised it as an LLM call.",
+      hint: t("agentAccessLog.unroutedProviderHint"),
     };
   }
 
@@ -1041,7 +1033,7 @@ function resolveProviderDisplay(
       ? entry.providerVendor
       : (catalogNameById.get(entry.providerId) ?? entry.providerVendor),
     resolved: false,
-    hint: "Not attributed to a configured provider. This is the API shape the client called. Requests denied before routing never reach a provider.",
+    hint: t("agentAccessLog.unconfiguredProviderHint"),
   };
 }
 
@@ -1218,15 +1210,15 @@ function CostBreakdown({
           {/* All four buckets, including zeros: a zero cache-read line is
               information (the request missed the cache), and a fixed set of
               rows keeps the hover comparable between requests. */}
-          <CostRow amount={inputCostUsd ?? 0} label={"input"} />
-          <CostRow amount={outputCostUsd ?? 0} label={"output"} />
-          <CostRow amount={cacheRead} label={"cache read"} />
-          <CostRow amount={cacheWrite} label={"cache write"} />
+          <CostRow amount={inputCostUsd ?? 0} label={t("agentAccessLog.tokenInput")} />
+          <CostRow amount={outputCostUsd ?? 0} label={t("agentAccessLog.tokenOutput")} />
+          <CostRow amount={cacheRead} label={t("agentAccessLog.cacheRead")} />
+          <CostRow amount={cacheWrite} label={t("agentAccessLog.cacheWrite")} />
         </>
       ) : (
         <>
-          <CostRow amount={costUsd - cache} label={"input + output"} />
-          <CostRow amount={cache} label={"cache"} />
+          <CostRow amount={costUsd - cache} label={t("agentAccessLog.inputOutput")} />
+          <CostRow amount={cache} label={t("agentAccessLog.cache")} />
         </>
       )}
       <div
@@ -1320,6 +1312,7 @@ function SessionProviderCell({
   session: AIAccessLogSession;
   providerDisplay: ProviderDisplayFn;
 }) {
+  const { t } = useI18n();
   const items = useMemo(() => {
     const collect = (predicate: (d: ProviderDisplay) => boolean) => {
       const seen = new Map<string, ProviderDisplay>();
@@ -1381,7 +1374,7 @@ function SessionProviderCell({
                 "text-[11px] text-nb-gray-400 font-mono truncate cursor-default underline decoration-dashed decoration-nb-gray-600 underline-offset-2"
               }
             >
-              {session.models.length} models
+              {t("agentAccessLog.modelsCount", { count: session.models.length })}
             </code>
           </FullTooltip>
         ) : (
@@ -1419,6 +1412,7 @@ function formatSessionSpan(ms: number): string {
 // SessionRequestsCell shows the request count and how long the session ran
 // (e.g. "15 · over 1h 26m").
 function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
+  const { t } = useI18n();
   const span = formatSessionSpan(
     dayjs(session.endedAt).diff(dayjs(session.startedAt)),
   );
@@ -1428,7 +1422,7 @@ function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
         {session.requestCount.toLocaleString()}
       </span>
       {span && (
-        <span className={"text-nb-gray-500 text-[11px]"}>over {span}</span>
+        <span className={"text-nb-gray-500 text-[11px]"}>{t("agentAccessLog.overDuration", { duration: span })}</span>
       )}
     </div>
   );
@@ -1455,8 +1449,9 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
           "text-[11px] font-medium uppercase tracking-wide text-nb-gray-400 mb-1.5"
         }
       >
-        {session.requestCount} request{session.requestCount === 1 ? "" : "s"} in
-        this session
+        {session.requestCount === 1
+          ? t("agentAccessLog.requestInSession")
+          : t("agentAccessLog.requestsInSession", { count: session.requestCount })}
       </div>
       <div
         className={
@@ -1533,7 +1528,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-[11px] text-red-300 truncate max-w-[180px] shrink-0"
                     }
                   >
-                    {formatDenyReason(entry.denyReason) || "Failed"}
+                    {formatDenyReason(entry.denyReason) || t("agentAccessLog.failed")}
                   </span>
                 )}
                 <div className={"flex-1"} />
@@ -1553,7 +1548,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-xs text-nb-gray-400 font-mono whitespace-nowrap tabular-nums w-[110px] text-right shrink-0"
                     }
                   >
-                    {total.toLocaleString()} tokens
+                    {total.toLocaleString()} {t("agentAccessLog.tokensUnit")}
                   </span>
                 </FullTooltip>
                 <FullTooltip

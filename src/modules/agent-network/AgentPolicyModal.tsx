@@ -5,7 +5,6 @@ import Button from "@components/Button";
 import { Checkbox } from "@components/Checkbox";
 import HelpText from "@components/HelpText";
 import { HelpTooltip } from "@components/HelpTooltip";
-import InlineLink from "@components/InlineLink";
 import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import {
@@ -15,7 +14,6 @@ import {
   ModalFooter,
 } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
-import Paragraph from "@components/Paragraph";
 import { PeerGroupSelector } from "@components/PeerGroupSelector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { Textarea } from "@components/Textarea";
@@ -24,7 +22,6 @@ import {
   ArrowRightLeft,
   ChevronsUpDown,
   CircleUser,
-  ExternalLinkIcon,
   FolderDown,
   Gauge,
   PlusCircle,
@@ -215,10 +212,8 @@ function AgentPolicyModalContent({
     <ModalContent maxWidthClass={"max-w-3xl"}>
       <ModalHeader
         icon={<AccessControlIcon className={"fill-netbird"} />}
-        title={policy ? "Update Agent Policy" : "Create Agent Policy"}
-        description={
-          "Govern which groups can call which AI providers and under what guardrails."
-        }
+        title={policy ? t("agentNetwork.updateAgentPolicy") : t("agentNetwork.createAgentPolicy")}
+        description={t("agentNetwork.agentPolicyDescription")}
         color={"netbird"}
       />
 
@@ -239,11 +234,7 @@ function AgentPolicyModalContent({
                 <Label className={"mb-2"}>
                   <FolderDown size={15} />{t("controlCenter.source")}<HelpTooltip
                     content={
-                      <>
-                        Group of users this policy authorises to call the
-                        destination providers. One group per policy in this
-                        release.
-                      </>
+                      <>{t("agentNetwork.sourceTooltip")}</>
                     }
                   />
                 </Label>
@@ -257,10 +248,9 @@ function AgentPolicyModalContent({
                       "mt-2 text-xs text-yellow-700 dark:text-yellow-400 leading-snug"
                     }
                   >
-                    This policy was created with multiple source groups.
-                    Only the first group is kept on save —{" "}
-                    {sourceGroupsRaw[0]?.name ?? "—"} will be retained,
-                    the others removed.
+                    {t("agentNetwork.legacyMultipleSourceGroupsPrefix")}{" "}
+                    {sourceGroupsRaw[0]?.name ?? "—"}{" "}
+                    {t("agentNetwork.legacyMultipleSourceGroupsSuffix")}
                   </div>
                 )}
               </div>
@@ -290,7 +280,7 @@ function AgentPolicyModalContent({
                   userEditedName.current = true;
                   setName(e.target.value);
                 }}
-                placeholder={"e.g. Engineering → OpenAI"}
+                placeholder={t("agentNetwork.nameOfPolicyPlaceholder")}
               />
             </div>
             <div>
@@ -299,9 +289,7 @@ function AgentPolicyModalContent({
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder={
-                  "e.g., Engineers can call OpenAI under production guardrails."
-                }
+                placeholder={t("agentNetwork.descriptionOfPolicyPlaceholder")}
                 rows={3}
               />
             </div>
@@ -318,14 +306,6 @@ function AgentPolicyModalContent({
       </Tabs>
 
       <ModalFooter className={"items-center"}>
-        <div className={"w-full"}>
-          <Paragraph className={"text-sm mt-auto"}>{t("common.learnMoreAbout")}<InlineLink
-              href={"https://docs.netbird.io/agent-network"}
-              target={"_blank"}
-            >{t("nav.agentNetwork")}<ExternalLinkIcon size={12} />
-            </InlineLink>
-          </Paragraph>
-        </div>
         <div className={"flex gap-3 w-full justify-end"}>
           {!policy ? (
             <>
