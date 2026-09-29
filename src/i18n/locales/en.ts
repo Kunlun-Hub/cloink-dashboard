@@ -5998,6 +5998,17 @@ const en = {
   "trafficEventSetting.groupsUpdatedSuccess":
     "Traffic events groups successfully updated.",
   "trafficEventSetting.updatingGroups": "Updating traffic events groups...",
+  "trafficEventSetting.retentionLabel": "Data Retention",
+  "trafficEventSetting.retentionHelp":
+    "How long traffic events are kept before automatic cleanup. Applies globally to all accounts.",
+  "trafficEventSetting.retentionPlaceholder": "Select retention period",
+  "trafficEventSetting.retentionDays": "{{days}} days",
+  "trafficEventSetting.retentionNotifyTitle": "Data Retention",
+  "trafficEventSetting.retentionUpdatedSuccess":
+    "Traffic events retention successfully updated.",
+  "trafficEventSetting.updatingRetention": "Updating retention setting...",
+  "trafficEventSetting.retentionLoadError":
+    "Failed to load retention setting. Please refresh the page.",
   "webhook.endpointUrl": "Endpoint URL",
   "webhook.enterEndpointUrl": "Enter your Endpoint URL",
   "webhook.urlHelpText":

@@ -5,6 +5,13 @@ import InlineLink from "@components/InlineLink";
 import { Label } from "@components/Label";
 import { notify } from "@components/Notification";
 import { PeerGroupSelector } from "@components/PeerGroupSelector";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/Select";
 import { useHasChanges } from "@hooks/useHasChanges";
 import { useApiCall } from "@utils/api";
 import { cn } from "@utils/helpers";
@@ -14,7 +21,7 @@ import {
   FlaskConicalIcon,
 } from "lucide-react";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
@@ -47,6 +54,29 @@ export const TrafficEventSetting = ({ account }: Props) => {
     useState(
       account.settings?.extra?.network_traffic_packet_counter_enabled ?? false,
     );
+
+  const retentionRequest = useApiCall<{ retention_days: number }>(
+    "/events/network-traffic/retention",
+  );
+  const [retentionDays, setRetentionDays] = useState<number>(2);
+  const [retentionLoaded, setRetentionLoaded] = useState(false);
+  const [retentionError, setRetentionError] = useState(false);
+
+  useEffect(() => {
+    retentionRequest
+      .get()
+      .then((res) => {
+        if (res?.retention_days) {
+          setRetentionDays(res.retention_days);
+        }
+        setRetentionLoaded(true);
+      })
+      .catch(() => {
+        setRetentionError(true);
+        setRetentionLoaded(true);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggleTrafficEvents = async (toggle: boolean) => {
     if (!toggle) {
@@ -116,6 +146,21 @@ export const TrafficEventSetting = ({ account }: Props) => {
     });
   };
 
+  const saveRetention = async (days: number) => {
+    notify({
+      title: t("trafficEventSetting.retentionNotifyTitle"),
+      description: t("trafficEventSetting.retentionUpdatedSuccess"),
+      promise: retentionRequest
+        .put({ retention_days: days })
+        .then(() => {
+          setRetentionDays(days);
+        }),
+      loadingMessage: t("trafficEventSetting.updatingRetention"),
+    });
+  };
+
+  const retentionOptions = [2, 7, 15, 30, 90];
+
   return (
     <>
       <div className={"mt-4"}>
@@ -176,6 +221,40 @@ export const TrafficEventSetting = ({ account }: Props) => {
               }
               disabled={!permission.settings.update}
             />
+            <div className={"mt-4"}>
+              <Label>{t("trafficEventSetting.retentionLabel")}</Label>
+              <HelpText className={"mb-3"}>
+                {t("trafficEventSetting.retentionHelp")}
+              </HelpText>
+              {!retentionLoaded ? (
+                <Skeleton height={46} />
+              ) : retentionError ? (
+                <HelpText className={"text-red-400"}>
+                  {t("trafficEventSetting.retentionLoadError")}
+                </HelpText>
+              ) : (
+                <div className={"flex gap-4 items-end"}>
+                  <Select
+                    value={String(retentionDays)}
+                    onValueChange={(v) => saveRetention(Number(v))}
+                    disabled={!permission.network_traffic.update}
+                  >
+                    <SelectTrigger className="w-[280px]">
+                      <SelectValue
+                        placeholder={t("trafficEventSetting.retentionPlaceholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {retentionOptions.map((days) => (
+                        <SelectItem key={days} value={String(days)}>
+                          {t("trafficEventSetting.retentionDays", { days })}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
             <div className={"mt-2"}>
               <Label>{t("trafficEventSetting.limitToGroups")}</Label>
               <HelpText className={"mb-3"}>
