@@ -237,7 +237,7 @@ export const TrafficEventSetting = ({ account }: Props) => {
                   <Select
                     value={String(retentionDays)}
                     onValueChange={(v) => saveRetention(Number(v))}
-                    disabled={!permission.network_traffic.update}
+                    disabled={!permission.settings.update}
                   >
                     <SelectTrigger className="w-[280px]">
                       <SelectValue
