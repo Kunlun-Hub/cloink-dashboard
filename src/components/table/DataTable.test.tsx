@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 // A column's `meta.className` must land on both its header cell and its body
@@ -80,5 +80,60 @@ describe("DataTable column meta className", () => {
     expect(headers[0].className).toContain("px-4");
     expect(headers[1].className).toContain("px-4");
     expect(headers[1].className).toContain("xl:table-cell");
+  });
+});
+
+// Regression: a controlled server-paginated table must forward the user's first
+// "next page" click. A one-shot initial-render guard used to swallow it, so the
+// table stayed on page 1 even though the request had already been fired.
+describe("DataTable manual pagination", () => {
+  const clickNextPage = (container: HTMLElement) => {
+    const next = Array.from(container.querySelectorAll("button")).find((b) =>
+      b.querySelector("svg.lucide-chevron-right"),
+    );
+    expect(next).toBeTruthy();
+    fireEvent.click(next as HTMLButtonElement);
+  };
+
+  it("forwards the first next-page click to onPaginationChange", () => {
+    const onPaginationChange = vi.fn();
+    const { container } = render(
+      <DataTable
+        columns={columns}
+        data={rows}
+        showSearchAndFilters={false}
+        keepStateInLocalStorage={false}
+        manualPagination
+        pageCount={3}
+        pagination={{ pageIndex: 0, pageSize: 2 }}
+        onPaginationChange={onPaginationChange}
+        totalRecords={6}
+        initialPageSize={2}
+      />,
+    );
+    clickNextPage(container);
+    expect(onPaginationChange).toHaveBeenCalledWith({
+      pageIndex: 1,
+      pageSize: 2,
+    });
+  });
+
+  it("does not forward a no-op pagination update", () => {
+    const onPaginationChange = vi.fn();
+    render(
+      <DataTable
+        columns={columns}
+        data={rows}
+        showSearchAndFilters={false}
+        keepStateInLocalStorage={false}
+        manualPagination
+        pageCount={3}
+        pagination={{ pageIndex: 0, pageSize: 2 }}
+        onPaginationChange={onPaginationChange}
+        totalRecords={6}
+        initialPageSize={2}
+      />,
+    );
+    expect(onPaginationChange).not.toHaveBeenCalled();
   });
 });

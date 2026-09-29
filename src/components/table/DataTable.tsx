@@ -291,7 +291,6 @@ export function DataTable<TData, TValue>({
 }: Readonly<DataTableProps<TData, TValue>>) {
   const { t } = useI18n();
   const path = usePathname();
-  const isInitialRender = useRef(true);
 
   const [showOverlay, setShowOverlay] = useState(false);
   const overlayTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -385,16 +384,20 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     onPaginationChange: (updater) => {
       if (manualPagination) {
-        if (isInitialRender.current) {
-          isInitialRender.current = false;
-          return;
-        }
-        if (typeof updater === "function") {
-          const newState = updater(pagination!);
-          onPaginationChange?.(newState);
-        } else {
-          onPaginationChange?.(updater);
-        }
+        // The controlled page lives in the server-pagination provider. TanStack
+        // also pushes the current page back through this handler (e.g. when the
+        // `pagination` prop is synced into table state), so drop no-op updates
+        // instead of swallowing the first real one: the previous one-shot
+        // initial-render guard consumed the user's first page click and left the
+        // table stuck on page 1.
+        const current = pagination ?? {
+          pageIndex: 0,
+          pageSize: initialPageSize,
+        };
+        const newState =
+          typeof updater === "function" ? updater(current) : updater;
+        if (isEqual(newState, current)) return;
+        onPaginationChange?.(newState);
       } else {
         setPaginationState(updater);
       }
