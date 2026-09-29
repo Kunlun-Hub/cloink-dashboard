@@ -5587,6 +5587,14 @@ const zhCN = {
   "trafficEventSetting.groupsNotifyTitle": "流量事件分组",
   "trafficEventSetting.groupsUpdatedSuccess": "流量事件分组已成功更新。",
   "trafficEventSetting.updatingGroups": "正在更新流量事件分组...",
+  "trafficEventSetting.retentionLabel": "数据保留时长",
+  "trafficEventSetting.retentionHelp":
+    "流量事件在自动清理前保留多久。全局生效，适用于所有账号。",
+  "trafficEventSetting.retentionPlaceholder": "选择保留时长",
+  "trafficEventSetting.retentionDays": "{{days}} 天",
+  "trafficEventSetting.retentionNotifyTitle": "数据保留",
+  "trafficEventSetting.retentionUpdatedSuccess": "流量事件保留时长已成功更新。",
+  "trafficEventSetting.updatingRetention": "正在更新保留设置...",
   "webhook.endpointUrl": "端点 URL",
   "webhook.enterEndpointUrl": "输入你的端点 URL",
   "webhook.urlHelpText":
