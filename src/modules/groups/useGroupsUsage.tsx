@@ -66,8 +66,10 @@ export default function useGroupsUsage() {
     if (!policies) return [];
     return policies
       ?.map((policy) => {
-        const sourceGroups = policy.rules[0].sources as Group[];
-        const destinationGroups = policy.rules[0].destinations as Group[];
+        const firstRule = policy.rules?.[0];
+        if (!firstRule) return [];
+        const sourceGroups = firstRule.sources as Group[];
+        const destinationGroups = firstRule.destinations as Group[];
         const sourceGroupsIds = sourceGroups
           ? sourceGroups.map((group) => group.id)
           : [];
@@ -76,7 +78,7 @@ export default function useGroupsUsage() {
           : [];
         return [...sourceGroupsIds, ...destinationGroupsIds];
       })
-      .filter((u) => u !== undefined);
+      .filter((u) => u != null);
   }, [policies, isPoliciesLoading]);
 
   const nameserversGroups = useMemo(() => {
@@ -84,7 +86,7 @@ export default function useGroupsUsage() {
     if (!nameservers) return [];
     return nameservers
       ?.map((nameserver) => nameserver.groups)
-      .filter((u) => u !== undefined);
+      .filter((u) => u != null);
   }, [nameservers, isNameserversLoading]);
 
   const zonesGroups = useMemo(() => {
@@ -92,7 +94,7 @@ export default function useGroupsUsage() {
     if (!zones) return [];
     return zones
       ?.map((zone) => zone.distribution_groups)
-      .filter((u) => u !== undefined);
+      .filter((u) => u != null);
   }, [zones, isZonesLoading]);
 
   const setupKeysGroups = useMemo(() => {
@@ -100,7 +102,7 @@ export default function useGroupsUsage() {
     if (!setupKeys) return [];
     return setupKeys
       ?.map((setupKey) => setupKey.auto_groups)
-      .filter((u) => u !== undefined);
+      .filter((u) => u != null);
   }, [setupKeys, isSetupKeysLoading]);
 
   const usersGroups = useMemo(() => {
@@ -108,7 +110,7 @@ export default function useGroupsUsage() {
     if (!users) return [];
     return users
       ?.map((user) => user.auto_groups)
-      .filter((u) => u !== undefined);
+      .filter((u) => u != null);
   }, [users, isUsersLoading]);
 
   const isLoading = useMemo(() => {

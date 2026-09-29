@@ -6,8 +6,6 @@ import { ExternalLinkIcon, FileText } from "lucide-react";
 import React from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
-import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
-import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import Firehose from "@/modules/integrations/event-streaming/amazon/firehose/Firehose";
 import S3 from "@/modules/integrations/event-streaming/amazon/s3/S3";
 import Datadog from "@/modules/integrations/event-streaming/datadog/Datadog";
@@ -45,22 +43,18 @@ export default function EventStreamingTab() {
           </InlineLink>
         </Paragraph>
 
-        <LockedFeatureInfoCard
-          featureText={t("eventStreaming.title")}
-          feature={"EVENT_STREAMING"}
-        />
-        <LockedFeatureOverlay feature={"EVENT_STREAMING"} opacity={100}>
-          <div
-            className={
-              "gap-6 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
-            }
-          >
-            <Datadog />
-            <S3 />
-            <Firehose />
-            <GenericHTTP />
-          </div>
-        </LockedFeatureOverlay>
+        {/* NOTE (cloink fork): event-streaming is an open-source feature,
+            not gated on a commercial license. */}
+        <div
+          className={
+            "gap-6 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr"
+          }
+        >
+          <Datadog />
+          <S3 />
+          <Firehose />
+          <GenericHTTP />
+        </div>
       </div>
     </Tabs.Content>
   );
