@@ -17,7 +17,6 @@
   "authServiceUrl": "$NETBIRD_AUTH_SERVICE_URL",
   "wasmPath": "$NETBIRD_WASM_PATH",
   "wasmExecPath": "$NETBIRD_WASM_EXEC_PATH",
-  "releasesUrl": "$NETBIRD_RELEASES_URL",
   "analyticsEnabled": "$NETBIRD_ANALYTICS_ENABLED",
   "licensed": "$NETBIRD_LICENSED",
   "cloud": "$NETBIRD_CLOUD",

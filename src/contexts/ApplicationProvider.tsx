@@ -1,9 +1,7 @@
 import { useOidcUser } from "@axa-fr/react-oidc";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
 import { Params, useApiCall } from "@utils/api";
-import loadConfig from "@utils/config";
 import { useIsMd } from "@utils/responsive";
-import { getLatestNetbirdRelease } from "@utils/version";
 import React, {
   useCallback,
   useContext,
@@ -12,11 +10,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { User } from "@/interfaces/User";
-import type { NetbirdRelease } from "@/interfaces/Version";
-
-const config = loadConfig();
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 type Props = {
   children: React.ReactNode;
@@ -37,9 +32,6 @@ const ApplicationContext = React.createContext(
 );
 
 export default function ApplicationProvider({ children }: Props) {
-  const [latestRelease, setLatestRelease] = useLocalStorage<
-    NetbirdRelease | undefined
-  >("netbird-latest-release", undefined);
   const { oidcUser: user } = useOidcUser();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const isMd = useIsMd();
@@ -91,34 +83,6 @@ export default function ApplicationProvider({ children }: Props) {
     }
   }, [isMd]);
 
-  useEffect(() => {
-    if (!config.releasesUrl) {
-      setLatestRelease(undefined);
-      return;
-    }
-
-    async function fetchLatestRelease() {
-      const release = await getLatestNetbirdRelease(
-        latestRelease,
-        config.releasesUrl,
-      );
-      setLatestRelease(release);
-    }
-    fetchLatestRelease().then();
-    const interval = setInterval(
-      fetchLatestRelease,
-      1000 * 60 * 30, // Run every 30 minutes
-    );
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const latestVersion = useMemo(
-    () => latestRelease?.latest_version,
-    [latestRelease],
-  );
-  const latestUrl = useMemo(() => latestRelease?.url, [latestRelease]);
-
   const toggleMobileNav = () => {
     setMobileNavOpen(!mobileNavOpen);
   };
@@ -126,9 +90,9 @@ export default function ApplicationProvider({ children }: Props) {
   return show ? (
     <ApplicationContext.Provider
       value={{
-        latestVersion,
+        latestVersion: undefined,
         toggleMobileNav,
-        latestUrl,
+        latestUrl: undefined,
         mobileNavOpen,
         user,
         globalApiParams,
