@@ -7,7 +7,6 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/datadog.png";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { EventStream } from "@/interfaces/EventStream";
 import DatadogSetup from "@/modules/integrations/event-streaming/datadog/DatadogSetup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
@@ -17,7 +16,6 @@ export default function Datadog() {
   const { permission } = usePermissions();
   const { t } = useI18n();
   // Event Streaming is a licensed feature; skip the call on open-source.
-  const { isLicensed } = useIsLicensed();
 
   const { mutate } = useSWRConfig();
   const { data: eventStreamIntegrations, isLoading } = useFetchApi<
@@ -26,7 +24,7 @@ export default function Datadog() {
     "/integrations/event-streaming",
     false,
     false,
-    permission.event_streaming.read && isLicensed,
+    permission.event_streaming.read,
   );
 
   const dataDogSettings = eventStreamIntegrations?.find(

@@ -10,7 +10,6 @@ import firehoseLogo from "@/assets/integrations/firehose.png";
 import genericHttpLogo from "@/assets/integrations/generic-http.png";
 import s3Logo from "@/assets/integrations/s3.svg";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { useI18n } from "@/i18n/I18nProvider";
 import { EventStream } from "@/interfaces/EventStream";
 
@@ -25,15 +24,14 @@ const platformImages: { [key in Platform]?: StaticImageData } = {
 export const EventStreamingCard = () => {
   const { permission } = usePermissions();
   const { t } = useI18n();
-  // Event Streaming is a licensed feature; the endpoint is not served on
-  // open-source deployments, so skip the call there entirely.
-  const { isLicensed } = useIsLicensed();
+  // NOTE (cloink fork): event-streaming is implemented by cloink-server as an
+  // open-source feature, so it is not gated on a license here.
 
   const { data: eventStreamIntegrations } = useFetchApi<EventStream[]>(
     "/integrations/event-streaming",
     false,
     false,
-    !!permission?.event_streaming?.read && isLicensed,
+    !!permission?.event_streaming?.read,
   );
   const activeSettings = eventStreamIntegrations?.find(
     (integration) => integration.enabled,

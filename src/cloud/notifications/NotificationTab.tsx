@@ -4,7 +4,6 @@ import { ExternalLinkIcon, MessageSquareDot } from "lucide-react";
 import React from "react";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { VerticalTabs } from "@components/VerticalTabs";
 import InlineLink from "@components/InlineLink";
 import Card from "@components/Card";
@@ -103,7 +102,8 @@ const NotificationsOverview = ({
 
 export const NotificationTab = () => {
   const { permission } = usePermissions();
-  const { isLicensed } = useIsLicensed();
+  // NOTE (cloink fork): notifications backend is implemented by cloink-server
+  // as an open-source feature, so it is not gated on a license here.
   const [channel, setChannel] = useUrlTab(
     [
       NotificationChannelType.Email,
@@ -114,7 +114,7 @@ export const NotificationTab = () => {
     "channel",
   );
 
-  const canView = permission?.settings?.read && isLicensed;
+  const canView = permission?.settings?.read;
   if (!canView) return;
 
   return (
@@ -173,9 +173,10 @@ const NotificationSlackChannelPage = () => {
 export const NotificationsTabTrigger = () => {
   const { t } = useI18n();
   const { permission } = usePermissions();
-  const { isLicensed } = useIsLicensed();
+  // NOTE (cloink fork): notifications backend is implemented by cloink-server
+  // as an open-source feature, so it is not gated on a license here.
 
-  const canView = permission?.settings?.read && isLicensed;
+  const canView = permission?.settings?.read;
   if (!canView) return;
 
   return (
