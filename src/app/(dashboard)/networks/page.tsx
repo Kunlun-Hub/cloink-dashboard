@@ -11,6 +11,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Network } from "@/interfaces/Network";
 import PageContainer from "@/layouts/PageContainer";
 import NetworksTable from "@/modules/networks/table/NetworksTable";
+import ConnectorsSection from "@/modules/networks/connector/ConnectorsSection";
 import { useI18n } from "@/i18n/I18nProvider";
 
 export default function Networks() {
@@ -42,6 +43,10 @@ export default function Networks() {
           />
         </Suspense>
       </RestrictedAccess>
+
+      <div className="mt-8 border-t border-nb-gray-200 dark:border-nb-gray-700 pt-8">
+        <ConnectorsSection />
+      </div>
     </PageContainer>
   );
 }

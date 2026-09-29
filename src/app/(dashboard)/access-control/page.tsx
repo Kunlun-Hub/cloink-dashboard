@@ -17,6 +17,9 @@ import { useI18n } from "@/i18n/I18nProvider";
 const AccessControlTable = lazy(
   () => import("@/modules/access-control/table/AccessControlTable"),
 );
+const PolicyConfigurator = lazy(
+  () => import("@/modules/access-control/configurator/PolicyConfigurator"),
+);
 export default function AccessControlPage() {
   const { t } = useI18n();
   const { permission } = usePermissions();
@@ -46,11 +49,7 @@ export default function AccessControlPage() {
         >
           <PoliciesProvider>
             <Suspense fallback={<SkeletonTable />}>
-              <AccessControlTable
-                isLoading={isLoading}
-                policies={policies}
-                headingTarget={portalTarget}
-              />
+              <PolicyConfigurator policies={policies} isLoading={isLoading} />
             </Suspense>
           </PoliciesProvider>
         </RestrictedAccess>
