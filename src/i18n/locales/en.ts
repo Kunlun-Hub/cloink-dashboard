@@ -1435,6 +1435,16 @@ const en = {
   "networkResources.columnProtocolPorts": "Protocol & Ports",
   "networkResources.tabContentDescription":
     "Add resources to this network to control what peers can access.",
+  "networkResources.resourceGroups": "Resource Groups",
+  "networkResources.ungrouped": "Ungrouped",
+  "networkResources.workstationHint": "Click a cell to edit inline, filter by group on the left",
+  "networkResources.clickToEdit": "Click to edit",
+  "networkResources.name": "Name",
+  "networkResources.address": "Address",
+  "networkResources.description": "Notes",
+  "networkResources.type": "Type",
+  "networkResources.noResources": "No resources yet",
+  "networkResources.addResource": "Add Resource",
   "networkResources.accessPolicySuffix": "Access Policie(s)",
   "networkResources.defaultPolicyName": "{name} Access",
   "networkResources.deprecationTooltip":
