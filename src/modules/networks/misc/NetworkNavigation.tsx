@@ -22,6 +22,20 @@ export const NetworkNavigation = () => {
         visible={permission.networks.read}
       />
       <SidebarItem
+        label={t("nav.connectors")}
+        isChild
+        href={"/connectors"}
+        exactPathMatch={true}
+        visible={permission.networks.read}
+      />
+      <SidebarItem
+        label={t("nav.resourceGroups")}
+        isChild
+        href={"/resource-groups"}
+        exactPathMatch={true}
+        visible={permission.networks.read}
+      />
+      <SidebarItem
         label={t("nav.routes")}
         isChild
         href={"/network-routes"}
