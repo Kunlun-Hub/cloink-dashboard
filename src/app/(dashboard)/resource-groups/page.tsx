@@ -90,14 +90,14 @@ export default function ResourceGroupsPage() {
       </div>
 
       <RestrictedAccess hasAccess={permission.networks.read}>
-        <div className="p-default flex gap-4" style={{ height: "calc(100vh - 220px)", minHeight: 500 }}>
+        <div className="p-default flex flex-col lg:flex-row gap-4 pb-8" style={{ minHeight: 560 }}>
           {/* Left sidebar */}
-          <Card className="w-72 shrink-0 flex flex-col p-4">
+          <Card className="w-full lg:w-72 shrink-0 flex flex-col p-4 lg:max-h-[calc(100vh-240px)]">
             <div className="flex items-center justify-between mb-3">
-              <span className="font-medium">{t("resourceGroups.listTitle")}</span>
+              <span className="font-medium text-sm">{t("resourceGroups.listTitle")}</span>
               {permission.groups.create && (
                 <button
-                  className="p-1 hover:bg-nb-gray-800 rounded"
+                  className="p-1.5 hover:bg-nb-gray-800 rounded-md text-nb-gray-400 hover:text-nb-gray-200 transition-colors"
                   onClick={() => setShowCreate(true)}
                   title={t("resourceGroups.create")}
                 >
@@ -111,8 +111,14 @@ export default function ResourceGroupsPage() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
               className="mb-3"
             />
-            <div className="flex-1 overflow-y-auto space-y-1">
-              {isLoading && <p className="text-sm opacity-60">{t("common.loading")}</p>}
+            <div className="flex-1 overflow-y-auto space-y-1 lg:max-h-none max-h-64">
+              {isLoading && (
+                <div className="space-y-2">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-9 rounded bg-nb-gray-800 animate-pulse" />
+                  ))}
+                </div>
+              )}
               {sortedGroups.map((g, idx) => (
                 <GroupRow
                   key={g.id}
@@ -127,9 +133,15 @@ export default function ResourceGroupsPage() {
                 />
               ))}
               {!isLoading && sortedGroups.length === 0 && (
-                <p className="text-sm opacity-60 text-center py-8">
-                  {t("resourceGroups.empty")}
-                </p>
+                <div className="text-center py-10">
+                  <p className="text-sm text-nb-gray-500 mb-3">{t("resourceGroups.empty")}</p>
+                  {permission.groups.create && (
+                    <Button size="sm" variant="secondary" onClick={() => setShowCreate(true)}>
+                      <Plus size={14} className="mr-1" />
+                      {t("resourceGroups.create")}
+                    </Button>
+                  )}
+                </div>
               )}
             </div>
           </Card>
@@ -147,8 +159,8 @@ export default function ResourceGroupsPage() {
                 }}
               />
             ) : (
-              <Card className="p-12 text-center text-sm opacity-60 h-full">
-                {t("resourceGroups.selectHint")}
+              <Card className="p-12 text-center h-full min-h-64 flex flex-col items-center justify-center">
+                <p className="text-sm text-nb-gray-500">{t("resourceGroups.selectHint")}</p>
               </Card>
             )}
           </div>
@@ -217,12 +229,21 @@ function GroupRow({
   return (
     <div
       className={cn(
-        "group flex items-center gap-2 px-3 py-2 rounded cursor-pointer text-sm",
-        selected ? "bg-nb-primary/15 text-nb-primary" : "hover:bg-nb-gray-800",
+        "group flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer text-sm transition-colors",
+        selected
+          ? "bg-nb-primary/15 text-nb-primary font-medium"
+          : "hover:bg-nb-gray-800/70 text-nb-gray-300",
       )}
       onClick={onSelect}
     >
-      <span className="opacity-50 w-6 shrink-0">{index + 1}.</span>
+      <span
+        className={cn(
+          "w-6 shrink-0 text-xs font-mono",
+          selected ? "text-nb-primary/70" : "text-nb-gray-600",
+        )}
+      >
+        {index + 1}
+      </span>
       {renaming ? (
         <Input
           value={renameValue}
@@ -241,7 +262,14 @@ function GroupRow({
       ) : (
         <span className="truncate flex-1">{displayName}</span>
       )}
-      <span className="text-xs opacity-50">{group.resources_count || 0}</span>
+      <span
+        className={cn(
+          "text-[11px] px-1.5 py-0.5 rounded-full shrink-0",
+          selected ? "bg-nb-primary/20 text-nb-primary" : "bg-nb-gray-800 text-nb-gray-500",
+        )}
+      >
+        {group.resources_count || 0}
+      </span>
       {permission.groups.update && (
         <div className="relative">
           <button

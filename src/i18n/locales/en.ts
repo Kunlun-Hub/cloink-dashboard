@@ -8211,6 +8211,8 @@ const en = {
   "connectors.deleteDescription": "Delete connector {name}? Its announced routes will stop being forwarded.",
   "connectors.deletedTitle": "Connector deleted",
   "connectors.deleteFailed": "Delete failed",
+  "connectors.online": "Online",
+  "connectors.offline": "Offline",
   "resourceGroups.title": "Resource Groups",
   "resourceGroups.description": "Resource groups are sets of IP addresses that access policies can reference directly. IPs are automatically forwarded via the connector announcing the matching subnet. No network binding needed.",
   "resourceGroups.listTitle": "Resource List",

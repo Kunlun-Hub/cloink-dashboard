@@ -7628,6 +7628,8 @@ const zhCN = {
   "connectors.deleteDescription": "确定删除连接器 {name} 吗？其宣告的路由将不再转发。",
   "connectors.deletedTitle": "连接器已删除",
   "connectors.deleteFailed": "删除失败",
+  "connectors.online": "在线",
+  "connectors.offline": "离线",
   "resourceGroups.title": "资源组",
   "resourceGroups.description": "资源组是 IP 地址的集合，可直接被访问策略引用。组内 IP 会自动通过宣告了对应网段的连接器转发，无需绑定网络。",
   "resourceGroups.listTitle": "资源列表",

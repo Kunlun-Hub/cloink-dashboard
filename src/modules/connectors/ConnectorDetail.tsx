@@ -81,7 +81,10 @@ export default function ConnectorDetail({
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-lg font-medium">{connector.peerName}</h2>
+        <div>
+          <h2 className="text-lg font-semibold">{connector.peerName}</h2>
+          <p className="text-xs text-nb-gray-500 mt-0.5 font-mono truncate max-w-md">{connector.peerId}</p>
+        </div>
         {editing ? (
           <div className="flex gap-2">
             <Button
@@ -105,15 +108,23 @@ export default function ConnectorDetail({
         {t("connectors.detailHint")}
       </Paragraph>
 
-      <div className="flex gap-1 border-b mb-4">
-        <TabButton active={tab === "announced"} onClick={() => setTab("announced")}>
-          {t("connectors.announcedRoutes")} ({announced.filter((r) => r.enabled).length})
+      <div className="flex gap-1 border-b border-nb-gray-800 mb-4">
+        <TabButton
+          active={tab === "announced"}
+          onClick={() => setTab("announced")}
+          count={announced.filter((r) => r.enabled).length}
+        >
+          {t("connectors.announcedRoutes")}
         </TabButton>
-        <TabButton active={tab === "excluded"} onClick={() => setTab("excluded")}>
-          {t("connectors.excludedRoutes")} ({excluded.filter((r) => r.enabled).length})
+        <TabButton
+          active={tab === "excluded"}
+          onClick={() => setTab("excluded")}
+          count={excluded.filter((r) => r.enabled).length}
+        >
+          {t("connectors.excludedRoutes")}
         </TabButton>
-        <TabButton active={tab === "preview"} onClick={() => setTab("preview")}>
-          {t("connectors.preview")} ({preview.length})
+        <TabButton active={tab === "preview"} onClick={() => setTab("preview")} count={preview.length}>
+          {t("connectors.preview")}
         </TabButton>
       </div>
 
@@ -137,17 +148,22 @@ export default function ConnectorDetail({
 
       {tab === "preview" && (
         <div>
-          <Paragraph className="text-xs opacity-60 mb-2">
+          <Paragraph className="text-xs text-nb-gray-500 mb-3">
             {t("connectors.previewHint")}
           </Paragraph>
-          <div className="border rounded-lg divide-y">
+          <div className="border border-nb-gray-800 rounded-lg divide-y divide-nb-gray-800 overflow-hidden">
             {preview.length === 0 && (
-              <p className="p-4 text-sm opacity-60">{t("connectors.previewEmpty")}</p>
+              <p className="p-8 text-sm text-nb-gray-500 text-center">
+                {t("connectors.previewEmpty")}
+              </p>
             )}
             {preview.map((r, i) => (
-              <div key={i} className="flex items-center gap-3 px-3 py-2 text-sm">
-                <code className="font-mono">{r.cidr}</code>
-                <span className="text-xs opacity-50 truncate">
+              <div key={i} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-nb-gray-800/50">
+                <span className="w-6 text-xs text-nb-gray-600">{i + 1}</span>
+                <code className="font-mono text-[13px] bg-green-500/10 border border-green-500/20 text-green-300 px-2 py-0.5 rounded">
+                  {r.cidr}
+                </code>
+                <span className="text-xs text-nb-gray-500 truncate">
                   ← {r.sourceCidr}
                   {r.sourceDescription ? ` (${r.sourceDescription})` : ""}
                 </span>
@@ -163,23 +179,35 @@ export default function ConnectorDetail({
 function TabButton({
   active,
   onClick,
+  count,
   children,
 }: {
   active: boolean;
   onClick: () => void;
+  count?: number;
   children: React.ReactNode;
 }) {
   return (
     <button
       onClick={onClick}
       className={cn(
-        "px-4 py-2 text-sm border-b-2 -mb-px transition-colors",
+        "px-4 py-2.5 text-sm border-b-2 -mb-px transition-colors flex items-center gap-1.5",
         active
           ? "border-nb-primary text-nb-primary font-medium"
-          : "border-transparent opacity-60 hover:opacity-100",
+          : "border-transparent text-nb-gray-400 hover:text-nb-gray-200",
       )}
     >
       {children}
+      {count !== undefined && (
+        <span
+          className={cn(
+            "text-[11px] px-1.5 py-0.5 rounded-full",
+            active ? "bg-nb-primary/15 text-nb-primary" : "bg-nb-gray-800 text-nb-gray-400",
+          )}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 }
@@ -249,25 +277,32 @@ function RouteTable({
 }) {
   const { t } = useI18n();
   if (routes.length === 0)
-    return <p className="text-sm opacity-60 py-4">{t("connectors.noRoutes")}</p>;
+    return (
+      <div className="border border-dashed border-nb-gray-700 rounded-lg p-8 text-center">
+        <p className="text-sm text-nb-gray-500">{t("connectors.noRoutes")}</p>
+      </div>
+    );
   return (
-    <div className="border rounded-lg divide-y">
+    <div className="border border-nb-gray-800 rounded-lg divide-y divide-nb-gray-800 overflow-hidden">
       {routes.map((r, i) => (
         <div
           key={i}
           className={cn(
-            "flex items-center gap-3 px-3 py-2 text-sm",
+            "flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-nb-gray-800/50 transition-colors",
             !r.enabled && "opacity-50",
           )}
         >
           <FancyToggleSwitch value={r.enabled} onChange={() => onToggle(i)} />
-          <code className="font-mono">{r.cidr}</code>
+          <code className="font-mono text-[13px] bg-nb-gray-800 px-2 py-0.5 rounded">
+            {r.cidr}
+          </code>
           {r.description && (
-            <span className="opacity-60 truncate text-xs">{r.description}</span>
+            <span className="text-nb-gray-400 truncate text-xs flex-1">{r.description}</span>
           )}
           <button
-            className="ml-auto text-red-500 hover:text-red-400"
+            className="ml-auto text-nb-gray-500 hover:text-red-400 p-1 rounded hover:bg-nb-gray-800 transition-colors shrink-0"
             onClick={() => onDelete(i)}
+            title={t("common.delete")}
           >
             <Trash2 size={15} />
           </button>

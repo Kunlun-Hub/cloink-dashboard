@@ -293,64 +293,78 @@ export default function ResourceGroupDetail({
             )}
           </div>
 
-          <div className="flex-1 overflow-y-auto border rounded-lg">
+          <div className="flex-1 overflow-y-auto border border-nb-gray-800 rounded-lg">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-nb-gray-900">
-                <tr className="text-left text-xs opacity-60">
-                  <th className="px-3 py-2 w-12">{t("resourceGroups.colIndex")}</th>
-                  <th className="px-3 py-2">{t("resourceGroups.colIp")}</th>
-                  <th className="px-3 py-2">{t("resourceGroups.colNote")}</th>
-                  <th className="px-3 py-2 w-20"></th>
+              <thead className="sticky top-0 bg-nb-gray-900 z-10">
+                <tr className="text-left text-xs text-nb-gray-500 uppercase tracking-wide">
+                  <th className="px-4 py-2.5 w-14 font-medium">{t("resourceGroups.colIndex")}</th>
+                  <th className="px-4 py-2.5 font-medium">{t("resourceGroups.colIp")}</th>
+                  <th className="px-4 py-2.5 font-medium">{t("resourceGroups.colNote")}</th>
+                  <th className="px-4 py-2.5 w-24"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y divide-nb-gray-800">
                 {loading && (
                   <tr>
-                    <td colSpan={4} className="px-3 py-8 text-center opacity-60">
-                      {t("common.loading")}
+                    <td colSpan={4} className="px-4 py-10 text-center">
+                      <div className="flex items-center justify-center gap-2 text-nb-gray-500 text-sm">
+                        <div className="w-4 h-4 border-2 border-nb-gray-600 border-t-nb-primary rounded-full animate-spin" />
+                        {t("common.loading")}
+                      </div>
                     </td>
                   </tr>
                 )}
                 {!loading &&
                   filtered.map((r, i) => (
-                    <tr key={r.key} className={cn(r.error && "bg-red-500/5")}>
-                      <td className="px-3 py-1.5 opacity-50">{i + 1}</td>
-                      <td className="px-3 py-1.5">
+                    <tr
+                      key={r.key}
+                      className={cn(
+                        "hover:bg-nb-gray-800/40 transition-colors",
+                        r.error && "bg-red-500/5",
+                      )}
+                    >
+                      <td className="px-4 py-2 text-nb-gray-600 text-xs font-mono">{i + 1}</td>
+                      <td className="px-4 py-2">
                         <Input
                           value={r.ip}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             updateRow(r.key, { ip: e.target.value, error: undefined })
                           }
                           placeholder="172.16.0.8"
-                          className="font-mono text-xs"
+                          className={cn(
+                            "font-mono text-xs h-8",
+                            r.error && "border-red-500/50 focus:border-red-500",
+                          )}
                           disabled={!permission.networks.update}
                         />
                         {r.error && (
-                          <p className="text-red-500 text-xs mt-0.5">{r.error}</p>
+                          <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                            {r.error}
+                          </p>
                         )}
                       </td>
-                      <td className="px-3 py-1.5">
+                      <td className="px-4 py-2">
                         <Input
                           value={r.note}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             updateRow(r.key, { note: e.target.value })
                           }
                           placeholder={t("resourceGroups.notePlaceholder")}
-                          className="text-xs"
+                          className="text-xs h-8"
                           disabled={!permission.networks.update}
                         />
                       </td>
-                      <td className="px-3 py-1.5">
-                        <div className="flex gap-1">
+                      <td className="px-4 py-2">
+                        <div className="flex gap-1 justify-end">
                           <button
-                            className="p-1 hover:bg-nb-gray-800 rounded text-xs"
+                            className="p-1.5 hover:bg-nb-gray-700 rounded-md text-nb-gray-400 hover:text-nb-gray-200 transition-colors"
                             title={t("resourceGroups.duplicate")}
                             onClick={() => duplicateRow(r.key)}
                           >
                             <Copy size={14} />
                           </button>
                           <button
-                            className="p-1 hover:bg-nb-gray-800 rounded text-red-500"
+                            className="p-1.5 hover:bg-nb-gray-700 rounded-md text-nb-gray-500 hover:text-red-400 transition-colors"
                             title={t("common.delete")}
                             onClick={() => handleDeleteResource(r)}
                           >
@@ -362,8 +376,16 @@ export default function ResourceGroupDetail({
                   ))}
                 {!loading && filtered.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-3 py-8 text-center opacity-60 text-sm">
-                      {t("resourceGroups.noResources")}
+                    <td colSpan={4} className="px-4 py-12 text-center">
+                      <p className="text-sm text-nb-gray-500 mb-3">
+                        {t("resourceGroups.noResources")}
+                      </p>
+                      {permission.networks.update && (
+                        <Button size="sm" variant="secondary" onClick={addRow}>
+                          <Plus size={14} className="mr-1" />
+                          {t("common.add")}
+                        </Button>
+                      )}
                     </td>
                   </tr>
                 )}
@@ -371,10 +393,10 @@ export default function ResourceGroupDetail({
             </table>
           </div>
 
-          <div className="flex justify-between items-center mt-3">
-            <p className="text-xs opacity-50">{t("resourceGroups.ipFormatHint")}</p>
+          <div className="flex justify-between items-center mt-4 gap-4">
+            <p className="text-xs text-nb-gray-600">{t("resourceGroups.ipFormatHint")}</p>
             {permission.networks.update && (
-              <Button onClick={handleSave} disabled={!hasChanges || saving}>
+              <Button onClick={handleSave} disabled={!hasChanges || saving} className="shrink-0">
                 {saving ? t("common.savingChanges") : t("common.save")}
               </Button>
             )}
