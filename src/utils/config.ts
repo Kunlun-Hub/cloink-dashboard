@@ -20,7 +20,6 @@ interface Config {
   authServiceUrl?: string;
   wasmPath: string;
   wasmExecPath: string;
-  releasesUrl?: string;
   analyticsEnabled: boolean;
   licensed: boolean;
   cloud: boolean;
@@ -86,7 +85,6 @@ const loadConfig = (): Config => {
     authServiceUrl: configJson?.authServiceUrl ?? undefined,
     wasmPath: configJson?.wasmPath || "/netbird.wasm",
     wasmExecPath: configJson?.wasmExecPath || "/wasm_exec.js",
-    releasesUrl: configJson?.releasesUrl || undefined,
     analyticsEnabled: configJson?.analyticsEnabled === "true",
     licensed: configJson?.licensed === "true",
     cloud: configJson?.cloud === "true",
