@@ -180,6 +180,7 @@ function NetworkOverview({ network }: Readonly<{ network: Network }>) {
               <ResourcesTabContent
                 data={resources}
                 isLoading={isResourcesLoading}
+                networkId={network.id}
               />
             </TabsContent>
 
