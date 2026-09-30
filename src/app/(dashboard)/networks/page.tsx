@@ -11,6 +11,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Network } from "@/interfaces/Network";
 import PageContainer from "@/layouts/PageContainer";
 import NetworksTable from "@/modules/networks/table/NetworksTable";
+import { isConnectorNetwork } from "@/modules/connectors/connectorService";
 import { useI18n } from "@/i18n/I18nProvider";
 
 export default function Networks() {
@@ -19,6 +20,8 @@ export default function Networks() {
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
     usePortalElement<HTMLHeadingElement>();
+  // Connector-managed networks are shown on the Connectors page instead
+  const visibleNetworks = (networks || []).filter((n) => !isConnectorNetwork(n));
 
   return (
     <PageContainer>
@@ -36,7 +39,7 @@ export default function Networks() {
       <RestrictedAccess hasAccess={permission.networks.read}>
         <Suspense fallback={<SkeletonTable />}>
           <NetworksTable
-            data={networks}
+            data={visibleNetworks}
             isLoading={isLoading}
             headingTarget={portalTarget}
           />
