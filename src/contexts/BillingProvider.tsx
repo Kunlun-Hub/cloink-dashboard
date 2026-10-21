@@ -1,6 +1,7 @@
 import { notify } from "@components/Notification";
 import useFetchApi, { useApiCall } from "@utils/api";
 import { isNetBirdCloud } from "@utils/netbird";
+import md5 from "crypto-js/md5";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -8,6 +9,7 @@ import { useSWRConfig } from "swr";
 import { PlanFeatures } from "@/cloud/cloud-hooks/useIsFeatureLocked";
 import { MSPTrialExpiredModal } from "@/cloud/msp/MSPTrialExpiredModal";
 import { useAnalytics } from "@/contexts/AnalyticsProvider";
+import { Announcement, useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { AccountUsageStats } from "@/interfaces/AccountUsageStats";
@@ -25,6 +27,28 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   children: React.ReactNode;
+};
+
+export const usageLimitInfo: Announcement = {
+  tag: "Notice",
+  text: "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.",
+  link: "/settings?tab=plans-and-billing",
+  linkText: "Go to Plans & Billing",
+  variant: "default",
+  isExternal: false,
+  closeable: false,
+  isCloudOnly: true,
+};
+
+export const trialExpiresInfo: Announcement = {
+  tag: "Trial",
+  text: "Your trial is ending soon. Need more time? Contact us to extend your trial.",
+  variant: "default",
+  link: "mailto:support@netbird.io",
+  linkText: "support@netbird.io",
+  isExternal: false,
+  closeable: false,
+  isCloudOnly: true,
 };
 
 export function resolveActiveCurrency(subscription?: Subscription): Currency {
@@ -87,6 +111,7 @@ function BillingContextProvider({ children }: Readonly<Props>) {
   const { confirm } = useDialog();
   const { trackEvent } = useAnalytics();
   const { t } = useI18n();
+  const { setAnnouncements } = useAnnouncement();
   const freeUsers = 0;
 
   const redirectUrl = useMemo(() => {
@@ -399,6 +424,38 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     if (!subscription || subscription.remaining_trial === undefined) return 0;
     return Math.ceil(subscription.remaining_trial / 86400);
   }, [subscription]);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (isTrial && trialDaysRemaining <= 3) {
+      setAnnouncements((prev) => {
+        const prevAnnouncements = prev || [];
+        const hash = md5(trialExpiresInfo.text).toString();
+        return prevAnnouncements.map((a) => {
+          if (a.hash === hash) {
+            return { ...a, isOpen: true };
+          }
+          return a;
+        });
+      });
+    }
+  }, [isTrial, setAnnouncements, isLoading, trialDaysRemaining]);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (usagePercentage > 100 && isFreePlan && !isTrial) {
+      setAnnouncements((prev) => {
+        const prevAnnouncements = prev || [];
+        const usageInfoHash = md5(usageLimitInfo.text).toString();
+        return prevAnnouncements.map((a) => {
+          if (a.hash === usageInfoHash) {
+            return { ...a, isOpen: true };
+          }
+          return a;
+        });
+      });
+    }
+  }, [isFreePlan, usagePercentage, setAnnouncements, isLoading, isTrial]);
 
   return (
     <BillingContext.Provider

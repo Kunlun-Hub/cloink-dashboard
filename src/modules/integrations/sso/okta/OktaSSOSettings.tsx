@@ -13,8 +13,8 @@ import * as React from "react";
 import { useState } from "react";
 import integrationImage from "@/assets/integrations/okta.png";
 import { useDialog } from "@/contexts/DialogProvider";
+import { DomainValidationStatus } from "@/interfaces/Account";
 import {
-  DomainValidationStatus,
   EnterpriseConnection,
   EnterpriseConnectionDomain,
 } from "@/interfaces/IdentityProvider";
@@ -30,7 +30,8 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 export const OktaSsoSettings = ({ open, onOpenChange, config }: Props) => {
-  const { deleteConnection, addDomain, mutate } = useEnterpriseConnections();
+  const { deleteConnection, addDomain, verifyDomain, mutate } =
+    useEnterpriseConnections();
   const [tab, setTab] = useState("domains");
   const [domain, setDomain] = useState("");
   const { confirm } = useDialog();
@@ -90,7 +91,7 @@ export const OktaSsoSettings = ({ open, onOpenChange, config }: Props) => {
         onOpenChange={setDomainVerificationModal}
         domain={domainVerification.name}
         token={domainVerification.token}
-        connectionId={config.id}
+        onVerify={() => verifyDomain(config.id, domainVerification.name)}
       />
       <ModalContent
         maxWidthClass={cn("relative max-w-xl")}

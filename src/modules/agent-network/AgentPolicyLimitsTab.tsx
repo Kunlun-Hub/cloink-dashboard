@@ -19,10 +19,19 @@ import {
 } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
 import Paragraph from "@components/Paragraph";
-import { TabsContent } from "@components/Tabs";
-import { cn } from "@utils/helpers";
-import { IconCirclePlus } from "@tabler/icons-react";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/Select";
+import Separator from "@components/Separator";
+import { TabsContent } from "@components/Tabs";
+import { IconCirclePlus } from "@tabler/icons-react";
+import { cn } from "@utils/helpers";
+import {
+  CalendarClock,
   Edit,
   Gauge,
   MinusCircleIcon,
@@ -55,8 +64,7 @@ export default function AgentPolicyLimitsTab({
 
   const tokenAttached = limits.tokenLimit.enabled;
   const budgetAttached = limits.budgetLimit.enabled;
-  const attachedCount =
-    (tokenAttached ? 1 : 0) + (budgetAttached ? 1 : 0);
+  const attachedCount = (tokenAttached ? 1 : 0) + (budgetAttached ? 1 : 0);
 
   const detachToken = () =>
     setLimits((l) => ({
@@ -210,10 +218,7 @@ function LimitRow({
             <MoreVertical size={16} className={"shrink-0"} />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className={"w-auto min-w-[200px]"}
-          align={"end"}
-        >
+        <DropdownMenuContent className={"w-auto min-w-[200px]"} align={"end"}>
           <DropdownMenuItem onClick={onEdit}>
             <div className={"flex gap-3 items-center"}>
               <Edit size={14} className={"shrink-0"} />
@@ -339,8 +344,10 @@ function LimitEditModal({
   })();
   const [windowUnit, setWindowUnit] = useState<"m" | "h" | "d">(initialUnit);
   const [windowAmountStr, setWindowAmountStr] = useState<string>(() => {
-    if (initialUnit === "d") return String(Math.max(1, Math.floor(initialWindowSeconds / 86_400)));
-    if (initialUnit === "h") return String(Math.max(1, Math.floor(initialWindowSeconds / 3600)));
+    if (initialUnit === "d")
+      return String(Math.max(1, Math.floor(initialWindowSeconds / 86_400)));
+    if (initialUnit === "h")
+      return String(Math.max(1, Math.floor(initialWindowSeconds / 3600)));
     return String(Math.max(1, Math.floor(initialWindowSeconds / 60)));
   });
 
@@ -383,7 +390,7 @@ function LimitEditModal({
 
   return (
     <Modal open={true} onOpenChange={(o) => (!o ? onClose() : undefined)}>
-      <ModalContent maxWidthClass={"max-w-lg"} showClose={true}>
+      <ModalContent maxWidthClass={"max-w-xl"} showClose={true}>
         <ModalHeader
           icon={isToken ? <Gauge size={19} /> : <Wallet size={19} />}
           title={isToken ? t("agentNetwork.tokenLimit") : t("agentNetwork.budgetLimit")}
@@ -394,7 +401,8 @@ function LimitEditModal({
           }
           color={"netbird"}
         />
-        <div className={"flex flex-col px-8 gap-4 pt-2 pb-6"}>
+        <Separator />
+        <div className={"flex flex-col px-8 gap-7 py-6"}>
           <div className={"grid grid-cols-2 gap-4"}>
             <div>
               <Label>
@@ -444,27 +452,30 @@ function LimitEditModal({
             <HelpText>
               {t("agentNetwork.resetWindowHelp")}
             </HelpText>
-            <div className={"flex gap-2"}>
+            <div className={"flex gap-3"}>
               <Input
                 type={"number"}
                 min={1}
-                className={"flex-1"}
+                maxWidthClass={"max-w-[100px]"}
                 value={windowAmountStr}
                 onChange={(e) => setWindowAmountStr(e.target.value)}
               />
-              <select
-                className={
-                  "h-10 rounded-md border border-nb-gray-800 bg-nb-gray-940 px-3 text-sm text-nb-gray-100"
-                }
+              <Select
                 value={windowUnit}
-                onChange={(e) =>
-                  setWindowUnit(e.target.value as "m" | "h" | "d")
-                }
+                onValueChange={(v) => setWindowUnit(v as "m" | "h" | "d")}
               >
-                <option value={"m"}>{t("agentNetwork.minutes")}</option>
-                <option value={"h"}>{t("agentNetwork.hours")}</option>
-                <option value={"d"}>{t("agentNetwork.daysUnit")}</option>
-              </select>
+                <SelectTrigger className={"w-[135px] shrink-0"}>
+                  <div className={"flex items-center gap-3"}>
+                    <CalendarClock size={15} className={"text-nb-gray-300"} />
+                    <SelectValue placeholder={t("agentNetwork.selectInterval")} />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={"m"}>{t("agentNetwork.minutes")}</SelectItem>
+                  <SelectItem value={"h"}>{t("agentNetwork.hours")}</SelectItem>
+                  <SelectItem value={"d"}>{t("agentNetwork.daysUnit")}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>

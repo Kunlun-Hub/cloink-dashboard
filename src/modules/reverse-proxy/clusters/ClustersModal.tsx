@@ -40,11 +40,19 @@ import {
   ClusterCloudDeploy,
   CloudProvider,
 } from "@/modules/reverse-proxy/clusters/ClusterCloudDeploy";
+import AWSIcon from "@/assets/icons/AWSIcon";
+import DigitalOceanIcon from "@/assets/icons/DigitalOceanIcon";
+import DockerIcon from "@/assets/icons/DockerIcon";
+import HetznerIcon from "@/assets/icons/HetznerIcon";
+import KubernetesIcon from "@/assets/icons/KubernetesIcon";
+import { IconProps } from "@/assets/icons/IconProperties";
 import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  // onFinish receives the domain of the cluster the setup was finished for.
+  onFinish?: (domain: string) => void;
 };
 
 type DeployMethod =
@@ -54,6 +62,13 @@ type DeployMethod =
   | "hetzner"
   | "digitalocean"
   | "aws";
+
+// DockerIcon carries no fill of its own, so the brand blue is applied here.
+// Compose has no mark of its own beyond the whale, so both Docker methods
+// share it.
+const DockerBrandIcon = (props: Readonly<IconProps>) => (
+  <DockerIcon {...props} className={"fill-[#2496ED]"} />
+);
 
 const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -82,7 +97,7 @@ const renderHighlightedCommand = (command: string, highlights: string[]) => {
   ));
 };
 
-export const ClustersModal = ({ open, onOpenChange }: Props) => {
+export const ClustersModal = ({ open, onOpenChange, onFinish }: Props) => {
   const { t } = useI18n();
   const { mutate } = useSWRConfig();
   const [tab, setTab] = useState("domain");
@@ -310,6 +325,7 @@ spec:
   const finishSetup = () => {
     onOpenChange(false);
     mutate("/reverse-proxies/clusters");
+    onFinish?.(domain);
   };
 
   return (
@@ -373,12 +389,36 @@ spec:
                   value={deployMethod}
                   onChange={(v) => setDeployMethod(v as DeployMethod)}
                   options={[
-                    { value: "docker", label: t("reverseProxy.docker") },
-                    { value: "compose", label: t("reverseProxy.dockerCompose") },
-                    { value: "kubernetes", label: t("reverseProxy.kubernetes") },
-                    { value: "hetzner", label: t("reverseProxy.hetznerCloud") },
-                    { value: "digitalocean", label: t("reverseProxy.digitalOcean") },
-                    { value: "aws", label: t("reverseProxy.awsCloudFormation") },
+                    {
+                      value: "docker",
+                      label: t("reverseProxy.docker"),
+                      icon: DockerBrandIcon,
+                    },
+                    {
+                      value: "compose",
+                      label: t("reverseProxy.dockerCompose"),
+                      icon: DockerBrandIcon,
+                    },
+                    {
+                      value: "kubernetes",
+                      label: t("reverseProxy.kubernetes"),
+                      icon: KubernetesIcon,
+                    },
+                    {
+                      value: "hetzner",
+                      label: t("reverseProxy.hetznerCloud"),
+                      icon: HetznerIcon,
+                    },
+                    {
+                      value: "digitalocean",
+                      label: t("reverseProxy.digitalOcean"),
+                      icon: DigitalOceanIcon,
+                    },
+                    {
+                      value: "aws",
+                      label: t("reverseProxy.awsCloudFormation"),
+                      icon: AWSIcon,
+                    },
                   ]}
                 />
               </div>

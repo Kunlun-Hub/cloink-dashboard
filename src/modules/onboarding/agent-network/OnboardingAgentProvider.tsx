@@ -1,26 +1,33 @@
 import Button from "@components/Button";
-import useCopyToClipboard from "@hooks/useCopyToClipboard";
-import { ArrowRightIcon, CheckCircle2Icon, Copy, PlusIcon } from "lucide-react";
+import { ArrowRightIcon, CheckCircle2Icon, PlusIcon } from "lucide-react";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useRef } from "react";
+import { useGroups } from "@/contexts/GroupsProvider";
 import AIProviderModal from "@/modules/agent-network/AIProviderModal";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import { useI18n } from "@/i18n/I18nProvider";
+import { EMPTY_POLICY_LIMITS } from "@/modules/agent-network/data/mockData";
 
 type Props = {
+  // createsPolicy is set when the flow has no policy step: this step then
+  // creates the first policy itself, without asking.
+  createsPolicy: boolean;
   onBack: () => void;
   onNext: () => void;
 };
 
 // OnboardingAgentProvider covers the quickstart's "Connect a Provider" step.
-// Connecting the first provider is what seeds the account-level agent network
-// settings and generates the tunnel-only endpoint, so we key "done" off
-// settings being present rather than counting providers.
-export const OnboardingAgentProvider = ({ onBack, onNext }: Props) => {
+// "Done" needs the settings, which the gateway step creates, and a provider.
+export const OnboardingAgentProvider = ({
+  createsPolicy,
+  onBack,
+  onNext,
+}: Props) => {
   const { t } = useI18n();
   const { settings, providers, openWizard, closeWizard, isWizardOpen } =
     useAIProviders();
-  const connected = !!settings;
+  const connected = !!settings && providers.length > 0;
+  useStarterPolicy(createsPolicy && connected);
 
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
@@ -36,7 +43,16 @@ export const OnboardingAgentProvider = ({ onBack, onNext }: Props) => {
       </div>
 
       {connected ? (
-        <EndpointPanel endpoint={settings.endpoint} count={providers.length} />
+        <div className={"mt-4 flex items-center justify-center gap-2 text-sm"}>
+          <CheckCircle2Icon size={16} className={"text-green-500"} />
+          <span>
+            {providers.length > 1
+              ? t("onboarding.agent.provider.connectedPlural", {
+                  count: providers.length,
+                })
+              : t("onboarding.agent.provider.connectedSingular")}
+          </span>
+        </div>
       ) : (
         <div className={"mt-4 flex items-center justify-center"}>
           <Button variant={"primary"} onClick={openWizard}>
@@ -61,59 +77,41 @@ export const OnboardingAgentProvider = ({ onBack, onNext }: Props) => {
   );
 };
 
-const EndpointPanel = ({
-  endpoint,
-  count,
-}: {
-  endpoint: string;
-  count: number;
-}) => {
-  const { t } = useI18n();
-  const [, copy] = useCopyToClipboard(`https://${endpoint}`);
-  return (
-    <div className={"mt-4 flex flex-col gap-3"}>
-      <div className={"flex items-center justify-center gap-2 text-sm"}>
-        <CheckCircle2Icon size={16} className={"text-green-700 dark:text-green-500"} />
-        <span>
-          {count > 1
-            ? t("onboarding.agent.provider.connectedPlural", { count })
-            : t("onboarding.agent.provider.connectedSingular")}{" "}
-          {t("onboarding.agent.provider.endpointReady")}
-        </span>
-      </div>
-      <div
-        className={
-          "inline-flex items-center gap-3 rounded-lg border border-nb-gray-800 bg-nb-gray-900/40 p-3 mx-auto"
-        }
-      >
-        <div className={"flex flex-col"}>
-          <div
-            className={
-              "text-[10px] text-nb-gray-400 uppercase tracking-wider font-medium"
-            }
-          >
-            {t("onboarding.agent.provider.apiBaseUrl")}
-          </div>
-          <code
-            className={
-              "font-mono text-xs text-nb-gray-100 leading-tight mt-0.5 whitespace-nowrap"
-            }
-          >
-            https://{endpoint}
-          </code>
-        </div>
-        <button
-          type={"button"}
-          className={
-            "inline-flex items-center gap-1.5 rounded-md border border-nb-gray-700 bg-nb-gray-800/60 px-2.5 py-1.5 text-[11px] font-medium text-nb-gray-200 hover:bg-nb-gray-800 hover:text-nb-gray-100 transition-colors shrink-0"
-          }
-          onClick={() => copy(t("onboarding.agent.provider.endpointCopied"))}
-          aria-label={t("onboarding.agent.provider.copyEndpoint")}
-        >
-          <Copy size={12} />
-          {t("onboarding.agent.provider.copy")}
-        </button>
-      </div>
-    </div>
-  );
-};
+// useStarterPolicy creates the first policy of an account that has none, as
+// Agent Network denies every request without one: the Users group, which the
+// onboarding puts the operator in, or else All, may reach the first connected
+// provider. It tries once per mount, and addPolicy reports a failure.
+function useStarterPolicy(enabled: boolean) {
+  const { providers, policies, policiesLoaded, addPolicy } = useAIProviders();
+  const { groups } = useGroups();
+  const source =
+    groups?.find((g) => g.name === "Users") ??
+    groups?.find((g) => g.name === "All");
+  const provider = providers[0];
+  const needed = enabled && policiesLoaded && policies.length === 0;
+
+  // The provider hands out a new callback on every render; the POST has to
+  // follow what it creates, not the renders.
+  const add = useRef(addPolicy);
+  useEffect(() => {
+    add.current = addPolicy;
+  });
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!needed || started.current || !provider || !source?.id) return;
+    started.current = true;
+    add.current(
+      {
+        name: `${source.name} to ${provider.name}`,
+        description: `Lets the ${source.name} group reach ${provider.name}`,
+        enabled: true,
+        sourceGroups: [source.id],
+        destinationProviderIds: [provider.id],
+        guardrailIds: [],
+        limits: EMPTY_POLICY_LIMITS,
+      },
+      { quiet: true },
+    );
+  }, [needed, provider, source?.id, source?.name]);
+}

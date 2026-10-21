@@ -8,15 +8,16 @@ import { Group } from "@/interfaces/Group";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizeGroupName } from "@/utils/serverLabels";
 import {
+  useCanvasUI,
   useDestinationGroup,
   useIsContextMenuTarget,
 } from "@/modules/control-center/contexts/ControlCenterContext";
+import { AllHandles } from "@/modules/control-center/handles/AllHandles";
+import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 import {
   getGroupCountLabel,
   useAnySourceGroupEnabled,
 } from "@/modules/control-center/utils/helpers";
-import { AllHandles } from "@/modules/control-center/handles/AllHandles";
-import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 
 type GroupNodeProps = Node<
   {
@@ -55,7 +56,16 @@ export const GroupNode = ({ data, id }: GroupNodeProps) => {
     (selectedDestinationGroup === group?.id || selectedDestinationGroup === id);
   const showHalo = isPanelActive || isContextMenuActive;
 
-  const countLabel = useMemo(() => getGroupCountLabel(group, t), [group, t]);
+  const { groupUserCounts } = useCanvasUI();
+  // A draft group has no id yet, so it counts under its name — the same ref the
+  // pending `update-user-groups` entries carry.
+  const userCount =
+    (data as { userCountOverride?: number }).userCountOverride ??
+    (group ? groupUserCounts.get(group.id ?? group.name) : 0);
+  const countLabel = useMemo(
+    () => getGroupCountLabel(group, t, userCount),
+    [group, t, userCount],
+  );
 
   return (
     <div

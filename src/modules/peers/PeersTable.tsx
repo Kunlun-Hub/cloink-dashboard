@@ -51,7 +51,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { getOperatingSystem } from "@/hooks/useOperatingSystem";
 import { Group } from "@/interfaces/Group";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
-import { Peer } from "@/interfaces/Peer";
+import { Peer, peerMacAddresses } from "@/interfaces/Peer";
 import PeerActionCell from "@/modules/peers/PeerActionCell";
 import PeerAddressCell from "@/modules/peers/PeerAddressCell";
 import PeerGroupCell from "@/modules/peers/PeerGroupCell";
@@ -264,6 +264,10 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
     {
       id: "ipv6",
       accessorFn: (row) => row.ipv6,
+    },
+    {
+      id: "mac",
+      accessorFn: (peer) => peerMacAddresses(peer).join(", "),
     },
   ];
 }
@@ -515,6 +519,7 @@ export default function PeersTable({
           os: false,
           os_kind: false,
           ipv6: false,
+          mac: false,
         }}
         isLoading={isLoading}
         // Treat a selected kind as an active filter: when peers exist but the

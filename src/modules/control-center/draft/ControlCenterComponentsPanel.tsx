@@ -1,69 +1,80 @@
-import * as React from "react";
-import {
-  forwardRef,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { motion } from "framer-motion";
-import { cn, countLabel } from "@utils/helpers";
-import useFetchApi from "@utils/api";
-import { Peer } from "@/interfaces/Peer";
-import { Network, NetworkResource } from "@/interfaces/Network";
-import { Group } from "@/interfaces/Group";
-import { Policy } from "@/interfaces/Policy";
-import { PeerPlaceholderKind } from "@/modules/control-center/nodes/PeerNode";
-import { DeviceCard } from "@/modules/control-center/nodes/DeviceCard";
+import { DropdownInput } from "@components/DropdownInput";
+import FullTooltip from "@components/FullTooltip";
+import { MemoizedScrollArea, ScrollAreaViewport } from "@components/ScrollArea";
 import { GroupBadgeIcon } from "@components/ui/GroupBadgeIcon";
+import { SmallBadge } from "@components/ui/SmallBadge";
+import TruncatedText from "@components/ui/TruncatedText";
+import useFetchApi from "@utils/api";
+import { cn, countLabel } from "@utils/helpers";
+import { useReactFlow, XYPosition } from "@xyflow/react";
+import { motion } from "framer-motion";
 import {
   BotIcon,
   FolderGit2,
-  WorkflowIcon,
   GripVerticalIcon,
   LucideIcon,
   MonitorSmartphoneIcon,
   NetworkIcon,
   ServerIcon,
   ShieldIcon,
+  SparklesIcon,
   TextSearchIcon,
+  WorkflowIcon,
 } from "lucide-react";
-import TruncatedText from "@components/ui/TruncatedText";
-import { MemoizedScrollArea, ScrollAreaViewport } from "@components/ScrollArea";
+import * as React from "react";
+import {
+  forwardRef,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
-import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
-import { useControlCenterShortcuts } from "@/modules/control-center/hooks/useControlCenterShortcuts";
-import { useDraftNodeCreation } from "@/modules/control-center/hooks/useDraftNodeCreation";
-import { DropdownInput } from "@components/DropdownInput";
-import FullTooltip from "@components/FullTooltip";
+import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
+import { Group } from "@/interfaces/Group";
+import { Network, NetworkResource } from "@/interfaces/Network";
+import { Peer } from "@/interfaces/Peer";
+import { Policy } from "@/interfaces/Policy";
+import { useI18n } from "@/i18n/I18nProvider";
+import { useAccount } from "@/modules/account/useAccount";
+import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
+import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
+import type {
+  AgentPolicy,
+  AIProvider,
+} from "@/modules/agent-network/data/mockData";
+import { useCanvasUI } from "@/modules/control-center/contexts/ControlCenterContext";
+import { useControlCenterPolicy } from "@/modules/control-center/contexts/ControlCenterPolicyModals";
 import {
   OnDropAction,
   useDragAndDrop,
   useDragAndDropPosition,
 } from "@/modules/control-center/contexts/DragAndDropProvider";
-import { XYPosition } from "@xyflow/react";
-import { NodeType } from "@/modules/control-center/utils/nodes";
-import {
-  getDraftResource,
-  useStructuralNodes,
-  getIpPlaceholderFromRange,
-  getPlaceholderPeer,
-  getPoliciesTargetingResources,
-  getGroupCountLabel,
-  getPolicyProtocolAndPortText,
-} from "@/modules/control-center/utils/helpers";
-import { useControlCenterPolicy } from "@/modules/control-center/contexts/ControlCenterPolicyModals";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
-import { useAccount } from "@/modules/account/useAccount";
+import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
+import { useControlCenterShortcuts } from "@/modules/control-center/hooks/useControlCenterShortcuts";
 import {
   getNodeGroup,
   isGroupNode,
   isNewGroup,
   useDraftGroupActions,
 } from "@/modules/control-center/hooks/useDraftGroupActions";
-import { SmallBadge } from "@components/ui/SmallBadge";
-import { useI18n } from "@/i18n/I18nProvider";
+import { useDraftNodeCreation } from "@/modules/control-center/hooks/useDraftNodeCreation";
+import { DeviceCard } from "@/modules/control-center/nodes/DeviceCard";
+import { PeerPlaceholderKind } from "@/modules/control-center/nodes/PeerNode";
+import {
+  getDraftResource,
+  getGroupCountLabel,
+  getIpPlaceholderFromRange,
+  getPlaceholderPeer,
+  getPoliciesTargetingResources,
+  getPolicyProtocolAndPortText,
+  useStructuralNodes,
+} from "@/modules/control-center/utils/helpers";
+import { NodeType } from "@/modules/control-center/utils/nodes";
 
 type BlankKind = "group" | "network" | "resource";
 
@@ -140,19 +151,33 @@ type FlatRow =
   | { key: string; kind: "heading"; title: string }
   | { key: string; kind: "row"; node: React.ReactNode };
 
-type PanelCategory = "peers" | "policies" | "groups" | "resources";
+type PanelCategory =
+  | "peers"
+  | "policies"
+  | "groups"
+  | "resources"
+  | "agent-network";
 
-const categories = (
+const getCategories = (
   t: TranslateFn,
 ): {
   id: PanelCategory;
   label: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
 }[] => [
   { id: "peers", label: t("nav.peers"), icon: MonitorSmartphoneIcon },
   { id: "policies", label: t("nav.policies"), icon: ShieldIcon },
   { id: "groups", label: t("nav.groups"), icon: FolderGit2 },
-  { id: "resources", label: t("controlCenter.networksAndResources"), icon: NetworkIcon },
+  {
+    id: "resources",
+    label: t("controlCenter.networksAndResources"),
+    icon: NetworkIcon,
+  },
+  {
+    id: "agent-network",
+    label: t("nav.agentNetwork"),
+    icon: AgentNetworkIcon,
+  },
 ];
 
 export const ControlCenterComponentsPanel = () => {
@@ -170,11 +195,9 @@ export const ControlCenterComponentsPanel = () => {
     [setComponentsPanelOpen],
   );
 
-  if (!isDraft) return null;
-
   return (
     <PanelContent
-      open={componentsPanelOpen}
+      open={isDraft && componentsPanelOpen}
       onClose={onClose}
       setResourceEditor={setResourceEditor}
       drillDownNetworkNodeId={drillDownNetworkNodeId}
@@ -199,6 +222,14 @@ const PanelContent = React.memo(
     const drilled = !!drillDownNetworkNodeId;
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState<PanelCategory>("peers");
+    const { enabled: agentNetworkEnabled } = useAgentNetworkMode();
+    const categories = useMemo(
+      () =>
+        getCategories(t).filter(
+          (c) => c.id !== "agent-network" || agentNetworkEnabled,
+        ),
+      [agentNetworkEnabled, t],
+    );
     // Filters compare the trimmed term so a whitespace-only search is a no-op.
     const query = search.trim();
     const isSearching = query.length > 0;
@@ -231,6 +262,9 @@ const PanelContent = React.memo(
       addPeerPlaceholder,
       addBlankNode: addBlankPlaceholderNode,
       addBlankPolicy,
+      addBlankAgentPolicy,
+      placeProviderNode,
+      placeAgentPolicyNode,
       dropExistingNetworkFrame,
     } = useDraftNodeCreation();
     // Declared before addNode (which references them) to avoid a TDZ in its deps.
@@ -240,6 +274,8 @@ const PanelContent = React.memo(
     );
     const { data: policies } = useFetchApi<Policy[]>("/policies");
     const { changes } = useDraftChangeset();
+    const { providers: agentProviders, policies: agentPolicies } =
+      useAIProviders();
 
     const handlePeerTemplateDragStart = useCallback(
       (event: React.PointerEvent<HTMLDivElement>, tpl: PeerTemplate) => {
@@ -263,7 +299,9 @@ const PanelContent = React.memo(
     );
 
     const { addNewGroup } = useDraftGroupActions();
-    const { drawPolicyOnCanvas } = useControlCenterPolicy();
+    const { groupUserCounts } = useCanvasUI();
+    const { drawPolicyOnCanvas, openProviderWizard, setAgentSourceGroup } =
+      useControlCenterPolicy();
 
     // A pending update-policy change wins over API data, so draft edits persist.
     const handleExistingPolicyDrop = useCallback(
@@ -324,6 +362,30 @@ const PanelContent = React.memo(
         });
       },
       [onDragStart, handleExistingPolicyDrop, addBlankPolicy, onClose],
+    );
+
+    const handleAgentDragStart = useCallback(
+      (
+        event: React.PointerEvent<HTMLDivElement>,
+        drop: (position?: XYPosition) => void,
+      ) => {
+        const el = event.currentTarget;
+        const rect = el.getBoundingClientRect();
+        setGhostData({
+          html: el.outerHTML,
+          width: rect.width,
+          offsetX: event.clientX - rect.left,
+          offsetY: event.clientY - rect.top,
+          initialX: event.clientX,
+          initialY: event.clientY,
+        });
+        onDragStart(event, ({ position }) => {
+          drop(position);
+          setGhostData(undefined);
+          onClose();
+        });
+      },
+      [onDragStart, onClose],
     );
 
     const addBlankNode = useCallback(
@@ -389,6 +451,23 @@ const PanelContent = React.memo(
       [onDragStart, addBlankNode, onClose],
     );
 
+    const reactFlow = useReactFlow();
+
+    const addGroupToAgentPolicy = useCallback(
+      (policyNodeId: string, group: Group) => {
+        if (!group.id) return false;
+        const node = reactFlow.getNodes().find((n) => n.id === policyNodeId);
+        const nodeData = node?.data as { id?: string; policy?: AgentPolicy };
+        const policy =
+          nodeData?.policy ?? agentPolicies?.find((p) => p.id === nodeData?.id);
+        if (!policy) return false;
+        if (policy.sourceGroups.includes(group.id)) return true;
+        setAgentSourceGroup(policy, group.id);
+        return true;
+      },
+      [reactFlow, agentPolicies, setAgentSourceGroup],
+    );
+
     const addNode = useCallback(
       (
         type: NodeType,
@@ -398,8 +477,8 @@ const PanelContent = React.memo(
         if (type === NodeType.NetworkNode) {
           const network = data as Network;
           dropExistingNetworkFrame(network, position);
-          const childResources = (resources ?? []).filter((r) =>
-            network.resources?.includes(r.id ?? ""),
+          const childResources = (resources ?? []).filter(
+            (r) => network.resources?.includes(r.id ?? ""),
           );
           drawResourcePolicies(childResources, position);
           return;
@@ -422,8 +501,8 @@ const PanelContent = React.memo(
         } else if (type === NodeType.ResourceNode) {
           // Stamp the network ref so the standalone card shows its name.
           const resourceData = data as NetworkResource;
-          const network = networks?.find((n) =>
-            n.resources?.some((r) => r === resourceData.id),
+          const network = networks?.find(
+            (n) => n.resources?.some((r) => r === resourceData.id),
           );
           nodeData = {
             resource: resourceData,
@@ -464,13 +543,17 @@ const PanelContent = React.memo(
         type: NodeType,
         data: Peer | Group | NetworkResource | Network,
       ): OnDropAction => {
-        return ({ position }) => {
-          addNode(type, data, position);
+        return ({ position, targetNodeId }) => {
+          const droppedOnAgentPolicy =
+            type === NodeType.GroupNode &&
+            targetNodeId?.startsWith("agent-policy-") &&
+            addGroupToAgentPolicy(targetNodeId, data as Group);
+          if (!droppedOnAgentPolicy) addNode(type, data, position);
           setGhostData(undefined);
           onClose();
         };
       },
-      [addNode, onClose],
+      [addNode, addGroupToAgentPolicy, onClose],
     );
 
     const handleDragStart = useCallback(
@@ -498,7 +581,7 @@ const PanelContent = React.memo(
     const { data: groups } = useFetchApi<Group[]>("/groups");
 
     // Structural only: position updates would re-render this list every drag tick.
-    const canvasNodes = useStructuralNodes();
+    const canvasNodes = useStructuralNodes({ enabled: open });
     const account = useAccount();
     const canvasNodeIds = useMemo(
       () => new Set(canvasNodes.map((n) => n.id)),
@@ -525,7 +608,6 @@ const PanelContent = React.memo(
       return ids;
     }, [canvasNodes, resources]);
 
-
     // Entities marked for deletion can't be re-added: they'd vanish on deploy.
     const pendingDeleteIds = useMemo(() => {
       const ids = {
@@ -533,10 +615,15 @@ const PanelContent = React.memo(
         policy: new Set<string>(),
         network: new Set<string>(),
         resource: new Set<string>(),
+        provider: new Set<string>(),
+        agentPolicy: new Set<string>(),
       };
       changes.forEach((c) => {
         if (c.type === "delete-group") ids.group.add(c.groupId);
         else if (c.type === "delete-policy") ids.policy.add(c.policyId);
+        else if (c.type === "delete-provider") ids.provider.add(c.providerId);
+        else if (c.type === "delete-agent-policy")
+          ids.agentPolicy.add(c.agentPolicyId);
         else if (c.type === "delete-resource") ids.resource.add(c.resourceId);
         else if (c.type === "delete-network") {
           ids.network.add(c.networkId);
@@ -614,6 +701,33 @@ const PanelContent = React.memo(
       const lower = query.toLowerCase();
       return groups.filter((g) => g.name?.toLowerCase().includes(lower));
     }, [groups, query, groupsCategory]);
+
+    const agentNetworkCategory = categoryMatch([
+      "agent",
+      "agents",
+      "provider",
+      "providers",
+      "ai",
+      "llm",
+    ]);
+
+    const filteredProviders = useMemo(() => {
+      if (!agentProviders) return [];
+      if (!query || agentNetworkCategory) return agentProviders;
+      const lower = query.toLowerCase();
+      return agentProviders.filter(
+        (p) =>
+          p.name?.toLowerCase().includes(lower) ||
+          p.providerId?.toLowerCase().includes(lower),
+      );
+    }, [agentProviders, query, agentNetworkCategory]);
+
+    const filteredAgentPolicies = useMemo(() => {
+      if (!agentPolicies) return [];
+      if (!query || agentNetworkCategory) return agentPolicies;
+      const lower = query.toLowerCase();
+      return agentPolicies.filter((p) => p.name?.toLowerCase().includes(lower));
+    }, [agentPolicies, query, agentNetworkCategory]);
 
     const filteredPolicies = useMemo(() => {
       if (!policies) return [];
@@ -715,8 +829,7 @@ const PanelContent = React.memo(
       }[] = [];
       canvasNodes.forEach((n) => {
         if (!n.id.startsWith("network-new-")) return;
-        const name = (n.data as { network?: { name?: string } })?.network
-          ?.name;
+        const name = (n.data as { network?: { name?: string } })?.network?.name;
         if (!name) return;
         result.push({
           nodeId: n.id,
@@ -766,6 +879,12 @@ const PanelContent = React.memo(
     );
     const showPolicyTemplate =
       policiesCategory || matchesSearch(t("controlCenter.template.policy"));
+    const showAgentProviderTemplate =
+      agentNetworkCategory ||
+      matchesSearch(t("controlCenter.template.agentProvider"));
+    const showAgentPolicyTemplate =
+      agentNetworkCategory ||
+      matchesSearch(t("controlCenter.template.agentPolicy"));
 
     const buildPeerTemplateRows = () =>
       filteredPeerTemplates.map((tpl) => (
@@ -979,8 +1098,8 @@ const PanelContent = React.memo(
         const onCanvas =
           canvasNodeIds.has(`resource-${resource.id}`) ||
           foldedResourceIds.has(resource.id ?? "");
-        const network = networks?.find((n) =>
-          n.resources?.some((r) => r === resource.id),
+        const network = networks?.find(
+          (n) => n.resources?.some((r) => r === resource.id),
         );
         const displayResource = network
           ? { ...resource, name: `${resource.name} - ${network.name}` }
@@ -1043,7 +1162,11 @@ const PanelContent = React.memo(
                 <SmallBadge />
               </span>
               <span className={"text-[0.72rem] text-nb-gray-400"}>
-                {getGroupCountLabel(group, t)}
+                {getGroupCountLabel(
+                  group,
+                  t,
+                  groupUserCounts.get(group.id ?? group.name),
+                )}
               </span>
             </div>
           </div>
@@ -1084,7 +1207,155 @@ const PanelContent = React.memo(
                   {pendingDelete && <DeletedBadge />}
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400"}>
-                  {getGroupCountLabel(group, t)}
+                  {getGroupCountLabel(
+                    group,
+                    t,
+                    groupUserCounts.get(group.id ?? group.name),
+                  )}
+                </span>
+              </div>
+            </div>
+          </PanelListItem>
+        );
+      });
+
+    // Filtered like every other template row, so they can join the search results.
+    const buildAgentTemplateRows = () => [
+      ...(showAgentProviderTemplate
+        ? [
+            <TemplateItem
+              key={"agent-provider-template"}
+              icon={SparklesIcon}
+              label={t("controlCenter.template.agentProvider")}
+              description={t(
+                "controlCenter.template.agentProviderDescription",
+              )}
+              onPointerDown={(e) =>
+                handleAgentDragStart(e, (position) =>
+                  openProviderWizard(position),
+                )
+              }
+              data-testid={"cc-template-agent-provider"}
+            />,
+          ]
+        : []),
+      ...(showAgentPolicyTemplate
+        ? [
+            <TemplateItem
+              key={"agent-policy-template"}
+              icon={ShieldIcon}
+              label={t("controlCenter.template.agentPolicy")}
+              description={t(
+                "controlCenter.template.agentPolicyDescription",
+              )}
+              onPointerDown={(e) =>
+                handleAgentDragStart(e, (position) =>
+                  addBlankAgentPolicy(position),
+                )
+              }
+              data-testid={"cc-template-agent-policy"}
+            />,
+          ]
+        : []),
+    ];
+
+    const buildProviderRows = () =>
+      filteredProviders.map((provider: AIProvider) => {
+        const onCanvas = canvasNodeIds.has(`provider-${provider.id}`);
+        const pendingDelete = pendingDeleteIds.provider.has(provider.id);
+        return (
+          <PanelListItem
+            key={provider.id}
+            disabled={onCanvas || pendingDelete}
+            onCanvas={onCanvas}
+            onPointerDown={(e) =>
+              handleAgentDragStart(e, (position) =>
+                placeProviderNode(provider, position),
+              )
+            }
+            data-testid={`cc-panel-provider-${provider.id}`}
+          >
+            <div className="flex items-center gap-2 flex-1 min-w-0 pl-2 py-0.5">
+              <div
+                className={
+                  "h-8 w-8 bg-nb-gray-850 rounded-md flex items-center justify-center shrink-0"
+                }
+              >
+                <AIProviderLogo providerId={provider.providerId} size={14} />
+              </div>
+              <div className={"flex flex-col gap-0.5 leading-tight min-w-0"}>
+                <span
+                  className={
+                    "text-xs text-nb-gray-100 flex items-center gap-2 min-w-0"
+                  }
+                >
+                  <TruncatedText
+                    text={provider.name}
+                    maxWidth={"150px"}
+                    hideTooltip={true}
+                  />
+                  {pendingDelete && <DeletedBadge />}
+                </span>
+                <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
+                  {provider.upstreamUrl || provider.providerId}
+                </span>
+              </div>
+            </div>
+          </PanelListItem>
+        );
+      });
+
+    const buildAgentPolicyRows = () =>
+      filteredAgentPolicies.map((policy: AgentPolicy) => {
+        const onCanvas = canvasNodeIds.has(`agent-policy-${policy.id}`);
+        const pendingDelete = pendingDeleteIds.agentPolicy.has(policy.id);
+        return (
+          <PanelListItem
+            key={policy.id}
+            disabled={onCanvas || pendingDelete}
+            onCanvas={onCanvas}
+            onPointerDown={(e) =>
+              handleAgentDragStart(e, (position) =>
+                placeAgentPolicyNode(policy, position),
+              )
+            }
+            data-testid={`cc-panel-agent-policy-${policy.id}`}
+          >
+            <div className="flex items-center gap-2 flex-1 min-w-0 pl-2 py-0.5">
+              <div
+                className={
+                  "h-8 w-8 bg-nb-gray-850 rounded-md flex items-center justify-center shrink-0 text-nb-gray-300"
+                }
+              >
+                <ShieldIcon size={14} />
+              </div>
+              <div className={"flex flex-col gap-0.5 leading-tight min-w-0"}>
+                <span
+                  className={
+                    "text-xs text-nb-gray-100 flex items-center gap-2 min-w-0"
+                  }
+                >
+                  <TruncatedText
+                    text={policy.name}
+                    maxWidth={"150px"}
+                    hideTooltip={true}
+                  />
+                  {pendingDelete && <DeletedBadge />}
+                </span>
+                <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
+                  {countLabel(
+                    t,
+                    policy.sourceGroups.length,
+                    "counts.group",
+                    "counts.groups",
+                  )}{" "}
+                  →{" "}
+                  {countLabel(
+                    t,
+                    policy.destinationProviderIds.length,
+                    "counts.provider",
+                    "counts.providers",
+                  )}
                 </span>
               </div>
             </div>
@@ -1136,75 +1407,118 @@ const PanelContent = React.memo(
       });
 
     // Rows build lazily so opening the panel doesn't render every entity list.
-    const sections: { title?: string; rows: React.ReactNode[] }[] = (
-      isSearching
-        ? [
-            {
-              title: t("controlCenter.panel.addNew"),
-              rows: [
-                ...buildPeerTemplateRows(),
-                ...buildPolicyTemplateRows(),
-                ...buildGroupTemplateRows(),
-                ...buildResourceTemplateRows(),
-              ],
-            },
-            {
-              title: t("nav.peers"),
-              rows: [...buildDraftPeerRows(), ...buildPeerRows()],
-            },
-            {
-              title: t("nav.policies"),
-              rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
-            },
-            {
-              title: t("nav.groups"),
-              rows: [...buildDraftGroupRows(), ...buildGroupRows()],
-            },
-            {
-              title: t("nav.networks"),
-              rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
-            },
-            {
-              title: t("controlCenter.resourcesLabel"),
-              rows: [...buildDraftResourceRows(), ...buildResourceRows()],
-            },
-          ]
-        : category === "peers"
-        ? [
-            { title: t("controlCenter.panel.addNew"), rows: buildPeerTemplateRows() },
-            {
-              title: t("controlCenter.panel.existingPeers"),
-              rows: [...buildDraftPeerRows(), ...buildPeerRows()],
-            },
-          ]
-        : category === "policies"
-        ? [
-            { title: t("controlCenter.panel.addNew"), rows: buildPolicyTemplateRows() },
-            {
-              title: t("controlCenter.panel.existingPolicies"),
-              rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
-            },
-          ]
-        : category === "groups"
-        ? [
-            { title: t("controlCenter.panel.addNew"), rows: buildGroupTemplateRows() },
-            {
-              title: t("controlCenter.panel.existingGroups"),
-              rows: [...buildDraftGroupRows(), ...buildGroupRows()],
-            },
-          ]
-        : [
-            { title: t("controlCenter.panel.addNew"), rows: buildResourceTemplateRows() },
-            {
-              title: t("controlCenter.panel.existingNetworks"),
-              rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
-            },
-            {
-              title: t("controlCenter.panel.existingResources"),
-              rows: [...buildDraftResourceRows(), ...buildResourceRows()],
-            },
-          ]
-    ).filter((sec) => sec.rows.length > 0);
+    const sections: { title?: string; rows: React.ReactNode[] }[] = !open
+      ? []
+      : (isSearching
+          ? [
+              {
+                title: t("controlCenter.panel.addNew"),
+                rows: [
+                  ...buildPeerTemplateRows(),
+                  ...buildPolicyTemplateRows(),
+                  ...buildGroupTemplateRows(),
+                  ...buildResourceTemplateRows(),
+                  ...(agentNetworkEnabled ? buildAgentTemplateRows() : []),
+                ],
+              },
+              {
+                title: t("nav.peers"),
+                rows: [...buildDraftPeerRows(), ...buildPeerRows()],
+              },
+              {
+                title: t("nav.policies"),
+                rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
+              },
+              {
+                title: t("nav.groups"),
+                rows: [...buildDraftGroupRows(), ...buildGroupRows()],
+              },
+              {
+                title: t("nav.networks"),
+                rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
+              },
+              {
+                title: t("controlCenter.resourcesLabel"),
+                rows: [...buildDraftResourceRows(), ...buildResourceRows()],
+              },
+              // The category tab is not reachable from a search, so its rows
+              // have to be offered here or a provider can't be searched for.
+              ...(agentNetworkEnabled
+                ? [
+                    {
+                      title: t("controlCenter.panel.existingProviders"),
+                      rows: buildProviderRows(),
+                    },
+                    {
+                      title: t("controlCenter.panel.existingAgentPolicies"),
+                      rows: buildAgentPolicyRows(),
+                    },
+                  ]
+                : []),
+            ]
+          : category === "peers"
+          ? [
+              {
+                title: t("controlCenter.panel.addNew"),
+                rows: buildPeerTemplateRows(),
+              },
+              {
+                title: t("controlCenter.panel.existingPeers"),
+                rows: [...buildDraftPeerRows(), ...buildPeerRows()],
+              },
+            ]
+          : category === "policies"
+          ? [
+              {
+                title: t("controlCenter.panel.addNew"),
+                rows: buildPolicyTemplateRows(),
+              },
+              {
+                title: t("controlCenter.panel.existingPolicies"),
+                rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
+              },
+            ]
+          : category === "agent-network" && agentNetworkEnabled
+          ? [
+              {
+                title: t("controlCenter.panel.addNew"),
+                rows: buildAgentTemplateRows(),
+              },
+              {
+                title: t("controlCenter.panel.existingProviders"),
+                rows: buildProviderRows(),
+              },
+              {
+                title: t("controlCenter.panel.existingAgentPolicies"),
+                rows: buildAgentPolicyRows(),
+              },
+            ]
+          : category === "groups"
+          ? [
+              {
+                title: t("controlCenter.panel.addNew"),
+                rows: buildGroupTemplateRows(),
+              },
+              {
+                title: t("controlCenter.panel.existingGroups"),
+                rows: [...buildDraftGroupRows(), ...buildGroupRows()],
+              },
+            ]
+          : [
+              {
+                title: t("controlCenter.panel.addNew"),
+                rows: buildResourceTemplateRows(),
+              },
+              {
+                title: t("controlCenter.panel.existingNetworks"),
+                rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
+              },
+              {
+                title: t("controlCenter.panel.existingResources"),
+                rows: [...buildDraftResourceRows(), ...buildResourceRows()],
+              },
+            ]
+        ).filter((sec) => sec.rows.length > 0);
 
     const flatRows: FlatRow[] = sections.flatMap((section, si) => [
       ...(section.title
@@ -1245,7 +1559,7 @@ const PanelContent = React.memo(
             }
           }}
           className={cn(
-            !open && "pointer-events-none",
+            !open && "pointer-events-none invisible",
             // Must stay above the group panel (z-20).
             "absolute bottom-[80px] left-1/2 z-30",
             "w-[480px] max-w-[calc(100%-48px)] h-[420px] max-h-[calc(100%-170px)]",
@@ -1290,7 +1604,7 @@ const PanelContent = React.memo(
                 "w-[52px] shrink-0 border-r border-nb-gray-910 py-2 flex flex-col items-center gap-1"
               }
             >
-              {categories(t).map((cat) => (
+              {categories.map((cat) => (
                 <FullTooltip
                   key={cat.id}
                   content={<span className={"text-xs"}>{cat.label}</span>}
@@ -1406,7 +1720,7 @@ const TemplateItem = React.memo(
     onPointerDown,
     "data-testid": dataTestId,
   }: {
-    icon?: LucideIcon;
+    icon?: React.ComponentType<{ size?: number; className?: string }>;
     label: string;
     description?: string;
     onPointerDown?: React.PointerEventHandler<HTMLDivElement>;

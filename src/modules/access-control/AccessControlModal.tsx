@@ -148,6 +148,8 @@ type ModalProps = {
   // Set when the policy is drawn onto a network in the draft canvas: the
   // destination is that network's resources only, and the policy is one-way.
   destinationScope?: PolicyDestinationScope;
+  // The policy is an unsaved duplicate: show the create wizard, seeded from it.
+  isDuplicate?: boolean;
 };
 
 export type PolicyDestinationScope = {
@@ -176,6 +178,7 @@ export function AccessControlModalContent({
   additionalResources,
   additionalPeers,
   destinationScope,
+  isDuplicate = false,
 }: Readonly<ModalProps>) {
   const { t } = useI18n();
   const { permission } = usePermissions();
@@ -230,6 +233,9 @@ export function AccessControlModalContent({
     initialSourceResource,
     initialDestinationResource,
   });
+
+  // A duplicate carries a policy to seed the form but is saved as a new one.
+  const isCreate = !policy || isDuplicate;
 
   const [tab, setTab] = useState(() => {
     if (initialTab && initialTab !== "") return initialTab;
@@ -287,11 +293,13 @@ export function AccessControlModalContent({
         icon={<AccessControlIcon className={"fill-netbird"} />}
         title={
           <span
-            data-testid={policy ? "update-policy-title" : "create-policy-title"}
+            data-testid={
+              isCreate ? "create-policy-title" : "update-policy-title"
+            }
           >
-            {policy
-              ? t("accessControl.modalUpdateTitle")
-              : t("accessControl.modalCreateTitle")}
+            {isCreate
+              ? t("accessControl.modalCreateTitle")
+              : t("accessControl.modalUpdateTitle")}
           </span>
         }
         description={t("accessControl.modalDescription")}
@@ -586,7 +594,7 @@ export function AccessControlModalContent({
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
-          {!policy ? (
+          {isCreate ? (
             <>
               {tab == "policy" && (
                 <>

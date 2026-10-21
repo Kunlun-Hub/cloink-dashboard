@@ -31,6 +31,7 @@ import {
   useDraftChangeset,
 } from "@/modules/control-center/draft/DraftChangesetContext";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
+import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import { useControlCenterData } from "@/modules/control-center/hooks/useControlCenterData";
 import { useDeployChangeset } from "@/modules/control-center/hooks/useDeployChangeset";
 import { useRemoveChange } from "@/modules/control-center/hooks/useRemoveChange";
@@ -48,16 +49,36 @@ export const ReviewDeployModal = ({ open, onOpenChange, onDeployed }: Props) => 
   const { changes, clearChanges } = useDraftChangeset();
   const { removeWithCascade, previewRemove } = useRemoveChange();
   const { deploy, isDeploying, deployStatus } = useDeployChangeset();
-  const { policies, groups, networks, networkResources } =
+  const { policies, groups, networks, networkResources, users } =
     useControlCenterData();
+  const { providers: agentProviders, policies: agentPolicies } =
+    useAIProviders();
   const { setResourceNetworkPicker, setInstallModal, setUserDeviceModal } =
     useDraftMode();
   const { setSelectedPolicy, setPolicyModalOpen } = useControlCenterPolicy();
   const reactFlow = useReactFlow();
 
   const live: LiveData = useMemo(
-    () => ({ policies, groups, networks, networkResources, draftChanges: changes }),
-    [policies, groups, networks, networkResources, changes],
+    () => ({
+      policies,
+      groups,
+      networks,
+      networkResources,
+      users,
+      providers: agentProviders,
+      agentPolicies,
+      draftChanges: changes,
+    }),
+    [
+      policies,
+      groups,
+      networks,
+      networkResources,
+      users,
+      agentProviders,
+      agentPolicies,
+      changes,
+    ],
   );
 
   // Freeze the snapshot the rows render against during a deploy: the SWR mutate

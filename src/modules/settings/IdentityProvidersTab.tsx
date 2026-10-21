@@ -206,7 +206,7 @@ export default function IdentityProvidersTab() {
             active
           />
         </Breadcrumbs>
-        <div className={"flex items-start justify-between"}>
+        <div className={"flex items-start justify-between -mt-1"}>
           <div>
             <h1>{t("settings.identityProviders")}</h1>
           </div>
@@ -233,7 +233,9 @@ export default function IdentityProvidersTab() {
           <GetStartedTest
             icon={
               <SquareIcon
-                icon={<FingerprintIcon size={20} />}
+                icon={
+                  <FingerprintIcon size={20} className={"text-nb-gray-200"} />
+                }
                 color={"gray"}
                 size={"large"}
               />

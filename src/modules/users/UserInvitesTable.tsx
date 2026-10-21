@@ -662,7 +662,7 @@ export default function UserInvitesTable({
         <GetStartedTest
           icon={
             <SquareIcon
-              icon={<Link2 className={"fill-nb-gray-200"} size={20} />}
+              icon={<Link2 className={"text-nb-gray-200"} size={20} />}
               color={"gray"}
               size={"large"}
             />

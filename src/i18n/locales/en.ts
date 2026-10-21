@@ -309,6 +309,7 @@ const en = {
   "controlCenter.emptyResourceDescription": "It looks like you don't have any resources. Add internal services like hosts, subnets or domains so your peers can reach them.",
   "controlCenter.addResource": "Add Resource",
   "controlCenter.resourcesLabel": "Resources",
+  "controlCenter.usersLabel": "Users",
   "controlCenter.addNetwork": "Add Network",
   "controlCenter.networksLabel": "Networks",
   "controlCenter.networkActions": "Network actions",
@@ -333,6 +334,14 @@ const en = {
   "controlCenter.panel.existingGroups": "Existing Groups",
   "controlCenter.panel.existingNetworks": "Existing Networks",
   "controlCenter.panel.existingResources": "Existing Resources",
+  "controlCenter.panel.existingProviders": "Existing Providers",
+  "controlCenter.panel.existingAgentPolicies": "Existing Agent Policies",
+  "controlCenter.template.agentProvider": "Provider",
+  "controlCenter.template.agentProviderDescription":
+    "Connect an AI provider or gateway",
+  "controlCenter.template.agentPolicy": "Agent Policy",
+  "controlCenter.template.agentPolicyDescription":
+    "Authorize groups to reach providers",
   "controlCenter.panel.searchPlaceholder": "Search components, peers, groups, resources...",
   "user.profileSettings": "Profile Settings",
   "user.changePassword": "Change Password",
@@ -4117,7 +4126,7 @@ const en = {
     "There are no peers matching your search. Please try a different search term.",
   "peerGroupSelector.noPeersAvailable": "There are no peers available yet.",
   "peerGroupSelector.resourceCount": "{count} Resource(s)",
-  "peers.searchPlaceholder": "Search by name, IP, owner or group...",
+  "peers.searchPlaceholder": "Search by name, IP, MAC, owner or group...",
   "peers.browserPeersTooltip":
     "Show temporary peers created by the Cloink browser client. These peers are ephemeral and will be deleted automatically after a short period of time.",
   "peers.lastSeen": "Last seen",
@@ -5537,6 +5546,12 @@ const en = {
   "agentConnect.description":
     "Point your agent at the Cloink endpoint as its base URL. No provider API key is needed on the client. Cloink authorizes the request against your policies and injects the upstream key.",
   "agentConnect.addToConfig": "Add to {path}:",
+  "agentConnect.addTo": "Add to",
+  "agentConnect.copySnippet": "Copy snippet",
+  "agentConnect.pathRoutedNote":
+    "{provider} routes requests by URL path, which only Claude Code supports. Pick another provider above to configure this tool.",
+  "agentConnect.claudeNeedsAnthropicProvider":
+    "Claude Code speaks the Anthropic Messages API, which {provider} doesn't. Pick an Anthropic, Vertex AI, Bedrock or Kimi provider above.",
   "agentConnect.runInShell": "Run in your shell:",
   "agentConnect.shellMode": "Shell",
   "agentConnect.jsonMode": "JSON",
@@ -5602,6 +5617,10 @@ const en = {
   "agentNetwork.agentConfig": "Agent Config",
   "agentNetwork.connectFirstProvider":
     "Connect your first provider to set up your agent network endpoint.",
+  "agentNetwork.allModelsNoList":
+    "No model restriction. This provider doesn't publish a model list, so use any model id its upstream accepts.",
+  "agentNetwork.allModelsKnownModels":
+    "No model restriction. Known models for this provider:",
   "agentNetwork.providersDescription1":
     "Connect AI providers and gateways like LiteLLM, OpenAI, and Anthropic through one keyless endpoint, accessible only via Cloink's tunnel.",
   "agentNetwork.logCollection": "Log Collection",
@@ -5646,6 +5665,7 @@ const en = {
   "agentNetwork.selectUsers": "Select user(s)...",
   "agentNetwork.searchUsers": "Search users...",
   "agentNetwork.noUsersMatch": "No users match.",
+  "agentNetwork.noUsersAvailable": "No users to select yet.",
   "agentNetwork.updateGuardrail": "Update Guardrail",
   "agentNetwork.createGuardrail": "Create Guardrail",
   "agentNetwork.guardrailModalDescription":
@@ -5702,6 +5722,7 @@ const en = {
     "Caps each member's own consumption within the window. A user that hits this cap is blocked even when the group still has headroom.",
   "agentNetwork.individualCapHelp": "Per-user limit within the window.",
   "agentNetwork.resetWindow": "Reset Window",
+  "agentNetwork.selectInterval": "Select interval...",
   "agentNetwork.resetWindowHelp":
     "How often the cap counters reset. Minimum 1 minute.",
   "agentNetwork.minutes": "Minutes",
@@ -5734,7 +5755,9 @@ const en = {
   "agentNetwork.addPolicy": "Add Policy",
   "agentNetwork.selectSourceGroups": "Select source group(s)...",
   "agentNetwork.selectProviders": "Select provider(s)...",
+  "agentNetwork.searchProviders": "Search providers...",
   "agentNetwork.noProvidersConnected": "No providers connected yet.",
+  "agentNetwork.noProvidersFound": "No providers found.",
   "userRoles.transferOwnershipDescription1": "This action will transfer the",
   "userRoles.transferOwnershipDescription2": "role to",
   "userRoles.transferOwnershipDescription3": "and leave you with the",
@@ -5938,6 +5961,7 @@ const en = {
   "onboarding.agent.device.connected":
     "Your device is connected to the network.",
   "onboarding.agent.device.waiting": "Waiting for your device to connect…",
+  "onboarding.agent.device.installNetbird": "Install NetBird",
   "onboarding.agent.provider.title": "Connect a provider",
   "onboarding.agent.provider.description":
     "A provider is an upstream LLM service Cloink routes to, such as OpenAI, Anthropic, or an AI gateway. Cloink stores the API key securely and returns a tunnel-only endpoint.",
@@ -6791,6 +6815,9 @@ const en = {
   "agentConnect.tabCurl": "cURL",
   "agentConnect.tabKimiCli": "Kimi CLI",
   "agentConnect.tabOpenAiSdk": "OpenAI SDK",
+  "agentConnect.tabAnthropicSdk": "Anthropic SDK",
+  "agentConnect.tabOpenCode": "OpenCode",
+  "agentConnect.tabPi": "Pi",
   "agentNetwork.attach": "Attach",
   "agentNetwork.browseGuardrails": "Browse Guardrails",
   "agentNetwork.browseGuardrailsDescription":
@@ -7441,6 +7468,51 @@ const en = {
     "To access other machines, install Cloink, sign in, and your device joins the network. Every device you add becomes a Cloink peer in your network. It's that simple.",
   "onboarding.firstDeviceTitle": "Let's get your first device online",
   "onboarding.goToAccessLogs": "Go to Access Logs",
+  "onboarding.agentEnd.testRequestTitle": "Send a test request",
+  "onboarding.agentEnd.testRequestDescription":
+    "Run your agent, or the cURL command from the previous step, on {device}. The request shows up here once Cloink logs it.",
+  "onboarding.agentEnd.yourDevice": "your device",
+  "onboarding.agentEnd.skip": "Skip",
+  "onboarding.agentEnd.finish": "Finish",
+  "onboarding.agentEnd.waitingFirstRequest": "Waiting for your first request",
+  "onboarding.agentEnd.waitingNextRequest": "Waiting for your next request",
+  "onboarding.agentEnd.forModel": ", for {model},",
+  "onboarding.agentEnd.deniedMessage":
+    "Your last request{forModel} was denied: {reason}.",
+  "onboarding.agentEnd.failedMessage":
+    "Your last request{forModel} reached the provider and came back with status {status}.",
+  "onboarding.agentEnd.noReason": "no reason given",
+  "onboarding.agentEnd.learnMorePrefix": "Learn more in the",
+  "onboarding.agentEnd.learnMoreOr": "or the",
+  "onboarding.agentEnd.accessLogs": "Access Logs",
+  "onboarding.agentEnd.docs": "docs",
+  "onboarding.agentEnd.passedTokens": " and used {count} tokens",
+  "onboarding.agentEnd.passedNoTarget": "Your request went through{tokens}.",
+  "onboarding.agentEnd.passedReached": "Your request reached {target}{tokens}.",
+  "onboarding.agentEnd.section.providers.title": "Providers",
+  "onboarding.agentEnd.section.providers.description":
+    "Connect providers and pick models.",
+  "onboarding.agentEnd.section.policies.title": "Policies",
+  "onboarding.agentEnd.section.policies.description":
+    "Choose who can use each provider.",
+  "onboarding.agentEnd.section.guardrails.title": "Guardrails",
+  "onboarding.agentEnd.section.guardrails.description":
+    "Limit models and capture prompts.",
+  "onboarding.agentEnd.section.budgets.title": "Budgets and limits",
+  "onboarding.agentEnd.section.budgets.description":
+    "Cap token use and spend.",
+  "onboarding.agentEnd.section.usage.title": "Usage",
+  "onboarding.agentEnd.section.usage.description":
+    "Track tokens and spend over time.",
+  "onboarding.agentEnd.section.accessLogs.title": "Access Logs",
+  "onboarding.agentEnd.section.accessLogs.description":
+    "See every request and who sent it.",
+  "onboarding.agentEnd.section.logRetention.title": "Log retention",
+  "onboarding.agentEnd.section.logRetention.description":
+    "Choose how long logs are kept.",
+  "onboarding.agentEnd.section.agentSetup.title": "Agent setup",
+  "onboarding.agentEnd.section.agentSetup.description":
+    "Configure Claude Code and Codex.",
   "onboarding.otherUseCasePlaceholder": "e.g. Internal RAG service, MCP tools",
   "reverseProxy.terminated": "Terminated",
   "reverseProxy.terminatedTooltip":
@@ -8134,6 +8206,12 @@ const en = {
   "counts.peers": "{count} Peers",
   "counts.resource": "{count} Resource",
   "counts.resources": "{count} Resources",
+  "counts.user": "{count} User",
+  "counts.users": "{count} Users",
+  "counts.group": "{count} Group",
+  "counts.groups": "{count} Groups",
+  "counts.provider": "{count} Provider",
+  "counts.providers": "{count} Providers",
   "counts.routingPeer": "{count} Routing Peer",
   "counts.routingPeers": "{count} Routing Peers",
   "counts.service": "{count} Service",

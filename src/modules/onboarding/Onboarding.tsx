@@ -35,6 +35,12 @@ import { useI18n } from "@/i18n/I18nProvider";
 export interface OnboardingState {
   intent: Intent;
   step: number;
+  // The Agent Network onboarding saves its step by name; see
+  // agentNetworkSteps.ts. step keeps the regular flow's position.
+  agent_network_step?: string;
+  // Whether an existing account was still empty when its Agent Network
+  // onboarding opened; see OnboardingProvider.
+  agent_network_empty_account?: boolean;
   finished_at?: string;
   survey_submitted_at?: string;
   skipped?: boolean;

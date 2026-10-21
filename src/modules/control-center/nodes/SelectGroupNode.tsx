@@ -12,8 +12,9 @@ import * as React from "react";
 import { Group } from "@/interfaces/Group";
 import { useI18n } from "@/i18n/I18nProvider";
 import { localizeGroupName } from "@/utils/serverLabels";
-import { getGroupCountLabel } from "@/modules/control-center/utils/helpers";
+import { useCanvasUI } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
+import { getGroupCountLabel } from "@/modules/control-center/utils/helpers";
 
 type NodeProps = Node<
   {
@@ -45,7 +46,12 @@ export const SelectGroupNode = ({ data, id }: NodeProps) => {
   );
 
   const group = groups?.find((g) => g.id === data.currentGroup);
-  const countLabel = getGroupCountLabel(group, t);
+  const { groupUserCounts } = useCanvasUI();
+  const countLabel = getGroupCountLabel(
+    group,
+    t,
+    group ? groupUserCounts.get(group.id ?? group.name) : 0,
+  );
 
   const [open, setOpen] = React.useState(false);
   useCloseOnCanvasClick(open, () => setOpen(false));

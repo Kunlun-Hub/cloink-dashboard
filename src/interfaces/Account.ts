@@ -36,6 +36,7 @@ export interface Account {
     auto_update_version: string;
     auto_update_always: boolean;
     metrics_push_enabled?: boolean;
+    peer_hostname_collision_rejected?: boolean;
     local_auth_disabled?: boolean;
     local_mfa_enabled?: boolean;
     login_method?: "all" | "email" | "wechatwork";
@@ -56,4 +57,25 @@ export interface AccountDashboardFeatures {
 export interface AccountOnboarding {
   onboarding_flow_pending: boolean;
   signup_form_pending: boolean;
+}
+
+export interface SignInDomain {
+  id: string;
+  name: string;
+  is_primary: boolean;
+  validation_token: string;
+  validation_status: DomainValidationStatus;
+  validation_last_updated: string | null;
+  connections?: DomainConnection[];
+}
+
+export interface DomainConnection {
+  id: string;
+  name: string;
+}
+
+export enum DomainValidationStatus {
+  PENDING = "pending",
+  VERIFIED = "verified",
+  FAILED = "failed",
 }

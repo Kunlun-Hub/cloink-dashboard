@@ -1,27 +1,28 @@
 import Breadcrumbs from "@components/Breadcrumbs";
+import Card from "@components/Card";
+import InlineLink from "@components/InlineLink";
+import Paragraph from "@components/Paragraph";
+import { SkeletonNotificationSettings } from "@components/skeletons/SkeletonNotificationSettings";
+import { SmallBadge } from "@components/ui/SmallBadge";
+import { VerticalTabs } from "@components/VerticalTabs";
 import * as Tabs from "@radix-ui/react-tabs";
 import { ExternalLinkIcon, MessageSquareDot } from "lucide-react";
 import React from "react";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-import { VerticalTabs } from "@components/VerticalTabs";
-import InlineLink from "@components/InlineLink";
-import Card from "@components/Card";
 import { NotificationEmailChannel } from "@/cloud/notifications/channels/NotificationEmailChannel";
+import { NotificationSlackChannel } from "@/cloud/notifications/channels/NotificationSlackChannel";
 import { NotificationWebhookChannel } from "@/cloud/notifications/channels/NotificationWebhookChannel";
-import useUrlTab from "@/hooks/useUrlTab";
-import Paragraph from "@components/Paragraph";
+import { NotificationChannelListItem } from "@/cloud/notifications/NotificationChannelListItem";
 import NotificationProvider, {
   useNotifications,
 } from "@/cloud/notifications/NotificationProvider";
-import { NotificationChannelListItem } from "@/cloud/notifications/NotificationChannelListItem";
+import { useIsLicensed } from "@/hooks/useIsLicensed";
+import useUrlTab from "@/hooks/useUrlTab";
 import {
   NOTIFICATION_CHANNELS_DOCS_LINK,
   NotificationChannelType,
 } from "@/interfaces/NotificationChannel";
-import { SkeletonNotificationSettings } from "@components/skeletons/SkeletonNotificationSettings";
-import { NotificationSlackChannel } from "@/cloud/notifications/channels/NotificationSlackChannel";
-import { SmallBadge } from "@components/ui/SmallBadge";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const NotificationsOverview = ({
@@ -53,12 +54,10 @@ const NotificationsOverview = ({
           active
         />
       </Breadcrumbs>
-      <div className={"flex items-start justify-between"}>
+      <div className={"flex items-start justify-between -mt-1"}>
         <div>
           <h1>{t("notifications.title")}</h1>
-          <Paragraph>
-            {t("notifications.description")}
-          </Paragraph>
+          <Paragraph>{t("notifications.description")}</Paragraph>
           <Paragraph>
             {t("common.learnMoreAbout")}{" "}
             <InlineLink

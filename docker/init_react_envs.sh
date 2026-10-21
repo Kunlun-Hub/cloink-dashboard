@@ -77,6 +77,18 @@ export NETBIRD_HUBSPOT_ONBOARDING_FORM_ID=${NETBIRD_HUBSPOT_ONBOARDING_FORM_ID}
 export NETBIRD_HUBSPOT_SURVEY_FORM_ID=${NETBIRD_HUBSPOT_SURVEY_FORM_ID}
 export NETBIRD_ANALYTICS_EXCLUDED_EMAILS=${NETBIRD_ANALYTICS_EXCLUDED_EMAILS}
 
+# The build ships a robots.txt that disallows everything.
+# Deployments that want their homepage and install page in search results opt in here.
+if [[ "${NETBIRD_ALLOW_SEARCH_INDEXING}" == "true" ]]; then
+    cat > /usr/share/nginx/html/robots.txt <<'ROBOTS'
+User-agent: *
+Allow: /$
+Allow: /install$
+Allow: /install/$
+Disallow: /
+ROBOTS
+fi
+
 echo "NetBird latest version: ${NETBIRD_LATEST_VERSION}"
 
 # Build CSP

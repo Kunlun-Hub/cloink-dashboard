@@ -1,6 +1,5 @@
-import { IconCircleFilled } from "@tabler/icons-react";
+import FeatureCard, { FeatureCardStatus } from "@components/FeatureCard";
 import useFetchApi from "@utils/api";
-import { cn } from "@utils/helpers";
 import { FileText } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
@@ -46,50 +45,24 @@ export const EventStreamingCard = () => {
 
   return (
     <div className={"p-default pb-6"}>
-      <div
+      <FeatureCard
         onClick={() => router.push("/integrations?tab=event-streaming")}
-        className={cn(
-          "border cursor-pointer border-nb-gray-900/50 bg-nb-gray-900/30 hover:bg-nb-gray-900/50 py-3 pl-3 pr-5 rounded-lg transition-all min-w-[310px] max-w-[400px]",
-        )}
-      >
-        <div className={"inline-flex gap-4 w-full"}>
-          <div
-            className={
-              "h-10 w-10 shrink-0 flex items-center justify-center rounded-md bg-nb-gray-900/70 p-2 border border-nb-gray-900/70"
-            }
-          >
-            {activeSettings?.enabled && (
-              <Image
-                src={activityLogo as StaticImageData}
-                alt={activeSettings.platform}
-                className={"rounded-[4px]"}
-              />
-            )}
-
-            {!activeSettings && <FileText size={16} />}
-          </div>
-          <div className={""}>
-            <div className={"flex items-center gap-3 justify-between"}>
-              <div className={"font-medium text-sm flex gap-2 items-center"}>
-                {t("eventStreaming.title")}
-              </div>
-              <div
-                className={cn(
-                  "text-xs flex gap-2 items-center mb-2 font-medium",
-                  enabled ? "text-green-700 dark:text-green-500" : "text-nb-gray-400 dark:text-nb-gray-300",
-                )}
-              >
-                <IconCircleFilled size={8} />
-                {enabled ? t("common.enabled") : t("common.disabled")}
-              </div>
-            </div>
-
-            <p className={"text-xs font-light !text-nb-gray-300 "}>
-              {t("eventStreaming.cardDescription")}
-            </p>
-          </div>
-        </div>
-      </div>
+        className={"max-w-[400px]"}
+        icon={
+          activeSettings?.enabled ? (
+            <Image
+              src={activityLogo as StaticImageData}
+              alt={activeSettings.platform}
+              className={"rounded-[4px]"}
+            />
+          ) : (
+            <FileText size={16} />
+          )
+        }
+        title={t("eventStreaming.title")}
+        action={<FeatureCardStatus enabled={enabled} />}
+        description={t("eventStreaming.cardDescription")}
+      />
     </div>
   );
 };

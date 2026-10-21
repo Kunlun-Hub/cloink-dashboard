@@ -33,6 +33,10 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { AccountMFASettings } from "@/cloud/mfa/AccountMFASettings";
+import {
+  SignInDomainsSettings,
+  useCanViewSignInDomains,
+} from "@/cloud/sign-in-domains/SignInDomainsSettings";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useEmbeddedIdentityProviders } from "@/hooks/useEmbeddedIdentityProviders";
 import { useHasChanges } from "@/hooks/useHasChanges";
@@ -49,6 +53,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
   const { permission } = usePermissions();
   const { t } = useI18n();
   const { providers } = useEmbeddedIdentityProviders();
+  const canViewSignInDomains = useCanViewSignInDomains();
 
   const { mutate } = useSWRConfig();
 
@@ -202,7 +207,7 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
             active
           />
         </Breadcrumbs>
-        <div className={"flex items-start justify-between"}>
+        <div className={"flex items-start justify-between -mt-1"}>
           <div>
             <h1>{t("settings.authentication")}</h1>
           </div>
@@ -464,9 +469,20 @@ export default function AuthenticationTab({ account }: Readonly<Props>) {
       {isNetBirdCloud() && (
         <>
           <Separator />
-          <div className={"p-default py-8 max-w-2xl"}>
+          <div className={"p-default py-8 pb-0 max-w-2xl"}>
             <div className={"max-w-6xl"}>
               <AccountMFASettings />
+            </div>
+          </div>
+        </>
+      )}
+
+      {canViewSignInDomains && (
+        <>
+          <Separator />
+          <div className={"p-default py-8 max-w-2xl"}>
+            <div className={"max-w-6xl"}>
+              <SignInDomainsSettings />
             </div>
           </div>
         </>

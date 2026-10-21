@@ -1,15 +1,16 @@
 import Button from "@components/Button";
 import Paragraph from "@components/Paragraph";
+import SquareIcon from "@components/SquareIcon";
 import { cn } from "@utils/helpers";
 import { FilterX } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
-import SquareIcon from "@components/SquareIcon";
 import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   icon?: React.ReactNode;
+  hideIcon?: boolean;
   title?: string;
   description?: string;
   children?: React.ReactNode;
@@ -21,6 +22,7 @@ type Props = {
 
 export default function NoResults({
   icon,
+  hideIcon = false,
   title,
   description,
   children,
@@ -76,13 +78,17 @@ export default function NoResults({
       <div
         className={cn("max-w-md mx-auto relative z-20 py-6", contentClassName)}
       >
-        <div className={"flex items-center justify-center mb-6"}>
-          <SquareIcon
-            icon={icon ? icon : <FilterX size={24} />}
-            color={"gray"}
-            size={"large"}
-          />
-        </div>
+        {!hideIcon && (
+          <div className={"flex items-center justify-center mb-6"}>
+            <SquareIcon
+              icon={
+                icon ? icon : <FilterX size={24} className={"text-nb-gray-200"} />
+              }
+              color={"gray"}
+              size={"large"}
+            />
+          </div>
+        )}
 
         <div className={"text-center"}>
           <h1 className={"text-2xl font-medium max-w-lg mx-auto"}>

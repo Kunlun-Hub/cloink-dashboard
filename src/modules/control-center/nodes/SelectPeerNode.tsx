@@ -2,6 +2,7 @@ import {
   SelectDropdown,
   SelectOption,
 } from "@components/select/SelectDropdown";
+import { getOperatingSystem } from "@hooks/useOperatingSystem";
 import useFetchApi from "@utils/api";
 import { cn } from "@utils/helpers";
 import { Handle, type Node, Position } from "@xyflow/react";
@@ -9,11 +10,10 @@ import { sortBy } from "lodash";
 import { ChevronsUpDown } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeProvider";
 import * as React from "react";
-import { getOperatingSystem } from "@hooks/useOperatingSystem";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import type { Peer } from "@/interfaces/Peer";
-import { DeviceCard } from "@/modules/control-center/nodes/DeviceCard";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
+import { DeviceCard } from "@/modules/control-center/nodes/DeviceCard";
 import { OSLogo } from "@/modules/peers/PeerOSCell";
 
 type PeerNodeProps = Node<
@@ -88,8 +88,12 @@ export const SelectPeerNode = ({ data, id }: PeerNodeProps) => {
         size={"xs"}
         maxHeight={300}
       >
-        <div className={"flex items-center justify-between gap-8 pr-3 h-[64px]"}>
-          {peer && <DeviceCard device={peer} className={"pl-4"} />}
+        <div
+          className={
+            "flex items-center justify-between gap-8 pr-3 pl-4 h-[64px]"
+          }
+        >
+          {peer && <DeviceCard device={peer} className={"p-0"} />}
           <ChevronsUpDown size={18} className={"shrink-0"} />
         </div>
       </SelectDropdown>

@@ -17,30 +17,28 @@ import { cn } from "@utils/helpers";
 import { ExternalLinkIcon, GlobeIcon } from "lucide-react";
 import * as React from "react";
 import { useI18n } from "@/i18n/I18nProvider";
-import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   domain: string;
   token: string;
-  connectionId: string;
+  onVerify: () => Promise<unknown>;
 };
 export const DomainVerificationModal = ({
   open,
   onOpenChange,
   domain,
   token,
-  connectionId,
+  onVerify,
 }: Props) => {
   const { t } = useI18n();
-  const { verifyDomain } = useEnterpriseConnections();
 
   const startVerification = async () => {
     notify({
       title: t("reverseProxy.domainVerification"),
       description: t("reverseProxy.domainVerificationStarted", { domain }),
-      promise: verifyDomain(connectionId, domain).then(() => {
+      promise: onVerify().then(() => {
         onOpenChange(false);
       }),
       loadingMessage: t("reverseProxy.startingDomainVerification"),

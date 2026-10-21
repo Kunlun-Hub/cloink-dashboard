@@ -16,6 +16,7 @@ import {
 } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
 import { SelectDropdown } from "@components/select/SelectDropdown";
+import SettingCard from "@components/SettingCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import useFetchApi from "@utils/api";
 import { cn } from "@utils/helpers";
@@ -35,8 +36,13 @@ import {
   Sparkles,
   UploadIcon,
 } from "lucide-react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import {
@@ -44,7 +50,10 @@ import {
   ReverseProxyDomainType,
 } from "@/interfaces/ReverseProxy";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
-import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
+import {
+  type ProviderConnectInput,
+  useAIProviders,
+} from "@/modules/agent-network/AIProvidersProvider";
 import {
   AIProvider,
   AIProviderId,
@@ -164,6 +173,10 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   provider?: AIProvider;
+  onBeforeSave?: () => Promise<boolean> | boolean;
+  useSave?: boolean;
+  onDraftSubmit?: (input: ProviderConnectInput) => void;
+  takenNames?: string[];
 };
 
 // ModelRowEditor owns row-local UI state (custom/catalog mode, expanded cache
@@ -178,7 +191,14 @@ let modelKeySeq = 0;
 // MASKED_API_KEY is what the edit form shows in place of a stored credential.
 // The real key never reaches the browser, so anything equal to this is a
 // placeholder rather than something that can be sent to a vendor.
-const MASKED_API_KEY = "••••••••";
+export const MASKED_API_KEY = "••••••••";
+
+const NO_PASSWORD_MANAGER = {
+  autoComplete: "off",
+  "data-1p-ignore": true,
+  "data-lpignore": "true",
+  "data-form-type": "other",
+} as const;
 
 const withModelKey = (m: ProviderModel): EditableModel => ({
   ...m,
@@ -194,9 +214,14 @@ export default function AIProviderModal({
   open,
   onOpenChange,
   provider,
+  onBeforeSave,
+  useSave = true,
+  onDraftSubmit,
+  takenNames,
 }: Readonly<Props>) {
   const { t } = useI18n();
   const {
+    providers,
     addProvider,
     updateProvider,
     settings,
@@ -209,6 +234,28 @@ export default function AIProviderModal({
   const extraHeaderUI = useMemo(() => buildExtraHeaderUI(t), [t]);
 
   const isEdit = !!provider;
+
+  const takenProviderNames = useMemo(
+    () =>
+      new Set([
+        ...providers.filter((p) => p.id !== provider?.id).map((p) => p.name),
+        ...(takenNames ?? []),
+      ]),
+    [providers, provider?.id, takenNames],
+  );
+  const uniqueName = useCallback(
+    (base: string) => {
+      let name = base;
+      let i = 1;
+      while (takenProviderNames.has(name)) name = `${base} (${i++})`;
+      return name;
+    },
+    [takenProviderNames],
+  );
+  const uniqueNameRef = useRef(uniqueName);
+  useEffect(() => {
+    uniqueNameRef.current = uniqueName;
+  }, [uniqueName]);
   // The endpoint lives on the account-level Settings row, bootstrapped once
   // via an explicit POST. We auto-pick a proxy cluster from the live /domains
   // response and, when the account isn't bootstrapped yet, POST it as the
@@ -238,7 +285,9 @@ export default function AIProviderModal({
   const [providerId, setProviderId] = useState<AIProviderId>(
     provider?.providerId ?? "openai_api",
   );
-  const [name, setName] = useState(provider?.name ?? "OpenAI API");
+  const [name, setName] = useState(() =>
+    provider ? provider.name : uniqueName("OpenAI API"),
+  );
   const [upstreamUrl, setUpstreamUrl] = useState<string>(
     provider?.upstreamUrl ?? "",
   );
@@ -447,7 +496,7 @@ export default function AIProviderModal({
     } else {
       const fallback = getById("openai_api");
       setProviderId("openai_api");
-      setName(fallback ? fallback.name : "OpenAI API");
+      setName(uniqueNameRef.current(fallback ? fallback.name : "OpenAI API"));
       setUpstreamUrl(
         fallback?.default_host ? `https://${fallback.default_host}` : "",
       );
@@ -501,6 +550,7 @@ export default function AIProviderModal({
 
   const handleSubmit = async () => {
     if (!catalog) return;
+    if (onBeforeSave && !(await onBeforeSave())) return;
     // Drop rows the operator never filled in (an added-but-empty custom
     // row, or the empty fallback row when the catalog is exhausted) —
     // the API rejects models without an id, which would fail the whole
@@ -548,6 +598,25 @@ export default function AIProviderModal({
           identityHeaderGroups: identityHeaderGroups.trim(),
         }
       : {};
+    const input: ProviderConnectInput = {
+      providerId,
+      name,
+      upstreamUrl,
+      apiKey,
+      extraValues: sanitizedExtraValues,
+      ...identityOverrides,
+      skipTlsVerification: isCustomKind ? skipTlsVerification : false,
+      metadataDisabled,
+      models: submittedModels,
+      enabled: true,
+    };
+
+    if (!useSave) {
+      onDraftSubmit?.(input);
+      closeAfterSave();
+      return;
+    }
+
     setSaveInFlight(true);
     try {
       if (isEdit && provider) {
@@ -581,18 +650,7 @@ export default function AIProviderModal({
         );
         if (!bootstrapped) return;
       }
-      const created = await addProvider({
-        providerId,
-        name,
-        upstreamUrl,
-        apiKey,
-        extraValues: sanitizedExtraValues,
-        ...identityOverrides,
-        skipTlsVerification: isCustomKind ? skipTlsVerification : false,
-        metadataDisabled,
-        models: submittedModels,
-        enabled: true,
-      });
+      const created = await addProvider(input);
       if (!created) return;
       closeAfterSave();
     } finally {
@@ -805,6 +863,30 @@ export default function AIProviderModal({
   // "bedrock" bill two ADDITIVE buckets (cache read + cache write).
   // Gateways/custom entries (and older backends) declare no surfaces —
   // NetBird can't know the upstream shape, so every field is offered.
+  // Every outcome of a discovery run, resolved to the one line that reports
+  // it. Kept in one slot below the button rather than beside it: a message
+  // appearing next to the button reflowed the tab — and with it the centered
+  // modal — the moment a load came back.
+  const discoveryMessage: React.ReactNode = !canDiscoverModels ? (
+    useSavedCredential ? (
+      t("agentNetwork.providerModalEnterUrlFirst")
+    ) : (
+      t("agentNetwork.providerModalEnterUrlKeyFirst")
+    )
+  ) : discovered.error ? (
+    discovered.error
+  ) : discovered.notSupported ? (
+    t("agentNetwork.providerModalNoListingEndpoint")
+  ) : !discoveryInFlight && discovered.models.length > 0 ? (
+    <>
+      {t("agentNetwork.providerModalModelsLoadedPrefix", {
+        count: discovered.models.length,
+      })}{" "}
+      <strong>{t("aiProvider.modal.addMore")}</strong>{" "}
+      {t("agentNetwork.providerModalModelsLoadedSuffix")}
+    </>
+  ) : null;
+
   const pricingSurfaces = catalog?.pricing_surfaces ?? [];
   const showCachedInputRate =
     pricingSurfaces.length === 0 || pricingSurfaces.includes("openai");
@@ -820,8 +902,12 @@ export default function AIProviderModal({
         data-testid={"agent-network-provider-modal"}
       >
         <ModalHeader
-          icon={<AgentNetworkIcon className={"fill-netbird"} size={18} />}
-          title={isEdit ? t("agentNetwork.providerModalEditTitle") : t("agentNetwork.providerModalConnectProvider")}
+          icon={<Sparkles size={18} className={"text-netbird"} />}
+          title={
+            isEdit
+              ? t("agentNetwork.providerModalEditTitle")
+              : t("agentNetwork.providerModalConnectProvider")
+          }
           description={
             isEdit
               ? t("agentNetwork.providerModalEditDescription")
@@ -851,7 +937,7 @@ export default function AIProviderModal({
           </TabsList>
 
           <TabsContent value={"provider"} className={"pb-8"}>
-            <div className={"px-8 pt-3 flex-col flex gap-6"}>
+            <div className={"px-8 flex-col flex gap-6"}>
               {noClustersAvailable && (
                 <Callout
                   data-testid="agent-network-no-cluster-callout"
@@ -892,70 +978,73 @@ export default function AIProviderModal({
                 </Callout>
               )}
 
-              <FormRow
-                label={t("agentNetwork.provider")}
-                helpText={t("agentNetwork.providerModalProviderHelp")}
-              >
-                <SelectDropdown
-                  data-testid={"agent-network-provider-type"}
-                  value={providerId}
-                  onChange={(v) => {
-                    const next = v as AIProviderId;
-                    setProviderId(next);
-                    // The credential differs per provider (API key vs Vertex
-                    // JSON upload), so clear it when switching.
-                    setApiKey("");
-                    setKeyFileName(null);
-                    const c = getById(next);
-                    if (c) {
-                      setName(c.name);
-                      // Gateways like Bifrost / LiteLLM ship with an
-                      // empty default_host (operator brings their own
-                      // endpoint). Don't pre-fill "https://" — let the
-                      // placeholder hint them what to type instead.
-                      setUpstreamUrl(
-                        next === "vertex_ai_api"
-                          ? "https://aiplatform.googleapis.com"
-                          : c.default_host
-                          ? `https://${c.default_host}`
-                          : "",
-                      );
-                      setModels([]);
-                      // Auto-seed the identity inputs from the
-                      // catalog defaults when picking a customizable
-                      // shape (HeaderPair for Bifrost, JSONMetadata
-                      // for Cloudflare) so the operator sees sensible
-                      // starting values. They can edit, clear, or
-                      // paste their own. Switching away from any
-                      // customizable shape wipes the values so they
-                      // don't leak onto a non-customizable provider's
-                      // wire.
-                      const hp = c.identity_injection?.header_pair;
-                      const jm = c.identity_injection?.json_metadata;
-                      if (hp?.customizable) {
-                        setIdentityHeaderUserId(hp.end_user_id_header);
-                        setIdentityHeaderGroups(hp.tags_header);
-                      } else if (jm?.customizable) {
-                        setIdentityHeaderUserId(jm.user_key);
-                        setIdentityHeaderGroups(jm.groups_key);
-                      } else {
-                        setIdentityHeaderUserId("");
-                        setIdentityHeaderGroups("");
+              <div className={"flex-col flex gap-2"}>
+                <FormRow
+                  label={t("agentNetwork.provider")}
+                  helpText={t("agentNetwork.providerModalProviderHelp")}
+                >
+                  <SelectDropdown
+                    data-testid={"agent-network-provider-type"}
+                    value={providerId}
+                    onChange={(v) => {
+                      const next = v as AIProviderId;
+                      setProviderId(next);
+                      // The credential differs per provider (API key vs Vertex
+                      // JSON upload), so clear it when switching.
+                      setApiKey("");
+                      setKeyFileName(null);
+                      const c = getById(next);
+                      if (c) {
+                        setName(uniqueNameRef.current(c.name));
+                        // Gateways like Bifrost / LiteLLM ship with an
+                        // empty default_host (operator brings their own
+                        // endpoint). Don't pre-fill "https://" — let the
+                        // placeholder hint them what to type instead.
+                        setUpstreamUrl(
+                          next === "vertex_ai_api"
+                            ? "https://aiplatform.googleapis.com"
+                            : c.default_host
+                            ? `https://${c.default_host}`
+                            : "",
+                        );
+                        setModels([]);
+                        // Auto-seed the identity inputs from the
+                        // catalog defaults when picking a customizable
+                        // shape (HeaderPair for Bifrost, JSONMetadata
+                        // for Cloudflare) so the operator sees sensible
+                        // starting values. They can edit, clear, or
+                        // paste their own. Switching away from any
+                        // customizable shape wipes the values so they
+                        // don't leak onto a non-customizable provider's
+                        // wire.
+                        const hp = c.identity_injection?.header_pair;
+                        const jm = c.identity_injection?.json_metadata;
+                        if (hp?.customizable) {
+                          setIdentityHeaderUserId(hp.end_user_id_header);
+                          setIdentityHeaderGroups(hp.tags_header);
+                        } else if (jm?.customizable) {
+                          setIdentityHeaderUserId(jm.user_key);
+                          setIdentityHeaderGroups(jm.groups_key);
+                        } else {
+                          setIdentityHeaderUserId("");
+                          setIdentityHeaderGroups("");
+                        }
                       }
-                    }
-                  }}
-                  options={providerOptions}
-                  showSearch
-                  searchPlaceholder={t("agentNetwork.providerModalSearchProviders")}
-                  placeholder={t("agentNetwork.providerModalSelectProvider")}
+                    }}
+                    options={providerOptions}
+                    showSearch
+                    searchPlaceholder={t("agentNetwork.providerModalSearchProviders")}
+                    placeholder={t("agentNetwork.providerModalSelectProvider")}
+                  />
+                </FormRow>
+                <Input
+                  {...NO_PASSWORD_MANAGER}
+                  data-testid={"agent-network-provider-upstream-url"}
+                  value={upstreamUrl}
+                  onChange={(e) => setUpstreamUrl(e.target.value)}
+                  placeholder={upstreamUrlPlaceholder(t, providerId)}
                 />
-              </FormRow>
-              <Input
-                data-testid={"agent-network-provider-upstream-url"}
-                value={upstreamUrl}
-                onChange={(e) => setUpstreamUrl(e.target.value)}
-                placeholder={upstreamUrlPlaceholder(t, providerId)}
-              />
+              </div>
 
               {isCustomKind && (
                 <FancyToggleSwitch
@@ -1056,6 +1145,7 @@ export default function AIProviderModal({
                   }
                 >
                   <Input
+                    {...NO_PASSWORD_MANAGER}
                     data-testid={"agent-network-provider-api-key"}
                     type={"password"}
                     showPasswordToggle
@@ -1093,6 +1183,7 @@ export default function AIProviderModal({
                     helpText={ui.helpText}
                   >
                     <Input
+                      {...NO_PASSWORD_MANAGER}
                       value={extraValues[h.name] ?? ""}
                       onChange={(e) =>
                         setExtraValues((prev) => ({
@@ -1110,6 +1201,7 @@ export default function AIProviderModal({
                 helpText={t("agentNetwork.providerModalDisplayNameHelp")}
               >
                 <Input
+                  {...NO_PASSWORD_MANAGER}
                   data-testid={"agent-network-provider-name"}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -1121,7 +1213,7 @@ export default function AIProviderModal({
 
           {showMappings && providerId === "litellm_proxy" && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 {/* The forwarding toggle sits first: it gates the identity
                     mappings described below, so turning it off makes the fixed
                     mapping that follows moot. */}
@@ -1168,11 +1260,7 @@ export default function AIProviderModal({
                   </HelpText>
                 </div>
 
-                <div
-                  className={
-                    "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
-                  }
-                >
+                <SettingCard>
                   <MappingRow
                     header={"x-litellm-end-user-id (header)"}
                     sourceLabel={t("agentNetwork.providerModalUserEmail")}
@@ -1181,14 +1269,14 @@ export default function AIProviderModal({
                     header={"metadata.tags (body)"}
                     sourceLabel={t("agentNetwork.providerModalGroups")}
                   />
-                </div>
+                </SettingCard>
               </div>
             </TabsContent>
           )}
 
           {showMappings && customizableHeaderPair && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 <div>
                   <Label>{t("aiProvider.modal.identityHeadersLabel")}</Label>
                   <HelpText className={"mb-0"}>
@@ -1253,7 +1341,7 @@ export default function AIProviderModal({
 
           {showMappings && customizableJsonMetadata && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 <div>
                   <Label>{t("aiProvider.modal.identityMetadataLabel")}</Label>
                   <HelpText className={"mb-0"}>
@@ -1300,7 +1388,7 @@ export default function AIProviderModal({
               className={"pb-8"}
               data-testid={"agent-network-provider-identity-mappings"}
             >
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 <FancyToggleSwitch
                   value={!metadataDisabled}
                   onChange={(v) => setMetadataDisabled(!v)}
@@ -1328,11 +1416,7 @@ export default function AIProviderModal({
                   </HelpText>
                 </div>
 
-                <div
-                  className={
-                    "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
-                  }
-                >
+                <SettingCard>
                   {fixedHeaderPair?.end_user_id_header && (
                     <MappingRow
                       header={fixedHeaderPair.end_user_id_header}
@@ -1349,7 +1433,7 @@ export default function AIProviderModal({
                       data-testid={"agent-network-provider-groups-mapping"}
                     />
                   )}
-                </div>
+                </SettingCard>
 
                 {providerId === "agentgateway" && (
                   <div data-testid={"agent-network-provider-groups-guidance"}>
@@ -1373,7 +1457,7 @@ export default function AIProviderModal({
 
           {showMappings && providerId === "portkey" && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 <div>
                   <Label>{t("aiProvider.modal.identityMetadataLabel")}</Label>
                   <HelpText className={"mb-0"}>
@@ -1389,11 +1473,7 @@ export default function AIProviderModal({
                   </HelpText>
                 </div>
 
-                <div
-                  className={
-                    "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
-                  }
-                >
+                <SettingCard>
                   <MappingRow
                     header={"_user"}
                     sourceLabel={t("agentNetwork.providerModalUserEmail")}
@@ -1402,14 +1482,14 @@ export default function AIProviderModal({
                     header={"groups"}
                     sourceLabel={t("agentNetwork.providerModalGroups")}
                   />
-                </div>
+                </SettingCard>
               </div>
             </TabsContent>
           )}
 
           {showMappings && providerId === "bedrock_api" && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 {/* The forwarding toggle sits first: it gates the identity
                     metadata described below, so turning it off makes the fixed
                     mapping that follows moot. */}
@@ -1447,11 +1527,7 @@ export default function AIProviderModal({
                   </HelpText>
                 </div>
 
-                <div
-                  className={
-                    "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
-                  }
-                >
+                <SettingCard>
                   <MappingRow
                     header={"user"}
                     sourceLabel={t("agentNetwork.providerModalUserEmail")}
@@ -1460,14 +1536,14 @@ export default function AIProviderModal({
                     header={"group"}
                     sourceLabel={t("agentNetwork.providerModalGroups")}
                   />
-                </div>
+                </SettingCard>
               </div>
             </TabsContent>
           )}
 
           {showMappings && providerId === "vercel_ai_gateway" && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 <div>
                   <Label>{t("aiProvider.modal.identityHeadersLabel")}</Label>
                   <HelpText className={"mb-0"}>
@@ -1507,11 +1583,7 @@ export default function AIProviderModal({
                   </HelpText>
                 </div>
 
-                <div
-                  className={
-                    "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
-                  }
-                >
+                <SettingCard>
                   <MappingRow
                     header={"ai-reporting-user"}
                     sourceLabel={t("agentNetwork.providerModalUserEmail")}
@@ -1520,7 +1592,7 @@ export default function AIProviderModal({
                     header={"ai-reporting-tags"}
                     sourceLabel={t("agentNetwork.providerModalGroupsCsv")}
                   />
-                </div>
+                </SettingCard>
 
                 <HelpText className={"mb-0"}>
                   <strong>{t("aiProvider.modal.vercel.caveatsBold")}</strong>{" "}
@@ -1532,7 +1604,7 @@ export default function AIProviderModal({
 
           {showMappings && providerId === "openrouter" && (
             <TabsContent value={"mappings"} className={"pb-8"}>
-              <div className={"px-8 pt-3 flex-col flex gap-4"}>
+              <div className={"px-8 flex-col flex gap-4"}>
                 <div>
                   <Label>{t("aiProvider.modal.identityAttributionLabel")}</Label>
                   <HelpText className={"mb-0"}>
@@ -1548,16 +1620,12 @@ export default function AIProviderModal({
                   </HelpText>
                 </div>
 
-                <div
-                  className={
-                    "rounded-md overflow-hidden border border-nb-gray-900 bg-nb-gray-920/30"
-                  }
-                >
+                <SettingCard>
                   <MappingRow
                     header={"user (body)"}
                     sourceLabel={t("agentNetwork.providerModalUserEmail")}
                   />
-                </div>
+                </SettingCard>
 
                 <HelpText className={"mb-0"}>
                   <strong>
@@ -1576,64 +1644,46 @@ export default function AIProviderModal({
           )}
 
           <TabsContent value={"models"} className={"pb-8"}>
-            <div className={"px-8 pt-3 flex-col flex gap-3"}>
+            <div className={"px-8 flex-col flex gap-3"}>
               <div>
                 <Label>{t("aiProvider.modal.tabModels")}</Label>
                 <div data-testid={"agent-network-provider-models-help"}>
-                  <HelpText>
+                  <HelpText margin={false}>
                     {t("agentNetwork.providerModalModelsHelp")}
                   </HelpText>
                 </div>
               </div>
 
-              <div className={"flex items-center gap-3"}>
-                <Button
-                  variant={"secondary"}
-                  size={"xs"}
-                  disabled={discoveryInFlight || !canDiscoverModels}
-                  onClick={loadModelsFromProvider}
-                >
-                  {discoveryInFlight ? (
-                    <Loader2 size={13} className={"animate-spin"} />
-                  ) : (
-                    <RefreshCwIcon size={13} />
-                  )}
-                  {discoveryInFlight
-                    ? t("agentNetwork.providerModalLoadingModels")
-                    : t("agentNetwork.providerModalLoadModels")}
-                </Button>
-                {!canDiscoverModels && (
-                  <HelpText className={"!mb-0"}>
-                    {useSavedCredential
-                      ? t("agentNetwork.providerModalEnterUrlFirst")
-                      : t("agentNetwork.providerModalEnterUrlKeyFirst")}
-                  </HelpText>
-                )}
-                {discovered.notSupported && (
-                  <HelpText className={"!mb-0"}>
-                    {t("agentNetwork.providerModalNoListingEndpoint")}
-                  </HelpText>
-                )}
-                {discovered.error && (
-                  <HelpText
-                    className={"!mb-0 text-orange-500 dark:text-orange-400"}
+              <div className={"flex flex-col gap-1.5"}>
+                <div className={"flex items-center gap-3"}>
+                  <Button
+                    variant={"secondary"}
+                    size={"xs"}
+                    disabled={discoveryInFlight || !canDiscoverModels}
+                    onClick={loadModelsFromProvider}
                   >
-                    {discovered.error}
-                  </HelpText>
-                )}
-              </div>
+                    {discoveryInFlight ? (
+                      <Loader2 size={13} className={"animate-spin"} />
+                    ) : (
+                      <RefreshCwIcon size={13} />
+                    )}
+                    {discoveryInFlight
+                      ? t("agentNetwork.providerModalLoadingModels")
+                      : t("agentNetwork.providerModalLoadModels")}
+                  </Button>
+                </div>
 
-              {!discoveryInFlight &&
-                !discovered.error &&
-                discovered.models.length > 0 && (
-                  <HelpText className={"!mb-0"}>
-                    {t("agentNetwork.providerModalModelsLoadedPrefix", {
-                      count: discovered.models.length,
-                    })}{" "}
-                    <strong>{t("aiProvider.modal.addMore")}</strong>{" "}
-                    {t("agentNetwork.providerModalModelsLoadedSuffix")}
-                  </HelpText>
-                )}
+                {/* Always rendered, space reserved, so nothing below moves
+                    when a load reports back. */}
+                <HelpText
+                  className={cn(
+                    "!mb-0",
+                    discovered.error && "text-orange-500 dark:text-orange-400",
+                  )}
+                >
+                  {discoveryMessage ?? <>&nbsp;</>}
+                </HelpText>
+              </div>
 
               {unpricedModelIds.size > 0 && (
                 // A callout rather than a line of help text: this is the one
@@ -1793,7 +1843,7 @@ function FormRow({
         <Label>{label}</Label>
         <HelpText margin={false}>{helpText}</HelpText>
       </div>
-      <div className={"w-[260px] shrink-0"}>{children}</div>
+      <div className={"w-[290px] shrink-0"}>{children}</div>
     </div>
   );
 }
@@ -1998,13 +2048,13 @@ function ModelRowEditor({
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 p-3 rounded border bg-nb-gray-900/20",
+        "flex flex-col gap-3 p-4 rounded-md border bg-nb-gray-900/20",
         needsPrice
           ? "border-yellow-500/60 bg-yellow-500/5"
           : "border-nb-gray-800",
       )}
     >
-      <div className={"flex items-end gap-2"}>
+      <div className={"flex items-end gap-3"}>
         <div className={"flex-1 min-w-0"}>
           <Label>{t("aiProvider.modal.modelLabel")}</Label>
           {hasCatalog && !customMode ? (
@@ -2110,7 +2160,7 @@ function ModelRowEditor({
           {cacheOpen && (
             <div
               className={
-                "flex items-end gap-2 pt-2 border-t border-nb-gray-900"
+                "flex items-end gap-3 pt-3 border-t border-nb-gray-920"
               }
             >
               {showCachedInputRate && (
@@ -2155,7 +2205,7 @@ function MappingRow({
     <div
       data-testid={dataTestId}
       className={
-        "flex items-center gap-3 px-4 py-3 border-b border-nb-gray-900 last:border-b-0"
+        "flex items-center gap-3 px-4 py-3 border-b border-nb-gray-920 last:border-b-0"
       }
     >
       <div className={"flex-1 min-w-0"}>

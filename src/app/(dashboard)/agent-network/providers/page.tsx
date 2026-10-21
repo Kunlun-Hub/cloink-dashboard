@@ -1,11 +1,14 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
+import FeatureCard from "@components/FeatureCard";
 import { HelpTooltip } from "@components/HelpTooltip";
+import InlineLink from "@components/InlineLink";
+import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePortalElement } from "@hooks/usePortalElement";
-import { Globe } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
@@ -14,7 +17,9 @@ import AIProviderModal from "@/modules/agent-network/AIProviderModal";
 import AIProvidersProvider, {
   useAIProviders,
 } from "@/modules/agent-network/AIProvidersProvider";
-import EndpointBadge from "@/modules/agent-network/EndpointBadge";
+import EndpointBadge, {
+  endpointHelpText,
+} from "@/modules/agent-network/EndpointBadge";
 import AgentProvidersTable from "@/modules/agent-network/table/AgentProvidersTable";
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -29,46 +34,25 @@ function EndpointHeader() {
     // see nothing until an admin sets the endpoint up.
     if (!permission?.["agent_network.providers"]?.create) return null;
     return (
-      <button
-        type={"button"}
+      <FeatureCard
+        variant={"plain"}
         onClick={openWizard}
         className={
-          "inline-flex items-center gap-3 rounded-lg border border-dashed border-nb-gray-800 bg-nb-gray-900/20 p-3 text-left hover:border-nb-gray-700 hover:bg-nb-gray-900/40 transition-colors cursor-pointer min-w-[300px]"
+          "border-dashed bg-nb-gray-900/20 hover:border-nb-gray-700 hover:bg-nb-gray-900/40"
         }
-      >
-        <div
-          className={
-            "h-8 w-8 rounded-md bg-nb-gray-900 flex items-center justify-center shrink-0"
-          }
-        >
-          <Globe size={14} className={"text-nb-gray-500"} />
-        </div>
-        <div className={"flex flex-col min-w-0"}>
-          <div
-            className={
-              "text-[10px] text-nb-gray-500 uppercase tracking-wider font-medium inline-flex items-center gap-1.5"
-            }
-          >{t("agentNetwork.apiBaseUrl")}<span onClick={(e) => e.stopPropagation()}>
-              <HelpTooltip
-                iconSize={11}
-                content={
-                  <>
-                    {t("agentNetwork.apiBaseUrlTooltipPrefix")}
-                    <code className={"font-mono"}>base_url</code>
-                    {t("agentNetwork.apiBaseUrlTooltipMiddle")}
-                    <code className={"font-mono"}>baseURL</code>
-                    {t("agentNetwork.apiBaseUrlTooltipSuffix")}
-                  </>
-                }
-              />
+        title={
+          <>
+            {t("agentNetwork.apiBaseUrl")}
+            <span onClick={(e) => e.stopPropagation()}>
+              <HelpTooltip iconSize={11} content={endpointHelpText(t)} />
             </span>
-          </div>
-          <span className={"text-xs text-nb-gray-400 leading-tight mt-0.5"}>{t("agentNetwork.connectFirstProvider")}</span>
-        </div>
-      </button>
+          </>
+        }
+        description={t("agentNetwork.connectFirstProvider")}
+      />
     );
   }
-  return <EndpointBadge endpoint={settings.endpoint} />;
+  return <EndpointBadge endpoint={settings.endpoint} variant={"plain"} />;
 }
 
 function PageBody({
@@ -118,7 +102,19 @@ export default function AgentNetworkProvidersPage() {
               />
             </Breadcrumbs>
             <h1 ref={headingRef}>{t("nav.providers")}</h1>
-            <div className={"mt-4"}>
+            <Paragraph>
+              {t("agentNetwork.providersDescription1")}{" "}
+              <InlineLink
+                href={"https://docs.netbird.io/agent-network/providers"}
+                target={"_blank"}
+              >
+                {t("common.learnMore")}
+                <ExternalLinkIcon size={12} />
+              </InlineLink>
+            </Paragraph>
+            {/* Same 24px step the users and activity pages put between their
+                description and the card below it. */}
+            <div className={"mt-6"}>
               <EndpointHeader />
             </div>
           </div>

@@ -160,7 +160,7 @@ export const GroupResourcesSection = ({
               description={
                 t("groupResources.emptyDescription")
               }
-              icon={<Layers3Icon size={20} />}
+              icon={<Layers3Icon size={20} className={"text-nb-gray-300"} />}
             >
               {permission?.networks?.create && (
                 <>

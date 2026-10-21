@@ -202,7 +202,7 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
             active
           />
         </Breadcrumbs>
-        <div className={"flex items-start justify-between"}>
+        <div className={"flex items-start justify-between -mt-1"}>
           <div>
             <h1>{t("networkSettings.networks")}</h1>
           </div>

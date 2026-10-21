@@ -24,6 +24,8 @@ interface MultiSelectProps {
   value?: Peer;
   onChange: (peer: Peer | undefined) => void;
   excludedPeers?: string[];
+  disabledPeers?: string[];
+  disabledPeerReason?: string;
   disabled?: boolean;
 }
 
@@ -39,6 +41,8 @@ export function PeerSelector({
   onChange,
   value,
   excludedPeers,
+  disabledPeers,
+  disabledPeerReason,
   disabled = false,
 }: MultiSelectProps) {
   const { t } = useI18n();
@@ -175,7 +179,11 @@ export function PeerSelector({
                   item.version,
                   item.os,
                 );
-                if (!isSupported) return;
+                if (
+                  !isSupported ||
+                  (!!item.id && disabledPeers?.includes(item.id))
+                )
+                  return;
                 togglePeer(item);
               }}
               renderItem={(option) => {
@@ -183,17 +191,27 @@ export function PeerSelector({
                   option.version,
                   option.os,
                 );
+                const isDisabled =
+                  isSupported &&
+                  !!option.id &&
+                  !!disabledPeers?.includes(option.id);
                 return (
                   <FullTooltip
-                    disabled={isSupported}
+                    disabled={isSupported && !isDisabled}
                     interactive={false}
                     delayDuration={200}
                     skipDelayDuration={350}
                     className={"w-full flex items-center justify-between"}
                     content={
-                      <div className={"max-w-[240px] text-xs"}>
-                        {t("peerSelector.updateNetBirdTooltip")}
-                      </div>
+                      isDisabled ? (
+                        <div className={"max-w-[240px] text-xs"}>
+                          {disabledPeerReason}
+                        </div>
+                      ) : (
+                        <div className={"max-w-[240px] text-xs"}>
+                          {t("peerSelector.updateNetBirdTooltip")}
+                        </div>
+                      )
                     }
                   >
                     <div
@@ -202,6 +220,7 @@ export function PeerSelector({
                         value && value.id == option.id
                           ? "text-nb-gray-100"
                           : "text-nb-gray-300",
+                        isDisabled && "opacity-40",
                       )}
                     >
                       <PeerOperatingSystemIcon
@@ -233,6 +252,7 @@ export function PeerSelector({
                           ? "text-nb-gray-100"
                           : "text-nb-gray-300",
                         !isSupported && "opacity-50",
+                        isDisabled && "opacity-40",
                       )}
                     >
                       {option.ip}

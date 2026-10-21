@@ -1,17 +1,18 @@
 "use client";
 
 import Breadcrumbs from "@components/Breadcrumbs";
+import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import React from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import PageContainer from "@/layouts/PageContainer";
-import { AgentConnectTabs } from "@/modules/agent-network/AgentConnectTabs";
+import {
+  AgentConnectTabs,
+  ConnectProvider,
+} from "@/modules/agent-network/AgentConnectTabs";
 import EndpointBadge from "@/modules/agent-network/EndpointBadge";
 import ConnectProvidersTable from "@/modules/agent-network/table/ConnectProvidersTable";
-import {
-  APIMeSetup,
-  useMyAgentNetworkSetup,
-} from "@/modules/agent-network/useMyAgentNetworkSetup";
+import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
 import { useI18n } from "@/i18n/I18nProvider";
 
 // ConnectAgentPage is the caller-scoped self-service view: the endpoint to
@@ -25,6 +26,15 @@ import { useI18n } from "@/i18n/I18nProvider";
 export default function ConnectAgentPage() {
   const { t } = useI18n();
   const { setup, isLoading } = useMyAgentNetworkSetup();
+  const providers = setup?.providers ?? [];
+  // EndpointBadge builds https:// URLs from a bare host.
+  const bareEndpoint = (setup?.endpoint ?? "").replace(/^https?:\/\//, "");
+  const connectProviders: ConnectProvider[] = providers.map((p) => ({
+    name: p.name,
+    catalogId: p.catalog_id,
+    api: p.api_flavor === "anthropic" ? "anthropic" : "openai",
+    models: p.models,
+  }));
 
   return (
     <PageContainer>
@@ -42,56 +52,55 @@ export default function ConnectAgentPage() {
           />
         </Breadcrumbs>
         <h1>{t("nav.connectAgent")}</h1>
+        {/* block, so the <br /> lands: Paragraph is a flex container by
+            default and a break element does nothing between flex items. */}
+        <Paragraph className={"block"}>
+          {t("agentConnect.description")}
+        </Paragraph>
 
-        {isLoading ? (
-          <div className={"mt-4"}>
-            <SkeletonTable />
+        {/* The server hands the endpoint to every member of an account that
+            has Agent Network set up, covered by a policy or not, so this
+            renders for everyone; it stays guarded because an account with no
+            endpoint yet has nothing to copy and no snippet that would work.
+            mt-6 is the step the users and activity pages put between their
+            description and the card below it. */}
+        {!isLoading && bareEndpoint && (
+          <div className={"mt-6"}>
+            <EndpointBadge endpoint={bareEndpoint} variant={"plain"} />
           </div>
-        ) : (
-          <ConnectAgentSetup setup={setup} />
         )}
       </div>
-    </PageContainer>
-  );
-}
 
-function ConnectAgentSetup({ setup }: { setup?: APIMeSetup }) {
-  const { t } = useI18n();
-  const providers = setup?.providers ?? [];
-  // EndpointBadge builds https:// URLs from a bare host.
-  const bareEndpoint = (setup?.endpoint ?? "").replace(/^https?:\/\//, "");
-  const providerIds = providers.map((provider) => provider.catalog_id);
-
-  return (
-    <>
-      {/* The server hands the endpoint to every member of an account that has
-          Agent Network set up, covered by a policy or not, so this renders for
-          everyone; it stays guarded because an account with no endpoint yet
-          has nothing to copy and no snippet that would work. */}
-      {bareEndpoint && (
+      {isLoading ? (
+        <div className={"p-default"}>
+          <SkeletonTable />
+        </div>
+      ) : (
         <>
-          <div className={"mt-4"}>
-            <EndpointBadge endpoint={bareEndpoint} />
-          </div>
-
-          <div className={"max-w-3xl"}>
-            {/* Same 16px step the endpoint card sits below the description
-                by. */}
+          {/* Only the tab strip spans the page, so its underline runs edge to
+              edge the way it does on every other tabbed page. The triggers and
+              the snippets below them keep the page gutter and the reading
+              width the rest of the page is set in. */}
+          {bareEndpoint && (
             <AgentConnectTabs
               endpoint={bareEndpoint}
-              className={"mt-4"}
-              listClassName={"px-0"}
-              contentClassName={"px-0 py-2"}
-              providerIds={providerIds}
+              className={"mt-0"}
+              listClassName={"p-default"}
+              contentClassName={"p-default py-2 max-w-3xl"}
+              providers={connectProviders}
             />
+          )}
+
+          {/* Same box as the tab content above — gutter and max-width on one
+              element — so the table lines up with the snippets. */}
+          <div className={"p-default pt-8 pb-10 max-w-3xl"}>
+            <h2 className={"text-base mb-0"}>
+              {t("agentNetwork.yourProvidersAndModels")}
+            </h2>
+            <ConnectProvidersTable providers={providers} />
           </div>
         </>
       )}
-
-      <div className={"max-w-3xl"}>
-        <h2 className={"text-base mt-8 mb-0"}>{t("agentNetwork.yourProvidersAndModels")}</h2>
-        <ConnectProvidersTable providers={providers} />
-      </div>
-    </>
+    </PageContainer>
   );
 }

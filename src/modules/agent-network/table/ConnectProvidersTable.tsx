@@ -2,12 +2,13 @@
 
 import Badge from "@components/Badge";
 import Button from "@components/Button";
+import Card from "@components/Card";
 import FullTooltip from "@components/FullTooltip";
-import SquareIcon from "@components/SquareIcon";
 import { DataTable } from "@components/table/DataTable";
 import DataTableHeader from "@components/table/DataTableHeader";
-import GetStartedTest from "@components/ui/GetStartedTest";
+import NoResults from "@components/ui/NoResults";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
+import { Boxes } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
@@ -20,12 +21,13 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 function NameCell({ provider }: { provider: APIMeProvider }) {
   return (
-    <div className={"flex items-center gap-3 py-2 pl-3"}>
+    <div className={"flex items-center gap-3 py-2"}>
       {/* catalog_id comes off the wire as a plain string; an id the catalog
           doesn't know renders the neutral badge. */}
       <AIProviderLogo
         providerId={provider.catalog_id as AIProviderId}
-        size={28}
+        size={36}
+        tile
       />
       <div className={"flex flex-col items-start min-w-0"}>
         <span
@@ -37,7 +39,7 @@ function NameCell({ provider }: { provider: APIMeProvider }) {
         </span>
         {/* The name is operator-chosen and often just the vendor, so the
             catalog id is what actually says which provider is behind it. */}
-        <span className={"text-xs text-nb-gray-400 whitespace-nowrap mt-0.5"}>
+        <span className={"text-xs text-nb-gray-400 whitespace-nowrap"}>
           {provider.catalog_id}
         </span>
       </div>
@@ -45,49 +47,64 @@ function NameCell({ provider }: { provider: APIMeProvider }) {
   );
 }
 
-// Up to this many models are spelled out; beyond it the cell just counts them,
-// the way the admin providers table reports its allow-list.
-const NAMED_MODELS = 2;
+function ModelList({ models }: { models: string[] }) {
+  return (
+    <div className={"flex flex-col gap-1 text-xs"}>
+      {models.map((model) => (
+        <div key={model}>{model}</div>
+      ))}
+    </div>
+  );
+}
 
-function ModelsCell({ provider }: { provider: APIMeProvider }) {
+// An unrestricted policy still comes back with the provider's declared (or
+// catalog) models, so "All Models" can say what it covers instead of leaving
+// the caller to guess which model ids to configure.
+function AllModelsTooltip({ models }: { models: string[] }) {
   const { t } = useI18n();
-  if (provider.all_models_allowed) {
-    return <span className={"text-xs text-nb-gray-400"}>{t("agentProviders.allModels")}</span>;
-  }
-  // A short allow-list is spelled out as one chip per model, the way groups
-  // and providers are chipped elsewhere; a long one collapses to a count.
-  if (provider.models.length <= NAMED_MODELS) {
+  if (models.length === 0) {
     return (
-      <div className={"flex items-center gap-2"}>
-        {provider.models.map((model) => (
-          <Badge
-            key={model}
-            variant={"gray-ghost"}
-            className={"whitespace-nowrap"}
-          >
-            {model}
-          </Badge>
-        ))}
-      </div>
+      <span className={"text-xs"}>
+        {t("agentNetwork.allModelsNoList")}
+      </span>
     );
   }
+  return (
+    <div className={"flex flex-col gap-2 text-xs"}>
+      <span className={"text-nb-gray-300"}>
+        {t("agentNetwork.allModelsKnownModels")}
+      </span>
+      <ModelList models={models} />
+    </div>
+  );
+}
+
+// Same badge the admin providers table uses for its allow-list, with the
+// model names on hover — the caller has no other page to look them up on.
+function ModelsCell({ provider }: { provider: APIMeProvider }) {
+  const { t } = useI18n();
+  const allModels = provider.all_models_allowed;
   return (
     <div className={"flex"}>
       <FullTooltip
         content={
-          <div className={"flex flex-col gap-1 text-xs"}>
-            {provider.models.map((model) => (
-              <div key={model}>{model}</div>
-            ))}
-          </div>
+          allModels ? (
+            <AllModelsTooltip models={provider.models} />
+          ) : (
+            <ModelList models={provider.models} />
+          )
         }
       >
-        <Badge
-          variant={"gray-ghost"}
-          useHover={true}
-          className={"whitespace-nowrap"}
-        >
-          {t("agentAccessLog.modelsCount", { count: provider.models.length })}
+        <Badge variant={"gray"} className={"h-[34px]"} useHover={true}>
+          <Boxes size={11} />
+          <span className={"font-medium text-xs"}>
+            {allModels ? t("agentProviders.allModels") : provider.models.length}
+          </span>
+          {allModels && provider.models.length > 0 && (
+            <span className={"text-xs text-nb-gray-400"}>
+              ({provider.models.length})
+            </span>
+          )}
         </Badge>
       </FullTooltip>
     </div>
@@ -140,6 +157,15 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
 
   return (
     <DataTable
+      // Minimal-in-a-card, the shape the group detail page gives its
+      // secondary tables: this one sits under a heading on a page that
+      // already has its own, rather than being the page.
+      wrapperComponent={Card}
+      wrapperProps={{ className: "mt-3 w-full" }}
+      minimal={true}
+      inset={false}
+      tableClassName={"mt-0"}
+      paginationPaddingClassName={"px-0 pt-8"}
       text={t("nav.providers")}
       sorting={sorting}
       setSorting={setSorting}
@@ -150,33 +176,27 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
       // Nothing to list means no policy covers this caller yet, so the card
       // says so rather than leaving an empty table behind.
       getStartedCard={
-        <GetStartedTest
-          icon={
-            <SquareIcon
-              icon={
-                <AgentNetworkIcon className={"fill-nb-gray-200"} size={20} />
-              }
-              color={"gray"}
-              size={"large"}
-            />
-          }
+        <NoResults
+          className={"py-4"}
+          icon={<AgentNetworkIcon className={"text-nb-gray-300"} size={20} />}
           title={t("connectProviders.emptyTitle")}
           description={
             canManagePolicies
               ? t("connectProviders.emptyManageableDescription")
               : t("connectProviders.emptyReadonlyDescription")
           }
-          button={
-            canManagePolicies ? (
-              <Button
-                variant={"primary"}
-                onClick={() => router.push("/agent-network/policies")}
-              >
-                {t("connectProviders.goToPolicies")}
-              </Button>
-            ) : undefined
-          }
-        />
+        >
+          {canManagePolicies && (
+            <Button
+              variant={"primary"}
+              size={"sm"}
+              className={"mt-4"}
+              onClick={() => router.push("/agent-network/policies")}
+            >
+              {t("connectProviders.goToPolicies")}
+            </Button>
+          )}
+        </NoResults>
       }
     />
   );

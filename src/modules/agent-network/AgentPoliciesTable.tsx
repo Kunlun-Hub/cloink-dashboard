@@ -33,6 +33,8 @@ import { IconCirclePlus } from "@tabler/icons-react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { cn } from "@utils/helpers";
 import {
+  Copy,
+  ExternalLinkIcon,
   Gauge,
   MoreVertical,
   PencilLineIcon,
@@ -46,8 +48,10 @@ import React, { useMemo, useState } from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Group } from "@/interfaces/Group";
+import { duplicateAgentPolicy } from "@/modules/agent-network/agentPolicyDuplicate";
 import AgentPolicyModal from "@/modules/agent-network/AgentPolicyModal";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
@@ -342,13 +346,17 @@ function formatLimitWindow(
 function ActionsCell({
   policy,
   onEdit,
+  onDuplicate,
 }: {
   policy: AgentPolicy;
   onEdit: (p: AgentPolicy) => void;
+  onDuplicate: (p: AgentPolicy) => void;
 }) {
   const { t } = useI18n();
   const { confirm } = useDialog();
   const { togglePolicy, deletePolicy } = useAIProviders();
+  const { permission } = usePermissions();
+  const canCreate = !!permission?.["agent_network.policies"]?.create;
 
   const onDelete = async () => {
     const ok = await confirm({
@@ -373,7 +381,12 @@ function ActionsCell({
             e.preventDefault();
           }}
         >
-          <Button variant={"secondary"} className={"!px-3"}>
+          <Button
+            variant={"secondary"}
+            className={"!px-3"}
+            aria-label={"Policy actions"}
+            data-testid={"agent-policy-actions"}
+          >
             <MoreVertical size={16} className={"shrink-0"} />
           </Button>
         </DropdownMenuTrigger>
@@ -381,6 +394,16 @@ function ActionsCell({
           <DropdownMenuItem onClick={() => onEdit(policy)}>
             <div className={"flex gap-3 items-center"}>
               <PencilLineIcon size={14} className={"shrink-0"} />{t("networks.editPolicy")}</div>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => onDuplicate(policy)}
+            disabled={!canCreate}
+            data-testid={"duplicate-agent-policy"}
+          >
+            <div className={"flex gap-3 items-center"}>
+              <Copy size={14} className={"shrink-0"} />
+              Duplicate
+            </div>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => togglePolicy(policy.id)}>
             <div className={"flex gap-3 items-center"}>
@@ -473,10 +496,22 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
     undefined,
   );
   const [initialTab, setInitialTab] = useState<string | undefined>(undefined);
+  // Seeds the create modal when duplicating a policy.
+  const [duplicateInitial, setDuplicateInitial] = useState<
+    Omit<AgentPolicy, "id"> | undefined
+  >(undefined);
 
   const openEdit = (p: AgentPolicy, tab?: string) => {
     setEditPolicy(p);
     setInitialTab(tab);
+    setCreateOpen(true);
+  };
+
+  const openDuplicate = (p: AgentPolicy) => {
+    setEditPolicy(undefined);
+    setInitialTab(undefined);
+    const takenNames = policies.map((existing) => existing.name);
+    setDuplicateInitial(duplicateAgentPolicy(p, takenNames));
     setCreateOpen(true);
   };
 
@@ -554,7 +589,11 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorKey: "id",
       header: "",
       cell: ({ row }) => (
-        <ActionsCell policy={row.original} onEdit={(p) => openEdit(p)} />
+        <ActionsCell
+          policy={row.original}
+          onEdit={(p) => openEdit(p)}
+          onDuplicate={openDuplicate}
+        />
       ),
     },
   ];
@@ -569,9 +608,11 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
             if (!o) {
               setEditPolicy(undefined);
               setInitialTab(undefined);
+              setDuplicateInitial(undefined);
             }
           }}
           policy={editPolicy}
+          initial={duplicateInitial}
           initialTab={initialTab}
         />
       )}
