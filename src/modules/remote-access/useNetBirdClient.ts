@@ -279,6 +279,7 @@ export const useNetBirdClient = () => {
       netBirdStore.setState({ status: NetBirdStatus.CONNECTING });
 
       try {
+        await initialize();
         const keyPairs = generateKeypair();
         const browser = getBrowserInfo();
         const name =
@@ -287,7 +288,7 @@ export const useNetBirdClient = () => {
             : trim(
                 `${browser.name.toLowerCase()}-${browser.version.toLowerCase()}-browser-client`,
               );
-        await peerRequest.post(
+        const temporaryPeer = (await peerRequest.post(
           {
             name,
             wg_pub_key: keyPairs.publicKey,
@@ -299,14 +300,20 @@ export const useNetBirdClient = () => {
             ],
           },
           `/${peerId}/temporary-access`,
-        );
-        return await connect(keyPairs.privateKey);
+        )) as { id?: string };
+        const connected = await connect(keyPairs.privateKey);
+        if (!connected && temporaryPeer?.id) {
+          await peerRequest
+            .del("", `/${temporaryPeer.id}`)
+            .catch((cleanupError) => console.error(cleanupError));
+        }
+        return connected;
       } catch (error) {
         netBirdStore.setState({ status: NetBirdStatus.DISCONNECTED });
         throw error;
       }
     },
-    [connect, peerRequest],
+    [connect, initialize, peerRequest],
   );
 
   useEffect(() => {
