@@ -11,6 +11,7 @@ Set the following container variables when needed:
 | `NETBIRD_WASM_EXEC_PATH`    | `/wasm_exec.js` | Go runtime matching the self-hosted WASM build.                                                   |
 | `NETBIRD_RELEASES_URL`      | empty           | Optional private release JSON endpoint.                                                           |
 | `NETBIRD_ANALYTICS_ENABLED` | `false`         | Enables configured GA, GTM and Hotjar integrations. Keep `false` for no analytics return traffic. |
+| `NETBIRD_CSP`               | empty           | Extra CSP sources. Add every relay WebSocket origin used by the browser client.                   |
 
 For a dedicated WASM hostname:
 
@@ -19,6 +20,15 @@ NETBIRD_WASM_PATH=https://wasm.example.com/netbird.wasm
 NETBIRD_WASM_EXEC_PATH=https://wasm.example.com/wasm_exec.js
 NETBIRD_RELEASES_URL=
 NETBIRD_ANALYTICS_ENABLED=false
+```
+
+The browser NetBird client connects directly to the relay returned by the
+management service. If that relay is on another origin, allow its WebSocket
+origin explicitly; otherwise the browser blocks the tunnel with a
+`Content-Security-Policy` error even though peer creation succeeds:
+
+```env
+NETBIRD_CSP=wss://relay.example.com:12580
 ```
 
 The WASM image and its build instructions live in
