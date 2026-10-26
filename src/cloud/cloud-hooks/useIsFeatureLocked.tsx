@@ -34,7 +34,12 @@ export const PlanFeatureAvailability = {
  */
 const OPEN_SOURCE_FEATURES: Array<keyof typeof PlanFeatures> = [
   "POSTURE_CHECKS",
+  "DEVICE_APPROVALS",
 ];
+
+export const isOpenSourceFeature = (
+  feature: keyof typeof PlanFeatures,
+): boolean => OPEN_SOURCE_FEATURES.includes(feature);
 
 /**
  * Hook to check if a feature is locked based on the current plan.
@@ -52,7 +57,7 @@ export const useIsFeatureLocked = (feature: keyof typeof PlanFeatures) => {
   if (process.env.APP_ENV === "test" && !testEditionOverride()) return false;
 
   if (!isNetBirdCloud()) {
-    if (OPEN_SOURCE_FEATURES.includes(feature)) return false;
+    if (isOpenSourceFeature(feature)) return false;
     return !isLicensed;
   }
   if (isTrial) return false;

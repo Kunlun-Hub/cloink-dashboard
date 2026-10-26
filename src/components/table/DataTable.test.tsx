@@ -136,4 +136,29 @@ describe("DataTable manual pagination", () => {
     );
     expect(onPaginationChange).not.toHaveBeenCalled();
   });
+
+  it("uses the controlled server page size when advancing pages", () => {
+    const onPaginationChange = vi.fn();
+    const { container } = render(
+      <DataTable
+        columns={columns}
+        data={rows}
+        showSearchAndFilters={false}
+        keepStateInLocalStorage={false}
+        manualPagination
+        pageCount={3}
+        pagination={{ pageIndex: 0, pageSize: 20 }}
+        onPaginationChange={onPaginationChange}
+        totalRecords={49}
+        initialPageSize={10}
+      />,
+    );
+
+    clickNextPage(container);
+
+    expect(onPaginationChange).toHaveBeenCalledWith({
+      pageIndex: 1,
+      pageSize: 20,
+    });
+  });
 });

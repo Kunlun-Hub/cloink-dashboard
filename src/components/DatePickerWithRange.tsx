@@ -45,10 +45,6 @@ const defaultRanges = {
     from: dayjs().subtract(1, "month").startOf("day").toDate(),
     to: dayjs().endOf("day").toDate(),
   },
-  allTime: {
-    from: dayjs("1970-01-01").startOf("day").toDate(),
-    to: dayjs().endOf("day").toDate(),
-  },
 };
 
 const recentRanges = () => ({
@@ -77,12 +73,13 @@ const isRecentRange = (value: DateRange | undefined, minutes: number) => {
 };
 
 const isEqualDateRange = (a: DateRange | undefined, b: DateRange) => {
-  if (!a) return false;
-  const aFromDay = dayjs(a.from).format("YYYY-MM-DD");
-  const aToDay = dayjs(a.to).format("YYYY-MM-DD");
-  const bFromDay = dayjs(b.from).format("YYYY-MM-DD");
-  const bToDay = dayjs(b.to).format("YYYY-MM-DD");
-  return aFromDay === bFromDay && aToDay === bToDay;
+  if (!a?.from || !a?.to || !b?.from || !b?.to) return false;
+  // Compare the full range, not just the calendar day. A five-minute range on
+  // the current day must not also light up the "today" preset.
+  return (
+    dayjs(a.from).valueOf() === dayjs(b.from).valueOf() &&
+    dayjs(a.to).valueOf() === dayjs(b.to).valueOf()
+  );
 };
 
 // dateRangePresetLabel returns the human label of the matching quick-range
@@ -98,8 +95,6 @@ export function dateRangePresetLabel(
   if (isRecentRange(value, 15)) return t("datePicker.last15Minutes");
   if (isRecentRange(value, 30)) return t("datePicker.last30Minutes");
   if (isRecentRange(value, 60)) return t("datePicker.last1Hour");
-  if (isEqualDateRange(value, defaultRanges.allTime))
-    return t("datePicker.allTime");
   if (isEqualDateRange(value, defaultRanges.lastMonth))
     return t("datePicker.lastMonth");
   if (isEqualDateRange(value, defaultRanges.last14Days))
@@ -135,7 +130,6 @@ export function DatePickerWithRange({
       last2Days: isEqualDateRange(value, defaultRanges.last2Days),
       last7Days: isEqualDateRange(value, defaultRanges.last7Days),
       lastMonth: isEqualDateRange(value, defaultRanges.lastMonth),
-      allTime: isEqualDateRange(value, defaultRanges.allTime),
     };
   }, [value]);
 
@@ -155,6 +149,7 @@ export function DatePickerWithRange({
 
   const updateRangeAndClose = (range: DateRange) => {
     onChange?.(range);
+    setCalendarOpen(false);
   };
 
   const debouncedOnChange = useMemo(() => {
@@ -223,18 +218,6 @@ export function DatePickerWithRange({
                 label={t("datePicker.last1Hour")}
                 active={isActive.last1Hour}
                 onClick={() => updateRangeAndClose(recentRanges().last1Hour)}
-              />
-            </div>
-            <div>
-              <CalendarButton
-                label={
-                  <>
-                    <CalendarIcon size={14} className={"shrink-0"} />
-                    {t("datePicker.allTime")}
-                  </>
-                }
-                active={isActive.allTime}
-                onClick={() => updateRangeAndClose(defaultRanges.allTime)}
               />
             </div>
             <div className={"flex gap-2 flex-wrap"}>

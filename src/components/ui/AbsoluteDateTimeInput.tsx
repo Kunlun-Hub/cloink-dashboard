@@ -19,7 +19,10 @@ export const AbsoluteDateTimeInput = ({ value, onChange }: Props) => {
           <Time
             value={value?.from}
             onChange={(e) => {
-              if (e?.getTime() === value?.from?.getTime()) return;
+              // Timescape emits `undefined` while syncing a Unix-epoch date
+              // because it treats timestamp 0 as "no date". That is a prop
+              // sync, not a user edit, and must not clear the range.
+              if (!e || e.getTime() === value?.from?.getTime()) return;
               onChange?.({ from: e, to: value?.to });
             }}
           />
@@ -29,7 +32,7 @@ export const AbsoluteDateTimeInput = ({ value, onChange }: Props) => {
           <Time
             value={value?.to}
             onChange={(e) => {
-              if (e?.getTime() === value?.to?.getTime()) return;
+              if (!e || e.getTime() === value?.to?.getTime()) return;
               onChange?.({ from: value?.from, to: e });
             }}
           />

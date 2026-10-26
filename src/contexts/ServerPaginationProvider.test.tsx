@@ -1,5 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({
@@ -71,7 +77,10 @@ afterEach(cleanup);
 describe("ServerPaginationProvider + DataTable", () => {
   it("renders the second page after a single next-page click", async () => {
     const { container } = render(
-      <ServerPaginationProvider url="/events/network-traffic" defaultPageSize={2}>
+      <ServerPaginationProvider
+        url="/events/network-traffic"
+        defaultPageSize={2}
+      >
         <PaginatedTable />
       </ServerPaginationProvider>,
     );
@@ -88,6 +97,64 @@ describe("ServerPaginationProvider + DataTable", () => {
     await waitFor(() => {
       expect(screen.getByText("Row 3")).toBeTruthy();
     });
+    expect(screen.queryByText("Row 1")).toBeNull();
+  });
+
+  it("keeps consecutive server pages distinct through the third page", async () => {
+    const { container } = render(
+      <ServerPaginationProvider
+        url="/events/network-traffic"
+        defaultPageSize={2}
+      >
+        <PaginatedTable />
+      </ServerPaginationProvider>,
+    );
+
+    const clickNextPage = () => {
+      const next = Array.from(container.querySelectorAll("button")).find((b) =>
+        b.querySelector("svg.lucide-chevron-right"),
+      );
+      expect(next).toBeTruthy();
+      fireEvent.click(next as HTMLButtonElement);
+    };
+
+    expect(screen.getByText("Row 1")).toBeTruthy();
+    expect(screen.getByText("Row 2")).toBeTruthy();
+
+    clickNextPage();
+    await waitFor(() => expect(screen.getByText("Row 3")).toBeTruthy());
+    expect(screen.getByText("Row 4")).toBeTruthy();
+    expect(screen.queryByText("Row 1")).toBeNull();
+
+    clickNextPage();
+    await waitFor(() => expect(screen.getByText("Row 5")).toBeTruthy());
+    expect(screen.getByText("Row 6")).toBeTruthy();
+    expect(screen.queryByText("Row 3")).toBeNull();
+  });
+
+  it("does not let outer page filters override this table's pagination", async () => {
+    const { container } = render(
+      <ServerPaginationProvider
+        url="/events/network-traffic"
+        defaultPageSize={2}
+        defaultFilters={{ page: "1", page_size: "20" }}
+      >
+        <PaginatedTable />
+      </ServerPaginationProvider>,
+    );
+
+    expect(screen.getByText("Row 1")).toBeTruthy();
+    expect(screen.getByText("Row 2")).toBeTruthy();
+    expect(screen.queryByText("Row 3")).toBeNull();
+
+    const next = Array.from(container.querySelectorAll("button")).find((b) =>
+      b.querySelector("svg.lucide-chevron-right"),
+    );
+    expect(next).toBeTruthy();
+    fireEvent.click(next as HTMLButtonElement);
+
+    await waitFor(() => expect(screen.getByText("Row 3")).toBeTruthy());
+    expect(screen.getByText("Row 4")).toBeTruthy();
     expect(screen.queryByText("Row 1")).toBeNull();
   });
 });

@@ -83,12 +83,15 @@ export default function ServerPaginationProvider({
       f: Record<string, string | undefined>,
     ) => {
       const params = new URLSearchParams();
-      params.set("page", String(p));
-      params.set("page_size", String(ps));
-      if (s) params.set("search", s.toLowerCase());
       Object.entries(f).forEach(([key, value]) => {
         if (value !== undefined) params.set(key, value);
       });
+      // Pagination is owned by this provider. Apply filters first so an outer
+      // table's page/page_size (passed through defaultFilters) can never
+      // override the page requested by this table.
+      params.set("page", String(p));
+      params.set("page_size", String(ps));
+      if (s) params.set("search", s.toLowerCase());
       return `${url}?${params.toString()}`;
     },
     [url],

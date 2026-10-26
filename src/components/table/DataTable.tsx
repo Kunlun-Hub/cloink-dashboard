@@ -735,6 +735,10 @@ export function DataTable<TData, TValue>({
           text={text}
           paginationPadding={paginationPaddingClassName}
           totalRecords={totalRecords}
+          manualPagination={manualPagination}
+          pagination={pagination}
+          pageCount={pageCount}
+          onPaginationChange={onPaginationChange}
         />
       </div>
 

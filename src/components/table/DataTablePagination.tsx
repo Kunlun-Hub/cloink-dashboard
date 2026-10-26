@@ -1,5 +1,5 @@
 import ButtonGroup from "@components/ButtonGroup";
-import { Table } from "@tanstack/react-table";
+import { PaginationState, Table } from "@tanstack/react-table";
 import { cn } from "@utils/helpers";
 import {
   ChevronLeft,
@@ -14,6 +14,10 @@ interface DataTablePaginationProps<TData> {
   text?: string;
   paginationPadding?: string;
   totalRecords?: number;
+  manualPagination?: boolean;
+  pagination?: PaginationState;
+  pageCount?: number;
+  onPaginationChange?: (pagination: PaginationState) => void;
 }
 
 export function DataTablePagination<TData>({
@@ -21,12 +25,20 @@ export function DataTablePagination<TData>({
   text,
   paginationPadding = "px-8 py-8",
   totalRecords,
+  manualPagination = false,
+  pagination,
+  pageCount,
+  onPaginationChange,
 }: DataTablePaginationProps<TData>) {
   const { t } = useI18n();
   const textLabel = text ?? t("dataTablePagination.rows");
-  const rowsPerPage = table.getState().pagination.pageSize;
-  const currentPage = table.getState().pagination.pageIndex + 1;
-  const pageCount = table.getPageCount();
+  const controlledPagination = manualPagination ? pagination : undefined;
+  const rowsPerPage =
+    controlledPagination?.pageSize ?? table.getState().pagination.pageSize;
+  const pageIndex =
+    controlledPagination?.pageIndex ?? table.getState().pagination.pageIndex;
+  const currentPage = pageIndex + 1;
+  const resolvedPageCount = pageCount ?? table.getPageCount();
 
   const totalRows =
     totalRecords !== undefined
@@ -35,9 +47,20 @@ export function DataTablePagination<TData>({
 
   const showingFrom = totalRows === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1;
   const showingTo = Math.min(currentPage * rowsPerPage, totalRows);
+  const canPreviousPage = currentPage > 1;
+  const canNextPage =
+    resolvedPageCount === -1 || currentPage < resolvedPageCount;
+
+  const goToPage = (nextPageIndex: number) => {
+    if (manualPagination && pagination && onPaginationChange) {
+      onPaginationChange({ pageIndex: nextPageIndex, pageSize: rowsPerPage });
+      return;
+    }
+    table.setPageIndex(nextPageIndex);
+  };
 
   return (
-    pageCount > 1 && (
+    resolvedPageCount > 1 && (
       <div
         className={cn("flex items-center justify-between", paginationPadding)}
       >
@@ -49,36 +72,39 @@ export function DataTablePagination<TData>({
             text: textLabel,
           })}
         </div>
-        {pageCount > 1 && (
+        {resolvedPageCount > 1 && (
           <div className={"flex items-center gap-3"}>
             <div className="flex items-center space-x-2">
               <ButtonGroup>
                 <ButtonGroup.Button
-                  onClick={() => table.setPageIndex(0)}
-                  disabled={!table.getCanPreviousPage()}
+                  onClick={() => goToPage(0)}
+                  disabled={!canPreviousPage}
                 >
                   <ChevronsLeft size={16} />
                 </ButtonGroup.Button>
                 <ButtonGroup.Button
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
+                  onClick={() => goToPage(pageIndex - 1)}
+                  disabled={!canPreviousPage}
                 >
                   <ChevronLeft size={18} />
                 </ButtonGroup.Button>
                 <ButtonGroup.Button>
                   <div>
-                    {t("dataTablePagination.pageOf", { currentPage, pageCount })}
+                    {t("dataTablePagination.pageOf", {
+                      currentPage,
+                      pageCount: resolvedPageCount,
+                    })}
                   </div>
                 </ButtonGroup.Button>
                 <ButtonGroup.Button
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
+                  onClick={() => goToPage(pageIndex + 1)}
+                  disabled={!canNextPage}
                 >
                   <ChevronRight size={18} />
                 </ButtonGroup.Button>
                 <ButtonGroup.Button
-                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                  disabled={!table.getCanNextPage()}
+                  onClick={() => goToPage(resolvedPageCount - 1)}
+                  disabled={!canNextPage}
                 >
                   <ChevronsRight size={18} />
                 </ButtonGroup.Button>

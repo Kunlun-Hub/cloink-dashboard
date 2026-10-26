@@ -23,6 +23,8 @@ export default function NetworkTrafficGroupDetails({
 }: Readonly<Props>) {
   const defaultFilters = Object.fromEntries(filters);
   delete defaultFilters.grouped;
+  delete defaultFilters.page;
+  delete defaultFilters.page_size;
   defaultFilters.window_start = group.window_start;
   // An existing empty value selects the persisted unknown-user group.
   defaultFilters.group_user_id = group.user.id;
