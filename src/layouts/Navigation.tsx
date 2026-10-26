@@ -11,7 +11,6 @@ import ActivityIcon from "@/assets/icons/ActivityIcon";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import ControlCenterIcon from "@/assets/icons/ControlCenterIcon";
 import DNSIcon from "@/assets/icons/DNSIcon";
-import DocsIcon from "@/assets/icons/DocsIcon";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
@@ -377,13 +376,6 @@ export default function Navigation({
                     permission?.event_streaming?.read ||
                     (!isNetBirdCloud() && (permission?.settings?.read ?? false))
                   }
-                />
-                <SidebarItem
-                  icon={<DocsIcon />}
-                  href={"https://docs.netbird.io/"}
-                  target={"_blank"}
-                  label={t("nav.documentation")}
-                  visible={true}
                 />
               </SidebarItemGroup>
             </div>

@@ -14,7 +14,6 @@ import {
 } from "@components/DropdownMenu";
 import AddPeerDropdown from "@components/ui/AddPeerDropdown";
 import DarkModeToggle from "@components/ui/DarkModeToggle";
-import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
 import UserDropdown from "@components/ui/UserDropdown";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import {
@@ -128,15 +127,6 @@ export const RowActionMenuOpen: StoryObj = {
     </div>
   ),
   play: clickOpen("[data-testid=row-actions]", "[role=menu]"),
-};
-
-export const HelpAndSupportOpen: StoryObj = {
-  render: () => (
-    <div className={"flex justify-end w-[480px]"}>
-      <HelpAndSupportButton />
-    </div>
-  ),
-  play: clickOpen("button", "[role=menu]"),
 };
 
 export const UserDropdownOpen: StoryObj = {

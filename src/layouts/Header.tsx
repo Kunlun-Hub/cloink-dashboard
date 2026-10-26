@@ -2,7 +2,7 @@
 
 import Button from "@components/Button";
 import { NetBirdLogo } from "@components/NetBirdLogo";
-import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
+import DarkModeToggle from "@components/ui/DarkModeToggle";
 import UserDropdown from "@components/ui/UserDropdown";
 import { cn } from "@utils/helpers";
 import { useGuardedRouter } from "@utils/navigation-guard";
@@ -83,7 +83,7 @@ export default function NavbarWithDropdown() {
             <MSPTransferAccountModal />
             <DistributorTransferAccountModal />
             <MSPTenantsSwitcher />
-            <HelpAndSupportButton />
+            <DarkModeToggle />
             <UserDropdown />
           </div>
         </div>

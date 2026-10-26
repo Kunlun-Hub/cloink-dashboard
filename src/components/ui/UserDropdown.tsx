@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
 import { Modal } from "@components/modal/Modal";
-import DarkModeToggle from "@components/ui/DarkModeToggle";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { UserAvatar } from "@components/ui/UserAvatar";
 import { isMac } from "@hooks/useOperatingSystem";
@@ -116,8 +115,6 @@ export default function UserDropdown() {
 
           <DropdownMenuSeparator />
           <LanguageMenuItem onLocaleChange={() => setDropdownOpen(false)} />
-
-          <DarkModeToggle />
 
           <DropdownMenuSeparator />
 
