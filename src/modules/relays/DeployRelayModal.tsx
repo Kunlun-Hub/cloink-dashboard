@@ -49,7 +49,6 @@ export default function DeployRelayModal({
   const [relayName, setRelayName] = useState("");
   const [domain, setDomain] = useState("");
   const [port, setPort] = useState("443");
-  const [priority, setPriority] = useState("30");
   const [stunPorts, setStunPorts] = useState("3478,3479");
   const [imageTag, setImageTag] = useState("latest");
 
@@ -96,7 +95,6 @@ ${stunPortLines}
   -e CL_AUTH_SECRET="${setupToken?.relay_auth_secret || "RELAY_AUTH_SECRET"}" \\
   -e CL_RELAY_ID="${relayID || "HK-01"}" \\
 ${relayNameLine}  -e CL_MANAGEMENT_URL="${managementURL}" \\
-  -e CL_RELAY_PRIORITY="${priority || "30"}" \\
   -e CL_RELAY_DOMAIN="${domain || "relay.example.com"}" \\
   -e CL_RELAY_PORT="${port}" \\
   -e CL_RELAY_SCHEME="rels" \\
@@ -112,7 +110,6 @@ ${relayNameLine}  -e CL_MANAGEMENT_URL="${managementURL}" \\
     imageTag,
     managementURL,
     port,
-    priority,
     relayID,
     relayName,
     setupToken?.relay_auth_secret,
@@ -144,7 +141,6 @@ ${portLines}
       CL_AUTH_SECRET: "${setupToken?.relay_auth_secret || "RELAY_AUTH_SECRET"}"
       CL_RELAY_ID: "${relayID || "HK-01"}"
 ${relayNameLine}      CL_MANAGEMENT_URL: "${managementURL}"
-      CL_RELAY_PRIORITY: "${priority || "30"}"
       CL_RELAY_DOMAIN: "${domain || "relay.example.com"}"
       CL_RELAY_PORT: "${port}"
       CL_RELAY_SCHEME: "rels"
@@ -160,7 +156,6 @@ ${relayNameLine}      CL_MANAGEMENT_URL: "${managementURL}"
     imageTag,
     managementURL,
     port,
-    priority,
     relayID,
     relayName,
     setupToken?.relay_auth_secret,
@@ -240,15 +235,6 @@ docker compose up -d`,
                 maxWidthClass={inputClassName}
                 value={port}
                 onChange={(e) => setPort(e.target.value)}
-              />
-            </div>
-            <div className={"min-w-0"}>
-              <Label>{t("relays.priority")}</Label>
-              <HelpText>{t("relays.priorityHelp")}</HelpText>
-              <Input
-                maxWidthClass={inputClassName}
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
               />
             </div>
             <div className={"min-w-0"}>

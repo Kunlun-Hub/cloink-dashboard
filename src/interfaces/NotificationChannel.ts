@@ -28,6 +28,8 @@ export interface NotificationEventTypeMap {
 export enum NotificationEventType {
   PeerPendingApproval = "peer.pending.approval",
   PeerAdd = "peer.add",
+  PeerOnline = "peer.online",
+  PeerOffline = "peer.offline",
   RoutingPeerDisconnect = "routing.peer.disconnect",
   RoutingPeerDelete = "routing.peer.delete",
   UserPendingApproval = "user.pending.approval",

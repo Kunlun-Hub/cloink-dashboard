@@ -29,6 +29,18 @@ const getEventTypeMetadata = (t: (key: string) => string): EventTypeMeta[] => [
     group: "peer",
   },
   {
+    key: NotificationEventType.PeerOnline,
+    label: t("notifications.peerOnline"),
+    helpText: t("notifications.peerOnlineHelp"),
+    group: "peer",
+  },
+  {
+    key: NotificationEventType.PeerOffline,
+    label: t("notifications.peerOffline"),
+    helpText: t("notifications.peerOfflineHelp"),
+    group: "peer",
+  },
+  {
     key: NotificationEventType.RoutingPeerDisconnect,
     label: t("notifications.routingPeerDisconnected"),
     helpText: t("notifications.routingPeerDisconnectedHelp"),

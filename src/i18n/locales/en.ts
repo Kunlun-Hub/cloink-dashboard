@@ -7680,6 +7680,8 @@ const en = {
   "table.peersSelected": "Peer(s) selected",
   "notifications.pendingApproval": "Pending Approval",
   "notifications.peerAdded": "Peer Added",
+  "notifications.peerOnline": "Peer Online",
+  "notifications.peerOffline": "Peer Offline",
   "notifications.routingPeerDisconnected": "Routing Peer Disconnected",
   "notifications.routingPeerDeleted": "Routing Peer Deleted",
   "notifications.userPendingApproval": "User Pending Approval",
@@ -7694,6 +7696,10 @@ const en = {
     "Notify when a peer is waiting for approval to join the network",
   "notifications.peerAddedHelp":
     "Notify when a new peer is added to the network",
+  "notifications.peerOnlineHelp":
+    "Notify when a peer comes online and connects to the network",
+  "notifications.peerOfflineHelp":
+    "Notify when a peer goes offline and disconnects from the network",
   "notifications.routingPeerDisconnectedHelp":
     "Notify when a routing peer loses its connection",
   "notifications.routingPeerDeletedHelp":
