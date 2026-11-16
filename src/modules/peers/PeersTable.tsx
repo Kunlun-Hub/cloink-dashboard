@@ -87,6 +87,7 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
   return [
     {
       id: "select",
+      meta: { fit: true },
       header: ({ table }) => (
         <div className={"min-w-[20px] max-w-[20px]"}>
           <Checkbox
@@ -111,12 +112,13 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
     },
     {
       id: "name",
+      meta: { minWidth: 280 },
       accessorFn: (peer) => `${peer?.name}${peer?.dns_label}`,
       header: ({ column }) => {
         return <DataTableHeader column={column}>{t("table.name")}</DataTableHeader>;
       },
       sortingFn: "text",
-      cell: ({ row }) => <PeerNameCell peer={row.original} />,
+      cell: ({ row }) => <PeerNameCell peer={row.original} fluid={true} />,
     },
     {
       id: "approval_required",
@@ -153,7 +155,10 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
       header: ({ column }) => {
         return <DataTableHeader column={column}>{t("table.address")}</DataTableHeader>;
       },
-      cell: ({ row }) => <PeerAddressCell peer={row.original} />,
+      // The cell content brings its own hover padding,
+      // so the cell padding on the left is trimmed to give the columns more room.
+      meta: { minWidth: 300, className: "pl-1" },
+      cell: ({ row }) => <PeerAddressCell peer={row.original} fluid={true} />,
     },
     {
       accessorKey: "group_name_strings",
@@ -221,6 +226,7 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
     },
     {
       accessorKey: "version",
+      meta: { minWidth: 150 },
       header: ({ column }) => {
         return <DataTableHeader column={column}>{t("table.version")}</DataTableHeader>;
       },
@@ -235,6 +241,7 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
     },
     {
       id: "status",
+      meta: { fit: true },
       accessorFn: (peer) => {
         let statusCount = 0;
         if (peer.login_expired) statusCount++;
@@ -253,6 +260,7 @@ function getPeersTableColumns(t: any): ColumnDef<Peer>[] {
     },
     {
       id: "actions",
+      meta: { fit: true },
       accessorKey: "id",
       header: "",
       cell: ({ row }) => (

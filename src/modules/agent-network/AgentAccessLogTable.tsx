@@ -58,6 +58,9 @@ import {
   AIProvider,
   AIProviderId,
   formatDenyReason,
+  formatErrorReason,
+  resolveBlockedBy,
+  sessionReasonEntry,
 } from "@/modules/agent-network/data/mockData";
 import { formatDateChip } from "@/modules/agent-network/AccessLogFilters";
 import {
@@ -79,7 +82,9 @@ const SELF_SCOPED_LOG_FILTER_IDS = new Set([
 ]);
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
 import { useProviderCatalog } from "@/modules/agent-network/useProviderCatalog";
-import AgentAccessLogExpandedRow from "@/modules/agent-network/AgentAccessLogExpandedRow";
+import AgentAccessLogExpandedRow, {
+  BlockedByLink,
+} from "@/modules/agent-network/AgentAccessLogExpandedRow";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { generateColorFromUser } from "@utils/helpers";
@@ -309,7 +314,9 @@ export default function AgentAccessLogTable({
         header: ({ column }) => (
           <DataTableHeader column={column} name="reason">{t("agentAccessLog.column.reason")}</DataTableHeader>
         ),
-        cell: ({ row }) => <ReasonCell entry={row.original} />,
+        cell: ({ row }) => (
+          <ReasonCell entry={row.original} selfScoped={selfScoped} />
+        ),
       },
       // Hidden columns backing the Model and Path filters. Filtering is
       // server-side (manualFiltering), so these only need to exist for the
@@ -325,7 +332,7 @@ export default function AgentAccessLogTable({
         enableGlobalFilter: false,
       },
     ],
-    [providerDisplay, principalSearchById],
+    [providerDisplay, principalSearchById, selfScoped],
   );
 
   // Session-grouped columns. Filter ids (timestamp / user / group / provider /
@@ -441,16 +448,12 @@ export default function AgentAccessLogTable({
         header: ({ column }) => (
           <DataTableHeader column={column} name="decision">{t("agentAccessLog.column.reason")}</DataTableHeader>
         ),
-        // Same Reason cell as the flat view (deny reason, or the authorising
-        // policy link). Prefer an allowed request so a session that succeeded
-        // shows the authorising policy rather than an incidental deny reason;
-        // only surface a deny reason when every request was denied.
+        // Same Reason cell as the flat view, for the entry sessionReasonEntry
+        // picks to stand for the session.
         cell: ({ row }) => {
-          const entries = row.original.entries;
-          const representative =
-            entries.find((e) => e.decision === "allow") ?? entries[0];
+          const representative = sessionReasonEntry(row.original.entries);
           return representative ? (
-            <ReasonCell entry={representative} />
+            <ReasonCell entry={representative} selfScoped={selfScoped} />
           ) : (
             <EmptyRow />
           );
@@ -469,7 +472,7 @@ export default function AgentAccessLogTable({
         enableGlobalFilter: false,
       },
     ],
-    [providerDisplay, principalSearchById],
+    [providerDisplay, principalSearchById, selfScoped],
   );
 
   const [sorting, setSorting] = useState<SortingState>([
@@ -715,9 +718,15 @@ export default function AgentAccessLogTable({
       )}
       renderExpandedRow={(row) =>
         grouped ? (
-          <SessionEntriesRow session={row as AIAccessLogSession} />
+          <SessionEntriesRow
+            session={row as AIAccessLogSession}
+            selfScoped={selfScoped}
+          />
         ) : (
-          <AgentAccessLogExpandedRow entry={row as AIAccessLogEntry} />
+          <AgentAccessLogExpandedRow
+            entry={row as AIAccessLogEntry}
+            selfScoped={selfScoped}
+          />
         )
       }
       searchPlaceholder={t("agentAccessLog.searchPlaceholder")}
@@ -798,15 +807,37 @@ function TimeCell({ timestamp }: { timestamp: string }) {
 
 // ReasonCell shows the deny reason for blocked requests, and for allowed
 // requests a clickable reference to the policy that authorised it — linking
-// to the Policies view pre-filtered to that policy.
-function ReasonCell({ entry }: { entry: AIAccessLogEntry }) {
+// to the Policies view pre-filtered to that policy. Failed requests with error
+// attribution say who failed them instead, plus what blocked a cap deny.
+function ReasonCell({
+  entry,
+  selfScoped,
+}: {
+  entry: AIAccessLogEntry;
+  selfScoped: boolean;
+}) {
   const { t } = useI18n();
-  const { policies } = useAIProviders();
+  const { policies, budgetRules } = useAIProviders();
+
+  const errorReason = formatErrorReason(entry, t);
+  if (errorReason) {
+    const blocked = resolveBlockedBy(entry, policies, budgetRules);
+    return (
+      <div className={"px-3 py-2 flex flex-col gap-1 text-[0.82rem]"}>
+        <TextWithTooltip
+          text={errorReason}
+          maxChars={36}
+          className={"text-nb-gray-300"}
+        />
+        {blocked && <BlockedByLink target={blocked} plain={selfScoped} />}
+      </div>
+    );
+  }
 
   if (entry.decision === "deny") {
     return (
       <span className={"text-nb-gray-300 text-[0.82rem] px-3 py-2 text-left"}>
-        {formatDenyReason(entry.denyReason) || "-"}
+        {formatDenyReason(entry.denyReason, t) || "-"}
       </span>
     );
   }
@@ -1433,7 +1464,13 @@ function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
 // (AgentAccessLogExpandedRow) — the second level of disclosure. The provider is
 // omitted (constant across a session); the model is shown in full, and the
 // status carries the request duration plus a reason when it failed.
-function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
+function SessionEntriesRow({
+  session,
+  selfScoped,
+}: {
+  session: AIAccessLogSession;
+  selfScoped: boolean;
+}) {
   const { t, locale } = useI18n();
   const timeFormat = timeFormatFor(locale);
   const [open, setOpen] = useState<string[]>([]);
@@ -1528,7 +1565,9 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-[11px] text-red-300 truncate max-w-[180px] shrink-0"
                     }
                   >
-                    {formatDenyReason(entry.denyReason) || t("agentAccessLog.failed")}
+                    {formatErrorReason(entry, t) ||
+                      formatDenyReason(entry.denyReason, t) ||
+                      t("agentAccessLog.failed")}
                   </span>
                 )}
                 <div className={"flex-1"} />
@@ -1566,7 +1605,10 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
               </button>
               {isOpen && (
                 <div className={"border-t border-nb-gray-800/70"}>
-                  <AgentAccessLogExpandedRow entry={entry} />
+                  <AgentAccessLogExpandedRow
+                    entry={entry}
+                    selfScoped={selfScoped}
+                  />
                 </div>
               )}
             </div>

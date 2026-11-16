@@ -15,6 +15,7 @@ import {
   TableWrapper,
 } from "@components/table/Table";
 import NoResults from "@components/ui/NoResults";
+import { useEvenColumnWidths } from "@hooks/useEvenColumnWidths";
 import { RankingInfo } from "@tanstack/match-sorter-utils";
 import {
   Cell,
@@ -62,6 +63,19 @@ declare module "@tanstack/table-core" {
   interface ColumnMeta<TData extends RowData, TValue> {
     /** Classes applied to both the header and body cells of the column. */
     className?: string;
+    /**
+     * Keep the column at its content width.
+     * Setting `fit` or `minWidth` on any column spreads the table's spare width
+     * evenly over the other columns, see `useEvenColumnWidths`.
+     */
+    fit?: boolean;
+    /**
+     * Let the column shrink and truncate when the table runs out of room,
+     * down to its content width capped at this many pixels.
+     * The cell must truncate its own content, e.g. `TextWithTooltip fluid`,
+     * or text that does not fit spills into the next column.
+     */
+    minWidth?: number;
   }
 }
 
@@ -292,6 +306,9 @@ export function DataTable<TData, TValue>({
 }: Readonly<DataTableProps<TData, TValue>>) {
   const { t } = useI18n();
   const path = usePathname();
+  const [tableElement, setTableElement] = useState<HTMLTableElement | null>(
+    null,
+  );
 
   const [showOverlay, setShowOverlay] = useState(false);
   const overlayTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -334,6 +351,13 @@ export function DataTable<TData, TValue>({
 
   const hasInitialData = !!(data && data.length > 0);
 
+  // The pagination prop is undefined while server data is loading,
+  // so fall back to the first page instead of handing updaters undefined.
+  const manualPaginationState: PaginationState = {
+    pageIndex: pagination?.pageIndex ?? 0,
+    pageSize: pagination?.pageSize ?? initialPageSize,
+  };
+
   const table = useReactTable({
     data: hasInitialData ? data : [],
     columns,
@@ -358,12 +382,7 @@ export function DataTable<TData, TValue>({
         : localColumnFilters,
       columnVisibility: columnVisibility,
       globalFilter: manualFiltering ? globalFilter : localGlobalSearch,
-      pagination: manualPagination
-        ? {
-            pageIndex: pagination?.pageIndex ?? 0,
-            pageSize: pagination?.pageSize ?? initialPageSize,
-          }
-        : paginationState,
+      pagination: manualPagination ? manualPaginationState : paginationState,
     },
     initialState: {
       pagination: {
@@ -391,10 +410,7 @@ export function DataTable<TData, TValue>({
         // instead of swallowing the first real one: the previous one-shot
         // initial-render guard consumed the user's first page click and left the
         // table stuck on page 1.
-        const current = pagination ?? {
-          pageIndex: 0,
-          pageSize: initialPageSize,
-        };
+        const current = manualPaginationState;
         const newState =
           typeof updater === "function" ? updater(current) : updater;
         if (isEqual(newState, current)) return;
@@ -490,6 +506,13 @@ export function DataTable<TData, TValue>({
     }
   }, [manualColumnFiltering, externalColumnFilters, table]);
 
+  useEvenColumnWidths(
+    tableElement,
+    table
+      .getVisibleLeafColumns()
+      .some(({ columnDef: { meta } }) => meta?.fit || meta?.minWidth),
+  );
+
   const content = (
     <div className={cn("relative table-fixed-scroll", className)}>
       {showSearchAndFilters && (
@@ -545,6 +568,7 @@ export function DataTable<TData, TValue>({
             getStartedCard
           ) : (
             <TableComponent
+              ref={setTableElement}
               className={cn("relative mt-6", tableClassName)}
               minimal={minimal}
             >
@@ -562,6 +586,12 @@ export function DataTable<TData, TValue>({
                               tableHeadClassName,
                               header.column.columnDef.meta?.className,
                             )}
+                            data-fit={
+                              header.column.columnDef.meta?.fit || undefined
+                            }
+                            data-min-width={
+                              header.column.columnDef.meta?.minWidth
+                            }
                           >
                             {header.isPlaceholder
                               ? null
@@ -661,7 +691,15 @@ export function DataTable<TData, TValue>({
                                   "absolute left-0 top-0 w-full h-full z-0"
                                 }
                               ></div>
-                              <div className={"relative z-[1]"}>
+                              <div
+                                className={cn(
+                                  "relative z-[1]",
+                                  // Reports a min-content width of 0, so the
+                                  // column can shrink below its text width.
+                                  cell.column.columnDef.meta?.minWidth &&
+                                    "grid grid-cols-[minmax(0,max-content)]",
+                                )}
+                              >
                                 {cell.id.endsWith("_expand") &&
                                   renderExpandButton
                                   ? renderExpandButton(

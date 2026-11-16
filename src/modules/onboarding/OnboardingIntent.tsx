@@ -6,6 +6,7 @@ import * as React from "react";
 import {useMemo} from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import {useMatomoEvent} from "@/cloud/analytics/MatomoProvider";
 import {useI18n} from "@/i18n/I18nProvider";
 import {Intent} from "@/modules/onboarding/Onboarding";
 
@@ -56,6 +57,8 @@ export const OnboardingIntent = ({onSelect, useCases, isBusiness}: Props) => {
         }
         return false;
     }, [useCases]);
+
+    useMatomoEvent(!!useCases && "intent_recommended", isNetworksRecommended && "networks", isP2PRecommended && "p2p", !isNetworksRecommended && !isP2PRecommended && "none");
 
     return (
         <div className={"relative flex flex-col h-full justify-between"}>

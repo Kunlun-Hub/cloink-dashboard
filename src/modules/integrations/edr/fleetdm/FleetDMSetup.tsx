@@ -39,6 +39,11 @@ import {
   FleetDMIntegration,
 } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
+import {
+  DEFAULT_SYNC_INTERVAL,
+  EDRSyncIntervalInput,
+  isValidSyncInterval,
+} from "@/modules/integrations/edr/EDRSyncIntervalInput";
 import { matchAttributesReducer } from "@/modules/integrations/edr/fleetdm/FleetDM";
 import { FleetDMMatchSettings } from "@/modules/integrations/edr/fleetdm/FleetDMMatchSettings";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
@@ -90,6 +95,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const [apiUrl, setApiUrl] = useState("");
   const [apiToken, setApiToken] = useState("");
   const [lastSyncedInterval, setLastSyncedInterval] = useState("24");
+  const [syncInterval, setSyncInterval] = useState(
+    DEFAULT_SYNC_INTERVAL.toString(),
+  );
 
   const [matchAttributes, dispatchMatchAttributes] = useReducer(
     matchAttributesReducer,
@@ -115,7 +123,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const isDisabled =
     (step == 1 && (!apiUrlEntered || urlError !== "")) ||
     (step == 2 && !allEntered) ||
-    (step == 3 && groups.length == 0);
+    (step == 3 && groups.length == 0) ||
+    (step == 5 && !isValidSyncInterval(syncInterval));
 
   const connect = async () => {
     await settingsRequest.put({
@@ -143,6 +152,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           api_url: apiUrl,
           groups: savedGroups.map((group) => group.id) || [],
           last_synced_interval: Number(lastSyncedInterval || 24),
+          sync_interval: Number(syncInterval),
           match_attributes: matchAttributes,
         })
         .then(() => {
@@ -411,6 +421,12 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               customSuffix={t("fleetdm.hoursSuffix")}
             />
           </div>
+          <EDRSyncIntervalInput
+            name={"FleetDM"}
+            value={syncInterval}
+            onChange={setSyncInterval}
+            className={"mt-6"}
+          />
         </div>
       )}
 

@@ -10,9 +10,13 @@ import {
 
 type Props = {
   policy: Policy;
+  fluid?: boolean;
 };
 
-export default function AccessControlNameCell({ policy }: Readonly<Props>) {
+export default function AccessControlNameCell({
+  policy,
+  fluid = false,
+}: Readonly<Props>) {
   const { t } = useI18n();
   const displayName = localizePolicyName(policy.name, t);
   const displayDescription = localizePolicyDescription(
@@ -26,6 +30,7 @@ export default function AccessControlNameCell({ policy }: Readonly<Props>) {
       inactiveDot={"gray"}
       text={displayName}
       data-testid={policy.name}
+      fluid={fluid}
     >
       <DescriptionWithTooltip className={"mt-1"} text={displayDescription} />
     </ActiveInactiveRow>

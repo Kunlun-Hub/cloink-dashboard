@@ -11,6 +11,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 
 type Props = {
   peer: Peer;
+  fluid?: boolean;
 };
 
 // shortDnsLabel returns the leading segment of a DNS label
@@ -24,7 +25,7 @@ function shortDnsLabel(label: string | undefined | null): string {
   return dot === -1 ? label : label.slice(0, dot);
 }
 
-export default function PeerAddressCell({ peer }: Props) {
+export default function PeerAddressCell({ peer, fluid = false }: Props) {
   const { t } = useI18n();
   const shortLabel = shortDnsLabel(peer.dns_label);
   return (
@@ -34,12 +35,14 @@ export default function PeerAddressCell({ peer }: Props) {
       delayDuration={250}
       skipDelayDuration={100}
       contentClassName={"p-0"}
+      className={fluid ? "max-w-full" : undefined}
       content={<PeerAddressTooltipContent peer={peer} />}
     >
       <div
-        className={
-          "flex gap-2.5 items-center max-w-[300px] group/cell transition-all hover:bg-nb-gray-800/10 py-2 px-3 rounded-md cursor-default"
-        }
+        className={cn(
+          "flex gap-2.5 items-center group/cell transition-all hover:bg-nb-gray-800/10 py-2 px-3 rounded-md cursor-default",
+          fluid ? "min-w-0" : "max-w-[300px]",
+        )}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();

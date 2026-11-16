@@ -14,8 +14,13 @@ import { useI18n } from "@/i18n/I18nProvider";
 type Props = {
   peer: Peer;
   linkToPeer?: boolean;
+  fluid?: boolean;
 };
-export default function PeerNameCell({ peer, linkToPeer = true }: Props) {
+export default function PeerNameCell({
+  peer,
+  linkToPeer = true,
+  fluid = false,
+}: Props) {
   const { t } = useI18n();
   const { users } = useUsers();
   const router = useRouter();
@@ -33,7 +38,8 @@ export default function PeerNameCell({ peer, linkToPeer = true }: Props) {
     <div>
       <div
         className={cn(
-          "flex items-center max-w-[280px] gap-2 text-nb-gray-300 transition-all py-2 px-3 rounded-md ",
+          "flex items-center gap-2 text-nb-gray-300 transition-all py-2 px-3 rounded-md",
+          fluid ? "w-fit max-w-full min-w-0" : "max-w-[280px]",
           linkToPeer &&
             "hover:text-nb-gray-100 hover:bg-nb-gray-900/60 cursor-pointer",
         )}
@@ -49,6 +55,7 @@ export default function PeerNameCell({ peer, linkToPeer = true }: Props) {
         <ActiveInactiveRow
           active={peer.connected}
           text={peer.name}
+          fluid={fluid}
           additionalInfo={
             isOwnerOrAdmin && (
               <>
@@ -64,7 +71,7 @@ export default function PeerNameCell({ peer, linkToPeer = true }: Props) {
               (displayUserId && t("peerNameCell.userIdFallback", { id: displayUserId }))}
           </div>
         </ActiveInactiveRow>
-        {isOwnerOrAdmin && (
+        {isOwnerOrAdmin && (!fluid || issueIcon) && (
           <div
             className={
               "ml-auto shrink-0 w-6 h-6 flex items-center justify-center"

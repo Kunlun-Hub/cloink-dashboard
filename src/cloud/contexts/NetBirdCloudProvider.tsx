@@ -7,6 +7,7 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import { Hubspot, submitHubspotForm } from "@/cloud/analytics/Hubspot";
+import { MatomoProvider } from "@/cloud/analytics/MatomoProvider";
 import { AWSChoosePlan } from "@/cloud/aws/AWSChoosePlan";
 import { AWS_MARKETPLACE_LOCAL_STORAGE_KEY } from "@/cloud/aws/useAWSMarketplace";
 import { useDomainCategory } from "@/cloud/cloud-hooks/useDomainCategory";
@@ -158,6 +159,8 @@ export const NetBirdCloudProvider = () => {
 
       {/* Hubspot tracking for new accounts */}
       <Hubspot />
+
+      <MatomoProvider />
     </>
   );
 };

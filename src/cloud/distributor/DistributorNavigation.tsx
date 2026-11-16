@@ -1,5 +1,4 @@
 import SidebarItem from "@components/SidebarItem";
-import { useI18n } from "@/i18n/I18nProvider";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
@@ -11,6 +10,7 @@ import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { isNetBirdCloud } from "@utils/netbird";
 import { Role } from "@/interfaces/User";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export const DistributorNavigation = () => {
   const { t } = useI18n();
@@ -62,6 +62,8 @@ export const DistributorNavigation = () => {
         labelClassName={"-left-[1.5px] relative"}
       />
 
+      {/* Team keeps the separate Users and Service Users entries used by the
+          Cloink dashboard. The account area follows below. */}
       <SidebarItem
         icon={<TeamIcon />}
         visible={permission.users.read}

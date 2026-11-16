@@ -150,7 +150,8 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
     if (customDNSDomain == "") return "";
     const valid = validator.isValidDomain(customDNSDomain, {
       allowWildcard: false,
-      allowOnlyTld: false,
+      allowOnlyTld: true,
+      preventLeadingAndTrailingDots: true,
     });
     if (!valid) {
       return t("networkSettings.invalidDomain");

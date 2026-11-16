@@ -16,6 +16,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
 import { IdentityProviderCard } from "@/modules/integrations/idp-sync/IdentityProviderCard";
+import UsersTabs from "@/modules/users/UsersTabs";
 
 const UsersTable = lazy(() => import("@/modules/users/UsersTable"));
 
@@ -48,7 +49,11 @@ export default function TeamUsers() {
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("users.title")}</h1>
       </div>
-      <RestrictedAccess page={t("team.usersPage")} hasAccess={permission.users.read}>
+      <UsersTabs current={"users"} />
+      <RestrictedAccess
+        page={t("team.usersPage")}
+        hasAccess={permission.users.read}
+      >
         <Suspense fallback={<SkeletonTable />}>
           {permission.settings.read && (
             <div className={"flex flex-wrap gap-4 p-default pb-6"}>

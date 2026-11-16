@@ -129,7 +129,7 @@ export function DNSZoneModalContent({
   const canUpdateOrCreate = !domainError && groups?.length > 0 && domain !== "";
 
   return (
-    <ModalContent maxWidthClass={"max-w-2xl"}>
+    <ModalContent flow="dns_zone" maxWidthClass={"max-w-2xl"}>
       <ModalHeader
         icon={<DNSZoneIcon size={20} className={"fill-netbird"} />}
         title={zone ? t("zones.modalUpdateTitle") : t("zones.modalAddTitle")}

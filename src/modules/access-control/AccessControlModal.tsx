@@ -288,7 +288,10 @@ export function AccessControlModalContent({
   }, [destinationScope, direction, setDirection]);
 
   return (
-    <ModalContent maxWidthClass={"max-w-3xl"}>
+    <ModalContent
+      flow={useSave ? "policy" : undefined}
+      maxWidthClass={"max-w-3xl"}
+    >
       <ModalHeader
         icon={<AccessControlIcon className={"fill-netbird"} />}
         title={

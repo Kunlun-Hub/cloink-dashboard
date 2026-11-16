@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
+import { useMatomoVirtualPage } from "@/cloud/analytics/MatomoProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const config = loadConfig();
@@ -19,6 +20,10 @@ export const OIDCError = () => {
   const invalidRequest = errorParam === "invalid_request";
   const [title, setTitle] = useState(params.get("error_description"));
   const errorDescription = params.get("error_description");
+  useMatomoVirtualPage(
+    !(accessDenied && errorDescription === "account linked successfully") &&
+      "login_error",
+  );
   const { logout, login } = useOidc();
   const { t } = useI18n();
 

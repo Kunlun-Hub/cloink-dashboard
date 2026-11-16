@@ -48,8 +48,13 @@ import {
   HUNTRESS_DOCUMENTATION_URL,
   matchAttributesReducer,
 } from "@/modules/integrations/edr/huntress/Huntress";
-import { HuntressMatchSettings } from "@/modules/integrations/edr/huntress/HuntressMatchSettings";
+import {
+  DEFAULT_SYNC_INTERVAL,
+  EDRSyncIntervalInput,
+  isValidSyncInterval,
+} from "@/modules/integrations/edr/EDRSyncIntervalInput";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
+import { HuntressMatchSettings } from "@/modules/integrations/edr/huntress/HuntressMatchSettings";
 
 type Props = {
   open: boolean;
@@ -97,6 +102,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const [apiKey, setApiKey] = useState("");
   const [apiSecret, setApiSecret] = useState("");
   const [lastSyncedInterval, setLastSyncedInterval] = useState("24");
+  const [syncInterval, setSyncInterval] = useState(
+    DEFAULT_SYNC_INTERVAL.toString(),
+  );
 
   const [matchAttributes, dispatchMatchAttributes] = useReducer(
     matchAttributesReducer,
@@ -112,7 +120,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const allEntered = apiKeyEntered && apiSecretEntered;
 
   const isDisabled =
-    (step === 1 && !allEntered) || (step === 2 && groups.length === 0);
+    (step === 1 && !allEntered) ||
+    (step === 2 && groups.length === 0) ||
+    (step === 4 && !isValidSyncInterval(syncInterval));
 
   const connect = async () => {
     await settingsRequest.put({
@@ -137,6 +147,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           api_secret: apiSecret,
           groups: savedGroups.map((group) => group.id) || [],
           last_synced_interval: Number(lastSyncedInterval || 24),
+          sync_interval: Number(syncInterval),
           match_attributes: matchAttributes,
         })
         .then(() => {
@@ -366,6 +377,12 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               customSuffix={t("edr.huntress.hoursSuffix")}
             />
           </div>
+          <EDRSyncIntervalInput
+            name={"Huntress"}
+            value={syncInterval}
+            onChange={setSyncInterval}
+            className={"mt-6"}
+          />
         </div>
       )}
 

@@ -12,6 +12,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useI18n } from "@/i18n/I18nProvider";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
+import UsersTabs from "@/modules/users/UsersTabs";
 
 const ServiceUsersTable = lazy(
   () => import("@/modules/users/ServiceUsersTable"),
@@ -45,6 +46,7 @@ export default function ServiceUsers() {
         </Breadcrumbs>
         <h1 ref={headingRef}>{t("serviceUsers.title")}</h1>
       </div>
+      <UsersTabs current={"service-users"} />
       <RestrictedAccess
         page={t("team.serviceUsersPage")}
         hasAccess={permission.users.read}

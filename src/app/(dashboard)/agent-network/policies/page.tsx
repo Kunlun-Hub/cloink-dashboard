@@ -37,7 +37,7 @@ export default function AgentNetworkPoliciesPage() {
       </div>
 
       <RestrictedAccess
-        page={"Policies"}
+        page={"Agent Policies"}
         hasAccess={permission?.["agent_network.policies"]?.read}
       >
         <AIProvidersProvider>
