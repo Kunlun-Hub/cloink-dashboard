@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Dashboard version to embed (for example v2.93.0); defaults to tag name or development"
+        description: "Dashboard version to embed (for example v2.97.0); defaults to the nearest release tag"
         required: false
         default: ""
 
@@ -33,6 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Node.js
@@ -75,18 +76,21 @@ jobs:
 
       - name: Get version from tag
         id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
-          if [[ -n "${{ inputs.version }}" ]]; then
-            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            # main tracks upstream dashboard v2.95.0; keep the embedded
-            # version pinned instead of reporting "development".
-            echo "version=v2.95.0" >> $GITHUB_OUTPUT
-          else
-            echo "version=development" >> $GITHUB_OUTPUT
+          version="$INPUT_VERSION"
+          if [[ -z "$version" && "$REF_TYPE" == "tag" ]]; then
+            version="$REF_NAME"
           fi
+          if [[ -z "$version" ]]; then
+            git fetch --force --no-tags https://github.com/netbirdio/dashboard.git \
+              'refs/tags/v*:refs/tags/v*'
+            version=$(git describe --tags --abbrev=0 --match 'v[0-9]*')
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "release=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
 
       - name: Build

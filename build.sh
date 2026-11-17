@@ -12,7 +12,7 @@
 #   IMAGE_TAG=v1 ./build.sh   # override the image tag
 #   SKIP_BUILD=1 ./build.sh   # reuse an existing out/ (skip npm build)
 #   ROOTLESS=1 ./build.sh     # build the amd64-rootless image variant
-#   NEXT_PUBLIC_DASHBOARD_VERSION=v2.95.0 ./build.sh  # override the UI version
+#   NEXT_PUBLIC_DASHBOARD_VERSION=vX.Y.Z ./build.sh  # override the UI version
 #
 set -euo pipefail
 
